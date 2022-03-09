@@ -1,9 +1,7 @@
 # Zotero PDF Translate
 This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero inner PDF reader.
 
-<center class="half">
-<img src="imgs/en2jp.png" width="45%"/> <img src="imgs/en2zh.png" width="45%"/>
-</center>
+![](imgs/en2jp.png)
 
 # Quick Start Guide
 
@@ -21,6 +19,8 @@ Zotero PDF Translate plugin is now listed.
 Once you have the plugin installed simply, open any PDF in your collections.  
 Select some text, then rightclick: the translation are shown.  
 Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simplified). You can edit it in the Preference menu.
+
+![](imgs/en2zh.png)
 
 ## Settings
 -  Translate Engine  
