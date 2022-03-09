@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://zoteropdftranslate/locale/overlay.dtd">
+
+<overlay id="zoteropdftranslate-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+
+  <prefwindow id="zotero-prefs">
+    <prefpane id="zotero-prefpane-zoteropdftranslate" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://zoteropdftranslate/skin/favicon.png" onpaneload="initPreferences();">
+      <preferences id="zotero-preferences-zoteropdftranslate">
+        <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
+        <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
+        <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.translateParam" type="string" />
+      </preferences>
+      <tabbox>
+        <tabs>
+          <tab label="&zotero.zoteropdftranslate.pref.title;" />
+        </tabs>
+
+        <tabpanels id="zotero-prefpane-zoteropdftranslate" orient="vertical">
+          <tabpanel id="zotero-prefpane-zoteropdftranslate-settings" orient="vertical">
+            <groupbox>
+              <caption label="&zotero.zoteropdftranslate.pref.basic.caption.label;" />
+              <rows>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
+                </row>
+              </rows>
+            </groupbox>
+            <groupbox>
+              <caption label="&zotero.zoteropdftranslate.pref.api.caption.label;" />
+              <rows>
+                <row>
+                  <hbox align="center">
+                    <label value="&zotero.zoteropdftranslate.pref.api.translateSource.label;" />
+                  </hbox>
+                  <hbox>
+                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-source" preference="pref-zoteropdftranslate-translate-source" oncommand="updateSourceParam()">
+                      <menupopup>
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
+                      </menupopup>
+                    </menulist>
+                  </hbox>
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.api.translateParam.label;" />
+                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-translate-param" />
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.api.translateParam.warning.label;" />
+                </row>
+                <row>
+                  <button label="&zotero.zoteropdftranslate.pref.api.translateParam.reset.label;" tooltiptext="&zotero.zoteropdftranslate.pref.api.translateParam.reset.label;" oncommand="updateSourceParam()" />
+                </row>
+              </rows>
+            </groupbox>
+            <groupbox>
+              <caption label="&zotero.zoteropdftranslate.help.feedback.caption.label;" />
+              <hbox style="display: block">
+                <label value="&zotero.zoteropdftranslate.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
+              </hbox>
+            </groupbox>
+            <label value="&zotero.zoteropdftranslate.help.version.label;" />
+            <label value="&zotero.zoteropdftranslate.help.releasetime.label;" />
+          </tabpanel>
+        </tabpanels>
+      </tabbox>
+    </prefpane>
+  </prefwindow>
+
+  <!-- Include the main extension logic -->
+  <script src="chrome://zoteropdftranslate/content/scripts/preferences.js" />
+
+</overlay>

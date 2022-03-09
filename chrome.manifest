@@ -1,0 +1,7 @@
+content zoteropdftranslate chrome/content/
+skin zoteropdftranslate default	chrome/skin/default/zoteropdftranslate/
+locale zoteropdftranslate en-US chrome/locale/en-US/
+locale zoteropdftranslate zh-CN chrome/locale/zh-CN/
+
+overlay chrome://zotero/content/zoteroPane.xul chrome://zoteropdftranslate/content/overlay.xul
+overlay chrome://zotero/content/preferences/preferences.xul chrome://zoteropdftranslate/content/preferences.xul
