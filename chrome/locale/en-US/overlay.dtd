@@ -5,10 +5,12 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "Google Translate">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "NetEase Youdao Translate">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "Microsoft Translate*">
+
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.label "Language Parameter">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.warning.label "Wrong Language Parameter may cause unexpected error.">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.reset.label "Reset Language Parameter">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.0.1">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-09 16:40:47">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.0.2">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-10 14:06:56">

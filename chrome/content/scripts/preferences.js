@@ -14,4 +14,5 @@ updateSourceParam = function () {
   let translateParam =
     Zotero.ZoteroPDFTranslate.translate.defaultParam[menu.value];
   param.value = translateParam;
+  Zotero.Prefs.set("ZoteroPDFTranslate.translateParam", translateParam);
 };

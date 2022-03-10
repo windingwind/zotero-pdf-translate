@@ -23,17 +23,28 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 ![](imgs/en2zh.png)
 
 ## Settings
--  Translate Engine  
+###  Translate Engine  
 The default engine is Google Translate. Currently we provide Youdao as optional engine.  
 如果你无法访问谷歌，请选择有道作为翻译引擎。Youdao doesn't support some lauguages.
 
-- Lauguage Parameter  
+### Lauguage Parameter  
 Edit here to change translation target language.  
 Find your *Language Culture Code* in this link:
 [Language Culture Code](./LangCultureName.md)  
 Take `ja-JP` as example:  
-For Google Translate users, the *Lauguage Parameter* is `sl=en&tl=ja-JP`. Here `sl` is source language and `tl` is target language.  
-For youdao(有道) users,  the *Lauguage Parameter* is `EN2JA-JP`. It means from `EN(English)` to  `JA_JP(Japnese)`.
+> **Google Translate**  
+the *Lauguage Parameter* is `sl=en&tl=ja-JP`. Here `sl` is source language and `tl` is target language.  
+
+> **Youdao(有道)**  
+the *Lauguage Parameter* is `EN2JA-JP`. It means from `EN(English)` to  `JA_JP(Japnese)`.  
+
+> **Microsoft Translate**  
+the *Lauguage Parameter* is `tl=zh&secret=${YOUR_SECRET}`. Here `tl` is target language and `secret` is Microsoft secret.  
+**WARNING The default secret may reach limit or be deleted any time. Please consider use your own secret.**  
+For how to get a free Microsoft secret and more infomation, see [this](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and replace the default secret in the settings.  
+![Copy Secret](imgs/MicrosoftSecret.png)  
+
+
 
 ![Lauguage Parameter Setting](imgs/languageParamEdit.png)
 

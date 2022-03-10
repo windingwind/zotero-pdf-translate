@@ -1,5 +1,50 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
+    microsoft: async function () {
+      param = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
+      if (typeof param === "undefined") {
+        param = "tl=zh&secret=0fbf924f4a334759a3340cf7c09e2128";
+      }
+      [tl, secret] = param.split("&");
+      tl = tl.split("=")[1];
+      secret = secret.split("=")[1];
+      req_body = JSON.stringify([
+        {
+          text: Zotero.ZoteroPDFTranslate._sourceText,
+        },
+      ]);
+
+      xhr = await Zotero.HTTP.request(
+        "POST",
+        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${tl}`,
+        {
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            Host: "api.cognitive.microsofttranslator.com",
+            "Content-Length": req_body.length,
+            "Ocp-Apim-Subscription-Key": "0fbf924f4a334759a3340cf7c09e2128",
+          },
+          responseType: "json",
+          body: req_body,
+        }
+      );
+
+      // Zotero.debug(xhr)
+      if (xhr.status === 200) {
+        try {
+          let tgt = xhr.response[0].translations[0].text;
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return 0;
+        } catch (e) {
+          Zotero.debug(e);
+          Zotero.debug(xhr);
+          return -1;
+        }
+      }
+      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
+      return xhr.status;
+    },
     youdao: async function () {
       param = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
       if (typeof param === "undefined") {
@@ -117,6 +162,7 @@ Zotero.ZoteroPDFTranslate = {
     defaultParam: {
       google: "sl=en&tl=zh-CN",
       youdao: "EN2ZH_CN",
+      microsoft: "tl=zh&secret=0fbf924f4a334759a3340cf7c09e2128",
     },
   },
   _openPagePopup: undefined,
@@ -269,7 +315,7 @@ Zotero.ZoteroPDFTranslate = {
     try {
       return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
     } catch (e) {
-      Zotero.debug(e)
+      Zotero.debug(e);
       return -2;
     }
   },
