@@ -14,5 +14,5 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "有关密钥请参阅GitHub">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.0.5">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-11 23:25:52">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.0.6">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-11 23:42:12">

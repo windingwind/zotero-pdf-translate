@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-  <rdf:Description rdf:about="urn:mozilla:extension:zoterotag@euclpts.com">
+  <rdf:Description rdf:about="urn:mozilla:extension:zoteropdftranslate@euclpts.com">
     <em:updates>
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.0.5</em:version>
+            <em:version>0.0.6</em:version>
             <em:targetApplication>
               <rdf:Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>
