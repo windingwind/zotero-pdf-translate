@@ -24,9 +24,15 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 
 ## Settings
 ###  Translate Engine  
-The default engine is Google Translate. Currently we provide Youdao as optional engine.  
-如果你无法访问谷歌，请选择有道作为翻译引擎。Youdao doesn't support some lauguages.
+The default engine is Google Translate. Currently we support:  
+| Translate Engine | Require Secret | Supported Languages |
+|  ----  | ----  | ---- |
+| Google Translate | No | [200+]()
+| Youdao Translate | No | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)
+| Microsoft Translate | Yes(free 2M) | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support) |
+| LingoCloud(Caiyun) Translate | No(temporarily) | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes)
 
+如果你无法访问谷歌，请选择有道或彩云作为翻译引擎。
 ### Lauguage Settings  
 You can change the source and target language here. For some Translte Engines, the `secret` is required. They are listed below:  
 > **Microsoft Translate**  

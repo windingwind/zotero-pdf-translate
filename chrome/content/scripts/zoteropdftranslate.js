@@ -1,5 +1,52 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
+    caiyun: async function () {
+      let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
+      if (typeof secret === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSecret["caiyun"];
+      }
+      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+      if (typeof sl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
+      }
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
+      let param = `${sl.split("-")[0]}2${tl.split("-")[0]}`;
+      let xhr = await Zotero.HTTP.request(
+        "POST",
+        "http://api.interpreter.caiyunai.com/v1/translator",
+        {
+          headers: {
+            "content-type": "application/json",
+            "x-authorization": `token ${secret}`,
+          },
+          body: JSON.stringify({
+            source: [Zotero.ZoteroPDFTranslate._sourceText],
+            trans_type: param,
+            request_id: new Date().valueOf() / 10000,
+            detect: true,
+          }),
+          responseType: "json",
+        }
+      );
+
+      if (xhr.status === 200) {
+        try {
+          let tgt = xhr.response.target[0];
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return 0;
+        } catch (e) {
+          Zotero.debug(e);
+          Zotero.debug(xhr);
+          return -1;
+        }
+      }
+      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
+      return xhr.status;
+    },
     microsoft: async function () {
       let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
       if (typeof secret === "undefined") {
@@ -171,13 +218,14 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
       return xhr.status;
     },
-    sources: ["google", "youdao", "microsoft"],
+    sources: ["google", "youdao", "microsoft", "caiyun"],
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
       google: "",
       youdao: "",
       microsoft: "0fbf924f4a334759a3340cf7c09e2128",
+      caiyun: "3975l6lr5pcbvidl6jl2",
     },
   },
   _openPagePopup: undefined,

@@ -41,6 +41,7 @@
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.microsoft;" value="microsoft" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.caiyun;" value="caiyun" />
                       </menupopup>
                     </menulist>
                   </hbox>
@@ -190,8 +191,8 @@
                       </menupopup>
                     </menulist>
                   </hbox>
-                </row>
-                <row>
+                <!-- </row>
+                <row> -->
                   <hbox align="center">
                     <label value="&zotero.zoteropdftranslate.pref.api.targetLanguage.label;" />
                   </hbox>
