@@ -194,7 +194,7 @@ Zotero.ZoteroPDFTranslate = {
 
       let xhr = await Zotero.HTTP.request(
         "GET",
-        `https://translate.google.cn/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+        `https://translate.google.com/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
           Zotero.ZoteroPDFTranslate._sourceText
         )}&q=${Zotero.ZoteroPDFTranslate._sourceText}`,
         { responseType: "json" }
@@ -203,10 +203,17 @@ Zotero.ZoteroPDFTranslate = {
       if (xhr.status === 200) {
         try {
           let tgt = "";
-          for (let i = 0; i < xhr.response[0].length - 1; i++) {
-            tgt += xhr.response[0][i][0];
+          for (let i = 0; i < xhr.response[0].length; i++) {
+            // Zotero.debug(xhr.response[0][i]);
+            if (!xhr.response[0][i]) {
+              continue;
+            }
+            if (xhr.response[0][i] && xhr.response[0][i][0]) {
+              tgt += xhr.response[0][i][0];
+            }
           }
           Zotero.debug(tgt);
+
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
           return 0;
         } catch (e) {
