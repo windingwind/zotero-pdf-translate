@@ -4,11 +4,13 @@
 <overlay id="zoteropdftranslate-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-zoteropdftranslate" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://zoteropdftranslate/skin/favicon.png" onpaneload="initPreferences();">
+    <prefpane id="zotero-prefpane-zoteropdftranslate" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://zoteropdftranslate/skin/favicon.png" onpaneload="initZPDFTranslatePreferences()">
       <preferences id="zotero-preferences-zoteropdftranslate">
         <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
-        <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.translateParam" type="string" />
+        <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
+        <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
+        <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.secret" type="string" />
       </preferences>
       <tabbox>
         <tabs>
@@ -44,14 +46,303 @@
                   </hbox>
                 </row>
                 <row>
-                  <label value="&zotero.zoteropdftranslate.pref.api.translateParam.label;" />
+                  <hbox align="center">
+                    <label value="&zotero.zoteropdftranslate.pref.api.sourceLanguage.label;" />
+                  </hbox>
+                  <hbox>
+                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-sl" preference="pref-zoteropdftranslate-translate-sl">
+                      <menupopup>
+                        <menuitem label="Afrikaans - South Africa" value="af-ZA" />
+                        <menuitem label="Albanian - Albania" value="sq-AL" />
+                        <menuitem label="Arabic - Algeria" value="ar-DZ" />
+                        <menuitem label="Arabic - Bahrain" value="ar-BH" />
+                        <menuitem label="Arabic - Egypt" value="ar-EG" />
+                        <menuitem label="Arabic - Iraq" value="ar-IQ" />
+                        <menuitem label="Arabic - Jordan" value="ar-JO" />
+                        <menuitem label="Arabic - Kuwait" value="ar-KW" />
+                        <menuitem label="Arabic - Lebanon" value="ar-LB" />
+                        <menuitem label="Arabic - Libya" value="ar-LY" />
+                        <menuitem label="Arabic - Morocco" value="ar-MA" />
+                        <menuitem label="Arabic - Oman" value="ar-OM" />
+                        <menuitem label="Arabic - Qatar" value="ar-QA" />
+                        <menuitem label="Arabic - Saudi Arabia" value="ar-SA" />
+                        <menuitem label="Arabic - Syria" value="ar-SY" />
+                        <menuitem label="Arabic - Tunisia" value="ar-TN" />
+                        <menuitem label="Arabic - United Arab Emirates" value="ar-AE" />
+                        <menuitem label="Arabic - Yemen" value="ar-YE" />
+                        <menuitem label="Armenian - Armenia" value="hy-AM" />
+                        <menuitem label="Azeri (Cyrillic) - Azerbaijan" value="Cy-az-AZ" />
+                        <menuitem label="Azeri (Latin) - Azerbaijan" value="Lt-az-AZ" />
+                        <menuitem label="Basque - Basque" value="eu-ES" />
+                        <menuitem label="Belarusian - Belarus" value="be-BY" />
+                        <menuitem label="Bulgarian - Bulgaria" value="bg-BG" />
+                        <menuitem label="Catalan - Catalan" value="ca-ES" />
+                        <menuitem label="Chinese - China" value="zh-CN" />
+                        <menuitem label="Chinese - Hong Kong SAR" value="zh-HK" />
+                        <menuitem label="Chinese - Macau SAR" value="zh-MO" />
+                        <menuitem label="Chinese - Singapore" value="zh-SG" />
+                        <menuitem label="Chinese - Taiwan" value="zh-TW" />
+                        <menuitem label="Chinese (Simplified)" value="zh-CHS" />
+                        <menuitem label="Chinese (Traditional)" value="zh-CHT" />
+                        <menuitem label="Croatian - Croatia" value="hr-HR" />
+                        <menuitem label="Czech - Czech Republic" value="cs-CZ" />
+                        <menuitem label="Danish - Denmark" value="da-DK" />
+                        <menuitem label="Dhivehi - Maldives" value="div-MV" />
+                        <menuitem label="Dutch - Belgium" value="nl-BE" />
+                        <menuitem label="Dutch - The Netherlands" value="nl-NL" />
+                        <menuitem label="English - Australia" value="en-AU" />
+                        <menuitem label="English - Belize" value="en-BZ" />
+                        <menuitem label="English - Canada" value="en-CA" />
+                        <menuitem label="English - Caribbean" value="en-CB" />
+                        <menuitem label="English - Ireland" value="en-IE" />
+                        <menuitem label="English - Jamaica" value="en-JM" />
+                        <menuitem label="English - New Zealand" value="en-NZ" />
+                        <menuitem label="English - Philippines" value="en-PH" />
+                        <menuitem label="English - South Africa" value="en-ZA" />
+                        <menuitem label="English - Trinidad and Tobago" value="en-TT" />
+                        <menuitem label="English - United Kingdom" value="en-GB" />
+                        <menuitem label="English - United States" value="en-US" />
+                        <menuitem label="English - Zimbabwe" value="en-ZW" />
+                        <menuitem label="Estonian - Estonia" value="et-EE" />
+                        <menuitem label="Faroese - Faroe Islands" value="fo-FO" />
+                        <menuitem label="Farsi - Iran" value="fa-IR" />
+                        <menuitem label="Finnish - Finland" value="fi-FI" />
+                        <menuitem label="French - Belgium" value="fr-BE" />
+                        <menuitem label="French - Canada" value="fr-CA" />
+                        <menuitem label="French - France" value="fr-FR" />
+                        <menuitem label="French - Luxembourg" value="fr-LU" />
+                        <menuitem label="French - Monaco" value="fr-MC" />
+                        <menuitem label="French - Switzerland" value="fr-CH" />
+                        <menuitem label="Galician - Galician" value="gl-ES" />
+                        <menuitem label="Georgian - Georgia" value="ka-GE" />
+                        <menuitem label="German - Austria" value="de-AT" />
+                        <menuitem label="German - Germany" value="de-DE" />
+                        <menuitem label="German - Liechtenstein" value="de-LI" />
+                        <menuitem label="German - Luxembourg" value="de-LU" />
+                        <menuitem label="German - Switzerland" value="de-CH" />
+                        <menuitem label="Greek - Greece" value="el-GR" />
+                        <menuitem label="Gujarati - India" value="gu-IN" />
+                        <menuitem label="Hebrew - Israel" value="he-IL" />
+                        <menuitem label="Hindi - India" value="hi-IN" />
+                        <menuitem label="Hungarian - Hungary" value="hu-HU" />
+                        <menuitem label="Icelandic - Iceland" value="is-IS" />
+                        <menuitem label="Indonesian - Indonesia" value="id-ID" />
+                        <menuitem label="Italian - Italy" value="it-IT" />
+                        <menuitem label="Italian - Switzerland" value="it-CH" />
+                        <menuitem label="Japanese - Japan" value="ja-JP" />
+                        <menuitem label="Kannada - India" value="kn-IN" />
+                        <menuitem label="Kazakh - Kazakhstan" value="kk-KZ" />
+                        <menuitem label="Konkani - India" value="kok-IN" />
+                        <menuitem label="Korean - Korea" value="ko-KR" />
+                        <menuitem label="Kyrgyz - Kazakhstan" value="ky-KZ" />
+                        <menuitem label="Latvian - Latvia" value="lv-LV" />
+                        <menuitem label="Lithuanian - Lithuania" value="lt-LT" />
+                        <menuitem label="Macedonian (FYROM)" value="mk-MK" />
+                        <menuitem label="Malay - Brunei" value="ms-BN" />
+                        <menuitem label="Malay - Malaysia" value="ms-MY" />
+                        <menuitem label="Marathi - India" value="mr-IN" />
+                        <menuitem label="Mongolian - Mongolia" value="mn-MN" />
+                        <menuitem label="Norwegian (Bokmål) - Norway" value="nb-NO" />
+                        <menuitem label="Norwegian (Nynorsk) - Norway" value="nn-NO" />
+                        <menuitem label="Polish - Poland" value="pl-PL" />
+                        <menuitem label="Portuguese - Brazil" value="pt-BR" />
+                        <menuitem label="Portuguese - Portugal" value="pt-PT" />
+                        <menuitem label="Punjabi - India" value="pa-IN" />
+                        <menuitem label="Romanian - Romania" value="ro-RO" />
+                        <menuitem label="Russian - Russia" value="ru-RU" />
+                        <menuitem label="Sanskrit - India" value="sa-IN" />
+                        <menuitem label="Serbian (Cyrillic) - Serbia" value="Cy-sr-SP" />
+                        <menuitem label="Serbian (Latin) - Serbia" value="Lt-sr-SP" />
+                        <menuitem label="Slovak - Slovakia" value="sk-SK" />
+                        <menuitem label="Slovenian - Slovenia" value="sl-SI" />
+                        <menuitem label="Spanish - Argentina" value="es-AR" />
+                        <menuitem label="Spanish - Bolivia" value="es-BO" />
+                        <menuitem label="Spanish - Chile" value="es-CL" />
+                        <menuitem label="Spanish - Colombia" value="es-CO" />
+                        <menuitem label="Spanish - Dominican Republic" value="es-DO" />
+                        <menuitem label="Spanish - Ecuador" value="es-EC" />
+                        <menuitem label="Spanish - El Salvador" value="es-SV" />
+                        <menuitem label="Spanish - Guatemala" value="es-GT" />
+                        <menuitem label="Spanish - Honduras" value="es-HN" />
+                        <menuitem label="Spanish - Mexico" value="es-MX" />
+                        <menuitem label="Spanish - Nicaragua" value="es-NI" />
+                        <menuitem label="Spanish - Panama" value="es-PA" />
+                        <menuitem label="Spanish - Paraguay" value="es-PY" />
+                        <menuitem label="Spanish - Peru" value="es-PE" />
+                        <menuitem label="Spanish - Puerto Rico" value="es-PR" />
+                        <menuitem label="Spanish - Spain" value="es-ES" />
+                        <menuitem label="Spanish - Uruguay" value="es-UY" />
+                        <menuitem label="Spanish - Venezuela" value="es-VE" />
+                        <menuitem label="Swahili - Kenya" value="sw-KE" />
+                        <menuitem label="Swedish - Finland" value="sv-FI" />
+                        <menuitem label="Swedish - Sweden" value="sv-SE" />
+                        <menuitem label="Syriac - Syria" value="syr-SY" />
+                        <menuitem label="Tamil - India" value="ta-IN" />
+                        <menuitem label="Tatar - Russia" value="tt-RU" />
+                        <menuitem label="Telugu - India" value="te-IN" />
+                        <menuitem label="Thai - Thailand" value="th-TH" />
+                        <menuitem label="Turkish - Turkey" value="tr-TR" />
+                        <menuitem label="Ukrainian - Ukraine" value="uk-UA" />
+                        <menuitem label="Urdu - Pakistan" value="ur-PK" />
+                        <menuitem label="Uzbek (Cyrillic) - Uzbekistan" value="Cy-uz-UZ" />
+                        <menuitem label="Uzbek (Latin) - Uzbekistan" value="Lt-uz-UZ" />
+                        <menuitem label="Vietnamese - Vietnam" value="vi-VN" />
+                      </menupopup>
+                    </menulist>
+                  </hbox>
+                </row>
+                <row>
+                  <hbox align="center">
+                    <label value="&zotero.zoteropdftranslate.pref.api.targetLanguage.label;" />
+                  </hbox>
+                  <hbox>
+                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-tl" preference="pref-zoteropdftranslate-translate-tl">
+                      <menupopup>
+                        <menuitem label="Afrikaans - South Africa" value="af-ZA" />
+                        <menuitem label="Albanian - Albania" value="sq-AL" />
+                        <menuitem label="Arabic - Algeria" value="ar-DZ" />
+                        <menuitem label="Arabic - Bahrain" value="ar-BH" />
+                        <menuitem label="Arabic - Egypt" value="ar-EG" />
+                        <menuitem label="Arabic - Iraq" value="ar-IQ" />
+                        <menuitem label="Arabic - Jordan" value="ar-JO" />
+                        <menuitem label="Arabic - Kuwait" value="ar-KW" />
+                        <menuitem label="Arabic - Lebanon" value="ar-LB" />
+                        <menuitem label="Arabic - Libya" value="ar-LY" />
+                        <menuitem label="Arabic - Morocco" value="ar-MA" />
+                        <menuitem label="Arabic - Oman" value="ar-OM" />
+                        <menuitem label="Arabic - Qatar" value="ar-QA" />
+                        <menuitem label="Arabic - Saudi Arabia" value="ar-SA" />
+                        <menuitem label="Arabic - Syria" value="ar-SY" />
+                        <menuitem label="Arabic - Tunisia" value="ar-TN" />
+                        <menuitem label="Arabic - United Arab Emirates" value="ar-AE" />
+                        <menuitem label="Arabic - Yemen" value="ar-YE" />
+                        <menuitem label="Armenian - Armenia" value="hy-AM" />
+                        <menuitem label="Azeri (Cyrillic) - Azerbaijan" value="Cy-az-AZ" />
+                        <menuitem label="Azeri (Latin) - Azerbaijan" value="Lt-az-AZ" />
+                        <menuitem label="Basque - Basque" value="eu-ES" />
+                        <menuitem label="Belarusian - Belarus" value="be-BY" />
+                        <menuitem label="Bulgarian - Bulgaria" value="bg-BG" />
+                        <menuitem label="Catalan - Catalan" value="ca-ES" />
+                        <menuitem label="Chinese - China" value="zh-CN" />
+                        <menuitem label="Chinese - Hong Kong SAR" value="zh-HK" />
+                        <menuitem label="Chinese - Macau SAR" value="zh-MO" />
+                        <menuitem label="Chinese - Singapore" value="zh-SG" />
+                        <menuitem label="Chinese - Taiwan" value="zh-TW" />
+                        <menuitem label="Chinese (Simplified)" value="zh-CHS" />
+                        <menuitem label="Chinese (Traditional)" value="zh-CHT" />
+                        <menuitem label="Croatian - Croatia" value="hr-HR" />
+                        <menuitem label="Czech - Czech Republic" value="cs-CZ" />
+                        <menuitem label="Danish - Denmark" value="da-DK" />
+                        <menuitem label="Dhivehi - Maldives" value="div-MV" />
+                        <menuitem label="Dutch - Belgium" value="nl-BE" />
+                        <menuitem label="Dutch - The Netherlands" value="nl-NL" />
+                        <menuitem label="English - Australia" value="en-AU" />
+                        <menuitem label="English - Belize" value="en-BZ" />
+                        <menuitem label="English - Canada" value="en-CA" />
+                        <menuitem label="English - Caribbean" value="en-CB" />
+                        <menuitem label="English - Ireland" value="en-IE" />
+                        <menuitem label="English - Jamaica" value="en-JM" />
+                        <menuitem label="English - New Zealand" value="en-NZ" />
+                        <menuitem label="English - Philippines" value="en-PH" />
+                        <menuitem label="English - South Africa" value="en-ZA" />
+                        <menuitem label="English - Trinidad and Tobago" value="en-TT" />
+                        <menuitem label="English - United Kingdom" value="en-GB" />
+                        <menuitem label="English - United States" value="en-US" />
+                        <menuitem label="English - Zimbabwe" value="en-ZW" />
+                        <menuitem label="Estonian - Estonia" value="et-EE" />
+                        <menuitem label="Faroese - Faroe Islands" value="fo-FO" />
+                        <menuitem label="Farsi - Iran" value="fa-IR" />
+                        <menuitem label="Finnish - Finland" value="fi-FI" />
+                        <menuitem label="French - Belgium" value="fr-BE" />
+                        <menuitem label="French - Canada" value="fr-CA" />
+                        <menuitem label="French - France" value="fr-FR" />
+                        <menuitem label="French - Luxembourg" value="fr-LU" />
+                        <menuitem label="French - Monaco" value="fr-MC" />
+                        <menuitem label="French - Switzerland" value="fr-CH" />
+                        <menuitem label="Galician - Galician" value="gl-ES" />
+                        <menuitem label="Georgian - Georgia" value="ka-GE" />
+                        <menuitem label="German - Austria" value="de-AT" />
+                        <menuitem label="German - Germany" value="de-DE" />
+                        <menuitem label="German - Liechtenstein" value="de-LI" />
+                        <menuitem label="German - Luxembourg" value="de-LU" />
+                        <menuitem label="German - Switzerland" value="de-CH" />
+                        <menuitem label="Greek - Greece" value="el-GR" />
+                        <menuitem label="Gujarati - India" value="gu-IN" />
+                        <menuitem label="Hebrew - Israel" value="he-IL" />
+                        <menuitem label="Hindi - India" value="hi-IN" />
+                        <menuitem label="Hungarian - Hungary" value="hu-HU" />
+                        <menuitem label="Icelandic - Iceland" value="is-IS" />
+                        <menuitem label="Indonesian - Indonesia" value="id-ID" />
+                        <menuitem label="Italian - Italy" value="it-IT" />
+                        <menuitem label="Italian - Switzerland" value="it-CH" />
+                        <menuitem label="Japanese - Japan" value="ja-JP" />
+                        <menuitem label="Kannada - India" value="kn-IN" />
+                        <menuitem label="Kazakh - Kazakhstan" value="kk-KZ" />
+                        <menuitem label="Konkani - India" value="kok-IN" />
+                        <menuitem label="Korean - Korea" value="ko-KR" />
+                        <menuitem label="Kyrgyz - Kazakhstan" value="ky-KZ" />
+                        <menuitem label="Latvian - Latvia" value="lv-LV" />
+                        <menuitem label="Lithuanian - Lithuania" value="lt-LT" />
+                        <menuitem label="Macedonian (FYROM)" value="mk-MK" />
+                        <menuitem label="Malay - Brunei" value="ms-BN" />
+                        <menuitem label="Malay - Malaysia" value="ms-MY" />
+                        <menuitem label="Marathi - India" value="mr-IN" />
+                        <menuitem label="Mongolian - Mongolia" value="mn-MN" />
+                        <menuitem label="Norwegian (Bokmål) - Norway" value="nb-NO" />
+                        <menuitem label="Norwegian (Nynorsk) - Norway" value="nn-NO" />
+                        <menuitem label="Polish - Poland" value="pl-PL" />
+                        <menuitem label="Portuguese - Brazil" value="pt-BR" />
+                        <menuitem label="Portuguese - Portugal" value="pt-PT" />
+                        <menuitem label="Punjabi - India" value="pa-IN" />
+                        <menuitem label="Romanian - Romania" value="ro-RO" />
+                        <menuitem label="Russian - Russia" value="ru-RU" />
+                        <menuitem label="Sanskrit - India" value="sa-IN" />
+                        <menuitem label="Serbian (Cyrillic) - Serbia" value="Cy-sr-SP" />
+                        <menuitem label="Serbian (Latin) - Serbia" value="Lt-sr-SP" />
+                        <menuitem label="Slovak - Slovakia" value="sk-SK" />
+                        <menuitem label="Slovenian - Slovenia" value="sl-SI" />
+                        <menuitem label="Spanish - Argentina" value="es-AR" />
+                        <menuitem label="Spanish - Bolivia" value="es-BO" />
+                        <menuitem label="Spanish - Chile" value="es-CL" />
+                        <menuitem label="Spanish - Colombia" value="es-CO" />
+                        <menuitem label="Spanish - Dominican Republic" value="es-DO" />
+                        <menuitem label="Spanish - Ecuador" value="es-EC" />
+                        <menuitem label="Spanish - El Salvador" value="es-SV" />
+                        <menuitem label="Spanish - Guatemala" value="es-GT" />
+                        <menuitem label="Spanish - Honduras" value="es-HN" />
+                        <menuitem label="Spanish - Mexico" value="es-MX" />
+                        <menuitem label="Spanish - Nicaragua" value="es-NI" />
+                        <menuitem label="Spanish - Panama" value="es-PA" />
+                        <menuitem label="Spanish - Paraguay" value="es-PY" />
+                        <menuitem label="Spanish - Peru" value="es-PE" />
+                        <menuitem label="Spanish - Puerto Rico" value="es-PR" />
+                        <menuitem label="Spanish - Spain" value="es-ES" />
+                        <menuitem label="Spanish - Uruguay" value="es-UY" />
+                        <menuitem label="Spanish - Venezuela" value="es-VE" />
+                        <menuitem label="Swahili - Kenya" value="sw-KE" />
+                        <menuitem label="Swedish - Finland" value="sv-FI" />
+                        <menuitem label="Swedish - Sweden" value="sv-SE" />
+                        <menuitem label="Syriac - Syria" value="syr-SY" />
+                        <menuitem label="Tamil - India" value="ta-IN" />
+                        <menuitem label="Tatar - Russia" value="tt-RU" />
+                        <menuitem label="Telugu - India" value="te-IN" />
+                        <menuitem label="Thai - Thailand" value="th-TH" />
+                        <menuitem label="Turkish - Turkey" value="tr-TR" />
+                        <menuitem label="Ukrainian - Ukraine" value="uk-UA" />
+                        <menuitem label="Urdu - Pakistan" value="ur-PK" />
+                        <menuitem label="Uzbek (Cyrillic) - Uzbekistan" value="Cy-uz-UZ" />
+                        <menuitem label="Uzbek (Latin) - Uzbekistan" value="Lt-uz-UZ" />
+                        <menuitem label="Vietnamese - Vietnam" value="vi-VN" />
+                      </menupopup>
+                    </menulist>
+                  </hbox>
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.api.secret.label;" />
                   <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-translate-param" />
                 </row>
                 <row>
-                  <label value="&zotero.zoteropdftranslate.pref.api.translateParam.warning.label;" />
-                </row>
-                <row>
-                  <button label="&zotero.zoteropdftranslate.pref.api.translateParam.reset.label;" tooltiptext="&zotero.zoteropdftranslate.pref.api.translateParam.reset.label;" oncommand="updateSourceParam()" />
+                  <label value="&zotero.zoteropdftranslate.pref.api.secret.warning.label;" />
                 </row>
               </rows>
             </groupbox>

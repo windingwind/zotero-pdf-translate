@@ -7,12 +7,12 @@
         RDF:about="urn:mozilla:install-manifest"
         em:id="zoteropdftranslate@euclpts.com"
         em:name="Zotero PDF Translate"
-        em:version="0.0.2"
+        em:version="0.0.3"
         em:type="2"
         em:creator="windingwind"
-        em:description="Zotero plugin for automatically add tag for an added item."
+        em:description="PDF translation plugin for Zotero 6"
         em:homepageURL="https://github.com/windingwind/zotero-tag"
-        em:updateURL="https://raw.githubusercontent.com/windingwind/zotero-tag/master/update.rdf">>
+        em:updateURL="https://raw.githubusercontent.com/windingwind/zotero-pdf-translate/master/update.rdf">>
         <em:type>2</em:type>
         <em:targetApplication RDF:resource="rdf:#$x61SL3"/>
         <em:targetApplication>

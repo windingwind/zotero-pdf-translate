@@ -1,13 +1,14 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
     microsoft: async function () {
-      param = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
-      if (typeof param === "undefined") {
-        param = "tl=zh&secret=0fbf924f4a334759a3340cf7c09e2128";
+      let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
+      if (typeof secret === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSecret["microsoft"];
       }
-      [tl, secret] = param.split("&");
-      tl = tl.split("=")[1];
-      secret = secret.split("=")[1];
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
       req_body = JSON.stringify([
         {
           text: Zotero.ZoteroPDFTranslate._sourceText,
@@ -22,7 +23,7 @@ Zotero.ZoteroPDFTranslate = {
             "Content-Type": "application/json; charset=utf-8",
             Host: "api.cognitive.microsofttranslator.com",
             "Content-Length": req_body.length,
-            "Ocp-Apim-Subscription-Key": "0fbf924f4a334759a3340cf7c09e2128",
+            "Ocp-Apim-Subscription-Key": secret,
           },
           responseType: "json",
           body: req_body,
@@ -46,10 +47,17 @@ Zotero.ZoteroPDFTranslate = {
       return xhr.status;
     },
     youdao: async function () {
-      param = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
-      if (typeof param === "undefined") {
-        param = "AUTO";
+      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+      if (typeof sl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
       }
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
+      let param = `${sl.toUpperCase().replace("-", "_")}2${tl
+        .toUpperCase()
+        .replace("-", "_")}`;
       let xhr = await Zotero.HTTP.request(
         "GET",
         `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${Zotero.ZoteroPDFTranslate._sourceText}`,
@@ -127,10 +135,15 @@ Zotero.ZoteroPDFTranslate = {
         return a;
       }
 
-      param = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
-      if (typeof param === "undefined") {
-        param = "sl=en&tl=zh-CN";
+      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+      if (typeof sl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
       }
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
+      let param = `sl=${sl}&tl=${tl}`;
 
       let xhr = await Zotero.HTTP.request(
         "GET",
@@ -158,11 +171,13 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
       return xhr.status;
     },
-    sources: ["google", "youdao"],
-    defaultParam: {
-      google: "sl=en&tl=zh-CN",
-      youdao: "EN2ZH_CN",
-      microsoft: "tl=zh&secret=0fbf924f4a334759a3340cf7c09e2128",
+    sources: ["google", "youdao", "microsoft"],
+    defaultSourceLanguage: "en-US",
+    defaultTargetLanguage: "zh-CN",
+    defaultSecret: {
+      google: "",
+      youdao: "",
+      microsoft: "0fbf924f4a334759a3340cf7c09e2128",
     },
   },
   _openPagePopup: undefined,
@@ -334,11 +349,27 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", translateSource);
     }
 
-    let translateParam = Zotero.Prefs.get("ZoteroPDFTranslate.translateParam");
-    if (typeof translateParam === "undefined") {
+    let sourceLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+    if (typeof sourceLanguage === "undefined") {
       Zotero.Prefs.set(
-        "ZoteroPDFTranslate.translateParam",
-        Zotero.ZoteroPDFTranslate.translate.defaultParam[translateSource]
+        "ZoteroPDFTranslate.sourceLanguage",
+        Zotero.ZoteroPDFTranslate.translate.defaultSourceLanguage
+      );
+    }
+
+    let targetLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+    if (typeof targetLanguage === "undefined") {
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.targetLanguage",
+        Zotero.ZoteroPDFTranslate.translate.defaultTargetLanguage
+      );
+    }
+
+    let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
+    if (typeof secret === "undefined") {
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.secret",
+        Zotero.ZoteroPDFTranslate.translate.defaultSecret[translateSource]
       );
     }
   },

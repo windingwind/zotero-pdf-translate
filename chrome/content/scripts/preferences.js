@@ -1,4 +1,4 @@
-initPreferences = function () {
+initZPDFTranslatePreferences = function () {
   Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
   Zotero.ZoteroPDFTranslate.resetState();
 };
@@ -11,8 +11,8 @@ updateSourceParam = function () {
   let param = document.getElementById(
     "zotero-prefpane-zoteropdftranslate-settings-translate-param"
   );
-  let translateParam =
-    Zotero.ZoteroPDFTranslate.translate.defaultParam[menu.value];
-  param.value = translateParam;
-  Zotero.Prefs.set("ZoteroPDFTranslate.translateParam", translateParam);
+  let secret =
+    Zotero.ZoteroPDFTranslate.translate.defaultSecret[menu.value];
+  param.value = secret;
+  Zotero.Prefs.set("ZoteroPDFTranslate.secret", secret);
 };

@@ -7,10 +7,11 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "有道翻译">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "微软翻译*">
 
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.label "语言参数">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.warning.label "错误的语言参数可能导致翻译失效">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateParam.reset.label "重置语言参数">
+<!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "源语言">
+<!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "目标语言">
+<!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "密钥">
+<!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "有关密钥请参阅GitHub">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.0.2">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-10 14:06:56">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.0.3">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-11 12:21:24">
