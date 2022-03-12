@@ -39,9 +39,10 @@
                     <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-source" preference="pref-zoteropdftranslate-translate-source" oncommand="updateSourceParam()">
                       <menupopup>
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.microsoft;" value="microsoft" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.caiyun;" value="caiyun" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutrans;" value="niutrans" />
                       </menupopup>
                     </menulist>
                   </hbox>

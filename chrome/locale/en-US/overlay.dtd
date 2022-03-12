@@ -7,6 +7,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "Youdao Translate">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "Microsoft Translate*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "LingoCloud(Caiyun) Translate*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "Niu Translate">
 
 <!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "Translate From">
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
@@ -14,5 +15,5 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "See GitHub for more infomation about Secret">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.0.6">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-11 23:42:12">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.0.7">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-12 17:02:54">

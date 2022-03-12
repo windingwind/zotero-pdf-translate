@@ -1,5 +1,40 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
+    niutrans: async function () {
+      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+      if (typeof sl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
+      }
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
+      let param = `from=${sl.split("-")[0]}&to=${tl.split("-")[0]}`;
+      let xhr = await Zotero.HTTP.request(
+        "GET",
+        `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${
+          Zotero.ZoteroPDFTranslate._sourceText
+        }&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
+        {
+          responseType: "json",
+        }
+      );
+
+      if (xhr.status === 200) {
+        try {
+          let tgt = xhr.response.tgt_text;
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return 0;
+        } catch (e) {
+          Zotero.debug(e);
+          Zotero.debug(xhr);
+          return -1;
+        }
+      }
+      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
+      return xhr.status;
+    },
     caiyun: async function () {
       let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
       if (typeof secret === "undefined") {
@@ -225,7 +260,7 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
       return xhr.status;
     },
-    sources: ["google", "youdao", "microsoft", "caiyun"],
+    sources: ["google", "youdao", "microsoft", "caiyun", "niutrans"],
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
@@ -233,6 +268,7 @@ Zotero.ZoteroPDFTranslate = {
       youdao: "",
       microsoft: "0fbf924f4a334759a3340cf7c09e2128",
       caiyun: "3975l6lr5pcbvidl6jl2",
+      niutrans: "",
     },
   },
   _openPagePopup: undefined,
