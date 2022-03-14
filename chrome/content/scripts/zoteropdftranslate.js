@@ -369,6 +369,10 @@ Zotero.ZoteroPDFTranslate = {
             textbox.setAttribute("value", data.text);
             textbox.setAttribute("id", "translatePopup");
             textbox.setAttribute("multiline", true);
+            Zotero.debug(textbox.getAttribute("cols", 0));
+            Zotero.debug(textbox.getAttribute("rows", 0));
+            textbox.style["font-size"]=`${Zotero.Prefs.get("ZoteroPDFTranslate.fontSize")}px`;
+            
             textbox.setAttribute(
               "height",
               data.text.length > 100 ? 200 : data.text.length > 50 ? 100 : 50
@@ -430,6 +434,11 @@ Zotero.ZoteroPDFTranslate = {
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     if (typeof enable === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enable", true);
+    }
+
+    let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
+    if (typeof fontSize === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.fontSize", "12");
     }
 
     let translateSource = Zotero.Prefs.get(

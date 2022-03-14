@@ -7,6 +7,7 @@
     <prefpane id="zotero-prefpane-zoteropdftranslate" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://zoteropdftranslate/skin/favicon.png" onpaneload="initZPDFTranslatePreferences()">
       <preferences id="zotero-preferences-zoteropdftranslate">
         <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
+        <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
         <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
@@ -25,6 +26,14 @@
                 <row>
                   <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
                   <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.basic.fontSize.label;" />
+                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" />
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.basic.preview.label;" />
+                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-preview" value="The quick brown fox jumps over a lazy dog" width="200" height="100" multiline="true"/>
                 </row>
               </rows>
             </groupbox>
@@ -192,8 +201,6 @@
                       </menupopup>
                     </menulist>
                   </hbox>
-                <!-- </row>
-                <row> -->
                   <hbox align="center">
                     <label value="&zotero.zoteropdftranslate.pref.api.targetLanguage.label;" />
                   </hbox>
