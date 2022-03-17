@@ -32,6 +32,7 @@ The default engine is Google Translate. Currently we support:
 | Youdao Translate | No | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
 | LingoCloud(Caiyun) Translate | No(temporarily) | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
 | Niu Translate | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) |
+| DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
 
 如果你无法访问谷歌，请选择其他翻译引擎。
 ### Lauguage Settings  
@@ -39,7 +40,10 @@ You can change the source and target language here. For some Translte Engines, t
 > **Microsoft Translate**  
 **WARNING The default secret may reach limit or be deleted any time. Please consider use your own secret.**  
 For how to get a free Microsoft secret and more infomation, see [this](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it in the settings.  
-See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to setup the Microsoft Translate.
+See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to setup the Microsoft Translate.  
+
+> **DeepL Translate**
+Follow the construnctions [here](https://www.deepl.com/pro?cta=header-prices/#developer).
 
 ## Building
 
