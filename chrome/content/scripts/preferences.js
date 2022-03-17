@@ -1,6 +1,7 @@
 initZPDFTranslatePreferences = function () {
   Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
   Zotero.ZoteroPDFTranslate.resetState();
+  updatePreviewPannel();
 };
 
 updateSourceParam = function () {

@@ -1,19 +1,47 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
+    deeplfree: async function () {
+      return await this.deepl("https://api-free.deepl.com/v2/translate");
+    },
+    deeplpro: async function () {
+      return await this.deepl("https://api.deepl.com/v2/translate");
+    },
+    deepl: async function (api_url) {
+      let args = this.getArgs();
+      req_body = `auth_key=${args.secret}&text=${
+        args.text
+      }&source_lang=${args.sl.split("-")[0].toUpperCase()}&target_lang=${args.tl
+        .split("-")[0]
+        .toUpperCase()}`;
+
+      xhr = await Zotero.HTTP.request("POST", api_url, {
+        responseType: "json",
+        body: req_body,
+      });
+
+      // Zotero.debug(xhr)
+      if (xhr.status === 200) {
+        try {
+          let tgt = xhr.response.translations[0].text;
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return 0;
+        } catch (e) {
+          Zotero.debug(e);
+          Zotero.debug(xhr);
+          return -1;
+        }
+      }
+      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
+      return xhr.status;
+    },
     niutrans: async function () {
-      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-      if (typeof sl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
-      }
-      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-      if (typeof tl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
-      }
-      let param = `from=${sl.split("-")[0]}&to=${tl.split("-")[0]}`;
+      let args = this.getArgs();
+      let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
       let xhr = await Zotero.HTTP.request(
         "GET",
         `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${
-          Zotero.ZoteroPDFTranslate._sourceText
+          args.text
         }&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
         {
           responseType: "json",
@@ -36,29 +64,18 @@ Zotero.ZoteroPDFTranslate = {
       return xhr.status;
     },
     caiyun: async function () {
-      let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
-      if (typeof secret === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSecret["caiyun"];
-      }
-      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-      if (typeof sl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
-      }
-      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-      if (typeof tl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
-      }
-      let param = `${sl.split("-")[0]}2${tl.split("-")[0]}`;
+      let args = this.getArgs();
+      let param = `${args.sl.split("-")[0]}2${args.tl.split("-")[0]}`;
       let xhr = await Zotero.HTTP.request(
         "POST",
         "http://api.interpreter.caiyunai.com/v1/translator",
         {
           headers: {
             "content-type": "application/json",
-            "x-authorization": `token ${secret}`,
+            "x-authorization": `token ${args.secret}`,
           },
           body: JSON.stringify({
-            source: [Zotero.ZoteroPDFTranslate._sourceText],
+            source: [args.text],
             trans_type: param,
             request_id: new Date().valueOf() / 10000,
             detect: true,
@@ -83,29 +100,22 @@ Zotero.ZoteroPDFTranslate = {
       return xhr.status;
     },
     microsoft: async function () {
-      let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
-      if (typeof secret === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSecret["microsoft"];
-      }
-      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-      if (typeof tl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
-      }
+      let args = this.getArgs();
       req_body = JSON.stringify([
         {
-          text: Zotero.ZoteroPDFTranslate._sourceText,
+          text: args.text,
         },
       ]);
 
       xhr = await Zotero.HTTP.request(
         "POST",
-        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${tl}`,
+        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${args.tl}`,
         {
           headers: {
             "Content-Type": "application/json; charset=utf-8",
             Host: "api.cognitive.microsofttranslator.com",
             "Content-Length": req_body.length,
-            "Ocp-Apim-Subscription-Key": secret,
+            "Ocp-Apim-Subscription-Key": args.secret,
           },
           responseType: "json",
           body: req_body,
@@ -129,20 +139,13 @@ Zotero.ZoteroPDFTranslate = {
       return xhr.status;
     },
     youdao: async function () {
-      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-      if (typeof sl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
-      }
-      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-      if (typeof tl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
-      }
-      let param = `${sl.toUpperCase().replace("-", "_")}2${tl
+      let args = this.getArgs();
+      let param = `${args.sl.toUpperCase().replace("-", "_")}2${args.tl
         .toUpperCase()
         .replace("-", "_")}`;
       let xhr = await Zotero.HTTP.request(
         "GET",
-        `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${Zotero.ZoteroPDFTranslate._sourceText}`,
+        `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${args.text}`,
         { responseType: "json" }
       );
       // Zotero.debug(xhr)
@@ -217,21 +220,14 @@ Zotero.ZoteroPDFTranslate = {
         return a;
       }
 
-      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-      if (typeof sl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
-      }
-      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-      if (typeof tl === "undefined") {
-        secret = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
-      }
-      let param = `sl=${sl}&tl=${tl}`;
+      let args = this.getArgs();
+      let param = `sl=${args.sl}&tl=${args.tl}`;
 
       let xhr = await Zotero.HTTP.request(
         "GET",
         `https://translate.google.com/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
-          Zotero.ZoteroPDFTranslate._sourceText
-        )}&q=${Zotero.ZoteroPDFTranslate._sourceText}`,
+          args.text
+        )}&q=${args.text}`,
         { responseType: "json" }
       );
       // Zotero.debug(xhr)
@@ -260,7 +256,36 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
       return xhr.status;
     },
-    sources: ["google", "youdao", "microsoft", "caiyun", "niutrans"],
+    getArgs: function () {
+      let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
+      if (typeof secret === "undefined") {
+        secret = Zotero.ZoteroPDFTranslate.defaultSecret["caiyun"];
+      }
+      let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+      if (typeof sl === "undefined") {
+        sl = Zotero.ZoteroPDFTranslate.defaultSourceLanguage;
+      }
+      let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+      if (typeof tl === "undefined") {
+        tl = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
+      }
+      let text = Zotero.ZoteroPDFTranslate._sourceText;
+      return {
+        secret,
+        sl,
+        tl,
+        text,
+      };
+    },
+    sources: [
+      "google",
+      "youdao",
+      "microsoft",
+      "caiyun",
+      "niutrans",
+      "deeplfree",
+      "deeplpro",
+    ],
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
@@ -269,6 +294,8 @@ Zotero.ZoteroPDFTranslate = {
       microsoft: "0fbf924f4a334759a3340cf7c09e2128",
       caiyun: "3975l6lr5pcbvidl6jl2",
       niutrans: "",
+      deeplfree: "",
+      deeplpro: "",
     },
   },
   _openPagePopup: undefined,
@@ -371,8 +398,10 @@ Zotero.ZoteroPDFTranslate = {
             textbox.setAttribute("multiline", true);
             Zotero.debug(textbox.getAttribute("cols", 0));
             Zotero.debug(textbox.getAttribute("rows", 0));
-            textbox.style["font-size"]=`${Zotero.Prefs.get("ZoteroPDFTranslate.fontSize")}px`;
-            
+            textbox.style["font-size"] = `${Zotero.Prefs.get(
+              "ZoteroPDFTranslate.fontSize"
+            )}px`;
+
             textbox.setAttribute(
               "height",
               data.text.length > 100 ? 200 : data.text.length > 50 ? 100 : 50
