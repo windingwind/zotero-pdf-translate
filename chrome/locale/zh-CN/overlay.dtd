@@ -1,6 +1,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.title "设置">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.caption.label "基本">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.preview.label "预览">
+<!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "启用弹窗">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.fontSize.label "字体大小">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enable.label "启用PDF翻译">
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "翻译服务">
@@ -17,7 +18,11 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "翻译到">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "密钥">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "有关密钥请参阅GitHub">
+
+<!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "复制源">
+<!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "复制结果">
+
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.0.9">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-17 23:37:19">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.1.0">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-18 22:51:59">

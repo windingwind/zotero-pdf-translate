@@ -300,6 +300,9 @@ Zotero.ZoteroPDFTranslate = {
   },
   _openPagePopup: undefined,
   _popup: undefined,
+  _popupTextBox: undefined,
+  _sideBarTextboxSource: undefined,
+  _sideBarTextboxTranslated: undefined,
   _sourceText: "",
   _translatedText: "",
 
@@ -319,7 +322,7 @@ Zotero.ZoteroPDFTranslate = {
       },
       false
     );
-    setTimeout(Zotero.ZoteroPDFTranslate.updateTranslatePannel, 5000, 0, false);
+    // setTimeout(Zotero.ZoteroPDFTranslate.updateTranslatePannel, 5000, 0, false);
   },
 
   notifierCallback: {
@@ -331,19 +334,9 @@ Zotero.ZoteroPDFTranslate = {
           return;
         }
         Zotero.debug("ZoteroPDFTranslate: Update Translate Pannels");
-        Zotero.ZoteroPDFTranslate.updateTranslatePannel(ids[0]);
-      } else if (event == "add" && type == "tab") {
-        // Wait for ducument load
-        setTimeout(
-          Zotero.ZoteroPDFTranslate.updateTranslatePannel,
-          3000,
-          ids[0]
-        );
-        setTimeout(
-          Zotero.ZoteroPDFTranslate.updateTranslatePannel,
-          10000,
-          ids[0]
-        );
+        if (String(ids[0]) !== "0") {
+          Zotero.ZoteroPDFTranslate.updateTranslatePannel(ids[0]);
+        }
       }
     },
   },
@@ -355,6 +348,7 @@ Zotero.ZoteroPDFTranslate = {
     Zotero.debug("ZoteroPDFTranslate: closeTranslateContent.");
 
     Zotero.ZoteroPDFTranslate._popup.remove();
+    Zotero.ZoteroPDFTranslate._popupTextBox = undefined;
   },
 
   updateTranslatePannel: async function (tabID, useTabID = true) {
@@ -368,10 +362,90 @@ Zotero.ZoteroPDFTranslate = {
     }
 
     for (let i = 0; i < Zotero.Reader._readers.length; i++) {
+      await Zotero.Reader._readers[i]._waitForReader();
       if (useTabID && Zotero.Reader._readers[i].tabID !== tabID) {
         // Skip other tabs
         continue;
       }
+      let sourceNode = document.getElementById(`textbox-${tabID}-source`);
+      let translatedNode = document.getElementById(
+        `textbox-${tabID}-translated`
+      );
+
+      if (sourceNode) {
+        Zotero.debug(`ZoteroPDFTranslate: node ${tabID} already exists.`);
+        Zotero.ZoteroPDFTranslate._sideBarTextboxSource = sourceNode;
+        Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated = translatedNode;
+      } else {
+        Zotero.debug(`ZoteroPDFTranslate: node ${tabID} created.`);
+        var tabbox = document.getElementsByTagName("tabbox");
+        let tab = document.createElement("tab");
+        tab.setAttribute("label", "Translate");
+
+        // The first tabbox is zotero main pane tabbox
+        tabbox[i + 1].getElementsByTagName("tabs")[0].appendChild(tab);
+
+        let panelInfo = document.createElement("tabpanel");
+        panelInfo.setAttribute("flex", "1");
+        panelInfo.className = "zotero-editpane-item-box";
+        let itemBox = document.createElement("zoteroitembox");
+        itemBox.setAttribute("flex", "1");
+
+        let rows = document.createElement("rows");
+        let rowButton = document.createElement("row");
+        let columns = document.createElement("columns");
+        let copySourceColumn = document.createElement("column");
+        let buttonCopySource = document.createElement("button");
+        buttonCopySource.setAttribute("label", "Copy Raw");
+        buttonCopySource.setAttribute(
+          "oncommand",
+          "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._sourceText)"
+        );
+        copySourceColumn.append(buttonCopySource);
+
+        let copyTranslatedColumn = document.createElement("column");
+        let buttonCopyTranslated = document.createElement("button");
+        buttonCopyTranslated.setAttribute("label", "Copy Result");
+        buttonCopyTranslated.setAttribute(
+          "oncommand",
+          "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._translatedText)"
+        );
+        copyTranslatedColumn.append(buttonCopyTranslated);
+        columns.append(copySourceColumn, copyTranslatedColumn);
+        rowButton.append(columns);
+        rows.append(rowButton);
+
+        let rowSource = document.createElement("row");
+        let textboxSource = document.createElement("textbox");
+        textboxSource.setAttribute("id", `textbox-${tabID}-source`);
+        textboxSource.setAttribute("multiline", true);
+        textboxSource.style["font-size"] = `${Zotero.Prefs.get(
+          "ZoteroPDFTranslate.fontSize"
+        )}px`;
+        rowSource.append(textboxSource);
+        rows.append(rowSource);
+
+        let rowTranslated = document.createElement("row");
+        let textboxTranslated = document.createElement("textbox");
+        textboxTranslated.setAttribute("multiline", true);
+        textboxSource.setAttribute("id", `textbox-${tabID}-translated`);
+        textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
+          "ZoteroPDFTranslate.fontSize"
+        )}px`;
+        rowTranslated.append(textboxTranslated);
+        rows.append(rowTranslated);
+
+        Zotero.ZoteroPDFTranslate._sideBarTextboxSource = textboxSource;
+        Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated = textboxTranslated;
+        itemBox.append(rows);
+        panelInfo.append(itemBox);
+
+        tabbox[i + 1]
+          .getElementsByTagName("tabpanels")[0]
+          .appendChild(panelInfo);
+      }
+      setTimeout(Zotero.ZoteroPDFTranslate.updateSideBarStyle, 3000, i);
+
       // Close pannel on next click, otherwise click twice to close it
       Zotero.Reader._readers[i]._iframeWindow.onpointerdown =
         Zotero.ZoteroPDFTranslate.closeTranslatePannel;
@@ -379,47 +453,50 @@ Zotero.ZoteroPDFTranslate = {
       // Overwrite _openPagePopup
       Zotero.Reader._readers[i]._openPagePopup = async (data) => {
         Zotero.debug("ZoteroPDFTranslate: custom translatePopup.");
-        enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-        if (enable) {
+        let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
+        // Check window position setting
+        let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
+        let enableTranslation = enable && enablePopup && data.text;
+        if (enableTranslation) {
           // Create popup
           let popup =
             Zotero.Reader._readers[i]._window.document.createElement(
               "menupopup"
             );
           Zotero.Reader._readers[i]._popupset.appendChild(popup);
-          if (data.text) {
-            // Create text
-            let textbox =
-              Zotero.Reader._readers[i]._window.document.createElement(
-                "textbox"
-              );
-            textbox.setAttribute("value", data.text);
-            textbox.setAttribute("id", "translatePopup");
-            textbox.setAttribute("multiline", true);
-            Zotero.debug(textbox.getAttribute("cols", 0));
-            Zotero.debug(textbox.getAttribute("rows", 0));
-            textbox.style["font-size"] = `${Zotero.Prefs.get(
-              "ZoteroPDFTranslate.fontSize"
-            )}px`;
+          // Create text
+          let textbox =
+            Zotero.Reader._readers[i]._window.document.createElement("textbox");
+          // textbox.setAttribute("value", data.text);
+          textbox.setAttribute("id", "translatePopup");
+          textbox.setAttribute("multiline", true);
+          textbox.style["font-size"] = `${Zotero.Prefs.get(
+            "ZoteroPDFTranslate.fontSize"
+          )}px`;
 
-            textbox.setAttribute(
-              "height",
-              data.text.length > 100 ? 200 : data.text.length > 50 ? 100 : 50
-            );
-            textbox.setAttribute("width", 200);
+          textbox.setAttribute(
+            "height",
+            data.text.length > 100 ? 200 : data.text.length > 50 ? 100 : 50
+          );
+          textbox.setAttribute("width", 200);
 
-            popup.appendChild(textbox);
-            Zotero.ZoteroPDFTranslate._sourceText = data.text;
-            Zotero.ZoteroPDFTranslate._popup = popup;
-            Zotero.ZoteroPDFTranslate._textbox = textbox;
-          }
+          popup.appendChild(textbox);
+          Zotero.ZoteroPDFTranslate._sourceText = data.text;
+          Zotero.ZoteroPDFTranslate._translatedText = "";
+          Zotero.ZoteroPDFTranslate._popup = popup;
+          Zotero.ZoteroPDFTranslate._popupTextBox = textbox;
+
           popup.openPopupAtScreen(data.x - 220, data.y, true);
         }
+        // Resize textbox
+        this.updateSideBarStyle(i);
+        Zotero.ZoteroPDFTranslate.updateResults();
+        // Call origin _openPagePopup
         Zotero.ZoteroPDFTranslate._openPagePopup.call(
           Zotero.Reader._readers[i],
           data
         );
-        if (enable) {
+        if (enableTranslation) {
           // Get translations
           resCode = await Zotero.ZoteroPDFTranslate.getTranslation();
           if (resCode == -2) {
@@ -433,15 +510,27 @@ Zotero.ZoteroPDFTranslate = {
           }
 
           Zotero.debug(`ZoteroPDFTranslate: Translate return ${resInfo}`);
-
           // Update result
-          Zotero.ZoteroPDFTranslate._textbox.setAttribute(
-            "value",
-            Zotero.ZoteroPDFTranslate._translatedText
-          );
+          Zotero.ZoteroPDFTranslate.updateResults();
         }
       };
     }
+  },
+  getSideBarOpen: function () {
+    let _contextPaneSplitterStacked = document.getElementById(
+      "zotero-context-splitter-stacked"
+    );
+
+    let _contextPaneSplitter = document.getElementById(
+      "zotero-context-splitter"
+    );
+
+    let splitter =
+      Zotero.Prefs.get("layout") == "stacked"
+        ? _contextPaneSplitterStacked
+        : _contextPaneSplitter;
+
+    return splitter.getAttribute("state") != "collapsed";
   },
   getTranslation: async function () {
     // Call current translate engine
@@ -458,11 +547,57 @@ Zotero.ZoteroPDFTranslate = {
       return -2;
     }
   },
+  updateResults: function () {
+    if (Zotero.ZoteroPDFTranslate._sideBarTextboxSource) {
+      Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
+        "value",
+        Zotero.ZoteroPDFTranslate._sourceText
+      );
+    }
+    if (Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated) {
+      Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.setAttribute(
+        "value",
+        Zotero.ZoteroPDFTranslate._translatedText
+      );
+    }
+    if (Zotero.ZoteroPDFTranslate._popupTextBox) {
+      Zotero.ZoteroPDFTranslate._popupTextBox.setAttribute(
+        "value",
+        Zotero.ZoteroPDFTranslate._translatedText
+          ? Zotero.ZoteroPDFTranslate._translatedText
+          : Zotero.ZoteroPDFTranslate._sourceText
+      );
+    }
+  },
+  updateSideBarStyle: function (i) {
+    let tabbox = document.getElementsByTagName("tabbox")[i + 1];
+    Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
+      "width",
+      tabbox.clientWidth - 30
+    );
+    Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.setAttribute(
+      "width",
+      tabbox.clientWidth - 30
+    );
+    Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
+      "height",
+      tabbox.clientHeight / 2 - 50
+    );
+    Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.setAttribute(
+      "height",
+      tabbox.clientHeight / 2 - 50
+    );
+  },
   resetState: function () {
     // Reset preferrence state.
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     if (typeof enable === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enable", true);
+    }
+
+    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
+    if (typeof enablePopup === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enablePopup", true);
     }
 
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");

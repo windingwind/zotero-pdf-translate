@@ -2,6 +2,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.basic.caption.label "General">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enable.label "Enable PDF Translation">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.preview.label "Preview">
+<!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.fontSize.label "Font Size">
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "Service">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
@@ -17,7 +18,11 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "Secret">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "See GitHub for more information about Secret">
+
+<!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "Copy Source">
+<!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "Copy Result">
+
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.0.9">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-17 23:37:19">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.1.0">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-18 22:51:59">
