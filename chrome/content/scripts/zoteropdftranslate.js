@@ -456,8 +456,8 @@ Zotero.ZoteroPDFTranslate = {
         let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
         // Check window position setting
         let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
-        let enableTranslation = enable && enablePopup && data.text;
-        if (enableTranslation) {
+        let enableTranslation = enable && data.text;
+        if (enableTranslation && enablePopup) {
           // Create popup
           let popup =
             Zotero.Reader._readers[i]._window.document.createElement(
@@ -481,12 +481,14 @@ Zotero.ZoteroPDFTranslate = {
           textbox.setAttribute("width", 200);
 
           popup.appendChild(textbox);
-          Zotero.ZoteroPDFTranslate._sourceText = data.text;
-          Zotero.ZoteroPDFTranslate._translatedText = "";
           Zotero.ZoteroPDFTranslate._popup = popup;
           Zotero.ZoteroPDFTranslate._popupTextBox = textbox;
 
           popup.openPopupAtScreen(data.x - 220, data.y, true);
+        }
+        if (enableTranslation) {
+          Zotero.ZoteroPDFTranslate._sourceText = data.text;
+          Zotero.ZoteroPDFTranslate._translatedText = "";
         }
         // Resize textbox
         this.updateSideBarStyle(i);
