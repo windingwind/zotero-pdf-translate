@@ -1,5 +1,40 @@
 Zotero.ZoteroPDFTranslate = {
   translate: {
+    baidu: async function () {
+      let args = this.getArgs();
+      let appid = args.secret.split("#")[0];
+      let key = args.secret.split("#")[1];
+      let salt = new Date().getTime();
+      let sign = Zotero.Utilities.Internal.md5(
+        appid + args.text + salt + key,
+        false
+      );
+      `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "GET",
+            `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${encodeURIComponent(
+              args.text
+            )}&appid=${appid}&from=${args.sl.split("-")[0]}&to=${
+              args.tl.split("-")[0]
+            }&salt=${salt}&sign=${sign}`,
+            {
+              responseType: "json",
+            }
+          );
+        },
+        (xhr) => {
+          let tgt = "";
+          for (let i = 0; i < xhr.response.trans_result.length; i++) {
+            tgt += xhr.response.trans_result[i].dst;
+          }
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return true;
+        }
+      );
+    },
     deeplfree: async function () {
       return await this.deepl("https://api-free.deepl.com/v2/translate");
     },
@@ -290,6 +325,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "niutrans",
       "deeplfree",
       "deeplpro",
+      "baidu",
     ],
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
@@ -302,6 +338,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       niutrans: "",
       deeplfree: "",
       deeplpro: "",
+      baidu: "appid#key",
     },
   },
   _openPagePopup: undefined,
@@ -340,9 +377,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
           return;
         }
         Zotero.debug("ZoteroPDFTranslate: Update Translate Pannls");
-        if (String(ids[0]) !== "0") {
-          Zotero.ZoteroPDFTranslate.updateTranslatePanel(ids[0]);
-        }
+        Zotero.ZoteroPDFTranslate.updateTranslatePanel(ids[0]);
       }
     },
   },

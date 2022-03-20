@@ -14,6 +14,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "Niu Translate">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL Translate(Free)*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL Translate(Pro)*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "Baidu Translate*">
 
 <!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "Translate From">
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
@@ -26,4 +27,4 @@
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
 <!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.1.3">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-20 19:08:08">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-20 22:55:09">

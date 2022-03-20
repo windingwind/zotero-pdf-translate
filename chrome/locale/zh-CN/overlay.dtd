@@ -14,6 +14,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "小牛翻译">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL翻译(Free)*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL翻译(Pro)*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "百度翻译*">
 
 <!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "翻译到">
@@ -26,4 +27,4 @@
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
 <!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.1.3">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-20 19:08:08">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-20 22:55:09">
