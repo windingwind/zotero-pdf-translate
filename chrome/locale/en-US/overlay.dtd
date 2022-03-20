@@ -7,6 +7,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "Service">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "Google Translate">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googlecn "Google Translate(CN)">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "Youdao Translate">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "Microsoft Translate*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "LingoCloud(Caiyun) Translate*">
@@ -17,12 +18,12 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "Translate From">
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "Secret">
-<!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "See GitHub for more information about Secret">
+<!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "Translate Engine with * requires Secret; See GitHub for more information">
 
 <!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "Copy Source">
 <!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "Copy Result">
 
-<!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "Feedback">
+<!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.1.2">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-19 09:16:42">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.1.3">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-20 19:08:08">

@@ -14,90 +14,75 @@ Zotero.ZoteroPDFTranslate = {
         .split("-")[0]
         .toUpperCase()}`;
 
-      xhr = await Zotero.HTTP.request("POST", api_url, {
-        responseType: "json",
-        body: req_body,
-      });
-
-      // Zotero.debug(xhr)
-      if (xhr.status === 200) {
-        try {
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request("POST", api_url, {
+            responseType: "json",
+            body: req_body,
+          });
+        },
+        (xhr) => {
           let tgt = xhr.response.translations[0].text;
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
     niutrans: async function () {
       let args = this.getArgs();
       let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
-      let xhr = await Zotero.HTTP.request(
-        "GET",
-        `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${
-          args.text
-        }&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
-        {
-          responseType: "json",
-        }
-      );
-
-      if (xhr.status === 200) {
-        try {
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "GET",
+            `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${
+              args.text
+            }&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
+            {
+              responseType: "json",
+            }
+          );
+        },
+        (xhr) => {
           let tgt = xhr.response.tgt_text;
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
     caiyun: async function () {
       let args = this.getArgs();
       let param = `${args.sl.split("-")[0]}2${args.tl.split("-")[0]}`;
-      let xhr = await Zotero.HTTP.request(
-        "POST",
-        "http://api.interpreter.caiyunai.com/v1/translator",
-        {
-          headers: {
-            "content-type": "application/json",
-            "x-authorization": `token ${args.secret}`,
-          },
-          body: JSON.stringify({
-            source: [args.text],
-            trans_type: param,
-            request_id: new Date().valueOf() / 10000,
-            detect: true,
-          }),
-          responseType: "json",
-        }
-      );
 
-      if (xhr.status === 200) {
-        try {
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "POST",
+            "http://api.interpreter.caiyunai.com/v1/translator",
+            {
+              headers: {
+                "content-type": "application/json",
+                "x-authorization": `token ${args.secret}`,
+              },
+              body: JSON.stringify({
+                source: [args.text],
+                trans_type: param,
+                request_id: new Date().valueOf() / 10000,
+                detect: true,
+              }),
+              responseType: "json",
+            }
+          );
+        },
+        (xhr) => {
           let tgt = xhr.response.target[0];
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
     microsoft: async function () {
       let args = this.getArgs();
@@ -107,70 +92,57 @@ Zotero.ZoteroPDFTranslate = {
         },
       ]);
 
-      xhr = await Zotero.HTTP.request(
-        "POST",
-        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${args.tl}`,
-        {
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Host: "api.cognitive.microsofttranslator.com",
-            "Content-Length": req_body.length,
-            "Ocp-Apim-Subscription-Key": args.secret,
-          },
-          responseType: "json",
-          body: req_body,
-        }
-      );
-
-      // Zotero.debug(xhr)
-      if (xhr.status === 200) {
-        try {
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "POST",
+            `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${args.tl}`,
+            {
+              headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                Host: "api.cognitive.microsofttranslator.com",
+                "Content-Length": req_body.length,
+                "Ocp-Apim-Subscription-Key": args.secret,
+              },
+              responseType: "json",
+              body: req_body,
+            }
+          );
+        },
+        (xhr) => {
           let tgt = xhr.response[0].translations[0].text;
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
     youdao: async function () {
       let args = this.getArgs();
       let param = `${args.sl.toUpperCase().replace("-", "_")}2${args.tl
         .toUpperCase()
         .replace("-", "_")}`;
-      let xhr = await Zotero.HTTP.request(
-        "GET",
-        `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${args.text}`,
-        { responseType: "json" }
-      );
-      // Zotero.debug(xhr)
-      if (xhr.status === 200 && xhr.response.errorCode == 0) {
-        try {
-          let res = xhr.response.translateResult;
-          let tgt = "";
-          for (let i in res) {
-            for (let j in res[i]) {
-              tgt += res[i][j].tgt;
-            }
-          }
+
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "GET",
+            `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${args.text}`,
+            { responseType: "json" }
+          );
+        },
+        (xhr) => {
+          let tgt = xhr.response.translateResult;
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
-    google: async function () {
+    googlecn: async function () {
+      return await this.google("https://translate.google.cn");
+    },
+    google: async function (api_url = "https://translate.google.com") {
       function TL(a) {
         var k = "";
         var b = 406644;
@@ -223,16 +195,17 @@ Zotero.ZoteroPDFTranslate = {
       let args = this.getArgs();
       let param = `sl=${args.sl}&tl=${args.tl}`;
 
-      let xhr = await Zotero.HTTP.request(
-        "GET",
-        `https://translate.google.com/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
-          args.text
-        )}&q=${args.text}`,
-        { responseType: "json" }
-      );
-      // Zotero.debug(xhr)
-      if (xhr.status === 200) {
-        try {
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "GET",
+            `${api_url}/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+              args.text
+            )}&q=${args.text}`,
+            { responseType: "json" }
+          );
+        },
+        (xhr) => {
           let tgt = "";
           for (let i = 0; i < xhr.response[0].length; i++) {
             // Zotero.debug(xhr.response[0][i]);
@@ -244,17 +217,10 @@ Zotero.ZoteroPDFTranslate = {
             }
           }
           Zotero.debug(tgt);
-
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return 0;
-        } catch (e) {
-          Zotero.debug(e);
-          Zotero.debug(xhr);
-          return -1;
+          return true;
         }
-      }
-      Zotero.ZoteroPDFTranslate._translatedText = xhr.status;
-      return xhr.status;
+      );
     },
     getArgs: function () {
       let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
@@ -277,8 +243,47 @@ Zotero.ZoteroPDFTranslate = {
         text,
       };
     },
+    safeRun: async function (func, args = null) {
+      try {
+        return await func(args);
+      } catch (e) {
+        Zotero.debug(e);
+        Zotero.ZoteroPDFTranslate._debug = e;
+        return false;
+      }
+    },
+    getErrorInfo: function (errorType) {
+      if (errorType == "request") {
+        return `[Request Error]
+Engine not available, invalid secret, or request too fast.
+Please consider using another translate engine or posting issue here: https://github.com/windingwind/zotero-pdf-translate/issues
+        ${Zotero.ZoteroPDFTranslate._debug}`;
+      } else if (errorType == "parse") {
+        return `[Parse Error]
+Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
+        ${Zotero.ZoteroPDFTranslate._debug}`;
+      } else {
+        return `[Unknown Error]
+Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
+        ${Zotero.ZoteroPDFTranslate._debug}`;
+      }
+    },
+    requestTranslate: async function (request_func, parse_func) {
+      let xhr = await this.safeRun(request_func);
+      Zotero.debug(xhr);
+
+      if (xhr && xhr.status && xhr.status === 200) {
+        let res = await this.safeRun(parse_func, xhr);
+        if (res) {
+          return true;
+        }
+      }
+      Zotero.ZoteroPDFTranslate._debug = this.getErrorInfo("request");
+      return false;
+    },
     sources: [
       "google",
+      "googlecn",
       "youdao",
       "microsoft",
       "caiyun",
@@ -290,6 +295,7 @@ Zotero.ZoteroPDFTranslate = {
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
       google: "",
+      googlecn: "",
       youdao: "",
       microsoft: "0fbf924f4a334759a3340cf7c09e2128",
       caiyun: "3975l6lr5pcbvidl6jl2",
@@ -305,6 +311,7 @@ Zotero.ZoteroPDFTranslate = {
   _sideBarTextboxTranslated: undefined,
   _sourceText: "",
   _translatedText: "",
+  _debug: undefined,
 
   init: function () {
     Zotero.ZoteroPDFTranslate.resetState();
@@ -475,7 +482,7 @@ Zotero.ZoteroPDFTranslate = {
         }
         // Resize textbox
         this.updateSideBarStyle(i);
-        Zotero.ZoteroPDFTranslate.updateResults();
+        this.updateResults();
         // Call origin _openPagePopup
         Zotero.ZoteroPDFTranslate._openPagePopup.call(
           Zotero.Reader._readers[i],
@@ -483,26 +490,17 @@ Zotero.ZoteroPDFTranslate = {
         );
         if (enableTranslation) {
           // Get translations
-          resCode = await Zotero.ZoteroPDFTranslate.getTranslation();
-          if (resCode == -2) {
-            resInfo = "function error";
-          } else if (resCode == -1) {
-            resInfo = "parse error";
-          } else if (resCode == 0) {
-            resInfo = "OK";
-          } else {
-            resInfo = `request error ${resCode}`;
-          }
+          let success = await this.getTranslation();
 
-          Zotero.debug(`ZoteroPDFTranslate: Translate return ${resInfo}`);
+          Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
           // Update result
-          Zotero.ZoteroPDFTranslate.updateResults();
+          this.updateResults(success);
         }
       };
     }
   },
 
-  closeTranslatePanel: function (data) {
+  closeTranslatePanel: function () {
     if (typeof Zotero.ZoteroPDFTranslate._popup == "undefined") {
       return;
     }
@@ -562,17 +560,16 @@ Zotero.ZoteroPDFTranslate = {
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
     );
-    if (typeof translateSource === "undefined") {
-      translateSource = Zotero.ZoteroPDFTranslate.translate.sources[0];
-    }
-    try {
-      return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
-    } catch (e) {
-      Zotero.debug(e);
-      return -2;
-    }
+    // bool return for success or fail
+    return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
   },
-  updateResults: function () {
+  updateResults: function (success = true) {
+    // Update error info if not success
+    if (!success) {
+      Zotero.ZoteroPDFTranslate._translatedText = String(
+        Zotero.ZoteroPDFTranslate._debug
+      );
+    }
     if (Zotero.ZoteroPDFTranslate._sideBarTextboxSource) {
       Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
         "value",
