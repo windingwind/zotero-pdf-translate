@@ -44,6 +44,7 @@ The default engine is Google Translate. Currently we support:
 | LingoCloud(Caiyun) Translate | No(temporarily) | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
 | Niu Translate | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) |
 | DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
+| Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/113) |
 
 如果你无法访问谷歌，请选择其他翻译引擎。
 ### Lauguage Settings  
@@ -54,7 +55,10 @@ For how to get a free Microsoft secret and more infomation, see [this](https://d
 See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to setup the Microsoft Translate.  
 
 > **DeepL Translate**
-Follow the construnctions [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+Follow the instruction [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+
+> **Baidu Translate**  
+Follow the instruction [here](https://fanyi-api.baidu.com/product/113). The secret format is `MY_APPID#MY_KEY`.  
 
 ## Building
 
