@@ -167,7 +167,13 @@ Zotero.ZoteroPDFTranslate = {
           );
         },
         (xhr) => {
-          let tgt = xhr.response.translateResult;
+          let res = xhr.response.translateResult;
+          let tgt = "";
+          for (let i in res) {
+            for (let j in res[i]) {
+              tgt += res[i][j].tgt;
+            }
+          }
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
           return true;
