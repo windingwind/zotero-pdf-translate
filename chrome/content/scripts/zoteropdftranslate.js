@@ -390,7 +390,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       if (event == "add" && type == "item") {
         // TODO: finish annotation
         let item = Zotero.Items.get(ids)[0];
-        if (item.isAnnotation()) {
+        if (
+          Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
+          item.isAnnotation()
+        ) {
           if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
             let success = await Zotero.ZoteroPDFTranslate.getTranslation();
             if (!success) {
