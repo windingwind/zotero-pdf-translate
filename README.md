@@ -27,7 +27,8 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 ## Settings
 ### General
 - Enable PDF Translation  
-- Enable Popup: Show results in a right-click popup or only in the side bar.
+- Enable Popup: Show results in a right-click popup or only in the side bar
+- Translate Annotation: Save annotation's translation as comment
 - Font Size: The font size of result text.
 
 ###  Translate Engine  

@@ -8,6 +8,7 @@
       <preferences id="zotero-preferences-zoteropdftranslate">
         <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-zoteropdftranslate-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
+        <preference id="pref-zoteropdftranslate-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
         <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
         <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
@@ -33,6 +34,10 @@
                     <row>
                       <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
                       <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-popup" preference="pref-zoteropdftranslate-enable-popup" />
+                    </row>
+                    <row>
+                      <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
+                      <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
                     </row>
                     <row>
                       <label value="&zotero.zoteropdftranslate.pref.basic.fontSize.label;" />

@@ -71,9 +71,9 @@ Zotero.ZoteroPDFTranslate = {
         async () => {
           return await Zotero.HTTP.request(
             "GET",
-            `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${
+            `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${encodeURIComponent(
               args.text
-            }&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
+            )}&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
             {
               responseType: "json",
             }
@@ -162,7 +162,9 @@ Zotero.ZoteroPDFTranslate = {
         async () => {
           return await Zotero.HTTP.request(
             "GET",
-            `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${args.text}`,
+            `http://fanyi.youdao.com/translate?&doctype=json&type=${param}&i=${encodeURIComponent(
+              args.text
+            )}`,
             { responseType: "json" }
           );
         },
@@ -240,7 +242,9 @@ Zotero.ZoteroPDFTranslate = {
         async () => {
           return await Zotero.HTTP.request(
             "GET",
-            `${api_url}/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+            `${api_url}/translate_a/single?client=webapp&${encodeURIComponent(
+              param
+            )}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
               args.text
             )}&q=${args.text}`,
             { responseType: "json" }
@@ -352,14 +356,14 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   _sideBarTextboxTranslated: undefined,
   _sourceText: "",
   _translatedText: "",
-  _debug: undefined,
+  _debug: "",
 
   init: function () {
     Zotero.ZoteroPDFTranslate.resetState();
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(
       Zotero.ZoteroPDFTranslate.notifierCallback,
-      ["tab"]
+      ["tab", "item"]
     );
 
     // Unregister callback when the window closes (important to avoid a memory leak)
@@ -374,7 +378,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
   notifierCallback: {
     // Call updateTranslatePanels when a tab is added or selected
-    notify: function (event, type, ids, extraData) {
+    notify: async function (event, type, ids, extraData) {
       Zotero.debug("ZoteroPDFTranslate: open file event detected.");
       if (event == "select" && type == "tab") {
         if (extraData[ids[0]].type !== "reader") {
@@ -382,6 +386,30 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         }
         Zotero.debug("ZoteroPDFTranslate: Update Translate Pannls");
         Zotero.ZoteroPDFTranslate.updateTranslatePanel();
+      }
+      if (event == "add" && type == "item") {
+        // TODO: finish annotation
+        let item = Zotero.Items.get(ids)[0];
+        if (item.isAnnotation()) {
+          if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
+            let success = await Zotero.ZoteroPDFTranslate.getTranslation();
+            if (!success) {
+              Zotero.ZoteroPDFTranslate.showProgressWindow(
+                "Annotation Translate Failed",
+                Zotero.ZoteroPDFTranslate._debug,
+                "fail"
+              );
+              return;
+            }
+          }
+          let text = Zotero.ZoteroPDFTranslate._translatedText;
+          item.annotationComment = text;
+          item.saveTx();
+          Zotero.ZoteroPDFTranslate.showProgressWindow(
+            "Annotation Translate Saved",
+            text.length < 20 ? text : text.slice(0, 15) + "..."
+          );
+        }
       }
     },
   },
@@ -559,7 +587,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       Zotero.Utilities.Internal.copyTextToClipboard(text);
       Zotero.ZoteroPDFTranslate.showProgressWindow(
         "Copy To Clipbord",
-        text.length > 20 ? text : text.slice(0, 15) + "..."
+        text.length < 20 ? text : text.slice(0, 15) + "..."
       );
     };
 
@@ -602,9 +630,19 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   /*
     Translte Functions
   */
-  onTranslate: async function (e) {
+  onTranslate: async function (event) {
     Zotero.debug(`ZoteroPDFTranslate: onTranslate`);
     // Zotero.debug(e)
+
+    // Work around to only allow event from ifrme
+    if (
+      event.target &&
+      event.target.closest &&
+      !event.target.closest("#outerContainer")
+    ) {
+      return false;
+    }
+
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     let text = Zotero.ZoteroPDFTranslate.getSelectedText();
     let currentNode =
@@ -614,7 +652,6 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     if (!enable || !text || currentNode) {
       return false;
     }
-    Zotero.debug(text);
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       Zotero.ZoteroPDFTranslate.buildPopupPanel(
@@ -624,19 +661,18 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
     Zotero.ZoteroPDFTranslate._sourceText = text;
     Zotero.ZoteroPDFTranslate._translatedText = "";
+    Zotero.ZoteroPDFTranslate._debug = "";
     Zotero.ZoteroPDFTranslate.updateSideBarStyle();
-    Zotero.ZoteroPDFTranslate.updateResults(true);
-    // Zotero.ZoteroPDFTranslate.getReader()._window.removeEventListener(
-    //   "pointerup",
-    //   Zotero.ZoteroPDFTranslate.onTranslate
-    // );
+    Zotero.ZoteroPDFTranslate.updateResults();
+
     let success = await Zotero.ZoteroPDFTranslate.getTranslation();
 
     Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
     // Update result
-    Zotero.ZoteroPDFTranslate.updateResults(success);
+    Zotero.ZoteroPDFTranslate.updateResults();
     return true;
   },
+
   getTranslation: async function () {
     // Call current translate engine
     let translateSource = Zotero.Prefs.get(
@@ -646,12 +682,11 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
   },
 
-  updateResults: function (success = true) {
+  updateResults: function () {
     // Update error info if not success
-    if (!success) {
-      Zotero.ZoteroPDFTranslate._translatedText = String(
-        Zotero.ZoteroPDFTranslate._debug
-      );
+    if (Zotero.ZoteroPDFTranslate._debug) {
+      Zotero.ZoteroPDFTranslate._translatedText =
+        Zotero.ZoteroPDFTranslate._debug;
     }
     if (Zotero.ZoteroPDFTranslate._sideBarTextboxSource) {
       Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
@@ -685,6 +720,11 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (typeof enablePopup === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enablePopup", true);
+    }
+
+    let enableComment = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment");
+    if (typeof enableComment === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
     }
 
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
