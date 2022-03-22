@@ -242,11 +242,9 @@ Zotero.ZoteroPDFTranslate = {
         async () => {
           return await Zotero.HTTP.request(
             "GET",
-            `${api_url}/translate_a/single?client=webapp&${encodeURIComponent(
-              param
-            )}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+            `${api_url}/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
               args.text
-            )}&q=${args.text}`,
+            )}&q=${encodeURIComponent(args.text)}`,
             { responseType: "json" }
           );
         },
@@ -280,7 +278,7 @@ Zotero.ZoteroPDFTranslate = {
       if (typeof tl === "undefined") {
         tl = Zotero.ZoteroPDFTranslate.defaultTargetLanguage;
       }
-      let text = Zotero.ZoteroPDFTranslate._sourceText;
+      let text = Zotero.ZoteroPDFTranslate._sourceText.replace(/\n/g, " ");
       return {
         secret,
         sl,
