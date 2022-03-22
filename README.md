@@ -1,7 +1,7 @@
 # ![PDFTranslate](https://github.com/windingwind/zotero-pdf-translate/raw/main/chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
 This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero built-in PDF reader.
 
-![](imgs/en2jp.png)
+![](imgs/translate.gif)
 
 # Quick Start Guide
 
