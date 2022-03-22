@@ -14,6 +14,7 @@
         <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.secret" type="string" />
+        <preference id="pref-zoteropdftranslate-translate-param-obj" name="extensions.zotero.ZoteroPDFTranslate.secretObj" type="string" />
       </preferences>
       <tabbox>
         <tabs>

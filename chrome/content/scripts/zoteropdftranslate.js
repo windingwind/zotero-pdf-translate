@@ -773,6 +773,13 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         Zotero.ZoteroPDFTranslate.translate.defaultSecret[translateSource]
       );
     }
+
+    let secretObj = Zotero.Prefs.get("ZoteroPDFTranslate.secretObj");
+    if (typeof secretObj === "undefined") {
+      secretObj = Zotero.ZoteroPDFTranslate.translate.defaultSecret;
+      secretObj[translateSource] = secret;
+      Zotero.Prefs.set("ZoteroPDFTranslate.secretObj", JSON.stringify(secretObj));
+    }
   },
   progressWindowIcon: {
     success: "chrome://zotero/skin/tick.png",
