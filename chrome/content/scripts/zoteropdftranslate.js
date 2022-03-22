@@ -537,7 +537,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   },
   updateSideBarStyle: function () {
     let tabbox =
-      document.getElementsByTagName("tabbox")[this.getReaderID() + 1];
+      document.getElementsByTagName("tabbox")[
+        Zotero.ZoteroPDFTranslate.getReaderID() + 1
+      ];
     Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
       "width",
       tabbox.clientWidth - 30
@@ -728,24 +730,25 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
 
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
-    if (typeof fontSize === "undefined") {
+    if (!fontSize) {
       Zotero.Prefs.set("ZoteroPDFTranslate.fontSize", "12");
     }
 
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
     );
-    if (typeof translateSource === "undefined") {
+    if (!translateSource) {
       // Change default translate engine for zh-CN users
       if (Services.locale.getRequestedLocale() === "zh-CN") {
         translateSource = "niutrans";
+      } else {
+        translateSource = Zotero.ZoteroPDFTranslate.translate.sources[0];
       }
-      translateSource = Zotero.ZoteroPDFTranslate.translate.sources[0];
       Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", translateSource);
     }
 
     let sourceLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-    if (typeof sourceLanguage === "undefined") {
+    if (!sourceLanguage) {
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.sourceLanguage",
         Zotero.ZoteroPDFTranslate.translate.defaultSourceLanguage
@@ -753,7 +756,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
 
     let targetLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
-    if (typeof targetLanguage === "undefined") {
+    if (!targetLanguage) {
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.targetLanguage",
         Services.locale.getRequestedLocale()
