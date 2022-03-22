@@ -358,7 +358,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   _translatedText: "",
   _debug: "",
 
-  init: function () {
+  init: async function () {
+    Zotero.debug("ZoteroPDFTranslate: init called");
+
     Zotero.ZoteroPDFTranslate.resetState();
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(
@@ -374,6 +376,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       },
       false
     );
+
+    Zotero.ZoteroPDFTranslate.updateTranslatePanel();
   },
 
   notifierCallback: {
@@ -384,7 +388,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         if (extraData[ids[0]].type !== "reader") {
           return;
         }
-        Zotero.debug("ZoteroPDFTranslate: Update Translate Pannls");
+        Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
         Zotero.ZoteroPDFTranslate.updateTranslatePanel();
       }
       if (event == "add" && type == "item") {
@@ -418,14 +422,16 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   },
 
   updateTranslatePanel: async function () {
-    let currentReader = this.getReader();
+    await Zotero.uiReadyPromise;
+
+    let currentReader = Zotero.ZoteroPDFTranslate.getReader();
     if (!currentReader) {
       return false;
     }
     await currentReader._waitForReader();
 
-    this.removeSideBarPanel();
-    this.buildSideBarPanel();
+    Zotero.ZoteroPDFTranslate.removeSideBarPanel();
+    await Zotero.ZoteroPDFTranslate.buildSideBarPanel();
 
     currentReader._window.addEventListener(
       "pointerup",
@@ -453,7 +459,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     return splitter.getAttribute("state") != "collapsed";
   },
 
-  buildSideBarPanel: function () {
+  buildSideBarPanel: async function () {
     Zotero.debug("ZoteroPDFTranslate: buildSideBarPanel");
     let i = this.getReaderID();
     var tabbox = document.getElementsByTagName("tabbox");
@@ -462,6 +468,14 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     tab.setAttribute("label", "Translate");
 
     // The first tabbox is zotero main pane tabbox
+    let n = 0;
+    while (!tabbox || !tabbox[i + 1]) {
+      if (n >= 500) {
+        throw new Error("Waiting for reader failed");
+      }
+      await Zotero.Promise.delay(10);
+      n++;
+    }
     tabbox[i + 1].getElementsByTagName("tabs")[0].appendChild(tab);
 
     let panelInfo = document.createElement("tabpanel");
@@ -778,7 +792,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     if (typeof secretObj === "undefined") {
       secretObj = Zotero.ZoteroPDFTranslate.translate.defaultSecret;
       secretObj[translateSource] = secret;
-      Zotero.Prefs.set("ZoteroPDFTranslate.secretObj", JSON.stringify(secretObj));
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.secretObj",
+        JSON.stringify(secretObj)
+      );
     }
   },
   progressWindowIcon: {
@@ -800,7 +817,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
 window.addEventListener(
   "load",
-  function (e) {
+  async function (e) {
     Zotero.ZoteroPDFTranslate.init();
   },
   false
