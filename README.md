@@ -17,11 +17,8 @@ Zotero PDF Translate plugin is now listed.
 
 ## Usage
 Once you have the plugin installed simply, open any PDF in your collections.  
-Select some text, then rightclick: the translation are shown.  
+Select some text, the translation are shown.  
 
-You can also find the result and do a quick copy in right side bar.  
-
-![](imgs/side-bar.png)
 
 Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simplified). You can edit it in the Preference menu.
 
