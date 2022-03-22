@@ -736,6 +736,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "ZoteroPDFTranslate.translateSource"
     );
     if (typeof translateSource === "undefined") {
+      // Change default translate engine for zh-CN users
+      if (Services.locale.getRequestedLocale() === "zh-CN") {
+        translateSource = "niutrans";
+      }
       translateSource = Zotero.ZoteroPDFTranslate.translate.sources[0];
       Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", translateSource);
     }
@@ -752,7 +756,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     if (typeof targetLanguage === "undefined") {
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.targetLanguage",
-        Zotero.ZoteroPDFTranslate.translate.defaultTargetLanguage
+        Services.locale.getRequestedLocale()
       );
     }
 
