@@ -17,8 +17,10 @@ Zotero PDF Translate plugin is now listed.
 
 ## Usage
 Once you have the plugin installed simply, open any PDF in your collections.  
+
 Select some text, the translation are shown.  
 
+If Automatically Translation is disabled, use shortcut `T` or click button to translate selected text.
 
 Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simplified). You can edit it in the Preference menu.
 
@@ -26,7 +28,8 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 
 ## Settings
 ### General
-- Enable PDF Translation  
+- Enable Translation  
+- Automatically Translation
 - Enable Popup: Show results in a right-click popup or only in the side bar
 - Translate Annotation: Save annotation's translation as comment
 - Font Size: The font size of result text.

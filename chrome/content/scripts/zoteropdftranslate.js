@@ -375,6 +375,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       false
     );
 
+    Zotero.ZoteroPDFTranslate.initKeys();
+
     Zotero.ZoteroPDFTranslate.updateTranslatePanel();
   },
 
@@ -419,6 +421,46 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     },
   },
 
+  initKeys: function () {
+    let shortcuts = [
+      {
+        id: 0,
+        func: Zotero.ZoteroPDFTranslate.onButtonClick,
+        modifiers: null,
+        key: "t",
+      },
+    ];
+    let keyset = document.createElement("keyset");
+    keyset.setAttribute("id", "pdf-translate-keyset");
+
+    for (let i in shortcuts) {
+      keyset.appendChild(Zotero.ZoteroPDFTranslate.createKey(shortcuts[i]));
+    }
+    document.getElementById("mainKeyset").parentNode.appendChild(keyset);
+  },
+
+  createKey: function (keyObj) {
+    let key = document.createElement("key");
+    key.setAttribute("id", "pdf-translate-key-" + keyObj.id);
+    key.setAttribute("oncommand", "//");
+    key.addEventListener("command", keyObj.func);
+    if (keyObj.modifiers) {
+      key.setAttribute("modifiers", keyObj.modifiers);
+    }
+    if (keyObj.key) {
+      key.setAttribute("key", keyObj.key);
+    } else if (keyObj.keycode) {
+      key.setAttribute("keycode", keyObj.keycode);
+    } else {
+      // No key or keycode.  Set to empty string to disable.
+      key.setAttribute("key", "");
+    }
+    return key;
+  },
+
+  /*
+    UI Functions
+  */
   updateTranslatePanel: async function () {
     await Zotero.uiReadyPromise;
 
@@ -437,9 +479,6 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     );
   },
 
-  /*
-    UI Functions
-  */
   getSideBarOpen: function () {
     let _contextPaneSplitterStacked = document.getElementById(
       "zotero-context-splitter-stacked"
@@ -488,6 +527,16 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let rows = document.createElement("rows");
     let rowButton = document.createElement("row");
     let columns = document.createElement("columns");
+
+    let translatColumn = document.createElement("column");
+    let buttonTranslate = document.createElement("button");
+    buttonTranslate.setAttribute("label", "Translate");
+    buttonTranslate.setAttribute(
+      "oncommand",
+      "Zotero.ZoteroPDFTranslate.onButtonClick()"
+    );
+    translatColumn.append(buttonTranslate);
+
     let copySourceColumn = document.createElement("column");
     let buttonCopySource = document.createElement("button");
     buttonCopySource.setAttribute("label", "Copy Raw");
@@ -505,7 +554,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._translatedText)"
     );
     copyTranslatedColumn.append(buttonCopyTranslated);
-    columns.append(copySourceColumn, copyTranslatedColumn);
+
+    columns.append(translatColumn, copySourceColumn, copyTranslatedColumn);
     rowButton.append(columns);
     rows.append(rowButton);
 
@@ -641,7 +691,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     button.setAttribute("label", "");
     button.setAttribute("tooltiptext", "Add/Refresh Rule");
     button.setAttribute("label", "Translate");
-    button.onclick = Zotero.ZoteroPDFTranslate.onButtonClick
+    button.onclick = Zotero.ZoteroPDFTranslate.onButtonClick;
     button.style["width"] = "100px";
     button.style["height"] = "20px";
     selectionMenu.style["height"] = "40px";
@@ -751,6 +801,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
   callTranslate: async function () {
     let text = Zotero.ZoteroPDFTranslate.getSelectedText();
+
+    if (!text) {
+      return;
+    }
 
     Zotero.ZoteroPDFTranslate._sourceText = text;
     Zotero.ZoteroPDFTranslate._translatedText = "";

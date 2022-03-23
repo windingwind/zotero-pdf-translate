@@ -30,24 +30,24 @@
                   <caption label="&zotero.zoteropdftranslate.pref.basic.caption.label;" />
                   <rows>
                     <row>
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
                       <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
+                      <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
                     </row>
                     <row>
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enableAuto.label;" />
                       <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-auto" preference="pref-zoteropdftranslate-enable-auto" />
+                      <label value="&zotero.zoteropdftranslate.pref.basic.enableAuto.label;" />
                     </row>
                     <row>
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
                       <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-popup" preference="pref-zoteropdftranslate-enable-popup" />
+                      <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
                     </row>
                     <row>
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
                       <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
+                      <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
                     </row>
                     <row>
                       <label value="&zotero.zoteropdftranslate.pref.basic.fontSize.label;" />
-                      <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" />
+                      <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
                     </row>
                   </rows>
                 </groupbox>
