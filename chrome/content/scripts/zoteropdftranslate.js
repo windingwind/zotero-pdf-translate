@@ -602,6 +602,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       tab.remove();
     }
   },
+
   updateSideBarStyle: function () {
     // Work around to re-init sidebar
     if (!document.getElementsByTagName("tabbox")) {
@@ -638,7 +639,34 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     );
   },
 
-  buildPopupPanel: function (width, height) {
+  updatePopupStyle: function () {
+    Zotero.debug("ZoteroPDFTranslate: updatePopupStyle");
+    let currentReader = this.getReader();
+    let selectionMenu =
+      currentReader._iframeWindow.document.getElementById("selection-menu");
+    if (!Zotero.ZoteroPDFTranslate._popupTextBox || !selectionMenu) {
+      return;
+    }
+
+    // Get current H & W
+    let textHeight = document.getAnonymousNodes(
+      Zotero.ZoteroPDFTranslate._popupTextBox
+    )[0].childNodes[0].scrollHeight;
+    let textWidth = Number(Zotero.ZoteroPDFTranslate._popupTextBox.width);
+    if (textHeight / textWidth > 0.75) {
+      // Update width
+      let newWidth = parseInt(textWidth + 20);
+      Zotero.ZoteroPDFTranslate._popupTextBox.setAttribute("width", newWidth);
+      selectionMenu.style.width = `${newWidth}px`;
+      // Check until H/W<0.75
+      Zotero.ZoteroPDFTranslate.updatePopupStyle();
+      return;
+    }
+    Zotero.ZoteroPDFTranslate._popupTextBox.style.height = `${textHeight}px`;
+    selectionMenu.style.height = `${textHeight + 20}px`;
+  },
+
+  buildPopupPanel: function () {
     Zotero.debug("ZoteroPDFTranslate: buildPopupPanel");
     let currentReader = this.getReader();
     let selectionMenu =
@@ -654,10 +682,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
-    textbox.setAttribute("width", width);
-    textbox.setAttribute("height", height);
-    selectionMenu.style["width"] = `${width}px`;
-    selectionMenu.style["height"] = `${height + 20}px`;
+    textbox.setAttribute("width", 105);
+    textbox.setAttribute("height", 30);
+    selectionMenu.style.width = `105px`;
+    selectionMenu.style.height = `50px`;
 
     textbox.onmousedown = (e) => {
       e.preventDefault();
@@ -765,10 +793,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
-        Zotero.ZoteroPDFTranslate.buildPopupPanel(
-          (width = text.indexOf(" ") > 0 ? 200 : 105),
-          (height = text.length < 30 ? 50 : text.length < 60 ? 100 : 200)
-        );
+        Zotero.ZoteroPDFTranslate.buildPopupPanel();
       } else {
         Zotero.ZoteroPDFTranslate.buildPopupButton();
       }
@@ -790,10 +815,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       if (currentButton) {
         currentButton.remove();
       }
-      Zotero.ZoteroPDFTranslate.buildPopupPanel(
-        (width = text.indexOf(" ") > 0 ? 200 : 105),
-        (height = text.length < 30 ? 50 : text.length < 60 ? 100 : 200)
-      );
+      Zotero.ZoteroPDFTranslate.buildPopupPanel();
     }
 
     Zotero.ZoteroPDFTranslate.callTranslate();
@@ -811,12 +833,19 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     Zotero.ZoteroPDFTranslate._debug = "";
     Zotero.ZoteroPDFTranslate.updateSideBarStyle();
     Zotero.ZoteroPDFTranslate.updateResults();
+    Zotero.ZoteroPDFTranslate.updatePopupStyle();
 
     let success = await Zotero.ZoteroPDFTranslate.getTranslation();
 
     Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
+    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
+    if (enablePopup && Zotero.ZoteroPDFTranslate._popupTextBox) {
+      Zotero.ZoteroPDFTranslate._popupTextBox.remove();
+      Zotero.ZoteroPDFTranslate.buildPopupPanel();
+    }
     // Update result
     Zotero.ZoteroPDFTranslate.updateResults();
+    Zotero.ZoteroPDFTranslate.updatePopupStyle();
     return true;
   },
 
