@@ -185,6 +185,10 @@ Zotero.ZoteroPDFTranslate = {
     googleapi: async function () {
       return await this.google("https://translate.googleapis.com");
     },
+    // Older version param
+    googlecn: async function () {
+      return await this.google("https://translate.googleapis.com");
+    },
     google: async function (api_url = "https://translate.google.com") {
       function TL(a) {
         var k = "";
