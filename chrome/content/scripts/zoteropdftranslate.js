@@ -396,7 +396,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         let item = Zotero.Items.get(ids)[0];
         if (
           Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
-          item.isAnnotation()
+          item.isAnnotation() &&
+          item.annotationType == "highlight"
         ) {
           if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
             let text = Zotero.ZoteroPDFTranslate.getSelectedText();
