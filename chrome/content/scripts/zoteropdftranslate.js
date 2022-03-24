@@ -396,33 +396,35 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         Zotero.ZoteroPDFTranslate.updateTranslatePanel();
       }
       if (event == "add" && type == "item") {
-        // TODO: finish annotation
-        let item = Zotero.Items.get(ids)[0];
-        if (
-          Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
-          item.isAnnotation() &&
-          item.annotationType == "highlight"
-        ) {
-          if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
-            let text = Zotero.ZoteroPDFTranslate.getSelectedText();
-            Zotero.ZoteroPDFTranslate._sourceText = text;
-            let success = await Zotero.ZoteroPDFTranslate.getTranslation();
-            if (!success) {
-              Zotero.ZoteroPDFTranslate.showProgressWindow(
-                "Annotation Translate Failed",
-                Zotero.ZoteroPDFTranslate._debug,
-                "fail"
-              );
-              return;
+        let items = Zotero.Items.get(ids);
+        for (let i = 0; i < items.length; i++) {
+          let item = items[i];
+          if (
+            Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
+            item.isAnnotation() &&
+            item.annotationType == "highlight" &&
+            !item.annotationComment
+          ) {
+            if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
+              Zotero.ZoteroPDFTranslate._sourceText = item.annotationText;
+              let success = await Zotero.ZoteroPDFTranslate.getTranslation();
+              if (!success) {
+                Zotero.ZoteroPDFTranslate.showProgressWindow(
+                  "Annotation Translate Failed",
+                  Zotero.ZoteroPDFTranslate._debug,
+                  "fail"
+                );
+                continue;
+              }
             }
+            let text = Zotero.ZoteroPDFTranslate._translatedText;
+            item.annotationComment = text;
+            item.saveTx();
+            Zotero.ZoteroPDFTranslate.showProgressWindow(
+              "Annotation Translate Saved",
+              text.length < 20 ? text : text.slice(0, 15) + "..."
+            );
           }
-          let text = Zotero.ZoteroPDFTranslate._translatedText;
-          item.annotationComment = text;
-          item.saveTx();
-          Zotero.ZoteroPDFTranslate.showProgressWindow(
-            "Annotation Translate Saved",
-            text.length < 20 ? text : text.slice(0, 15) + "..."
-          );
         }
       }
     },
