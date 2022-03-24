@@ -359,6 +359,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   _sourceText: "",
   _translatedText: "",
   _debug: "",
+  _readerSelect: 0,
 
   init: async function () {
     Zotero.debug("ZoteroPDFTranslate: init called");
@@ -393,9 +394,17 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
           return;
         }
         Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
+        Zotero.ZoteroPDFTranslate._readerSelect = new Date().getTime();
         Zotero.ZoteroPDFTranslate.updateTranslatePanel();
       }
       if (event == "add" && type == "item") {
+        // Disable the reader loading annotation update
+        if (
+          new Date().getTime() - Zotero.ZoteroPDFTranslate._readerSelect <
+          3000
+        ) {
+          return;
+        }
         let items = Zotero.Items.get(ids);
         for (let i = 0; i < items.length; i++) {
           let item = items[i];
