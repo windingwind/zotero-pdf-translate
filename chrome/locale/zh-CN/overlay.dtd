@@ -8,15 +8,15 @@
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enableComment.label "翻译批注">
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "翻译服务">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "翻译引擎">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "谷歌翻译">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googlecn "谷歌翻译(中国)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "有道翻译">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "微软翻译*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "彩云小译*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "小牛翻译">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL翻译(Free)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL翻译(Pro)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "百度翻译*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "谷歌">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googleapi "谷歌API(中国可用)">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "有道">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "微软*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "彩云*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "小牛">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL(Free)*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL(Pro)*">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "百度*">
 
 <!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "翻译到">
@@ -28,5 +28,5 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.2.9">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-23 20:02:59">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.3.0">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-24 13:59:32">

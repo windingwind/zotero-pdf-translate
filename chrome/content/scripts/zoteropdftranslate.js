@@ -182,8 +182,8 @@ Zotero.ZoteroPDFTranslate = {
         }
       );
     },
-    googlecn: async function () {
-      return await this.google("https://translate.google.cn");
+    googleapi: async function () {
+      return await this.google("https://translate.googleapis.com");
     },
     google: async function (api_url = "https://translate.google.com") {
       function TL(a) {
@@ -326,7 +326,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     },
     sources: [
       "google",
-      "googlecn",
+      "googleapi",
       "youdao",
       "microsoft",
       "caiyun",
@@ -339,7 +339,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
       google: "",
-      googlecn: "",
+      googleapi: "",
       youdao: "",
       microsoft: "",
       caiyun: "3975l6lr5pcbvidl6jl2",
@@ -399,6 +399,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
           item.isAnnotation()
         ) {
           if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
+            let text = Zotero.ZoteroPDFTranslate.getSelectedText();
+            Zotero.ZoteroPDFTranslate._sourceText = text;
             let success = await Zotero.ZoteroPDFTranslate.getTranslation();
             if (!success) {
               Zotero.ZoteroPDFTranslate.showProgressWindow(
@@ -520,76 +522,65 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let panelInfo = document.createElement("tabpanel");
     panelInfo.setAttribute("id", "pdf-translate-tabpanel");
     panelInfo.setAttribute("flex", "1");
-    panelInfo.className = "zotero-editpane-item-box";
-    let itemBox = document.createElement("zoteroitembox");
-    itemBox.setAttribute("flex", "1");
 
-    let rows = document.createElement("rows");
-    let rowButton = document.createElement("row");
-    let columns = document.createElement("columns");
+    let vbox = document.createElement("vbox");
+    vbox.setAttribute("flex", "1");
+    vbox.setAttribute("align", "stretch");
+    vbox.style.padding = "0px 10px 10px 10px";
+    let hbox = document.createElement("hbox");
+    hbox.setAttribute("flex", "1");
+    hbox.setAttribute("align", "center");
+    hbox.maxHeight = 50;
+    hbox.style.height = "100px";
 
-    let translatColumn = document.createElement("column");
     let buttonTranslate = document.createElement("button");
     buttonTranslate.setAttribute("label", "Translate");
+    buttonTranslate.setAttribute("flex", "1");
     buttonTranslate.setAttribute(
       "oncommand",
       "Zotero.ZoteroPDFTranslate.onButtonClick()"
     );
-    translatColumn.append(buttonTranslate);
 
-    let copySourceColumn = document.createElement("column");
     let buttonCopySource = document.createElement("button");
     buttonCopySource.setAttribute("label", "Copy Raw");
+    buttonCopySource.setAttribute("flex", "1");
     buttonCopySource.setAttribute(
       "oncommand",
       "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._sourceText)"
     );
-    copySourceColumn.append(buttonCopySource);
 
-    let copyTranslatedColumn = document.createElement("column");
     let buttonCopyTranslated = document.createElement("button");
     buttonCopyTranslated.setAttribute("label", "Copy Result");
+    buttonCopyTranslated.setAttribute("flex", "1");
     buttonCopyTranslated.setAttribute(
       "oncommand",
       "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._translatedText)"
     );
-    copyTranslatedColumn.append(buttonCopyTranslated);
 
-    columns.append(translatColumn, copySourceColumn, copyTranslatedColumn);
-    rowButton.append(columns);
-    rows.append(rowButton);
+    hbox.append(buttonTranslate, buttonCopySource, buttonCopyTranslated);
 
-    let rowSource = document.createElement("row");
     let textboxSource = document.createElement("textbox");
     textboxSource.setAttribute("id", "pdf-translate-source");
+    textboxSource.setAttribute("flex", "1");
     textboxSource.setAttribute("multiline", true);
     textboxSource.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
-    rowSource.append(textboxSource);
-    rows.append(rowSource);
 
-    let rowTranslated = document.createElement("row");
     let textboxTranslated = document.createElement("textbox");
     textboxTranslated.setAttribute("multiline", true);
-    textboxSource.setAttribute("id", "pdf-translate-translated");
+    textboxTranslated.setAttribute("flex", "1");
+    textboxTranslated.setAttribute("id", "pdf-translate-translated");
     textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
-    rowTranslated.append(textboxTranslated);
-    rows.append(rowTranslated);
+
+    vbox.append(hbox, textboxSource, textboxTranslated);
+    panelInfo.append(vbox);
+    tabbox[i + 1].getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
 
     Zotero.ZoteroPDFTranslate._sideBarTextboxSource = textboxSource;
     Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated = textboxTranslated;
-    itemBox.append(rows);
-    panelInfo.append(itemBox);
-
-    tabbox[i + 1].getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
-
-    // Update view after sidebar open
-    setTimeout(Zotero.ZoteroPDFTranslate.updateSideBarStyle, 100);
-    setTimeout(Zotero.ZoteroPDFTranslate.updateSideBarStyle, 500);
-    setTimeout(Zotero.ZoteroPDFTranslate.updateSideBarStyle, 3000);
   },
 
   removeSideBarPanel: function () {
@@ -601,42 +592,6 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     if (tab) {
       tab.remove();
     }
-  },
-
-  updateSideBarStyle: function () {
-    // Work around to re-init sidebar
-    if (!document.getElementsByTagName("tabbox")) {
-      return;
-    } else if (!Zotero.ZoteroPDFTranslate._sideBarTextboxSource) {
-      Zotero.ZoteroPDFTranslate.buildSideBarPanel();
-      return;
-    }
-    let tabbox =
-      document.getElementsByTagName("tabbox")[
-        Zotero.ZoteroPDFTranslate.getReaderID() + 1
-      ];
-    Zotero.ZoteroPDFTranslate._sideBarTextboxSource.style[
-      "font-size"
-    ] = `${Zotero.Prefs.get("ZoteroPDFTranslate.fontSize")}px`;
-    Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.style[
-      "font-size"
-    ] = `${Zotero.Prefs.get("ZoteroPDFTranslate.fontSize")}px`;
-    Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
-      "width",
-      tabbox.clientWidth - 30
-    );
-    Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.setAttribute(
-      "width",
-      tabbox.clientWidth - 30
-    );
-    Zotero.ZoteroPDFTranslate._sideBarTextboxSource.setAttribute(
-      "height",
-      tabbox.clientHeight / 2 - 50
-    );
-    Zotero.ZoteroPDFTranslate._sideBarTextboxTranslated.setAttribute(
-      "height",
-      tabbox.clientHeight / 2 - 50
-    );
   },
 
   updatePopupStyle: function () {
@@ -703,6 +658,20 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
     selectionMenu.appendChild(textbox);
     Zotero.ZoteroPDFTranslate._popupTextBox = textbox;
+  },
+
+  removePopupPanel: function () {
+    let currentButton =
+      Zotero.ZoteroPDFTranslate.getReader()._iframeWindow.document.getElementById(
+        "pdf-translate-popup-button"
+      );
+    currentButton && currentButton.remove();
+
+    let currentPanel =
+      Zotero.ZoteroPDFTranslate.getReader()._iframeWindow.document.getElementById(
+        "pdf-translate-popup"
+      );
+    currentPanel && currentPanel.remove();
   },
 
   buildPopupButton: function () {
@@ -805,16 +774,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
   },
 
   onButtonClick: function (e) {
-    let text = Zotero.ZoteroPDFTranslate.getSelectedText();
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
-      let currentButton =
-        Zotero.ZoteroPDFTranslate.getReader()._iframeWindow.document.getElementById(
-          "pdf-translate-popup-button"
-        );
-      if (currentButton) {
-        currentButton.remove();
-      }
+      Zotero.ZoteroPDFTranslate.removePopupPanel();
       Zotero.ZoteroPDFTranslate.buildPopupPanel();
     }
 
@@ -831,7 +793,6 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     Zotero.ZoteroPDFTranslate._sourceText = text;
     Zotero.ZoteroPDFTranslate._translatedText = "";
     Zotero.ZoteroPDFTranslate._debug = "";
-    Zotero.ZoteroPDFTranslate.updateSideBarStyle();
     Zotero.ZoteroPDFTranslate.updateResults();
     Zotero.ZoteroPDFTranslate.updatePopupStyle();
 
@@ -919,7 +880,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     if (!translateSource) {
       // Change default translate engine for zh-CN users
       if (Services.locale.getRequestedLocale() === "zh-CN") {
-        translateSource = "niutrans";
+        translateSource = "googleapi";
       } else {
         translateSource = Zotero.ZoteroPDFTranslate.translate.sources[0];
       }
