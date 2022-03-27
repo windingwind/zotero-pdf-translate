@@ -14,6 +14,8 @@ assignees: ''
 
 **Issues not in the template format will be ignored/不按模板格式的提问将不会被回复**
 
+Edit the template below/编辑以下模版
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
