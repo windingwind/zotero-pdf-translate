@@ -123,7 +123,7 @@
                         <menuitem label="Chinese - Macau SAR" value="zh-MO" />
                         <menuitem label="Chinese - Singapore" value="zh-SG" />
                         <menuitem label="Chinese - Taiwan" value="zh-TW" />
-                        <menuitem label="Chinese (Simplified)" value="zh-CHS" />
+                        <!-- <menuitem label="Chinese (Simplified)" value="zh-CHS" /> -->
                         <menuitem label="Chinese (Traditional)" value="zh-CHT" />
                         <menuitem label="Croatian - Croatia" value="hr-HR" />
                         <menuitem label="Czech - Czech Republic" value="cs-CZ" />
@@ -267,7 +267,7 @@
                         <menuitem label="Chinese - Macau SAR" value="zh-MO" />
                         <menuitem label="Chinese - Singapore" value="zh-SG" />
                         <menuitem label="Chinese - Taiwan" value="zh-TW" />
-                        <menuitem label="Chinese (Simplified)" value="zh-CHS" />
+                        <!-- <menuitem label="Chinese (Simplified)" value="zh-CHS" /> -->
                         <menuitem label="Chinese (Traditional)" value="zh-CHT" />
                         <menuitem label="Croatian - Croatia" value="hr-HR" />
                         <menuitem label="Czech - Czech Republic" value="cs-CZ" />
