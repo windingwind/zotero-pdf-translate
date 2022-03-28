@@ -885,18 +885,91 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       vbox.setAttribute("flex", "1");
       vbox.setAttribute("align", "stretch");
       vbox.style.padding = "0px 10px 10px 10px";
+
       let hboxTranslate = document.createElement("hbox");
       hboxTranslate.setAttribute("flex", "1");
       hboxTranslate.setAttribute("align", "center");
       hboxTranslate.maxHeight = 50;
       hboxTranslate.minHeight = 50;
       hboxTranslate.style.height = "100px";
+
+      let hboxLanguage = document.createElement("hbox");
+      hboxLanguage.setAttribute("flex", "1");
+      hboxLanguage.setAttribute("align", "center");
+      hboxLanguage.maxHeight = 50;
+      hboxLanguage.minHeight = 50;
+      hboxLanguage.style.height = "100px";
+
       let hboxCopy = document.createElement("hbox");
       hboxCopy.setAttribute("flex", "1");
       hboxCopy.setAttribute("align", "center");
       hboxCopy.maxHeight = 50;
       hboxCopy.minHeight = 50;
       hboxCopy.style.height = "100px";
+
+      let SLMenuList = document.createElement("menulist");
+      SLMenuList.setAttribute("id", "pdf-translate-sl");
+      SLMenuList.style.width = "150px";
+      SLMenuList.setAttribute(
+        "value",
+        Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage")
+      );
+      let SLMenuPopup = document.createElement("menupopup");
+      SLMenuList.appendChild(SLMenuPopup);
+      for (let lang of Zotero.ZoteroPDFTranslate.translate.LangCultureNames) {
+        let menuitem = document.createElement("menuitem");
+        menuitem.setAttribute("label", lang.DisplayName);
+        menuitem.setAttribute("value", lang.LangCultureName);
+        menuitem.addEventListener("command", (e) => {
+          let newSL = e.target.value;
+          Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", newSL);
+        });
+        SLMenuPopup.appendChild(menuitem);
+      }
+
+      let languageLabel = document.createElement("label");
+      languageLabel.setAttribute("id", "pdf-translate-switch");
+      languageLabel.setAttribute("flex", "1");
+      languageLabel.style["text-align"] = "center";
+      languageLabel.style["font-size"] = "14px";
+      languageLabel.setAttribute("value", "➡️");
+      languageLabel.addEventListener("mouseover", (e) => {
+        e.target.setAttribute("value", "🔃");
+      });
+      languageLabel.addEventListener("mouseleave", (e) => {
+        e.target.setAttribute("value", "➡️");
+      });
+      languageLabel.addEventListener("click", (e) => {
+        let SLMenu = document.getElementById("pdf-translate-sl");
+        let TLMenu = document.getElementById("pdf-translate-tl");
+        let sl = SLMenu.value;
+        let tl = TLMenu.value;
+        Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", tl);
+        Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", sl);
+        SLMenu.value = tl;
+        TLMenu.value = sl;
+      });
+
+      let TLMenuList = document.createElement("menulist");
+      TLMenuList.setAttribute("id", "pdf-translate-tl");
+      TLMenuList.style.width = "150px";
+      TLMenuList.setAttribute(
+        "value",
+        Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage")
+      );
+      let TLMenuPopup = document.createElement("menupopup");
+      TLMenuList.appendChild(TLMenuPopup);
+      for (let lang of Zotero.ZoteroPDFTranslate.translate.LangCultureNames) {
+        let menuitem = document.createElement("menuitem");
+        menuitem.setAttribute("label", lang.DisplayName);
+        menuitem.setAttribute("value", lang.LangCultureName);
+        menuitem.addEventListener("command", (e) => {
+          let newTL = e.target.value;
+          Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", newTL);
+        });
+        TLMenuPopup.appendChild(menuitem);
+      }
+      hboxLanguage.append(SLMenuList, languageLabel, TLMenuList);
 
       let menuLabel = document.createElement("label");
       menuLabel.setAttribute("value", "Engine");
@@ -975,6 +1048,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
       vbox.append(
         hboxTranslate,
+        hboxLanguage,
         textboxSource,
         splitter,
         textboxTranslated,
