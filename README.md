@@ -52,6 +52,7 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Translate Annotation: Save annotation's translation as comment, default `true`
 - Font Size: The font size of result text, default `12`
+- Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
 ### Translate Engine
 
