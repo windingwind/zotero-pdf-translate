@@ -881,6 +881,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     hbox.setAttribute("flex", "1");
     hbox.setAttribute("align", "center");
     hbox.maxHeight = 50;
+    hbox.minHeight = 50;
     hbox.style.height = "100px";
 
     let buttonTranslate = document.createElement("button");
@@ -917,6 +918,11 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
+    let splitter = document.createElement("splitter");
+    splitter.setAttribute("collapse", "before");
+    let grippy = document.createElement("grippy");
+    splitter.append(grippy);
+
     let textboxTranslated = document.createElement("textbox");
     textboxTranslated.setAttribute("multiline", true);
     textboxTranslated.setAttribute("flex", "1");
@@ -925,7 +931,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
-    vbox.append(hbox, textboxSource, textboxTranslated);
+    vbox.append(hbox, textboxSource, splitter, textboxTranslated);
     panelInfo.append(vbox);
     tabbox[i + 1].getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
 
