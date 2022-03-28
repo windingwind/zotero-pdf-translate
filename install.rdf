@@ -7,7 +7,7 @@
         RDF:about="urn:mozilla:install-manifest"
         em:id="zoteropdftranslate@euclpts.com"
         em:name="Zotero PDF Translate"
-        em:version="0.3.7"
+        em:version="0.3.8"
         em:type="2"
         em:creator="windingwind"
         em:description="PDF translation plugin for Zotero 6"

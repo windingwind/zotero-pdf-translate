@@ -82,7 +82,7 @@
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.deeplfree;" value="deeplfree" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.deeplpro;" value="deeplpro" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.baidu;" value="baidu" />
-                        <!-- <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.tencent;" value="tencent" /> -->
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.tencent;" value="tencent" />
                       </menupopup>
                     </menulist>
                   </hbox>

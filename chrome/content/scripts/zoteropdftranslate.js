@@ -135,8 +135,7 @@ Zotero.ZoteroPDFTranslate = {
         return _x(k, d);
       }
 
-      let rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&
-      ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${
+      let rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${
         args.sl.split("-")[0]
       }&SourceText=#$#&Target=${args.tl.split("-")[0]}&Timestamp=${Date.parse(
         new Date()
@@ -160,9 +159,10 @@ Zotero.ZoteroPDFTranslate = {
               headers: {
                 "content-type": "application/json",
               },
+              // Encode \s to +
               body: `${rawStr.replace(
                 "#$#",
-                encodeURIComponent(args.text)
+                encodeURIComponent(args.text).replace(/%20+/g, "+")
               )}&Signature=${sha1Str}`,
               responseType: "json",
             }
@@ -1072,7 +1072,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     for (let i = 0; i < _.length; i++) {
       // Choose the selection textare
       if (_[i].style["z-index"] == -1 && _[i].style["width"] == "0px") {
-        return _[i].value;
+        // Trim
+        return _[i].value.replace(/(^\s*)|(\s*$)/g, "");
       }
     }
     return "";
