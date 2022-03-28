@@ -1137,7 +1137,17 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let text = Zotero.ZoteroPDFTranslate.getSelectedText();
 
     if (!text) {
-      return;
+      return false;
+    }
+
+    // Empty or unchanged
+    if (
+      !text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
+      Zotero.ZoteroPDFTranslate._sourceText === text
+    ) {
+      Zotero.ZoteroPDFTranslate.updateResults();
+      Zotero.ZoteroPDFTranslate.updatePopupStyle();
+      return true;
     }
 
     Zotero.ZoteroPDFTranslate._sourceText = text;
