@@ -687,6 +687,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       { LangCultureName: "vi-VN", DisplayName: "Vietnamese - Vietnam" },
     ],
   },
+  disableTranslate: false,
   _popupTextBox: undefined,
   _sideBarTextboxSource: undefined,
   _sideBarTextboxTranslated: undefined,
@@ -746,6 +747,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
           let item = items[i];
           if (
             Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
+            !Zotero.ZoteroPDFTranslate.disableTranslate &&
             item.isAnnotation() &&
             item.annotationType == "highlight" &&
             !item.annotationComment
@@ -830,6 +832,23 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       "pointerup",
       Zotero.ZoteroPDFTranslate.onSelect
     );
+
+    let currentLanguage = Zotero.Items.get(currentReader.itemID)
+      .parentItem.getField("language")
+      .split("-")[0];
+    let disable = false;
+    if (currentLanguage) {
+      let disabledLanguages = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.disabledLanguages"
+      ).split(",");
+      for (let i = 0; i < disabledLanguages.length; i++) {
+        if (disabledLanguages[i] == currentLanguage) {
+          disable = true;
+          break;
+        }
+      }
+    }
+    Zotero.ZoteroPDFTranslate.disableTranslate = disable;
   },
 
   getSideBarOpen: function () {
@@ -865,8 +884,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let n = 0;
     while (!tabbox || !tabbox[i + 1]) {
       if (n >= 500) {
-        // throw new Error("Waiting for reader failed");
-        // this.showProgressWindow("PDF Translate", "Sidebar Load Failed", "fail");
+        Zotero.debug("ZoteroPDFTranslate: Waiting for reader failed");
+        this.showProgressWindow("PDF Translate", "Sidebar Load Failed", "fail");
         return;
       }
       await Zotero.Promise.delay(10);
@@ -891,25 +910,25 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       hboxTranslate.setAttribute("align", "center");
       hboxTranslate.maxHeight = 50;
       hboxTranslate.minHeight = 50;
-      hboxTranslate.style.height = "100px";
+      hboxTranslate.style.height = "80px";
 
       let hboxLanguage = document.createElement("hbox");
       hboxLanguage.setAttribute("flex", "1");
       hboxLanguage.setAttribute("align", "center");
       hboxLanguage.maxHeight = 50;
       hboxLanguage.minHeight = 50;
-      hboxLanguage.style.height = "100px";
+      hboxLanguage.style.height = "80px";
 
       let hboxCopy = document.createElement("hbox");
       hboxCopy.setAttribute("flex", "1");
       hboxCopy.setAttribute("align", "center");
       hboxCopy.maxHeight = 50;
       hboxCopy.minHeight = 50;
-      hboxCopy.style.height = "100px";
+      hboxCopy.style.height = "80px";
 
       let SLMenuList = document.createElement("menulist");
       SLMenuList.setAttribute("id", "pdf-translate-sl");
-      SLMenuList.style.width = "150px";
+      SLMenuList.style.width = "145px";
       SLMenuList.setAttribute(
         "value",
         Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage")
@@ -952,7 +971,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
       let TLMenuList = document.createElement("menulist");
       TLMenuList.setAttribute("id", "pdf-translate-tl");
-      TLMenuList.style.width = "150px";
+      TLMenuList.style.width = "145px";
       TLMenuList.setAttribute(
         "value",
         Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage")
@@ -1062,6 +1081,13 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
     tabbox[i + 1].getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
     tabbox[i + 1].selectedIndex = itemCount - 1;
+  },
+
+  checkSideBarPanel: function () {
+    let panel = document.getElementById("pdf-translate-tabpanel");
+    if (!panel) {
+      Zotero.ZoteroPDFTranslate.buildSideBarPanel();
+    }
   },
 
   updatePopupStyle: function () {
@@ -1229,7 +1255,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       return false;
     }
 
-    let enableAuto = Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto");
+    let enableAuto =
+      Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") &&
+      !Zotero.ZoteroPDFTranslate.disableTranslate;
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
@@ -1275,6 +1303,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     Zotero.ZoteroPDFTranslate._sourceText = text;
     Zotero.ZoteroPDFTranslate._translatedText = "";
     Zotero.ZoteroPDFTranslate._debug = "";
+    Zotero.ZoteroPDFTranslate.checkSideBarPanel();
     Zotero.ZoteroPDFTranslate.updateResults();
     Zotero.ZoteroPDFTranslate.updatePopupStyle();
 
@@ -1400,10 +1429,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
 
     if (!targetLanguage || !validTL) {
-      Zotero.Prefs.set(
-        "ZoteroPDFTranslate.targetLanguage",
-        Services.locale.getRequestedLocale()
-      );
+      targetLanguage = Services.locale.getRequestedLocale();
+      Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", targetLanguage);
     }
 
     let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
@@ -1422,6 +1449,13 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         "ZoteroPDFTranslate.secretObj",
         JSON.stringify(secretObj)
       );
+    }
+
+    let disabledLanguages = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.disabledLanguages"
+    );
+    if (!disabledLanguages) {
+      Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "");
     }
   },
   progressWindowIcon: {

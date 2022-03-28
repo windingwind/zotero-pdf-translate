@@ -23,11 +23,12 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "Secret">
 <!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "Translate Engine with * requires Secret; See GitHub for more information">
+<!ENTITY zotero.zoteropdftranslate.pref.api.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 
 <!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "Copy Source">
 <!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "Copy Result">
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.11">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-28 17:12:14">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.12">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-28 23:08:01">

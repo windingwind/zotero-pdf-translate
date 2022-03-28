@@ -16,6 +16,7 @@
         <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.secret" type="string" />
         <preference id="pref-zoteropdftranslate-translate-param-obj" name="extensions.zotero.ZoteroPDFTranslate.secretObj" type="string" />
+        <preference id="pref-zoteropdftranslate-disabled-languages" name="extensions.zotero.ZoteroPDFTranslate.disabledLanguages" type="string" />
       </preferences>
       <tabbox>
         <tabs>
@@ -383,6 +384,10 @@
                 </row>
                 <row>
                   <label value="&zotero.zoteropdftranslate.pref.api.secret.warning.label;" />
+                </row>
+                <row>
+                  <label value="&zotero.zoteropdftranslate.pref.api.disabledLanguages.label;" />
+                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-disabled-languages" />
                 </row>
               </rows>
             </groupbox>
