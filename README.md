@@ -52,6 +52,7 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Translate Annotation: Save annotation's translation as comment, default `true`
 - Font Size: The font size of result text, default `12`
+- Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
 ### Translate Engine
 
@@ -67,6 +68,11 @@ The default engine is Google Translate. Currently we support:
 | DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
 | Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/113) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
+
+**WARNING**  
+Translation engines that do not require secret is only for trial use and cannot guarantee quality or availability.  
+If you expect stable and high-quality translation results, please use a translation engine that requires secret.  
+If the engine you want is not yet supported, please post an issue.
 
 ### Lauguage Settings
 
