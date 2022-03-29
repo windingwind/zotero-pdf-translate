@@ -358,6 +358,50 @@ Zotero.ZoteroPDFTranslate = {
         }
       );
     },
+    googleweb: async function () {
+      let args = this.getArgs();
+
+      return await this.requestTranslate(
+        async () => {
+          return await Zotero.HTTP.request(
+            "POST",
+            "https://translate.google.cn/_/TranslateWebserverUi/data/batchexecute?rpcids=MkEWBc&f.sid=-2609060161424095358&bl=boq_translate-webserver_20201203.07_p0&hl=zh-CN&soc-app=1&soc-platform=1&soc-device=1&_reqid=359373&rt=c",
+            {
+              headers: {
+                accept:
+                  "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                "content-type":
+                  "application/x-www-form-urlencoded;charset=UTF-8",
+                "user-agent":
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36",
+              },
+              body: `f.req=%5B%5B%5B%22MkEWBc%22%2C%22%5B%5B%5C%22${encodeURI(
+                args.text
+              )}%5C%22%2C%5C%22${encodeURI(
+                args.sl.split("-")[0]
+              )}%5C%22%2C%5C%22${encodeURI(
+                args.tl.split("-")[0]
+              )}%5C%22%2Ctrue%5D%2C%5Bnull%5D%5D%22%2Cnull%2C%22generic%22%5D%5D%5D`,
+            }
+          );
+        },
+        (xhr) => {
+          let tgt = "";
+          // `]}' 362 [["wrb.fr","MkEWBc","[[null,null,\"en\",[[[0,[[[null,11]],[true]]]],11],[[\"who are you\",null,null,11]]],[[[null,\"Nǐ shì shéi\",null,true,null,[[\"你是谁\",null,null,null,[[\"你是谁\",[2]],[\"谁是你\",[5]],[\"是谁是你\",[11]]]]]]],\"zh\",1,\"en\",[\"who are you\",\"auto\",\"zh\",true]],\"en\"]",null,null,null,"generic"],["di",21],["af.httprm",20,"5084292543345475687"]] 25 [["e",4,null,null,427]] `
+          let res_obj = JSON.parse(
+            JSON.parse(xhr.response.split("\n")[3])[0][2]
+          )[1][0][0][5];
+
+          for (let i = 0; i < res_obj.length; i++) {
+            tgt += res_obj[i][0];
+          }
+
+          Zotero.debug(tgt);
+          Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return true;
+        }
+      );
+    },
     googleapi: async function () {
       return await this.google("https://translate.googleapis.com");
     },
@@ -501,8 +545,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       return false;
     },
     sources: [
-      "google",
       "googleapi",
+      // "googleweb",
+      "google",
       "youdao",
       "microsoft",
       "caiyun",
@@ -515,8 +560,9 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
-      google: "",
       googleapi: "",
+      // googleweb: "",
+      google: "",
       youdao: "",
       microsoft: "",
       caiyun: "3975l6lr5pcbvidl6jl2",
@@ -828,6 +874,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
 
     await Zotero.ZoteroPDFTranslate.buildSideBarPanel();
 
+    Zotero.ZoteroPDFTranslate.updateSideBarPanelMenu();
+
     currentReader._window.addEventListener(
       "pointerup",
       Zotero.ZoteroPDFTranslate.onSelect
@@ -993,6 +1041,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       let menuLabel = document.createElement("label");
       menuLabel.setAttribute("value", "Engine");
       let menulist = document.createElement("menulist");
+      menulist.setAttribute("id", "pdf-translate-engine");
       menulist.setAttribute("flex", "1");
       menulist.setAttribute(
         "value",
@@ -1081,6 +1130,40 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     }
     tabbox[i + 1].getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
     tabbox[i + 1].selectedIndex = itemCount - 1;
+  },
+
+  updateSideBarPanelMenu: function () {
+    Zotero.ZoteroPDFTranslate.checkSideBarPanel();
+    let SLMenuList = document.getElementById("pdf-translate-sl");
+    let TLMenuList = document.getElementById("pdf-translate-tl");
+    let engineMenuList = document.getElementById("pdf-translate-engine");
+    let sourceLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+    if (SLMenuList && SLMenuList.value != sourceLanguage) {
+      for (let i = 0; i < SLMenuList.itemCount; i++) {
+        if (SLMenuList.getItemAtIndex(i).value == sourceLanguage) {
+          SLMenuList.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    let targetLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+    if (TLMenuList && TLMenuList.value != targetLanguage) {
+      for (let i = 0; i < TLMenuList.itemCount; i++) {
+        if (TLMenuList.getItemAtIndex(i).value == targetLanguage) {
+          TLMenuList.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    let engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
+    if (engineMenuList && engineMenuList.value != engine) {
+      for (let i = 0; i < engineMenuList.itemCount; i++) {
+        if (engineMenuList.getItemAtIndex(i).value == engine) {
+          engineMenuList.selectedIndex = i;
+          break;
+        }
+      }
+    }
   },
 
   checkSideBarPanel: function () {
@@ -1326,6 +1409,8 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
     );
+    // Update sidebar
+    Zotero.ZoteroPDFTranslate.updateSideBarPanelMenu();
     // bool return for success or fail
     return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
   },

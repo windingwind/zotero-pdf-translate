@@ -20,7 +20,8 @@
       </preferences>
       <tabbox>
         <tabs>
-          <tab label="&zotero.zoteropdftranslate.pref.title;" />
+          <tab label="&zotero.zoteropdftranslate.pref.general.label;" />
+          <tab label="&zotero.zoteropdftranslate.pref.advanced.label;" />
         </tabs>
 
         <tabpanels id="zotero-prefpane-zoteropdftranslate" orient="vertical">
@@ -74,8 +75,8 @@
                   <hbox>
                     <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-source" preference="pref-zoteropdftranslate-translate-source" oncommand="updateSourceParam()">
                       <menupopup>
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.googleapi;" value="googleapi" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutrans;" value="niutrans" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.microsoft;" value="microsoft" />
@@ -385,10 +386,6 @@
                 <row>
                   <label value="&zotero.zoteropdftranslate.pref.api.secret.warning.label;" />
                 </row>
-                <row>
-                  <label value="&zotero.zoteropdftranslate.pref.api.disabledLanguages.label;" />
-                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-disabled-languages" />
-                </row>
               </rows>
             </groupbox>
             <groupbox>
@@ -399,6 +396,14 @@
             </groupbox>
             <label value="&zotero.zoteropdftranslate.help.version.label;" />
             <label value="&zotero.zoteropdftranslate.help.releasetime.label;" />
+          </tabpanel>
+          <tabpanel id="zotero-prefpane-zoteropdftranslate-advanced" orient="vertical">
+            <rows>
+              <row>
+                <label value="&zotero.zoteropdftranslate.pref.api.disabledLanguages.label;" />
+                <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-disabled-languages" />
+              </row>
+            </rows>
           </tabpanel>
         </tabpanels>
       </tabbox>

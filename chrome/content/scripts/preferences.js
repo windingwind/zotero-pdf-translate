@@ -29,7 +29,10 @@ updateSourceParam = function () {
   } else {
     secret = Zotero.ZoteroPDFTranslate.translate.defaultSecret[menu.value];
     userSecrets[menu.value] = secret;
-    Zotero.Prefs.set("ZoteroPDFTranslate.secretObj", JSON.stringify(userSecrets));
+    Zotero.Prefs.set(
+      "ZoteroPDFTranslate.secretObj",
+      JSON.stringify(userSecrets)
+    );
   }
   param.value = secret;
   Zotero.Prefs.set("ZoteroPDFTranslate.secret", secret);
