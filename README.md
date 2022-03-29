@@ -69,6 +69,11 @@ The default engine is Google Translate. Currently we support:
 | Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/113) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
 
+**WARNING**  
+Translation engines that do not require secret is only for trial use and cannot guarantee quality or availability.  
+If you expect stable and high-quality translation results, please use a translation engine that requires secret.  
+If the engine you want is not yet supported, please post an issue.
+
 ### Lauguage Settings
 
 You can change the source and target language here. For some Translte Engines, the `secret` is required. They are listed below:
