@@ -47,7 +47,7 @@ Zotero.ZoteroPDFTranslate = {
         ) {
           return;
         }
-        Zotero.ZoteroPDFTranslate.onAnnotationAdd(ids)
+        Zotero.ZoteroPDFTranslate.onAnnotationAdd(ids);
       }
     },
   },
@@ -99,7 +99,7 @@ Zotero.ZoteroPDFTranslate = {
 
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
-      Zotero.ZoteroPDFTranslate.translate.callTranslateAnnotation(item)
+      Zotero.ZoteroPDFTranslate.translate.callTranslateAnnotation(item);
     }
   },
 
@@ -180,6 +180,11 @@ Zotero.ZoteroPDFTranslate = {
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
     if (!fontSize) {
       Zotero.Prefs.set("ZoteroPDFTranslate.fontSize", "12");
+    }
+
+    let rawResultOrder = Zotero.Prefs.get("ZoteroPDFTranslate.rawResultOrder");
+    if (typeof rawResultOrder === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.rawResultOrder", false);
     }
 
     let translateSource = Zotero.Prefs.get(

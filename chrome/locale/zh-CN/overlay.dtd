@@ -31,9 +31,10 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.3.14">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-30 15:04:55">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.3.15">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-30 16:50:34">
 
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "字体大小">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "反转侧边栏源/结果显示">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "预览">

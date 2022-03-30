@@ -45,16 +45,14 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 
 ## Settings
 
-### General
+### General-Functions
 
 - Enable Translation, default `true`
 - Automatically Translation, default `true`
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Translate Annotation: Save annotation's translation as comment, default `true`
-- Font Size: The font size of result text, default `12`
-- Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
-### Translate Engine
+### General-Translate Engine
 
 The default engine is Google Translate. Currently we support:  
 | Translate Engine | Require Secret | Supported Languages |
@@ -75,7 +73,7 @@ Translation engines that do not require secret is only for trial use and cannot 
 If you expect stable and high-quality translation results, please use a translation engine that requires secret.  
 If the engine you want is not yet supported, please post an issue.
 
-### Lauguage Settings
+### General-Lauguage Settings
 
 You can change the source and target language here. For some Translte Engines, the `secret` is required. They are listed below:
 
@@ -101,6 +99,14 @@ You can change the source and target language here. For some Translte Engines, t
 > Apply [here](https://cloud.tencent.com/product/tmt). 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)  
 > The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').
+
+### Advanced-UI
+
+- Font Size: The font size of result text, default `12`
+- Reverse Raw/Result SideBar: Reverse the order of Raw/Result in sidebar if `true`, default `false`
+
+### Advanced-Others
+- Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
 ## Disclaimer
 

@@ -11,6 +11,7 @@
         <preference id="pref-zoteropdftranslate-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
         <preference id="pref-zoteropdftranslate-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
+        <preference id="pref-zoteropdftranslate-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
         <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
@@ -392,6 +393,10 @@
                           <label value="&zotero.zoteropdftranslate.pref.advanced.fontSize.label;" />
                           <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
                         </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-raw-result-order" preference="pref-zoteropdftranslate-raw-result-order" />
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label;" />
+                        </row>
                       </rows>
                     </groupbox>
                   </column>
@@ -409,7 +414,7 @@
               </row>
               <row>
                 <label value="&zotero.zoteropdftranslate.pref.api.disabledLanguages.label;" />
-                <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-disabled-languages" />
+                <textbox id="zotero-prefpane-zoteropdftranslate-settings-disabled-languages" preference="pref-zoteropdftranslate-disabled-languages" />
               </row>
             </rows>
           </tabpanel>

@@ -255,8 +255,11 @@ Zotero.ZoteroPDFTranslate.view = {
         "ZoteroPDFTranslate.fontSize"
       )}px`;
 
+      let rawResultOrder = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.rawResultOrder"
+      );
       let splitter = document.createElement("splitter");
-      splitter.setAttribute("collapse", "before");
+      splitter.setAttribute("collapse", rawResultOrder ? "after" : "before");
       let grippy = document.createElement("grippy");
       splitter.append(grippy);
 
@@ -271,9 +274,9 @@ Zotero.ZoteroPDFTranslate.view = {
       vbox.append(
         hboxTranslate,
         hboxLanguage,
-        textboxSource,
+        rawResultOrder ? textboxTranslated : textboxSource,
         splitter,
-        textboxTranslated,
+        rawResultOrder ? textboxSource : textboxTranslated,
         hboxCopy
       );
       panelInfo.append(vbox);
