@@ -1,4 +1,91 @@
 Zotero.ZoteroPDFTranslate.translate = {
+  callTranslate: async function (force = false) {
+    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText();
+
+    if (!text) {
+      return false;
+    }
+
+    // Empty or unchanged
+    if (
+      !force &&
+      (!text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
+        Zotero.ZoteroPDFTranslate._sourceText === text)
+    ) {
+      Zotero.ZoteroPDFTranslate.view.updateResults();
+      Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+      return true;
+    }
+
+    Zotero.ZoteroPDFTranslate._sourceText = text;
+    Zotero.ZoteroPDFTranslate._translatedText = "";
+    Zotero.ZoteroPDFTranslate._debug = "";
+    Zotero.ZoteroPDFTranslate.view.checkSideBarPanel();
+    Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
+    Zotero.ZoteroPDFTranslate.view.updateResults();
+    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+
+    let success = await Zotero.ZoteroPDFTranslate.translate.getTranslation();
+
+    Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
+    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
+    if (enablePopup && Zotero.ZoteroPDFTranslate.view.popupTextBox) {
+      Zotero.ZoteroPDFTranslate.view.popupTextBox.remove();
+      Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
+    }
+    // Update result
+    Zotero.ZoteroPDFTranslate.view.updateResults();
+    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+    return true;
+  },
+
+  callTranslateAnnotation: async function (item) {
+    if (
+      Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
+      !Zotero.ZoteroPDFTranslate._disableTranslate &&
+      item.isAnnotation() &&
+      item.annotationType == "highlight" &&
+      !item.annotationComment
+    ) {
+      // Update sidebar
+      Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
+
+      if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
+        Zotero.ZoteroPDFTranslate._sourceText = item.annotationText;
+        let success =
+          await Zotero.ZoteroPDFTranslate.translate.getTranslation();
+        if (!success) {
+          Zotero.ZoteroPDFTranslate.view.showProgressWindow(
+            "Annotation Translate Failed",
+            Zotero.ZoteroPDFTranslate._debug,
+            "fail"
+          );
+          return false;
+        }
+      }
+      let text = Zotero.ZoteroPDFTranslate._translatedText;
+      item.annotationComment = text;
+      item.saveTx();
+      Zotero.ZoteroPDFTranslate.view.showProgressWindow(
+        "Annotation Translate Saved",
+        text.length < 20 ? text : text.slice(0, 15) + "..."
+      );
+    }
+    return true;
+  },
+
+  getTranslation: async function () {
+    // Call current translate engine
+    let translateSource = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.translateSource"
+    );
+    // bool return for success or fail
+    return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
+  },
+
+  /*
+    Translate Functions
+  */
   tencent: async function () {
     let args = this.getArgs();
     let params = args.secret.split("#");

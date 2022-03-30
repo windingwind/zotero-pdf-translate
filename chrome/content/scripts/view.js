@@ -1,6 +1,3 @@
-/*
-    UI Functions
-*/
 Zotero.ZoteroPDFTranslate.view = {
   popupTextBox: undefined,
   sideBarTextboxSource: undefined,
@@ -8,7 +5,12 @@ Zotero.ZoteroPDFTranslate.view = {
   tab: undefined,
   tabPanel: undefined,
 
+  /*
+    UI Functions
+  */
   updateTranslatePanel: async function () {
+    Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
+
     await Zotero.uiReadyPromise;
 
     let currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
@@ -41,7 +43,7 @@ Zotero.ZoteroPDFTranslate.view = {
         }
       }
     }
-    Zotero.ZoteroPDFTranslate.disableTranslate = disable;
+    Zotero.ZoteroPDFTranslate._disableTranslate = disable;
   },
 
   getSideBarOpen: function () {

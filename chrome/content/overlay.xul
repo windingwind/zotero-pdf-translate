@@ -3,5 +3,6 @@
 <!DOCTYPE overlay SYSTEM "chrome://zoteropdftranslate/locale/overlay.dtd">
 
 <overlay id="zoteropdftranslate" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script type="application/x-javascript" src="chrome://zoteropdftranslate/content/scripts/zoteropdftranslate.js" />
+    <script src="chrome://zotero/content/include.js"/>
+    <script src="chrome://zoteropdftranslate/content/scripts/include.js"/>
 </overlay>

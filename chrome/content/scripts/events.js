@@ -1,5 +1,5 @@
 Zotero.ZoteroPDFTranslate = {
-  disableTranslate: false,
+  _disableTranslate: false,
   _sourceText: "",
   _translatedText: "",
   _debug: "",
@@ -37,9 +37,7 @@ Zotero.ZoteroPDFTranslate = {
         if (extraData[ids[0]].type !== "reader") {
           return;
         }
-        Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
-        Zotero.ZoteroPDFTranslate._readerSelect = new Date().getTime();
-        Zotero.ZoteroPDFTranslate.view.updateTranslatePanel();
+        Zotero.ZoteroPDFTranslate.onReaderSelect();
       }
       if (event == "add" && type == "item") {
         // Disable the reader loading annotation update
@@ -49,37 +47,7 @@ Zotero.ZoteroPDFTranslate = {
         ) {
           return;
         }
-        let items = Zotero.Items.get(ids);
-        for (let i = 0; i < items.length; i++) {
-          let item = items[i];
-          if (
-            Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
-            !Zotero.ZoteroPDFTranslate.disableTranslate &&
-            item.isAnnotation() &&
-            item.annotationType == "highlight" &&
-            !item.annotationComment
-          ) {
-            if (Zotero.ZoteroPDFTranslate._sourceText != item.annotationText) {
-              Zotero.ZoteroPDFTranslate._sourceText = item.annotationText;
-              let success = await Zotero.ZoteroPDFTranslate.getTranslation();
-              if (!success) {
-                Zotero.ZoteroPDFTranslate.view.showProgressWindow(
-                  "Annotation Translate Failed",
-                  Zotero.ZoteroPDFTranslate._debug,
-                  "fail"
-                );
-                continue;
-              }
-            }
-            let text = Zotero.ZoteroPDFTranslate._translatedText;
-            item.annotationComment = text;
-            item.saveTx();
-            Zotero.ZoteroPDFTranslate.view.showProgressWindow(
-              "Annotation Translate Saved",
-              text.length < 20 ? text : text.slice(0, 15) + "..."
-            );
-          }
-        }
+        Zotero.ZoteroPDFTranslate.onAnnotationAdd(ids)
       }
     },
   },
@@ -121,9 +89,20 @@ Zotero.ZoteroPDFTranslate = {
     return key;
   },
 
-  /*
-    Translte Functions
-  */
+  onReaderSelect: function () {
+    Zotero.ZoteroPDFTranslate._readerSelect = new Date().getTime();
+    Zotero.ZoteroPDFTranslate.view.updateTranslatePanel();
+  },
+
+  onAnnotationAdd: function (ids) {
+    let items = Zotero.Items.get(ids);
+
+    for (let i = 0; i < items.length; i++) {
+      let item = items[i];
+      Zotero.ZoteroPDFTranslate.translate.callTranslateAnnotation(item)
+    }
+  },
+
   onSelect: async function (event) {
     Zotero.debug(`ZoteroPDFTranslate: onTranslate`);
     // Zotero.debug(e)
@@ -151,7 +130,7 @@ Zotero.ZoteroPDFTranslate = {
 
     let enableAuto =
       Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") &&
-      !Zotero.ZoteroPDFTranslate.disableTranslate;
+      !Zotero.ZoteroPDFTranslate._disableTranslate;
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
@@ -162,7 +141,7 @@ Zotero.ZoteroPDFTranslate = {
     }
 
     if (enableAuto) {
-      await Zotero.ZoteroPDFTranslate.callTranslate();
+      await Zotero.ZoteroPDFTranslate.translate.callTranslate();
     }
   },
 
@@ -173,57 +152,7 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
     }
 
-    Zotero.ZoteroPDFTranslate.callTranslate((force = true));
-  },
-
-  callTranslate: async function (force = false) {
-    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText();
-
-    if (!text) {
-      return false;
-    }
-
-    // Empty or unchanged
-    if (
-      !force &&
-      (!text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
-        Zotero.ZoteroPDFTranslate._sourceText === text)
-    ) {
-      Zotero.ZoteroPDFTranslate.view.updateResults();
-      Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
-      return true;
-    }
-
-    Zotero.ZoteroPDFTranslate._sourceText = text;
-    Zotero.ZoteroPDFTranslate._translatedText = "";
-    Zotero.ZoteroPDFTranslate._debug = "";
-    Zotero.ZoteroPDFTranslate.view.checkSideBarPanel();
-    Zotero.ZoteroPDFTranslate.view.updateResults();
-    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
-
-    let success = await Zotero.ZoteroPDFTranslate.getTranslation();
-
-    Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
-    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
-    if (enablePopup && Zotero.ZoteroPDFTranslate.view.popupTextBox) {
-      Zotero.ZoteroPDFTranslate.view.popupTextBox.remove();
-      Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
-    }
-    // Update result
-    Zotero.ZoteroPDFTranslate.view.updateResults();
-    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
-    return true;
-  },
-
-  getTranslation: async function () {
-    // Call current translate engine
-    let translateSource = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.translateSource"
-    );
-    // Update sidebar
-    Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
-    // bool return for success or fail
-    return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
+    Zotero.ZoteroPDFTranslate.translate.callTranslate((force = true));
   },
 
   resetState: function () {
