@@ -61,8 +61,9 @@ The default engine is Google Translate. Currently we support:
 | ---- | ---- | ---- |
 | Google Translate | No | [100+](https://translate.google.com/about/languages/) |
 | Google Translate(API) | No | Use `translate.googleapis.com` |
-| Niu Translate | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) |
 | Youdao Translate | No | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
+| Niu Translate(Trial) | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) **UNSTABLE** |
+| Niu Translate | Yes | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) |
 | Microsoft Translate | Yes(free 2M) | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support) |
 | LingoCloud(Caiyun) Translate | Yes | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
 | DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
@@ -85,6 +86,11 @@ You can change the source and target language here. For some Translte Engines, t
 
 > **DeepL Translate**
 > Follow the instruction [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+
+> **Niu Translate**  
+> Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)  
+> The secret is `APIKEY`.
 
 > **Baidu Translate**  
 > Apply [here](https://fanyi-api.baidu.com/product/113).
