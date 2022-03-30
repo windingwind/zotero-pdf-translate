@@ -26,45 +26,27 @@
 
         <tabpanels id="zotero-prefpane-zoteropdftranslate" orient="vertical">
           <tabpanel id="zotero-prefpane-zoteropdftranslate-settings" orient="vertical">
-            <columns>
-              <column>
-                <groupbox>
-                  <caption label="&zotero.zoteropdftranslate.pref.basic.caption.label;" />
-                  <rows>
-                    <row>
-                      <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
-                    </row>
-                    <row>
-                      <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-auto" preference="pref-zoteropdftranslate-enable-auto" />
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enableAuto.label;" />
-                    </row>
-                    <row>
-                      <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-popup" preference="pref-zoteropdftranslate-enable-popup" />
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
-                    </row>
-                    <row>
-                      <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
-                      <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
-                    </row>
-                    <row>
-                      <label value="&zotero.zoteropdftranslate.pref.basic.fontSize.label;" />
-                      <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
-                    </row>
-                  </rows>
-                </groupbox>
-              </column>
-              <column>
-                <groupbox>
-                  <caption label="&zotero.zoteropdftranslate.pref.basic.preview.label;" />
-                  <rows>
-                    <row>
-                      <textbox id="zotero-prefpane-zoteropdftranslate-settings-preview" value="The quick brown fox jumps over a lazy dog" width="200" height="100" multiline="true" />
-                    </row>
-                  </rows>
-                </groupbox>
-              </column>
-            </columns>
+            <groupbox>
+              <caption label="&zotero.zoteropdftranslate.pref.basic.caption.label;" />
+              <rows>
+                <row>
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
+                </row>
+                <row>
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-auto" preference="pref-zoteropdftranslate-enable-auto" />
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enableAuto.label;" />
+                </row>
+                <row>
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-popup" preference="pref-zoteropdftranslate-enable-popup" />
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
+                </row>
+                <row>
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
+                </row>
+              </rows>
+            </groupbox>
             <groupbox>
               <caption label="&zotero.zoteropdftranslate.pref.api.caption.label;" />
               <rows>
@@ -77,8 +59,9 @@
                       <menupopup>
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutrans;" value="niutrans" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutrans;" value="niutrans" />
+                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutranspro;" value="niutranspro" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.microsoft;" value="microsoft" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.caiyun;" value="caiyun" />
                         <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.deeplfree;" value="deeplfree" />
@@ -399,6 +382,31 @@
           </tabpanel>
           <tabpanel id="zotero-prefpane-zoteropdftranslate-advanced" orient="vertical">
             <rows>
+              <row>
+                <columns>
+                  <column flex="1">
+                    <groupbox flex="1">
+                      <caption label="&zotero.zoteropdftranslate.pref.advanced.UI.label;" />
+                      <rows>
+                        <row>
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.fontSize.label;" />
+                          <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
+                        </row>
+                      </rows>
+                    </groupbox>
+                  </column>
+                  <column>
+                    <groupbox flex="1">
+                      <caption label="&zotero.zoteropdftranslate.pref.advanced.preview.label;" />
+                      <rows>
+                        <row>
+                          <textbox id="zotero-prefpane-zoteropdftranslate-settings-preview" value="The quick brown fox jumps over a lazy dog" width="200" height="100" multiline="true" />
+                        </row>
+                      </rows>
+                    </groupbox>
+                  </column>
+                </columns>
+              </row>
               <row>
                 <label value="&zotero.zoteropdftranslate.pref.api.disabledLanguages.label;" />
                 <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-disabled-languages" />

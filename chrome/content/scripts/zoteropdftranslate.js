@@ -241,13 +241,24 @@ Zotero.ZoteroPDFTranslate = {
       );
     },
     niutrans: async function () {
+      return await this.niutransapi(
+        "https://test.niutrans.com/NiuTransServer/testaligntrans?"
+      );
+    },
+    niutranspro: async function () {
+      let args = this.getArgs();
+      return await this.niutransapi(
+        `http://api.niutrans.com/NiuTransServer/translation?apikey=${args.secret}&`
+      );
+    },
+    niutransapi: async function (api_url) {
       let args = this.getArgs();
       let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
       return await this.requestTranslate(
         async () => {
           return await Zotero.HTTP.request(
             "GET",
-            `https://test.niutrans.com/NiuTransServer/testaligntrans?${param}&src_text=${encodeURIComponent(
+            `${api_url}${param}&src_text=${encodeURIComponent(
               args.text
             )}&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
             {
@@ -256,6 +267,9 @@ Zotero.ZoteroPDFTranslate = {
           );
         },
         (xhr) => {
+          if (xhr.response.error_code) {
+            throw `${xhr.response.error_code}:${xhr.response.error_msg}`;
+          }
           let tgt = xhr.response.tgt_text;
           Zotero.debug(tgt);
           Zotero.ZoteroPDFTranslate._translatedText = tgt;
@@ -549,14 +563,29 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       // "googleweb",
       "google",
       "youdao",
+      "niutrans",
+      "niutranspro",
       "microsoft",
       "caiyun",
-      "niutrans",
       "deeplfree",
       "deeplpro",
       "baidu",
       "tencent",
     ],
+    sourcesName: {
+      googleapi: "Google(API)",
+      // googleweb: "",
+      google: "Google",
+      youdao: "Youdao",
+      microsoft: "Microsoft*",
+      caiyun: "LingoCloud(Caiyun)*",
+      niutrans: "Niu(Trial)",
+      niutranspro: "Niu*",
+      deeplfree: "DeepL(Free)*",
+      deeplpro: "DeepL(Pro)*",
+      baidu: "Baidu*",
+      tencent: "Tencent*",
+    },
     defaultSourceLanguage: "en-US",
     defaultTargetLanguage: "zh-CN",
     defaultSecret: {
@@ -567,6 +596,7 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       microsoft: "",
       caiyun: "3975l6lr5pcbvidl6jl2",
       niutrans: "",
+      niutranspro: "",
       deeplfree: "",
       deeplpro: "",
       baidu: "appid#key",
@@ -1051,7 +1081,10 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
       menulist.appendChild(menupopup);
       for (let source of Zotero.ZoteroPDFTranslate.translate.sources) {
         let menuitem = document.createElement("menuitem");
-        menuitem.setAttribute("label", source);
+        menuitem.setAttribute(
+          "label",
+          Zotero.ZoteroPDFTranslate.translate.sourcesName[source]
+        );
         menuitem.setAttribute("value", source);
         menuitem.addEventListener("command", (e) => {
           let newSource = e.target.value;

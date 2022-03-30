@@ -1,12 +1,10 @@
 <!ENTITY zotero.zoteropdftranslate.pref.general.label "General">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.label "Advanced">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.caption.label "Functions">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.preview.label "Preview">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enable.label "Enable Translation">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enableAuto.label "Automatic Translation">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enableComment.label "Translate Annotation">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.fontSize.label "Font Size">
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "Service">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "Google">
@@ -15,7 +13,8 @@
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "Youdao">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "Microsoft*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "LingoCloud(Caiyun)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "Niu">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "Niu(Trial)">
+<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutranspro "Niu*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL(Free)*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL(Pro)*">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "Baidu*">
@@ -32,5 +31,10 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.13">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-29 23:43:23">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.14">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-03-30 15:04:56">
+
+
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "Font Size">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "Preview">
