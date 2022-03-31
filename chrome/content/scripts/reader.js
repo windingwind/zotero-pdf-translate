@@ -29,9 +29,11 @@ Zotero.ZoteroPDFTranslate.reader = {
     for (let i = 0; i < tabs.length; i++) {
       let tabpanels = tabs[i].getElementsByTagName("tabpanel");
       if (
+        tabs[i].getAttribute("id") != "zotero-view-tabbox" &&
         tabpanels.length &&
         tabpanels[0].children.length &&
         tabpanels[0].children[0].item &&
+        Zotero_Tabs.selectedID != "zotero-pane" &&
         tabpanels[0].children[0].item.getField("title") ==
           Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
             " - "
