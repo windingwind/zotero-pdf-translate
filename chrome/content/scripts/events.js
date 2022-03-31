@@ -1,5 +1,4 @@
 Zotero.ZoteroPDFTranslate = {
-  _disableTranslate: false,
   _sourceText: "",
   _translatedText: "",
   _debug: "",
@@ -9,10 +8,13 @@ Zotero.ZoteroPDFTranslate = {
     Zotero.debug("ZoteroPDFTranslate: init called");
 
     Zotero.ZoteroPDFTranslate.resetState();
+
+    Zotero.ZoteroPDFTranslate.onWindowReaderCheck();
+
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(
       Zotero.ZoteroPDFTranslate.notifierCallback,
-      ["tab", "file", "item"]
+      ["tab", "item", "file"]
     );
 
     // Unregister callback when the window closes (important to avoid a memory leak)
@@ -39,7 +41,12 @@ Zotero.ZoteroPDFTranslate = {
         }
         Zotero.ZoteroPDFTranslate.onReaderSelect();
       }
-      if (event == "open" && type == "file") {
+      if (
+        (event == "close" && type == "tab") ||
+        (event == "open" && type == "file")
+      ) {
+        Zotero.ZoteroPDFTranslate.onWindowReaderCheck();
+        setTimeout(Zotero.ZoteroPDFTranslate.onWindowReaderCheck, 1000);
       }
       if (event == "add" && type == "item") {
         // Disable the reader loading annotation update
@@ -54,7 +61,10 @@ Zotero.ZoteroPDFTranslate = {
     },
   },
 
-  initKeys: function () {
+  initKeys: function (_document = undefined) {
+    if (!_document) {
+      _document = document;
+    }
     let shortcuts = [
       {
         id: 0,
@@ -63,17 +73,19 @@ Zotero.ZoteroPDFTranslate = {
         key: "t",
       },
     ];
-    let keyset = document.createElement("keyset");
+    let keyset = _document.createElement("keyset");
     keyset.setAttribute("id", "pdf-translate-keyset");
 
     for (let i in shortcuts) {
-      keyset.appendChild(Zotero.ZoteroPDFTranslate.createKey(shortcuts[i]));
+      keyset.appendChild(
+        Zotero.ZoteroPDFTranslate.createKey(shortcuts[i], _document)
+      );
     }
-    document.getElementById("mainKeyset").parentNode.appendChild(keyset);
+    _document.getElementById("mainKeyset").parentNode.appendChild(keyset);
   },
 
-  createKey: function (keyObj) {
-    let key = document.createElement("key");
+  createKey: function (keyObj, _document) {
+    let key = _document.createElement("key");
     key.setAttribute("id", "pdf-translate-key-" + keyObj.id);
     key.setAttribute("oncommand", "//");
     key.addEventListener("command", keyObj.func);
@@ -96,6 +108,17 @@ Zotero.ZoteroPDFTranslate = {
     Zotero.ZoteroPDFTranslate.view.updateTranslatePanel();
   },
 
+  // Check readers in seperate window
+  onWindowReaderCheck: function () {
+    readers = Zotero.ZoteroPDFTranslate.reader.getWindowReader();
+    for (let i = 0; i < readers.length; i++) {
+      if (!readers[i].PDFTranslateLoad) {
+        Zotero.ZoteroPDFTranslate.view.updateWindowTranslatePanel(readers[i]);
+        readers[i].PDFTranslateLoad = true;
+      }
+    }
+  },
+
   onAnnotationAdd: function (ids) {
     let items = Zotero.Items.get(ids);
 
@@ -105,8 +128,10 @@ Zotero.ZoteroPDFTranslate = {
     }
   },
 
-  onSelect: async function (event) {
-    Zotero.debug(`ZoteroPDFTranslate: onTranslate`);
+  onSelect: async function (event, currentReader, disableAuto) {
+    Zotero.debug(
+      `ZoteroPDFTranslate: onTranslate. language disable=${disableAuto}`
+    );
     // Zotero.debug(e)
 
     // Work around to only allow event from ifrme
@@ -119,42 +144,47 @@ Zotero.ZoteroPDFTranslate = {
     }
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText();
-    let currentButton = Zotero.ZoteroPDFTranslate.reader
-      .getReader()
-      ._iframeWindow.document.getElementById("pdf-translate-popup-button");
-    let currentNode = Zotero.ZoteroPDFTranslate.reader
-      .getReader()
-      ._iframeWindow.document.getElementById("pdf-translate-popup");
+    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText(currentReader);
+    let currentButton = currentReader._iframeWindow.document.getElementById(
+      "pdf-translate-popup-button"
+    );
+    let currentNode = currentReader._iframeWindow.document.getElementById(
+      "pdf-translate-popup"
+    );
     if (!enable || !text || currentButton || currentNode) {
       return false;
     }
 
     let enableAuto =
-      Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") &&
-      !Zotero.ZoteroPDFTranslate._disableTranslate;
+      Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") && !disableAuto;
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
-        Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
+        Zotero.ZoteroPDFTranslate.view.buildPopupPanel(currentReader);
       } else {
-        Zotero.ZoteroPDFTranslate.view.buildPopupButton();
+        Zotero.ZoteroPDFTranslate.view.buildPopupButton(currentReader);
       }
     }
 
     if (enableAuto) {
-      await Zotero.ZoteroPDFTranslate.translate.callTranslate();
+      await Zotero.ZoteroPDFTranslate.translate.callTranslate(currentReader);
     }
   },
 
-  onButtonClick: function (e) {
+  onButtonClick: function (event, currentReader = undefined) {
+    if (!currentReader) {
+      currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+    }
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
-      Zotero.ZoteroPDFTranslate.view.removePopupPanel();
-      Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
+      Zotero.ZoteroPDFTranslate.view.removePopupPanel(currentReader);
+      Zotero.ZoteroPDFTranslate.view.buildPopupPanel(currentReader);
     }
 
-    Zotero.ZoteroPDFTranslate.translate.callTranslate((force = true));
+    Zotero.ZoteroPDFTranslate.translate.callTranslate(
+      currentReader,
+      (force = true)
+    );
   },
 
   resetState: function () {

@@ -43,8 +43,7 @@ Zotero.ZoteroPDFTranslate.reader = {
     return undefined;
   },
 
-  getSelectedText: function () {
-    let currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+  getSelectedText: function (currentReader) {
     if (!currentReader) {
       return "";
     }

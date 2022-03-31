@@ -1,6 +1,6 @@
 Zotero.ZoteroPDFTranslate.translate = {
-  callTranslate: async function (force = false) {
-    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText();
+  callTranslate: async function (currentReader, force = false) {
+    let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText(currentReader);
 
     if (!text) {
       return false;
@@ -13,17 +13,16 @@ Zotero.ZoteroPDFTranslate.translate = {
         Zotero.ZoteroPDFTranslate._sourceText === text)
     ) {
       Zotero.ZoteroPDFTranslate.view.updateResults();
-      Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+      Zotero.ZoteroPDFTranslate.view.updatePopupStyle(currentReader);
       return true;
     }
 
     Zotero.ZoteroPDFTranslate._sourceText = text;
     Zotero.ZoteroPDFTranslate._translatedText = "";
     Zotero.ZoteroPDFTranslate._debug = "";
-    Zotero.ZoteroPDFTranslate.view.checkSideBarPanel();
     Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
     Zotero.ZoteroPDFTranslate.view.updateResults();
-    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+    Zotero.ZoteroPDFTranslate.view.updatePopupStyle(currentReader);
 
     let success = await Zotero.ZoteroPDFTranslate.translate.getTranslation();
 
@@ -31,11 +30,11 @@ Zotero.ZoteroPDFTranslate.translate = {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup && Zotero.ZoteroPDFTranslate.view.popupTextBox) {
       Zotero.ZoteroPDFTranslate.view.popupTextBox.remove();
-      Zotero.ZoteroPDFTranslate.view.buildPopupPanel();
+      Zotero.ZoteroPDFTranslate.view.buildPopupPanel(currentReader);
     }
     // Update result
     Zotero.ZoteroPDFTranslate.view.updateResults();
-    Zotero.ZoteroPDFTranslate.view.updatePopupStyle();
+    Zotero.ZoteroPDFTranslate.view.updatePopupStyle(currentReader);
     return true;
   },
 
