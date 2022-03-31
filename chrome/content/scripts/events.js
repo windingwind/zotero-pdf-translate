@@ -12,7 +12,7 @@ Zotero.ZoteroPDFTranslate = {
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(
       Zotero.ZoteroPDFTranslate.notifierCallback,
-      ["tab", "item"]
+      ["tab", "file", "item"]
     );
 
     // Unregister callback when the window closes (important to avoid a memory leak)
@@ -38,6 +38,8 @@ Zotero.ZoteroPDFTranslate = {
           return;
         }
         Zotero.ZoteroPDFTranslate.onReaderSelect();
+      }
+      if (event == "open" && type == "file") {
       }
       if (event == "add" && type == "item") {
         // Disable the reader loading annotation update

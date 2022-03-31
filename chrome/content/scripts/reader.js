@@ -6,12 +6,41 @@ Zotero.ZoteroPDFTranslate.reader = {
     return Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
   },
 
-  getReaderID: function () {
+  getWindowReader: function () {
+    let windowReaders = [];
+    let tabs = Zotero_Tabs._tabs.map((e) => e.id);
     for (let i = 0; i < Zotero.Reader._readers.length; i++) {
-      if (Zotero.Reader._readers[i].tabID === Zotero_Tabs.selectedID) {
-        return i;
+      let flag = false;
+      for (let j = 0; j < tabs.length; j++) {
+        if (Zotero.Reader._readers[i].tabID == tabs[j]) {
+          flag = true;
+          break;
+        }
+      }
+      if (!flag) {
+        windowReaders.push(Zotero.Reader._readers[i]);
       }
     }
+    return windowReaders;
+  },
+
+  getReaderTab: function () {
+    let tabs = document.getElementsByTagName("tabbox");
+    for (let i = 0; i < tabs.length; i++) {
+      let tabpanels = tabs[i].getElementsByTagName("tabpanel");
+      if (
+        tabpanels.length &&
+        tabpanels[0].children.length &&
+        tabpanels[0].children[0].item &&
+        tabpanels[0].children[0].item.getField("title") ==
+          Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
+            " - "
+          )[0]
+      ) {
+        return tabs[i];
+      }
+    }
+    return undefined;
   },
 
   getSelectedText: function () {
