@@ -39,9 +39,12 @@ Zotero.ZoteroPDFTranslate.translate = {
   },
 
   callTranslateAnnotation: async function (item) {
+    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(
+      item.parentItem.parentItem.getField("language").split("-")[0]
+    );
     if (
       Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
-      !Zotero.ZoteroPDFTranslate._disableTranslate &&
+      !disable &&
       item.isAnnotation() &&
       item.annotationType == "highlight" &&
       !item.annotationComment
@@ -278,6 +281,9 @@ Zotero.ZoteroPDFTranslate.translate = {
         );
       },
       (xhr) => {
+        if (xhr.response.Response.Error) {
+          throw `${xhr.response.Response.Error.Code}:${xhr.response.Response.Error.Message}`;
+        }
         let tgt = xhr.response.Response.TargetText;
         Zotero.debug(tgt);
         Zotero.ZoteroPDFTranslate._translatedText = tgt;
@@ -310,6 +316,9 @@ Zotero.ZoteroPDFTranslate.translate = {
         );
       },
       (xhr) => {
+        if (xhr.response.error_code) {
+          throw `${xhr.response.error_code}:${xhr.response.error_msg}`;
+        }
         let tgt = "";
         for (let i = 0; i < xhr.response.trans_result.length; i++) {
           tgt += xhr.response.trans_result[i].dst;

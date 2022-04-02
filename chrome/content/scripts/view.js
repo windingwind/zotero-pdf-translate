@@ -23,7 +23,10 @@ Zotero.ZoteroPDFTranslate.view = {
 
     Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
 
-    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(undefined, currentReader);
+    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(
+      undefined,
+      currentReader
+    );
 
     currentReader._window.addEventListener(
       "pointerup",
@@ -42,7 +45,10 @@ Zotero.ZoteroPDFTranslate.view = {
 
     await currentReader._waitForReader();
 
-    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(undefined, currentReader);
+    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(
+      undefined,
+      currentReader
+    );
 
     currentReader._window.addEventListener(
       "pointerup",
@@ -495,7 +501,7 @@ Zotero.ZoteroPDFTranslate.view = {
     fail: "chrome://zotero/skin/cross.png",
   },
 
-  showProgressWindow: function (header, context, type = "success") {
+  showProgressWindow: function (header, context, type = "success", t = 5000) {
     // Zotero.ZoteroTag.progressWindow.close();
     let progressWindow = new Zotero.ProgressWindow({ closeOnClick: true });
     progressWindow.changeHeadline(header);
@@ -504,6 +510,8 @@ Zotero.ZoteroPDFTranslate.view = {
       context
     );
     progressWindow.show();
-    progressWindow.startCloseTimer(5000);
+    if (t > 0) {
+      progressWindow.startCloseTimer(t);
+    }
   },
 };

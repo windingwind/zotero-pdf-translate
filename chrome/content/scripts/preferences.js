@@ -8,7 +8,58 @@ initZPDFTranslatePreferences = function () {
   userSecrets[Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")] =
     Zotero.Prefs.get("ZoteroPDFTranslate.secret");
   Zotero.Prefs.set("ZoteroPDFTranslate.secretObj", JSON.stringify(userSecrets));
+  buildLanguageSettings();
   updatePreviewPannel();
+};
+
+buildLanguageSettings = function () {
+  let SLMenuList = document.getElementById(
+    "zotero-prefpane-zoteropdftranslate-settings-translate-sl"
+  );
+  let SLMenuPopup = document.createElement("menupopup");
+  let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
+  let slIndex = 0;
+
+  let TLMenuList = document.getElementById(
+    "zotero-prefpane-zoteropdftranslate-settings-translate-tl"
+  );
+  let TLMenuPopup = document.createElement("menupopup");
+  let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+  let tlIndex = 0;
+
+  let i = 0;
+  for (let lang of Zotero.ZoteroPDFTranslate.translate.LangCultureNames) {
+    let SLMenuItem = document.createElement("menuitem");
+    SLMenuItem.setAttribute("label", lang.DisplayName);
+    SLMenuItem.setAttribute("value", lang.LangCultureName);
+    SLMenuItem.addEventListener("command", (e) => {
+      let newSL = e.target.value;
+      Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", newSL);
+    });
+    if (lang.LangCultureName == sl) {
+      slIndex = i;
+    }
+
+    let TLMenuItem = document.createElement("menuitem");
+    TLMenuItem.setAttribute("label", lang.DisplayName);
+    TLMenuItem.setAttribute("value", lang.LangCultureName);
+    TLMenuItem.addEventListener("command", (e) => {
+      let newTL = e.target.value;
+      Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", newTL);
+    });
+    if (lang.LangCultureName == tl) {
+      tlIndex = i;
+    }
+
+    SLMenuPopup.appendChild(SLMenuItem);
+    TLMenuPopup.appendChild(TLMenuItem);
+    i += 1;
+  }
+  SLMenuList.appendChild(SLMenuPopup);
+  TLMenuList.appendChild(TLMenuPopup);
+
+  SLMenuList.selectedIndex = slIndex;
+  TLMenuList.selectedIndex = tlIndex;
 };
 
 updateSourceParam = function () {
