@@ -82,6 +82,30 @@ Zotero.ZoteroPDFTranslate.translate = {
     return await Zotero.ZoteroPDFTranslate.translate[translateSource]();
   },
 
+  getLanguageDisable: function (
+    currentLanguage = undefined,
+    currentReader = undefined
+  ) {
+    if (!currentLanguage) {
+      currentLanguage = Zotero.Items.get(currentReader.itemID)
+        .parentItem.getField("language")
+        .split("-")[0];
+    }
+    let disable = false;
+    if (currentLanguage) {
+      let disabledLanguages = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.disabledLanguages"
+      ).split(",");
+      for (let i = 0; i < disabledLanguages.length; i++) {
+        if (disabledLanguages[i] == currentLanguage) {
+          disable = true;
+          break;
+        }
+      }
+    }
+    return disable;
+  },
+
   /*
     Translate Functions
   */

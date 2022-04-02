@@ -124,6 +124,14 @@ Zotero.ZoteroPDFTranslate = {
 
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
+      let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(
+        (item.parentItem.parentItem
+          .getField("language")
+          .split("-")[0])
+      );
+      if (disable) {
+        continue;
+      }
       Zotero.ZoteroPDFTranslate.translate.callTranslateAnnotation(item);
     }
   },

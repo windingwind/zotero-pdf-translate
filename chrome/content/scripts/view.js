@@ -23,21 +23,7 @@ Zotero.ZoteroPDFTranslate.view = {
 
     Zotero.ZoteroPDFTranslate.view.updateSideBarPanelMenu();
 
-    let currentLanguage = Zotero.Items.get(currentReader.itemID)
-      .parentItem.getField("language")
-      .split("-")[0];
-    let disable = false;
-    if (currentLanguage) {
-      let disabledLanguages = Zotero.Prefs.get(
-        "ZoteroPDFTranslate.disabledLanguages"
-      ).split(",");
-      for (let i = 0; i < disabledLanguages.length; i++) {
-        if (disabledLanguages[i] == currentLanguage) {
-          disable = true;
-          break;
-        }
-      }
-    }
+    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(undefined, currentReader);
 
     currentReader._window.addEventListener(
       "pointerup",
@@ -56,25 +42,7 @@ Zotero.ZoteroPDFTranslate.view = {
 
     await currentReader._waitForReader();
 
-    let currentLanguage = "";
-    try {
-      currentLanguage = Zotero.Items.get(currentReader.itemID)
-        .parentItem.getField("language")
-        .split("-")[0];
-    } catch (e) {}
-
-    let disable = false;
-    if (currentLanguage) {
-      let disabledLanguages = Zotero.Prefs.get(
-        "ZoteroPDFTranslate.disabledLanguages"
-      ).split(",");
-      for (let i = 0; i < disabledLanguages.length; i++) {
-        if (disabledLanguages[i] == currentLanguage) {
-          disable = true;
-          break;
-        }
-      }
-    }
+    let disable = Zotero.ZoteroPDFTranslate.translate.getLanguageDisable(undefined, currentReader);
 
     currentReader._window.addEventListener(
       "pointerup",
