@@ -219,6 +219,32 @@ Zotero.ZoteroPDFTranslate = {
       Zotero.Prefs.set("ZoteroPDFTranslate.rawResultOrder", false);
     }
 
+    let showSidebarEngine = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarEngine"
+    );
+    if (typeof showSidebarEngine === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarEngine", true);
+    }
+
+    let showSidebarLanguage = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarLanguage"
+    );
+    if (typeof showSidebarLanguage === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarLanguage", true);
+    }
+
+    let showSidebarRaw = Zotero.Prefs.get("ZoteroPDFTranslate.showSidebarRaw");
+    if (typeof showSidebarRaw === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarRaw", true);
+    }
+
+    let showSidebarCopy = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarCopy"
+    );
+    if (typeof showSidebarCopy === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarCopy", true);
+    }
+
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
     );
@@ -288,8 +314,12 @@ Zotero.ZoteroPDFTranslate = {
     let disabledLanguages = Zotero.Prefs.get(
       "ZoteroPDFTranslate.disabledLanguages"
     );
-    if (!disabledLanguages) {
-      Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "");
+    if (typeof disabledLanguages === "undefined") {
+      if (Services.locale.getRequestedLocale() === "zh-CN") {
+        Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "zh,中文,中文;");
+      } else {
+        Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "");
+      }
     }
   },
 };

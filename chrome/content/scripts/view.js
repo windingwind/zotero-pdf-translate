@@ -119,6 +119,7 @@ Zotero.ZoteroPDFTranslate.view = {
       vbox.style.padding = "0px 10px 10px 10px";
 
       let hboxTranslate = document.createElement("hbox");
+      hboxTranslate.setAttribute("id", "pdf-translate-tabpanel-engine-hbox");
       hboxTranslate.setAttribute("flex", "1");
       hboxTranslate.setAttribute("align", "center");
       hboxTranslate.maxHeight = 50;
@@ -126,6 +127,7 @@ Zotero.ZoteroPDFTranslate.view = {
       hboxTranslate.style.height = "80px";
 
       let hboxLanguage = document.createElement("hbox");
+      hboxLanguage.setAttribute("id", "pdf-translate-tabpanel-language-hbox");
       hboxLanguage.setAttribute("flex", "1");
       hboxLanguage.setAttribute("align", "center");
       hboxLanguage.maxHeight = 50;
@@ -133,6 +135,7 @@ Zotero.ZoteroPDFTranslate.view = {
       hboxLanguage.style.height = "80px";
 
       let hboxCopy = document.createElement("hbox");
+      hboxCopy.setAttribute("id", "pdf-translate-tabpanel-copy-hbox");
       hboxCopy.setAttribute("flex", "1");
       hboxCopy.setAttribute("align", "center");
       hboxCopy.maxHeight = 50;
@@ -259,10 +262,18 @@ Zotero.ZoteroPDFTranslate.view = {
         "Zotero.Utilities.Internal.copyTextToClipboard(Zotero.ZoteroPDFTranslate._translatedText)"
       );
 
-      hboxCopy.append(buttonCopySource, buttonCopyTranslated);
+      let buttonCopyBoth = document.createElement("button");
+      buttonCopyBoth.setAttribute("label", "Copy Both");
+      buttonCopyBoth.setAttribute("flex", "1");
+      buttonCopyBoth.setAttribute(
+        "oncommand",
+        "Zotero.Utilities.Internal.copyTextToClipboard(`${Zotero.ZoteroPDFTranslate._sourceText}\n----\n${Zotero.ZoteroPDFTranslate._translatedText}`)"
+      );
+
+      hboxCopy.append(buttonCopySource, buttonCopyTranslated, buttonCopyBoth);
 
       let textboxSource = document.createElement("textbox");
-      textboxSource.setAttribute("id", "pdf-translate-source");
+      textboxSource.setAttribute("id", "pdf-translate-tabpanel-source");
       textboxSource.setAttribute("flex", "1");
       textboxSource.setAttribute("multiline", true);
       textboxSource.style["font-size"] = `${Zotero.Prefs.get(
@@ -273,6 +284,7 @@ Zotero.ZoteroPDFTranslate.view = {
         "ZoteroPDFTranslate.rawResultOrder"
       );
       let splitter = document.createElement("splitter");
+      splitter.setAttribute("id", "pdf-translate-tabpanel-splitter");
       splitter.setAttribute("collapse", rawResultOrder ? "after" : "before");
       let grippy = document.createElement("grippy");
       splitter.append(grippy);
@@ -280,7 +292,7 @@ Zotero.ZoteroPDFTranslate.view = {
       let textboxTranslated = document.createElement("textbox");
       textboxTranslated.setAttribute("multiline", true);
       textboxTranslated.setAttribute("flex", "1");
-      textboxTranslated.setAttribute("id", "pdf-translate-translated");
+      textboxTranslated.setAttribute("id", "pdf-translate-tabpanel-translated");
       textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
@@ -336,6 +348,30 @@ Zotero.ZoteroPDFTranslate.view = {
         }
       }
     }
+
+    let showSidebarEngine = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarEngine"
+    );
+    document.getElementById("pdf-translate-tabpanel-engine-hbox").hidden =
+      !showSidebarEngine;
+
+    let showSidebarLanguage = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarLanguage"
+    );
+    document.getElementById("pdf-translate-tabpanel-language-hbox").hidden =
+      !showSidebarLanguage;
+
+    let showSidebarRaw = Zotero.Prefs.get("ZoteroPDFTranslate.showSidebarRaw");
+    document.getElementById("pdf-translate-tabpanel-source").hidden =
+      !showSidebarRaw;
+    document.getElementById("pdf-translate-tabpanel-splitter").hidden =
+      !showSidebarRaw;
+
+    let showSidebarCopy = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarCopy"
+    );
+    document.getElementById("pdf-translate-tabpanel-copy-hbox").hidden =
+      !showSidebarCopy;
   },
 
   checkSideBarPanel: function () {

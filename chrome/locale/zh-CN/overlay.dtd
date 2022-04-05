@@ -30,12 +30,16 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.3.19">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-02 15:07:50">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 0.3.20">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-05 23:38:24">
 
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "字体大小">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "反转侧边栏源/结果显示">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "预览">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">

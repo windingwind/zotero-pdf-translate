@@ -1,4 +1,6 @@
 Zotero.ZoteroPDFTranslate.translate = {
+  _timestamp: 0,
+
   callTranslate: async function (currentReader, force = false) {
     let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText(currentReader);
 
@@ -24,9 +26,18 @@ Zotero.ZoteroPDFTranslate.translate = {
     Zotero.ZoteroPDFTranslate.view.updateResults();
     Zotero.ZoteroPDFTranslate.view.updatePopupStyle(currentReader);
 
+    let t = Date.parse(new Date());
+    Zotero.ZoteroPDFTranslate.translate._timestamp = t;
+    Zotero.debug(`ZoteroPDFTranslate: Translate ${t} start.`);
+
     let success = await Zotero.ZoteroPDFTranslate.translate.getTranslation();
 
-    Zotero.debug(`ZoteroPDFTranslate: Translate return ${success}`);
+    Zotero.debug(`ZoteroPDFTranslate: Translate ${t} returns ${success}`);
+    if (Zotero.ZoteroPDFTranslate.translate._timestamp > t) {
+      Zotero.debug(`ZoteroPDFTranslate: Translate ${t} overwritten.`);
+      return true;
+    }
+
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup && Zotero.ZoteroPDFTranslate.view.popupTextBox) {
       Zotero.ZoteroPDFTranslate.view.popupTextBox.remove();
@@ -247,6 +258,13 @@ Zotero.ZoteroPDFTranslate.translate = {
       return _x(k, d);
     }
 
+    function encodeRFC5987ValueChars(str) {
+      return encodeURIComponent(str)
+        .replace(/['()]/g, escape) // i.e., %27 %28 %29
+        .replace(/\*/g, "%2A")
+        .replace(/%20+/g, "+");
+    }
+
     let rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${
       args.sl.split("-")[0]
     }&SourceText=#$#&Target=${args.tl.split("-")[0]}&Timestamp=${Date.parse(
@@ -255,7 +273,7 @@ Zotero.ZoteroPDFTranslate.translate = {
       .toString()
       .substr(0, 10)}&Version=2018-03-21`;
 
-    let sha1Str = encodeURIComponent(
+    let sha1Str = encodeRFC5987ValueChars(
       b64_hmac_sha1(
         secretKey,
         `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", args.text)}`
@@ -274,7 +292,7 @@ Zotero.ZoteroPDFTranslate.translate = {
             // Encode \s to +
             body: `${rawStr.replace(
               "#$#",
-              encodeURIComponent(args.text).replace(/%20+/g, "+")
+              encodeRFC5987ValueChars(args.text)
             )}&Signature=${sha1Str}`,
             responseType: "json",
           }

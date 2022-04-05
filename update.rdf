@@ -5,7 +5,7 @@
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.3.19</em:version>
+            <em:version>0.3.20</em:version>
             <em:targetApplication>
               <rdf:Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>

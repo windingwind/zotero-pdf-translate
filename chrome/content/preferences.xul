@@ -12,6 +12,10 @@
         <preference id="pref-zoteropdftranslate-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
         <preference id="pref-zoteropdftranslate-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
+        <preference id="pref-zoteropdftranslate-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
+        <preference id="pref-zoteropdftranslate-show-sidebar-language" name="extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage" type="bool" />
+        <preference id="pref-zoteropdftranslate-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
+        <preference id="pref-zoteropdftranslate-show-sidebar-copy" name="extensions.zotero.ZoteroPDFTranslate.showSidebarCopy" type="bool" />
         <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
         <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
@@ -120,6 +124,22 @@
                         <row>
                           <label value="&zotero.zoteropdftranslate.pref.advanced.fontSize.label;" />
                           <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-engine" preference="pref-zoteropdftranslate-show-sidebar-engine" />
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-language" preference="pref-zoteropdftranslate-show-sidebar-language" />
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-source" preference="pref-zoteropdftranslate-show-sidebar-source" />
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-copy" preference="pref-zoteropdftranslate-show-sidebar-copy" />
+                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label;" />
                         </row>
                         <row>
                           <checkbox id="zotero-prefpane-zoteropdftranslate-settings-raw-result-order" preference="pref-zoteropdftranslate-raw-result-order" />

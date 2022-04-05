@@ -30,13 +30,17 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.19">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-02 15:07:51">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.20">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-05 23:38:24">
 
 
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "Font Size">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "Reverse Raw/Result SideBar">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label "SideBar: Show Language Selection Menu">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
+<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "Preview">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
