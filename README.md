@@ -1,4 +1,4 @@
-# ![PDFTranslate](https://github.com/windingwind/zotero-pdf-translate/raw/main/chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
+# ![PDFTranslate](chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
 
 This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero built-in PDF reader.
 
@@ -68,42 +68,40 @@ The default engine is Google Translate. Currently we support:
 | Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/113) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
 
-**WARNING**  
-Translation engines that do not require secret is only for trial use and cannot guarantee quality or availability.  
-If you expect stable and high-quality translation results, please use a translation engine that requires secret.  
-If the engine you want is not yet supported, please post an issue.
+> If the engine you want is not yet supported, please post an issue.
 
 ### General-Lauguage Settings
 
 You can change the source and target language here. For some Translte Engines, the `secret` is required. They are listed below:
 
-> **Microsoft Translate**  
-> **WARNING The default secret may reach limit or be deleted any time. Please consider use your own secret.**  
-> For how to get a free Microsoft secret and more infomation, see [this](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it in the settings.  
+**Microsoft Translate**  
+Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it in the settings.  
+The secret format is `MY_SECRET`. 
 > See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to setup the Microsoft Translate.
 
-> **DeepL Translate**
-> Follow the instruction [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+**DeepL Translate**  
+Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).
 
-> **Niu Translate**  
-> Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)  
-> The secret is `APIKEY`.
+**Niu Translate**  
+Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
+The secret format is `MY_APIKEY`.  
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)   
 
-> **Baidu Translate**  
-> Apply [here](https://fanyi-api.baidu.com/product/113).
+**Baidu Translate**  
+Apply [here](https://fanyi-api.baidu.com/product/113).  
+The secret format is `MY_APPID#MY_KEY`(split with '#').  
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)   
+
+**Tencent Translate**  
+Apply [here](https://cloud.tencent.com/product/tmt).  
+The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').  
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)  
-> The secret format is `MY_APPID#MY_KEY`(split with '#').
-
-> **Tencent Translate**  
-> Apply [here](https://cloud.tencent.com/product/tmt). 
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)  
-> The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').
 
 ### Advanced-UI
 
-- Font Size: The font size of result text, default `12`
-- Reverse Raw/Result SideBar: Reverse the order of Raw/Result in sidebar if `true`, default `false`
+- `Font Size`: The font size of result text, default `12`
+- `SideBar: Show xxx`: Show or hide sidebar elements, default `true` 
+- `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in sidebar if `true`, default `false`
 
 ### Advanced-Others
 - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
