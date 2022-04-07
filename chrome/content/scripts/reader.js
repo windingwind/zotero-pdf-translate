@@ -29,15 +29,23 @@ Zotero.ZoteroPDFTranslate.reader = {
     for (let i = 0; i < tabs.length; i++) {
       let tabpanels = tabs[i].getElementsByTagName("tabpanel");
       if (
+        // Skip ZoteroPane tab
         tabs[i].getAttribute("id") != "zotero-view-tabbox" &&
         tabpanels.length &&
         tabpanels[0].children.length &&
         tabpanels[0].children[0].item &&
         Zotero_Tabs.selectedID != "zotero-pane" &&
+        // Have the same title
         tabpanels[0].children[0].item.getField("title") ==
           Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
             " - "
-          )[0]
+          )[0] &&
+        // Skip the current tab, work around to get sidebar with 2 attachments
+        // TODO: fix with more attachments
+        Array.prototype.every.call(
+          tabs[i].getElementsByTagName("tab"),
+          (e) => e.id != "pdf-translate-tab"
+        )
       ) {
         return tabs[i];
       }

@@ -129,9 +129,6 @@ Zotero.ZoteroPDFTranslate = {
   },
 
   onSelect: async function (event, currentReader, disableAuto) {
-    Zotero.debug(
-      `ZoteroPDFTranslate: onTranslate. language disable=${disableAuto}`
-    );
     // Zotero.debug(e)
 
     // Work around to only allow event from ifrme
@@ -154,6 +151,10 @@ Zotero.ZoteroPDFTranslate = {
     if (!enable || !text || currentButton || currentNode) {
       return false;
     }
+
+    Zotero.debug(
+      `ZoteroPDFTranslate: onTranslate. language disable=${disableAuto}`
+    );
 
     let enableAuto =
       Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") && !disableAuto;

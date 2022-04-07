@@ -30,8 +30,8 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.20">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-05 23:38:24">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.21">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-07 22:02:40">
 
 
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
