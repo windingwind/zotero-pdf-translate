@@ -9,6 +9,7 @@
         <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-zoteropdftranslate-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
         <preference id="pref-zoteropdftranslate-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
+        <preference id="pref-zoteropdftranslate-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
         <preference id="pref-zoteropdftranslate-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
         <preference id="pref-zoteropdftranslate-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
@@ -49,6 +50,10 @@
                 <row>
                   <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
                   <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
+                </row>
+                <row>
+                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-note" preference="pref-zoteropdftranslate-enable-note" />
+                  <label value="&zotero.zoteropdftranslate.pref.basic.enableNote.label;" />
                 </row>
               </rows>
             </groupbox>

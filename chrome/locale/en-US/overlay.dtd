@@ -5,6 +5,7 @@
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enableAuto.label "Automatic Translation">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.zoteropdftranslate.pref.basic.enableComment.label "Translate Annotation">
+<!ENTITY zotero.zoteropdftranslate.pref.basic.enableNote.label "Show 'Add to Note(Translated)' in Popup">
 <!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "Service">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "Google">
@@ -30,8 +31,8 @@
 
 <!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.21">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-07 22:02:40">
+<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION 0.3.22">
+<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build 2022-04-08 00:20:08">
 
 
 <!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">

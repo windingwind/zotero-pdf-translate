@@ -1,5 +1,6 @@
 Zotero.ZoteroPDFTranslate.translate = {
   _timestamp: 0,
+  _enableNote: false,
 
   callTranslate: async function (currentReader, force = false) {
     let text = Zotero.ZoteroPDFTranslate.reader.getSelectedText(currentReader);
@@ -85,6 +86,20 @@ Zotero.ZoteroPDFTranslate.translate = {
       );
     }
     return true;
+  },
+
+  callTranslateNote: async function (annotations) {
+    try {
+      for (let annotation of annotations) {
+        Zotero.ZoteroPDFTranslate._sourceText = annotation.text;
+        await Zotero.ZoteroPDFTranslate.translate.getTranslation();
+        annotation.text = `${Zotero.ZoteroPDFTranslate._sourceText}\n----\n${Zotero.ZoteroPDFTranslate._translatedText}\n`;
+      }
+    } catch (e) {
+      Zotero.debug(`ZoteroPDFTranslate.callTranslateNote Error: ${e}`);
+    }
+    Zotero.debug(`ZoteroPDFTranslate.callTranslateNote : ${annotations}`);
+    return annotations;
   },
 
   getTranslation: async function () {

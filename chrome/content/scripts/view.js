@@ -231,7 +231,7 @@ Zotero.ZoteroPDFTranslate.view = {
             Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
           );
           Zotero.Prefs.set("ZoteroPDFTranslate.secret", userSecrets[newSource]);
-          Zotero.ZoteroPDFTranslate.onButtonClick(e);
+          Zotero.ZoteroPDFTranslate.onTranslateButtonClick(e);
         });
         menupopup.appendChild(menuitem);
       }
@@ -241,7 +241,7 @@ Zotero.ZoteroPDFTranslate.view = {
       buttonTranslate.setAttribute("flex", "1");
       buttonTranslate.setAttribute(
         "oncommand",
-        "Zotero.ZoteroPDFTranslate.onButtonClick()"
+        "Zotero.ZoteroPDFTranslate.onTranslateButtonClick()"
       );
 
       hboxTranslate.append(menuLabel, menulist, buttonTranslate);
@@ -439,15 +439,12 @@ Zotero.ZoteroPDFTranslate.view = {
     // Create button
     let button = currentReader._window.document.createElement("button");
     button.setAttribute("id", "pdf-translate-popup-button");
-    button.setAttribute("label", "");
-    button.setAttribute("tooltiptext", "Add/Refresh Rule");
     button.setAttribute("label", "Translate");
     button.onclick = function (e) {
-      Zotero.ZoteroPDFTranslate.onButtonClick(e, currentReader);
+      Zotero.ZoteroPDFTranslate.onTranslateButtonClick(e, currentReader);
     };
-    button.style["width"] = "100px";
-    button.style["height"] = "20px";
-    selectionMenu.style["height"] = "40px";
+    button.style["width"] = "102px";
+    button.style["height"] = "26px";
 
     selectionMenu.appendChild(button);
   },
@@ -497,6 +494,33 @@ Zotero.ZoteroPDFTranslate.view = {
     selectionMenu.addEventListener(
       "DOMSubtreeModified",
       function () {
+        let addToNoteButton =
+          selectionMenu.getElementsByClassName("wide-button")[0];
+        let currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+        if (
+          addToNoteButton &&
+          !currentReader._iframeWindow.document.getElementById(
+            "pdf-translate-popup-add-to-note-button"
+          )
+        ) {
+          let button = currentReader._window.document.createElement("button");
+          button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
+          button.setAttribute(
+            "label",
+            `${Zotero.getString("pdfReader.addToNote")}(Translated)`
+          );
+          button.onclick = function (e) {
+            Zotero.ZoteroPDFTranslate.onTranslateNoteButtonClick(
+              e,
+              currentReader,
+              addToNoteButton
+            );
+          };
+          button.style["width"] = "102px";
+          button.style["height"] = "26px";
+          addToNoteButton.after(button);
+        }
+
         if (parseInt(selectionMenu.style.height) < selectionMenu.scrollHeight)
           selectionMenu.style.height = `${selectionMenu.scrollHeight}px`;
       },

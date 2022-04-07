@@ -51,6 +51,7 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 - Automatically Translation, default `true`
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Translate Annotation: Save annotation's translation as comment, default `true`
+- Show 'Add to Note(Translated)' in Popup: default `true`
 
 ### General-Translate Engine
 

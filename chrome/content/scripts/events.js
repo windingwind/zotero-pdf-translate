@@ -34,21 +34,24 @@ Zotero.ZoteroPDFTranslate = {
   notifierCallback: {
     // Call view.updateTranslatePanels when a tab is added or selected
     notify: async function (event, type, ids, extraData) {
-      Zotero.debug("ZoteroPDFTranslate: open file event detected.");
-      if (event == "select" && type == "tab") {
-        if (extraData[ids[0]].type !== "reader") {
-          return;
-        }
+      if (
+        event == "select" &&
+        type == "tab" &&
+        extraData[ids[0]].type == "reader"
+      ) {
+        Zotero.debug("ZoteroPDFTranslate: open attachment event detected.");
         Zotero.ZoteroPDFTranslate.onReaderSelect();
       }
       if (
         (event == "close" && type == "tab") ||
         (event == "open" && type == "file")
       ) {
+        Zotero.debug("ZoteroPDFTranslate: open window event detected.");
         Zotero.ZoteroPDFTranslate.onWindowReaderCheck();
         setTimeout(Zotero.ZoteroPDFTranslate.onWindowReaderCheck, 1000);
       }
       if (event == "add" && type == "item") {
+        Zotero.debug("ZoteroPDFTranslate: add annotation event detected.");
         // Disable the reader loading annotation update
         if (
           new Date().getTime() - Zotero.ZoteroPDFTranslate._readerSelect <
@@ -57,6 +60,14 @@ Zotero.ZoteroPDFTranslate = {
           return;
         }
         Zotero.ZoteroPDFTranslate.onAnnotationAdd(ids);
+      }
+      if (
+        event == "modify" &&
+        type == "item" &&
+        Zotero.Items.get(ids[0]).itemType == "note"
+      ) {
+        Zotero.debug("ZoteroPDFTranslate: add note event detected.");
+        Zotero.ZoteroPDFTranslate.translate._enableNote = false;
       }
     },
   },
@@ -68,7 +79,7 @@ Zotero.ZoteroPDFTranslate = {
     let shortcuts = [
       {
         id: 0,
-        func: Zotero.ZoteroPDFTranslate.onButtonClick,
+        func: Zotero.ZoteroPDFTranslate.onTranslateButtonClick,
         modifiers: null,
         key: "t",
       },
@@ -106,6 +117,7 @@ Zotero.ZoteroPDFTranslate = {
   onReaderSelect: function () {
     Zotero.ZoteroPDFTranslate._readerSelect = new Date().getTime();
     Zotero.ZoteroPDFTranslate.view.updateTranslatePanel();
+    Zotero.ZoteroPDFTranslate.bindAddToNote();
   },
 
   // Check readers in seperate window
@@ -172,7 +184,7 @@ Zotero.ZoteroPDFTranslate = {
     }
   },
 
-  onButtonClick: function (event, currentReader = undefined) {
+  onTranslateButtonClick: function (event, currentReader = undefined) {
     if (!currentReader) {
       currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
     }
@@ -186,6 +198,44 @@ Zotero.ZoteroPDFTranslate = {
       currentReader,
       (force = true)
     );
+  },
+
+  onTranslateNoteButtonClick: async function (
+    event,
+    currentReader,
+    addToNoteButton
+  ) {
+    if (!currentReader) {
+      currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+    }
+    Zotero.ZoteroPDFTranslate.translate._enableNote = true;
+    await addToNoteButton.click();
+  },
+
+  bindAddToNote: async function () {
+    Zotero.debug("ZoteroPDFTranslate.bindAddToNote");
+    let currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+    if (!currentReader) {
+      return false;
+    }
+    await currentReader._waitForReader();
+
+    currentReader._addToNoteOrigin = currentReader._addToNote;
+    currentReader._addToNoteTranslate = async function (annotations) {
+      Zotero.debug("ZoteroPDFTranslate.addToNoteTranslate Start");
+      if (
+        Zotero.ZoteroPDFTranslate.translate._enableNote &&
+        Zotero.Prefs.get("ZoteroPDFTranslate.enableNote")
+      ) {
+        Zotero.debug("ZoteroPDFTranslate.addToNoteTranslate Allowed");
+        annotations =
+          await Zotero.ZoteroPDFTranslate.translate.callTranslateNote(
+            annotations
+          );
+      }
+      currentReader._addToNoteOrigin.call(currentReader, annotations);
+    };
+    currentReader._addToNote = currentReader._addToNoteTranslate;
   },
 
   resetState: function () {
@@ -208,6 +258,11 @@ Zotero.ZoteroPDFTranslate = {
     let enableComment = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment");
     if (typeof enableComment === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
+    }
+
+    let enableNote = Zotero.Prefs.get("ZoteroPDFTranslate.enableNote");
+    if (typeof enableNote === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableNote", true);
     }
 
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
@@ -317,7 +372,10 @@ Zotero.ZoteroPDFTranslate = {
     );
     if (typeof disabledLanguages === "undefined") {
       if (Services.locale.getRequestedLocale() === "zh-CN") {
-        Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "zh,中文,中文;");
+        Zotero.Prefs.set(
+          "ZoteroPDFTranslate.disabledLanguages",
+          "zh,中文,中文;"
+        );
       } else {
         Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "");
       }
