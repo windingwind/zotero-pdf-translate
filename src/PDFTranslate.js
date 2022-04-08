@@ -124,6 +124,7 @@ export default PDFTranslate = {
   },
 
   onAnnotationAdd: function (ids) {
+    Zotero.debug("ZoteroPDFTranslate: add annotation translation");
     let items = Zotero.Items.get(ids);
 
     for (let i = 0; i < items.length; i++) {

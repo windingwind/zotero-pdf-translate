@@ -128,7 +128,7 @@ translate = {
     currentLanguage = undefined,
     currentReader = undefined
   ) {
-    if (!currentLanguage) {
+    if (typeof currentLanguage == "undefined") {
       currentLanguage = Zotero.Items.get(currentReader.itemID)
         .parentItem.getField("language")
         .split("-")[0];

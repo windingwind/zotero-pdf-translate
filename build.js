@@ -87,7 +87,7 @@ esbuild
     entryPoints: ["src/index.js"],
     bundle: true,
     outfile: path.join(BUILD_DIR, "addon/chrome/content/scripts/index.js"),
-    minify: true,
+    // minify: true,
   })
   .catch(() => process.exit(1));
 
