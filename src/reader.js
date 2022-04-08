@@ -1,4 +1,4 @@
-Zotero.ZoteroPDFTranslate.reader = {
+export default reader = {
   /*
     Reader Functions
   */
