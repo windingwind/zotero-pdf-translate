@@ -1,4 +1,4 @@
-Zotero.ZoteroPDFTranslate = {
+export default PDFTranslate = {
   _sourceText: "",
   _translatedText: "",
   _debug: "",

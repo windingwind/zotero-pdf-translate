@@ -26,10 +26,10 @@ _Note_ Not recommended if you don't want to edit the code.
 ```shell
 git clone git@github.com:windingwind/zotero-pdf-translate.git
 cd zotero-pdf-translate
-VERSION=0.0.1 make
+npm i
+npm run build
 ```
-
-Alternatively, version numbers can be passed to make directly: `make VERSION=0.0.1`
+Edit version in the `package.json`
 
 ## Usage
 

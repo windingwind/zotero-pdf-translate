@@ -1,4 +1,4 @@
-Zotero.ZoteroPDFTranslate.view = {
+export default view = {
   popupTextBox: undefined,
   sideBarTextboxSource: undefined,
   sideBarTextboxTranslated: undefined,

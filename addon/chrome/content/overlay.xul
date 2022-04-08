@@ -4,5 +4,5 @@
 
 <overlay id="zoteropdftranslate" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script src="chrome://zotero/content/include.js"/>
-    <script src="chrome://zoteropdftranslate/content/scripts/include.js"/>
+    <script src="chrome://zoteropdftranslate/content/scripts/index.js"/>
 </overlay>
