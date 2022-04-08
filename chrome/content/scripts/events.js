@@ -61,14 +61,6 @@ Zotero.ZoteroPDFTranslate = {
         }
         Zotero.ZoteroPDFTranslate.onAnnotationAdd(ids);
       }
-      if (
-        event == "modify" &&
-        type == "item" &&
-        Zotero.Items.get(ids[0]).itemType == "note"
-      ) {
-        Zotero.debug("ZoteroPDFTranslate: add note event detected.");
-        Zotero.ZoteroPDFTranslate.translate._enableNote = false;
-      }
     },
   },
 

@@ -91,13 +91,16 @@ Zotero.ZoteroPDFTranslate.translate = {
   callTranslateNote: async function (annotations) {
     try {
       for (let annotation of annotations) {
-        Zotero.ZoteroPDFTranslate._sourceText = annotation.text;
-        await Zotero.ZoteroPDFTranslate.translate.getTranslation();
+        if (Zotero.ZoteroPDFTranslate._sourceText !== annotation.text) {
+          Zotero.ZoteroPDFTranslate._sourceText = annotation.text;
+          await Zotero.ZoteroPDFTranslate.translate.getTranslation();
+        }
         annotation.text = `${Zotero.ZoteroPDFTranslate._sourceText}\n----\n${Zotero.ZoteroPDFTranslate._translatedText}\n`;
       }
     } catch (e) {
       Zotero.debug(`ZoteroPDFTranslate.callTranslateNote Error: ${e}`);
     }
+    Zotero.ZoteroPDFTranslate.translate._enableNote = false;
     Zotero.debug(`ZoteroPDFTranslate.callTranslateNote : ${annotations}`);
     return annotations;
   },
