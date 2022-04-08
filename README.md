@@ -1,4 +1,4 @@
-# ![PDFTranslate](chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
+# ![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
 
 This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero built-in PDF reader.
 
@@ -51,7 +51,7 @@ Not the lauguage you want? The default tartget lauguage is `zh-CN`(Chinese Simpl
 - Automatic Translation, default `true`
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Automatic Annotation Translation: Save annotation's translation as comment, default `true`
-- Show '![PDFTranslate](chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`  
+- Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`  
   > Unvisible if no active note editor opened.  
 
 ### General-Translate Engine

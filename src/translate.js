@@ -182,7 +182,12 @@ translate = {
     if (errorType == "request") {
       return `[Request Error]
 Engine not available, invalid secret, or request too fast.
-Using another translation engine or posting the issue here: https://github.com/windingwind/zotero-pdf-translate/issues
+Use another translation engine or post the issue here: https://github.com/windingwind/zotero-pdf-translate/issues
+The message below is from ${
+        Zotero.ZoteroPDFTranslate.translate.sourcesName[
+          Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")
+        ]
+      }, not Zotero or the PDF Translate addon.
         ${Zotero.ZoteroPDFTranslate._debug}`;
     } else if (errorType == "parse") {
       return `[Parse Error]
