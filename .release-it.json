@@ -1,5 +1,7 @@
 {
-  "npm": false,
+  "npm": {
+    "publish": false
+  },
   "github": {
     "release": true,
     "assets": ["builds/*.xpi"]
