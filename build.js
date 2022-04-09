@@ -86,6 +86,7 @@ esbuild
   .build({
     entryPoints: ["src/index.js"],
     bundle: true,
+    // Entry should be the same as addon/chrome/content/overlay.xul
     outfile: path.join(BUILD_DIR, "addon/chrome/content/scripts/index.js"),
     // minify: true,
   })
