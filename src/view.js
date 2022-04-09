@@ -317,6 +317,7 @@ export default view = {
   },
 
   updateSideBarPanelMenu: function () {
+    Zotero.debug("ZoteroPDFTranslate: updateSideBarPanelMenu");
     Zotero.ZoteroPDFTranslate.view.checkSideBarPanel();
     let SLMenuList = document.getElementById("pdf-translate-sl");
     let TLMenuList = document.getElementById("pdf-translate-tl");
@@ -352,26 +353,33 @@ export default view = {
     let showSidebarEngine = Zotero.Prefs.get(
       "ZoteroPDFTranslate.showSidebarEngine"
     );
-    document.getElementById("pdf-translate-tabpanel-engine-hbox").hidden =
-      !showSidebarEngine;
+    try {
+      document.getElementById("pdf-translate-tabpanel-engine-hbox").hidden =
+        !showSidebarEngine;
 
-    let showSidebarLanguage = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarLanguage"
-    );
-    document.getElementById("pdf-translate-tabpanel-language-hbox").hidden =
-      !showSidebarLanguage;
+      let showSidebarLanguage = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.showSidebarLanguage"
+      );
+      document.getElementById("pdf-translate-tabpanel-language-hbox").hidden =
+        !showSidebarLanguage;
 
-    let showSidebarRaw = Zotero.Prefs.get("ZoteroPDFTranslate.showSidebarRaw");
-    document.getElementById("pdf-translate-tabpanel-source").hidden =
-      !showSidebarRaw;
-    document.getElementById("pdf-translate-tabpanel-splitter").hidden =
-      !showSidebarRaw;
+      let showSidebarRaw = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.showSidebarRaw"
+      );
+      document.getElementById("pdf-translate-tabpanel-source").hidden =
+        !showSidebarRaw;
+      document.getElementById("pdf-translate-tabpanel-splitter").hidden =
+        !showSidebarRaw;
 
-    let showSidebarCopy = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarCopy"
-    );
-    document.getElementById("pdf-translate-tabpanel-copy-hbox").hidden =
-      !showSidebarCopy;
+      let showSidebarCopy = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.showSidebarCopy"
+      );
+      document.getElementById("pdf-translate-tabpanel-copy-hbox").hidden =
+        !showSidebarCopy;
+    } catch (e) {
+      Zotero.debug("ZoteroPDFTranslate: updateSideBarPanelMenu error");
+      Zotero.debug(e);
+    }
   },
 
   checkSideBarPanel: function () {

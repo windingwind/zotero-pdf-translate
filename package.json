@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "node build.js",
+    "release": "release-it",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,8 @@
     "compressing": "^1.5.1",
     "esbuild": "^0.14.34",
     "replace-in-file": "^6.3.2"
+  },
+  "devDependencies": {
+    "release-it": "^14.14.0"
   }
 }
