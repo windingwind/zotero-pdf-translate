@@ -439,9 +439,7 @@ export default view = {
     }
     let selectionMenu =
       currentReader._iframeWindow.document.getElementById("selection-menu");
-    if (!currentReader || !selectionMenu) {
-      return false;
-    }
+
     Zotero.ZoteroPDFTranslate.view.onPopopItemChange(selectionMenu);
 
     // Create button
@@ -455,10 +453,53 @@ export default view = {
     button.onclick = function (e) {
       Zotero.ZoteroPDFTranslate.onTranslateButtonClick(e, currentReader);
     };
-    button.style["width"] = "102px";
-    button.style["height"] = "26px";
+    button.style.width = `${selectionMenu.scrollWidth}px`;
+    button.style.height = "26px";
 
     selectionMenu.appendChild(button);
+  },
+
+  buildPopupTranslationToNoteButton: function (
+    currentReader = undefined,
+    selectionMenu = undefined
+  ) {
+    Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
+    if (!currentReader) {
+      currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
+    }
+    if (!currentReader || !selectionMenu) {
+      return false;
+    }
+    let addToNoteButton =
+      selectionMenu.getElementsByClassName("wide-button")[0];
+    let translationToNote = currentReader._iframeWindow.document.getElementById(
+      "pdf-translate-popup-add-to-note-button"
+    );
+    if (addToNoteButton) {
+      if (
+        Zotero.Prefs.get("ZoteroPDFTranslate.enableNote") &&
+        !translationToNote
+      ) {
+        let button = currentReader._window.document.createElement("button");
+        button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
+        button.setAttribute("label", Zotero.getString("pdfReader.addToNote"));
+        button.setAttribute(
+          "image",
+          "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
+        );
+        button.onclick = function (e) {
+          Zotero.ZoteroPDFTranslate.onTranslateNoteButtonClick(
+            e,
+            currentReader,
+            addToNoteButton
+          );
+        };
+        button.style.width = `${selectionMenu.scrollWidth}px`;
+        button.style.height = "26px";
+        addToNoteButton.after(button);
+      }
+    }
+    return true;
   },
 
   removePopupPanel: function (currentReader) {
@@ -500,47 +541,22 @@ export default view = {
     }
     Zotero.ZoteroPDFTranslate.view.popupTextBox.style.height = `${textHeight}px`;
     selectionMenu.style.height = `${textHeight + 20}px`;
+
+    // Update button width
+    let buttons = selectionMenu.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].style.width = selectionMenu.style.width;
+    }
   },
 
   onPopopItemChange: function (selectionMenu) {
     selectionMenu.addEventListener(
       "DOMSubtreeModified",
       function () {
-        let addToNoteButton =
-          selectionMenu.getElementsByClassName("wide-button")[0];
-        let currentReader = Zotero.ZoteroPDFTranslate.reader.getReader();
-        let translationToNote =
-          currentReader._iframeWindow.document.getElementById(
-            "pdf-translate-popup-add-to-note-button"
-          );
-        if (addToNoteButton) {
-          if (
-            Zotero.Prefs.get("ZoteroPDFTranslate.enableNote") &&
-            !translationToNote
-          ) {
-            let button = currentReader._window.document.createElement("button");
-            button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
-            button.setAttribute(
-              "label",
-              Zotero.getString("pdfReader.addToNote")
-            );
-            button.setAttribute(
-              "image",
-              "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
-            );
-            button.onclick = function (e) {
-              Zotero.ZoteroPDFTranslate.onTranslateNoteButtonClick(
-                e,
-                currentReader,
-                addToNoteButton
-              );
-            };
-            button.style["width"] = "102px";
-            button.style["height"] = "26px";
-            addToNoteButton.after(button);
-          }
-        }
-
+        Zotero.ZoteroPDFTranslate.view.buildPopupTranslationToNoteButton(
+          undefined,
+          selectionMenu
+        );
         if (parseInt(selectionMenu.style.height) < selectionMenu.scrollHeight)
           selectionMenu.style.height = `${selectionMenu.scrollHeight}px`;
       },
@@ -566,7 +582,7 @@ export default view = {
       Zotero.ZoteroPDFTranslate.view.popupTextBox.setAttribute(
         "value",
         Zotero.ZoteroPDFTranslate._translatedText
-        ? Zotero.ZoteroPDFTranslate._translatedText
+          ? Zotero.ZoteroPDFTranslate._translatedText
           : Zotero.ZoteroPDFTranslate._sourceText
       );
     }
