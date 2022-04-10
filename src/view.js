@@ -555,22 +555,18 @@ export default view = {
         Zotero.ZoteroPDFTranslate._debug;
     }
     if (Zotero.ZoteroPDFTranslate.view.sideBarTextboxSource) {
-      Zotero.ZoteroPDFTranslate.view.sideBarTextboxSource.setAttribute(
-        "value",
-        Zotero.ZoteroPDFTranslate._sourceText
-      );
+      Zotero.ZoteroPDFTranslate.view.sideBarTextboxSource.value =
+        Zotero.ZoteroPDFTranslate._sourceText;
     }
     if (Zotero.ZoteroPDFTranslate.view.sideBarTextboxTranslated) {
-      Zotero.ZoteroPDFTranslate.view.sideBarTextboxTranslated.setAttribute(
-        "value",
-        Zotero.ZoteroPDFTranslate._translatedText
-      );
+      Zotero.ZoteroPDFTranslate.view.sideBarTextboxTranslated.value =
+        Zotero.ZoteroPDFTranslate._translatedText;
     }
     if (Zotero.ZoteroPDFTranslate.view.popupTextBox) {
       Zotero.ZoteroPDFTranslate.view.popupTextBox.setAttribute(
         "value",
         Zotero.ZoteroPDFTranslate._translatedText
-          ? Zotero.ZoteroPDFTranslate._translatedText
+        ? Zotero.ZoteroPDFTranslate._translatedText
           : Zotero.ZoteroPDFTranslate._sourceText
       );
     }
