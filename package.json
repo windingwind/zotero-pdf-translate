@@ -1,6 +1,6 @@
 {
   "name": "zotero-pdf-translate",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero built-in PDF reader.",
   "main": "src/index.js",
   "scripts": {
