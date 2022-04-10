@@ -28,6 +28,9 @@ export default reader = {
     let tabs = document.getElementsByTagName("tabbox");
     for (let i = 0; i < tabs.length; i++) {
       let tabpanels = tabs[i].getElementsByTagName("tabpanel");
+      let readerTitle = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
+        " - "
+      )[0];
       if (
         // Skip ZoteroPane tab
         tabs[i].getAttribute("id") != "zotero-view-tabbox" &&
@@ -35,11 +38,10 @@ export default reader = {
         tabpanels[0].children.length &&
         tabpanels[0].children[0].item &&
         Zotero_Tabs.selectedID != "zotero-pane" &&
-        // Have the same title
-        tabpanels[0].children[0].item.getField("title") ==
-          Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
-            " - "
-          )[0] &&
+        // Have the same title, use substr to avoid the ' - ' in title causing error
+        tabpanels[0].children[0].item
+          .getField("title")
+          .substr(0, readerTitle.length) == readerTitle &&
         // Skip the current tab, work around to get sidebar with 2 attachments
         // TODO: fix with more attachments
         Array.prototype.every.call(
