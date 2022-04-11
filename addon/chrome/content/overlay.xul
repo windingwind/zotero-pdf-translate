@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://zoteropdftranslate/skin/overlay.css" type="text/css"?>
-<!DOCTYPE overlay SYSTEM "chrome://zoteropdftranslate/locale/overlay.dtd">
+<?xml-stylesheet href="chrome://__addonRef__/skin/overlay.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://__addonRef__/locale/overlay.dtd">
 
-<overlay id="zoteropdftranslate" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script src="chrome://zotero/content/include.js"/>
-    <script src="chrome://zoteropdftranslate/content/scripts/index.js"/>
+<overlay id="__addonRef__" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script src="chrome://__addonRef__/content/scripts/index.js"/>
 </overlay>

@@ -1,164 +1,164 @@
 <?xml version="1.0"?>
-<!DOCTYPE window SYSTEM "chrome://zoteropdftranslate/locale/overlay.dtd">
+<!DOCTYPE window SYSTEM "chrome://__addonRef__/locale/overlay.dtd">
 
-<overlay id="zoteropdftranslate-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+<overlay id="__addonRef__-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-zoteropdftranslate" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://zoteropdftranslate/skin/favicon.png" onpaneload="initZPDFTranslatePreferences()">
-      <preferences id="zotero-preferences-zoteropdftranslate">
-        <preference id="pref-zoteropdftranslate-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
-        <preference id="pref-zoteropdftranslate-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
-        <preference id="pref-zoteropdftranslate-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
-        <preference id="pref-zoteropdftranslate-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
-        <preference id="pref-zoteropdftranslate-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
-        <preference id="pref-zoteropdftranslate-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
-        <preference id="pref-zoteropdftranslate-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
-        <preference id="pref-zoteropdftranslate-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
-        <preference id="pref-zoteropdftranslate-show-sidebar-language" name="extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage" type="bool" />
-        <preference id="pref-zoteropdftranslate-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
-        <preference id="pref-zoteropdftranslate-show-sidebar-copy" name="extensions.zotero.ZoteroPDFTranslate.showSidebarCopy" type="bool" />
-        <preference id="pref-zoteropdftranslate-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
-        <preference id="pref-zoteropdftranslate-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
-        <preference id="pref-zoteropdftranslate-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
-        <preference id="pref-zoteropdftranslate-translate-param" name="extensions.zotero.ZoteroPDFTranslate.secret" type="string" />
-        <preference id="pref-zoteropdftranslate-translate-param-obj" name="extensions.zotero.ZoteroPDFTranslate.secretObj" type="string" />
-        <preference id="pref-zoteropdftranslate-disabled-languages" name="extensions.zotero.ZoteroPDFTranslate.disabledLanguages" type="string" />
+    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="initZPDFTranslatePreferences()">
+      <preferences id="zotero-preferences-__addonRef__">
+        <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
+        <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
+        <preference id="pref-__addonRef__-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
+        <preference id="pref-__addonRef__-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
+        <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
+        <preference id="pref-__addonRef__-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
+        <preference id="pref-__addonRef__-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
+        <preference id="pref-__addonRef__-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
+        <preference id="pref-__addonRef__-show-sidebar-language" name="extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage" type="bool" />
+        <preference id="pref-__addonRef__-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
+        <preference id="pref-__addonRef__-show-sidebar-copy" name="extensions.zotero.ZoteroPDFTranslate.showSidebarCopy" type="bool" />
+        <preference id="pref-__addonRef__-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
+        <preference id="pref-__addonRef__-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
+        <preference id="pref-__addonRef__-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
+        <preference id="pref-__addonRef__-translate-param" name="extensions.zotero.ZoteroPDFTranslate.secret" type="string" />
+        <preference id="pref-__addonRef__-translate-param-obj" name="extensions.zotero.ZoteroPDFTranslate.secretObj" type="string" />
+        <preference id="pref-__addonRef__-disabled-languages" name="extensions.zotero.ZoteroPDFTranslate.disabledLanguages" type="string" />
       </preferences>
       <tabbox>
         <tabs>
-          <tab label="&zotero.zoteropdftranslate.pref.general.label;" />
-          <tab label="&zotero.zoteropdftranslate.pref.advanced.label;" />
+          <tab label="&zotero.__addonRef__.pref.general.label;" />
+          <tab label="&zotero.__addonRef__.pref.advanced.label;" />
         </tabs>
 
-        <tabpanels id="zotero-prefpane-zoteropdftranslate" orient="vertical">
-          <tabpanel id="zotero-prefpane-zoteropdftranslate-settings" orient="vertical">
+        <tabpanels id="zotero-prefpane-__addonRef__" orient="vertical">
+          <tabpanel id="zotero-prefpane-__addonRef__-settings" orient="vertical">
             <groupbox>
-              <caption label="&zotero.zoteropdftranslate.pref.basic.caption.label;" />
+              <caption label="&zotero.__addonRef__.pref.basic.caption.label;" />
               <rows>
                 <row>
-                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable" preference="pref-zoteropdftranslate-enable" />
-                  <label value="&zotero.zoteropdftranslate.pref.basic.enable.label;" />
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable" preference="pref-__addonRef__-enable" />
+                  <label value="&zotero.__addonRef__.pref.basic.enable.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-auto" preference="pref-zoteropdftranslate-enable-auto" />
-                  <label value="&zotero.zoteropdftranslate.pref.basic.enableAuto.label;" />
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-auto" preference="pref-__addonRef__-enable-auto" />
+                  <label value="&zotero.__addonRef__.pref.basic.enableAuto.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-popup" preference="pref-zoteropdftranslate-enable-popup" />
-                  <label value="&zotero.zoteropdftranslate.pref.basic.enablePopup.label;" />
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-popup" preference="pref-__addonRef__-enable-popup" />
+                  <label value="&zotero.__addonRef__.pref.basic.enablePopup.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-comment" preference="pref-zoteropdftranslate-enable-comment" />
-                  <label value="&zotero.zoteropdftranslate.pref.basic.enableComment.label;" />
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-comment" preference="pref-__addonRef__-enable-comment" />
+                  <label value="&zotero.__addonRef__.pref.basic.enableComment.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-zoteropdftranslate-settings-enable-note" preference="pref-zoteropdftranslate-enable-note" />
-                  <label value="&zotero.zoteropdftranslate.pref.basic.enableNote.label;" />
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" preference="pref-__addonRef__-enable-note" />
+                  <label value="&zotero.__addonRef__.pref.basic.enableNote.label;" />
                 </row>
               </rows>
             </groupbox>
             <groupbox>
-              <caption label="&zotero.zoteropdftranslate.pref.api.caption.label;" />
+              <caption label="&zotero.__addonRef__.pref.api.caption.label;" />
               <rows>
                 <row>
                   <hbox align="center">
-                    <label value="&zotero.zoteropdftranslate.pref.api.translateSource.label;" />
+                    <label value="&zotero.__addonRef__.pref.api.translateSource.label;" />
                   </hbox>
                   <hbox>
-                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-source" preference="pref-zoteropdftranslate-translate-source" oncommand="updateSourceParam()">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="updateSourceParam()">
                       <menupopup>
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.googleapi;" value="googleapi" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.google;" value="google" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.youdao;" value="youdao" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutrans;" value="niutrans" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.niutranspro;" value="niutranspro" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.microsoft;" value="microsoft" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.caiyun;" value="caiyun" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.deeplfree;" value="deeplfree" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.deeplpro;" value="deeplpro" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.baidu;" value="baidu" />
-                        <menuitem label="&zotero.zoteropdftranslate.pref.api.translateSource.tencent;" value="tencent" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdao;" value="youdao" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutrans;" value="niutrans" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutranspro;" value="niutranspro" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.microsoft;" value="microsoft" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.caiyun;" value="caiyun" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplfree;" value="deeplfree" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplpro;" value="deeplpro" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.baidu;" value="baidu" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.tencent;" value="tencent" />
                       </menupopup>
                     </menulist>
                   </hbox>
                 </row>
                 <row>
                   <hbox align="center">
-                    <label value="&zotero.zoteropdftranslate.pref.api.sourceLanguage.label;" />
+                    <label value="&zotero.__addonRef__.pref.api.sourceLanguage.label;" />
                   </hbox>
                   <hbox>
-                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-sl">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-sl">
                       <!-- Insert Here -->
                     </menulist>
                   </hbox>
                   <hbox align="center">
-                    <label value="&zotero.zoteropdftranslate.pref.api.targetLanguage.label;" />
+                    <label value="&zotero.__addonRef__.pref.api.targetLanguage.label;" />
                   </hbox>
                   <hbox>
-                    <menulist id="zotero-prefpane-zoteropdftranslate-settings-translate-tl">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-tl">
                       <!-- Insert Here -->
                     </menulist>
                   </hbox>
                 </row>
                 <row>
-                  <label value="&zotero.zoteropdftranslate.pref.api.secret.label;" />
-                  <textbox id="zotero-prefpane-zoteropdftranslate-settings-translate-param" preference="pref-zoteropdftranslate-translate-param" />
+                  <label value="&zotero.__addonRef__.pref.api.secret.label;" />
+                  <textbox id="zotero-prefpane-__addonRef__-settings-translate-param" preference="pref-__addonRef__-translate-param" />
                 </row>
                 <row>
-                  <label value="&zotero.zoteropdftranslate.pref.api.secret.warning.label;" />
+                  <label value="&zotero.__addonRef__.pref.api.secret.warning.label;" />
                 </row>
               </rows>
             </groupbox>
             <groupbox>
-              <caption label="&zotero.zoteropdftranslate.help.feedback.caption.label;" />
+              <caption label="&zotero.__addonRef__.help.feedback.caption.label;" />
               <hbox style="display: block">
-                <label value="&zotero.zoteropdftranslate.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
+                <label value="&zotero.__addonRef__.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
               </hbox>
             </groupbox>
-            <label value="&zotero.zoteropdftranslate.help.version.label;" />
-            <label value="&zotero.zoteropdftranslate.help.releasetime.label;" />
+            <label value="&zotero.__addonRef__.help.version.label;" />
+            <label value="&zotero.__addonRef__.help.releasetime.label;" />
           </tabpanel>
-          <tabpanel id="zotero-prefpane-zoteropdftranslate-advanced" orient="vertical">
+          <tabpanel id="zotero-prefpane-__addonRef__-advanced" orient="vertical">
             <rows>
               <row>
                 <columns>
                   <column flex="1">
                     <groupbox flex="1">
-                      <caption label="&zotero.zoteropdftranslate.pref.advanced.UI.label;" />
+                      <caption label="&zotero.__addonRef__.pref.advanced.UI.label;" />
                       <rows>
                         <row>
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.fontSize.label;" />
-                          <textbox id="zotero-prefpane-zoteropdftranslate-settings-font-size" preference="pref-zoteropdftranslate-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
+                          <label value="&zotero.__addonRef__.pref.advanced.fontSize.label;" />
+                          <textbox id="zotero-prefpane-__addonRef__-settings-font-size" preference="pref-__addonRef__-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
                         </row>
                         <row>
-                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-engine" preference="pref-zoteropdftranslate-show-sidebar-engine" />
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label;" />
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-engine" preference="pref-__addonRef__-show-sidebar-engine" />
+                          <label value="&zotero.__addonRef__.pref.advanced.showSidebarEngine.label;" />
                         </row>
                         <row>
-                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-language" preference="pref-zoteropdftranslate-show-sidebar-language" />
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label;" />
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-language" preference="pref-__addonRef__-show-sidebar-language" />
+                          <label value="&zotero.__addonRef__.pref.advanced.showSidebarLanguage.label;" />
                         </row>
                         <row>
-                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-source" preference="pref-zoteropdftranslate-show-sidebar-source" />
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label;" />
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-source" preference="pref-__addonRef__-show-sidebar-source" />
+                          <label value="&zotero.__addonRef__.pref.advanced.showSidebarRaw.label;" />
                         </row>
                         <row>
-                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-show-sidebar-copy" preference="pref-zoteropdftranslate-show-sidebar-copy" />
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label;" />
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-copy" preference="pref-__addonRef__-show-sidebar-copy" />
+                          <label value="&zotero.__addonRef__.pref.advanced.showSidebarCopy.label;" />
                         </row>
                         <row>
-                          <checkbox id="zotero-prefpane-zoteropdftranslate-settings-raw-result-order" preference="pref-zoteropdftranslate-raw-result-order" />
-                          <label value="&zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label;" />
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-raw-result-order" preference="pref-__addonRef__-raw-result-order" />
+                          <label value="&zotero.__addonRef__.pref.advanced.rawResultOrder.label;" />
                         </row>
                       </rows>
                     </groupbox>
                   </column>
                   <column>
                     <groupbox flex="1">
-                      <caption label="&zotero.zoteropdftranslate.pref.advanced.preview.label;" />
+                      <caption label="&zotero.__addonRef__.pref.advanced.preview.label;" />
                       <rows>
                         <row>
-                          <textbox id="zotero-prefpane-zoteropdftranslate-settings-preview" value="The quick brown fox jumps over a lazy dog" width="200" height="100" multiline="true" />
+                          <textbox id="zotero-prefpane-__addonRef__-settings-preview" value="The quick brown fox jumps over a lazy dog" width="200" height="100" multiline="true" />
                         </row>
                       </rows>
                     </groupbox>
@@ -166,8 +166,8 @@
                 </columns>
               </row>
               <row>
-                <label value="&zotero.zoteropdftranslate.pref.advanced.disabledLanguages.label;" />
-                <textbox id="zotero-prefpane-zoteropdftranslate-settings-disabled-languages" preference="pref-zoteropdftranslate-disabled-languages" onchange="Zotero.ZoteroPDFTranslate.view.showProgressWindow('PDF Translate', '&zotero.zoteropdftranslate.pref.advanced.disabledLanguages.alert;')" />
+                <label value="&zotero.__addonRef__.pref.advanced.disabledLanguages.label;" />
+                <textbox id="zotero-prefpane-__addonRef__-settings-disabled-languages" preference="pref-__addonRef__-disabled-languages" onchange="Zotero.ZoteroPDFTranslate.view.showProgressWindow('PDF Translate', '&zotero.__addonRef__.pref.advanced.disabledLanguages.alert;')" />
               </row>
             </rows>
           </tabpanel>
@@ -177,6 +177,6 @@
   </prefwindow>
 
   <!-- Include the main extension logic -->
-  <script src="chrome://zoteropdftranslate/content/scripts/preferences.js" />
+  <script src="chrome://__addonRef__/content/scripts/preferences.js" />
 
 </overlay>

@@ -4,7 +4,16 @@ const path = require("path");
 const fs = require("fs");
 const process = require("process");
 const replace = require("replace-in-file");
-const { version } = require("./package.json");
+const {
+  name,
+  author,
+  description,
+  homepage,
+  addonName,
+  addonID,
+  addonRef,
+  version,
+} = require("./package.json");
 
 function copyFileSync(source, target) {
   var targetFile = target;
@@ -72,62 +81,83 @@ function dateFormat(fmt, date) {
   return fmt;
 }
 
-const t = new Date()
-const BUILD_TIME = dateFormat("YYYY-mm-dd HH:MM:SS", t);
-const BUILD_DIR = "builds";
+const t = new Date();
+const buildTime = dateFormat("YYYY-mm-dd HH:MM:SS", t);
+const buildDir = "builds";
 
-console.log(`[Build] BUILD_DIR=${BUILD_DIR}, VERSION=${version}, BUILD_TIME=${BUILD_TIME}`);
+console.log(
+  `[Build] BUILD_DIR=${buildDir}, VERSION=${version}, BUILD_TIME=${buildTime}`
+);
 
-clearFolder(BUILD_DIR);
+clearFolder(buildDir);
 
-copyFolderRecursiveSync("addon", BUILD_DIR);
+copyFolderRecursiveSync("addon", buildDir);
 
 esbuild
   .build({
     entryPoints: ["src/index.js"],
     bundle: true,
     // Entry should be the same as addon/chrome/content/overlay.xul
-    outfile: path.join(BUILD_DIR, "addon/chrome/content/scripts/index.js"),
+    outfile: path.join(buildDir, "addon/chrome/content/scripts/index.js"),
     // minify: true,
   })
   .catch(() => process.exit(1));
 
 console.log("[Build] Run esbuild OK");
 
-const optionsVersion = {
-  files: [path.join(BUILD_DIR, "**/*.rdf"), path.join(BUILD_DIR, "**/*.dtd")],
-  from: "__buildVersion__",
-  to: version,
+const optionsAddon = {
+  files: [
+    path.join(buildDir, "**/*.rdf"),
+    path.join(buildDir, "**/*.dtd"),
+    path.join(buildDir, "**/*.xul"),
+    path.join(buildDir, "**/*.manifest"),
+    "update.rdf",
+  ],
+  from: [
+    /__author__/g,
+    /__description__/g,
+    /__homepage__/g,
+    /__addonName__/g,
+    /__addonID__/g,
+    /__addonRef__/g,
+    /__buildVersion__/g,
+    /__buildTime__/g,
+    /<em:version>\S*<\/em:version>/g,
+  ],
+  to: [
+    author,
+    description,
+    homepage,
+    addonName,
+    addonID,
+    addonRef,
+    version,
+    buildTime,
+    `<em:version>${version}</em:version>`,
+  ],
+  countMatches: true,
 };
 
-const optionsUpdateVersion = {
-  files: ["update.rdf"],
-  from: /<em:version>\S*<\/em:version>/g,
-  to: `<em:version>${version}</em:version>`,
-};
+_ = replace.sync(optionsAddon);
+console.log(
+  "[Build] Run replace in ",
+  _.filter((f) => f.hasChanged).map(
+    (f) => `${f.file} : ${f.numReplacements} / ${f.numMatches}`
+  )
+);
 
-const optionsTime = {
-  files: [path.join(BUILD_DIR, "**/*.dtd")],
-  from: "__buildTime__",
-  to: BUILD_TIME,
-};
-
-replace.sync(optionsVersion);
-replace.sync(optionsUpdateVersion);
-replace.sync(optionsTime);
-
-console.log("[Build] Replace info OK");
+console.log("[Build] Replace OK");
 
 copyFileSync(
   "src/preferences.js",
-  path.join(BUILD_DIR, "addon/chrome/content/scripts")
+  path.join(buildDir, "addon/chrome/content/scripts")
 );
 
 console.log("[Build] Addon prepare OK");
 
 compressing.zip.compressDir(
-  path.join(BUILD_DIR, "addon"),
-  path.join(BUILD_DIR, "zotero-pdf-translate.xpi"),
+  path.join(buildDir, "addon"),
+  path.join(buildDir, `${name}.xpi`),
   {
     ignoreBase: true,
   }

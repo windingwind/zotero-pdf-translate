@@ -5,14 +5,14 @@
     xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <RDF:Description
         RDF:about="urn:mozilla:install-manifest"
-        em:id="zoteropdftranslate@euclpts.com"
-        em:name="Zotero PDF Translate"
+        em:id="__addonID__"
+        em:name="__addonName__"
         em:version="__buildVersion__"
         em:type="2"
-        em:creator="windingwind"
-        em:description="PDF translation plugin for Zotero 6"
-        em:homepageURL="https://github.com/windingwind/zotero-pdf-translate"
-        em:iconURL="chrome://zoteropdftranslate/skin/favicon.png"
+        em:creator="__author__"
+        em:description="__description__"
+        em:homepageURL="__homepage__"
+        em:iconURL="chrome://__addonRef__/skin/favicon.png"
         em:updateURL="https://raw.githubusercontent.com/windingwind/zotero-pdf-translate/master/update.rdf">>
         <em:type>2</em:type>
         <em:targetApplication RDF:resource="rdf:#$x61SL3"/>

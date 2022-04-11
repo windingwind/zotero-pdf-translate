@@ -22,29 +22,29 @@ This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF trans
 Once you have the plugin installed simply, open any PDF in your collections.
 
 - Select some text, the translations are shown on the popup and the right sidebar(v0.2.0);
-![](imgs/en2zh.png)
+  ![](imgs/en2zh.png)
 
 - Highlight some text, the translations are added to the annotation comment(v0.3.0);
-- Add selected text along with translation to note(v0.4.0). *Only works when a note editor is active.*
-![](imgs/addnote.png)
+- Add selected text along with translation to note(v0.4.0). _Only works when a note editor is active._
+  ![](imgs/addnote.png)
 
 ### Q&A
 
 **Q** I want to translate manually.  
-**A** Go to `Edit->Preferences->PDF Translate->General`, uncheck the `Automatic Translation`. Click the `translate` button on the popup or sidebar to translate.  
+**A** Go to `Edit->Preferences->PDF Translate->General`, uncheck the `Automatic Translation`. Click the `translate` button on the popup or sidebar to translate.
 
 **Q** I want a translate shortcut.  
 **A**
-Press shortcut `T` after you selected some text.  
+Press shortcut `T` after you selected some text.
 
 **Q** Not the language I want.  
-**A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.   
+**A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.
 
 **Q** Translation not correct or report an error.  
-**A** See [Language Settings](#general-language-settings) and #6. Make sure you use the right secret.  
+**A** See [Language Settings](#general-language-settings) and #6. Make sure you use the right secret.
 
 **Q** I want to change the font size.  
-**A** Go to `Edit->Preferences->PDF Translate->Advanced` and set the font size.  
+**A** Go to `Edit->Preferences->PDF Translate->Advanced` and set the font size.
 
 ## Settings
 
@@ -54,8 +54,8 @@ Press shortcut `T` after you selected some text.
 - Automatic Translation, default `true`
 - Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
 - Automatic Annotation Translation: Save annotation's translation as comment, default `true`
-- Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`  
-  > Unvisible if no active note editor opened.  
+- Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`
+  > Unvisible if no active note editor opened.
 
 ### General-Translate Engine
 
@@ -81,7 +81,8 @@ You can change the source and target language here. For some Translate Engines, 
 
 **Microsoft Translate**  
 Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
-The secret format is `MY_SECRET`. 
+The secret format is `MY_SECRET`.
+
 > See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
 
 **DeepL Translate**  
@@ -89,33 +90,57 @@ Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).
 
 **Niu Translate**  
 Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
-The secret format is `MY_APIKEY`.  
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)   
+The secret format is `MY_APIKEY`.
+
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
 **Baidu Translate**  
 Apply [here](https://fanyi-api.baidu.com/product/113).  
-The secret format is `MY_APPID#MY_KEY`(split with '#').  
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)   
+The secret format is `MY_APPID#MY_KEY`(split with '#').
+
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
 **Tencent Translate**  
 Apply [here](https://cloud.tencent.com/product/tmt).  
-The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').  
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)  
+The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').
+
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
 ### Advanced-UI
 
 - `Font Size`: The font size of result text, default `12`
-- `SideBar: Show xxx`: Show or hide sidebar elements, default `true` 
+- `SideBar: Show xxx`: Show or hide sidebar elements, default `true`
 - `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the sidebar if `true`, default `false`
 
 ### Advanced-Others
+
 - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
 ## Development
 
-This section is for developers. This repo can be used as a Zotero 6.x addon template.
+This section is for developers.
+
+### Use this repo as a Zotero Addon Template
+
+This repo can be used as a Zotero 6.x addon template. To start with, clone this repo and install npm dependencies:
+
+```shell
+git clone git@github.com:windingwind/zotero-pdf-translate.git
+cd zotero-pdf-translate
+npm i
+```
+
+Change the settings in `package.json`. Modify `addonRef` and `addonID` to avoid confliction.
 
 ### Directory Structure
+
+This section shows the directory structure of a template.
+
+- All `.js/.ts` code files are in `./src`;
+- Addon config files: `./addon/chrome.manifest`, `./addon/install.rdf`;
+- UI files: `./addon/chrome/content/*.xul`. The `overlay.xul` also defines the main entrance;
+- Locale files: `./addon/chrome/locale/*.dtd`;
+- Resource files: `./addon/chrome/skin/default/__addonRef__/*.dtd`;
 
 ```shell
 │  .gitignore
@@ -125,45 +150,45 @@ This section is for developers. This repo can be used as a Zotero 6.x addon temp
 │  package.json     # npm conf
 │  README.md        # readme
 │  update.rdf       # addon update
-│  
+│
 ├─.github           # github conf
-│          
+│
 ├─addon             # addon dir
-│  │  chrome.manifest  #addon conf 
+│  │  chrome.manifest  #addon conf
 │  │  install.rdf   # addon install conf
-│  │  
+│  │
 │  └─chrome
 │      ├─content    # UI
 │      │  │  overlay.xul
 │      │  │  preferences.xul
-│      │  │  
+│      │  │
 │      │  └─scripts
 │      ├─locale     # locale
 │      │  ├─en-US
 │      │  │      overlay.dtd
-│      │  │      
+│      │  │
 │      │  └─zh-CN
 │      │          overlay.dtd
-│      │          
+│      │
 │      └─skin       # style
 │          └─default
 │              └─zoteropdftranslate
 │                      favicon.png
 │                      favicon@0.5x.png
-│  
+│
 ├─builds            # build dir
 │  └─zotero-pdf-translate.xpi
-│  
+│
 ├─imgs              # readme images
-│  
-└─src               # source code    
+│
+└─src               # source code
     │  index.js     # main entry
     │  PDFTranslate.js  # main class
     │  preferences.js   # pref functions, no esbuild
     │  reader.js    # Zotero.Reader functions
     │  translate.js # translate functions
     │  view.js      # UI functions
-    │  
+    │
     └─translate     # translate engines
             baidu.js
             caiyun.js
@@ -179,25 +204,22 @@ This section is for developers. This repo can be used as a Zotero 6.x addon temp
 ### Build
 
 ```shell
-git clone git@github.com:windingwind/zotero-pdf-translate.git
-cd zotero-pdf-translate
-npm i
 # A release-it command: version increase, npm run build, git push, and GitHub release
 # You need to set the environment variable GITHUB_TOKEN https://github.com/settings/tokens
 # release-it: https://github.com/release-it/release-it
 npm run release
 ```
 
-Alternatively, build it directly using build.js: `npm run build`  
+Alternatively, build it directly using build.js: `npm run build`
 
 ### Build Steps
 
-1. Clean `./builds`  
-2. Copy `./addon` to `./builds`  
-3. Esbuild to `./builds/addon/chrome/content/scripts`  
-4. Replace `__buildVersion__` and `__buildTime__` in `./builds/addon`  
-5. Copy `./src/preferences.js` to `./builds/addon/chrome/content/scripts`  
-6. Zip the `./builds/addon` to `./builds/*.xpi`  
+1. Clean `./builds`
+2. Copy `./addon` to `./builds`
+3. Esbuild to `./builds/addon/chrome/content/scripts`
+4. Replace `__buildVersion__` and `__buildTime__` in `./builds/addon`
+5. Copy `./src/preferences.js` to `./builds/addon/chrome/content/scripts`
+6. Zip the `./builds/addon` to `./builds/*.xpi`
 
 ## Disclaimer
 

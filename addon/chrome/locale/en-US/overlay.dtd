@@ -1,47 +1,47 @@
-<!ENTITY zotero.zoteropdftranslate.pref.general.label "General">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.label "Advanced">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.caption.label "Functions">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enable.label "Enable Translation">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableAuto.label "Automatic Translation">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "Enable Popup">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableComment.label "Automatic Annotation Translation">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
-<!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "Service">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "Translate Engine">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "Google">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googleapi "Google(API)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googleweb "Google(Web)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "Youdao">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "Microsoft*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "LingoCloud(Caiyun)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "Niu(Trial)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutranspro "Niu*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL(Free)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL(Pro)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "Baidu*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.tencent "Tencent*">
+<!ENTITY zotero.__addonRef__.pref.general.label "General">
+<!ENTITY zotero.__addonRef__.pref.advanced.label "Advanced">
+<!ENTITY zotero.__addonRef__.pref.basic.caption.label "Functions">
+<!ENTITY zotero.__addonRef__.pref.basic.enable.label "Enable Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "Automatic Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "Enable Popup">
+<!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "Automatic Annotation Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
+<!ENTITY zotero.__addonRef__.pref.api.caption.label "Service">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.label "Translate Engine">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.google "Google">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "Google(API)">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleweb "Google(Web)">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.youdao "Youdao">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.microsoft "Microsoft*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.caiyun "LingoCloud(Caiyun)*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.niutrans "Niu(Trial)">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.niutranspro "Niu*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplfree "DeepL(Free)*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplpro "DeepL(Pro)*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "Baidu*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "Tencent*">
 
-<!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "Translate From">
-<!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "To">
-<!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "Secret">
-<!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "Translate Engine with * requires Secret; See GitHub for more information">
+<!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "Translate From">
+<!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "To">
+<!ENTITY zotero.__addonRef__.pref.api.secret.label "Secret">
+<!ENTITY zotero.__addonRef__.pref.api.secret.warning.label "Translate Engine with * requires Secret; See GitHub for more information">
 
-<!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "Copy Source">
-<!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "Copy Result">
+<!ENTITY zotero.__addonRef__.pannel.copySource.label "Copy Source">
+<!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "Copy Result">
 
-<!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "User Guide and Feedback">
-<!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate VERSION __buildVersion__">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build __buildTime__">
+<!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
+<!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
+<!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate VERSION __buildVersion__">
+<!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
 
 
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "Font Size">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label "SideBar: Show Language Selection Menu">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "Preview">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
+<!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
+<!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "SideBar: Show Language Selection Menu">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
+<!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
+<!ENTITY zotero.__addonRef__.pref.advanced.preview.label "Preview">
+<!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
+<!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">

@@ -1,46 +1,46 @@
-<!ENTITY zotero.zoteropdftranslate.pref.general.label "基本">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.label "高级">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.caption.label "功能">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enable.label "启用PDF翻译">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableAuto.label "自动翻译">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enablePopup.label "启用弹窗">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableComment.label "自动翻译批注">
-<!ENTITY zotero.zoteropdftranslate.pref.basic.enableNote.label "在弹窗显示'添加翻译笔记'">
-<!ENTITY zotero.zoteropdftranslate.pref.api.caption.label "翻译服务">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.label "翻译引擎">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.google "谷歌">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googleapi "谷歌API(中国可用)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.googleweb "谷歌(Web)">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.youdao "有道">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.microsoft "微软*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.caiyun "彩云*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutrans "小牛试用">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.niutranspro "小牛*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplfree "DeepL(Free)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.deeplpro "DeepL(Pro)*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.baidu "百度*">
-<!ENTITY zotero.zoteropdftranslate.pref.api.translateSource.tencent "腾讯*">
+<!ENTITY zotero.__addonRef__.pref.general.label "基本">
+<!ENTITY zotero.__addonRef__.pref.advanced.label "高级">
+<!ENTITY zotero.__addonRef__.pref.basic.caption.label "功能">
+<!ENTITY zotero.__addonRef__.pref.basic.enable.label "启用PDF翻译">
+<!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "自动翻译">
+<!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "启用弹窗">
+<!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "自动翻译批注">
+<!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "在弹窗显示'添加翻译笔记'">
+<!ENTITY zotero.__addonRef__.pref.api.caption.label "翻译服务">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.label "翻译引擎">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.google "谷歌">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "谷歌API(中国可用)">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleweb "谷歌(Web)">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.youdao "有道">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.microsoft "微软*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.caiyun "彩云*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.niutrans "小牛试用">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.niutranspro "小牛*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplfree "DeepL(Free)*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplpro "DeepL(Pro)*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "百度*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "腾讯*">
 
-<!ENTITY zotero.zoteropdftranslate.pref.api.sourceLanguage.label "从">
-<!ENTITY zotero.zoteropdftranslate.pref.api.targetLanguage.label "翻译到">
-<!ENTITY zotero.zoteropdftranslate.pref.api.secret.label "密钥">
-<!ENTITY zotero.zoteropdftranslate.pref.api.secret.warning.label "带*翻译引擎需要密钥; 请参阅GitHub">
+<!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "从">
+<!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "翻译到">
+<!ENTITY zotero.__addonRef__.pref.api.secret.label "密钥">
+<!ENTITY zotero.__addonRef__.pref.api.secret.warning.label "带*翻译引擎需要密钥; 请参阅GitHub">
 
-<!ENTITY zotero.zoteropdftranslate.pannel.copySource.label "复制源">
-<!ENTITY zotero.zoteropdftranslate.pannel.copyTranslated.label "复制结果">
+<!ENTITY zotero.__addonRef__.pannel.copySource.label "复制源">
+<!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "复制结果">
 
-<!ENTITY zotero.zoteropdftranslate.help.feedback.caption.label "使用方法及问题反馈">
-<!ENTITY zotero.zoteropdftranslate.help.feedback.label "GitHub">
-<!ENTITY zotero.zoteropdftranslate.help.version.label "Zotero PDF Translate 版本 __buildVersion__">
-<!ENTITY zotero.zoteropdftranslate.help.releasetime.label "Build __buildTime__">
+<!ENTITY zotero.__addonRef__.help.feedback.caption.label "使用方法及问题反馈">
+<!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
+<!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate 版本 __buildVersion__">
+<!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
 
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.UI.label "UI">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.fontSize.label "字体大小">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.preview.label "预览">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
-<!ENTITY zotero.zoteropdftranslate.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">
+<!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
+<!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "字体大小">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
+<!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
+<!ENTITY zotero.__addonRef__.pref.advanced.preview.label "预览">
+<!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
+<!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">

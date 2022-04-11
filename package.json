@@ -1,5 +1,8 @@
 {
   "name": "zotero-pdf-translate",
+  "addonName": "Zotero PDF Translate",
+  "addonID": "zoteropdftranslate@euclpts.com",
+  "addonRef": "zoteropdftranslate",
   "version": "0.4.6",
   "description": "This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero built-in PDF reader.",
   "main": "src/index.js",
@@ -12,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-pdf-translate.git"
   },
-  "author": "",
+  "author": "windingwind",
   "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-pdf-translate/issues"
