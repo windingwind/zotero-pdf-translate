@@ -23,6 +23,7 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "compressing": "^1.5.1",
+    "crypto-js": "^4.1.1",
     "esbuild": "^0.14.34",
     "replace-in-file": "^6.3.2"
   },
