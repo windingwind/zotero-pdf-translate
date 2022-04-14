@@ -579,12 +579,16 @@ export default view = {
         Zotero.ZoteroPDFTranslate._translatedText;
     }
     if (Zotero.ZoteroPDFTranslate.view.popupTextBox) {
-      Zotero.ZoteroPDFTranslate.view.popupTextBox.setAttribute(
-        "value",
-        Zotero.ZoteroPDFTranslate._translatedText
-          ? Zotero.ZoteroPDFTranslate._translatedText
-          : Zotero.ZoteroPDFTranslate._sourceText
-      );
+      try {
+        Zotero.ZoteroPDFTranslate.view.popupTextBox.setAttribute(
+          "value",
+          Zotero.ZoteroPDFTranslate._translatedText
+            ? Zotero.ZoteroPDFTranslate._translatedText
+            : Zotero.ZoteroPDFTranslate._sourceText
+        );
+      } catch (e) {
+        Zotero.debug(e);
+      }
     }
   },
 
