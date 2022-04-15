@@ -48,9 +48,17 @@ class TransEngine extends TransConfig {
 
   async callTranslate(currentReader: ReaderObj, force: boolean = false) {
     let text = this._PDFTranslate.reader.getSelectedText(currentReader);
-
     if (!text) {
       return false;
+    }
+
+    if (
+      force &&
+      this._PDFTranslate._sourceText &&
+      this._PDFTranslate._sourceText != text
+    ) {
+      Zotero.debug("ZoteroPDFTranslate: Using modified text");
+      text = this._PDFTranslate._sourceText;
     }
 
     // Empty or unchanged

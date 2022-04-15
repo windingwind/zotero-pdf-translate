@@ -244,12 +244,12 @@ class TransView extends TransBase {
       }
 
       let buttonTranslate = document.createElement("button");
+      buttonTranslate.setAttribute("id", "pdf-translate-call-button");
       buttonTranslate.setAttribute("label", "Translate");
       buttonTranslate.setAttribute("flex", "1");
-      buttonTranslate.setAttribute(
-        "oncommand",
-        "Zotero.ZoteroPDFTranslate.events.onTranslateButtonClick()"
-      );
+      buttonTranslate.addEventListener("click", (e: XULEvent) => {
+        this._PDFTranslate.events.onTranslateButtonClick(e);
+      });
 
       hboxTranslate.append(menuLabel, menulist, buttonTranslate);
 
@@ -283,6 +283,9 @@ class TransView extends TransBase {
       textboxSource.setAttribute("id", "pdf-translate-tabpanel-source");
       textboxSource.setAttribute("flex", "1");
       textboxSource.setAttribute("multiline", true);
+      textboxSource.addEventListener("input", (event: XULEvent) => {
+        this._PDFTranslate._sourceText = event.target.value;
+      });
       textboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
@@ -458,7 +461,7 @@ class TransView extends TransBase {
       "image",
       "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
     );
-    button.onclick = (e) => {
+    button.onclick = (e: XULEvent) => {
       this._PDFTranslate.events.onTranslateButtonClick(e, currentReader);
     };
     button.style.width = `${selectionMenu.scrollWidth}px`;
@@ -471,13 +474,13 @@ class TransView extends TransBase {
     currentReader: ReaderObj = undefined,
     selectionMenu: XUL.Element = undefined
   ) {
-    Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
     if (!currentReader) {
       currentReader = this._PDFTranslate.reader.getReader();
     }
     if (!currentReader || !selectionMenu) {
       return false;
     }
+    Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
     let addToNoteButton =
       selectionMenu.getElementsByClassName("wide-button")[0];
     let translationToNote = currentReader._iframeWindow.document.getElementById(

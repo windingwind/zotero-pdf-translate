@@ -1,5 +1,4 @@
 import { TransBase } from "./base";
-import TransReader from "./reader";
 
 class TransEvents extends TransBase {
   private _readerSelect: number;
@@ -41,6 +40,34 @@ class TransEvents extends TransBase {
         }
       },
     };
+  }
+
+  public async onInit() {
+    Zotero.debug("ZoteroPDFTranslate: init called");
+
+    this.resetState();
+
+    this.onWindowReaderCheck();
+
+    // Register the callback in Zotero as an item observer
+    let notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, [
+      "tab",
+      "item",
+      "file",
+    ]);
+
+    // Unregister callback when the window closes (important to avoid a memory leak)
+    window.addEventListener(
+      "unload",
+      function (e) {
+        Zotero.Notifier.unregisterObserver(notifierID);
+      },
+      false
+    );
+
+    this.initKeys();
+
+    this._PDFTranslate.view.updateTranslatePanel();
   }
 
   public async onSelect(
@@ -92,6 +119,12 @@ class TransEvents extends TransBase {
     }
   }
 
+  public onReaderSelect(): void {
+    this._readerSelect = new Date().getTime();
+    this._PDFTranslate.view.updateTranslatePanel();
+    this.bindAddToNote();
+  }
+
   public onAnnotationAdd(ids: Array<string>): void {
     Zotero.debug("ZoteroPDFTranslate: add annotation translation");
     let items = Zotero.Items.get(ids);
@@ -102,32 +135,35 @@ class TransEvents extends TransBase {
     }
   }
 
-  public async onInit() {
-    Zotero.debug("ZoteroPDFTranslate: init called");
+  public onTranslateButtonClick(
+    event: XULEvent,
+    currentReader = undefined
+  ): void {
+    if (!currentReader) {
+      currentReader = this._PDFTranslate.reader.getReader();
+    }
+    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
+    if (enablePopup) {
+      this._PDFTranslate.view.removePopupPanel(currentReader);
+      this._PDFTranslate.view.buildPopupPanel(currentReader);
+    }
 
-    this.resetState();
-
-    this.onWindowReaderCheck();
-
-    // Register the callback in Zotero as an item observer
-    let notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, [
-      "tab",
-      "item",
-      "file",
-    ]);
-
-    // Unregister callback when the window closes (important to avoid a memory leak)
-    window.addEventListener(
-      "unload",
-      function (e) {
-        Zotero.Notifier.unregisterObserver(notifierID);
-      },
-      false
+    this._PDFTranslate.translate.callTranslate(
+      currentReader,
+      event && event.target.getAttribute("id") == "pdf-translate-call-button"
     );
+  }
 
-    this.initKeys();
-
-    this._PDFTranslate.view.updateTranslatePanel();
+  public async onTranslateNoteButtonClick(
+    event: Event,
+    currentReader: Reader,
+    addToNoteButton: XUL.Element
+  ): Promise<void> {
+    if (!currentReader) {
+      currentReader = this._PDFTranslate.reader.getReader();
+    }
+    this._PDFTranslate.translate._enableNote = true;
+    addToNoteButton.click();
   }
 
   private initKeys(_document: Document = undefined): void {
@@ -171,12 +207,6 @@ class TransEvents extends TransBase {
     return key;
   }
 
-  public onReaderSelect(): void {
-    this._readerSelect = new Date().getTime();
-    this._PDFTranslate.view.updateTranslatePanel();
-    this.bindAddToNote();
-  }
-
   // Check readers in seperate window
   private onWindowReaderCheck(): void {
     let readers = this._PDFTranslate.reader.getWindowReader();
@@ -186,31 +216,6 @@ class TransEvents extends TransBase {
         readers[i].PDFTranslateLoad = true;
       }
     }
-  }
-
-  onTranslateButtonClick(event, currentReader = undefined): void {
-    if (!currentReader) {
-      currentReader = this._PDFTranslate.reader.getReader();
-    }
-    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
-    if (enablePopup) {
-      this._PDFTranslate.view.removePopupPanel(currentReader);
-      this._PDFTranslate.view.buildPopupPanel(currentReader);
-    }
-
-    this._PDFTranslate.translate.callTranslate(currentReader, true);
-  }
-
-  async onTranslateNoteButtonClick(
-    event: Event,
-    currentReader: Reader,
-    addToNoteButton: XUL.Element
-  ): Promise<void> {
-    if (!currentReader) {
-      currentReader = this._PDFTranslate.reader.getReader();
-    }
-    this._PDFTranslate.translate._enableNote = true;
-    addToNoteButton.click();
   }
 
   private async bindAddToNote(): Promise<boolean> {
@@ -242,7 +247,7 @@ class TransEvents extends TransBase {
     return true;
   }
 
-  resetState(): void {
+  private resetState(): void {
     // Reset preferrence state.
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     if (typeof enable === "undefined") {

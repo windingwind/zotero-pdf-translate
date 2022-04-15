@@ -8,7 +8,6 @@ class TransPref extends TransBase {
   initZPDFTranslatePreferences(_document: Document) {
     this._document = _document;
     Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
-    this._PDFTranslate.events.resetState.call(this._PDFTranslate.events);
     // Store current secret
     let userSecrets = JSON.parse(
       Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
