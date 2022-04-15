@@ -6,9 +6,14 @@ class TransView extends TransBase {
   sideBarTextboxTranslated: XUL.Textbox;
   tab: XUL.Element;
   tabPanel: XUL.Element;
+  progressWindowIcon: object;
 
   constructor(parent: PDFTranslate) {
     super(parent);
+    this.progressWindowIcon = {
+      success: "chrome://zotero/skin/tick.png",
+      fail: "chrome://zotero/skin/cross.png",
+    };
   }
 
   async updateTranslatePanel() {
@@ -256,26 +261,29 @@ class TransView extends TransBase {
       let buttonCopySource = document.createElement("button");
       buttonCopySource.setAttribute("label", "Copy Raw");
       buttonCopySource.setAttribute("flex", "1");
-      buttonCopySource.setAttribute(
-        "oncommand",
-        "Zotero.Utilities.Internal.copyTextToClipboard(this._PDFTranslate._sourceText)"
-      );
+      buttonCopySource.addEventListener("click", (e: XULEvent) => {
+        this._PDFTranslate.events.onCopyToClipBoard(
+          this._PDFTranslate._sourceText
+        );
+      });
 
       let buttonCopyTranslated = document.createElement("button");
       buttonCopyTranslated.setAttribute("label", "Copy Result");
       buttonCopyTranslated.setAttribute("flex", "1");
-      buttonCopyTranslated.setAttribute(
-        "oncommand",
-        "Zotero.Utilities.Internal.copyTextToClipboard(this._PDFTranslate._translatedText)"
-      );
+      buttonCopyTranslated.addEventListener("click", (e: XULEvent) => {
+        this._PDFTranslate.events.onCopyToClipBoard(
+          this._PDFTranslate._translatedText
+        );
+      });
 
       let buttonCopyBoth = document.createElement("button");
       buttonCopyBoth.setAttribute("label", "Copy Both");
       buttonCopyBoth.setAttribute("flex", "1");
-      buttonCopyBoth.setAttribute(
-        "oncommand",
-        "Zotero.Utilities.Internal.copyTextToClipboard(`${this._PDFTranslate._sourceText}\n----\n${this._PDFTranslate._translatedText}`)"
-      );
+      buttonCopyBoth.addEventListener("click", (e: XULEvent) => {
+        this._PDFTranslate.events.onCopyToClipBoard(
+          `${this._PDFTranslate._sourceText}\n----\n${this._PDFTranslate._translatedText}`
+        );
+      });
 
       hboxCopy.append(buttonCopySource, buttonCopyTranslated, buttonCopyBoth);
 
@@ -428,16 +436,12 @@ class TransView extends TransBase {
     textbox.onmousedown = (e) => {
       e.preventDefault();
     };
-    textbox.onclick = (e) => {
+    textbox.addEventListener("click", (e) => {
       let text = this._PDFTranslate._translatedText
         ? this._PDFTranslate._translatedText
         : this._PDFTranslate._sourceText;
-      Zotero.Utilities.Internal.copyTextToClipboard(text);
-      this.showProgressWindow(
-        "Copy To Clipboard",
-        text.length < 20 ? text : text.slice(0, 15) + "..."
-      );
-    };
+      this._PDFTranslate.events.onCopyToClipBoard(text);
+    });
 
     selectionMenu.appendChild(textbox);
     this.popupTextBox = textbox;
@@ -594,11 +598,6 @@ class TransView extends TransBase {
       }
     }
   }
-
-  progressWindowIcon: {
-    success: "chrome://zotero/skin/tick.png";
-    fail: "chrome://zotero/skin/cross.png";
-  };
 
   showProgressWindow(
     header: string,

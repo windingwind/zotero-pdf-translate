@@ -207,6 +207,14 @@ class TransEvents extends TransBase {
     return key;
   }
 
+  public onCopyToClipBoard(text: string): void {
+    Zotero.Utilities.Internal.copyTextToClipboard(text);
+    this._PDFTranslate.view.showProgressWindow(
+      "Copy To Clipboard",
+      text.length < 20 ? text : text.slice(0, 15) + "..."
+    );
+  }
+
   // Check readers in seperate window
   private onWindowReaderCheck(): void {
     let readers = this._PDFTranslate.reader.getWindowReader();
