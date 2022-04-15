@@ -95,7 +95,7 @@ copyFolderRecursiveSync("addon", buildDir);
 
 esbuild
   .build({
-    entryPoints: ["src/index.js"],
+    entryPoints: ["src/index.ts"],
     bundle: true,
     // Entry should be the same as addon/chrome/content/overlay.xul
     outfile: path.join(buildDir, "addon/chrome/content/scripts/index.js"),
@@ -147,11 +147,6 @@ console.log(
 );
 
 console.log("[Build] Replace OK");
-
-copyFileSync(
-  "src/preferences.js",
-  path.join(buildDir, "addon/chrome/content/scripts")
-);
 
 console.log("[Build] Addon prepare OK");
 

@@ -4,7 +4,7 @@
 <overlay id="__addonRef__-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="initZPDFTranslatePreferences()">
+    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initZPDFTranslatePreferences(document)">
       <preferences id="zotero-preferences-__addonRef__">
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
@@ -65,7 +65,7 @@
                     <label value="&zotero.__addonRef__.pref.api.translateSource.label;" />
                   </hbox>
                   <hbox>
-                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="updateSourceParam()">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam()">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
@@ -128,7 +128,7 @@
                       <rows>
                         <row>
                           <label value="&zotero.__addonRef__.pref.advanced.fontSize.label;" />
-                          <textbox id="zotero-prefpane-__addonRef__-settings-font-size" preference="pref-__addonRef__-font-size" oninput="updatePreviewPannel()" maxwidth="40" />
+                          <textbox id="zotero-prefpane-__addonRef__-settings-font-size" preference="pref-__addonRef__-font-size" oninput="Zotero.ZoteroPDFTranslate.prefs.updatePreviewPannel()" maxwidth="40" />
                         </row>
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-engine" preference="pref-__addonRef__-show-sidebar-engine" />

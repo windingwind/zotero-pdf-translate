@@ -1,13 +1,15 @@
-export default reader = {
-  /*
-    Reader Functions
-  */
-  getReader: function () {
-    return Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
-  },
+import { TransBase } from "./base";
 
-  getWindowReader: function () {
-    let windowReaders = [];
+class TransReader extends TransBase {
+  constructor(parent: PDFTranslate) {
+    super(parent);
+  }
+  getReader(): ReaderObj {
+    return Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
+  }
+
+  getWindowReader(): Array<ReaderObj> {
+    let windowReaders: Array<ReaderObj> = [];
     let tabs = Zotero_Tabs._tabs.map((e) => e.id);
     for (let i = 0; i < Zotero.Reader._readers.length; i++) {
       let flag = false;
@@ -22,23 +24,27 @@ export default reader = {
       }
     }
     return windowReaders;
-  },
+  }
 
-  getReaderTab: function () {
+  getReaderTab(): Element {
+    let currentReader = this.getReader();
+    if (!currentReader) {
+      return undefined;
+    }
     let tabs = document.getElementsByTagName("tabbox");
+    let readerTitle = currentReader._title.split(" - ")[0];
     for (let i = 0; i < tabs.length; i++) {
       let tabpanels = tabs[i].getElementsByTagName("tabpanel");
-      let readerTitle = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)._title.split(
-        " - "
-      )[0];
       if (
         // Skip ZoteroPane tab
         tabs[i].getAttribute("id") != "zotero-view-tabbox" &&
         tabpanels.length &&
         tabpanels[0].children.length &&
+        // @ts-ignore
         tabpanels[0].children[0].item &&
         Zotero_Tabs.selectedID != "zotero-pane" &&
         // Have the same title, use substr to avoid the ' - ' in title causing error
+        // @ts-ignore
         tabpanels[0].children[0].item
           .getField("title")
           .substr(0, readerTitle.length) == readerTitle &&
@@ -46,16 +52,16 @@ export default reader = {
         // TODO: fix with more attachments
         Array.prototype.every.call(
           tabs[i].getElementsByTagName("tab"),
-          (e) => e.id != "pdf-translate-tab"
+          (e: Element) => e.id != "pdf-translate-tab"
         )
       ) {
         return tabs[i];
       }
     }
     return undefined;
-  },
+  }
 
-  getSelectedText: function (currentReader) {
+  getSelectedText(currentReader: ReaderObj): string {
     if (!currentReader) {
       return "";
     }
@@ -70,5 +76,7 @@ export default reader = {
       }
     }
     return "";
-  },
-};
+  }
+}
+
+export default TransReader;
