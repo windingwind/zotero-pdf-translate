@@ -173,7 +173,7 @@ class TransEvents extends TransBase {
     let shortcuts: Array<Shortcut> = [
       {
         id: 0,
-        func: this.onTranslateButtonClick,
+        func: this.onTranslateButtonClick.bind(this),
         modifiers: null,
         key: "t",
         keycode: undefined,
