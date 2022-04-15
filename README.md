@@ -145,6 +145,7 @@ This section shows the directory structure of a template.
 ```shell
 │  .gitignore
 │  .release-it.json # release-it conf
+|  jsconfig.json    # https://code.visualstudio.com/docs/languages/jsconfig#
 │  build.js         # esbuild
 │  LICENSE
 │  package.json     # npm conf
@@ -182,23 +183,25 @@ This section shows the directory structure of a template.
 ├─imgs              # readme images
 │
 └─src               # source code
-    │  index.js     # main entry
-    │  PDFTranslate.js  # main class
-    │  preferences.js   # pref functions, no esbuild
-    │  reader.js    # Zotero.Reader functions
-    │  translate.js # translate functions
-    │  view.js      # UI functions
+    │  index.ts     # main entry
+    │  base.ts      # base class
+    │  PDFTranslate.ts  # main class
+    │  events.ts    # events class
+    │  reader.ts    # reader class
+    │  translate.ts # translate class
+    │  view.ts      # UI class
+    │  prefs.ts     # preferences class
     │
     └─translate     # translate engines
-            baidu.js
-            caiyun.js
-            config.js
-            deepl.js
-            google.js
-            microsoft.js
-            niutrans.js
-            tencent.js
-            youdao.js
+            baidu.ts
+            caiyun.ts
+            config.ts
+            deepl.ts
+            google.ts
+            microsoft.ts
+            niutrans.ts
+            tencent.ts
+            youdao.ts
 ```
 
 ### Build
@@ -229,6 +232,7 @@ Part of the code of this repo refers to other open-source projects within the al
 
 - zotero-scihub
 - zotero-tag
+- zotero-better-bibtex(`d.ts`)
 
 ## My Other Zotero Addons
 
