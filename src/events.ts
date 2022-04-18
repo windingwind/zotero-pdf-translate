@@ -186,7 +186,7 @@ class TransEvents extends TransBase {
     }
 
     await this._PDFTranslate.translate.callTranslateTitle(items, force);
-    await Zotero.Promise.delay(500);
+    // await Zotero.Promise.delay(500);
     this.onSwitchTitle(true, false);
     return true;
   }
@@ -233,6 +233,13 @@ class TransEvents extends TransBase {
         id: 0,
         func: this.onTranslateKey.bind(this),
         modifiers: null,
+        key: "t",
+        keycode: undefined,
+      },
+      {
+        id: 1,
+        func: this.onTranslateKey.bind(this),
+        modifiers: 'accel',
         key: "t",
         keycode: undefined,
       },
