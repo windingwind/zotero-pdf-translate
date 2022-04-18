@@ -2,10 +2,12 @@ import { TransBase } from "./base";
 
 class TransEvents extends TransBase {
   private _readerSelect: number;
+  private _titleTranslation: boolean;
   private notifierCallback: object;
   constructor(parent: PDFTranslate) {
     super(parent);
     this._readerSelect = 0;
+    this._titleTranslation = false;
     this.notifierCallback = {
       // Call view.updateTranslatePanels when a tab is added or selected
       notify: async (
@@ -135,6 +137,14 @@ class TransEvents extends TransBase {
     }
   }
 
+  public onTranslateKey(event: XULEvent) {
+    if (Zotero_Tabs.selectedID == "zotero-pane") {
+      this.onSwitchTitle(!this._titleTranslation);
+    } else {
+      this.onTranslateButtonClick(event);
+    }
+  }
+
   public onTranslateButtonClick(
     event: XULEvent,
     currentReader = undefined
@@ -154,14 +164,14 @@ class TransEvents extends TransBase {
     );
   }
 
-  public async onTranslateTitle(selectedType: string) {
+  public async onTranslateTitle(selectedType: string, force: boolean = false) {
     if (!ZoteroPane.canEdit()) {
       ZoteroPane.displayCannotEditLibraryMessage();
 
       return;
     }
 
-    Zotero.debug("ZoteroPDFTranslate: onTranslateTitle");
+    Zotero.debug(`ZoteroPDFTranslate: onTranslateTitle, type=${selectedType}`);
     let items: ZoteroItem[] = [];
     if (selectedType == "collection") {
       let collection = ZoteroPane.getSelectedCollection(false);
@@ -175,26 +185,15 @@ class TransEvents extends TransBase {
       items = ZoteroPane.getSelectedItems();
     }
 
-    let titles: string[] = [];
-    for (let item of items) {
-      // Skip translated title
-      if (item.getField("shortTitle").indexOf("🔤") >= 0) {
-        continue;
-      }
-      titles.push(`${item.id}🤣${item.getField("title")}`);
-    }
-    if (titles.length == 0) {
-      this.onSwitchTitle(true, false);
-      return false;
-    }
-    let titleText = titles.join("🤩");
-    await this._PDFTranslate.translate.callTranslateTitle(titleText);
+    await this._PDFTranslate.translate.callTranslateTitle(items, force);
+    await Zotero.Promise.delay(500);
     this.onSwitchTitle(true, false);
     return true;
   }
 
   public async onSwitchTitle(show: boolean, doTranslate = true) {
-    Zotero.debug("ZoteroPDFTranslate: onSwitchTitle");
+    Zotero.debug("ZoteroPDFTranslate: onSwitchTitle" + show);
+    this._titleTranslation = show;
     let titleSpans =
       ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
 
@@ -232,7 +231,7 @@ class TransEvents extends TransBase {
     let shortcuts: Array<Shortcut> = [
       {
         id: 0,
-        func: this.onTranslateButtonClick.bind(this),
+        func: this.onTranslateKey.bind(this),
         modifiers: null,
         key: "t",
         keycode: undefined,

@@ -115,7 +115,7 @@ declare interface ZoteroItem {
   annotationType?: string;
   annotationComment?: string;
   annotationText?: string;
-  saveTx: () => void;
+  saveTx: () => Promise<void>;
 }
 
 // https://stackoverflow.com/questions/39040108/import-class-in-definition-file-d-ts

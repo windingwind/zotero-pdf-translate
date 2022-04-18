@@ -13,6 +13,7 @@ class TransView extends TransBase {
     this.progressWindowIcon = {
       success: "chrome://zotero/skin/tick.png",
       fail: "chrome://zotero/skin/cross.png",
+      default: "chrome://zoteropdftranslate/skin/favicon.png",
     };
   }
 
@@ -602,7 +603,7 @@ class TransView extends TransBase {
   showProgressWindow(
     header: string,
     context: string,
-    type: string = "success",
+    type: string = "default",
     t: number = 5000
   ) {
     // Zotero.ZoteroTag.progressWindow.close();
