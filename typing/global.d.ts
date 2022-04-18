@@ -130,6 +130,18 @@ declare const Zotero: {
   ZoteroPDFTranslate: import("../src/PDFtranslate");
 };
 
+declare const ZoteroPane: {
+  [attr: string]: any;
+  canEdit: () => boolean;
+  displayCannotEditLibraryMessage: () => void;
+  getSelectedCollection: (arg: boolean) => ZoteroCollection;
+  getSelectedItems: () => Array<ZoteroItem>;
+};
+
+declare class ZoteroCollection {
+  getChildItems: (arg1: boolean, arg2: boolean) => Array<ZoteroItem>;
+}
+
 declare const Components: any;
 declare const Services: any;
 
@@ -146,7 +158,7 @@ declare class ReaderObj {
 }
 
 declare class Annotation {
-  text: string
+  text: string;
 }
 
 declare const Zotero_Tabs: {

@@ -103,6 +103,7 @@ class TransEngine extends TransConfig {
   }
 
   async callTranslateAnnotation(item: ZoteroItem) {
+    this._timestamp = new Date().getTime();
     let disable = this.getLanguageDisable(
       item.parentItem.parentItem.getField("language").split("-")[0]
     );
@@ -140,6 +141,7 @@ class TransEngine extends TransConfig {
   }
 
   async callTranslateNote(annotations: Array<Annotation>) {
+    this._timestamp = new Date().getTime();
     try {
       for (let annotation of annotations) {
         if (this._PDFTranslate._sourceText !== annotation.text) {
@@ -154,6 +156,27 @@ class TransEngine extends TransConfig {
     this._enableNote = false;
     Zotero.debug(`ZoteroPDFTranslate.callTranslateNote : ${annotations}`);
     return annotations;
+  }
+
+  public async callTranslateTitle(titleText: string) {
+    this._timestamp = new Date().getTime();
+    this._PDFTranslate._sourceText = titleText;
+    let success = await this.getTranslation();
+    if (!success) {
+      Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+      return false;
+    }
+    for (let _ of this._PDFTranslate._translatedText.split("🤩")) {
+      let itemID = _.split("🤣")[0].trim();
+      let newTitle = _.split("🤣")[1];
+      Zotero.debug(`${itemID}, ${newTitle}`);
+      let item = Zotero.Items.get(itemID);
+      if (item) {
+        item.setField("shortTitle", newTitle + "🔤");
+        item.saveTx();
+      }
+    }
+    return true;
   }
 
   private async getTranslation(): Promise<boolean> {

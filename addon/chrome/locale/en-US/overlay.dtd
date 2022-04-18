@@ -29,6 +29,10 @@
 <!ENTITY zotero.__addonRef__.pannel.copySource.label "Copy Source">
 <!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "Copy Result">
 
+<!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "Translate Title">
+<!ENTITY zotero.__addonRef__.itemmenu.showTitle.label "Show Title Translation">
+<!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "Hide Title Translation">
+
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate VERSION __buildVersion__">

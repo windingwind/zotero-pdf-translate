@@ -154,6 +154,65 @@ class TransEvents extends TransBase {
     );
   }
 
+  public async onTranslateTitle(selectedType: string) {
+    if (!ZoteroPane.canEdit()) {
+      ZoteroPane.displayCannotEditLibraryMessage();
+
+      return;
+    }
+
+    Zotero.debug("ZoteroPDFTranslate: onTranslateTitle");
+    let items: ZoteroItem[] = [];
+    if (selectedType == "collection") {
+      let collection = ZoteroPane.getSelectedCollection(false);
+
+      if (collection) {
+        collection.getChildItems(false, false).forEach(function (item) {
+          items.push(item);
+        });
+      }
+    } else if (selectedType == "items") {
+      items = ZoteroPane.getSelectedItems();
+    }
+
+    let titles: string[] = [];
+    for (let item of items) {
+      // Skip translated title
+      if (item.getField("shortTitle").indexOf("🔤") >= 0) {
+        continue;
+      }
+      titles.push(`${item.id}🤣${item.getField("title")}`);
+    }
+    if (titles.length == 0) {
+      this.onSwitchTitle(true, false);
+      return false;
+    }
+    let titleText = titles.join("🤩");
+    await this._PDFTranslate.translate.callTranslateTitle(titleText);
+    this.onSwitchTitle(true, false);
+    return true;
+  }
+
+  public async onSwitchTitle(show: boolean, doTranslate = true) {
+    Zotero.debug("ZoteroPDFTranslate: onSwitchTitle");
+    let titleSpans =
+      ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
+
+    if (show && doTranslate) {
+      await this.onTranslateTitle("collection");
+      return;
+    }
+
+    let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
+    for (let i = 0; i < rows.length; i++) {
+      titleSpans[i].innerHTML = show
+        ? // Switch to origin titles
+          rows[i].getField("shortTitle")
+        : // Switch to translated titles
+          rows[i].getField("title");
+    }
+  }
+
   public async onTranslateNoteButtonClick(
     event: Event,
     currentReader: Reader,

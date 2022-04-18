@@ -29,6 +29,10 @@
 <!ENTITY zotero.__addonRef__.pannel.copySource.label "复制源">
 <!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "复制结果">
 
+<!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "翻译标题">
+<!ENTITY zotero.__addonRef__.itemmenu.showTitle.label "显示标题翻译">
+<!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "隐藏标题翻译">
+
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate 版本 __buildVersion__">
