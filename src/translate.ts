@@ -11,6 +11,7 @@ import { youdao } from "./translate/youdao";
 class TransEngine extends TransConfig {
   _translateTime: number;
   _useModified: boolean;
+  _lastAnnotationID: number;
   _enableNote: boolean;
   config: TransConfig;
   baidu: Function;
@@ -31,6 +32,7 @@ class TransEngine extends TransConfig {
     super(parent);
     this._translateTime = 0;
     this._useModified = false;
+    this._lastAnnotationID = -1;
     this._enableNote = false;
 
     this.baidu = baidu;
@@ -50,9 +52,6 @@ class TransEngine extends TransConfig {
 
   async callTranslate(currentReader: ReaderObj, disableCache: boolean = true) {
     let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
-    if (!text) {
-      return false;
-    }
 
     if (this._useModified) {
       Zotero.debug("ZoteroPDFTranslate: Using modified text");
@@ -134,8 +133,11 @@ class TransEngine extends TransConfig {
         "Annotation Translate Saved",
         text.length < 20 ? text : text.slice(0, 15) + "..."
       );
+      this._PDFTranslate.view.updateResults();
+      this._lastAnnotationID = item.id;
+      return true;
     }
-    return true;
+    return false;
   }
 
   async callTranslateNote(annotations: Array<Annotation>) {

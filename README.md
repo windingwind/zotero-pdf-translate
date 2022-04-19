@@ -24,7 +24,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Select some text, the translations are shown on the popup and the right sidebar(v0.2.0);
   ![](imgs/en2zh.png)
 
-- Highlight some text, the translations are added to the annotation comment(v0.3.0);
+- Highlight some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);  
 - Add selected text along with translation to note(v0.4.0); _Only works when a note editor is active._
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).  
   ![](imgs/addnote.png)

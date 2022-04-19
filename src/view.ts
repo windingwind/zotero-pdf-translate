@@ -147,6 +147,18 @@ class TransView extends TransBase {
       hboxLanguage.minHeight = 50;
       hboxLanguage.style.height = "80px";
 
+      let hboxAnnotation: XUL.Box = document.createElement("hbox");
+      hboxAnnotation.setAttribute(
+        "id",
+        "pdf-translate-tabpanel-annotation-hbox"
+      );
+      hboxAnnotation.setAttribute("flex", "1");
+      hboxAnnotation.setAttribute("align", "center");
+      hboxAnnotation.maxHeight = 50;
+      hboxAnnotation.minHeight = 50;
+      hboxAnnotation.hidden = true;
+      hboxAnnotation.style.height = "80px";
+
       let hboxCopy: XUL.Box = document.createElement("hbox");
       hboxCopy.setAttribute("id", "pdf-translate-tabpanel-copy-hbox");
       hboxCopy.setAttribute("flex", "1");
@@ -259,6 +271,15 @@ class TransView extends TransBase {
 
       hboxTranslate.append(menuLabel, menulist, buttonTranslate);
 
+      let buttonUpdateAnnotation = document.createElement("button");
+      buttonUpdateAnnotation.setAttribute("label", "Update Annotation");
+      buttonUpdateAnnotation.setAttribute("flex", "1");
+      buttonUpdateAnnotation.addEventListener("click", (e: XULEvent) => {
+        this._PDFTranslate.events.onAnnotationUpdateButtonClick(e);
+      });
+
+      hboxAnnotation.append(buttonUpdateAnnotation);
+
       let buttonCopySource = document.createElement("button");
       buttonCopySource.setAttribute("label", "Copy Raw");
       buttonCopySource.setAttribute("flex", "1");
@@ -295,6 +316,7 @@ class TransView extends TransBase {
       textboxSource.addEventListener("input", (event: XULEvent) => {
         this._PDFTranslate._sourceText = event.target.value;
         this._PDFTranslate.translate._useModified = true;
+        this.switchSideBarAnnotationBox(false);
       });
       textboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
@@ -310,9 +332,14 @@ class TransView extends TransBase {
       splitter.append(grippy);
 
       let textboxTranslated: XUL.Textbox = document.createElement("textbox");
-      textboxTranslated.setAttribute("multiline", true);
-      textboxTranslated.setAttribute("flex", "1");
       textboxTranslated.setAttribute("id", "pdf-translate-tabpanel-translated");
+      textboxTranslated.setAttribute("flex", "1");
+      textboxTranslated.setAttribute("multiline", true);
+      textboxTranslated.addEventListener("input", (event: XULEvent) => {
+        this._PDFTranslate._translatedText = event.target.value;
+        this._PDFTranslate.translate._useModified = true;
+        this.switchSideBarAnnotationBox(false);
+      });
       textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
@@ -323,6 +350,7 @@ class TransView extends TransBase {
         rawResultOrder ? textboxTranslated : textboxSource,
         splitter,
         rawResultOrder ? textboxSource : textboxTranslated,
+        hboxAnnotation,
         hboxCopy
       );
       panelInfo.append(vbox);
@@ -333,6 +361,11 @@ class TransView extends TransBase {
     }
     tabbox.getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
     tabbox.selectedIndex = itemCount - 1;
+  }
+
+  switchSideBarAnnotationBox(hidden: boolean = true) {
+    document.getElementById("pdf-translate-tabpanel-annotation-hbox").hidden =
+      hidden;
   }
 
   updateSideBarPanelMenu() {

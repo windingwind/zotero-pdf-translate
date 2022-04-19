@@ -88,7 +88,11 @@ class TransEvents extends TransBase {
     ) {
       return false;
     }
+    // Disable modified text translation in side-bar
     this._PDFTranslate.translate._useModified = false;
+    // Disable annotation modification
+    this._PDFTranslate.translate._lastAnnotationID = -1;
+    this._PDFTranslate.view.switchSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     let text = this._PDFTranslate.reader.getSelectedText(currentReader);
@@ -135,6 +139,23 @@ class TransEvents extends TransBase {
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
       this._PDFTranslate.translate.callTranslateAnnotation(item);
+    }
+  }
+
+  public onAnnotationUpdateButtonClick(event: XULEvent): void {
+    if (
+      this._PDFTranslate.translate._lastAnnotationID < 0
+    ) {
+      return;
+    }
+    Zotero.debug("ZoteroPDFTranslate: onAnnotationUpdateButtonClick");
+    let item: ZoteroItem = Zotero.Items.get(
+      this._PDFTranslate.translate._lastAnnotationID
+    );
+    if (item && item.isAnnotation() && item.annotationType == "highlight") {
+      item.annotationText = this._PDFTranslate._sourceText;
+      item.annotationComment = this._PDFTranslate._translatedText;
+      item.saveTx();
     }
   }
 
