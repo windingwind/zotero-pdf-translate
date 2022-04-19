@@ -161,51 +161,80 @@ class TransEngine extends TransConfig {
     noSave: boolean = false
   ) {
     this._translateTime = new Date().getTime();
-    let titles: string[] = [];
     let status = {};
-    // Update titles in batch
-    for (let item of items) {
-      // Skip translated title
-      if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
-        continue;
-      }
-      if (this.getLanguageDisable(item.getField("language").split("-")[0])) {
-        continue;
-      }
-      titles.push(`${item.id} © ${item.getField("title")}`);
-      status[item.id] = false;
-    }
-
-    Zotero.debug(
-      `ZoteroPDFTranslate: callTranslateTitle, count=${titles.length}`
-    );
-    if (titles.length == 0) {
-      return false;
-    }
-    let titleText = titles.join(" 👍 ");
-    this._PDFTranslate._sourceText = titleText;
-    let success = await this.getTranslation();
-    if (!success) {
-      Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
-      return false;
-    }
-    for (let _ of this._PDFTranslate._translatedText.split("👍")) {
-      let itemID = _.split("©")[0].trim();
-      let newTitle = _.split("©")[1];
-      Zotero.debug(`${itemID}, ${newTitle}`);
-      try {
-        let item = Zotero.Items.get(itemID);
-        if (item) {
-          if (!noSave) {
-            item.setField("shortTitle", newTitle + "🔤");
-            await item.saveTx();
-          }
-          status[itemID] = newTitle;
+    if (items.length > 1) {
+      // Update titles in batch
+      let titles: string[] = [];
+      let titleSplitter = "©";
+      let itemSplitter = "℗";
+      for (let item of items) {
+        // Skip translated title
+        if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
+          continue;
         }
+        if (this.getLanguageDisable(item.getField("language").split("-")[0])) {
+          continue;
+        }
+        titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
+        status[item.id] = false;
+      }
+
+      Zotero.debug(
+        `ZoteroPDFTranslate: callTranslateTitle, count=${titles.length}`
+      );
+      if (titles.length == 0) {
+        return status;
+      }
+      let titleText = titles.join(` ${itemSplitter} `);
+      this._PDFTranslate._sourceText = titleText;
+      let success = await this.getTranslation();
+      if (!success) {
+        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+        return status;
+      }
+      for (let _ of this._PDFTranslate._translatedText.split(itemSplitter)) {
+        let itemID = _.split(titleSplitter)[0].trim();
+        let newTitle = _.split(titleSplitter)[1];
+        Zotero.debug(`${itemID}, ${newTitle}`);
+        try {
+          let item = Zotero.Items.get(itemID);
+          if (item) {
+            if (!noSave) {
+              item.setField("shortTitle", newTitle + "🔤");
+              await item.saveTx();
+            }
+            status[itemID] = newTitle;
+          }
+        } catch (e) {
+          Zotero.debug(e);
+        }
+      }
+    } else {
+      let item = items[0];
+      if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
+        return status;
+      }
+      status[item.id] = false;
+      this._PDFTranslate._sourceText = item.getField("title");
+      let success = await this.getTranslation();
+      if (!success) {
+        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+        return status;
+      }
+      try {
+        if (!noSave) {
+          item.setField(
+            "shortTitle",
+            this._PDFTranslate._translatedText + "🔤"
+          );
+          await item.saveTx();
+        }
+        status[item.id] = this._PDFTranslate._translatedText;
       } catch (e) {
         Zotero.debug(e);
       }
     }
+
     for (let itemID in status) {
       if (!noRetry && !status[itemID]) {
         let _status = await this.callTranslateTitle(
@@ -227,7 +256,7 @@ class TransEngine extends TransConfig {
     if (!noAlert) {
       this._PDFTranslate.view.showProgressWindow(
         "Title Translation",
-        `${successCount} items updated, ${titles.length - successCount} failed.`
+        `${successCount} items updated, ${items.length - successCount} failed.`
       );
     }
     return status;

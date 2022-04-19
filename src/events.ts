@@ -183,8 +183,12 @@ class TransEvents extends TransBase {
       items = ZoteroPane.getSelectedItems();
     }
 
-    await this._PDFTranslate.translate.callTranslateTitle(items, force);
-    // await Zotero.Promise.delay(500);
+    let status = await this._PDFTranslate.translate.callTranslateTitle(
+      items,
+      force
+    );
+    await Zotero.Promise.delay(200);
+    Zotero.debug(status);
     this.onSwitchTitle(true, false);
     return true;
   }
@@ -205,7 +209,9 @@ class TransEvents extends TransBase {
       if (
         this._PDFTranslate.translate.getLanguageDisable(
           rows[i].getField("language").split("-")[0]
-        )
+        ) ||
+        // Skip blank
+        (show && rows[i].getField("shortTitle").indexOf("🔤") < 0)
       ) {
         continue;
       }
