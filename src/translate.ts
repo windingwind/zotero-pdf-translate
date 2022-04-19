@@ -9,7 +9,8 @@ import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
 
 class TransEngine extends TransConfig {
-  _timestamp: number;
+  _translateTime: number;
+  _useModified: boolean;
   _enableNote: boolean;
   config: TransConfig;
   baidu: Function;
@@ -28,7 +29,8 @@ class TransEngine extends TransConfig {
 
   constructor(parent: PDFTranslate) {
     super(parent);
-    this._timestamp = 0;
+    this._translateTime = 0;
+    this._useModified = false;
     this._enableNote = false;
 
     this.baidu = baidu;
@@ -46,27 +48,20 @@ class TransEngine extends TransConfig {
     this.youdao = youdao;
   }
 
-  async callTranslate(currentReader: ReaderObj, force: boolean = false) {
-    let text = this._PDFTranslate.reader.getSelectedText(currentReader);
+  async callTranslate(currentReader: ReaderObj) {
+    let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
     if (!text) {
       return false;
     }
 
-    if (
-      force &&
-      this._PDFTranslate._sourceText &&
-      this._PDFTranslate._sourceText != text
-    ) {
+    if (this._useModified) {
       Zotero.debug("ZoteroPDFTranslate: Using modified text");
       text = this._PDFTranslate._sourceText;
-    }
-
-    // Empty or unchanged
-    if (
-      !force &&
-      (!text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
-        this._PDFTranslate._sourceText === text)
+    } else if (
+      !text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
+      this._PDFTranslate._sourceText === text
     ) {
+      Zotero.debug("ZoteroPDFTranslate: Using cache");
       this._PDFTranslate.view.updateResults();
       this._PDFTranslate.view.updatePopupStyle(currentReader);
       return true;
@@ -80,13 +75,13 @@ class TransEngine extends TransConfig {
     this._PDFTranslate.view.updatePopupStyle(currentReader);
 
     let t = new Date().getTime();
-    this._timestamp = t;
+    this._translateTime = t;
     Zotero.debug(`ZoteroPDFTranslate: Translate ${t} start.`);
 
     let success = await this.getTranslation();
 
     Zotero.debug(`ZoteroPDFTranslate: Translate ${t} returns ${success}`);
-    if (this._timestamp > t) {
+    if (this._translateTime > t) {
       Zotero.debug(`ZoteroPDFTranslate: Translate ${t} overwritten.`);
       return true;
     }
@@ -103,9 +98,9 @@ class TransEngine extends TransConfig {
   }
 
   async callTranslateAnnotation(item: ZoteroItem) {
-    this._timestamp = new Date().getTime();
+    this._translateTime = new Date().getTime();
     let disable = this.getLanguageDisable(
-      item.parentItem.parentItem.getField("language").split("-")[0]
+      this.getRootItem(item).getField("language").split("-")[0]
     );
     if (
       Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
@@ -141,7 +136,7 @@ class TransEngine extends TransConfig {
   }
 
   async callTranslateNote(annotations: Array<Annotation>) {
-    this._timestamp = new Date().getTime();
+    this._translateTime = new Date().getTime();
     try {
       for (let annotation of annotations) {
         if (this._PDFTranslate._sourceText !== annotation.text) {
@@ -161,15 +156,20 @@ class TransEngine extends TransConfig {
   public async callTranslateTitle(
     items: Array<ZoteroItem>,
     force: boolean = false,
-    showResult: boolean = true
+    noAlert: boolean = false,
+    noRetry: boolean = false,
+    noSave: boolean = false
   ) {
-    this._timestamp = new Date().getTime();
+    this._translateTime = new Date().getTime();
     let titles: string[] = [];
     let status = {};
     // Update titles in batch
     for (let item of items) {
       // Skip translated title
       if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
+        continue;
+      }
+      if (this.getLanguageDisable(item.getField("language").split("-")[0])) {
         continue;
       }
       titles.push(`${item.id} © ${item.getField("title")}`);
@@ -196,20 +196,24 @@ class TransEngine extends TransConfig {
       try {
         let item = Zotero.Items.get(itemID);
         if (item) {
-          item.setField("shortTitle", newTitle + "🔤");
-          await item.saveTx();
-          status[itemID] = true;
+          if (!noSave) {
+            item.setField("shortTitle", newTitle + "🔤");
+            await item.saveTx();
+          }
+          status[itemID] = newTitle;
         }
       } catch (e) {
         Zotero.debug(e);
       }
     }
     for (let itemID in status) {
-      if (!status[itemID]) {
+      if (!noRetry && !status[itemID]) {
         let _status = await this.callTranslateTitle(
           Zotero.Items.get([itemID]),
           force,
-          false
+          true,
+          true,
+          noSave
         );
         status[itemID] = _status[itemID];
       }
@@ -220,7 +224,7 @@ class TransEngine extends TransConfig {
         successCount += 1;
       }
     }
-    if (showResult) {
+    if (!noAlert) {
       this._PDFTranslate.view.showProgressWindow(
         "Title Translation",
         `${successCount} items updated, ${titles.length - successCount} failed.`
@@ -243,8 +247,8 @@ class TransEngine extends TransConfig {
     currentReader: ReaderObj = undefined
   ): boolean {
     if (typeof currentLanguage == "undefined") {
-      currentLanguage = Zotero.Items.get(currentReader.itemID)
-        .parentItem.getField("language")
+      currentLanguage = this.getRootItem(Zotero.Items.get(currentReader.itemID))
+        .getField("language")
         .split("-")[0];
     }
     let disable = false;
@@ -260,6 +264,14 @@ class TransEngine extends TransConfig {
       }
     }
     return disable;
+  }
+
+  private getRootItem(item: ZoteroItem): ZoteroItem {
+    let rootItem = item;
+    while (rootItem.parentItem) {
+      rootItem = rootItem.parentItem;
+    }
+    return rootItem;
   }
 
   private getArgs(): TransArgs {

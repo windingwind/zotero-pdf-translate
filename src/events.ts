@@ -88,6 +88,7 @@ class TransEvents extends TransBase {
     ) {
       return false;
     }
+    this._PDFTranslate.translate._useModified = false;
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     let text = this._PDFTranslate.reader.getSelectedText(currentReader);
@@ -158,16 +159,13 @@ class TransEvents extends TransBase {
       this._PDFTranslate.view.buildPopupPanel(currentReader);
     }
 
-    this._PDFTranslate.translate.callTranslate(
-      currentReader,
-      event && event.target.getAttribute("id") == "pdf-translate-call-button"
-    );
+    this._PDFTranslate.translate.callTranslate(currentReader);
   }
 
   public async onTranslateTitle(selectedType: string, force: boolean = false) {
     if (!ZoteroPane.canEdit()) {
       ZoteroPane.displayCannotEditLibraryMessage();
-
+      // await this.onTranslateTitleTemp();
       return;
     }
 
@@ -192,7 +190,7 @@ class TransEvents extends TransBase {
   }
 
   public async onSwitchTitle(show: boolean, doTranslate = true) {
-    Zotero.debug("ZoteroPDFTranslate: onSwitchTitle" + show);
+    Zotero.debug(`ZoteroPDFTranslate: onSwitchTitle, ${show}`);
     this._titleTranslation = show;
     let titleSpans =
       ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
@@ -204,11 +202,47 @@ class TransEvents extends TransBase {
 
     let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
     for (let i = 0; i < rows.length; i++) {
+      if (
+        this._PDFTranslate.translate.getLanguageDisable(
+          rows[i].getField("language").split("-")[0]
+        )
+      ) {
+        continue;
+      }
       titleSpans[i].innerHTML = show
         ? // Switch to origin titles
           rows[i].getField("shortTitle")
         : // Switch to translated titles
           rows[i].getField("title");
+    }
+  }
+
+  public async onTranslateTitleTemp() {
+    Zotero.debug("ZoteroPDFTranslate: onTranslateTitleTemp");
+    let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
+    let status = {};
+    while (rows.length > 0) {
+      let currentBatch = rows.splice(0, 10);
+      let _status = await this._PDFTranslate.translate.callTranslateTitle(
+        currentBatch,
+        true,
+        false,
+        false,
+        true
+      );
+      Object.assign(status, _status);
+    }
+
+    Zotero.debug(status);
+    let titleSpans =
+      ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
+    if (titleSpans.length != rows.length) {
+      return false;
+    }
+    for (let i = 0; i < rows.length; i++) {
+      if (status[rows[i].id]) {
+        titleSpans[i].innerHTML = status[rows[i].id];
+      }
     }
   }
 
@@ -239,7 +273,7 @@ class TransEvents extends TransBase {
       {
         id: 1,
         func: this.onTranslateKey.bind(this),
-        modifiers: 'accel',
+        modifiers: "accel",
         key: "t",
         keycode: undefined,
       },

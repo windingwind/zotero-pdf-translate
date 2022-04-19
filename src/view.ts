@@ -294,6 +294,7 @@ class TransView extends TransBase {
       textboxSource.setAttribute("multiline", true);
       textboxSource.addEventListener("input", (event: XULEvent) => {
         this._PDFTranslate._sourceText = event.target.value;
+        this._PDFTranslate.translate._useModified = true;
       });
       textboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
@@ -540,8 +541,11 @@ class TransView extends TransBase {
 
     // Get current H & W
     // @ts-ignore
-    let textHeight = document.getAnonymousNodes(this.popupTextBox)[0]
-      .childNodes[0].scrollHeight;
+    let anonyNodes: any = document.getAnonymousNodes(this.popupTextBox);
+    if (!anonyNodes) {
+      return;
+    }
+    let textHeight = anonyNodes[0].childNodes[0].scrollHeight;
     let textWidth = Number(this.popupTextBox.width);
     if (textHeight / textWidth > 0.75) {
       // Update width
