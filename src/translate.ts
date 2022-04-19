@@ -48,7 +48,7 @@ class TransEngine extends TransConfig {
     this.youdao = youdao;
   }
 
-  async callTranslate(currentReader: ReaderObj) {
+  async callTranslate(currentReader: ReaderObj, disableCache: boolean = true) {
     let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
     if (!text) {
       return false;
@@ -58,8 +58,11 @@ class TransEngine extends TransConfig {
       Zotero.debug("ZoteroPDFTranslate: Using modified text");
       text = this._PDFTranslate._sourceText;
     } else if (
-      !text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
-      this._PDFTranslate._sourceText === text
+      !disableCache &&
+      // Blank
+      (!text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
+        // Unchanged
+        this._PDFTranslate._sourceText === text)
     ) {
       Zotero.debug("ZoteroPDFTranslate: Using cache");
       this._PDFTranslate.view.updateResults();

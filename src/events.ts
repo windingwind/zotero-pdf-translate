@@ -159,7 +159,10 @@ class TransEvents extends TransBase {
       this._PDFTranslate.view.buildPopupPanel(currentReader);
     }
 
-    this._PDFTranslate.translate.callTranslate(currentReader);
+    this._PDFTranslate.translate.callTranslate(
+      currentReader,
+      event && event.target.getAttribute("id") == "pdf-translate-call-button"
+    );
   }
 
   public async onTranslateTitle(selectedType: string, force: boolean = false) {

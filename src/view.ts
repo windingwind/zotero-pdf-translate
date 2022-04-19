@@ -486,35 +486,34 @@ class TransView extends TransBase {
     if (!currentReader || !selectionMenu) {
       return false;
     }
-    Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
     let addToNoteButton =
       selectionMenu.getElementsByClassName("wide-button")[0];
     let translationToNote = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup-add-to-note-button"
     );
-    if (addToNoteButton) {
-      if (
-        Zotero.Prefs.get("ZoteroPDFTranslate.enableNote") &&
-        !translationToNote
-      ) {
-        let button = currentReader._window.document.createElement("button");
-        button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
-        button.setAttribute("label", Zotero.getString("pdfReader.addToNote"));
-        button.setAttribute(
-          "image",
-          "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
+    if (
+      addToNoteButton &&
+      Zotero.Prefs.get("ZoteroPDFTranslate.enableNote") &&
+      !translationToNote
+    ) {
+      Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
+      let button = currentReader._window.document.createElement("button");
+      button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
+      button.setAttribute("label", Zotero.getString("pdfReader.addToNote"));
+      button.setAttribute(
+        "image",
+        "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
+      );
+      button.onclick = (e) => {
+        this._PDFTranslate.events.onTranslateNoteButtonClick(
+          e,
+          currentReader,
+          addToNoteButton
         );
-        button.onclick = (e) => {
-          this._PDFTranslate.events.onTranslateNoteButtonClick(
-            e,
-            currentReader,
-            addToNoteButton
-          );
-        };
-        button.style.width = `${selectionMenu.scrollWidth}px`;
-        button.style.height = "26px";
-        addToNoteButton.after(button);
-      }
+      };
+      button.style.width = `${selectionMenu.scrollWidth}px`;
+      button.style.height = "26px";
+      addToNoteButton.after(button);
     }
     return true;
   }
