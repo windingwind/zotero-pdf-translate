@@ -189,7 +189,6 @@ class TransEvents extends TransBase {
   public async onTranslateTitle(selectedType: string, force: boolean = false) {
     if (!ZoteroPane.canEdit()) {
       ZoteroPane.displayCannotEditLibraryMessage();
-      // await this.onTranslateTitleTemp();
       return;
     }
 
@@ -213,20 +212,15 @@ class TransEvents extends TransBase {
     );
     await Zotero.Promise.delay(200);
     Zotero.debug(status);
-    this.onSwitchTitle(true, false);
+    this.onSwitchTitle(true);
     return true;
   }
 
-  public async onSwitchTitle(show: boolean, doTranslate = true) {
+  public async onSwitchTitle(show: boolean) {
     Zotero.debug(`ZoteroPDFTranslate: onSwitchTitle, ${show}`);
     this._titleTranslation = show;
     let titleSpans =
       ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
-
-    if (show && doTranslate) {
-      await this.onTranslateTitle("collection");
-      return;
-    }
 
     let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
     for (let i = 0; i < rows.length; i++) {
@@ -244,35 +238,6 @@ class TransEvents extends TransBase {
           rows[i].getField("shortTitle")
         : // Switch to translated titles
           rows[i].getField("title");
-    }
-  }
-
-  public async onTranslateTitleTemp() {
-    Zotero.debug("ZoteroPDFTranslate: onTranslateTitleTemp");
-    let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
-    let status = {};
-    while (rows.length > 0) {
-      let currentBatch = rows.splice(0, 10);
-      let _status = await this._PDFTranslate.translate.callTranslateTitle(
-        currentBatch,
-        true,
-        false,
-        false,
-        true
-      );
-      Object.assign(status, _status);
-    }
-
-    Zotero.debug(status);
-    let titleSpans =
-      ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
-    if (titleSpans.length != rows.length) {
-      return false;
-    }
-    for (let i = 0; i < rows.length; i++) {
-      if (status[rows[i].id]) {
-        titleSpans[i].innerHTML = status[rows[i].id];
-      }
     }
   }
 

@@ -173,11 +173,11 @@ class TransEngine extends TransConfig {
       let titleSplitter = "©";
       let itemSplitter = "℗";
       for (let item of items) {
-        // Skip translated title
-        if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
-          continue;
-        }
-        if (this.getLanguageDisable(item.getField("language").split("-")[0])) {
+        // Skip translated or language disabled title
+        if (
+          (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
+          this.getLanguageDisable(item.getField("language").split("-")[0])
+        ) {
           continue;
         }
         titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
@@ -205,7 +205,7 @@ class TransEngine extends TransConfig {
           let item = Zotero.Items.get(itemID);
           if (item) {
             if (!noSave) {
-              item.setField("shortTitle", newTitle + "🔤");
+              item.setField("shortTitle", "🔤" + newTitle);
               await item.saveTx();
             }
             status[itemID] = newTitle;
@@ -216,7 +216,10 @@ class TransEngine extends TransConfig {
       }
     } else {
       let item = items[0];
-      if (!force && item.getField("shortTitle").indexOf("🔤") >= 0) {
+      if (
+        (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
+        this.getLanguageDisable(item.getField("language").split("-")[0])
+      ) {
         return status;
       }
       status[item.id] = false;
@@ -230,7 +233,7 @@ class TransEngine extends TransConfig {
         if (!noSave) {
           item.setField(
             "shortTitle",
-            this._PDFTranslate._translatedText + "🔤"
+            "🔤" + this._PDFTranslate._translatedText
           );
           await item.saveTx();
         }
@@ -253,15 +256,20 @@ class TransEngine extends TransConfig {
       }
     }
     let successCount = 0;
+    let failCount = 0;
     for (let i in status) {
       if (status[i]) {
         successCount += 1;
+      } else {
+        failCount += 1;
       }
     }
     if (!noAlert) {
       this._PDFTranslate.view.showProgressWindow(
         "Title Translation",
-        `${successCount} items updated, ${items.length - successCount} failed.`
+        `${successCount} items updated, ${failCount} failed, ${
+          items.length - successCount - failCount
+        } skipped.`
       );
     }
     return status;
