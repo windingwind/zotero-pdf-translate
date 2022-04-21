@@ -30,7 +30,7 @@ class TransEvents extends TransBase {
         ) {
           Zotero.debug("ZoteroPDFTranslate: open window event detected.");
           this.onWindowReaderCheck();
-          setTimeout(this.onWindowReaderCheck, 1000);
+          setTimeout(this.onWindowReaderCheck.bind(this), 1000);
         }
         if (event == "add" && type == "item") {
           Zotero.debug("ZoteroPDFTranslate: add annotation event detected.");
@@ -143,9 +143,7 @@ class TransEvents extends TransBase {
   }
 
   public onAnnotationUpdateButtonClick(event: XULEvent): void {
-    if (
-      this._PDFTranslate.translate._lastAnnotationID < 0
-    ) {
+    if (this._PDFTranslate.translate._lastAnnotationID < 0) {
       return;
     }
     Zotero.debug("ZoteroPDFTranslate: onAnnotationUpdateButtonClick");
@@ -251,6 +249,15 @@ class TransEvents extends TransBase {
     }
     this._PDFTranslate.translate._enableNote = true;
     addToNoteButton.click();
+  }
+
+  public onOpenStandaloneWindow() {
+    let win = window.open(
+      "chrome://zoteropdftranslate/content/standalone.xul",
+      "_blank",
+      "chrome,extrachrome,menubar,resizable,scrollbars,status,toolbar"
+    );
+    this._PDFTranslate.view.standaloneWindow = win;
   }
 
   private initKeys(_document: Document = undefined): void {

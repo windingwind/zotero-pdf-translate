@@ -6,6 +6,7 @@ class TransView extends TransBase {
   sideBarTextboxTranslated: XUL.Textbox;
   tab: XUL.Element;
   tabPanel: XUL.Element;
+  standaloneWindow: Window;
   progressWindowIcon: object;
 
   constructor(parent: PDFTranslate) {
@@ -65,8 +66,8 @@ class TransView extends TransBase {
 
     currentReader._window.addEventListener(
       "pointerup",
-      (function (currentReader, disable) {
-        return function (event) {
+      ((currentReader, disable) => {
+        return (event) => {
           this._PDFTranslate.events.onSelect(event, currentReader, disable);
         };
       })(currentReader, disable)
@@ -364,8 +365,13 @@ class TransView extends TransBase {
   }
 
   switchSideBarAnnotationBox(hidden: boolean = true) {
-    document.getElementById("pdf-translate-tabpanel-annotation-hbox").hidden =
-      hidden;
+    let annotationBox = document.getElementById(
+      "pdf-translate-tabpanel-annotation-hbox"
+    );
+    if (!annotationBox) {
+      return;
+    }
+    annotationBox.hidden = hidden;
   }
 
   updateSideBarPanelMenu() {
@@ -609,6 +615,14 @@ class TransView extends TransBase {
       }.bind(this),
       false
     );
+  }
+
+  buildStandaloneWindow() {
+    let extraEngines = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.extraEngines"
+    ).split(",");
+    for (let engine of extraEngines) {
+    }
   }
 
   updateResults() {

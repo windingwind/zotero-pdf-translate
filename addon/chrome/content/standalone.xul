@@ -1,0 +1,8 @@
+<html>
+    <head>
+        <title>PDF Translate</title>
+    </head>
+    <body>
+        <vbox id="pdf-translate-container" flex="1" align="stretch"></vbox>
+    </body>
+</html>

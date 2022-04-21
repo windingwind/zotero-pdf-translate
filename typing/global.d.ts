@@ -166,6 +166,12 @@ declare const Zotero_Tabs: {
   selectedID: string;
 };
 
+declare const openWindowByType: (
+  uri: string,
+  type: string,
+  features: string
+) => Window;
+
 declare class Shortcut {
   id: number;
   func: any;

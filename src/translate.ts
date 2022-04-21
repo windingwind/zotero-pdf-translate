@@ -275,7 +275,7 @@ class TransEngine extends TransConfig {
     return status;
   }
 
-  private async getTranslation(): Promise<boolean> {
+  public async getTranslation(): Promise<boolean> {
     // Call current translate engine
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
@@ -284,7 +284,7 @@ class TransEngine extends TransConfig {
     return await this[translateSource]();
   }
 
-  getLanguageDisable(
+  public getLanguageDisable(
     currentLanguage: string = undefined,
     currentReader: ReaderObj = undefined
   ): boolean {
@@ -308,7 +308,7 @@ class TransEngine extends TransConfig {
     return disable;
   }
 
-  private getRootItem(item: ZoteroItem): ZoteroItem {
+  public getRootItem(item: ZoteroItem): ZoteroItem {
     let rootItem = item;
     while (rootItem.parentItem) {
       rootItem = rootItem.parentItem;
