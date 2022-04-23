@@ -68,8 +68,6 @@ class TransEvents extends TransBase {
     );
 
     this.initKeys();
-
-    this._PDFTranslate.view.updateTranslatePanel();
   }
 
   public async onSelect(
@@ -88,6 +86,7 @@ class TransEvents extends TransBase {
     ) {
       return false;
     }
+    this._PDFTranslate.reader.currentReader = currentReader;
     // Disable modified text translation in side-bar
     this._PDFTranslate.translate._useModified = false;
     // Disable annotation modification
@@ -95,7 +94,7 @@ class TransEvents extends TransBase {
     this._PDFTranslate.view.switchSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-    let text = this._PDFTranslate.reader.getSelectedText(currentReader);
+    let text = this._PDFTranslate.reader.getSelectedText();
     let currentButton = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup-button"
     );
@@ -115,21 +114,25 @@ class TransEvents extends TransBase {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
-        this._PDFTranslate.view.buildPopupPanel(currentReader);
+        this._PDFTranslate.view.buildPopupPanel();
       } else {
-        this._PDFTranslate.view.buildPopupButton(currentReader);
+        this._PDFTranslate.view.buildPopupButton();
       }
     }
 
     if (enableAuto) {
-      await this._PDFTranslate.translate.callTranslate(currentReader);
+      await this._PDFTranslate.translate.callTranslate();
     }
   }
 
   public onReaderSelect(): void {
     this._readerSelect = new Date().getTime();
-    this._PDFTranslate.view.updateTranslatePanel();
-    this.bindAddToNote();
+    this._PDFTranslate.reader.currentReader =
+      this._PDFTranslate.reader.getReader();
+    this._PDFTranslate.view.updateTranslatePanel(
+      this._PDFTranslate.reader.currentReader
+    );
+    this.bindAddToNote(this._PDFTranslate.reader.currentReader);
   }
 
   public onAnnotationAdd(ids: Array<string>): void {
@@ -165,21 +168,18 @@ class TransEvents extends TransBase {
     }
   }
 
-  public onTranslateButtonClick(
-    event: XULEvent,
-    currentReader = undefined
-  ): void {
+  public onTranslateButtonClick(event: XULEvent): void {
+    let currentReader = this._PDFTranslate.reader.currentReader;
     if (!currentReader) {
-      currentReader = this._PDFTranslate.reader.getReader();
+      return;
     }
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
-      this._PDFTranslate.view.removePopupPanel(currentReader);
-      this._PDFTranslate.view.buildPopupPanel(currentReader);
+      this._PDFTranslate.view.removePopupPanel();
+      this._PDFTranslate.view.buildPopupPanel();
     }
 
     this._PDFTranslate.translate.callTranslate(
-      currentReader,
       event && event.target.getAttribute("id") == "pdf-translate-call-button"
     );
   }
@@ -241,23 +241,26 @@ class TransEvents extends TransBase {
 
   public async onTranslateNoteButtonClick(
     event: Event,
-    currentReader: Reader,
     addToNoteButton: XUL.Element
   ): Promise<void> {
-    if (!currentReader) {
-      currentReader = this._PDFTranslate.reader.getReader();
-    }
     this._PDFTranslate.translate._enableNote = true;
     addToNoteButton.click();
   }
 
-  public onOpenStandaloneWindow() {
-    let win = window.open(
-      "chrome://zoteropdftranslate/content/standalone.xul",
-      "_blank",
-      "chrome,extrachrome,menubar,resizable,scrollbars,status,toolbar"
-    );
-    this._PDFTranslate.view.standaloneWindow = win;
+  public async onOpenStandaloneWindow() {
+    if (
+      this._PDFTranslate.view.standaloneWindow &&
+      !this._PDFTranslate.view.standaloneWindow.closed
+    ) {
+      this._PDFTranslate.view.standaloneWindow.focus();
+    } else {
+      let win = window.open(
+        "chrome://zoteropdftranslate/content/standalone.xul",
+        "_blank",
+        "chrome,extrachrome,menubar,resizable,scrollbars,status,width=356,height=600"
+      );
+      this._PDFTranslate.view.standaloneWindow = win;
+    }
   }
 
   private initKeys(_document: Document = undefined): void {
@@ -317,19 +320,19 @@ class TransEvents extends TransBase {
   }
 
   // Check readers in seperate window
-  private onWindowReaderCheck(): void {
+  private async onWindowReaderCheck() {
     let readers = this._PDFTranslate.reader.getWindowReader();
     for (let i = 0; i < readers.length; i++) {
       if (!readers[i].PDFTranslateLoad) {
-        this._PDFTranslate.view.updateWindowTranslatePanel(readers[i]);
+        this._PDFTranslate.reader.currentReader = readers[i];
+        await this._PDFTranslate.view.updateWindowTranslatePanel(readers[i]);
         readers[i].PDFTranslateLoad = true;
       }
     }
   }
 
-  private async bindAddToNote(): Promise<boolean> {
+  private async bindAddToNote(currentReader: ReaderObj): Promise<boolean> {
     Zotero.debug("ZoteroPDFTranslate.bindAddToNote");
-    let currentReader = this._PDFTranslate.reader.getReader();
     if (!currentReader) {
       return false;
     }
@@ -497,6 +500,11 @@ class TransEvents extends TransBase {
       } else {
         Zotero.Prefs.set("ZoteroPDFTranslate.disabledLanguages", "");
       }
+    }
+
+    let extraEngines = Zotero.Prefs.get("ZoteroPDFTranslate.extraEngines");
+    if (typeof extraEngines === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.extraEngines", "");
     }
   }
 }

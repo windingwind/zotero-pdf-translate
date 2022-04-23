@@ -19,7 +19,7 @@ async function tencent() {
     return encodeURIComponent(str)
       .replace(/['()]/g, escape) // i.e., %27 %28 %29
       .replace(/\*/g, "%2A")
-      .replace(/%20+/g, "+");
+      .replace(/%20/g, "+");
   }
 
   let rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${

@@ -1,6 +1,7 @@
 import { TransBase } from "./base";
 
 class TransReader extends TransBase {
+  currentReader: ReaderObj;
   constructor(parent: PDFTranslate) {
     super(parent);
   }
@@ -27,12 +28,11 @@ class TransReader extends TransBase {
   }
 
   getReaderTab(): Element {
-    let currentReader = this.getReader();
-    if (!currentReader) {
+    if (!this.currentReader) {
       return undefined;
     }
     let tabs = document.getElementsByTagName("tabbox");
-    let readerTitle = currentReader._title.split(" - ")[0];
+    let readerTitle = this.currentReader._title.split(" - ")[0];
     for (let i = 0; i < tabs.length; i++) {
       let tabpanels = tabs[i].getElementsByTagName("tabpanel");
       if (
@@ -61,12 +61,14 @@ class TransReader extends TransBase {
     return undefined;
   }
 
-  getSelectedText(currentReader: ReaderObj): string {
-    if (!currentReader) {
+  getSelectedText(): string {
+    if (!this.currentReader) {
       return "";
     }
     let _ =
-      currentReader._iframeWindow.document.getElementsByTagName("textarea");
+      this.currentReader._iframeWindow.document.getElementsByTagName(
+        "textarea"
+      );
 
     for (let i = 0; i < _.length; i++) {
       // Choose the selection textare

@@ -1,6 +1,7 @@
 # ![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
 
-This is an add-on for [Zotero 6](https://www.zotero.org/). It provides PDF translation for Zotero's built-in PDF reader.
+This is an add-on for [Zotero 6](https://www.zotero.org/)'s built-in PDF reader.  
+Translate PDFs, annotations, notes, and item titles automatically.
 
 ![](imgs/translate.gif)
 
