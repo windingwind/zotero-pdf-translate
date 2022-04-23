@@ -7,6 +7,7 @@ import { microsoft } from "./translate/microsoft";
 import { niutrans, niutranspro, niutransapi } from "./translate/niutrans";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
+import { youdaodict } from "./dict/youdaodict";
 
 class TransEngine extends TransConfig {
   _translateTime: number;
@@ -27,6 +28,7 @@ class TransEngine extends TransConfig {
   niutransapi: Function;
   tencent: Function;
   youdao: Function;
+  youdaodict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -49,6 +51,7 @@ class TransEngine extends TransConfig {
     this.niutransapi = niutransapi;
     this.tencent = tencent;
     this.youdao = youdao;
+    this.youdaodict = youdaodict;
   }
 
   async callTranslate(disableCache: boolean = true) {
@@ -314,6 +317,15 @@ class TransEngine extends TransConfig {
     // Call current translate engine
     if (!engine) {
       engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
+    }
+
+    // Only Eng-Chn translation support word definition now
+    if (!text) {
+      let args = this.getArgs();
+      if (args.sl.indexOf("en") != -1 && args.tl == "zh-CN") {
+        if (args.text.trim().split(/[^a-z,A-Z]+/).length == 1)
+          return await this["youdaodict"](text);
+      }
     }
 
     // bool return for success or fail
