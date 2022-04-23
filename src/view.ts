@@ -159,6 +159,7 @@ class TransView extends TransBase {
 
   buildTranslatePanel(_document: Document): XUL.Box {
     let vbox = _document.createElement("vbox");
+    vbox.setAttribute("id", "pdf-translate-vbox");
     vbox.setAttribute("flex", "1");
     vbox.setAttribute("align", "stretch");
     vbox.style.padding = "0px 10px 10px 10px";
@@ -665,16 +666,159 @@ class TransView extends TransBase {
     if (!this.standaloneWindow) {
       return;
     }
-    let vbox = this.buildTranslatePanel(this.standaloneWindow.document);
-    this.standaloneWindow.document
+    let _document = this.standaloneWindow.document;
+    let vbox = this.buildTranslatePanel(_document);
+
+    _document
       .getElementById("pdf-translate-standalone-container")
       .appendChild(vbox);
+
+    let buttonAddExtra: XUL.Element = _document.createElement("button");
+    buttonAddExtra.setAttribute("id", `pdf-translate-remove-button-add-extra`);
+    buttonAddExtra.setAttribute("label", "+");
+    buttonAddExtra.style.width = "50px";
+    buttonAddExtra.addEventListener("click", (e: XULEvent) => {
+      let extraEngines: string[] = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.extraEngines"
+      ).split(",");
+      extraEngines.push(Zotero.Prefs.get("ZoteroPDFTranslate.translateSource"));
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.extraEngines",
+        extraEngines.filter((e) => e).join(",")
+      );
+      this.updateStandaloneWindowExtra(_document);
+    });
+    _document
+      .getElementById("pdf-translate-tabpanel-engine-hbox")
+      .append(buttonAddExtra);
+    this.updateStandaloneWindowExtra(_document);
+  }
+
+  updateStandaloneWindowExtra(_document: Document) {
     let extraEngines: string[] = Zotero.Prefs.get(
       "ZoteroPDFTranslate.extraEngines"
-    ).split(",");
-    for (let engine of extraEngines) {
-      // Build extra engine result
+    )
+      .split(",")
+      .filter((e: string) => e);
+
+    Zotero.debug("ZoteroPDFTranslate: updateStandaloneWindowExtra");
+    Zotero.debug(`Extra engines: ${extraEngines}`);
+
+    let hbox: XUL.Box;
+    hbox = _document.getElementById("pdf-translate-standalone-extra");
+    if (hbox) {
+      hbox.remove();
     }
+
+    if (extraEngines.length == 0) {
+      return;
+    }
+
+    hbox = _document.createElement("hbox");
+    hbox.setAttribute("id", "pdf-translate-standalone-extra");
+    hbox.setAttribute("flex", "1");
+    hbox.setAttribute("align", "stretch");
+
+    let vbox = _document.createElement("vbox");
+    vbox.setAttribute("id", "pdf-translate-standalone-extra-container");
+    vbox.setAttribute("flex", "1");
+    vbox.setAttribute("align", "stretch");
+
+    let i = 0;
+    for (let engine of extraEngines) {
+      if (this._PDFTranslate.translate.sources.indexOf(engine) < 0) {
+        Zotero.debug(`Extra engine ${engine} skipped.`);
+        continue;
+      }
+      // Build extra engine result
+      let hboxInfo: XUL.Box = _document.createElement("hbox");
+      hboxInfo.setAttribute(
+        "id",
+        `pdf-translate-standalone-hbox-info-extra-${i}`
+      );
+      hboxInfo.setAttribute("flex", "1");
+      hboxInfo.setAttribute("align", "center");
+      hboxInfo.maxHeight = 50;
+      hboxInfo.minHeight = 50;
+      hboxInfo.style.height = "80px";
+
+      let menuLabel = _document.createElement("label");
+      menuLabel.setAttribute("value", "Engine");
+      let menulist = _document.createElement("menulist");
+      menulist.setAttribute("id", `pdf-translate-engine-extra-${i}`);
+      menulist.setAttribute("flex", "1");
+      menulist.setAttribute("value", engine);
+      let menupopup = _document.createElement("menupopup");
+      menulist.appendChild(menupopup);
+      for (let source of this._PDFTranslate.translate.sources) {
+        let menuitem = _document.createElement("menuitem");
+        menuitem.setAttribute(
+          "label",
+          this._PDFTranslate.translate.sourcesName[source]
+        );
+        menuitem.setAttribute("value", source);
+        menuitem.addEventListener("command", (e: XULEvent) => {
+          let newSource = e.target.value;
+          let _ = e.target.parentElement.parentElement.id.split("-");
+          let index = parseInt(_[_.length - 1]);
+          let extraEngines: string[] = Zotero.Prefs.get(
+            "ZoteroPDFTranslate.extraEngines"
+          )
+            .split(",")
+            .filter((e) => e);
+          if (extraEngines.length <= index) {
+            this.updateStandaloneWindowExtra(_document);
+            return;
+          }
+          extraEngines[index] = newSource;
+          Zotero.Prefs.set(
+            "ZoteroPDFTranslate.extraEngines",
+            extraEngines.join(",")
+          );
+          this.updateStandaloneWindowExtra(_document);
+        });
+        menupopup.appendChild(menuitem);
+      }
+
+      let buttonRemove: XUL.Element = _document.createElement("button");
+      buttonRemove.setAttribute("id", `pdf-translate-remove-button-extra-${i}`);
+      buttonRemove.setAttribute("label", "-");
+      buttonRemove.style.width = "50px";
+      buttonRemove.addEventListener("click", (e: XULEvent) => {
+        let _ = e.target.id.split("-");
+        let index = parseInt(_[_.length - 1]);
+        let extraEngines: string[] = Zotero.Prefs.get(
+          "ZoteroPDFTranslate.extraEngines"
+        ).split(",");
+        if (extraEngines.length <= index) {
+          this.updateStandaloneWindowExtra(_document);
+          return;
+        }
+        extraEngines.splice(index, 1);
+        Zotero.Prefs.set(
+          "ZoteroPDFTranslate.extraEngines",
+          extraEngines.filter((e) => e).join(",")
+        );
+        this.updateStandaloneWindowExtra(_document);
+      });
+
+      let textboxTranslated: XUL.Textbox = _document.createElement("textbox");
+      textboxTranslated.setAttribute(
+        "id",
+        `pdf-translate-tabpanel-translated-extra-${i}`
+      );
+      textboxTranslated.setAttribute("flex", "1");
+      textboxTranslated.setAttribute("multiline", true);
+      textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
+        "ZoteroPDFTranslate.fontSize"
+      )}px`;
+
+      hboxInfo.append(menuLabel, menulist, buttonRemove);
+      vbox.append(hboxInfo, textboxTranslated);
+      hbox.append(vbox);
+      i++;
+    }
+    _document.getElementById("pdf-translate-vbox").appendChild(hbox);
   }
 
   updateAllResults() {
@@ -713,6 +857,16 @@ class TransView extends TransBase {
         Zotero.debug(e);
       }
     }
+  }
+
+  updateExtraResults(_document: Document, text: string, idx: number) {
+    let textbox: XUL.Textbox = _document.getElementById(
+      `pdf-translate-tabpanel-translated-extra-${idx}`
+    );
+    if (!textbox) {
+      return;
+    }
+    textbox.value = text;
   }
 
   showProgressWindow(

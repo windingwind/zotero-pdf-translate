@@ -2,7 +2,7 @@ import { TransConfig } from "./translate/config";
 import { baidu } from "./translate/baidu";
 import { caiyun } from "./translate/caiyun";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
-import { google, googleapi } from "./translate/google";
+import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
 import { niutrans, niutranspro, niutransapi } from "./translate/niutrans";
 import { tencent } from "./translate/tencent";
@@ -13,7 +13,6 @@ class TransEngine extends TransConfig {
   _useModified: boolean;
   _lastAnnotationID: number;
   _enableNote: boolean;
-  config: TransConfig;
   baidu: Function;
   caiyun: Function;
   deeplpro: Function;
@@ -21,6 +20,7 @@ class TransEngine extends TransConfig {
   deepl: Function;
   google: Function;
   googleapi: Function;
+  _google: Function;
   microsoft: Function;
   niutrans: Function;
   niutranspro: Function;
@@ -42,6 +42,7 @@ class TransEngine extends TransConfig {
     this.deepl = deepl;
     this.google = google;
     this.googleapi = googleapi;
+    this._google = _google;
     this.microsoft = microsoft;
     this.niutrans = niutrans;
     this.niutranspro = niutranspro;
@@ -81,6 +82,8 @@ class TransEngine extends TransConfig {
     this._translateTime = t;
     Zotero.debug(`ZoteroPDFTranslate: Translate ${t} start.`);
 
+    this.callTranslateExtra();
+
     let success = await this.getTranslation();
 
     Zotero.debug(`ZoteroPDFTranslate: Translate ${t} returns ${success}`);
@@ -98,6 +101,33 @@ class TransEngine extends TransConfig {
     this._PDFTranslate.view.updateAllResults();
     this._PDFTranslate.view.updatePopupStyle();
     return true;
+  }
+
+  async callTranslateExtra() {
+    let text: string = this._PDFTranslate._sourceText;
+    let _window: Window = this._PDFTranslate.view.standaloneWindow;
+    if (!text.trim() || !_window || _window.closed) {
+      return;
+    }
+    Zotero.debug("ZoteroPDFTranslate: callTranslateExtra");
+    let extraEngines: string[] = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.extraEngines"
+    )
+      .split(",")
+      .filter((e: string) => e);
+    let i = 0;
+    for (let engine of extraEngines) {
+      let translatedText = await this.getTranslation(engine, text);
+      Zotero.debug(
+        `ZoteroPDFTranslate: TranslateExtra returns ${translatedText}`
+      );
+      this._PDFTranslate.view.updateExtraResults(
+        _window.document,
+        translatedText,
+        i
+      );
+      i++;
+    }
   }
 
   async callTranslateAnnotation(item: ZoteroItem) {
@@ -276,13 +306,18 @@ class TransEngine extends TransConfig {
     return status;
   }
 
-  public async getTranslation(): Promise<boolean> {
+  public async getTranslation(
+    engine: string = undefined,
+    text: string = undefined
+  ): Promise<boolean | string> {
+    // If Text is defined, result will not be stored in the global _translatedText
     // Call current translate engine
-    let translateSource = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.translateSource"
-    );
+    if (!engine) {
+      engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
+    }
+
     // bool return for success or fail
-    return await this[translateSource]();
+    return await this[engine](text);
   }
 
   public getLanguageDisable(currentLanguage: string = undefined): boolean {
@@ -316,10 +351,18 @@ class TransEngine extends TransConfig {
     return rootItem;
   }
 
-  private getArgs(): TransArgs {
-    let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
+  private getArgs(
+    engine: string = undefined,
+    text: string = undefined
+  ): TransArgs {
+    if (!engine) {
+      engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
+    }
+    let secret = JSON.parse(Zotero.Prefs.get("ZoteroPDFTranslate.secretObj"))[
+      engine
+    ];
     if (typeof secret === "undefined") {
-      secret = this.defaultSecret["caiyun"];
+      secret = "";
     }
     let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
     if (typeof sl === "undefined") {
@@ -329,7 +372,8 @@ class TransEngine extends TransConfig {
     if (typeof tl === "undefined") {
       tl = this.defaultTargetLanguage;
     }
-    let text = this._PDFTranslate._sourceText.replace(/\n/g, " ");
+    text = (text ? text : this._PDFTranslate._sourceText).replace(/\n/g, " ");
+
     return {
       secret,
       sl,
@@ -366,14 +410,17 @@ Report issue here: https://github.com/windingwind/zotero-pdf-translate/issues
         ${this._PDFTranslate._debug}`;
     }
   }
-  async requestTranslate(request_func, parse_func) {
+  async requestTranslate(
+    request_func: Function,
+    parse_func: Function
+  ): Promise<string | boolean> {
     let xhr = await this.safeRun(request_func);
     Zotero.debug(xhr);
 
     if (xhr && xhr.status && xhr.status === 200) {
       let res = await this.safeRun(parse_func, xhr);
       if (res) {
-        return true;
+        return res;
       }
     }
     this._PDFTranslate._debug = this.getErrorInfo("request");

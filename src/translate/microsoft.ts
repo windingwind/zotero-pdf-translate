@@ -1,5 +1,5 @@
-async function microsoft() {
-  let args = this.getArgs();
+async function microsoft(text: string = undefined) {
+  let args = this.getArgs("microsoft", text);
   let req_body = JSON.stringify([
     {
       text: args.text,
@@ -26,10 +26,10 @@ async function microsoft() {
     (xhr) => {
       let tgt = xhr.response[0].translations[0].text;
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
-};
+}
 
 export { microsoft };

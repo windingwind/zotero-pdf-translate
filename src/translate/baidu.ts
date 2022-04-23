@@ -1,5 +1,5 @@
-async function baidu() {
-  let args = this.getArgs();
+async function baidu(text: string = undefined) {
+  let args = this.getArgs("baidu", text);
   let appid = args.secret.split("#")[0];
   let key = args.secret.split("#")[1];
   let salt = new Date().getTime();
@@ -31,8 +31,8 @@ async function baidu() {
         tgt += xhr.response.trans_result[i].dst;
       }
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }

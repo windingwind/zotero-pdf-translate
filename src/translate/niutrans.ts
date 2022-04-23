@@ -1,22 +1,21 @@
-async function niutrans() {
-  return await this.niutransapi(
-    "https://test.niutrans.com/NiuTransServer/testaligntrans?"
-  );
+async function niutrans(text: string = undefined) {
+  return await this.niutransapi("niutrans", text);
 }
-async function niutranspro() {
-  let args = this.getArgs();
-  return await this.niutransapi(
-    `http://api.niutrans.com/NiuTransServer/translation?apikey=${args.secret}&`
-  );
+async function niutranspro(text: string = undefined) {
+  return await this.niutransapi("niutranspro", text);
 }
-async function niutransapi(api_url) {
-  let args = this.getArgs();
+async function niutransapi(engine: string, text: string) {
+  let args = this.getArgs(engine, text);
+  let urls = {
+    niutrans: "https://test.niutrans.com/NiuTransServer/testaligntrans?",
+    niutranspro: `http://api.niutrans.com/NiuTransServer/translation?apikey=${args.secret}&`,
+  };
   let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
         "GET",
-        `${api_url}${param}&src_text=${encodeURIComponent(
+        `${urls[engine]}${param}&src_text=${encodeURIComponent(
           args.text
         )}&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
         {
@@ -30,8 +29,8 @@ async function niutransapi(api_url) {
       }
       let tgt = xhr.response.tgt_text;
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }

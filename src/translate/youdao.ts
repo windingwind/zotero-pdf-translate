@@ -1,5 +1,5 @@
-async function youdao() {
-  let args = this.getArgs();
+async function youdao(text: string = undefined) {
+  let args = this.getArgs("youdao", text);
   let param = `${args.sl.toUpperCase().replace("-", "_")}2${args.tl
     .toUpperCase()
     .replace("-", "_")}`;
@@ -23,8 +23,8 @@ async function youdao() {
         }
       }
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }

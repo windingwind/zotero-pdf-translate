@@ -1,18 +1,24 @@
-async function deeplfree() {
-  return await this.deepl("https://api-free.deepl.com/v2/translate");
+async function deeplfree(text: string = undefined) {
+  return await this.deepl("deeplfree", text);
 }
-async function deeplpro() {
-  return await this.deepl("https://api.deepl.com/v2/translate");
+async function deeplpro(text: string = undefined) {
+  return await this.deepl("deeplfree", text);
 }
-async function deepl(api_url) {
-  let args = this.getArgs();
-  let req_body = `auth_key=${args.secret}&text=${args.text}&source_lang=${args.sl
+async function deepl(engine: string, text: string) {
+  let urls = {
+    deeplfree: "https://api-free.deepl.com/v2/translate",
+    deeplpro: "https://api.deepl.com/v2/translate",
+  };
+  let args = this.getArgs(engine, text);
+  let req_body = `auth_key=${args.secret}&text=${
+    args.text
+  }&source_lang=${args.sl.split("-")[0].toUpperCase()}&target_lang=${args.tl
     .split("-")[0]
-    .toUpperCase()}&target_lang=${args.tl.split("-")[0].toUpperCase()}`;
+    .toUpperCase()}`;
 
   return await this.requestTranslate(
     async () => {
-      return await Zotero.HTTP.request("POST", api_url, {
+      return await Zotero.HTTP.request("POST", urls[engine], {
         responseType: "json",
         body: req_body,
       });
@@ -20,8 +26,8 @@ async function deepl(api_url) {
     (xhr) => {
       let tgt = xhr.response.translations[0].text;
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }

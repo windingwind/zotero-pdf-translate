@@ -1,5 +1,5 @@
-async function googleweb() {
-  let args = this.getArgs();
+async function googleweb(text: string = undefined) {
+  let args = this.getArgs("googleweb", text);
 
   return await this.requestTranslate(
     async () => {
@@ -36,15 +36,20 @@ async function googleweb() {
       }
 
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }
-async function googleapi() {
-  return await this.google("https://translate.googleapis.com");
+async function googleapi(text: string = undefined) {
+  return await this._google("googleapi", text);
 }
-async function google(api_url = "https://translate.google.com") {
+
+async function google(text: string = undefined) {
+  return await this._google("google", text);
+}
+
+async function _google(engine: string, text: string = undefined) {
   function TL(a) {
     var k = "";
     var b = 406644;
@@ -93,15 +98,21 @@ async function google(api_url = "https://translate.google.com") {
     }
     return a;
   }
+  let urls = {
+    googleapi: "https://translate.googleapis.com",
+    google: "https://translate.google.com",
+  };
 
-  let args = this.getArgs();
+  let args = this.getArgs(engine, text);
   let param = `sl=${args.sl}&tl=${args.tl}`;
 
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
         "GET",
-        `${api_url}/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+        `${
+          urls[engine]
+        }/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
           args.text
         )}&q=${encodeURIComponent(args.text)}`,
         { responseType: "json" }
@@ -119,10 +130,10 @@ async function google(api_url = "https://translate.google.com") {
         }
       }
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }
 
-export { google, googleapi, googleweb };
+export { google, googleapi, googleweb, _google };

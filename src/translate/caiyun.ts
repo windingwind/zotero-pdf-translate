@@ -1,5 +1,5 @@
-async function caiyun() {
-  let args = this.getArgs();
+async function caiyun(text: string = undefined) {
+  let args = this.getArgs("caiyun", text);
   let param = `${args.sl.split("-")[0]}2${args.tl.split("-")[0]}`;
 
   return await this.requestTranslate(
@@ -25,8 +25,8 @@ async function caiyun() {
     (xhr) => {
       let tgt = xhr.response.target[0];
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }

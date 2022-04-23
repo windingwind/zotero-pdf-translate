@@ -1,8 +1,8 @@
 import hmacSHA1 from "crypto-js/hmac-sha1";
 import Base64 from "crypto-js/enc-base64";
 
-async function tencent() {
-  let args = this.getArgs();
+async function tencent(text: string = undefined) {
+  let args = this.getArgs("tencent", text);
   let params = args.secret.split("#");
   let secretId = params[0];
   let secretKey = params[1];
@@ -62,8 +62,8 @@ async function tencent() {
       }
       let tgt = xhr.response.Response.TargetText;
       Zotero.debug(tgt);
-      Zotero.ZoteroPDFTranslate._translatedText = tgt;
-      return true;
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
     }
   );
 }
