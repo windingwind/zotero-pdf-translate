@@ -381,6 +381,11 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
     }
 
+    let enableCommentEdit = Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
+    if (typeof enableCommentEdit === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", true);
+    }
+
     let enableNote = Zotero.Prefs.get("ZoteroPDFTranslate.enableNote");
     if (typeof enableNote === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableNote", true);

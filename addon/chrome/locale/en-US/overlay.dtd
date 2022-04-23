@@ -5,6 +5,7 @@
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "Automatic Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "Automatic Annotation Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "Enable Update and Edit Last Annotation Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "Service">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.label "Translate Engine">

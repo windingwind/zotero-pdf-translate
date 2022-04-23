@@ -9,6 +9,7 @@
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
         <preference id="pref-__addonRef__-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
+        <preference id="pref-__addonRef__-enable-commentedit" name="extensions.zotero.ZoteroPDFTranslate.enableCommentEdit" type="bool" />
         <preference id="pref-__addonRef__-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
         <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-__addonRef__-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
@@ -51,6 +52,10 @@
                 <row>
                   <checkbox id="zotero-prefpane-__addonRef__-settings-enable-comment" preference="pref-__addonRef__-enable-comment" />
                   <label value="&zotero.__addonRef__.pref.basic.enableComment.label;" />
+                </row>
+                <row>
+                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-commentedit" preference="pref-__addonRef__-enable-commentedit" />
+                  <label value="&zotero.__addonRef__.pref.basic.enableCommentEdit.label;" />
                 </row>
                 <row>
                   <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" preference="pref-__addonRef__-enable-note" />

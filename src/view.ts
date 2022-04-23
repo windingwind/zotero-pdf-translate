@@ -428,7 +428,8 @@ class TransView extends TransBase {
     if (!annotationBox) {
       return;
     }
-    annotationBox.hidden = hidden;
+    annotationBox.hidden =
+      hidden && !Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
   }
 
   updateAllTranslatePanelData() {
@@ -651,6 +652,9 @@ class TransView extends TransBase {
   }
 
   onPopopItemChange(selectionMenu: XUL.Element) {
+    if (!selectionMenu) {
+      return;
+    }
     selectionMenu.addEventListener(
       "DOMSubtreeModified",
       function () {

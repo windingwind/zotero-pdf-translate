@@ -164,7 +164,9 @@ class TransEngine extends TransConfig {
         "Annotation Translate Saved",
         text.length < 20 ? text : text.slice(0, 15) + "..."
       );
-      this._PDFTranslate.view.updateAllResults();
+      if (Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit")) {
+        this._PDFTranslate.view.updateAllResults();
+      }
       this._lastAnnotationID = item.id;
       return true;
     }
