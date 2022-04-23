@@ -25,10 +25,12 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Select some text, the translations are shown on the popup and the right sidebar(v0.2.0);
   ![](imgs/en2zh.png)
 
-- Highlight some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);  
+- Highlight some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
 - Add selected text along with translation to note(v0.4.0); _Only works when a note editor is active._
-- Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).  
   ![](imgs/addnote.png)
+- Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
+- Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
+  ![](imgs/standalone.png)
 
 ### Q&A
 
@@ -37,7 +39,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 
 **Q** I want a translate shortcut.  
 **A**
-Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, titles' translation will show/hide.  
+Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, titles' translation will show/hide.
 
 **Q** Not the language I want.  
 **A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.
