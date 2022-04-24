@@ -680,7 +680,10 @@ class TransView extends TransBase {
     let buttonAddExtra: XUL.Element = _document.createElement("button");
     buttonAddExtra.setAttribute("id", `pdf-translate-remove-button-add-extra`);
     buttonAddExtra.setAttribute("label", "+");
-    buttonAddExtra.style.width = "50px";
+    buttonAddExtra.setAttribute("tooltiptext", "Add Extra Engine");
+    buttonAddExtra.style.maxWidth = "30px";
+    buttonAddExtra.style.minWidth = "30px";
+    buttonAddExtra.style.width = "30px";
     buttonAddExtra.addEventListener("click", (e: XULEvent) => {
       let extraEngines: string[] = Zotero.Prefs.get(
         "ZoteroPDFTranslate.extraEngines"
@@ -692,9 +695,31 @@ class TransView extends TransBase {
       );
       this.updateStandaloneWindowExtra(_document);
     });
+
+    let keepWindowTop = Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop");
+    let buttonPin: XUL.Button = _document.createElement("button");
+    buttonPin.setAttribute("id", "pdf-translate-pin");
+    buttonPin.type = "checkbox";
+    buttonPin.checked = keepWindowTop;
+    buttonPin.setAttribute("tooltiptext", "Keep Window on Top");
+    buttonPin.setAttribute("label", "📌");
+    buttonPin.style.maxWidth = "30px";
+    buttonPin.style.minWidth = "30px";
+    buttonPin.style.width = "30px";
+    buttonPin.style["-moz-appearance"] = "none";
+    buttonPin.style.backgroundColor = keepWindowTop ? "#bcc4d2" : "#ffffff";
+
+    buttonPin.addEventListener("click", (e: XULEvent) => {
+      let newKeepWindowTop = !Zotero.Prefs.get(
+        "ZoteroPDFTranslate.keepWindowTop"
+      );
+      Zotero.Prefs.set("ZoteroPDFTranslate.keepWindowTop", newKeepWindowTop);
+      e.target.style.backgroundColor = newKeepWindowTop ? "#bcc4d2" : "#ffffff";
+    });
+
     _document
       .getElementById("pdf-translate-tabpanel-engine-hbox")
-      .append(buttonAddExtra);
+      .append(buttonAddExtra, buttonPin);
     this.updateStandaloneWindowExtra(_document);
   }
 
@@ -787,7 +812,10 @@ class TransView extends TransBase {
       let buttonRemove: XUL.Element = _document.createElement("button");
       buttonRemove.setAttribute("id", `pdf-translate-remove-button-extra-${i}`);
       buttonRemove.setAttribute("label", "-");
-      buttonRemove.style.width = "50px";
+      buttonRemove.setAttribute("tooltiptext", "Remove Extra Engine");
+      buttonRemove.style.maxWidth = "30px";
+      buttonRemove.style.minWidth = "30px";
+      buttonRemove.style.width = "30px";
       buttonRemove.addEventListener("click", (e: XULEvent) => {
         let _ = e.target.id.split("-");
         let index = parseInt(_[_.length - 1]);

@@ -19,6 +19,17 @@
       },
       false
     );
+    window.addEventListener(
+      "blur",
+      function (e) {
+        Zotero.debug("ZoteroPDFTranslate: standalone blur")
+        if(Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop")){
+          Zotero.debug("ZoteroPDFTranslate: standalone blur prevented")
+          setTimeout(window.focus, 1)
+        }
+      },
+      false
+    );
   </script>
 
   <hbox flex="1" id="pdf-translate-standalone-container"></hbox>

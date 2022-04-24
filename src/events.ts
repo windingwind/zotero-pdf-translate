@@ -381,7 +381,9 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
     }
 
-    let enableCommentEdit = Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
+    let enableCommentEdit = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.enableCommentEdit"
+    );
     if (typeof enableCommentEdit === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", true);
     }
@@ -425,6 +427,11 @@ class TransEvents extends TransBase {
     );
     if (typeof showSidebarCopy === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarCopy", true);
+    }
+
+    let keepWindowTop = Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop");
+    if (typeof keepWindowTop === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.keepWindowTop", false);
     }
 
     let translateSource = Zotero.Prefs.get(

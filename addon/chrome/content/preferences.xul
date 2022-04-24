@@ -18,6 +18,7 @@
         <preference id="pref-__addonRef__-show-sidebar-language" name="extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-copy" name="extensions.zotero.ZoteroPDFTranslate.showSidebarCopy" type="bool" />
+        <preference id="pref-__addonRef__-keep-window-top" name="extensions.zotero.ZoteroPDFTranslate.keepWindowTop" type="bool" />
         <preference id="pref-__addonRef__-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-__addonRef__-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
         <preference id="pref-__addonRef__-translate-tl" name="extensions.zotero.ZoteroPDFTranslate.targetLanguage" type="string" />
@@ -155,6 +156,10 @@
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-raw-result-order" preference="pref-__addonRef__-raw-result-order" />
                           <label value="&zotero.__addonRef__.pref.advanced.rawResultOrder.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-keep-window-top" preference="pref-__addonRef__-keep-window-top" />
+                          <label value="&zotero.__addonRef__.pref.advanced.keepWindowTop.label;" />
                         </row>
                       </rows>
                     </groupbox>

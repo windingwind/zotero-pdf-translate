@@ -47,6 +47,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "Standalone: Keep Window Top">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "Preview">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">

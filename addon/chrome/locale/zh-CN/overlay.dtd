@@ -46,6 +46,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "独立窗口: 保持最前">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "预览">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">

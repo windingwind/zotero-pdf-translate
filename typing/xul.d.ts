@@ -52,6 +52,12 @@ declare namespace XUL {
     public maxWidth?: number;
     public minWidth?: number;
   }
+
+  class Button extends XUL.Element {
+    public checked?: boolean;
+    public type?: string;
+    public tooltiptext?: string;
+  }
 }
 
 declare class ClassList {
