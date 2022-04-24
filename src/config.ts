@@ -1,4 +1,4 @@
-import { TransBase } from "../base";
+import { TransBase } from "./base";
 
 class TransConfig extends TransBase {
   sources: string[];

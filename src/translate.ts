@@ -1,4 +1,4 @@
-import { TransConfig } from "./translate/config";
+import { TransConfig } from "./config";
 import { baidu } from "./translate/baidu";
 import { caiyun } from "./translate/caiyun";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";

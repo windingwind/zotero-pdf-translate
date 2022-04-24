@@ -40,7 +40,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 
 **Q** I want a translate shortcut.  
 **A**
-Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, titles' translation will show/hide.
+Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, the titles' translation will show/hide.
 
 **Q** Not the language I want.  
 **A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.
@@ -57,8 +57,10 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 - Enable Translation, default `true`
 - Automatic Translation, default `true`
-- Enable Popup: Show results in a right-click popup or only in the side bar, default `true`
+- Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
+- Enable Popup: Show results in a right-click popup or only in the sidebar, default `true`
 - Automatic Annotation Translation: Save annotation's translation as comment, default `true`
+- Enable Update and Edit Last Annotation Translation, default `true`
 - Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`
   > Unvisible if no active note editor opened.
 
@@ -121,7 +123,7 @@ The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#P
 
 - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
-## Development
+## Development & Contributing
 
 This section is for developers.
 
@@ -167,6 +169,7 @@ This section shows the directory structure of a template.
 │      ├─content    # UI
 │      │  │  overlay.xul
 │      │  │  preferences.xul
+│      │  │  standalone.xul
 │      │  │
 │      │  └─scripts
 │      ├─locale     # locale
@@ -174,7 +177,7 @@ This section shows the directory structure of a template.
 │      │  │      overlay.dtd
 │      │  │
 │      │  └─zh-CN
-│      │          overlay.dtd
+│      │         overlay.dtd
 │      │
 │      └─skin       # style
 │          └─default
@@ -197,16 +200,19 @@ This section shows the directory structure of a template.
     │  view.ts      # UI class
     │  prefs.ts     # preferences class
     │
-    └─translate     # translate engines
-            baidu.ts
-            caiyun.ts
-            config.ts
-            deepl.ts
-            google.ts
-            microsoft.ts
-            niutrans.ts
-            tencent.ts
-            youdao.ts
+    ├─translate     # translate engines
+    │       baidu.ts
+    │       caiyun.ts
+    │       config.ts
+    │       deepl.ts
+    │       google.ts
+    │       microsoft.ts
+    │       niutrans.ts
+    │       tencent.ts
+    │       youdao.ts
+    |
+    └─dict          # dictionary engines
+            youdaodict.ts
 ```
 
 ### Build
@@ -226,8 +232,31 @@ Alternatively, build it directly using build.js: `npm run build`
 2. Copy `./addon` to `./builds`
 3. Esbuild to `./builds/addon/chrome/content/scripts`
 4. Replace `__buildVersion__` and `__buildTime__` in `./builds/addon`
-5. Copy `./src/preferences.js` to `./builds/addon/chrome/content/scripts`
-6. Zip the `./builds/addon` to `./builds/*.xpi`
+5. Zip the `./builds/addon` to `./builds/*.xpi`
+
+### Debug
+
+1. Test code segments in Tools->Developer->Run Javascript;
+2. Debug output with `Zotero.debug()`. Find the outputs in Help->Debug Output Logging->View Output;
+3. UI debug. Zotero is built on the Firefox XUL framework. Debug XUL UI with software like [XUL Explorer](https://udn.realityripple.com/docs/Archive/Mozilla/XUL_Explorer).
+   > XUL Documents:  
+   > https://www.xul.fr/tutorial/  
+   > http://www.xulplanet.com/
+
+### Contributing
+
+**Search for a Zotero API**  
+Zotero docs are outdated or incomplete. Searching the source code of Zotero is unavoidable.  
+Clone https://github.com/zotero/zotero and search the keyword globally. You can search the UI text in `.xul`/`.dtd` files, and then search the keys of the text value in `.js`/`.xul` files.
+
+**Persistence settings**  
+Zotero Prefs can persistence a value. See `src/prefs.ts` and `addon/chrome/content/preferences.xul` for detailed usage in js/xul.
+
+**Add a translate/dict engine**  
+1. Add a `.ts` file under `src/${translate or dict}` with the same format with other engines;
+2. Update the sources, sourcesName, and defaultSecret in `src/config.ts`;
+3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`;
+4. Build and test.
 
 ## Disclaimer
 
