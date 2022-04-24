@@ -5,7 +5,7 @@ class TransPref extends TransBase {
   constructor(parent: PDFTranslate) {
     super(parent);
   }
-  initZPDFTranslatePreferences(_document: Document) {
+  initPreferences(_document: Document) {
     this._document = _document;
     Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
     this.updateSourceParam("translate");

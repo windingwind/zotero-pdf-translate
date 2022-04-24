@@ -4,7 +4,7 @@
 <overlay id="__addonRef__-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="PDF Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initZPDFTranslatePreferences(document)">
+    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initPreferences(document)">
       <preferences id="zotero-preferences-__addonRef__">
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
@@ -205,8 +205,4 @@
       </tabbox>
     </prefpane>
   </prefwindow>
-
-  <!-- Include the main extension logic -->
-  <script src="chrome://__addonRef__/content/scripts/preferences.js" />
-
 </overlay>

@@ -185,14 +185,25 @@ class TransEvents extends TransBase {
   }
 
   public async onTranslateTitle(selectedType: string, force: boolean = false) {
-    if (!ZoteroPane.canEdit()) {
+    let isFeed =
+      Zotero.Libraries.get(ZoteroPane.getSelectedLibraryID()).libraryType ==
+      "feed";
+    if (!ZoteroPane.canEdit() && !isFeed) {
       ZoteroPane.displayCannotEditLibraryMessage();
-      return;
+      return false;
     }
 
     Zotero.debug(`ZoteroPDFTranslate: onTranslateTitle, type=${selectedType}`);
     let items: ZoteroItem[] = [];
     if (selectedType == "collection") {
+      if (isFeed) {
+        this._PDFTranslate.view.showProgressWindow(
+          "Title Translate",
+          "Feed collections not supported. Select feed items instead.",
+          "fail"
+        );
+        return false;
+      }
       let collection = ZoteroPane.getSelectedCollection(false);
 
       if (collection) {
@@ -236,6 +247,7 @@ class TransEvents extends TransBase {
           rows[i].getField("shortTitle")
         : // Switch to translated titles
           rows[i].getField("title");
+      Zotero.debug(`ZoteroPDFTranslate: switch in ${i}`);
     }
   }
 
@@ -503,7 +515,8 @@ class TransEvents extends TransBase {
     let secretObj = Zotero.Prefs.get("ZoteroPDFTranslate.secretObj");
     if (typeof secretObj === "undefined") {
       secretObj = this._PDFTranslate.translate.defaultSecret;
-      secretObj[translateSource] = this._PDFTranslate.translate.defaultSecret[translateSource];
+      secretObj[translateSource] =
+        this._PDFTranslate.translate.defaultSecret[translateSource];
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.secretObj",
         JSON.stringify(secretObj)

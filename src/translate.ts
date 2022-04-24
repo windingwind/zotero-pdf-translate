@@ -203,51 +203,57 @@ class TransEngine extends TransConfig {
   ) {
     this._translateTime = new Date().getTime();
     let status = {};
+    let itemCount = items.length;
     if (items.length > 1) {
       // Update titles in batch
       let titles: string[] = [];
       let titleSplitter = "©";
       let itemSplitter = "℗";
-      for (let item of items) {
-        // Skip translated or language disabled title
-        if (
-          (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
-          this.getLanguageDisable(item.getField("language").split("-")[0])
-        ) {
-          continue;
-        }
-        titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
-        status[item.id] = false;
-      }
 
-      Zotero.debug(
-        `ZoteroPDFTranslate: callTranslateTitle, count=${titles.length}`
-      );
-      if (titles.length == 0) {
-        return status;
-      }
-      let titleText = titles.join(` ${itemSplitter} `);
-      this._PDFTranslate._sourceText = titleText;
-      let success = await this.getTranslation();
-      if (!success) {
-        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
-        return status;
-      }
-      for (let _ of this._PDFTranslate._translatedText.split(itemSplitter)) {
-        let itemID = _.split(titleSplitter)[0].trim();
-        let newTitle = _.split(titleSplitter)[1];
-        Zotero.debug(`${itemID}, ${newTitle}`);
-        try {
-          let item = Zotero.Items.get(itemID);
-          if (item) {
-            if (!noSave) {
-              item.setField("shortTitle", "🔤" + newTitle);
-              await item.saveTx();
-            }
-            status[itemID] = newTitle;
+      while (items.length > 0) {
+        let batchItems = items.splice(0, 10);
+        for (let item of batchItems) {
+          // Skip translated or language disabled title
+          if (
+            (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
+            this.getLanguageDisable(item.getField("language").split("-")[0])
+          ) {
+            continue;
           }
-        } catch (e) {
-          Zotero.debug(e);
+          titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
+          status[item.id] = false;
+        }
+
+        Zotero.debug(
+          `ZoteroPDFTranslate: callTranslateTitle, count=${titles.length}`
+        );
+        if (titles.length == 0) {
+          return status;
+        }
+        let titleText = titles.join(` ${itemSplitter} `);
+        this._PDFTranslate._sourceText = titleText;
+        let success = await this.getTranslation();
+        if (!success) {
+          Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+          return status;
+        }
+        for (let _ of this._PDFTranslate._translatedText.split(itemSplitter)) {
+          let itemID = _.split(titleSplitter)[0].trim();
+          let newTitle = _.split(titleSplitter)[1];
+          Zotero.debug(`${itemID}, ${newTitle}`);
+          // Retry
+          try {
+            let item = Zotero.Items.get(itemID);
+            if (item) {
+              if (!noSave) {
+                item.setField("shortTitle", "🔤" + newTitle);
+                await item.saveTx();
+              }
+              status[itemID] = newTitle;
+            }
+          } catch (e) {
+            Zotero.debug(e);
+          }
         }
       }
     } else {
@@ -304,7 +310,7 @@ class TransEngine extends TransConfig {
       this._PDFTranslate.view.showProgressWindow(
         "Title Translation",
         `${successCount} items updated, ${failCount} failed, ${
-          items.length - successCount - failCount
+          itemCount - successCount - failCount
         } skipped.`
       );
     }
