@@ -1,5 +1,5 @@
 async function youdaodict(text: string = undefined) {
-    let args = this.getArgs("youdao", text);
+    let args = this.getArgs("youdaodict", text);
     let param = `${args.sl.toUpperCase().replace("-", "_")}2${args.tl
       .toUpperCase()
       .replace("-", "_")}`;

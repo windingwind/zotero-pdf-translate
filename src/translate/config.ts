@@ -5,7 +5,7 @@ class TransConfig extends TransBase {
   sourcesName: Object;
   defaultSourceLanguage: string;
   defaultTargetLanguage: string;
-  defaultSecret: Object
+  defaultSecret: Object;
   LangCultureNames: Object[];
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -22,6 +22,7 @@ class TransConfig extends TransBase {
       "deeplpro",
       "baidu",
       "tencent",
+      "youdaodict",
     ];
     this.sourcesName = {
       googleapi: "Google(API)",
@@ -36,9 +37,10 @@ class TransConfig extends TransBase {
       deeplpro: "DeepL(Pro)*",
       baidu: "Baidu*",
       tencent: "Tencent*",
-    }
-    this.defaultSourceLanguage = "en-US"
-    this.defaultTargetLanguage = 'zh-CN',
+      youdaodict: "Youdao",
+    };
+    this.defaultSourceLanguage = "en-US";
+    this.defaultTargetLanguage = "zh-CN";
     this.defaultSecret = {
       googleapi: "",
       // googleweb: "",
@@ -51,7 +53,9 @@ class TransConfig extends TransBase {
       deeplfree: "",
       deeplpro: "",
       baidu: "appid#key",
-      tencent: "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
+      tencent:
+        "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
+      youdaodict: "",
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },
@@ -210,8 +214,8 @@ class TransConfig extends TransBase {
         LangCultureName: "Lt-uz-UZ",
         DisplayName: "Uzbek (Latin) - Uzbekistan",
       },
-      { LangCultureName: "vi-VN", DisplayName: "Vietnamese - Vietnam" }
-    ]
+      { LangCultureName: "vi-VN", DisplayName: "Vietnamese - Vietnam" },
+    ];
   }
 }
 

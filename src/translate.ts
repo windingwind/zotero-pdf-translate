@@ -315,16 +315,20 @@ class TransEngine extends TransConfig {
   ): Promise<boolean | string> {
     // If Text is defined, result will not be stored in the global _translatedText
     // Call current translate engine
-    if (!engine) {
-      engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
-    }
+    let args = this.getArgs(engine, text);
 
-    // Only Eng-Chn translation support word definition now
-    if (!text) {
-      let args = this.getArgs();
-      if (args.sl.indexOf("en") != -1 && args.tl == "zh-CN") {
-        if (args.text.trim().split(/[^a-z,A-Z]+/).length == 1)
-          return await this["youdaodict"](text);
+    if (!engine) {
+      // Only Eng-Chn translation support word definition now
+      if (
+        Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
+        args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
+        // TODO: For all languages
+        args.sl.indexOf("en") != -1 &&
+        args.tl == "zh-CN"
+      ) {
+        engine = "youdaodict";
+      } else {
+        engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
       }
     }
 

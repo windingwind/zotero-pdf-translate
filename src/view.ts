@@ -285,7 +285,6 @@ class TransView extends TransBase {
         let userSecrets = JSON.parse(
           Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
         );
-        Zotero.Prefs.set("ZoteroPDFTranslate.secret", userSecrets[newSource]);
         this._PDFTranslate.events.onTranslateButtonClick(e);
       });
       menupopup.appendChild(menuitem);
