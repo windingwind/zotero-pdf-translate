@@ -8,27 +8,19 @@ class TransPref extends TransBase {
   initZPDFTranslatePreferences(_document: Document) {
     this._document = _document;
     Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
-    // Store current secret
-    let userSecrets = JSON.parse(
-      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
-    );
-    userSecrets[Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")] =
-      Zotero.Prefs.get("ZoteroPDFTranslate.secret");
-    Zotero.Prefs.set(
-      "ZoteroPDFTranslate.secretObj",
-      JSON.stringify(userSecrets)
-    );
+    this.updateSourceParam("translate");
+    this.updateSourceParam("dict");
     this.buildLanguageSettings();
     this.updatePreviewPannel();
   }
 
-  updateSourceParam() {
+  updateSourceParam(type: string) {
     Zotero.debug("ZoteroPDFTranslate: updateSourceParam.");
     let menu: XUL.Menulist = this._document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-translate-source"
+      `zotero-prefpane-zoteropdftranslate-settings-${type}-source`
     );
     let param: XUL.Textbox = this._document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-translate-param"
+      `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
     );
 
     let userSecrets = JSON.parse(
@@ -46,7 +38,25 @@ class TransPref extends TransBase {
       );
     }
     param.value = secret;
-    Zotero.Prefs.set("ZoteroPDFTranslate.secret", secret);
+  }
+
+  updateParamObj(type: string) {
+    let menu: XUL.Menulist = this._document.getElementById(
+      `zotero-prefpane-zoteropdftranslate-settings-${type}-source`
+    );
+    let param: XUL.Textbox = this._document.getElementById(
+      `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
+    );
+
+    let userSecrets = JSON.parse(
+      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
+    );
+
+    userSecrets[menu.value] = param.value;
+    Zotero.Prefs.set(
+      "ZoteroPDFTranslate.secretObj",
+      JSON.stringify(userSecrets)
+    );
   }
 
   updatePreviewPannel() {

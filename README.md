@@ -31,6 +31,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
 - Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
   ![](imgs/standalone.png)
+- Dictionary for single word translation(v0.7.1). _Only for en2zh now_
 
 ### Q&A
 

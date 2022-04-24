@@ -3,6 +3,7 @@
 <!ENTITY zotero.__addonRef__.pref.basic.caption.label "功能">
 <!ENTITY zotero.__addonRef__.pref.basic.enable.label "启用PDF翻译">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "自动翻译">
+<!ENTITY zotero.__addonRef__.pref.basic.enableDict.label "启用字典">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "启用弹窗">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "自动翻译批注">
 <!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "启用更新与编辑上一条批注翻译">
@@ -21,6 +22,8 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplpro "DeepL(Pro)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "百度*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "腾讯*">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道">
 
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "翻译到">

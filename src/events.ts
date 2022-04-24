@@ -393,6 +393,11 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableNote", true);
     }
 
+    let enableDict = Zotero.Prefs.get("ZoteroPDFTranslate.enableDict");
+    if (typeof enableDict === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableDict", true);
+    }
+
     let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
     if (!fontSize) {
       Zotero.Prefs.set("ZoteroPDFTranslate.fontSize", "12");
@@ -454,6 +459,19 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", translateSource);
     }
 
+    let dictSource = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
+    validSource = false;
+    for (let e of this._PDFTranslate.translate.sources) {
+      if (dictSource == e) {
+        validSource = true;
+      }
+    }
+
+    if (!dictSource || !validSource) {
+      dictSource = "youdaodict";
+      Zotero.Prefs.set("ZoteroPDFTranslate.dictSource", dictSource);
+    }
+
     let langs = this._PDFTranslate.translate.LangCultureNames.map(
       (e) => e.LangCultureName
     );
@@ -482,18 +500,10 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", targetLanguage);
     }
 
-    let secret = Zotero.Prefs.get("ZoteroPDFTranslate.secret");
-    if (typeof secret === "undefined") {
-      Zotero.Prefs.set(
-        "ZoteroPDFTranslate.secret",
-        this._PDFTranslate.translate.defaultSecret[translateSource]
-      );
-    }
-
     let secretObj = Zotero.Prefs.get("ZoteroPDFTranslate.secretObj");
     if (typeof secretObj === "undefined") {
       secretObj = this._PDFTranslate.translate.defaultSecret;
-      secretObj[translateSource] = secret;
+      secretObj[translateSource] = this._PDFTranslate.translate.defaultSecret[translateSource];
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.secretObj",
         JSON.stringify(secretObj)
