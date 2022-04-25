@@ -91,7 +91,7 @@ class TransEvents extends TransBase {
     this._PDFTranslate.translate._useModified = false;
     // Disable annotation modification
     this._PDFTranslate.translate._lastAnnotationID = -1;
-    this._PDFTranslate.view.switchSideBarAnnotationBox(true);
+    this._PDFTranslate.view.hideSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     let text = this._PDFTranslate.reader.getSelectedText();

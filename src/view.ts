@@ -345,8 +345,8 @@ class TransView extends TransBase {
     textboxSource.addEventListener("input", (event: XULEvent) => {
       this._PDFTranslate._sourceText = event.target.value;
       this._PDFTranslate.translate._useModified = true;
-      if (this._PDFTranslate.events._lastAnnotationID >= 0) {
-        this.switchSideBarAnnotationBox(false);
+      if (this._PDFTranslate.translate._lastAnnotationID >= 0) {
+        this.hideSideBarAnnotationBox(false);
       }
     });
     textboxSource.style["font-size"] = `${Zotero.Prefs.get(
@@ -367,8 +367,8 @@ class TransView extends TransBase {
     textboxTranslated.addEventListener("input", (event: XULEvent) => {
       this._PDFTranslate._translatedText = event.target.value;
       this._PDFTranslate.translate._useModified = true;
-      if (this._PDFTranslate.events._lastAnnotationID >= 0) {
-        this.switchSideBarAnnotationBox(false);
+      if (this._PDFTranslate.translate._lastAnnotationID >= 0) {
+        this.hideSideBarAnnotationBox(false);
       }
     });
     textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
@@ -420,15 +420,16 @@ class TransView extends TransBase {
     }
   }
 
-  switchSideBarAnnotationBox(hidden: boolean = true) {
+  hideSideBarAnnotationBox(hidden: boolean = true) {
+    hidden = hidden || !Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
+    Zotero.debug(`ZoteroPDFTranslate: hideSideBarAnnotationBox is ${hidden}`);
     let annotationBox = document.getElementById(
       "pdf-translate-tabpanel-annotation-hbox"
     );
     if (!annotationBox) {
       return;
     }
-    annotationBox.hidden =
-      hidden && !Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
+    annotationBox.hidden = hidden;
   }
 
   updateAllTranslatePanelData() {
