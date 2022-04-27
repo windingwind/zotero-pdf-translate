@@ -228,26 +228,34 @@ class TransEvents extends TransBase {
   public async onSwitchTitle(show: boolean) {
     Zotero.debug(`ZoteroPDFTranslate: onSwitchTitle, ${show}`);
     this._titleTranslation = show;
-    let titleSpans =
-      ZoteroPane.itemsView.domEl.getElementsByClassName("cell-text");
+    let rowElements = ZoteroPane.itemsView.domEl.getElementsByClassName("row");
 
     let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
-    for (let i = 0; i < rows.length; i++) {
+
+    for (let rowElement of rowElements) {
+      let currentRow = rows[rowElement.id.split("-")[5]];
       if (
         this._PDFTranslate.translate.getLanguageDisable(
-          rows[i].getField("language").split("-")[0]
+          currentRow.getField("language").split("-")[0]
         ) ||
         // Skip blank
-        (show && rows[i].getField("shortTitle").indexOf("🔤") < 0)
+        (show && currentRow.getField("shortTitle").indexOf("🔤") < 0)
       ) {
         continue;
       }
-      titleSpans[i].innerHTML = show
+      let newInnerHTML = show
         ? // Switch to origin titles
-          rows[i].getField("shortTitle")
+          currentRow.getField("shortTitle")
         : // Switch to translated titles
-          rows[i].getField("title");
-      Zotero.debug(`ZoteroPDFTranslate: switch in ${i}`);
+          currentRow.getField("title");
+      let titleElement = rowElement.getElementsByClassName(
+        "cell-text"
+      )[0] as Element;
+      if (titleElement.innerHTML === newInnerHTML) {
+        continue;
+      }
+      titleElement.innerHTML = newInnerHTML;
+      Zotero.debug(`ZoteroPDFTranslate: switch in ${rowElement.id}`);
     }
   }
 
