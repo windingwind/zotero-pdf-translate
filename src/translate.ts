@@ -8,6 +8,7 @@ import { niutrans, niutranspro, niutransapi } from "./translate/niutrans";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
 import { youdaodict } from "./dict/youdaodict";
+import { bingdict } from "./dict/bingdict";
 
 class TransEngine extends TransConfig {
   _translateTime: number;
@@ -29,6 +30,7 @@ class TransEngine extends TransConfig {
   tencent: Function;
   youdao: Function;
   youdaodict: Function;
+  bingdict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -52,6 +54,7 @@ class TransEngine extends TransConfig {
     this.tencent = tencent;
     this.youdao = youdao;
     this.youdaodict = youdaodict;
+    this.bingdict = bingdict;
   }
 
   async callTranslate(disableCache: boolean = true) {
@@ -328,13 +331,14 @@ class TransEngine extends TransConfig {
     if (!engine) {
       // Only Eng-Chn translation support word definition now
       if (
-        Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
-        args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
-        // TODO: For all languages
-        args.sl.indexOf("en") != -1 &&
-        args.tl == "zh-CN"
+        (Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
+          args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
+          // TODO: For all languages
+          args.sl.indexOf("en") != -1 &&
+          args.tl.indexOf("zh") != -1) ||
+        (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1)
       ) {
-        engine = "youdaodict";
+        engine = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
       } else {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
       }

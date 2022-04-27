@@ -23,6 +23,7 @@ class TransConfig extends TransBase {
       "baidu",
       "tencent",
       "youdaodict",
+      "bingdict",
     ];
     this.sourcesName = {
       googleapi: "Google(API)",
@@ -37,7 +38,8 @@ class TransConfig extends TransBase {
       deeplpro: "DeepL(Pro)*",
       baidu: "Baidu*",
       tencent: "Tencent*",
-      youdaodict: "Youdao",
+      youdaodict: "Youdao Dict",
+      bingdict: "Bing Dict",
     };
     this.defaultSourceLanguage = "en-US";
     this.defaultTargetLanguage = "zh-CN";
@@ -56,6 +58,7 @@ class TransConfig extends TransBase {
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       youdaodict: "",
+      bingdict: "",
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },

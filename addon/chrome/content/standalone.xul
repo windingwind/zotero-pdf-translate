@@ -5,11 +5,8 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/overlay.css"?>
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero-react-client.css"?>
 
-<window id="pdf-translate-standalone"
-  width="356" height="600" persist="screenX screenY width height"
-  title="PDF Translate" windowtype="zotero:pdf-translate-standalone"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script src="chrome://zotero/content/include.js"/>
+<window id="pdf-translate-standalone" width="356" height="600" persist="screenX screenY width height" title="PDF Translate" windowtype="zotero:pdf-translate-standalone" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+  <script src="chrome://zotero/content/include.js" />
   <script type="application/javascript">
     window.addEventListener(
       "load",

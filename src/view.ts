@@ -273,6 +273,10 @@ class TransView extends TransBase {
     let menupopup = _document.createElement("menupopup");
     menulist.appendChild(menupopup);
     for (let source of this._PDFTranslate.translate.sources) {
+      // Skip dict engines
+      if (source.indexOf("dict") > -1) {
+        continue;
+      }
       let menuitem = _document.createElement("menuitem");
       menuitem.setAttribute(
         "label",
@@ -421,7 +425,8 @@ class TransView extends TransBase {
   }
 
   hideSideBarAnnotationBox(hidden: boolean = true) {
-    hidden = hidden || !Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
+    hidden =
+      hidden || !Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit");
     Zotero.debug(`ZoteroPDFTranslate: hideSideBarAnnotationBox is ${hidden}`);
     let annotationBox = document.getElementById(
       "pdf-translate-tabpanel-annotation-hbox"

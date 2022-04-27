@@ -101,6 +101,7 @@
                     <menulist id="zotero-prefpane-__addonRef__-settings-dict-source" preference="pref-__addonRef__-dict-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('dict')">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.youdaodict;" value="youdaodict" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.dictSource.bingdict;" value="bingdict" />
                       </menupopup>
                     </menulist>
                     <label value="&zotero.__addonRef__.pref.api.secret.label;" />
