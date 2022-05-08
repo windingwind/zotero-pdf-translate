@@ -40,6 +40,21 @@ class TransEvents extends TransBase {
           }
           this.onAnnotationAdd(ids);
         }
+        if (
+          (event == "select" &&
+            type == "tab" &&
+            extraData[ids[0]].type == "reader") ||
+          (event === "add" &&
+            type === "item" &&
+            Zotero.Items.get(ids).filter((item) => {
+              return item.isAnnotation();
+            }).length > 0) ||
+          (event === "close" && type === "tab") ||
+          (event === "open" && type === "file")
+        ) {
+          Zotero.debug("ZoteroPDFTranslate: buildTranslateAnnotationButton");
+          this.onAnnotationButtonAdd();
+        }
       },
     };
   }
@@ -142,6 +157,19 @@ class TransEvents extends TransBase {
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
       this._PDFTranslate.translate.callTranslateAnnotation(item);
+    }
+  }
+
+  public async onAnnotationButtonAdd() {
+    for (const reader of Zotero.Reader._readers) {
+      let t = 0;
+      while (
+        t < 100 &&
+        !(await this._PDFTranslate.view.updateTranslateAnnotationButton(reader))
+      ) {
+        await Zotero.Promise.delay(50);
+        t += 1;
+      }
     }
   }
 

@@ -145,8 +145,7 @@ class TransEngine extends TransConfig {
       Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
       !disable &&
       item.isAnnotation() &&
-      item.annotationType == "highlight" &&
-      !item.annotationComment
+      item.annotationType == "highlight"
     ) {
       // Update sidebar
       this._PDFTranslate.view.updateAllTranslatePanelData();
@@ -164,10 +163,12 @@ class TransEngine extends TransConfig {
         }
       }
       let text = this._PDFTranslate._translatedText;
-      item.annotationComment = text;
+      item.annotationComment = `${
+        item.annotationComment ? item.annotationComment : ""
+      }\n${text}`;
       await item.saveTx();
       this._PDFTranslate.view.showProgressWindow(
-        "Annotation Translate Saved",
+        "Annotation Translation Saved",
         text.length < 20 ? text : text.slice(0, 15) + "..."
       );
       if (Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit")) {
