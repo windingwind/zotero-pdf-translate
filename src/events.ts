@@ -22,7 +22,9 @@ class TransEvents extends TransBase {
           extraData[ids[0]].type == "reader"
         ) {
           Zotero.debug("ZoteroPDFTranslate: open attachment event detected.");
-          this.onReaderSelect();
+          const reader = Zotero.Reader.getByTabID(ids[0]);
+          await reader._initPromise;
+          this.onReaderSelect(reader);
         }
         if (
           (event == "close" && type == "tab") ||
@@ -101,6 +103,9 @@ class TransEvents extends TransBase {
     ) {
       return false;
     }
+    if (!currentReader) {
+      currentReader = await this._PDFTranslate.reader.getReader();
+    }
     this._PDFTranslate.reader.currentReader = currentReader;
     // Disable modified text translation in side-bar
     this._PDFTranslate.translate._useModified = false;
@@ -109,7 +114,7 @@ class TransEvents extends TransBase {
     this._PDFTranslate.view.hideSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-    let text = this._PDFTranslate.reader.getSelectedText();
+    let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
     let currentButton = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup-button"
     );
@@ -136,17 +141,14 @@ class TransEvents extends TransBase {
     }
 
     if (enableAuto) {
-      await this._PDFTranslate.translate.callTranslate();
+      await this._PDFTranslate.translate.callTranslate(text);
     }
   }
 
-  public onReaderSelect(): void {
+  public async onReaderSelect(reader): Promise<void> {
     this._readerSelect = new Date().getTime();
-    this._PDFTranslate.reader.currentReader =
-      this._PDFTranslate.reader.getReader();
-    this._PDFTranslate.view.updateTranslatePanel(
-      this._PDFTranslate.reader.currentReader
-    );
+    this._PDFTranslate.reader.currentReader = reader;
+    this._PDFTranslate.view.updateTranslatePanel(reader);
     this.bindAddToNote(this._PDFTranslate.reader.currentReader);
   }
 
@@ -208,6 +210,7 @@ class TransEvents extends TransBase {
     }
 
     this._PDFTranslate.translate.callTranslate(
+      "",
       event && event.target.getAttribute("id") == "pdf-translate-call-button"
     );
   }

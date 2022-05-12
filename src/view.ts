@@ -41,13 +41,16 @@ class TransView extends TransBase {
   }
 
   async updateTranslatePanel(currentReader: ReaderObj) {
-    Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
-
     await Zotero.uiReadyPromise;
 
     if (!currentReader) {
       return false;
     }
+    Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
+    const item: ZoteroItem = Zotero.Items.get(currentReader.itemID);
+    Zotero.debug(
+      `${item.getField("title")}, ${currentReader._translateSelectInit}`
+    );
     await currentReader._waitForReader();
 
     await this.buildSideBarPanel();
@@ -56,40 +59,50 @@ class TransView extends TransBase {
 
     let disable = this._PDFTranslate.translate.getLanguageDisable(undefined);
 
-    currentReader._window.addEventListener(
-      "pointerup",
-      (function (currentReader, disable) {
-        return function (event) {
-          Zotero.ZoteroPDFTranslate.events.onSelect(
-            event,
-            currentReader,
-            disable
-          );
-        };
-      })(currentReader, disable)
-    );
+    // For tab window, pass a undefined currentReader
+    // Let the translate code decide which tab is selected
+    if (!currentReader._translateSelectInit) {
+      currentReader._translateSelectInit = true;
+      currentReader._iframeWindow.addEventListener(
+        "pointerup",
+        ((currentReader, disable) => {
+          return (event) => {
+            this._PDFTranslate.events.onSelect(event, currentReader, disable);
+          };
+        })(undefined, disable)
+      );
+    }
   }
 
   async updateWindowTranslatePanel(currentReader: ReaderObj) {
-    Zotero.debug("ZoteroPDFTranslate: Update Window Translate Panels");
-
     await Zotero.uiReadyPromise;
 
     if (!currentReader) {
       return false;
     }
+    Zotero.debug("ZoteroPDFTranslate: Update Window Translate Panels");
     await currentReader._waitForReader();
+
+    const item: ZoteroItem = Zotero.Items.get(currentReader.itemID);
+    Zotero.debug(
+      `${item.getField("title")}, ${currentReader._translateSelectInit}`
+    );
 
     let disable = this._PDFTranslate.translate.getLanguageDisable(undefined);
 
-    currentReader._window.addEventListener(
-      "pointerup",
-      ((currentReader, disable) => {
-        return (event) => {
-          this._PDFTranslate.events.onSelect(event, currentReader, disable);
-        };
-      })(currentReader, disable)
-    );
+    // For standalone window, pass current currentReader
+    // Translate code doesn't know which reader is selected
+    if (!currentReader._translateSelectInit) {
+      currentReader._translateSelectInit = true;
+      currentReader._window.addEventListener(
+        "pointerup",
+        ((currentReader, disable) => {
+          return (event) => {
+            this._PDFTranslate.events.onSelect(event, currentReader, disable);
+          };
+        })(currentReader, disable)
+      );
+    }
   }
 
   async updateTranslateAnnotationButton(reader: ReaderObj) {

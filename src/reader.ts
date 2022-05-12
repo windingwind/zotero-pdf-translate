@@ -5,8 +5,10 @@ class TransReader extends TransBase {
   constructor(parent: PDFTranslate) {
     super(parent);
   }
-  getReader(): ReaderObj {
-    return Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
+  async getReader(): Promise<ReaderObj> {
+    const reader = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
+    await reader._initPromise;
+    return reader;
   }
 
   getWindowReader(): Array<ReaderObj> {
@@ -61,14 +63,12 @@ class TransReader extends TransBase {
     return undefined;
   }
 
-  getSelectedText(): string {
-    if (!this.currentReader) {
+  getSelectedText(currentReader: ReaderObj): string {
+    if (!currentReader) {
       return "";
     }
     let _ =
-      this.currentReader._iframeWindow.document.getElementsByTagName(
-        "textarea"
-      );
+      currentReader._iframeWindow.document.getElementsByTagName("textarea");
 
     for (let i = 0; i < _.length; i++) {
       // Choose the selection textare
