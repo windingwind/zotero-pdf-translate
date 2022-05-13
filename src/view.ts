@@ -590,6 +590,23 @@ class TransView extends TransBase {
     if (!selectionMenu) {
       return false;
     }
+
+    let translateAddToNoteButton =
+      selectionMenu.ownerDocument.createElement("div");
+    translateAddToNoteButton.setAttribute(
+      "id",
+      "pdf-translate-popup-add-to-note-button"
+    );
+    translateAddToNoteButton.setAttribute(
+      "class",
+      "wide-button pdf-translate-add-to-note"
+    );
+    translateAddToNoteButton.setAttribute("hidden", "hidden");
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
+    selectionMenu.appendChild(translateAddToNoteButton);
+
     this.onPopopItemChange(selectionMenu);
 
     // Create text
@@ -629,6 +646,22 @@ class TransView extends TransBase {
     let selectionMenu =
       currentReader._iframeWindow.document.getElementById("selection-menu");
 
+    let translateAddToNoteButton =
+      selectionMenu.ownerDocument.createElement("div");
+    translateAddToNoteButton.setAttribute(
+      "id",
+      "pdf-translate-popup-add-to-note-button"
+    );
+    translateAddToNoteButton.setAttribute(
+      "class",
+      "wide-button pdf-translate-add-to-note"
+    );
+    translateAddToNoteButton.setAttribute("hidden", "hidden");
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
+    selectionMenu.appendChild(translateAddToNoteButton);
+
     this.onPopopItemChange(selectionMenu);
 
     // Create button
@@ -649,38 +682,36 @@ class TransView extends TransBase {
   }
 
   buildPopupTranslationToNoteButton(selectionMenu: XUL.Element = undefined) {
-    let currentReader = this._PDFTranslate.reader.currentReader;
-
-    if (!currentReader || !selectionMenu) {
+    if (
+      !selectionMenu &&
+      selectionMenu.getAttribute("translate-add-to-note-init")
+    ) {
       return false;
     }
-    let addToNoteButton =
-      selectionMenu.getElementsByClassName("wide-button")[0];
-    let translationToNote = currentReader._iframeWindow.document.getElementById(
-      "pdf-translate-popup-add-to-note-button"
-    );
+    selectionMenu.setAttribute("translate-add-to-note-init", "init");
+    const addToNoteButton = Array.prototype.filter.call(
+      selectionMenu.getElementsByClassName("wide-button"),
+      (e) => e.innerHTML === Zotero.getString("pdfReader.addToNote")
+    )[0];
+    const translateAddToNoteButton = selectionMenu.getElementsByClassName(
+      "pdf-translate-add-to-note"
+    )[0];
+
     if (
       addToNoteButton &&
-      Zotero.Prefs.get("ZoteroPDFTranslate.enableNote") &&
-      !translationToNote
+      translateAddToNoteButton &&
+      translateAddToNoteButton.getAttribute("hidden") &&
+      Zotero.Prefs.get("ZoteroPDFTranslate.enableNote")
     ) {
       Zotero.debug("ZoteroPDFTranslate: buildPopupTranslateNoteButton");
-      let button = currentReader._window.document.createElement("button");
-      button.setAttribute("id", "pdf-translate-popup-add-to-note-button");
-      button.setAttribute("label", Zotero.getString("pdfReader.addToNote"));
-      button.setAttribute(
-        "image",
-        "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
-      );
-      button.onclick = (e) => {
+      translateAddToNoteButton.removeAttribute("hidden");
+      // @ts-ignore
+      translateAddToNoteButton.onclick = (e) => {
         this._PDFTranslate.events.onTranslateNoteButtonClick(
           e,
           addToNoteButton
         );
       };
-      button.style.width = `${selectionMenu.scrollWidth}px`;
-      button.style.height = "26px";
-      addToNoteButton.after(button);
     }
     return true;
   }
