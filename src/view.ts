@@ -136,7 +136,10 @@ class TransView extends TransBase {
       );
 
       translateAnnotationButton.addEventListener("click", (e) => {
-        this._PDFTranslate.translate.callTranslateAnnotation(annotationItem);
+        this._PDFTranslate.translate.callTranslateAnnotation(
+          annotationItem,
+          true
+        );
         e.preventDefault();
       });
       translateAnnotationButton.addEventListener("mouseover", (e: XULEvent) => {

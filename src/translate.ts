@@ -138,14 +138,17 @@ class TransEngine extends TransConfig {
     }
   }
 
-  async callTranslateAnnotation(item: ZoteroItem) {
+  async callTranslateAnnotation(
+    item: ZoteroItem,
+    forceTranslate: boolean = false
+  ) {
     this._translateTime = new Date().getTime();
     let disable = this.getLanguageDisable(
       this.getRootItem(item).getField("language").split("-")[0]
     );
     if (
-      Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") &&
-      !disable &&
+      (forceTranslate ||
+        (Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") && !disable)) &&
       item.isAnnotation() &&
       item.annotationType == "highlight"
     ) {
