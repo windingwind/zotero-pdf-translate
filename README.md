@@ -270,4 +270,5 @@ Part of the code of this repo refers to other open-source projects within the al
 
 ## My Other Zotero Addons
 
+- [zotero-better-notes](https://github.com/windingwind/zotero-better-notes): Everything about note management. All in Zotero.
 - [zotero-tag](https://github.com/windingwind/zotero-tag): Automatically tag items/Batch tagging
