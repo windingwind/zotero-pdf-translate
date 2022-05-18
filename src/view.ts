@@ -436,6 +436,9 @@ class TransView extends TransBase {
     textboxSource.setAttribute("flex", "1");
     textboxSource.setAttribute("multiline", true);
     textboxSource.addEventListener("input", (event: XULEvent) => {
+      Zotero.debug(
+        `ZoteroPDFTranslate: source text modified to ${event.target.value}`
+      );
       this._PDFTranslate._sourceText = event.target.value;
       this._PDFTranslate.translate._useModified = true;
       if (this._PDFTranslate.translate._lastAnnotationID >= 0) {

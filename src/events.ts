@@ -92,12 +92,13 @@ class TransEvents extends TransBase {
     currentReader: ReaderObj,
     disableAuto: boolean
   ) {
-    // Zotero.debug(e)
+    // Zotero.debug(event);
+    // console.log(event);
     // Work around to only allow event from ifrme
     if (
-      event.target &&
+      !event.target ||
       // @ts-ignore
-      event.target.closest &&
+      !event.target.closest ||
       // @ts-ignore
       !event.target.closest("#outerContainer")
     ) {

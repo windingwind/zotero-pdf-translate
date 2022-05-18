@@ -79,6 +79,7 @@ class TransEngine extends TransConfig {
       return true;
     }
 
+    Zotero.debug(`Real text is ${text}`);
     this._PDFTranslate._sourceText = text;
     this._PDFTranslate._translatedText = "";
     this._PDFTranslate._debug = "";
@@ -333,16 +334,15 @@ class TransEngine extends TransConfig {
     // If Text is defined, result will not be stored in the global _translatedText
     // Call current translate engine
     let args = this.getArgs(engine, text);
-
+    Zotero.debug(args);
     if (!engine) {
       // Only Eng-Chn translation support word definition now
       if (
-        (Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
-          args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
-          // TODO: For all languages
-          args.sl.indexOf("en") != -1 &&
-          args.tl.indexOf("zh") != -1) ||
-        (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1)
+        Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
+        args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
+        // TODO: For all languages
+        ((args.sl.indexOf("en") != -1 && args.tl.indexOf("zh") != -1) ||
+          (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1))
       ) {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
       } else {
