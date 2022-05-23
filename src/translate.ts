@@ -230,7 +230,11 @@ class TransEngine extends TransConfig {
           ) {
             continue;
           }
-          titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
+          titles.push(
+            `${item.id} ${titleSplitter} ${item.getField(
+              "title"
+            )} '.' ${item.getField("abstractNote")}`
+          );
           status[item.id] = false;
         }
 
@@ -275,7 +279,8 @@ class TransEngine extends TransConfig {
         return status;
       }
       status[item.id] = false;
-      this._PDFTranslate._sourceText = item.getField("title");
+      this._PDFTranslate._sourceText =
+        item.getField("title") + "." + item.getField("abstractNote");
       let success = await this.getTranslation();
       if (!success) {
         Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");

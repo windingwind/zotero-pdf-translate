@@ -25,25 +25,19 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "Dictionary Engine">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "Youdao Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "Bing Dict(en↔zh)">
-
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "Translate From">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "To">
 <!ENTITY zotero.__addonRef__.pref.api.secret.label "Secret">
 <!ENTITY zotero.__addonRef__.pref.api.secret.warning.label "Translate Engine with * requires Secret; See GitHub for more information">
-
 <!ENTITY zotero.__addonRef__.pannel.copySource.label "Copy Source">
 <!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "Copy Result">
-
-<!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "Title Translation">
-<!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "Hide Title Translation">
+<!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "Title and Abstract Translation">
+<!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "Hide Title and Abstract Translation">
 <!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "Retranslate">
-
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate VERSION __buildVersion__">
 <!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
-
-
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
