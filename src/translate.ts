@@ -233,7 +233,7 @@ class TransEngine extends TransConfig {
           titles.push(
             `${item.id} ${titleSplitter} ${item.getField(
               "title"
-            )} '.' ${item.getField("abstractNote")}`
+            )} ${titleSplitter} ${item.getField("abstractNote")}`
           );
           status[item.id] = false;
         }
@@ -254,13 +254,19 @@ class TransEngine extends TransConfig {
         for (let _ of this._PDFTranslate._translatedText.split(itemSplitter)) {
           let itemID = _.split(titleSplitter)[0].trim();
           let newTitle = _.split(titleSplitter)[1];
-          Zotero.debug(`${itemID}, ${newTitle}`);
+          let newAbstract = _.split(titleSplitter)[2];
+          Zotero.debug(`${itemID}, ${newTitle},${newAbstract}`);
           // Retry
           try {
             let item = Zotero.Items.get(itemID);
             if (item) {
               if (!noSave) {
+                let abstractNote = item.getField("abstractNote");
                 item.setField("shortTitle", "🔤" + newTitle);
+                item.setField(
+                  "abstractNote",
+                  "🔤" + newAbstract + abstractNote
+                );
                 await item.saveTx();
               }
               status[itemID] = newTitle;
@@ -279,8 +285,9 @@ class TransEngine extends TransConfig {
         return status;
       }
       status[item.id] = false;
+      let titleSplitter = "©";
       this._PDFTranslate._sourceText =
-        item.getField("title") + "." + item.getField("abstractNote");
+        item.getField("title") + titleSplitter + item.getField("abstractNote");
       let success = await this.getTranslation();
       if (!success) {
         Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
@@ -288,10 +295,14 @@ class TransEngine extends TransConfig {
       }
       try {
         if (!noSave) {
-          item.setField(
-            "shortTitle",
-            "🔤" + this._PDFTranslate._translatedText
-          );
+          let abstractNote = item.getField("abstractNote");
+          let newTitle =
+            this._PDFTranslate._translatedText.split(titleSplitter)[0];
+          let newAbstract =
+            this._PDFTranslate._translatedText.split(titleSplitter)[1];
+          Zotero.debug(`${newTitle},${newAbstract}`);
+          item.setField("shortTitle", "🔤" + newTitle);
+          item.setField("abstractNote", "🔤" + newAbstract + abstractNote);
           await item.saveTx();
         }
         status[item.id] = this._PDFTranslate._translatedText;
