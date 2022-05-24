@@ -5,7 +5,7 @@ async function baidufield(text: string = undefined) {
   let domain = args.secret.split("#")[2];
   let salt = new Date().getTime();
   let sign = Zotero.Utilities.Internal.md5(
-    appid + args.text + salt + key,
+    appid + args.text + salt + domain + key,
     false
   );
   `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
