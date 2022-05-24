@@ -29,6 +29,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Add selected text along with translation to note(v0.4.0); _Only works when a note editor is active._
   ![](imgs/addnote.png)
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
+- Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
 - Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
   ![](imgs/standalone.png)
 - Dictionary for single word translation(v0.7.1). _Only for en2zh now_
@@ -105,7 +106,6 @@ The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表id即可。
 
 > [Official Document](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)
-
 
 **Niu Translate**  
 Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
