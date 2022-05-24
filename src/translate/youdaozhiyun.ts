@@ -4,6 +4,13 @@ import hex from "crypto-js/enc-hex";
 async function youdaozhiyun(text: string = undefined) {
   const args = this.getArgs("youdaozhiyun", text);
 
+  function encodeRFC5987ValueChars(str) {
+    return encodeURIComponent(str)
+      .replace(/['()]/g, escape) // i.e., %27 %28 %29
+      .replace(/\*/g, "%2A")
+      .replace(/%20/g, "+");
+  }
+
   function truncate(q) {
     const len = q.length;
     if (len <= 20) return q;
@@ -24,13 +31,14 @@ async function youdaozhiyun(text: string = undefined) {
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
-        "POST",
-        "https://openapi.youdao.com/api",
+        "GET",
+        `https://openapi.youdao.com/api?q=${encodeRFC5987ValueChars(
+          query
+        )}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&vocabId=${vocabId}`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: `q=${query}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&vocabId=${vocabId}`,
           responseType: "json",
         }
       );

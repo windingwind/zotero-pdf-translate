@@ -38,7 +38,8 @@
 
 <!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "标题翻译">
 <!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "隐藏标题翻译">
-<!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "重新翻译">
+<!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "重新翻译标题">
+<!ENTITY zotero.__addonRef__.itemmenu.translateAbstract.label "摘要翻译">
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">

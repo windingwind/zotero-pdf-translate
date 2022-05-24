@@ -333,6 +333,134 @@ class TransEngine extends TransConfig {
     return status;
   }
 
+  public async callTranslateAbstract(
+    items: Array<ZoteroItem>,
+    force: boolean = false,
+    noAlert: boolean = false,
+    noRetry: boolean = false,
+    noSave: boolean = false
+  ) {
+    this._translateTime = new Date().getTime();
+    let status = {};
+    let itemCount = items.length;
+    if (items.length > 1) {
+      // Update titles in batch
+      let titles: string[] = [];
+      let titleSplitter = "©";
+      let itemSplitter = "℗";
+
+      while (items.length > 0) {
+        let batchItems = items.splice(0, 10);
+        for (let item of batchItems) {
+          // Skip translated or language disabled title
+          if (
+            (!force && item.getField("abstractNote").indexOf("🔤") >= 0) ||
+            this.getLanguageDisable(item.getField("language").split("-")[0])
+          ) {
+            continue;
+          }
+          titles.push(`${item.id} ${titleSplitter} ${item.getField("abstractNote")}`);
+          status[item.id] = false;
+        }
+
+        Zotero.debug(
+          `ZoteroPDFTranslate: callTranslateAbstract, count=${titles.length}`
+        );
+        if (titles.length == 0) {
+          return status;
+        }
+        let titleText = titles.join(` ${itemSplitter} `);
+        this._PDFTranslate._sourceText = titleText;
+        let success = await this.getTranslation();
+        if (!success) {
+          Zotero.debug("ZoteroPDFTranslate.callTranslateAbstract failed");
+          return status;
+        }
+        for (let _ of this._PDFTranslate._translatedText.split(itemSplitter)) {
+          let itemID = _.split(titleSplitter)[0].trim();
+          let newTitle = _.split(titleSplitter)[1];
+          Zotero.debug(`${itemID}, ${newTitle}`);
+          // Retry
+          try {
+            let item = Zotero.Items.get(itemID);
+            if (item) {
+              if (!noSave) {
+                item.setField(
+                  "abstractNote",
+                  "🔤" + newTitle + item.getField("abstractNote")
+                );
+                await item.saveTx();
+              }
+              status[itemID] = newTitle;
+            }
+          } catch (e) {
+            Zotero.debug(e);
+          }
+        }
+      }
+    } else {
+      let item = items[0];
+      if (
+        (!force && item.getField("abstractNote").indexOf("🔤") >= 0) ||
+        this.getLanguageDisable(item.getField("language").split("-")[0])
+      ) {
+        return status;
+      }
+      status[item.id] = false;
+      this._PDFTranslate._sourceText = item.getField("abstractNote");
+      let success = await this.getTranslation();
+      if (!success) {
+        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+        return status;
+      }
+      try {
+        if (!noSave) {
+          item.setField(
+            "abstractNote",
+            "🔤" +
+              this._PDFTranslate._translatedText +
+              item.getField("abstractNote")
+          );
+          await item.saveTx();
+        }
+        status[item.id] = this._PDFTranslate._translatedText;
+      } catch (e) {
+        Zotero.debug(e);
+      }
+    }
+
+    for (let itemID in status) {
+      if (!noRetry && !status[itemID]) {
+        let _status = await this.callTranslateAbstract(
+          Zotero.Items.get([itemID]),
+          force,
+          true,
+          true,
+          noSave
+        );
+        status[itemID] = _status[itemID];
+      }
+    }
+    let successCount = 0;
+    let failCount = 0;
+    for (let i in status) {
+      if (status[i]) {
+        successCount += 1;
+      } else {
+        failCount += 1;
+      }
+    }
+    if (!noAlert) {
+      this._PDFTranslate.view.showProgressWindow(
+        "Abstract Translation",
+        `${successCount} items updated, ${failCount} failed, ${
+          itemCount - successCount - failCount
+        } skipped.`
+      );
+    }
+    return status;
+  }
+
   public async getTranslation(
     engine: string = undefined,
     text: string = undefined

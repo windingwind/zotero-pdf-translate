@@ -38,7 +38,8 @@
 
 <!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "Title Translation">
 <!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "Hide Title Translation">
-<!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "Retranslate">
+<!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "Retranslate Title">
+<!ENTITY zotero.__addonRef__.itemmenu.translateAbstract.label "Abstract Translation">
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">

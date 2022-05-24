@@ -230,7 +230,7 @@ class TransEvents extends TransBase {
     if (selectedType == "collection") {
       if (isFeed) {
         this._PDFTranslate.view.showProgressWindow(
-          "Title Translate",
+          "Title Translation",
           "Feed collections not supported. Select feed items instead.",
           "fail"
         );
@@ -289,6 +289,45 @@ class TransEvents extends TransBase {
       titleElement.innerHTML = newInnerHTML;
       Zotero.debug(`ZoteroPDFTranslate: switch in ${rowElement.id}`);
     }
+  }
+
+  public async onTranslateAbstract(selectedType: string, force: boolean = false) {
+    let isFeed =
+      Zotero.Libraries.get(ZoteroPane.getSelectedLibraryID()).libraryType ==
+      "feed";
+    if (!ZoteroPane.canEdit() && !isFeed) {
+      ZoteroPane.displayCannotEditLibraryMessage();
+      return false;
+    }
+
+    Zotero.debug(`ZoteroPDFTranslate: onTranslateAbstract, type=${selectedType}`);
+    let items: ZoteroItem[] = [];
+    if (selectedType == "collection") {
+      if (isFeed) {
+        this._PDFTranslate.view.showProgressWindow(
+          "Abstract Translation",
+          "Feed collections not supported. Select feed items instead.",
+          "fail"
+        );
+        return false;
+      }
+      let collection = ZoteroPane.getSelectedCollection(false);
+
+      if (collection) {
+        collection.getChildItems(false, false).forEach(function (item) {
+          items.push(item);
+        });
+      }
+    } else if (selectedType == "items") {
+      items = ZoteroPane.getSelectedItems();
+    }
+
+    let status = await this._PDFTranslate.translate.callTranslateAbstract(
+      items,
+      force
+    );
+    Zotero.debug(status);
+    return true;
   }
 
   public async onTranslateNoteButtonClick(
