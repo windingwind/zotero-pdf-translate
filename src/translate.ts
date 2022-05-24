@@ -1,5 +1,6 @@
 import { TransConfig } from "./config";
 import { baidu } from "./translate/baidu";
+import { baidufield } from "./translate/baidufield";
 import { caiyun } from "./translate/caiyun";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
@@ -16,6 +17,7 @@ class TransEngine extends TransConfig {
   _lastAnnotationID: number;
   _enableNote: boolean;
   baidu: Function;
+  baidufield: Function;
   caiyun: Function;
   deeplpro: Function;
   deeplfree: Function;
@@ -40,6 +42,7 @@ class TransEngine extends TransConfig {
     this._enableNote = false;
 
     this.baidu = baidu;
+    this.baidufield = baidufield;
     this.caiyun = caiyun;
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;

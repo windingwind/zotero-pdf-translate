@@ -21,6 +21,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplfree "DeepL(Free)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplpro "DeepL(Pro)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "Baidu*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.baidufield "BaiduField*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "Tencent*">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "Dictionary Engine">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "Youdao Dict(en↔zh)">

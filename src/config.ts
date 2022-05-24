@@ -21,6 +21,7 @@ class TransConfig extends TransBase {
       "deeplfree",
       "deeplpro",
       "baidu",
+      'baidufield',
       "tencent",
       "youdaodict",
       "bingdict",
@@ -37,6 +38,7 @@ class TransConfig extends TransBase {
       deeplfree: "DeepL(Free)*",
       deeplpro: "DeepL(Pro)*",
       baidu: "Baidu*",
+      baidufield: "BaiduField*",
       tencent: "Tencent*",
       youdaodict: "Youdao Dict",
       bingdict: "Bing Dict",
@@ -55,6 +57,7 @@ class TransConfig extends TransBase {
       deeplfree: "",
       deeplpro: "",
       baidu: "appid#key",
+      baidufield: 'appid#key#field',
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       youdaodict: "",

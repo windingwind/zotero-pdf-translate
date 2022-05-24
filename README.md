@@ -77,7 +77,8 @@ The default engine is Google Translate. Currently, we support:
 | Microsoft Translate | Yes(free 2M) | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support) |
 | LingoCloud(Caiyun) Translate | Yes | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
 | DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
-| Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/113) |
+| Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11) |
+| Baidu Field | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
 
 > If the engine you want is not yet supported, please post an issue.
@@ -102,8 +103,22 @@ The secret format is `MY_APIKEY`.
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
 **Baidu Translate**  
-Apply [here](https://fanyi-api.baidu.com/product/113).  
+Apply [here](https://fanyi-api.baidu.com/product/11).  
 The secret format is `MY_APPID#MY_KEY`(split with '#').
+
+**Baidu Field Translate百度垂直领域翻译**  
+Apply [here](https://fanyi-api.baidu.com/product/12).  
+The secret format is `MY_APPID#MY_KEY#DOMAIN_CODE`(split with '#').
+
+| Domain Code | 领域 | 语言方向 |
+| ---- | ---- | ---- |
+| electronics | 电子科技领域 | 中文-->英语 |
+| finance | 金融财经领域 | 中文-->英语 |
+| finance |金融财经领域 | 英语-->中文 |
+| mechanics | 水利机械领域 | 中文-->英语 |
+| medicine | 生物医药领域 | 中文-->英语 |
+| medicine | 生物医药领域 | 英语-->中文 |
+| novel |	网络文学领域 | 中文-->英语 |
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
