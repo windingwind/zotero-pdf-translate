@@ -1,5 +1,5 @@
 async function baidufield(text: string = undefined) {
-  let args = this.getArgs("baidu", text);
+  let args = this.getArgs("baidufield", text);
   let appid = args.secret.split("#")[0];
   let key = args.secret.split("#")[1];
   let domain = args.secret.split("#")[2];

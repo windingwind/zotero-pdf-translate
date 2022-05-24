@@ -81,6 +81,7 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdao;" value="youdao" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdaozhiyun;" value="youdaozhiyun" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutrans;" value="niutrans" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutranspro;" value="niutranspro" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.microsoft;" value="microsoft" />

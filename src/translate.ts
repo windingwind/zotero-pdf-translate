@@ -8,6 +8,7 @@ import { microsoft } from "./translate/microsoft";
 import { niutrans, niutranspro, niutransapi } from "./translate/niutrans";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
+import { youdaozhiyun } from "./translate/youdaozhiyun";
 import { youdaodict } from "./dict/youdaodict";
 import { bingdict } from "./dict/bingdict";
 
@@ -31,6 +32,7 @@ class TransEngine extends TransConfig {
   niutransapi: Function;
   tencent: Function;
   youdao: Function;
+  youdaozhiyun: Function;
   youdaodict: Function;
   bingdict: Function;
 
@@ -56,6 +58,7 @@ class TransEngine extends TransConfig {
     this.niutransapi = niutransapi;
     this.tencent = tencent;
     this.youdao = youdao;
+    this.youdaozhiyun = youdaozhiyun;
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
   }

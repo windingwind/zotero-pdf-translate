@@ -14,6 +14,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "谷歌API(中国可用)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.googleweb "谷歌(Web)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.youdao "有道">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.youdaozhiyun "有道智云*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.microsoft "微软*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.caiyun "彩云*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.niutrans "小牛试用">

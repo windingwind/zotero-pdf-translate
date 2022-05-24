@@ -14,6 +14,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "Google(API)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.googleweb "Google(Web)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.youdao "Youdao">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.youdaozhiyun "Youdao Zhiyun*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.microsoft "Microsoft*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.caiyun "LingoCloud(Caiyun)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.niutrans "Niu(Trial)">
