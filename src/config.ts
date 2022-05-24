@@ -32,7 +32,7 @@ class TransConfig extends TransBase {
       // googleweb: "",
       google: "Google",
       youdao: "Youdao",
-      youdaozhiyun: "Youdao Zhiyun",
+      youdaozhiyun: "Youdao Zhiyun*",
       microsoft: "Microsoft*",
       caiyun: "LingoCloud(Caiyun)*",
       niutrans: "Niu(Trial)",
