@@ -115,15 +115,34 @@ class TransEvents extends TransBase {
     this._PDFTranslate.view.hideSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
+    let isConcat = (event as KeyboardEvent).altKey;
     let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
+    this._PDFTranslate._selectedText = isConcat
+      ? this._PDFTranslate._selectedText + " " + text
+      : text;
+    Zotero.debug(
+      `ZoteroPDFTranslate: Selected ${this._PDFTranslate._selectedText}`
+    );
     let currentButton = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup-button"
     );
     let currentNode = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup"
     );
-    if (!enable || !text || currentButton || currentNode) {
+    if (
+      !enable ||
+      !this._PDFTranslate._selectedText ||
+      currentButton ||
+      currentNode
+    ) {
       return false;
+    }
+
+    if (isConcat) {
+      this._PDFTranslate.view.showProgressWindow(
+        "PDF Translate",
+        `Selected Text: ${this._PDFTranslate._selectedText}`
+      );
     }
 
     Zotero.debug(
@@ -142,7 +161,9 @@ class TransEvents extends TransBase {
     }
 
     if (enableAuto) {
-      await this._PDFTranslate.translate.callTranslate(text);
+      await this._PDFTranslate.translate.callTranslate(
+        this._PDFTranslate._selectedText
+      );
     }
   }
 
@@ -200,10 +221,6 @@ class TransEvents extends TransBase {
   }
 
   public onTranslateButtonClick(event: XULEvent): void {
-    let currentReader = this._PDFTranslate.reader.currentReader;
-    if (!currentReader) {
-      return;
-    }
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       this._PDFTranslate.view.removePopupPanel();
@@ -214,6 +231,7 @@ class TransEvents extends TransBase {
       "",
       event && event.target.getAttribute("id") == "pdf-translate-call-button"
     );
+    event.preventDefault();
   }
 
   public async onTranslateTitle(selectedType: string, force: boolean = false) {

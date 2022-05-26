@@ -22,7 +22,7 @@ Translate PDFs, annotations, notes, and item titles automatically.
 
 Once you have the plugin installed simply, open any PDF in your collections.
 
-- Select some text, the translations are shown on the popup and the right sidebar(v0.2.0);
+- Select some text, the translations are shown on the popup and the right sidebar(v0.2.0); Hold `Alt/Option` to concat selections.
   ![](imgs/en2zh.png)
 
 - Highlight some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
@@ -42,6 +42,9 @@ Once you have the plugin installed simply, open any PDF in your collections.
 **Q** I want a translate shortcut.  
 **A**
 Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, the titles' translation will show/hide.
+
+**Q** I want to concat different seletions and translate them together.  
+**A** Press `Alt/Option` when selecting text in PDF.
 
 **Q** Not the language I want.  
 **A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.
@@ -98,12 +101,12 @@ The secret format is `MY_SECRET`.
 **DeepL Translate**  
 Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).
 
-**Youdao Zhiyun Translate有道智云**  
+**Youdao Zhiyun Translate 有道智云**  
 Apply [here](https://ai.youdao.com/login.s).  
 The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 
->About `VOCABID`  
-登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表id即可。
+> About `VOCABID`  
+> 登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表 id 即可。
 
 > [Official Document](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)
 
@@ -117,19 +120,19 @@ The secret format is `MY_APIKEY`.
 Apply [here](https://fanyi-api.baidu.com/product/11).  
 The secret format is `MY_APPID#MY_KEY`(split with '#').
 
-**Baidu Field Translate百度垂直领域翻译**  
+**Baidu Field Translate 百度垂直领域翻译**  
 Apply [here](https://fanyi-api.baidu.com/product/12).  
 The secret format is `MY_APPID#MY_KEY#DOMAIN_CODE`(split with '#').
 
-| Domain Code | 领域 | 语言方向 |
-| ---- | ---- | ---- |
+| Domain Code | 领域         | 语言方向    |
+| ----------- | ------------ | ----------- |
 | electronics | 电子科技领域 | 中文-->英语 |
-| finance | 金融财经领域 | 中文-->英语 |
-| finance |金融财经领域 | 英语-->中文 |
-| mechanics | 水利机械领域 | 中文-->英语 |
-| medicine | 生物医药领域 | 中文-->英语 |
-| medicine | 生物医药领域 | 英语-->中文 |
-| novel |	网络文学领域 | 中文-->英语 |
+| finance     | 金融财经领域 | 中文-->英语 |
+| finance     | 金融财经领域 | 英语-->中文 |
+| mechanics   | 水利机械领域 | 中文-->英语 |
+| medicine    | 生物医药领域 | 中文-->英语 |
+| medicine    | 生物医药领域 | 英语-->中文 |
+| novel       | 网络文学领域 | 中文-->英语 |
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
@@ -278,7 +281,8 @@ Clone https://github.com/zotero/zotero and search the keyword globally. You can 
 **Persistence settings**  
 Zotero Prefs can persistence a value. See `src/prefs.ts` and `addon/chrome/content/preferences.xul` for detailed usage in js/xul.
 
-**Add a translate/dict engine**  
+**Add a translate/dict engine**
+
 1. Add a `.ts` file under `src/${translate or dict}` with the same format with other engines;
 2. Update the sources, sourcesName, and defaultSecret in `src/config.ts`;
 3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`;

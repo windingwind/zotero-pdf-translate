@@ -5,6 +5,7 @@ import TransEngine from "./translate";
 import TransPref from "./prefs";
 
 class PDFTranslate {
+  _selectedText: string;
   _sourceText: string;
   _translatedText: string;
   _debug: string;
@@ -15,6 +16,10 @@ class PDFTranslate {
   public prefs: TransPref;
 
   constructor() {
+    this._selectedText = "";
+    this._sourceText = "";
+    this._translatedText = "";
+    this._debug = "";
     this.events = new TransEvents(this);
     this.view = new TransView(this);
     this.reader = new TransReader(this);

@@ -684,6 +684,9 @@ class TransView extends TransBase {
     button.onclick = (e: XULEvent) => {
       this._PDFTranslate.events.onTranslateButtonClick(e, currentReader);
     };
+    button.onpointerup = (e: PointerEvent) => {
+      e.stopPropagation();
+    };
     button.style.width = `${selectionMenu.scrollWidth}px`;
     button.style.height = "26px";
 

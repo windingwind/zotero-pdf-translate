@@ -64,9 +64,7 @@ class TransEngine extends TransConfig {
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
-    let currentReader: ReaderObj = this._PDFTranslate.reader.currentReader;
-    text =
-      text || this._PDFTranslate.reader.getSelectedText(currentReader).trim();
+    text = text || this._PDFTranslate._selectedText;
     Zotero.debug(`callTranslate: ${text}`);
 
     if (this._useModified) {
