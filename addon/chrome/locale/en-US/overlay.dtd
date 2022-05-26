@@ -37,6 +37,7 @@
 <!ENTITY zotero.__addonRef__.pannel.copyTranslated.label "Copy Result">
 
 <!ENTITY zotero.__addonRef__.itemmenu.translateTitle.label "Title Translation">
+<!ENTITY zotero.__addonRef__.itemmenu.more.label "More Translation Options">
 <!ENTITY zotero.__addonRef__.itemmenu.hideTitle.label "Hide Title Translation">
 <!ENTITY zotero.__addonRef__.itemmenu.retranslateTitle.label "Retranslate Title">
 <!ENTITY zotero.__addonRef__.itemmenu.translateAbstract.label "Abstract Translation">
@@ -54,8 +55,8 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
-<!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "Standalone: Keep Window Top">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "Standalone: Keep Window on Top">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "Preview">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
-<!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "Extra engines in standalone indow(split with ',')">
+<!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "Extra engines in standalone window(split with ',')">

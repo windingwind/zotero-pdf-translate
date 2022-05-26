@@ -173,7 +173,7 @@ declare const openWindowByType: (
 ) => Window;
 
 declare class Shortcut {
-  id: number;
+  id: string;
   func: any;
   modifiers: string;
   key: string;

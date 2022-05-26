@@ -154,10 +154,11 @@ class TransEngine extends TransConfig {
       this.getRootItem(item).getField("language").split("-")[0]
     );
     if (
+      item.isAnnotation() &&
+      item.annotationType == "highlight" &&
       (forceTranslate ||
         (Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") && !disable)) &&
-      item.isAnnotation() &&
-      item.annotationType == "highlight"
+      (forceTranslate || !item.annotationComment)
     ) {
       // Update sidebar
       this._PDFTranslate.view.updateAllTranslatePanelData();
@@ -359,7 +360,9 @@ class TransEngine extends TransConfig {
           ) {
             continue;
           }
-          titles.push(`${item.id} ${titleSplitter} ${item.getField("abstractNote")}`);
+          titles.push(
+            `${item.id} ${titleSplitter} ${item.getField("abstractNote")}`
+          );
           status[item.id] = false;
         }
 
@@ -468,6 +471,7 @@ class TransEngine extends TransConfig {
     // If Text is defined, result will not be stored in the global _translatedText
     // Call current translate engine
     let args = this.getArgs(engine, text);
+    let retry = false;
     Zotero.debug(args);
     if (!engine) {
       // Only Eng-Chn translation support word definition now
@@ -479,13 +483,20 @@ class TransEngine extends TransConfig {
           (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1))
       ) {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
+        retry = true;
       } else {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
       }
     }
 
     // bool return for success or fail
-    return await this[engine](text);
+    let translateStatus: boolean | string = await this[engine](text);
+    if (!translateStatus && retry) {
+      this._PDFTranslate._debug = "";
+      engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource");
+      translateStatus = await this[engine](text);
+    }
+    return translateStatus;
   }
 
   public getLanguageDisable(currentLanguage: string = undefined): boolean {

@@ -291,7 +291,10 @@ class TransEvents extends TransBase {
     }
   }
 
-  public async onTranslateAbstract(selectedType: string, force: boolean = false) {
+  public async onTranslateAbstract(
+    selectedType: string,
+    force: boolean = false
+  ) {
     let isFeed =
       Zotero.Libraries.get(ZoteroPane.getSelectedLibraryID()).libraryType ==
       "feed";
@@ -300,7 +303,9 @@ class TransEvents extends TransBase {
       return false;
     }
 
-    Zotero.debug(`ZoteroPDFTranslate: onTranslateAbstract, type=${selectedType}`);
+    Zotero.debug(
+      `ZoteroPDFTranslate: onTranslateAbstract, type=${selectedType}`
+    );
     let items: ZoteroItem[] = [];
     if (selectedType == "collection") {
       if (isFeed) {
@@ -360,14 +365,14 @@ class TransEvents extends TransBase {
     }
     let shortcuts: Array<Shortcut> = [
       {
-        id: 0,
+        id: "oldTranslate",
         func: this.onTranslateKey.bind(this),
         modifiers: null,
         key: "t",
         keycode: undefined,
       },
       {
-        id: 1,
+        id: "translate",
         func: this.onTranslateKey.bind(this),
         modifiers: "accel",
         key: "t",

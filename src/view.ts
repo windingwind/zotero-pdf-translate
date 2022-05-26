@@ -385,7 +385,10 @@ class TransView extends TransBase {
 
     let buttonTranslate = _document.createElement("button");
     buttonTranslate.setAttribute("id", "pdf-translate-call-button");
-    buttonTranslate.setAttribute("label", "Translate");
+    buttonTranslate.setAttribute(
+      "label",
+      Zotero.isWin ? "Translate    Ctrl+T" : "Translate    ⌘ T"
+    );
     buttonTranslate.setAttribute("flex", "1");
     buttonTranslate.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onTranslateButtonClick(e);
