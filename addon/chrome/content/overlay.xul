@@ -11,7 +11,6 @@
             <menupopup>
                 <menuitem id="zotero-collectionmenu-__addonRef__-hide" label="&zotero.__addonRef__.itemmenu.hideTitle.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onSwitchTitle(false)" />
                 <menuitem id="zotero-collectionmenu-__addonRef__-retranslate" label="&zotero.__addonRef__.itemmenu.retranslateTitle.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateTitle('collection', true)" />
-                <menuitem id="zotero-collectionmenu-__addonRef__-translateAbstract" label="&zotero.__addonRef__.itemmenu.translateAbstract.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateAbstract('collection', false)" />
             </menupopup>
         </menu>
     </popup>
@@ -21,8 +20,8 @@
         <menu label="&zotero.__addonRef__.itemmenu.more.label;">
             <menupopup>
                 <menuitem id="zotero-collectionmenu-__addonRef__-hide" label="&zotero.__addonRef__.itemmenu.hideTitle.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onSwitchTitle(false)" />
-                <menuitem id="zotero-collectionmenu-__addonRef__-retranslate" label="&zotero.__addonRef__.itemmenu.retranslateTitle.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateTitle('collection', true)" />
-                <menuitem id="zotero-collectionmenu-__addonRef__-translateAbstract" label="&zotero.__addonRef__.itemmenu.translateAbstract.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateAbstract('collection', false)" />
+                <menuitem id="zotero-collectionmenu-__addonRef__-retranslate" label="&zotero.__addonRef__.itemmenu.retranslateTitle.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateTitle('items', true)" />
+                <menuitem id="zotero-collectionmenu-__addonRef__-translateAbstract" label="&zotero.__addonRef__.itemmenu.translateAbstract.label;" oncommand="Zotero.ZoteroPDFTranslate.events.onTranslateAbstract('items', false)" />
             </menupopup>
         </menu>
     </popup>
