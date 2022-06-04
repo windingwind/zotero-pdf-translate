@@ -186,21 +186,35 @@ class TransView extends TransBase {
 
     // The first tabbox is zotero main pane tabbox
     let n = 0;
-    let tabbox = this._PDFTranslate.reader.getReaderTab();
-    while (!tabbox) {
+    let tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
+    while (!tabContainer.querySelector("tabbox")) {
       if (n >= 500) {
         Zotero.debug("ZoteroPDFTranslate: Waiting for reader failed");
-        // this.showProgressWindow(
-        //   "PDF Translate",
-        //   "Sidebar Load Failed",
-        //   "fail"
-        // );
         return;
       }
+      if (tabContainer.querySelector("description")) {
+        tabContainer.innerHTML = "";
+        const tabbox = window.document.createElement("tabbox");
+        tabbox.className = "zotero-view-tabbox";
+        tabbox.setAttribute("flex", "1");
+
+        const tabs = window.document.createElement("tabs");
+        tabs.className = "zotero-editpane-tabs";
+        tabs.setAttribute("orient", "horizontal");
+        tabbox.append(tabs);
+
+        const tabpanels = window.document.createElement("tabpanels");
+        tabpanels.className = "zotero-view-item";
+        tabpanels.setAttribute("flex", "1");
+
+        tabbox.append(tabpanels);
+        tabContainer.append(tabbox);
+        break;
+      }
       await Zotero.Promise.delay(10);
-      tabbox = this._PDFTranslate.reader.getReaderTab();
       n++;
     }
+    const tabbox = tabContainer.querySelector("tabbox");
     tabbox.getElementsByTagName("tabs")[0].appendChild(tab);
     let itemCount = tabbox.getElementsByTagName("tabs")[0].itemCount;
 
@@ -673,24 +687,16 @@ class TransView extends TransBase {
 
     this.onPopopItemChange(selectionMenu);
 
-    // Create button
-    let button = currentReader._window.document.createElement("button");
-    button.setAttribute("id", "pdf-translate-popup-button");
-    button.setAttribute("label", "Translate");
-    button.setAttribute(
-      "image",
-      "chrome://zoteropdftranslate/skin/favicon@0.5x.png"
-    );
-    button.onclick = (e: XULEvent) => {
+    // Create translate button
+    let translateButton = selectionMenu.ownerDocument.createElement("div");
+    translateButton.setAttribute("id", "pdf-translate-popup-button");
+    translateButton.setAttribute("class", "wide-button pdf-translate-button");
+    translateButton.innerHTML = `${this.translateIcon}Translate`;
+    translateButton.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onTranslateButtonClick(e, currentReader);
-    };
-    button.onpointerup = (e: PointerEvent) => {
-      e.stopPropagation();
-    };
-    button.style.width = `${selectionMenu.scrollWidth}px`;
-    button.style.height = "26px";
+    });
 
-    selectionMenu.appendChild(button);
+    selectionMenu.appendChild(translateButton);
   }
 
   buildPopupTranslationToNoteButton(selectionMenu: XUL.Element = undefined) {

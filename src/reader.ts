@@ -29,38 +29,11 @@ class TransReader extends TransBase {
     return windowReaders;
   }
 
-  getReaderTab(): Element {
-    if (!this.currentReader) {
+  getReaderTabContainer(): Element {
+    if (!Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)) {
       return undefined;
     }
-    let tabs = document.getElementsByTagName("tabbox");
-    let readerTitle = this.currentReader._title.split(" - ")[0];
-    for (let i = 0; i < tabs.length; i++) {
-      let tabpanels = tabs[i].getElementsByTagName("tabpanel");
-      if (
-        // Skip ZoteroPane tab
-        tabs[i].getAttribute("id") != "zotero-view-tabbox" &&
-        tabpanels.length &&
-        tabpanels[0].children.length &&
-        // @ts-ignore
-        tabpanels[0].children[0].item &&
-        Zotero_Tabs.selectedID != "zotero-pane" &&
-        // Have the same title, use substr to avoid the ' - ' in title causing error
-        // @ts-ignore
-        tabpanels[0].children[0].item
-          .getField("title")
-          .substr(0, readerTitle.length) == readerTitle &&
-        // Skip the current tab, work around to get sidebar with 2 attachments
-        // TODO: fix with more attachments
-        Array.prototype.every.call(
-          tabs[i].getElementsByTagName("tab"),
-          (e: Element) => e.id != "pdf-translate-tab"
-        )
-      ) {
-        return tabs[i];
-      }
-    }
-    return undefined;
+    return document.getElementById(`${Zotero_Tabs.selectedID}-context`);
   }
 
   getSelectedText(currentReader: ReaderObj): string {

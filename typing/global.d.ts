@@ -164,6 +164,7 @@ declare class Annotation {
 declare const Zotero_Tabs: {
   _tabs: Array<any>;
   selectedID: string;
+  deck: HTMLElement;
 };
 
 declare const openWindowByType: (
