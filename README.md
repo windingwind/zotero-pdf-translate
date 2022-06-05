@@ -285,8 +285,10 @@ Zotero Prefs can persistence a value. See `src/prefs.ts` and `addon/chrome/conte
 
 1. Add a `.ts` file under `src/${translate or dict}` with the same format with other engines;
 2. Update the sources, sourcesName, and defaultSecret in `src/config.ts`;
-3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`;
-4. Build and test.
+3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`; 
+4. Update the ui entry of the `translate/dict engine` in `addon/chrome/locale/${en-US or zh-CN}/overlay.dtd`.
+5. Import and add you `engine or dict` to the class `TransEngine` and `constructor` of `src/translate.ts`
+6. Build and test.
 
 ## Disclaimer
 
