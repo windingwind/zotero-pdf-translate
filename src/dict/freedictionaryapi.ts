@@ -33,7 +33,7 @@ async function freedictionaryapi(text: string = undefined) {
           let entry = definition.definition
 
           if (definition.example) {
-            entry += '\n"' + definition.example
+            entry += '\n"' + definition.example + '"'
           }
 
           definitionCollection.push(entry);
