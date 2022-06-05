@@ -581,11 +581,6 @@ class TransEvents extends TransBase {
       }
     }
 
-    if (!dictSource || !validSource) {
-      dictSource = "youdaodict";
-      Zotero.Prefs.set("ZoteroPDFTranslate.dictSource", dictSource);
-    }
-
     let langs = this._PDFTranslate.translate.LangCultureNames.map(
       (e) => e.LangCultureName
     );
@@ -612,6 +607,15 @@ class TransEvents extends TransBase {
     if (!targetLanguage || !validTL) {
       targetLanguage = Services.locale.getRequestedLocale();
       Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", targetLanguage);
+    }
+
+    if (!dictSource || !validSource) {
+      if (targetLanguage.startsWith("en")){
+        dictSource = "freedictionaryapi";
+      } else {
+        dictSource = "youdaodict";
+      }
+      Zotero.Prefs.set("ZoteroPDFTranslate.dictSource", dictSource);
     }
 
     let secretObj = Zotero.Prefs.get("ZoteroPDFTranslate.secretObj");

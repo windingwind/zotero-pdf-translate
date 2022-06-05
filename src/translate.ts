@@ -11,6 +11,7 @@ import { youdao } from "./translate/youdao";
 import { youdaozhiyun } from "./translate/youdaozhiyun";
 import { youdaodict } from "./dict/youdaodict";
 import { bingdict } from "./dict/bingdict";
+import { freedictionaryapi } from "./dict/freedictionaryapi";
 
 class TransEngine extends TransConfig {
   _translateTime: number;
@@ -35,6 +36,7 @@ class TransEngine extends TransConfig {
   youdaozhiyun: Function;
   youdaodict: Function;
   bingdict: Function;
+  freedictionaryapi: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -61,6 +63,7 @@ class TransEngine extends TransConfig {
     this.youdaozhiyun = youdaozhiyun;
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
+    this.freedictionaryapi = freedictionaryapi;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
@@ -478,7 +481,8 @@ class TransEngine extends TransConfig {
         args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
         // TODO: For all languages
         ((args.sl.indexOf("en") != -1 && args.tl.indexOf("zh") != -1) ||
-          (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1))
+          (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1) ||
+          (args.sl.indexOf("en") != -1 && args.tl.indexOf("en") != -1 && Zotero.Prefs.get("ZoteroPDFTranslate.dictSource") == "freedictionaryapi"))
       ) {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
         retry = true;

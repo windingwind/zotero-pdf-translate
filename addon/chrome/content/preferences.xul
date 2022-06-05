@@ -104,6 +104,7 @@
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.youdaodict;" value="youdaodict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.bingdict;" value="bingdict" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.dictSource.freedictionaryapi;" value="freedictionaryapi" />
                       </menupopup>
                     </menulist>
                     <label value="&zotero.__addonRef__.pref.api.secret.label;" />

@@ -26,6 +26,7 @@ class TransConfig extends TransBase {
       "tencent",
       "youdaodict",
       "bingdict",
+      "freedictionaryapi"
     ];
     this.sourcesName = {
       googleapi: "Google(API)",
@@ -44,6 +45,7 @@ class TransConfig extends TransBase {
       tencent: "Tencent*",
       youdaodict: "Youdao Dict",
       bingdict: "Bing Dict",
+      freedictionaryapi: "FreeDictionaryAPI"
     };
     this.defaultSourceLanguage = "en-US";
     this.defaultTargetLanguage = "zh-CN";
@@ -65,6 +67,7 @@ class TransConfig extends TransBase {
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       youdaodict: "",
       bingdict: "",
+      freedictionaryapi: ""
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },
