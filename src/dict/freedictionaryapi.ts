@@ -22,20 +22,25 @@ async function freedictionaryapi(text: string = undefined) {
       let meanings = xhr.response[0].meanings
 
       let tgt = ""
+      let definitionCollection = []
 
       for (let i = 0; i < meanings.length; i++) {
         let definitions = meanings[i].definitions
 
         for (let j = 0; j < definitions.length; j++) {
-          let def = definitions[j]
+          let definition = definitions[j]
 
-          tgt += def.definition
+          let entry = definition.definition
 
-          if (def.example) {
-            tgt += "\n" + '"' + def.example + '"' + "\n\n"
+          if (definition.example) {
+            entry += '\n"' + definition.example
           }
+
+          definitionCollection.push(entry);
         }
       }
+
+      tgt = definitionCollection.join("\n\n");
 
       Zotero.debug(tgt);
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
