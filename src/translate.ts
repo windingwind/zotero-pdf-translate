@@ -475,7 +475,7 @@ class TransEngine extends TransConfig {
     let retry = false;
     Zotero.debug(args);
     if (!engine) {
-      // Only Eng-Chn translation support word definition now
+      // Only Eng-Chn and Eng-Eng translation support word definition now
       if (
         Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
         args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&

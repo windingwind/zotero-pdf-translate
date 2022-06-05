@@ -610,7 +610,7 @@ class TransEvents extends TransBase {
     }
 
     if (!dictSource || !validSource) {
-      if (targetLanguage.startsWith("en")){
+      if (sourceLanguage.startsWith("en") && targetLanguage.startsWith("en")) {
         dictSource = "freedictionaryapi";
       } else {
         dictSource = "youdaodict";
