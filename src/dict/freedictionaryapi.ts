@@ -8,39 +8,38 @@ async function freedictionaryapi(text: string = undefined) {
         `https://api.dictionaryapi.dev/api/v2/entries/en/${args.text}`,
         {
           headers: {
-            "Accept": "application/json"
+            Accept: "application/json",
           },
-          responseType: "json"
+          responseType: "json",
         }
       );
     },
     (xhr) => {
       if (xhr.status == 404) {
-        return "Definition not found"
+        return "Definition not found";
       }
 
-      let meanings = xhr.response[0].meanings
-
-      let tgt = ""
-      let definitionCollection = []
-
-      for (let i = 0; i < meanings.length; i++) {
-        let definitions = meanings[i].definitions
-
-        for (let j = 0; j < definitions.length; j++) {
-          let definition = definitions[j]
-
-          let entry = definition.definition
-
-          if (definition.example) {
-            entry += '\n"' + definition.example + '"'
-          }
-
-          definitionCollection.push(entry);
-        }
+      let res = xhr.response[0];
+      let tgt = "";
+      if (res.phonetics) {
+        tgt += res.phonetics.map((p) => p.text).join(",");
+        tgt += "\n";
       }
-
-      tgt = definitionCollection.join("\n\n");
+      if (res.meanings) {
+        tgt += res.meanings
+          .map(
+            (m) =>
+              `[${m.partOfSpeech}] ${m.definitions
+                .map(
+                  (d) =>
+                    `${d.definition}\n${
+                      d.example ? `\t[example] ${d.example}` : ""
+                    }`
+                )
+                .join("")}`
+          )
+          .join("----\n");
+      }
 
       Zotero.debug(tgt);
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;

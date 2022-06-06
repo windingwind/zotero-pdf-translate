@@ -610,10 +610,10 @@ class TransEvents extends TransBase {
     }
 
     if (!dictSource || !validSource) {
-      if (sourceLanguage.startsWith("en") && targetLanguage.startsWith("en")) {
-        dictSource = "freedictionaryapi";
-      } else {
+      if (targetLanguage.startsWith("zh")) {
         dictSource = "youdaodict";
+      } else {
+        dictSource = "freedictionaryapi";
       }
       Zotero.Prefs.set("ZoteroPDFTranslate.dictSource", dictSource);
     }

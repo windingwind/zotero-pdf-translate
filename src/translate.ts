@@ -478,11 +478,7 @@ class TransEngine extends TransConfig {
       // Only Eng-Chn and Eng-Eng translation support word definition now
       if (
         Zotero.Prefs.get("ZoteroPDFTranslate.enableDict") &&
-        args.text.trim().split(/[^a-z,A-Z]+/).length == 1 &&
-        // TODO: For all languages
-        ((args.sl.indexOf("en") != -1 && args.tl.indexOf("zh") != -1) ||
-          (args.sl.indexOf("zh") != -1 && args.tl.indexOf("en") != -1) ||
-          (args.sl.indexOf("en") != -1 && args.tl.indexOf("en") != -1 && Zotero.Prefs.get("ZoteroPDFTranslate.dictSource") == "freedictionaryapi"))
+        args.text.trim().split(/[^a-z,A-Z]+/).length == 1
       ) {
         engine = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
         retry = true;
