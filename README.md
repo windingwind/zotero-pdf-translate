@@ -32,7 +32,7 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
 - Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
   ![](imgs/standalone.png)
-- Dictionary for single word translation(v0.7.1). _Only for en2zh now_
+- Dictionary for single word translation(v0.7.1). _Only for en2zh and en2en now_
 
 ### Q&A
 

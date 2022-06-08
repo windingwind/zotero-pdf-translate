@@ -549,7 +549,9 @@ class TransEngine extends TransConfig {
     if (typeof tl === "undefined") {
       tl = this.defaultTargetLanguage;
     }
-    text = (text ? text : this._PDFTranslate._sourceText).replace(/\n/g, " ");
+    text = (text ? text : this._PDFTranslate._sourceText)
+      .replace(/\n/g, " ")
+      .normalize("NFKC");
 
     return {
       secret,
