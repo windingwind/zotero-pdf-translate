@@ -265,12 +265,27 @@ Alternatively, build it directly using build.js: `npm run build`
 
 ### Debug
 
-1. Test code segments in Tools->Developer->Run Javascript;
-2. Debug output with `Zotero.debug()`. Find the outputs in Help->Debug Output Logging->View Output;
-3. UI debug. Zotero is built on the Firefox XUL framework. Debug XUL UI with software like [XUL Explorer](https://udn.realityripple.com/docs/Archive/Mozilla/XUL_Explorer).
-   > XUL Documents:  
-   > https://www.xul.fr/tutorial/  
-   > http://www.xulplanet.com/
+1. Copy zotero command line config file. Modify the commands.
+
+```sh
+cp zotero-cmd-default.json zotero-cmd.json
+```
+
+2. Setup addon development environment following this [link](https://www.zotero.org/support/dev/client_coding/plugin_development#setting_up_a_plugin_development_environment).
+
+3. Build addon and restart Zotero with this npm command.
+```sh
+npm run restart
+```
+
+You can also debug code in these ways:
+
+- Test code segments in Tools->Developer->Run Javascript;
+- Debug output with `Zotero.debug()`. Find the outputs in Help->Debug Output Logging->View Output;
+- UI debug. Zotero is built on the Firefox XUL framework. Debug XUL UI with software like [XUL Explorer](https://udn.realityripple.com/docs/Archive/Mozilla/XUL_Explorer).
+  > XUL Documents:  
+  > https://www.xul.fr/tutorial/  
+  > http://www.xulplanet.com/
 
 ### Contributing
 
@@ -285,7 +300,7 @@ Zotero Prefs can persistence a value. See `src/prefs.ts` and `addon/chrome/conte
 
 1. Add a `.ts` file under `src/${translate or dict}` with the same format with other engines;
 2. Update the sources, sourcesName, and defaultSecret in `src/config.ts`;
-3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`; 
+3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`;
 4. Update the ui entry of the `translate/dict engine` in `addon/chrome/locale/${en-US or zh-CN}/overlay.dtd`.
 5. Import and add you `engine or dict` to the class `TransEngine` and `constructor` of `src/translate.ts`
 6. Build and test.
