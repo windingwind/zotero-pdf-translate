@@ -550,7 +550,7 @@ class TransEngine extends TransConfig {
       tl = this.defaultTargetLanguage;
     }
     text = (text ? text : this._PDFTranslate._sourceText)
-      .replace(/\n/g, " ")
+      .replace(/\p{C}/gu, " ")
       .normalize("NFKC");
 
     return {
