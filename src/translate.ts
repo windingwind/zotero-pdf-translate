@@ -73,10 +73,11 @@ class TransEngine extends TransConfig {
     if (this._useModified) {
       Zotero.debug("ZoteroPDFTranslate: Using modified text");
       text = this._PDFTranslate._sourceText;
-    } else if (
+    }
+    if (
       !disableCache &&
       // Blank
-      (!text.replace(/[\r\n]/g, "").replace(/\s+/g, "") ||
+      (/^\s*$/.test(text) ||
         // Unchanged
         this._PDFTranslate._sourceText === text)
     ) {
