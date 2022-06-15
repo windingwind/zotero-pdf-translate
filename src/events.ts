@@ -495,11 +495,26 @@ class TransEvents extends TransBase {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
     }
 
+    let annotationTranslationPosition = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.annotationTranslationPosition"
+    );
+    if (typeof annotationTranslationPosition === "undefined") {
+      annotationTranslationPosition = "comment";
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.annotationTranslationPosition",
+        annotationTranslationPosition
+      );
+    }
+
     let enableCommentEdit = Zotero.Prefs.get(
       "ZoteroPDFTranslate.enableCommentEdit"
     );
     if (typeof enableCommentEdit === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", true);
+    }
+    if (annotationTranslationPosition === "body") {
+      // Disable enableCommentEdit when translations are saved to the annotation body
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", false);
     }
 
     let enableNote = Zotero.Prefs.get("ZoteroPDFTranslate.enableNote");

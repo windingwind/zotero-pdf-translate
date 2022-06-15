@@ -12,6 +12,7 @@ class TransPref extends TransBase {
     this.updateSourceParam("dict");
     this.buildLanguageSettings();
     this.updatePreviewPannel();
+    this.updateAnnotationTranslationSettings();
   }
 
   updateSourceParam(type: string) {
@@ -68,6 +69,27 @@ class TransPref extends TransBase {
       "zotero-prefpane-zoteropdftranslate-settings-font-size"
     );
     pannel.style["font-size"] = `${parseInt(text.value)}px`;
+  }
+
+  updateAnnotationTranslationSettings() {
+    Zotero.debug("ZoteroPDFTranslate: updateannotationTranslationSettings.");
+    let enableAnnotationTranslation = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-comment"
+    ) as XUL.Checkbox;
+    const position: XUL.Element = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-annotation-translation-position"
+    );
+    position.disabled = !enableAnnotationTranslation.checked;
+
+    const commentEdit: XUL.Checkbox = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-commentedit"
+    );
+    if (!enableAnnotationTranslation.checked || position.value === "body") {
+      commentEdit.checked = false;
+      commentEdit.disabled = true;
+    } else {
+      commentEdit.disabled = false;
+    }
   }
 
   private buildLanguageSettings() {

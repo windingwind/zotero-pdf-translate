@@ -178,9 +178,18 @@ class TransEngine extends TransConfig {
         }
       }
       let text = this._PDFTranslate._translatedText;
-      item.annotationComment = `${
-        item.annotationComment ? item.annotationComment : ""
-      }\n${text}`;
+      const position = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.annotationTranslationPosition"
+      );
+      if (position === "comment") {
+        item.annotationComment = `${
+          item.annotationComment ? item.annotationComment : ""
+        }\n${text}`;
+      } else if (position == "body") {
+        item.annotationText = `${
+          item.annotationText ? item.annotationText : ""
+        }\n${text}`;
+      }
       await item.saveTx();
       this._PDFTranslate.view.showProgressWindow(
         "Annotation Translation Saved",

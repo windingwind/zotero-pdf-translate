@@ -6,6 +6,8 @@
 <!ENTITY zotero.__addonRef__.pref.basic.enableDict.label "Enable Dictionary">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "Automatic Annotation Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInComment.label "Save to Annotation Comment">
+<!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "Save to Annotation Body">
 <!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "Enable Update and Edit Last Annotation Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "Service">

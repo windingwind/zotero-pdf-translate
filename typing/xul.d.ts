@@ -2,6 +2,7 @@ declare namespace XUL {
   class Element extends HTMLElement {
     public tagName?: string;
     public hidden?: boolean;
+    public disabled?: boolean;
     public value?: string;
     public width?: number;
     public height?: number;
@@ -19,7 +20,7 @@ declare namespace XUL {
   }
 
   class Checkbox extends XUL.Element {
-    public checked: boolean;
+    public checked?: boolean;
   }
 
   class Menuitem extends XUL.Element {

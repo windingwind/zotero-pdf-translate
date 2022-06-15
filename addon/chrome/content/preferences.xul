@@ -9,6 +9,7 @@
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
         <preference id="pref-__addonRef__-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
+        <preference id="pref-__addonRef__-annotationTranslationPosition" name="extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition" type="string" />
         <preference id="pref-__addonRef__-enable-commentedit" name="extensions.zotero.ZoteroPDFTranslate.enableCommentEdit" type="bool" />
         <preference id="pref-__addonRef__-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
         <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
@@ -57,8 +58,18 @@
                   <label value="&zotero.__addonRef__.pref.basic.enablePopup.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-comment" preference="pref-__addonRef__-enable-comment" />
-                  <label value="&zotero.__addonRef__.pref.basic.enableComment.label;" />
+                  <columns>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-comment" preference="pref-__addonRef__-enable-comment" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateAnnotationTranslationSettings();" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableComment.label;" />
+                    </column>
+                    <column>
+                      <radiogroup orient="horizontal" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateAnnotationTranslationSettings();" id="zotero-prefpane-__addonRef__-settings-annotation-translation-position" preference="pref-__addonRef__-annotationTranslationPosition">
+                        <radio id="zotero-prefpane-__addonRef__-settings-annotation-translation-body" label="&zotero.__addonRef__.pref.basic.annotationTranslationInComment.label;" value="comment" />
+                        <radio id="zotero-prefpane-__addonRef__-settings-annotation-translation-comment" label="&zotero.__addonRef__.pref.basic.annotationTranslationInBody.label;" value="body" />
+                      </radiogroup>
+                    </column>
+                  </columns>
                 </row>
                 <row>
                   <checkbox id="zotero-prefpane-__addonRef__-settings-enable-commentedit" preference="pref-__addonRef__-enable-commentedit" />
