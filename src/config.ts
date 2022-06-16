@@ -22,11 +22,12 @@ class TransConfig extends TransBase {
       "deeplfree",
       "deeplpro",
       "baidu",
-      'baidufield',
+      "baidufield",
+      "openl",
       "tencent",
       "youdaodict",
       "bingdict",
-      "freedictionaryapi"
+      "freedictionaryapi",
     ];
     this.sourcesName = {
       googleapi: "Google(API)",
@@ -42,10 +43,11 @@ class TransConfig extends TransBase {
       deeplpro: "DeepL(Pro)*",
       baidu: "Baidu*",
       baidufield: "BaiduField*",
+      openl: "OpenL*",
       tencent: "Tencent*",
       youdaodict: "Youdao Dict",
       bingdict: "Bing Dict",
-      freedictionaryapi: "FreeDictionaryAPI"
+      freedictionaryapi: "FreeDictionaryAPI",
     };
     this.defaultSourceLanguage = "en-US";
     this.defaultTargetLanguage = "zh-CN";
@@ -62,12 +64,13 @@ class TransConfig extends TransBase {
       deeplfree: "",
       deeplpro: "",
       baidu: "appid#key",
-      baidufield: 'appid#key#field',
+      baidufield: "appid#key#field",
+      openl: "service1,service2,...#apikey",
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       youdaodict: "",
       bingdict: "",
-      freedictionaryapi: ""
+      freedictionaryapi: "",
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },

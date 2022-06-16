@@ -6,6 +6,7 @@ import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
 import { niutrans, niutranspro, niutransapi } from "./translate/niutrans";
+import { openl } from "./translate/openl";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
 import { youdaozhiyun } from "./translate/youdaozhiyun";
@@ -31,6 +32,7 @@ class TransEngine extends TransConfig {
   niutrans: Function;
   niutranspro: Function;
   niutransapi: Function;
+  openl: Function;
   tencent: Function;
   youdao: Function;
   youdaozhiyun: Function;
@@ -58,6 +60,7 @@ class TransEngine extends TransConfig {
     this.niutrans = niutrans;
     this.niutranspro = niutranspro;
     this.niutransapi = niutransapi;
+    this.openl = openl;
     this.tencent = tencent;
     this.youdao = youdao;
     this.youdaozhiyun = youdaozhiyun;

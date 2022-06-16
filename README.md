@@ -142,6 +142,14 @@ The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#P
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
+**OpenL Translate**  
+Apply [here](https://my.openl.club/).  
+The secret format is `service1,service2,...#apikey`(split with '#'; split service codes with ',').
+
+Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,sogou,azure,ibm,aws,google`, See [Service Code](https://docs.openl.club/#/API/format?id=%e7%bf%bb%e8%af%91%e6%9c%8d%e5%8a%a1%e4%bb%a3%e7%a0%81%e5%90%8d)
+
+> [Chinese Document](https://docs.openl.club/#/)
+
 ### Advanced-UI
 
 - `Font Size`: The font size of result text, default `12`
@@ -274,6 +282,7 @@ cp zotero-cmd-default.json zotero-cmd.json
 2. Setup addon development environment following this [link](https://www.zotero.org/support/dev/client_coding/plugin_development#setting_up_a_plugin_development_environment).
 
 3. Build addon and restart Zotero with this npm command.
+
 ```sh
 npm run restart
 ```

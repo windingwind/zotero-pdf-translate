@@ -26,6 +26,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "百度*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidufield "百度垂直领域*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "腾讯*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
