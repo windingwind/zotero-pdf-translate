@@ -401,7 +401,7 @@ class TransView extends TransBase {
     buttonTranslate.setAttribute("id", "pdf-translate-call-button");
     buttonTranslate.setAttribute(
       "label",
-      Zotero.isWin ? "Translate    Ctrl+T" : "Translate    ⌘ T"
+      Zotero.isMac ? "Translate    ⌘ T" : "Translate    Ctrl+T"
     );
     buttonTranslate.setAttribute("flex", "1");
     buttonTranslate.addEventListener("click", (e: XULEvent) => {
@@ -488,16 +488,38 @@ class TransView extends TransBase {
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
+    let vbox2 = _document.createElement("vbox");
+
+    vbox2.setAttribute("id", "pdf-translate-vbox2");
+    vbox2.setAttribute("flex", "1");
+    vbox2.setAttribute("align", "stretch");
+
+    let cbConcat = _document.createElement("checkbox");
+    cbConcat.setAttribute("id", "pdf-translate-cbConcat");
+    cbConcat.setAttribute("label", "Additional translation");
+    const s =
+      'Or: translate with the last selected text if press the "' +
+      (Zotero.isMac ? "Option" : "Alt") +
+      '" key for a long time when select the text';
+    cbConcat.setAttribute("tooltiptext", s);
+
+    vbox2.append(rawResultOrder ? textboxTranslated : textboxSource, cbConcat);
+
     vbox.append(
       hboxTranslate,
       hboxLanguage,
-      rawResultOrder ? textboxTranslated : textboxSource,
+      vbox2,
       splitter,
       rawResultOrder ? textboxSource : textboxTranslated,
       hboxAnnotation,
       hboxCopy
     );
     return vbox;
+  }
+
+  isConcatText() {
+    let cbConcat = document.getElementById("pdf-translate-cbConcat");
+    return cbConcat.getAttribute("checked") == "true";
   }
 
   private updateTranslatePanelHidden(_document: Document) {

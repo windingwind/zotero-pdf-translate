@@ -115,8 +115,14 @@ class TransEvents extends TransBase {
     this._PDFTranslate.view.hideSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-    let isConcat = (event as KeyboardEvent).altKey;
+    let isConcat =
+      (event as KeyboardEvent).altKey || this._PDFTranslate.view.isConcatText();
+
     let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
+    if(!text){
+      // 可能只是点了下鼠标而已
+      return false
+    }
     this._PDFTranslate._selectedText = isConcat
       ? this._PDFTranslate._selectedText + " " + text
       : text;
