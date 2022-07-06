@@ -180,7 +180,10 @@ class TransView extends TransBase {
     if (!tab) {
       tab = document.createElement("tab");
       tab.setAttribute("id", "pdf-translate-tab");
-      tab.setAttribute("label", "Translate");
+      tab.setAttribute(
+        "label",
+        this._PDFTranslate.locale.getString("view", "sidebar_tab_translate_label")
+      );
       this.tab = tab;
     }
 
@@ -238,7 +241,10 @@ class TransView extends TransBase {
       hboxOpenWindow.style.height = "80px";
 
       let buttonOpenWindow = document.createElement("button");
-      buttonOpenWindow.setAttribute("label", "Open in Standalone Window");
+      buttonOpenWindow.setAttribute(
+        "label",
+        this._PDFTranslate.locale.getString("view", "button_open_window_label")
+      );
       buttonOpenWindow.setAttribute("flex", "1");
       buttonOpenWindow.addEventListener("click", (e: XULEvent) => {
         this._PDFTranslate.events.onOpenStandaloneWindow(e);
@@ -365,7 +371,10 @@ class TransView extends TransBase {
     hboxLanguage.append(SLMenuList, languageLabel, TLMenuList);
 
     let menuLabel = _document.createElement("label");
-    menuLabel.setAttribute("value", "Engine");
+    menuLabel.setAttribute(
+      "value",
+      this._PDFTranslate.locale.getString("view", "menu_translate_engine_label")
+    );
     let menulist = _document.createElement("menulist");
     menulist.setAttribute("id", "pdf-translate-engine");
     menulist.setAttribute("flex", "1");
@@ -383,7 +392,7 @@ class TransView extends TransBase {
       let menuitem = _document.createElement("menuitem");
       menuitem.setAttribute(
         "label",
-        this._PDFTranslate.translate.sourcesName[source]
+        this._PDFTranslate.locale.getString("translate_engine", source)
       );
       menuitem.setAttribute("value", source);
       menuitem.addEventListener("command", (e: XULEvent) => {
@@ -401,7 +410,7 @@ class TransView extends TransBase {
     buttonTranslate.setAttribute("id", "pdf-translate-call-button");
     buttonTranslate.setAttribute(
       "label",
-      Zotero.isMac ? "Translate    ⌘ T" : "Translate    Ctrl+T"
+      this._PDFTranslate.locale.getString("view", "button_translate_label")
     );
     buttonTranslate.setAttribute("flex", "1");
     buttonTranslate.addEventListener("click", (e: XULEvent) => {
@@ -411,7 +420,10 @@ class TransView extends TransBase {
     hboxTranslate.append(menuLabel, menulist, buttonTranslate);
 
     let buttonUpdateAnnotation = _document.createElement("button");
-    buttonUpdateAnnotation.setAttribute("label", "Update Annotation");
+    buttonUpdateAnnotation.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString("view", "button_update_annotation_label")
+    );
     buttonUpdateAnnotation.setAttribute("flex", "1");
     buttonUpdateAnnotation.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onAnnotationUpdateButtonClick(e);
@@ -420,7 +432,10 @@ class TransView extends TransBase {
     hboxAnnotation.append(buttonUpdateAnnotation);
 
     let buttonCopySource = _document.createElement("button");
-    buttonCopySource.setAttribute("label", "Copy Raw");
+    buttonCopySource.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString("view", "button_copy_source_label")
+    );
     buttonCopySource.setAttribute("flex", "1");
     buttonCopySource.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onCopyToClipBoard(
@@ -429,7 +444,10 @@ class TransView extends TransBase {
     });
 
     let buttonCopyTranslated = _document.createElement("button");
-    buttonCopyTranslated.setAttribute("label", "Copy Result");
+    buttonCopyTranslated.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString("view", "button_copy_translated_label")
+    );
     buttonCopyTranslated.setAttribute("flex", "1");
     buttonCopyTranslated.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onCopyToClipBoard(
@@ -438,7 +456,10 @@ class TransView extends TransBase {
     });
 
     let buttonCopyBoth = _document.createElement("button");
-    buttonCopyBoth.setAttribute("label", "Copy Both");
+    buttonCopyBoth.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString("view", "button_copy_both_label")
+    );
     buttonCopyBoth.setAttribute("flex", "1");
     buttonCopyBoth.addEventListener("click", (e: XULEvent) => {
       this._PDFTranslate.events.onCopyToClipBoard(
@@ -496,12 +517,15 @@ class TransView extends TransBase {
 
     let cbConcat = _document.createElement("checkbox");
     cbConcat.setAttribute("id", "pdf-translate-cbConcat");
-    cbConcat.setAttribute("label", "Additional translation");
-    const s =
-      'Or: translate with the last selected text if press the "' +
-      (Zotero.isMac ? "Option" : "Alt") +
-      '" key for a long time when select the text';
-    cbConcat.setAttribute("tooltiptext", s);
+    cbConcat.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString("view", "checkbox_concat_text_label")
+    );
+
+    cbConcat.setAttribute(
+      "tooltiptext",
+      this._PDFTranslate.locale.getString("view", "checkbox_concat_text_tip")
+    );
 
     vbox2.append(rawResultOrder ? textboxTranslated : textboxSource, cbConcat);
 
@@ -647,9 +671,8 @@ class TransView extends TransBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${
-      this.translateIcon
-    }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${this.translateIcon
+      }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -702,9 +725,8 @@ class TransView extends TransBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${
-      this.translateIcon
-    }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${this.translateIcon
+      }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -945,7 +967,7 @@ class TransView extends TransBase {
         let menuitem = _document.createElement("menuitem");
         menuitem.setAttribute(
           "label",
-          this._PDFTranslate.translate.sourcesName[source]
+          this._PDFTranslate.locale.getString("translate_engine", source)
         );
         menuitem.setAttribute("value", source);
         menuitem.addEventListener("command", (e: XULEvent) => {

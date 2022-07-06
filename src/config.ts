@@ -29,26 +29,9 @@ class TransConfig extends TransBase {
       "bingdict",
       "freedictionaryapi",
     ];
-    this.sourcesName = {
-      googleapi: "Google(API)",
-      // googleweb: "",
-      google: "Google",
-      youdao: "Youdao",
-      youdaozhiyun: "Youdao Zhiyun*",
-      microsoft: "Microsoft*",
-      caiyun: "LingoCloud(Caiyun)*",
-      niutrans: "Niu(Trial)",
-      niutranspro: "Niu*",
-      deeplfree: "DeepL(Free)*",
-      deeplpro: "DeepL(Pro)*",
-      baidu: "Baidu*",
-      baidufield: "BaiduField*",
-      openl: "OpenL*",
-      tencent: "Tencent*",
-      youdaodict: "Youdao Dict",
-      bingdict: "Bing Dict",
-      freedictionaryapi: "FreeDictionaryAPI",
-    };
+    // this parameter now in src/languages.ts, multiple languages can be supported
+    // this.sourcesName = {
+    // };
     this.defaultSourceLanguage = "en-US";
     this.defaultTargetLanguage = "zh-CN";
     this.defaultSecret = {
@@ -107,7 +90,7 @@ class TransConfig extends TransBase {
       { LangCultureName: "be-BY", DisplayName: "Belarusian - Belarus" },
       { LangCultureName: "bg-BG", DisplayName: "Bulgarian - Bulgaria" },
       { LangCultureName: "ca-ES", DisplayName: "Catalan - Catalan" },
-      { LangCultureName: "zh-CN", DisplayName: "Chinese - China" },
+      { LangCultureName: "zh-CN", DisplayName: "中文 - 简体" },
       { LangCultureName: "zh-HK", DisplayName: "Chinese - Hong Kong SAR" },
       { LangCultureName: "zh-MO", DisplayName: "Chinese - Macau SAR" },
       { LangCultureName: "zh-SG", DisplayName: "Chinese - Singapore" },

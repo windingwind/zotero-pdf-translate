@@ -3,6 +3,7 @@ declare interface PDFTranslate {
   view: import("../src/view");
   reader: import("../src/reader");
   translate: import("../src/translate");
+  locale: import("../src/locale");
   _selectedText: string;
   _sourceText: string;
   _translatedText: string;
