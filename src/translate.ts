@@ -185,11 +185,13 @@ class TransEngine extends TransConfig {
         "ZoteroPDFTranslate.annotationTranslationPosition"
       );
       if (position === "comment") {
-        item.annotationComment = `${item.annotationComment ? item.annotationComment : ""
-          }\n${text}`;
+        item.annotationComment = `${
+          item.annotationComment ? item.annotationComment : ""
+        }\n${text}`;
       } else if (position == "body") {
-        item.annotationText = `${item.annotationText ? item.annotationText : ""
-          }\n${text}`;
+        item.annotationText = `${
+          item.annotationText ? item.annotationText : ""
+        }\n${text}`;
       }
       await item.saveTx();
       this._PDFTranslate.view.showProgressWindow(
@@ -338,7 +340,8 @@ class TransEngine extends TransConfig {
     if (!noAlert) {
       this._PDFTranslate.view.showProgressWindow(
         "Title Translation",
-        `${successCount} items updated, ${failCount} failed, ${itemCount - successCount - failCount
+        `${successCount} items updated, ${failCount} failed, ${
+          itemCount - successCount - failCount
         } skipped.`
       );
     }
@@ -432,8 +435,8 @@ class TransEngine extends TransConfig {
           item.setField(
             "abstractNote",
             "🔤" +
-            this._PDFTranslate._translatedText +
-            item.getField("abstractNote")
+              this._PDFTranslate._translatedText +
+              item.getField("abstractNote")
           );
           await item.saveTx();
         }
@@ -467,7 +470,8 @@ class TransEngine extends TransConfig {
     if (!noAlert) {
       this._PDFTranslate.view.showProgressWindow(
         "Abstract Translation",
-        `${successCount} items updated, ${failCount} failed, ${itemCount - successCount - failCount
+        `${successCount} items updated, ${failCount} failed, ${
+          itemCount - successCount - failCount
         } skipped.`
       );
     }
@@ -581,12 +585,23 @@ class TransEngine extends TransConfig {
   }
   private getErrorInfo(errorType: string) {
     if (errorType == "request") {
-      return `${this._PDFTranslate.locale.getString("translate_api", "error_request")} \n\n ${this._PDFTranslate.locale.getString("translate_engine", Zotero.Prefs.get("ZoteroPDFTranslate.translateSource"))
-        }.\n${this._PDFTranslate._debug}`;
+      return `${this._PDFTranslate.locale.getString(
+        "translate_api",
+        "error_request"
+      )} \n\n ${this._PDFTranslate.locale.getString(
+        "translate_engine",
+        Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")
+      )}.\n${this._PDFTranslate._debug}`;
     } else if (errorType == "parse") {
-      return `${this._PDFTranslate.locale.getString("translate_api", "error_parse")}${this._PDFTranslate._debug}`;
+      return `${this._PDFTranslate.locale.getString(
+        "translate_api",
+        "error_parse"
+      )}${this._PDFTranslate._debug}`;
     } else {
-      return `${this._PDFTranslate.locale.getString("translate_api", "error_other")}${this._PDFTranslate._debug}`;
+      return `${this._PDFTranslate.locale.getString(
+        "translate_api",
+        "error_other"
+      )}${this._PDFTranslate._debug}`;
     }
   }
   async requestTranslate(

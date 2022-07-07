@@ -182,7 +182,10 @@ class TransView extends TransBase {
       tab.setAttribute("id", "pdf-translate-tab");
       tab.setAttribute(
         "label",
-        this._PDFTranslate.locale.getString("view", "sidebar_tab_translate_label")
+        this._PDFTranslate.locale.getString(
+          "view",
+          "sidebar_tab_translate_label"
+        )
       );
       this.tab = tab;
     }
@@ -306,6 +309,14 @@ class TransView extends TransBase {
     hboxCopy.minHeight = 50;
     hboxCopy.style.height = "80px";
 
+    let hboxConcat: XUL.Box = _document.createElement("hbox");
+    hboxConcat.setAttribute("id", "pdf-translate-tabpanel-concat-hbox");
+    hboxConcat.setAttribute("flex", "1");
+    hboxConcat.setAttribute("align", "center");
+    hboxConcat.maxHeight = 30;
+    hboxConcat.minHeight = 30;
+    hboxConcat.style.height = "30px";
+
     let SLMenuList = _document.createElement("menulist");
     SLMenuList.setAttribute("id", "pdf-translate-sl");
     SLMenuList.style.width = "145px";
@@ -422,7 +433,10 @@ class TransView extends TransBase {
     let buttonUpdateAnnotation = _document.createElement("button");
     buttonUpdateAnnotation.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "button_update_annotation_label")
+      this._PDFTranslate.locale.getString(
+        "view",
+        "button_update_annotation_label"
+      )
     );
     buttonUpdateAnnotation.setAttribute("flex", "1");
     buttonUpdateAnnotation.addEventListener("click", (e: XULEvent) => {
@@ -446,7 +460,10 @@ class TransView extends TransBase {
     let buttonCopyTranslated = _document.createElement("button");
     buttonCopyTranslated.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "button_copy_translated_label")
+      this._PDFTranslate.locale.getString(
+        "view",
+        "button_copy_translated_label"
+      )
     );
     buttonCopyTranslated.setAttribute("flex", "1");
     buttonCopyTranslated.addEventListener("click", (e: XULEvent) => {
@@ -509,13 +526,7 @@ class TransView extends TransBase {
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
-    let vbox2 = _document.createElement("vbox");
-
-    vbox2.setAttribute("id", "pdf-translate-vbox2");
-    vbox2.setAttribute("flex", "1");
-    vbox2.setAttribute("align", "stretch");
-
-    let cbConcat = _document.createElement("checkbox");
+    const cbConcat = _document.createElement("checkbox");
     cbConcat.setAttribute("id", "pdf-translate-cbConcat");
     cbConcat.setAttribute(
       "label",
@@ -527,12 +538,35 @@ class TransView extends TransBase {
       this._PDFTranslate.locale.getString("view", "checkbox_concat_text_tip")
     );
 
-    vbox2.append(rawResultOrder ? textboxTranslated : textboxSource, cbConcat);
+    const clearConcat = _document.createElement("label");
+    clearConcat.setAttribute("id", "pdf-translate-clearconcat");
+    clearConcat.setAttribute("flex", "0");
+    clearConcat.style["text-align"] = "center";
+    clearConcat.setAttribute(
+      "value",
+      `✕${this._PDFTranslate.locale.getString("view", "concatClear")}`
+    );
+    clearConcat.addEventListener("mouseover", (e: XULEvent) => {
+      e.target.style.backgroundColor = "#ccc";
+    });
+    clearConcat.addEventListener("mouseleave", (e: XULEvent) => {
+      e.target.style.removeProperty("background-color");
+    });
+    clearConcat.addEventListener("click", (e) => {
+      this._PDFTranslate._selectedText = "";
+      this.showProgressWindow(
+        "PDF Translate",
+        this._PDFTranslate.locale.getString("view", "concatClearPWText")
+      );
+    });
+
+    hboxConcat.append(cbConcat, clearConcat);
 
     vbox.append(
       hboxTranslate,
       hboxLanguage,
-      vbox2,
+      hboxConcat,
+      rawResultOrder ? textboxTranslated : textboxSource,
       splitter,
       rawResultOrder ? textboxSource : textboxTranslated,
       hboxAnnotation,
@@ -553,6 +587,12 @@ class TransView extends TransBase {
       );
       _document.getElementById("pdf-translate-tabpanel-engine-hbox").hidden =
         !showSidebarEngine;
+
+      let showSidebarConcat = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.showSidebarConcat"
+      );
+      _document.getElementById("pdf-translate-tabpanel-concat-hbox").hidden =
+        !showSidebarConcat;
 
       let showSidebarLanguage = Zotero.Prefs.get(
         "ZoteroPDFTranslate.showSidebarLanguage"
@@ -671,8 +711,9 @@ class TransView extends TransBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${this.translateIcon
-      }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -725,8 +766,9 @@ class TransView extends TransBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${this.translateIcon
-      }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -864,7 +906,10 @@ class TransView extends TransBase {
     let buttonAddExtra: XUL.Element = _document.createElement("button");
     buttonAddExtra.setAttribute("id", `pdf-translate-remove-button-add-extra`);
     buttonAddExtra.setAttribute("label", "+");
-    buttonAddExtra.setAttribute("tooltiptext", "Add Extra Engine");
+    buttonAddExtra.setAttribute(
+      "tooltiptext",
+      this._PDFTranslate.locale.getString("view", "button_add_extra_engine")
+    );
     buttonAddExtra.style.maxWidth = "30px";
     buttonAddExtra.style.minWidth = "30px";
     buttonAddExtra.style.width = "30px";
@@ -885,7 +930,10 @@ class TransView extends TransBase {
     buttonPin.setAttribute("id", "pdf-translate-pin");
     buttonPin.type = "checkbox";
     buttonPin.checked = keepWindowTop;
-    buttonPin.setAttribute("tooltiptext", "Keep Window on Top");
+    buttonPin.setAttribute(
+      "tooltiptext",
+      this._PDFTranslate.locale.getString("view", "button_keep_on_top")
+    );
     buttonPin.setAttribute("label", "📌");
     buttonPin.style.maxWidth = "30px";
     buttonPin.style.minWidth = "30px";
@@ -956,7 +1004,13 @@ class TransView extends TransBase {
       hboxInfo.style.height = "80px";
 
       let menuLabel = _document.createElement("label");
-      menuLabel.setAttribute("value", "Engine");
+      menuLabel.setAttribute(
+        "value",
+        this._PDFTranslate.locale.getString(
+          "view",
+          "menu_translate_engine_label"
+        )
+      );
       let menulist = _document.createElement("menulist");
       menulist.setAttribute("id", `pdf-translate-engine-extra-${i}`);
       menulist.setAttribute("flex", "1");
@@ -996,7 +1050,13 @@ class TransView extends TransBase {
       let buttonRemove: XUL.Element = _document.createElement("button");
       buttonRemove.setAttribute("id", `pdf-translate-remove-button-extra-${i}`);
       buttonRemove.setAttribute("label", "-");
-      buttonRemove.setAttribute("tooltiptext", "Remove Extra Engine");
+      buttonRemove.setAttribute(
+        "tooltiptext",
+        this._PDFTranslate.locale.getString(
+          "view",
+          "button_remove_extra_engine"
+        )
+      );
       buttonRemove.style.maxWidth = "30px";
       buttonRemove.style.minWidth = "30px";
       buttonRemove.style.width = "30px";

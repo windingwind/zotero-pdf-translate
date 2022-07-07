@@ -119,9 +119,9 @@ class TransEvents extends TransBase {
       (event as KeyboardEvent).altKey || this._PDFTranslate.view.isConcatText();
 
     let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
-    if(!text){
-      // 可能只是点了下鼠标而已
-      return false
+    if (!text) {
+      // Prevent empty concat
+      return false;
     }
     this._PDFTranslate._selectedText = isConcat
       ? this._PDFTranslate._selectedText + " " + text
@@ -147,7 +147,9 @@ class TransEvents extends TransBase {
     if (isConcat) {
       this._PDFTranslate.view.showProgressWindow(
         "PDF Translate",
-        `Selected Text: ${this._PDFTranslate._selectedText}`
+        `${this._PDFTranslate.locale.getString("view", "concatPWText")}: ${
+          this._PDFTranslate._selectedText
+        }`
       );
     }
 
@@ -548,6 +550,13 @@ class TransEvents extends TransBase {
     );
     if (typeof showSidebarEngine === "undefined") {
       Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarEngine", true);
+    }
+
+    let showSidebarConcat = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.showSidebarConcat"
+    );
+    if (typeof showSidebarConcat === "undefined") {
+      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarConcat", true);
     }
 
     let showSidebarLanguage = Zotero.Prefs.get(

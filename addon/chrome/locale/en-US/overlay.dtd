@@ -55,6 +55,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarConcat.label "SideBar: Show Concat Selection Menu">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "SideBar: Show Language Selection Menu">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "SideBar: Show Raw">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
