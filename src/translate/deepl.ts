@@ -2,7 +2,7 @@ async function deeplfree(text: string = undefined) {
   return await this.deepl("deeplfree", text);
 }
 async function deeplpro(text: string = undefined) {
-  return await this.deepl("deeplfree", text);
+  return await this.deepl("deeplpro", text);
 }
 async function deepl(engine: string, text: string) {
   let urls = {
