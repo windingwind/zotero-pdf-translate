@@ -845,6 +845,10 @@ class TransView extends TransBase {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     let selectionMenu =
       currentReader._iframeWindow.document.getElementById("selection-menu");
+    let selectionPopup =
+      currentReader._iframeWindow.document.querySelector(".selection-popup");
+    let viewContainer =
+      currentReader._iframeWindow.document.querySelector("#viewerContainer");
     if (!enablePopup || !this.popupTextBox || !selectionMenu) {
       return;
     }
@@ -857,10 +861,13 @@ class TransView extends TransBase {
     }
     let textHeight = anonyNodes[0].childNodes[0].scrollHeight;
     let textWidth = Number(this.popupTextBox.width);
-    if (textHeight / textWidth > 0.75) {
+    let newWidth = textWidth + 20;
+    if (
+      textHeight / textWidth > 0.75 &&
+      newWidth + selectionPopup.offsetLeft < viewContainer.offsetWidth - 50
+    ) {
       // Update width
       // @ts-ignore
-      let newWidth = parseInt(textWidth + 20);
       this.popupTextBox.setAttribute("width", newWidth);
       selectionMenu.style.width = `${newWidth}px`;
       // Check until H/W<0.75
