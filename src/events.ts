@@ -487,104 +487,12 @@ class TransEvents extends TransBase {
 
   private resetState(): void {
     // Reset preferrence state.
-    let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
-    if (typeof enable === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enable", true);
-    }
-
-    let enableAuto = Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto");
-    if (typeof enableAuto === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enableAuto", true);
-    }
-
-    let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
-    if (typeof enablePopup === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enablePopup", true);
-    }
-
-    let enableComment = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment");
-    if (typeof enableComment === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enableComment", true);
-    }
-
     let annotationTranslationPosition = Zotero.Prefs.get(
       "ZoteroPDFTranslate.annotationTranslationPosition"
     );
-    if (typeof annotationTranslationPosition === "undefined") {
-      annotationTranslationPosition = "comment";
-      Zotero.Prefs.set(
-        "ZoteroPDFTranslate.annotationTranslationPosition",
-        annotationTranslationPosition
-      );
-    }
-
-    let enableCommentEdit = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.enableCommentEdit"
-    );
-    if (typeof enableCommentEdit === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", true);
-    }
     if (annotationTranslationPosition === "body") {
       // Disable enableCommentEdit when translations are saved to the annotation body
       Zotero.Prefs.set("ZoteroPDFTranslate.enableCommentEdit", false);
-    }
-
-    let enableNote = Zotero.Prefs.get("ZoteroPDFTranslate.enableNote");
-    if (typeof enableNote === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enableNote", true);
-    }
-
-    let enableDict = Zotero.Prefs.get("ZoteroPDFTranslate.enableDict");
-    if (typeof enableDict === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.enableDict", true);
-    }
-
-    let fontSize = Zotero.Prefs.get("ZoteroPDFTranslate.fontSize");
-    if (!fontSize) {
-      Zotero.Prefs.set("ZoteroPDFTranslate.fontSize", "12");
-    }
-
-    let rawResultOrder = Zotero.Prefs.get("ZoteroPDFTranslate.rawResultOrder");
-    if (typeof rawResultOrder === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.rawResultOrder", false);
-    }
-
-    let showSidebarEngine = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarEngine"
-    );
-    if (typeof showSidebarEngine === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarEngine", true);
-    }
-
-    let showSidebarConcat = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarConcat"
-    );
-    if (typeof showSidebarConcat === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarConcat", true);
-    }
-
-    let showSidebarLanguage = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarLanguage"
-    );
-    if (typeof showSidebarLanguage === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarLanguage", true);
-    }
-
-    let showSidebarRaw = Zotero.Prefs.get("ZoteroPDFTranslate.showSidebarRaw");
-    if (typeof showSidebarRaw === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarRaw", true);
-    }
-
-    let showSidebarCopy = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.showSidebarCopy"
-    );
-    if (typeof showSidebarCopy === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.showSidebarCopy", true);
-    }
-
-    let keepWindowTop = Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop");
-    if (typeof keepWindowTop === "undefined") {
-      Zotero.Prefs.set("ZoteroPDFTranslate.keepWindowTop", false);
     }
 
     let translateSource = Zotero.Prefs.get(

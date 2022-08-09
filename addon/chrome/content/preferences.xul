@@ -15,6 +15,7 @@
         <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-__addonRef__-enable-dict" name="extensions.zotero.ZoteroPDFTranslate.enableDict" type="bool" />
         <preference id="pref-__addonRef__-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
+        <preference id="pref-__addonRef__-auto-focus" name="extensions.zotero.ZoteroPDFTranslate.autoFocus" type="bool" />
         <preference id="pref-__addonRef__-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-concat" name="extensions.zotero.ZoteroPDFTranslate.showSidebarConcat" type="bool" />
@@ -168,6 +169,10 @@
                         <row>
                           <label value="&zotero.__addonRef__.pref.advanced.fontSize.label;" />
                           <textbox id="zotero-prefpane-__addonRef__-settings-font-size" preference="pref-__addonRef__-font-size" oninput="Zotero.ZoteroPDFTranslate.prefs.updatePreviewPannel()" maxwidth="40" />
+                        </row>
+                        <row>
+                          <checkbox preference="pref-__addonRef__-auto-focus" />
+                          <label value="&zotero.__addonRef__.pref.advanced.autoFocus.label;" />
                         </row>
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-engine" preference="pref-__addonRef__-show-sidebar-engine" />

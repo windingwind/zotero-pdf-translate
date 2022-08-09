@@ -198,6 +198,7 @@ class TransView extends TransBase {
         Zotero.debug("ZoteroPDFTranslate: Waiting for reader failed");
         return;
       }
+      // For attachments without parent item
       if (tabContainer.querySelector("description")) {
         tabContainer.innerHTML = "";
         const tabbox = window.document.createElement("tabbox");
@@ -222,8 +223,7 @@ class TransView extends TransBase {
     }
     tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
     const tabbox = tabContainer.querySelector("tabbox");
-    tabbox.getElementsByTagName("tabs")[0].appendChild(tab);
-    let itemCount = tabbox.getElementsByTagName("tabs")[0].itemCount;
+    tabbox.querySelector("tabs").appendChild(tab);
 
     let panelInfo = this.tabPanel;
     if (!panelInfo) {
@@ -260,14 +260,21 @@ class TransView extends TransBase {
       panelInfo.append(vbox);
       this.tabPanel = panelInfo;
     }
-    tabbox.getElementsByTagName("tabpanels")[0].appendChild(panelInfo);
+    tabbox.querySelector("tabpanels").appendChild(panelInfo);
     // this.sideBarTextboxSource = document.getElementById(
     //   "pdf-translate-tabpanel-source"
     // );
     // this.sideBarTextboxTranslated = document.getElementById(
     //   "pdf-translate-tabpanel-translated"
     // );
-    tabbox.selectedIndex = itemCount - 1;
+    if (Zotero.Prefs.get("ZoteroPDFTranslate.autoFocus")) {
+      tabbox.selectedIndex = Array.prototype.indexOf.call(
+        tabbox.querySelector("tabs").childNodes,
+        tabbox.querySelector("#pdf-translate-tab")
+      );
+    } else {
+      tabbox.selectedIndex = tabbox.selectedIndex;
+    }
   }
 
   buildTranslatePanel(_document: Document): XUL.Box {
