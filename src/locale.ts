@@ -20,6 +20,8 @@ class TransLocale {
       button_keep_on_top: "保持窗口最前",
       button_add_extra_engine: "增加额外引擎",
       button_remove_extra_engine: "移除额外引擎",
+      checkbox_auto_translate_text_label: "自动翻译",
+      checkbox_auto_translate_annotation_label: "自动翻译批注",
     },
 
     translate_api: {
@@ -76,6 +78,9 @@ class TransLocale {
       button_keep_on_top: "Keep Window on Top",
       button_add_extra_engine: "Add Extra Engine",
       button_remove_extra_engine: "Remove Extra Engine",
+      checkbox_auto_translate_text_label: "Automatic Translation",
+      checkbox_auto_translate_annotation_label:
+        "Automatic Annotation Translation",
     },
 
     translate_api: {

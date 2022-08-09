@@ -18,6 +18,7 @@
         <preference id="pref-__addonRef__-auto-focus" name="extensions.zotero.ZoteroPDFTranslate.autoFocus" type="bool" />
         <preference id="pref-__addonRef__-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
+        <preference id="pref-__addonRef__-show-sidebar-settings" name="extensions.zotero.ZoteroPDFTranslate.showSidebarSettings" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-concat" name="extensions.zotero.ZoteroPDFTranslate.showSidebarConcat" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-language" name="extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
@@ -181,6 +182,10 @@
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-language" preference="pref-__addonRef__-show-sidebar-language" />
                           <label value="&zotero.__addonRef__.pref.advanced.showSidebarLanguage.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-settings" preference="pref-__addonRef__-show-sidebar-settings" />
+                          <label value="&zotero.__addonRef__.pref.advanced.showSidebarSettings.label;" />
                         </row>
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-concat" preference="pref-__addonRef__-show-sidebar-concat" />

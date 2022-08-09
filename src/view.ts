@@ -325,6 +325,14 @@ class TransView extends TransBase {
     hboxConcat.minHeight = 30;
     hboxConcat.style.height = "30px";
 
+    let hboxSettings: XUL.Box = _document.createElement("hbox");
+    hboxSettings.setAttribute("id", "pdf-translate-tabpanel-settings-hbox");
+    hboxSettings.setAttribute("flex", "1");
+    hboxSettings.setAttribute("align", "center");
+    hboxSettings.maxHeight = 30;
+    hboxSettings.minHeight = 30;
+    hboxSettings.style.height = "30px";
+
     let SLMenuList = _document.createElement("menulist");
     SLMenuList.setAttribute("id", "pdf-translate-sl");
     SLMenuList.style.width = "145px";
@@ -570,9 +578,43 @@ class TransView extends TransBase {
 
     hboxConcat.append(cbConcat, clearConcat);
 
+    const autoTranslate: XUL.Checkbox = _document.createElement("checkbox");
+    autoTranslate.id = "pdf-translate-auto-translate-text";
+    autoTranslate.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString(
+        "view",
+        "checkbox_auto_translate_text_label"
+      )
+    );
+    autoTranslate.addEventListener("command", (e) => {
+      Zotero.Prefs.set("ZoteroPDFTranslate.enableAuto", autoTranslate.checked);
+    });
+
+    const autoTranslateAnnotation: XUL.Checkbox =
+      _document.createElement("checkbox");
+    autoTranslateAnnotation.id = "pdf-translate-auto-translate-annotation";
+    autoTranslateAnnotation.setAttribute(
+      "label",
+      this._PDFTranslate.locale.getString(
+        "view",
+        "checkbox_auto_translate_annotation_label"
+      )
+    );
+
+    autoTranslateAnnotation.addEventListener("command", (e) => {
+      Zotero.Prefs.set(
+        "ZoteroPDFTranslate.enableComment",
+        autoTranslateAnnotation.checked
+      );
+    });
+
+    hboxSettings.append(autoTranslate, autoTranslateAnnotation);
+
     vbox.append(
       hboxTranslate,
       hboxLanguage,
+      hboxSettings,
       hboxConcat,
       rawResultOrder ? textboxTranslated : textboxSource,
       splitter,
@@ -595,6 +637,12 @@ class TransView extends TransBase {
       );
       _document.getElementById("pdf-translate-tabpanel-engine-hbox").hidden =
         !showSidebarEngine;
+
+      let showSidebarSettings = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.showSidebarSettings"
+      );
+      _document.getElementById("pdf-translate-tabpanel-settings-hbox").hidden =
+        !showSidebarSettings;
 
       let showSidebarConcat = Zotero.Prefs.get(
         "ZoteroPDFTranslate.showSidebarConcat"
@@ -685,6 +733,17 @@ class TransView extends TransBase {
         }
       }
     }
+
+    (
+      _document.getElementById(
+        "pdf-translate-auto-translate-text"
+      ) as XUL.Checkbox
+    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto");
+    (
+      _document.getElementById(
+        "pdf-translate-auto-translate-annotation"
+      ) as XUL.Checkbox
+    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment");
 
     this.updateTranslatePanelHidden(_document);
   }

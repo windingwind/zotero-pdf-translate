@@ -13,6 +13,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.fontSize", "12");
 pref("extensions.zotero.ZoteroPDFTranslate.autoFocus", true);
 pref("extensions.zotero.ZoteroPDFTranslate.rawResultOrder", false);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarEngine", true);
+pref("extensions.zotero.ZoteroPDFTranslate.showSidebarSettings", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarConcat", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarRaw", true);

@@ -56,6 +56,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.autoFocus.label "侧边栏: 自动聚焦">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
+<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarSettings.label "侧边栏: 显示设置">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarConcat.label "侧边栏: 显示拼接文本菜单">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
