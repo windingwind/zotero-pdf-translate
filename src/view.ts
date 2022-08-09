@@ -193,7 +193,7 @@ class TransView extends TransBase {
     // The first tabbox is zotero main pane tabbox
     let n = 0;
     let tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
-    while (!tabContainer.querySelector("tabbox")) {
+    while (!tabContainer || !tabContainer.querySelector("tabbox")) {
       if (n >= 500) {
         Zotero.debug("ZoteroPDFTranslate: Waiting for reader failed");
         return;
@@ -220,6 +220,7 @@ class TransView extends TransBase {
       await Zotero.Promise.delay(10);
       n++;
     }
+    tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
     const tabbox = tabContainer.querySelector("tabbox");
     tabbox.getElementsByTagName("tabs")[0].appendChild(tab);
     let itemCount = tabbox.getElementsByTagName("tabs")[0].itemCount;
@@ -250,7 +251,7 @@ class TransView extends TransBase {
       );
       buttonOpenWindow.setAttribute("flex", "1");
       buttonOpenWindow.addEventListener("click", (e: XULEvent) => {
-        this._PDFTranslate.events.onOpenStandaloneWindow(e);
+        this._PDFTranslate.events.onOpenStandaloneWindow();
       });
 
       hboxOpenWindow.append(buttonOpenWindow);
@@ -954,6 +955,8 @@ class TransView extends TransBase {
       );
       Zotero.Prefs.set("ZoteroPDFTranslate.keepWindowTop", newKeepWindowTop);
       e.target.style.backgroundColor = newKeepWindowTop ? "#bcc4d2" : "#ffffff";
+      this.standaloneWindow.close();
+      this._PDFTranslate.events.onOpenStandaloneWindow();
     });
 
     _document

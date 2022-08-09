@@ -378,8 +378,12 @@ class TransEvents extends TransBase {
     } else {
       let win = window.open(
         "chrome://zoteropdftranslate/content/standalone.xul",
-        "_blank",
-        "chrome,extrachrome,menubar,resizable,scrollbars,status,width=356,height=600"
+        "pdf-translate-standalone",
+        `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,${
+          Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop")
+            ? ",alwaysRaised=yes"
+            : ""
+        }`
       );
       this._PDFTranslate.view.standaloneWindow = win;
     }

@@ -180,3 +180,14 @@ declare class Shortcut {
   key: string;
   keycode?: string;
 }
+
+declare class XULWindow extends Window {
+  public document: XMLDocument;
+  public arguments: any;
+  public openDialog: (
+    target: string,
+    type: string,
+    params: string,
+    extraParams?: object
+  ) => XULWindow;
+}
