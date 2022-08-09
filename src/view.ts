@@ -720,26 +720,40 @@ class TransView extends TransBase {
     this.onPopopItemChange(selectionMenu);
 
     // Create text
-    let textbox = currentReader._window.document.createElement("textbox");
+    let textbox: HTMLTextAreaElement =
+      currentReader._window.document.createElementNS(
+        "http://www.w3.org/1999/xhtml",
+        "textarea"
+      );
     textbox.setAttribute("id", "pdf-translate-popup");
-    textbox.setAttribute("multiline", true);
+    textbox.setAttribute("rows", "3");
+    textbox.setAttribute("columns", "10");
     textbox.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
-    textbox.setAttribute("width", 105);
-    textbox.setAttribute("height", 30);
-    selectionMenu.style.width = `105px`;
-    selectionMenu.style.height = `50px`;
+    textbox.style.width = "105px";
+    textbox.style.height = "30px";
+    selectionMenu.style.width = "105px";
+    selectionMenu.style.height = "50px";
 
-    textbox.onmousedown = (e) => {
-      e.preventDefault();
+    const onTextAreaResize = (_e) => {
+      selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
+      selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
+
+      // Update button width
+      let buttons = selectionMenu.getElementsByTagName("button");
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.width = selectionMenu.style.width;
+      }
     };
-    textbox.addEventListener("click", (e) => {
-      let text = this._PDFTranslate._translatedText
-        ? this._PDFTranslate._translatedText
-        : this._PDFTranslate._sourceText;
-      this._PDFTranslate.events.onCopyToClipBoard(text);
+
+    textbox.addEventListener("mousedown", (e) => {
+      textbox.addEventListener("mousemove", onTextAreaResize);
+    });
+
+    textbox.addEventListener("mouseup", (e) => {
+      textbox.removeEventListener("mousemove", onTextAreaResize);
     });
 
     selectionMenu.appendChild(textbox);
@@ -855,13 +869,8 @@ class TransView extends TransBase {
     }
 
     // Get current H & W
-    // @ts-ignore
-    let anonyNodes: any = document.getAnonymousNodes(this.popupTextBox);
-    if (!anonyNodes) {
-      return;
-    }
-    let textHeight = anonyNodes[0].childNodes[0].scrollHeight;
-    let textWidth = Number(this.popupTextBox.width);
+    let textHeight = this.popupTextBox.scrollHeight;
+    let textWidth = this.popupTextBox.scrollWidth;
     let newWidth = textWidth + 20;
     if (
       textHeight / textWidth > 0.75 &&
@@ -869,13 +878,13 @@ class TransView extends TransBase {
     ) {
       // Update width
       // @ts-ignore
-      this.popupTextBox.setAttribute("width", newWidth);
+      this.popupTextBox.style.width = `${newWidth}px`;
       selectionMenu.style.width = `${newWidth}px`;
       // Check until H/W<0.75
       this.updatePopupStyle();
       return;
     }
-    this.popupTextBox.style.height = `${textHeight}px`;
+    this.popupTextBox.style.height = `${textHeight + 3}px`;
     selectionMenu.style.height = `${textHeight + 20}px`;
 
     // Update button width
@@ -1127,18 +1136,21 @@ class TransView extends TransBase {
     );
     if (sideBarTextboxSource) {
       sideBarTextboxSource.value = this._PDFTranslate._sourceText;
+      sideBarTextboxSource.style["font-size"] = `${Zotero.Prefs.get(
+        "ZoteroPDFTranslate.fontSize"
+      )}px`;
     }
     if (sideBarTextboxTranslated) {
       sideBarTextboxTranslated.value = this._PDFTranslate._translatedText;
+      sideBarTextboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
+        "ZoteroPDFTranslate.fontSize"
+      )}px`;
     }
     if (this.popupTextBox) {
       try {
-        this.popupTextBox.setAttribute(
-          "value",
-          this._PDFTranslate._translatedText
-            ? this._PDFTranslate._translatedText
-            : this._PDFTranslate._sourceText
-        );
+        this.popupTextBox.innerHTML = this._PDFTranslate._translatedText
+          ? this._PDFTranslate._translatedText
+          : this._PDFTranslate._sourceText;
       } catch (e) {
         Zotero.debug(e);
       }
