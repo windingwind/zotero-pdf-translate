@@ -6,9 +6,13 @@ async function niutranspro(text: string = undefined) {
 }
 async function niutransapi(engine: string, text: string) {
   let args = this.getArgs(engine, text);
+  let apiParams = args.secret.split("#");
+  let secret = apiParams[0];
+  let dictNo = apiParams.length > 1 ? apiParams[1] : "";
+  let memoryNo = apiParams.length > 2 ? apiParams[2] : "";
   let urls = {
     niutrans: "https://test.niutrans.com/NiuTransServer/testaligntrans?",
-    niutranspro: `http://api.niutrans.com/NiuTransServer/translation?apikey=${args.secret}&`,
+    niutranspro: `http://api.niutrans.com/NiuTransServer/translation?apikey=${secret}&dictNo=${dictNo}&memoryNo=${memoryNo}`,
   };
   let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
   return await this.requestTranslate(
@@ -17,7 +21,7 @@ async function niutransapi(engine: string, text: string) {
         "GET",
         `${urls[engine]}${param}&src_text=${encodeURIComponent(
           args.text
-        )}&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=${new Date().valueOf()}`,
+        )}&source=text`,
         {
           responseType: "json",
         }

@@ -112,7 +112,7 @@ The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 
 **Niu Translate**  
 Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
-The secret format is `MY_APIKEY`.
+The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
