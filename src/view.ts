@@ -814,6 +814,31 @@ class TransView extends TransBase {
       }
     };
 
+    const onTextAreaCopy = (_e) => {
+      const isMod = _e.ctrlKey || _e.metaKey;
+      if (_e.key === "c" && isMod) {
+        setTimeout(() => {
+          this._PDFTranslate.events.onCopyToClipBoard(
+            textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
+          );
+        }, 10);
+        _e.stopPropagation();
+      } else if (_e.key === "a" && isMod) {
+        textbox.selectionStart = 0;
+        textbox.selectionEnd = textbox.value.length;
+        _e.stopPropagation();
+      } else if (_e.key === "x" && isMod) {
+        this._PDFTranslate.events.onCopyToClipBoard(
+          textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
+        );
+        textbox.value = `${textbox.value.slice(
+          0,
+          textbox.selectionStart
+        )}${textbox.value.slice(textbox.selectionEnd)}`;
+        _e.stopPropagation();
+      }
+    };
+
     textbox.addEventListener("mousedown", (e) => {
       textbox.addEventListener("mousemove", onTextAreaResize);
     });
@@ -821,6 +846,63 @@ class TransView extends TransBase {
     textbox.addEventListener("mouseup", (e) => {
       textbox.removeEventListener("mousemove", onTextAreaResize);
     });
+
+    textbox.addEventListener("mouseenter", (e) => {
+      textbox.addEventListener("keydown", onTextAreaCopy);
+      const head =
+        currentReader._iframe.contentWindow.document.querySelector("head");
+      const oldStyle = head.querySelector("#pdf-translate-popup-style");
+      if (oldStyle) {
+        oldStyle.remove();
+      }
+      const textStyle: HTMLStyleElement =
+        currentReader._window.document.createElementNS(
+          "http://www.w3.org/1999/xhtml",
+          "style"
+        );
+      textStyle.id = "pdf-translate-popup-style";
+      textStyle.appendChild(
+        currentReader._window.document.createTextNode(`
+        #pdf-translate-popup::-moz-selection {
+          background: #7fbbea;
+        }`)
+      );
+      head.append(textStyle);
+    });
+
+    textbox.addEventListener("mouseleave", (e) => {
+      textbox.removeEventListener("keydown", onTextAreaCopy);
+      const head =
+        currentReader._iframe.contentWindow.document.querySelector("head");
+      const oldStyle = head.querySelector("#pdf-translate-popup-style");
+      if (oldStyle) {
+        oldStyle.remove();
+      }
+      const textStyle: HTMLStyleElement =
+        currentReader._window.document.createElementNS(
+          "http://www.w3.org/1999/xhtml",
+          "style"
+        );
+      textStyle.id = "pdf-translate-popup-style";
+      textStyle.appendChild(
+        currentReader._window.document.createTextNode(`
+        #pdf-translate-popup::-moz-selection {
+          background: #bfbfbf;
+        }`)
+      );
+      head.append(textStyle);
+    });
+
+    textbox.addEventListener("dblclick", (e) => {
+      textbox.selectionStart = 0;
+      textbox.selectionEnd = textbox.value.length;
+      this._PDFTranslate.events.onCopyToClipBoard(
+        textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
+      );
+    });
+
+    textbox.onpointerup = (e) => e.stopPropagation();
+    textbox.ondragstart = (e) => e.stopPropagation();
 
     selectionMenu.appendChild(textbox);
     this.popupTextBox = textbox;
