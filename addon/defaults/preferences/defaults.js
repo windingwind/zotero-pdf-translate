@@ -2,10 +2,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.enable", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableAuto", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enablePopup", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableComment", true);
-pref(
-  "extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition",
-  "comment"
-);
+pref("extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition", "comment");
 pref("extensions.zotero.ZoteroPDFTranslate.enableCommentEdit", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableNote", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableDict", true);
