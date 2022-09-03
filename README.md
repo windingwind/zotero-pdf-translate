@@ -327,4 +327,13 @@ Part of the code of this repo refers to other open-source projects within the al
 ## My Other Zotero Addons
 
 - [zotero-better-notes](https://github.com/windingwind/zotero-better-notes): Everything about note management. All in Zotero.
+- [zotero-pdf-preview](https://github.com/windingwind/zotero-tag): PDF preview for Zotero
 - [zotero-tag](https://github.com/windingwind/zotero-tag): Automatically tag items/Batch tagging
+
+## Sponsor Me
+
+I'm windingwind, an active Zotero(https://www.zotero.org) plugin developer. Devoting to making reading papers easier.
+
+Sponsor me to buy a cup of coffee. I spend more than 24 hours every week coding, debugging, and replying to issues in my plugin repositories. The plugins are open-source and totally free.
+
+If you sponsor more than $10 a month, you can list your name/logo here and have priority for feature requests/bug fixes!
