@@ -1,9 +1,11 @@
-import { TransBase } from "./base";
+import PDFTranslate from "./addon";
+import { Shortcut } from "./base";
+import AddonBase from "./module";
 
-class TransEvents extends TransBase {
+class TransEvents extends AddonBase {
   private _readerSelect: number;
   private _titleTranslation: boolean;
-  private notifierCallback: object;
+  private notifierCallback: { notify: Function };
   constructor(parent: PDFTranslate) {
     super(parent);
     this._readerSelect = 0;
@@ -48,7 +50,7 @@ class TransEvents extends TransBase {
             extraData[ids[0]].type == "reader") ||
           (event === "add" &&
             type === "item" &&
-            Zotero.Items.get(ids).filter((item) => {
+            (Zotero.Items.get(ids) as Zotero.Item[]).filter((item) => {
               return item.isAnnotation();
             }).length > 0) ||
           (event === "close" && type === "tab") ||
@@ -89,7 +91,7 @@ class TransEvents extends TransBase {
 
   public async onSelect(
     event: Event,
-    currentReader: ReaderObj,
+    currentReader: _ZoteroReaderInstance,
     disableAuto: boolean
   ) {
     // Zotero.debug(event);
@@ -105,50 +107,43 @@ class TransEvents extends TransBase {
       return false;
     }
     if (!currentReader) {
-      currentReader = await this._PDFTranslate.reader.getReader();
+      currentReader = await this._Addon.reader.getReader();
     }
-    this._PDFTranslate.reader.currentReader = currentReader;
+    this._Addon.reader.currentReader = currentReader;
     // Disable modified text translation in side-bar
-    this._PDFTranslate.translate._useModified = false;
+    this._Addon.translate._useModified = false;
     // Disable annotation modification
-    this._PDFTranslate.translate._lastAnnotationID = -1;
-    this._PDFTranslate.view.hideSideBarAnnotationBox(true);
+    this._Addon.translate._lastAnnotationID = -1;
+    this._Addon.view.hideSideBarAnnotationBox(true);
 
     let enable = Zotero.Prefs.get("ZoteroPDFTranslate.enable");
     let isConcat =
-      (event as KeyboardEvent).altKey || this._PDFTranslate.view.isConcatText();
+      (event as KeyboardEvent).altKey || this._Addon.view.isConcatText();
 
-    let text = this._PDFTranslate.reader.getSelectedText(currentReader).trim();
+    let text = this._Addon.reader.getSelectedText(currentReader).trim();
     if (!text) {
       // Prevent empty concat
       return false;
     }
-    this._PDFTranslate._selectedText = isConcat
-      ? this._PDFTranslate._selectedText + " " + text
+    this._Addon._selectedText = isConcat
+      ? this._Addon._selectedText + " " + text
       : text;
-    Zotero.debug(
-      `ZoteroPDFTranslate: Selected ${this._PDFTranslate._selectedText}`
-    );
+    Zotero.debug(`ZoteroPDFTranslate: Selected ${this._Addon._selectedText}`);
     let currentButton = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup-button"
     );
     let currentNode = currentReader._iframeWindow.document.getElementById(
       "pdf-translate-popup"
     );
-    if (
-      !enable ||
-      !this._PDFTranslate._selectedText ||
-      currentButton ||
-      currentNode
-    ) {
+    if (!enable || !this._Addon._selectedText || currentButton || currentNode) {
       return false;
     }
 
     if (isConcat) {
-      this._PDFTranslate.view.showProgressWindow(
+      this._Addon.view.showProgressWindow(
         "PDF Translate",
-        `${this._PDFTranslate.locale.getString("view", "concatPWText")}: ${
-          this._PDFTranslate._selectedText
+        `${this._Addon.locale.getString("view", "concatPWText")}: ${
+          this._Addon._selectedText
         }`
       );
     }
@@ -162,33 +157,31 @@ class TransEvents extends TransBase {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
-        this._PDFTranslate.view.buildPopupPanel();
+        this._Addon.view.buildPopupPanel();
       } else {
-        this._PDFTranslate.view.buildPopupButton();
+        this._Addon.view.buildPopupButton();
       }
     }
 
     if (enableAuto) {
-      await this._PDFTranslate.translate.callTranslate(
-        this._PDFTranslate._selectedText
-      );
+      await this._Addon.translate.callTranslate(this._Addon._selectedText);
     }
   }
 
   public async onReaderSelect(reader): Promise<void> {
     this._readerSelect = new Date().getTime();
-    this._PDFTranslate.reader.currentReader = reader;
-    this._PDFTranslate.view.updateTranslatePanel(reader);
-    this.bindAddToNote(this._PDFTranslate.reader.currentReader);
+    this._Addon.reader.currentReader = reader;
+    this._Addon.view.updateTranslatePanel(reader);
+    this.bindAddToNote(this._Addon.reader.currentReader);
   }
 
   public onAnnotationAdd(ids: Array<string>): void {
     Zotero.debug("ZoteroPDFTranslate: add annotation translation");
-    let items = Zotero.Items.get(ids);
+    let items = Zotero.Items.get(ids) as Zotero.Item[];
 
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
-      this._PDFTranslate.translate.callTranslateAnnotation(item);
+      this._Addon.translate.callTranslateAnnotation(item);
     }
   }
 
@@ -197,7 +190,7 @@ class TransEvents extends TransBase {
       let t = 0;
       while (
         t < 100 &&
-        !(await this._PDFTranslate.view.updateTranslateAnnotationButton(reader))
+        !(await this._Addon.view.updateTranslateAnnotationButton(reader))
       ) {
         await Zotero.Promise.delay(50);
         t += 1;
@@ -205,22 +198,22 @@ class TransEvents extends TransBase {
     }
   }
 
-  public onAnnotationUpdateButtonClick(event: XULEvent): void {
-    if (this._PDFTranslate.translate._lastAnnotationID < 0) {
+  public onAnnotationUpdateButtonClick(event: XUL.XULEvent): void {
+    if (this._Addon.translate._lastAnnotationID < 0) {
       return;
     }
     Zotero.debug("ZoteroPDFTranslate: onAnnotationUpdateButtonClick");
-    let item: ZoteroItem = Zotero.Items.get(
-      this._PDFTranslate.translate._lastAnnotationID
-    );
+    let item = Zotero.Items.get(
+      this._Addon.translate._lastAnnotationID
+    ) as Zotero.Item;
     if (item && item.isAnnotation() && item.annotationType == "highlight") {
-      item.annotationText = this._PDFTranslate._sourceText;
-      item.annotationComment = this._PDFTranslate._translatedText;
+      item.annotationText = this._Addon._sourceText;
+      item.annotationComment = this._Addon._translatedText;
       item.saveTx();
     }
   }
 
-  public onTranslateKey(event: XULEvent) {
+  public onTranslateKey(event: XUL.XULEvent) {
     if (Zotero_Tabs.selectedID == "zotero-pane") {
       this.onSwitchTitle(!this._titleTranslation);
     } else {
@@ -228,14 +221,14 @@ class TransEvents extends TransBase {
     }
   }
 
-  public onTranslateButtonClick(event: XULEvent): void {
+  public onTranslateButtonClick(event: XUL.XULEvent): void {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
-      this._PDFTranslate.view.removePopupPanel();
-      this._PDFTranslate.view.buildPopupPanel();
+      this._Addon.view.removePopupPanel();
+      this._Addon.view.buildPopupPanel();
     }
 
-    this._PDFTranslate.translate.callTranslate(
+    this._Addon.translate.callTranslate(
       "",
       event && event.target.getAttribute("id") == "pdf-translate-call-button"
     );
@@ -252,10 +245,10 @@ class TransEvents extends TransBase {
     }
 
     Zotero.debug(`ZoteroPDFTranslate: onTranslateTitle, type=${selectedType}`);
-    let items: ZoteroItem[] = [];
+    let items: Zotero.Item[] = [];
     if (selectedType == "collection") {
       if (isFeed) {
-        this._PDFTranslate.view.showProgressWindow(
+        this._Addon.view.showProgressWindow(
           "Title Translation",
           "Feed collections not supported. Select feed items instead.",
           "fail"
@@ -273,10 +266,7 @@ class TransEvents extends TransBase {
       items = ZoteroPane.getSelectedItems();
     }
 
-    let status = await this._PDFTranslate.translate.callTranslateTitle(
-      items,
-      force
-    );
+    let status = await this._Addon.translate.callTranslateTitle(items, force);
     await Zotero.Promise.delay(200);
     Zotero.debug(status);
     this.onSwitchTitle(true);
@@ -286,14 +276,16 @@ class TransEvents extends TransBase {
   public async onSwitchTitle(show: boolean) {
     Zotero.debug(`ZoteroPDFTranslate: onSwitchTitle, ${show}`);
     this._titleTranslation = show;
-    let rowElements = ZoteroPane.itemsView.domEl.getElementsByClassName("row");
+    let rowElements = (
+      ZoteroPane.itemsView as any
+    ).domEl.getElementsByClassName("row");
 
-    let rows: ZoteroItem[] = ZoteroPane.itemsView._rows;
+    let rows = (ZoteroPane.itemsView as any)._rows as Zotero.Item[];
 
     for (let rowElement of rowElements) {
       let currentRow = rows[rowElement.id.split("-")[5]];
       if (
-        this._PDFTranslate.translate.getLanguageDisable(
+        this._Addon.translate.getLanguageDisable(
           currentRow.getField("language").split("-")[0]
         ) ||
         // Skip blank
@@ -332,10 +324,10 @@ class TransEvents extends TransBase {
     Zotero.debug(
       `ZoteroPDFTranslate: onTranslateAbstract, type=${selectedType}`
     );
-    let items: ZoteroItem[] = [];
+    let items: Zotero.Item[] = [];
     if (selectedType == "collection") {
       if (isFeed) {
-        this._PDFTranslate.view.showProgressWindow(
+        this._Addon.view.showProgressWindow(
           "Abstract Translation",
           "Feed collections not supported. Select feed items instead.",
           "fail"
@@ -353,7 +345,7 @@ class TransEvents extends TransBase {
       items = ZoteroPane.getSelectedItems();
     }
 
-    let status = await this._PDFTranslate.translate.callTranslateAbstract(
+    let status = await this._Addon.translate.callTranslateAbstract(
       items,
       force
     );
@@ -365,16 +357,16 @@ class TransEvents extends TransBase {
     event: Event,
     addToNoteButton: XUL.Element
   ): Promise<void> {
-    this._PDFTranslate.translate._enableNote = true;
+    this._Addon.translate._enableNote = true;
     addToNoteButton.click();
   }
 
   public async onOpenStandaloneWindow() {
     if (
-      this._PDFTranslate.view.standaloneWindow &&
-      !this._PDFTranslate.view.standaloneWindow.closed
+      this._Addon.view.standaloneWindow &&
+      !this._Addon.view.standaloneWindow.closed
     ) {
-      this._PDFTranslate.view.standaloneWindow.focus();
+      this._Addon.view.standaloneWindow.focus();
     } else {
       let win = window.open(
         "chrome://zoteropdftranslate/content/standalone.xul",
@@ -385,7 +377,7 @@ class TransEvents extends TransBase {
             : ""
         }`
       );
-      this._PDFTranslate.view.standaloneWindow = win;
+      this._Addon.view.standaloneWindow = win;
     }
   }
 
@@ -439,7 +431,7 @@ class TransEvents extends TransBase {
 
   public onCopyToClipBoard(text: string): void {
     Zotero.Utilities.Internal.copyTextToClipboard(text);
-    this._PDFTranslate.view.showProgressWindow(
+    this._Addon.view.showProgressWindow(
       "Copy To Clipboard",
       text.length < 20 ? text : text.slice(0, 15) + "..."
     );
@@ -447,17 +439,19 @@ class TransEvents extends TransBase {
 
   // Check readers in seperate window
   private async onWindowReaderCheck() {
-    let readers = this._PDFTranslate.reader.getWindowReader();
+    let readers = this._Addon.reader.getWindowReader();
     for (let i = 0; i < readers.length; i++) {
       if (!readers[i].PDFTranslateLoad) {
-        this._PDFTranslate.reader.currentReader = readers[i];
-        await this._PDFTranslate.view.updateWindowTranslatePanel(readers[i]);
+        this._Addon.reader.currentReader = readers[i];
+        await this._Addon.view.updateWindowTranslatePanel(readers[i]);
         readers[i].PDFTranslateLoad = true;
       }
     }
   }
 
-  private async bindAddToNote(currentReader: ReaderObj): Promise<boolean> {
+  private async bindAddToNote(
+    currentReader: _ZoteroReaderInstance
+  ): Promise<boolean> {
     Zotero.debug("ZoteroPDFTranslate.bindAddToNote");
     if (!currentReader) {
       return false;
@@ -471,11 +465,11 @@ class TransEvents extends TransBase {
     currentReader._addToNoteTranslate = async (annotations) => {
       Zotero.debug("ZoteroPDFTranslate.addToNoteTranslate Start");
       if (
-        this._PDFTranslate.translate._enableNote &&
+        this._Addon.translate._enableNote &&
         Zotero.Prefs.get("ZoteroPDFTranslate.enableNote")
       ) {
         Zotero.debug("ZoteroPDFTranslate.addToNoteTranslate Allowed");
-        annotations = await this._PDFTranslate.translate.callTranslateNote(
+        annotations = await this._Addon.translate.callTranslateNote(
           annotations
         );
       }
@@ -497,9 +491,9 @@ class TransEvents extends TransBase {
 
     let translateSource = Zotero.Prefs.get(
       "ZoteroPDFTranslate.translateSource"
-    );
+    ) as string;
     let validSource = false;
-    for (let e of this._PDFTranslate.translate.sources) {
+    for (let e of this._Addon.translate.sources) {
       if (translateSource == e) {
         validSource = true;
       }
@@ -510,25 +504,29 @@ class TransEvents extends TransBase {
       if (Services.locale.getRequestedLocale() === "zh-CN") {
         translateSource = "googleapi";
       } else {
-        translateSource = this._PDFTranslate.translate.sources[0];
+        translateSource = this._Addon.translate.sources[0];
       }
       Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", translateSource);
     }
 
     let dictSource = Zotero.Prefs.get("ZoteroPDFTranslate.dictSource");
     validSource = false;
-    for (let e of this._PDFTranslate.translate.sources) {
+    for (let e of this._Addon.translate.sources) {
       if (dictSource == e) {
         validSource = true;
       }
     }
 
-    let langs = this._PDFTranslate.translate.LangCultureNames.map(
+    let langs = this._Addon.translate.LangCultureNames.map(
       (e) => e.LangCultureName
     );
 
-    let sourceLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
-    let targetLanguage = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
+    let sourceLanguage = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.sourceLanguage"
+    ) as string;
+    let targetLanguage = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.targetLanguage"
+    ) as string;
     let validSL = false;
     let validTL = false;
     for (let e of langs) {
@@ -542,7 +540,7 @@ class TransEvents extends TransBase {
     if (!sourceLanguage || !validSL) {
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.sourceLanguage",
-        this._PDFTranslate.translate.defaultSourceLanguage
+        this._Addon.translate.defaultSourceLanguage
       );
     }
 
@@ -562,9 +560,9 @@ class TransEvents extends TransBase {
 
     let secretObj = Zotero.Prefs.get("ZoteroPDFTranslate.secretObj");
     if (typeof secretObj === "undefined") {
-      secretObj = this._PDFTranslate.translate.defaultSecret;
+      secretObj = this._Addon.translate.defaultSecret;
       secretObj[translateSource] =
-        this._PDFTranslate.translate.defaultSecret[translateSource];
+        this._Addon.translate.defaultSecret[translateSource];
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.secretObj",
         JSON.stringify(secretObj)

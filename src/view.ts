@@ -1,6 +1,7 @@
-import { TransBase } from "./base";
+import PDFTranslate from "./addon";
+import AddonBase from "./module";
 
-class TransView extends TransBase {
+class TransView extends AddonBase {
   popupTextBox: XUL.Textbox;
   tab: XUL.Element;
   tabPanel: XUL.Element;
@@ -40,14 +41,14 @@ class TransView extends TransBase {
  </svg>`;
   }
 
-  async updateTranslatePanel(currentReader: ReaderObj) {
+  async updateTranslatePanel(currentReader: _ZoteroReaderInstance) {
     await Zotero.uiReadyPromise;
 
     if (!currentReader) {
       return false;
     }
     Zotero.debug("ZoteroPDFTranslate: Update Translate Panels");
-    const item: ZoteroItem = Zotero.Items.get(currentReader.itemID);
+    const item = Zotero.Items.get(currentReader.itemID) as Zotero.Item;
     Zotero.debug(
       `${item.getField("title")}, ${currentReader._translateSelectInit}`
     );
@@ -57,7 +58,7 @@ class TransView extends TransBase {
 
     this.updateAllTranslatePanelData();
 
-    let disable = this._PDFTranslate.translate.getLanguageDisable(undefined);
+    let disable = this._Addon.translate.getLanguageDisable(undefined);
 
     // For tab window, pass a undefined currentReader
     // Let the translate code decide which tab is selected
@@ -67,14 +68,14 @@ class TransView extends TransBase {
         "pointerup",
         ((currentReader, disable) => {
           return (event) => {
-            this._PDFTranslate.events.onSelect(event, currentReader, disable);
+            this._Addon.events.onSelect(event, currentReader, disable);
           };
         })(undefined, disable)
       );
     }
   }
 
-  async updateWindowTranslatePanel(currentReader: ReaderObj) {
+  async updateWindowTranslatePanel(currentReader: _ZoteroReaderInstance) {
     await Zotero.uiReadyPromise;
 
     if (!currentReader) {
@@ -83,12 +84,12 @@ class TransView extends TransBase {
     Zotero.debug("ZoteroPDFTranslate: Update Window Translate Panels");
     await currentReader._waitForReader();
 
-    const item: ZoteroItem = Zotero.Items.get(currentReader.itemID);
+    const item = Zotero.Items.get(currentReader.itemID) as Zotero.Item;
     Zotero.debug(
       `${item.getField("title")}, ${currentReader._translateSelectInit}`
     );
 
-    let disable = this._PDFTranslate.translate.getLanguageDisable(undefined);
+    let disable = this._Addon.translate.getLanguageDisable(undefined);
 
     // For standalone window, pass current currentReader
     // Translate code doesn't know which reader is selected
@@ -98,14 +99,14 @@ class TransView extends TransBase {
         "pointerup",
         ((currentReader, disable) => {
           return (event) => {
-            this._PDFTranslate.events.onSelect(event, currentReader, disable);
+            this._Addon.events.onSelect(event, currentReader, disable);
           };
         })(currentReader, disable)
       );
     }
   }
 
-  async updateTranslateAnnotationButton(reader: ReaderObj) {
+  async updateTranslateAnnotationButton(reader: _ZoteroReaderInstance) {
     if (!reader) {
       return false;
     }
@@ -129,28 +130,32 @@ class TransView extends TransBase {
       const itemKey = annotationWrapper.getAttribute(
         "data-sidebar-annotation-id"
       );
-      const libraryID = Zotero.Items.get(reader.itemID).libraryID;
+      const libraryID = (Zotero.Items.get(reader.itemID) as Zotero.Item)
+        .libraryID;
       const annotationItem = await Zotero.Items.getByLibraryAndKeyAsync(
         libraryID,
         itemKey
       );
 
       translateAnnotationButton.addEventListener("click", (e) => {
-        this._PDFTranslate.translate.callTranslateAnnotation(
-          annotationItem,
-          true
-        );
+        this._Addon.translate.callTranslateAnnotation(annotationItem, true);
         e.preventDefault();
       });
-      translateAnnotationButton.addEventListener("mouseover", (e: XULEvent) => {
-        translateAnnotationButton.setAttribute(
-          "style",
-          "background: #F0F0F0; margin: 5px;"
-        );
-      });
-      translateAnnotationButton.addEventListener("mouseout", (e: XULEvent) => {
-        translateAnnotationButton.setAttribute("style", "margin: 5px;");
-      });
+      translateAnnotationButton.addEventListener(
+        "mouseover",
+        (e: XUL.XULEvent) => {
+          translateAnnotationButton.setAttribute(
+            "style",
+            "background: #F0F0F0; margin: 5px;"
+          );
+        }
+      );
+      translateAnnotationButton.addEventListener(
+        "mouseout",
+        (e: XUL.XULEvent) => {
+          translateAnnotationButton.setAttribute("style", "margin: 5px;");
+        }
+      );
       moreButton.before(translateAnnotationButton);
       updateCount += 1;
     }
@@ -182,17 +187,14 @@ class TransView extends TransBase {
       tab.setAttribute("id", "pdf-translate-tab");
       tab.setAttribute(
         "label",
-        this._PDFTranslate.locale.getString(
-          "view",
-          "sidebar_tab_translate_label"
-        )
+        this._Addon.locale.getString("view", "sidebar_tab_translate_label")
       );
       this.tab = tab;
     }
 
     // The first tabbox is zotero main pane tabbox
     let n = 0;
-    let tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
+    let tabContainer = this._Addon.reader.getReaderTabContainer();
     while (!tabContainer || !tabContainer.querySelector("tabbox")) {
       if (n >= 500) {
         Zotero.debug("ZoteroPDFTranslate: Waiting for reader failed");
@@ -221,7 +223,7 @@ class TransView extends TransBase {
       await Zotero.Promise.delay(10);
       n++;
     }
-    tabContainer = this._PDFTranslate.reader.getReaderTabContainer();
+    tabContainer = this._Addon.reader.getReaderTabContainer();
     const tabbox = tabContainer.querySelector("tabbox");
     tabbox.querySelector("tabs").appendChild(tab);
 
@@ -247,11 +249,11 @@ class TransView extends TransBase {
       let buttonOpenWindow = document.createElement("button");
       buttonOpenWindow.setAttribute(
         "label",
-        this._PDFTranslate.locale.getString("view", "button_open_window_label")
+        this._Addon.locale.getString("view", "button_open_window_label")
       );
       buttonOpenWindow.setAttribute("flex", "1");
-      buttonOpenWindow.addEventListener("click", (e: XULEvent) => {
-        this._PDFTranslate.events.onOpenStandaloneWindow();
+      buttonOpenWindow.addEventListener("click", (e: XUL.XULEvent) => {
+        this._Addon.events.onOpenStandaloneWindow();
       });
 
       hboxOpenWindow.append(buttonOpenWindow);
@@ -338,15 +340,15 @@ class TransView extends TransBase {
     SLMenuList.style.width = "145px";
     SLMenuList.setAttribute(
       "value",
-      Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage")
+      Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage") as string
     );
     let SLMenuPopup = _document.createElement("menupopup");
     SLMenuList.appendChild(SLMenuPopup);
-    for (let lang of this._PDFTranslate.translate.LangCultureNames) {
+    for (let lang of this._Addon.translate.LangCultureNames) {
       let menuitem = _document.createElement("menuitem");
       menuitem.setAttribute("label", lang.DisplayName);
       menuitem.setAttribute("value", lang.LangCultureName);
-      menuitem.addEventListener("command", (e: XULEvent) => {
+      menuitem.addEventListener("command", (e: XUL.XULEvent) => {
         let newSL = e.target.value;
         Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", newSL);
       });
@@ -359,10 +361,10 @@ class TransView extends TransBase {
     languageLabel.style["text-align"] = "center";
     languageLabel.style["font-size"] = "14px";
     languageLabel.setAttribute("value", "➡️");
-    languageLabel.addEventListener("mouseover", (e: XULEvent) => {
+    languageLabel.addEventListener("mouseover", (e: XUL.XULEvent) => {
       e.target.setAttribute("value", "🔃");
     });
-    languageLabel.addEventListener("mouseleave", (e: XULEvent) => {
+    languageLabel.addEventListener("mouseleave", (e: XUL.XULEvent) => {
       e.target.setAttribute("value", "➡️");
     });
     languageLabel.addEventListener("click", (e) => {
@@ -381,15 +383,15 @@ class TransView extends TransBase {
     TLMenuList.style.width = "145px";
     TLMenuList.setAttribute(
       "value",
-      Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage")
+      Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage") as string
     );
     let TLMenuPopup = _document.createElement("menupopup");
     TLMenuList.appendChild(TLMenuPopup);
-    for (let lang of this._PDFTranslate.translate.LangCultureNames) {
+    for (let lang of this._Addon.translate.LangCultureNames) {
       let menuitem = _document.createElement("menuitem");
       menuitem.setAttribute("label", lang.DisplayName);
       menuitem.setAttribute("value", lang.LangCultureName);
-      menuitem.addEventListener("command", (e: XULEvent) => {
+      menuitem.addEventListener("command", (e: XUL.XULEvent) => {
         let newTL = e.target.value;
         Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", newTL);
       });
@@ -400,18 +402,18 @@ class TransView extends TransBase {
     let menuLabel = _document.createElement("label");
     menuLabel.setAttribute(
       "value",
-      this._PDFTranslate.locale.getString("view", "menu_translate_engine_label")
+      this._Addon.locale.getString("view", "menu_translate_engine_label")
     );
     let menulist = _document.createElement("menulist");
     menulist.setAttribute("id", "pdf-translate-engine");
     menulist.setAttribute("flex", "1");
     menulist.setAttribute(
       "value",
-      Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")
+      Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string
     );
     let menupopup = _document.createElement("menupopup");
     menulist.appendChild(menupopup);
-    for (let source of this._PDFTranslate.translate.sources) {
+    for (let source of this._Addon.translate.sources) {
       // Skip dict engines
       if (source.indexOf("dict") > -1) {
         continue;
@@ -419,16 +421,16 @@ class TransView extends TransBase {
       let menuitem = _document.createElement("menuitem");
       menuitem.setAttribute(
         "label",
-        this._PDFTranslate.locale.getString("translate_engine", source)
+        this._Addon.locale.getString("translate_engine", source)
       );
       menuitem.setAttribute("value", source);
-      menuitem.addEventListener("command", (e: XULEvent) => {
+      menuitem.addEventListener("command", (e: XUL.XULEvent) => {
         let newSource = e.target.value;
         Zotero.Prefs.set("ZoteroPDFTranslate.translateSource", newSource);
         let userSecrets = JSON.parse(
-          Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
+          Zotero.Prefs.get("ZoteroPDFTranslate.secretObj") as string
         );
-        this._PDFTranslate.events.onTranslateButtonClick(e);
+        this._Addon.events.onTranslateButtonClick(e);
       });
       menupopup.appendChild(menuitem);
     }
@@ -437,11 +439,11 @@ class TransView extends TransBase {
     buttonTranslate.setAttribute("id", "pdf-translate-call-button");
     buttonTranslate.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "button_translate_label")
+      this._Addon.locale.getString("view", "button_translate_label")
     );
     buttonTranslate.setAttribute("flex", "1");
-    buttonTranslate.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onTranslateButtonClick(e);
+    buttonTranslate.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onTranslateButtonClick(e);
     });
 
     hboxTranslate.append(menuLabel, menulist, buttonTranslate);
@@ -449,14 +451,11 @@ class TransView extends TransBase {
     let buttonUpdateAnnotation = _document.createElement("button");
     buttonUpdateAnnotation.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString(
-        "view",
-        "button_update_annotation_label"
-      )
+      this._Addon.locale.getString("view", "button_update_annotation_label")
     );
     buttonUpdateAnnotation.setAttribute("flex", "1");
-    buttonUpdateAnnotation.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onAnnotationUpdateButtonClick(e);
+    buttonUpdateAnnotation.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onAnnotationUpdateButtonClick(e);
     });
 
     hboxAnnotation.append(buttonUpdateAnnotation);
@@ -464,39 +463,32 @@ class TransView extends TransBase {
     let buttonCopySource = _document.createElement("button");
     buttonCopySource.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "button_copy_source_label")
+      this._Addon.locale.getString("view", "button_copy_source_label")
     );
     buttonCopySource.setAttribute("flex", "1");
-    buttonCopySource.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onCopyToClipBoard(
-        this._PDFTranslate._sourceText
-      );
+    buttonCopySource.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onCopyToClipBoard(this._Addon._sourceText);
     });
 
     let buttonCopyTranslated = _document.createElement("button");
     buttonCopyTranslated.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString(
-        "view",
-        "button_copy_translated_label"
-      )
+      this._Addon.locale.getString("view", "button_copy_translated_label")
     );
     buttonCopyTranslated.setAttribute("flex", "1");
-    buttonCopyTranslated.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onCopyToClipBoard(
-        this._PDFTranslate._translatedText
-      );
+    buttonCopyTranslated.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onCopyToClipBoard(this._Addon._translatedText);
     });
 
     let buttonCopyBoth = _document.createElement("button");
     buttonCopyBoth.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "button_copy_both_label")
+      this._Addon.locale.getString("view", "button_copy_both_label")
     );
     buttonCopyBoth.setAttribute("flex", "1");
-    buttonCopyBoth.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onCopyToClipBoard(
-        `${this._PDFTranslate._sourceText}\n----\n${this._PDFTranslate._translatedText}`
+    buttonCopyBoth.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onCopyToClipBoard(
+        `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}`
       );
     });
 
@@ -506,13 +498,13 @@ class TransView extends TransBase {
     textboxSource.setAttribute("id", "pdf-translate-tabpanel-source");
     textboxSource.setAttribute("flex", "1");
     textboxSource.setAttribute("multiline", true);
-    textboxSource.addEventListener("input", (event: XULEvent) => {
+    textboxSource.addEventListener("input", (event: XUL.XULEvent) => {
       Zotero.debug(
         `ZoteroPDFTranslate: source text modified to ${event.target.value}`
       );
-      this._PDFTranslate._sourceText = event.target.value;
-      this._PDFTranslate.translate._useModified = true;
-      if (this._PDFTranslate.translate._lastAnnotationID >= 0) {
+      this._Addon._sourceText = event.target.value;
+      this._Addon.translate._useModified = true;
+      if (this._Addon.translate._lastAnnotationID >= 0) {
         this.hideSideBarAnnotationBox(false);
       }
     });
@@ -531,10 +523,10 @@ class TransView extends TransBase {
     textboxTranslated.setAttribute("id", "pdf-translate-tabpanel-translated");
     textboxTranslated.setAttribute("flex", "1");
     textboxTranslated.setAttribute("multiline", true);
-    textboxTranslated.addEventListener("input", (event: XULEvent) => {
-      this._PDFTranslate._translatedText = event.target.value;
-      this._PDFTranslate.translate._useModified = true;
-      if (this._PDFTranslate.translate._lastAnnotationID >= 0) {
+    textboxTranslated.addEventListener("input", (event: XUL.XULEvent) => {
+      this._Addon._translatedText = event.target.value;
+      this._Addon.translate._useModified = true;
+      if (this._Addon.translate._lastAnnotationID >= 0) {
         this.hideSideBarAnnotationBox(false);
       }
     });
@@ -546,12 +538,12 @@ class TransView extends TransBase {
     cbConcat.setAttribute("id", "pdf-translate-cbConcat");
     cbConcat.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString("view", "checkbox_concat_text_label")
+      this._Addon.locale.getString("view", "checkbox_concat_text_label")
     );
 
     cbConcat.setAttribute(
       "tooltiptext",
-      this._PDFTranslate.locale.getString("view", "checkbox_concat_text_tip")
+      this._Addon.locale.getString("view", "checkbox_concat_text_tip")
     );
 
     const clearConcat = _document.createElement("label");
@@ -560,19 +552,19 @@ class TransView extends TransBase {
     clearConcat.style["text-align"] = "center";
     clearConcat.setAttribute(
       "value",
-      `✕${this._PDFTranslate.locale.getString("view", "concatClear")}`
+      `✕${this._Addon.locale.getString("view", "concatClear")}`
     );
-    clearConcat.addEventListener("mouseover", (e: XULEvent) => {
+    clearConcat.addEventListener("mouseover", (e: XUL.XULEvent) => {
       e.target.style.backgroundColor = "#ccc";
     });
-    clearConcat.addEventListener("mouseleave", (e: XULEvent) => {
+    clearConcat.addEventListener("mouseleave", (e: XUL.XULEvent) => {
       e.target.style.removeProperty("background-color");
     });
     clearConcat.addEventListener("click", (e) => {
-      this._PDFTranslate._selectedText = "";
+      this._Addon._selectedText = "";
       this.showProgressWindow(
         "PDF Translate",
-        this._PDFTranslate.locale.getString("view", "concatClearPWText")
+        this._Addon.locale.getString("view", "concatClearPWText")
       );
     });
 
@@ -582,10 +574,7 @@ class TransView extends TransBase {
     autoTranslate.id = "pdf-translate-auto-translate-text";
     autoTranslate.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString(
-        "view",
-        "checkbox_auto_translate_text_label"
-      )
+      this._Addon.locale.getString("view", "checkbox_auto_translate_text_label")
     );
     autoTranslate.addEventListener("command", (e) => {
       Zotero.Prefs.set("ZoteroPDFTranslate.enableAuto", autoTranslate.checked);
@@ -596,7 +585,7 @@ class TransView extends TransBase {
     autoTranslateAnnotation.id = "pdf-translate-auto-translate-annotation";
     autoTranslateAnnotation.setAttribute(
       "label",
-      this._PDFTranslate.locale.getString(
+      this._Addon.locale.getString(
         "view",
         "checkbox_auto_translate_annotation_label"
       )
@@ -738,12 +727,12 @@ class TransView extends TransBase {
       _document.getElementById(
         "pdf-translate-auto-translate-text"
       ) as XUL.Checkbox
-    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto");
+    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableAuto") as boolean;
     (
       _document.getElementById(
         "pdf-translate-auto-translate-annotation"
       ) as XUL.Checkbox
-    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment");
+    ).checked = Zotero.Prefs.get("ZoteroPDFTranslate.enableComment") as boolean;
 
     this.updateTranslatePanelHidden(_document);
   }
@@ -757,7 +746,7 @@ class TransView extends TransBase {
 
   buildPopupPanel() {
     Zotero.debug("ZoteroPDFTranslate: buildPopupPanel");
-    let currentReader = this._PDFTranslate.reader.currentReader;
+    let currentReader = this._Addon.reader.currentReader;
     if (!currentReader) {
       return false;
     }
@@ -818,7 +807,7 @@ class TransView extends TransBase {
       const isMod = _e.ctrlKey || _e.metaKey;
       if (_e.key === "c" && isMod) {
         setTimeout(() => {
-          this._PDFTranslate.events.onCopyToClipBoard(
+          this._Addon.events.onCopyToClipBoard(
             textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
           );
         }, 10);
@@ -828,7 +817,7 @@ class TransView extends TransBase {
         textbox.selectionEnd = textbox.value.length;
         _e.stopPropagation();
       } else if (_e.key === "x" && isMod) {
-        this._PDFTranslate.events.onCopyToClipBoard(
+        this._Addon.events.onCopyToClipBoard(
           textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
         );
         textbox.value = `${textbox.value.slice(
@@ -896,7 +885,7 @@ class TransView extends TransBase {
     textbox.addEventListener("dblclick", (e) => {
       textbox.selectionStart = 0;
       textbox.selectionEnd = textbox.value.length;
-      this._PDFTranslate.events.onCopyToClipBoard(
+      this._Addon.events.onCopyToClipBoard(
         textbox.value.slice(textbox.selectionStart, textbox.selectionEnd)
       );
     });
@@ -910,7 +899,7 @@ class TransView extends TransBase {
 
   buildPopupButton() {
     Zotero.debug("ZoteroPDFTranslate: buildPopupButton");
-    let currentReader = this._PDFTranslate.reader.currentReader;
+    let currentReader = this._Addon.reader.currentReader;
     if (!currentReader) {
       return false;
     }
@@ -941,8 +930,8 @@ class TransView extends TransBase {
     translateButton.setAttribute("id", "pdf-translate-popup-button");
     translateButton.setAttribute("class", "wide-button pdf-translate-button");
     translateButton.innerHTML = `${this.translateIcon}Translate`;
-    translateButton.addEventListener("click", (e: XULEvent) => {
-      this._PDFTranslate.events.onTranslateButtonClick(e, currentReader);
+    translateButton.addEventListener("click", (e: XUL.XULEvent) => {
+      this._Addon.events.onTranslateButtonClick(e, currentReader);
     });
 
     selectionMenu.appendChild(translateButton);
@@ -974,17 +963,14 @@ class TransView extends TransBase {
       translateAddToNoteButton.removeAttribute("hidden");
       // @ts-ignore
       translateAddToNoteButton.onclick = (e) => {
-        this._PDFTranslate.events.onTranslateNoteButtonClick(
-          e,
-          addToNoteButton
-        );
+        this._Addon.events.onTranslateNoteButtonClick(e, addToNoteButton);
       };
     }
     return true;
   }
 
   removePopupPanel() {
-    let currentReader = this._PDFTranslate.reader.currentReader;
+    let currentReader = this._Addon.reader.currentReader;
     if (!currentReader) {
       return false;
     }
@@ -1000,7 +986,7 @@ class TransView extends TransBase {
   }
 
   updatePopupStyle(): void {
-    let currentReader = this._PDFTranslate.reader.currentReader;
+    let currentReader = this._Addon.reader.currentReader;
     if (!currentReader) {
       return;
     }
@@ -1073,16 +1059,18 @@ class TransView extends TransBase {
     buttonAddExtra.setAttribute("label", "+");
     buttonAddExtra.setAttribute(
       "tooltiptext",
-      this._PDFTranslate.locale.getString("view", "button_add_extra_engine")
+      this._Addon.locale.getString("view", "button_add_extra_engine")
     );
     buttonAddExtra.style.maxWidth = "30px";
     buttonAddExtra.style.minWidth = "30px";
     buttonAddExtra.style.width = "30px";
-    buttonAddExtra.addEventListener("click", (e: XULEvent) => {
-      let extraEngines: string[] = Zotero.Prefs.get(
-        "ZoteroPDFTranslate.extraEngines"
+    buttonAddExtra.addEventListener("click", (e: XUL.XULEvent) => {
+      let extraEngines: string[] = (
+        Zotero.Prefs.get("ZoteroPDFTranslate.extraEngines") as string
       ).split(",");
-      extraEngines.push(Zotero.Prefs.get("ZoteroPDFTranslate.translateSource"));
+      extraEngines.push(
+        Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string
+      );
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.extraEngines",
         extraEngines.filter((e) => e).join(",")
@@ -1090,14 +1078,16 @@ class TransView extends TransBase {
       this.updateStandaloneWindowExtra(_document);
     });
 
-    let keepWindowTop = Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop");
+    let keepWindowTop = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.keepWindowTop"
+    ) as boolean;
     let buttonPin: XUL.Button = _document.createElement("button");
     buttonPin.setAttribute("id", "pdf-translate-pin");
     buttonPin.type = "checkbox";
     buttonPin.checked = keepWindowTop;
     buttonPin.setAttribute(
       "tooltiptext",
-      this._PDFTranslate.locale.getString("view", "button_keep_on_top")
+      this._Addon.locale.getString("view", "button_keep_on_top")
     );
     buttonPin.setAttribute("label", "📌");
     buttonPin.style.maxWidth = "30px";
@@ -1106,14 +1096,14 @@ class TransView extends TransBase {
     buttonPin.style["-moz-appearance"] = "none";
     buttonPin.style.backgroundColor = keepWindowTop ? "#bcc4d2" : "#ffffff";
 
-    buttonPin.addEventListener("click", (e: XULEvent) => {
+    buttonPin.addEventListener("click", (e: XUL.XULEvent) => {
       let newKeepWindowTop = !Zotero.Prefs.get(
         "ZoteroPDFTranslate.keepWindowTop"
       );
       Zotero.Prefs.set("ZoteroPDFTranslate.keepWindowTop", newKeepWindowTop);
       e.target.style.backgroundColor = newKeepWindowTop ? "#bcc4d2" : "#ffffff";
       this.standaloneWindow.close();
-      this._PDFTranslate.events.onOpenStandaloneWindow();
+      this._Addon.events.onOpenStandaloneWindow();
     });
 
     _document
@@ -1123,8 +1113,8 @@ class TransView extends TransBase {
   }
 
   updateStandaloneWindowExtra(_document: Document) {
-    let extraEngines: string[] = Zotero.Prefs.get(
-      "ZoteroPDFTranslate.extraEngines"
+    let extraEngines: string[] = (
+      Zotero.Prefs.get("ZoteroPDFTranslate.extraEngines") as string
     )
       .split(",")
       .filter((e: string) => e);
@@ -1154,7 +1144,7 @@ class TransView extends TransBase {
 
     let i = 0;
     for (let engine of extraEngines) {
-      if (this._PDFTranslate.translate.sources.indexOf(engine) < 0) {
+      if (this._Addon.translate.sources.indexOf(engine) < 0) {
         Zotero.debug(`Extra engine ${engine} skipped.`);
         continue;
       }
@@ -1173,10 +1163,7 @@ class TransView extends TransBase {
       let menuLabel = _document.createElement("label");
       menuLabel.setAttribute(
         "value",
-        this._PDFTranslate.locale.getString(
-          "view",
-          "menu_translate_engine_label"
-        )
+        this._Addon.locale.getString("view", "menu_translate_engine_label")
       );
       let menulist = _document.createElement("menulist");
       menulist.setAttribute("id", `pdf-translate-engine-extra-${i}`);
@@ -1184,19 +1171,19 @@ class TransView extends TransBase {
       menulist.setAttribute("value", engine);
       let menupopup = _document.createElement("menupopup");
       menulist.appendChild(menupopup);
-      for (let source of this._PDFTranslate.translate.sources) {
+      for (let source of this._Addon.translate.sources) {
         let menuitem = _document.createElement("menuitem");
         menuitem.setAttribute(
           "label",
-          this._PDFTranslate.locale.getString("translate_engine", source)
+          this._Addon.locale.getString("translate_engine", source)
         );
         menuitem.setAttribute("value", source);
-        menuitem.addEventListener("command", (e: XULEvent) => {
+        menuitem.addEventListener("command", (e: XUL.XULEvent) => {
           let newSource = e.target.value;
           let _ = e.target.parentElement.parentElement.id.split("-");
           let index = parseInt(_[_.length - 1]);
-          let extraEngines: string[] = Zotero.Prefs.get(
-            "ZoteroPDFTranslate.extraEngines"
+          let extraEngines: string[] = (
+            Zotero.Prefs.get("ZoteroPDFTranslate.extraEngines") as string
           )
             .split(",")
             .filter((e) => e);
@@ -1219,19 +1206,16 @@ class TransView extends TransBase {
       buttonRemove.setAttribute("label", "-");
       buttonRemove.setAttribute(
         "tooltiptext",
-        this._PDFTranslate.locale.getString(
-          "view",
-          "button_remove_extra_engine"
-        )
+        this._Addon.locale.getString("view", "button_remove_extra_engine")
       );
       buttonRemove.style.maxWidth = "30px";
       buttonRemove.style.minWidth = "30px";
       buttonRemove.style.width = "30px";
-      buttonRemove.addEventListener("click", (e: XULEvent) => {
+      buttonRemove.addEventListener("click", (e: XUL.XULEvent) => {
         let _ = e.target.id.split("-");
         let index = parseInt(_[_.length - 1]);
-        let extraEngines: string[] = Zotero.Prefs.get(
-          "ZoteroPDFTranslate.extraEngines"
+        let extraEngines: string[] = (
+          Zotero.Prefs.get("ZoteroPDFTranslate.extraEngines") as string
         ).split(",");
         if (extraEngines.length <= index) {
           this.updateStandaloneWindowExtra(_document);
@@ -1273,8 +1257,8 @@ class TransView extends TransBase {
 
   private updateResults(_document: Document) {
     // Update error info if not success
-    if (this._PDFTranslate._debug) {
-      this._PDFTranslate._translatedText = this._PDFTranslate._debug;
+    if (this._Addon._debug) {
+      this._Addon._translatedText = this._Addon._debug;
     }
     let sideBarTextboxSource: XUL.Textbox = _document.getElementById(
       "pdf-translate-tabpanel-source"
@@ -1283,22 +1267,22 @@ class TransView extends TransBase {
       "pdf-translate-tabpanel-translated"
     );
     if (sideBarTextboxSource) {
-      sideBarTextboxSource.value = this._PDFTranslate._sourceText;
+      sideBarTextboxSource.value = this._Addon._sourceText;
       sideBarTextboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
     }
     if (sideBarTextboxTranslated) {
-      sideBarTextboxTranslated.value = this._PDFTranslate._translatedText;
+      sideBarTextboxTranslated.value = this._Addon._translatedText;
       sideBarTextboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
     }
     if (this.popupTextBox) {
       try {
-        this.popupTextBox.innerHTML = this._PDFTranslate._translatedText
-          ? this._PDFTranslate._translatedText
-          : this._PDFTranslate._sourceText;
+        this.popupTextBox.innerHTML = this._Addon._translatedText
+          ? this._Addon._translatedText
+          : this._Addon._sourceText;
       } catch (e) {
         Zotero.debug(e);
       }

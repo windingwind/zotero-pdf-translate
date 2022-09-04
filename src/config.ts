@@ -1,6 +1,7 @@
-import { TransBase } from "./base";
+import PDFTranslate from "./addon";
+import AddonBase from "./module";
 
-class TransConfig extends TransBase {
+class TransConfig extends AddonBase {
   sources: string[];
   sourcesName: Object;
   defaultSourceLanguage: string;

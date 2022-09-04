@@ -1,4 +1,4 @@
-import PDFTranslate from "./PDFTranslate";
+import PDFTranslate from "./addon";
 
 Zotero.ZoteroPDFTranslate = new PDFTranslate();
 

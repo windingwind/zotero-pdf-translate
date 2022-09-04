@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "module": "CommonJS",
+      "target": "ES6",
+    },
+    "include": [
+      "src",
+      "typing",
+      "node_modules/zotero-types"
+    ],
+    "exclude": [
+      "builds",
+      "addon"
+    ]
+  }

@@ -1,6 +1,7 @@
-import { TransBase } from "./base";
+import PDFTranslate from "./addon";
+import AddonBase from "./module";
 
-class TransPref extends TransBase {
+class TransPref extends AddonBase {
   private _document: Document;
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -25,13 +26,13 @@ class TransPref extends TransBase {
     );
 
     let userSecrets = JSON.parse(
-      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
+      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj") as string
     );
     let secret = "";
     if (userSecrets.hasOwnProperty(menu.value)) {
       secret = userSecrets[menu.value];
     } else {
-      secret = this._PDFTranslate.translate.defaultSecret[menu.value];
+      secret = this._Addon.translate.defaultSecret[menu.value];
       userSecrets[menu.value] = secret;
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.secretObj",
@@ -50,7 +51,7 @@ class TransPref extends TransBase {
     );
 
     let userSecrets = JSON.parse(
-      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj")
+      Zotero.Prefs.get("ZoteroPDFTranslate.secretObj") as string
     );
 
     userSecrets[menu.value] = param.value;
@@ -108,11 +109,11 @@ class TransPref extends TransBase {
     let tlIndex = 0;
 
     let i = 0;
-    for (let lang of this._PDFTranslate.translate.LangCultureNames) {
+    for (let lang of this._Addon.translate.LangCultureNames) {
       let SLMenuItem = this._document.createElement("menuitem");
       SLMenuItem.setAttribute("label", lang.DisplayName);
       SLMenuItem.setAttribute("value", lang.LangCultureName);
-      SLMenuItem.addEventListener("command", (e: XULEvent) => {
+      SLMenuItem.addEventListener("command", (e: XUL.XULEvent) => {
         let newSL = e.target.value;
         Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", newSL);
       });
@@ -123,7 +124,7 @@ class TransPref extends TransBase {
       let TLMenuItem = this._document.createElement("menuitem");
       TLMenuItem.setAttribute("label", lang.DisplayName);
       TLMenuItem.setAttribute("value", lang.LangCultureName);
-      TLMenuItem.addEventListener("command", (e: XULEvent) => {
+      TLMenuItem.addEventListener("command", (e: XUL.XULEvent) => {
         let newTL = e.target.value;
         Zotero.Prefs.set("ZoteroPDFTranslate.targetLanguage", newTL);
       });

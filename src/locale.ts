@@ -1,5 +1,10 @@
-class TransLocale {
-  constructor(parent: PDFTranslate) {}
+import PDFTranslate from "./addon";
+import AddonBase from "./module";
+
+class TransLocale extends AddonBase {
+  constructor(parent: PDFTranslate) {
+    super(parent);
+  }
   zh = {
     view: {
       checkbox_concat_text_label: "拼接选取",

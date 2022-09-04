@@ -1,18 +1,19 @@
-import { TransBase } from "./base";
+import PDFTranslate from "./addon";
+import AddonBase from "./module";
 
-class TransReader extends TransBase {
-  currentReader: ReaderObj;
+class TransReader extends AddonBase {
+  currentReader: _ZoteroReaderInstance;
   constructor(parent: PDFTranslate) {
     super(parent);
   }
-  async getReader(): Promise<ReaderObj> {
+  async getReader(): Promise<_ZoteroReaderInstance> {
     const reader = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
     await reader._initPromise;
     return reader;
   }
 
-  getWindowReader(): Array<ReaderObj> {
-    let windowReaders: Array<ReaderObj> = [];
+  getWindowReader(): Array<_ZoteroReaderInstance> {
+    let windowReaders: Array<_ZoteroReaderInstance> = [];
     let tabs = Zotero_Tabs._tabs.map((e) => e.id);
     for (let i = 0; i < Zotero.Reader._readers.length; i++) {
       let flag = false;
@@ -36,7 +37,7 @@ class TransReader extends TransBase {
     return document.getElementById(`${Zotero_Tabs.selectedID}-context`);
   }
 
-  getSelectedText(currentReader: ReaderObj): string {
+  getSelectedText(currentReader: _ZoteroReaderInstance): string {
     if (!currentReader) {
       return "";
     }
