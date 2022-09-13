@@ -7,6 +7,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.enableCommentEdit", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableNote", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableDict", true);
 pref("extensions.zotero.ZoteroPDFTranslate.fontSize", "12");
+pref("extensions.zotero.ZoteroPDFTranslate.lineHeight", "1.5");
 pref("extensions.zotero.ZoteroPDFTranslate.autoFocus", true);
 pref("extensions.zotero.ZoteroPDFTranslate.rawResultOrder", false);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarEngine", true);

@@ -55,6 +55,7 @@
 
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
+<!ENTITY zotero.__addonRef__.pref.advanced.lineHeight.label "Line Height">
 <!ENTITY zotero.__addonRef__.pref.advanced.autoFocus.label "SideBar: Auto Focus">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarSettings.label "SideBar: Show Settings">

@@ -66,10 +66,15 @@ class TransPref extends AddonBase {
     let pannel = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-preview"
     );
-    let text: XUL.Textbox = this._document.getElementById(
+    let fontSizeText: XUL.Textbox = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-font-size"
     );
-    pannel.style["font-size"] = `${parseInt(text.value)}px`;
+    let lineHeightText: XUL.Textbox = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-line-height"
+    );
+    pannel.style["font-size"] = `${parseInt(fontSizeText.value)}px`;
+    pannel.style.lineHeight =
+      parseFloat(lineHeightText.value) < 0 ? "1" : lineHeightText.value;
   }
 
   updateAnnotationTranslationSettings() {
