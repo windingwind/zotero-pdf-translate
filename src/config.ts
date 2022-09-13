@@ -29,6 +29,7 @@ class TransConfig extends AddonBase {
       "youdaodict",
       "bingdict",
       "freedictionaryapi",
+      "webliodict",
     ];
     // this parameter now in src/languages.ts, multiple languages can be supported
     // this.sourcesName = {
@@ -55,6 +56,7 @@ class TransConfig extends AddonBase {
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",
+      webliodict: "",
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },

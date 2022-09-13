@@ -13,6 +13,7 @@ import { youdaozhiyun } from "./translate/youdaozhiyun";
 import { youdaodict } from "./dict/youdaodict";
 import { bingdict } from "./dict/bingdict";
 import { freedictionaryapi } from "./dict/freedictionaryapi";
+import { webliodict } from "./dict/weblio";
 import PDFTranslate from "./addon";
 import { TransArgs } from "./base";
 
@@ -41,6 +42,7 @@ class TransEngine extends TransConfig {
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
+  webliodict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -69,6 +71,7 @@ class TransEngine extends TransConfig {
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;
+    this.webliodict = webliodict
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
