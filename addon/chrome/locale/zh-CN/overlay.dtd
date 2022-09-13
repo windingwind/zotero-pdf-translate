@@ -31,6 +31,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "翻译到">
@@ -62,6 +63,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
 <!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "独立窗口: 保持最前">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepPopupSize.label "弹窗: 记住大小">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "预览">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">

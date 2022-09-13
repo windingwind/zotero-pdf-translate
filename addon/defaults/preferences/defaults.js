@@ -16,5 +16,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarRaw", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarCopy", true);
 pref("extensions.zotero.ZoteroPDFTranslate.keepWindowTop", false);
-pref("extensions.zotero.ZoteroPDFTranslate.showSidebarCopy", true);
+pref("extensions.zotero.ZoteroPDFTranslate.keepPopupSize", false);
+pref("extensions.zotero.ZoteroPDFTranslate.popupWidth", 105);
+pref("extensions.zotero.ZoteroPDFTranslate.popupHeight", 30);
 pref("extensions.zotero.ZoteroPDFTranslate.extraEngines", "");

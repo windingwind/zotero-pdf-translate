@@ -787,15 +787,35 @@ class TransView extends AddonBase {
       "ZoteroPDFTranslate.fontSize"
     )}px`;
 
-    textbox.style.width = "105px";
-    textbox.style.height = "30px";
-    selectionMenu.style.width = "105px";
-    selectionMenu.style.height = "50px";
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    const w = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
+      : 105;
+    const h = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
+      : 30;
+    textbox.style.width = `${w}px`;
+    textbox.style.height = `${h}px`;
+    selectionMenu.style.width = `${w + 3}px`;
+    selectionMenu.style.height = `${h + 20}px`;
+
+    // Update button width
+    let buttons = selectionMenu.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].style.width = selectionMenu.style.width;
+    }
 
     const onTextAreaResize = (_e) => {
       selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
       selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
 
+      if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
+        Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
+        Zotero.Prefs.set(
+          "ZoteroPDFTranslate.popupHeight",
+          textbox.offsetHeight
+        );
+      }
       // Update button width
       let buttons = selectionMenu.getElementsByTagName("button");
       for (let i = 0; i < buttons.length; i++) {
@@ -1002,10 +1022,14 @@ class TransView extends AddonBase {
       return;
     }
 
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    if (keepSize) {
+      return;
+    }
     // Get current H & W
     let textHeight = this.popupTextBox.scrollHeight;
     let textWidth = this.popupTextBox.scrollWidth;
-    let newWidth = textWidth + 20;
+    const newWidth = textWidth + 20;
     if (
       textHeight / textWidth > 0.75 &&
       newWidth + selectionPopup.offsetLeft < viewContainer.offsetWidth - 50

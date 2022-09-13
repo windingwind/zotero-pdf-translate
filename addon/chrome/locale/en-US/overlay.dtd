@@ -31,6 +31,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "Youdao Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "Bing Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "Translate From">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "To">
@@ -63,6 +64,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
 <!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "Standalone: Keep Window on Top">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepPopupSize.label "Popup: Remember Size">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "Preview">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
