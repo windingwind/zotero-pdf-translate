@@ -14,6 +14,7 @@ class TransConfig extends AddonBase {
       "googleapi",
       // "googleweb",
       "google",
+      "cnki",
       "youdao",
       "youdaozhiyun",
       "niutrans",
@@ -53,6 +54,7 @@ class TransConfig extends AddonBase {
       openl: "service1,service2,...#apikey",
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
+      cnki: "",
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",

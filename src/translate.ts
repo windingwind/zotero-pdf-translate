@@ -2,6 +2,7 @@ import { TransConfig } from "./config";
 import { baidu } from "./translate/baidu";
 import { baidufield } from "./translate/baidufield";
 import { caiyun } from "./translate/caiyun";
+import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
@@ -25,6 +26,7 @@ class TransEngine extends TransConfig {
   baidu: Function;
   baidufield: Function;
   caiyun: Function;
+  cnki: Function;
   deeplpro: Function;
   deeplfree: Function;
   deepl: Function;
@@ -54,6 +56,7 @@ class TransEngine extends TransConfig {
     this.baidu = baidu;
     this.baidufield = baidufield;
     this.caiyun = caiyun;
+    this.cnki = cnki
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;
     this.deepl = deepl;
