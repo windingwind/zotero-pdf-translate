@@ -14,6 +14,7 @@ class TransPref extends AddonBase {
     this.buildLanguageSettings();
     this.updatePreviewPannel();
     this.updateAnnotationTranslationSettings();
+    this.updateAddToNoteSettings();
   }
 
   updateSourceParam(type: string) {
@@ -96,6 +97,17 @@ class TransPref extends AddonBase {
     } else {
       commentEdit.disabled = false;
     }
+  }
+
+  updateAddToNoteSettings() {
+    Zotero.debug("ZoteroPDFTranslate: updateAddToNoteSettings.");
+    let enableAddToNote = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-note"
+    ) as XUL.Checkbox;
+    const mode: XUL.Element = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-note-replace"
+    );
+    mode.disabled = !enableAddToNote.checked;
   }
 
   private buildLanguageSettings() {

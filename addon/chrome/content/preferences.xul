@@ -12,6 +12,7 @@
         <preference id="pref-__addonRef__-annotationTranslationPosition" name="extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition" type="string" />
         <preference id="pref-__addonRef__-enable-commentedit" name="extensions.zotero.ZoteroPDFTranslate.enableCommentEdit" type="bool" />
         <preference id="pref-__addonRef__-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
+        <preference id="pref-__addonRef__-enable-note-replace" name="extensions.zotero.ZoteroPDFTranslate.enableNoteReplaceMode" type="bool" />
         <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-__addonRef__-enable-dict" name="extensions.zotero.ZoteroPDFTranslate.enableDict" type="bool" />
         <preference id="pref-__addonRef__-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
@@ -81,8 +82,16 @@
                   <label value="&zotero.__addonRef__.pref.basic.enableCommentEdit.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" preference="pref-__addonRef__-enable-note" />
-                  <label value="&zotero.__addonRef__.pref.basic.enableNote.label;" />
+                  <columns>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateAddToNoteSettings();" preference="pref-__addonRef__-enable-note" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableNote.label;" />
+                    </column>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note-replace" preference="pref-__addonRef__-enable-note-replace" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableNoteReplace.label;" />
+                    </column>
+                  </columns>
                 </row>
               </rows>
             </groupbox>

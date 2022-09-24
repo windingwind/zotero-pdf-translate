@@ -67,6 +67,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 - Enable Update and Edit Last Annotation Translation, default `true`
 - Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`
   > Unvisible if no active note editor opened.
+  - Replace Source Text: Use translation to replace the source text when adding to note, default `false`
 
 ### General-Translate Engine
 

@@ -10,6 +10,7 @@
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "Save to Annotation Body">
 <!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "Enable Update and Edit Last Annotation Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
+<!ENTITY zotero.__addonRef__.pref.basic.enableNoteReplace.label "Replace Source Text">
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "Service">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.google "Google">

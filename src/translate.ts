@@ -56,7 +56,7 @@ class TransEngine extends TransConfig {
     this.baidu = baidu;
     this.baidufield = baidufield;
     this.caiyun = caiyun;
-    this.cnki = cnki
+    this.cnki = cnki;
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;
     this.deepl = deepl;
@@ -74,7 +74,7 @@ class TransEngine extends TransConfig {
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;
-    this.webliodict = webliodict
+    this.webliodict = webliodict;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
@@ -219,7 +219,11 @@ class TransEngine extends TransConfig {
           this._Addon._sourceText = annotation.text;
           await this.getTranslation();
         }
-        annotation.text = `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
+        annotation.text = (Zotero.Prefs.get(
+          "ZoteroPDFTranslate.enableNoteReplaceMode"
+        ) as boolean)
+          ? this._Addon._translatedText
+          : `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
       }
     } catch (e) {
       Zotero.debug(`ZoteroPDFTranslate.callTranslateNote Error: ${e}`);

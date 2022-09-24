@@ -5,6 +5,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.enableComment", true);
 pref("extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition", "comment");
 pref("extensions.zotero.ZoteroPDFTranslate.enableCommentEdit", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableNote", true);
+pref("extensions.zotero.ZoteroPDFTranslate.enableNoteReplaceMode", false);
 pref("extensions.zotero.ZoteroPDFTranslate.enableDict", true);
 pref("extensions.zotero.ZoteroPDFTranslate.fontSize", "12");
 pref("extensions.zotero.ZoteroPDFTranslate.lineHeight", "1.5");
