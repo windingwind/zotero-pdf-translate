@@ -118,7 +118,7 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 **Baidu Translate**  
 Apply [here](https://fanyi-api.baidu.com/product/11).  
-The secret format is `MY_APPID#MY_KEY`(split with '#').
+The secret format is `MY_APPID#MY_KEY#ACTION(optional, see https://api.fanyi.baidu.com/doc/21, default 0)`(split with '#').
 
 **Baidu Field Translate 百度垂直领域翻译**  
 Apply [here](https://fanyi-api.baidu.com/product/12).  

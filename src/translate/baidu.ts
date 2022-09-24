@@ -1,7 +1,12 @@
 async function baidu(text: string = undefined) {
   let args = this.getArgs("baidu", text);
-  let appid = args.secret.split("#")[0];
-  let key = args.secret.split("#")[1];
+  const params = args.secret.split("#");
+  let appid = params[0];
+  let key = params[1];
+  let action = "0";
+  if (params.length >= 3) {
+    action = params[2];
+  }
   let salt = new Date().getTime();
   let sign = Zotero.Utilities.Internal.md5(
     appid + args.text + salt + key,
@@ -16,7 +21,7 @@ async function baidu(text: string = undefined) {
           args.text
         )}&appid=${appid}&from=${args.sl.split("-")[0]}&to=${
           args.tl.split("-")[0]
-        }&salt=${salt}&sign=${sign}`,
+        }&salt=${salt}&sign=${sign}&action=${action}`,
         {
           responseType: "json",
         }
