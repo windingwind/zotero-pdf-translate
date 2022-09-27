@@ -504,6 +504,7 @@ class TransEngine extends TransConfig {
         ) as string;
       }
     }
+    this._Addon._audioSourceURL = [];  // clear previous audio
 
     // bool return for success or fail
     let translateStatus: boolean | string = await this[engine](text);

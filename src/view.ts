@@ -778,6 +778,25 @@ class TransView extends AddonBase {
     }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
+    let audioButton: HTMLButtonElement = selectionMenu.ownerDocument
+      .getElementById("pdf-translate-popup-audio-button");
+    if (this._Addon._audioSourceURL.length < 1) {
+      audioButton && audioButton.remove();
+      audioButton = null;
+    } else if (!audioButton) {  // create once only
+      audioButton = selectionMenu.ownerDocument.createElement("div");
+      audioButton.innerHTML = "🔊";
+      audioButton.setAttribute("id", "pdf-translate-popup-audio-button");
+      audioButton.setAttribute("class", "toolbarButton");
+      audioButton.setAttribute("style", 
+        "margin: 2px; width: 20px; cursor: pointer;");
+      audioButton.addEventListener("click", () =>
+        new Audio(Zotero.ZoteroPDFTranslate._audioSourceURL[0] || '').play()
+      );
+      selectionMenu.appendChild(audioButton);
+    }
+
+
     this.onPopopItemChange(selectionMenu);
 
     // Create text
@@ -807,7 +826,7 @@ class TransView extends AddonBase {
     textbox.style.width = `${w}px`;
     textbox.style.height = `${h}px`;
     selectionMenu.style.width = `${w + 3}px`;
-    selectionMenu.style.height = `${h + 20}px`;
+    selectionMenu.style.height = `${h + (audioButton ? 46 : 20)}px`;
 
     // Update button width
     let buttons = selectionMenu.getElementsByTagName("button");
@@ -817,7 +836,8 @@ class TransView extends AddonBase {
 
     const onTextAreaResize = (_e) => {
       selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
-      selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
+      selectionMenu.style.height = 
+        `${textbox.offsetHeight + (audioButton ? 46 : 20)}px`;
 
       if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
         Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
@@ -1053,7 +1073,11 @@ class TransView extends AddonBase {
       return;
     }
     this.popupTextBox.style.height = `${textHeight + 3}px`;
-    selectionMenu.style.height = `${textHeight + 20}px`;
+    if (selectionMenu.ownerDocument
+      .getElementById("pdf-translate-popup-audio-button"))
+      selectionMenu.style.height = `${textHeight + 46}px`;
+    else
+      selectionMenu.style.height = `${textHeight + 20}px`;
 
     // Update button width
     let buttons = selectionMenu.getElementsByTagName("button");
