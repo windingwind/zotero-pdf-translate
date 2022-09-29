@@ -12,9 +12,11 @@
         <preference id="pref-__addonRef__-annotationTranslationPosition" name="extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition" type="string" />
         <preference id="pref-__addonRef__-enable-commentedit" name="extensions.zotero.ZoteroPDFTranslate.enableCommentEdit" type="bool" />
         <preference id="pref-__addonRef__-enable-note" name="extensions.zotero.ZoteroPDFTranslate.enableNote" type="bool" />
+        <preference id="pref-__addonRef__-enable-note-replace" name="extensions.zotero.ZoteroPDFTranslate.enableNoteReplaceMode" type="bool" />
         <preference id="pref-__addonRef__-enable-auto" name="extensions.zotero.ZoteroPDFTranslate.enableAuto" type="bool" />
         <preference id="pref-__addonRef__-enable-dict" name="extensions.zotero.ZoteroPDFTranslate.enableDict" type="bool" />
         <preference id="pref-__addonRef__-font-size" name="extensions.zotero.ZoteroPDFTranslate.fontSize" type="string" />
+        <preference id="pref-__addonRef__-line-height" name="extensions.zotero.ZoteroPDFTranslate.lineHeight" type="string" />
         <preference id="pref-__addonRef__-auto-focus" name="extensions.zotero.ZoteroPDFTranslate.autoFocus" type="bool" />
         <preference id="pref-__addonRef__-raw-result-order" name="extensions.zotero.ZoteroPDFTranslate.rawResultOrder" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-engine" name="extensions.zotero.ZoteroPDFTranslate.showSidebarEngine" type="bool" />
@@ -24,6 +26,7 @@
         <preference id="pref-__addonRef__-show-sidebar-source" name="extensions.zotero.ZoteroPDFTranslate.showSidebarRaw" type="bool" />
         <preference id="pref-__addonRef__-show-sidebar-copy" name="extensions.zotero.ZoteroPDFTranslate.showSidebarCopy" type="bool" />
         <preference id="pref-__addonRef__-keep-window-top" name="extensions.zotero.ZoteroPDFTranslate.keepWindowTop" type="bool" />
+        <preference id="pref-__addonRef__-keep-popup-size" name="extensions.zotero.ZoteroPDFTranslate.keepPopupSize" type="bool" />
         <preference id="pref-__addonRef__-translate-source" name="extensions.zotero.ZoteroPDFTranslate.translateSource" type="string" />
         <preference id="pref-__addonRef__-dict-source" name="extensions.zotero.ZoteroPDFTranslate.dictSource" type="string" />
         <preference id="pref-__addonRef__-translate-sl" name="extensions.zotero.ZoteroPDFTranslate.sourceLanguage" type="string" />
@@ -84,8 +87,16 @@
                   <label value="&zotero.__addonRef__.pref.basic.enableCommentEdit.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" preference="pref-__addonRef__-enable-note" />
-                  <label value="&zotero.__addonRef__.pref.basic.enableNote.label;" />
+                  <columns>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateAddToNoteSettings();" preference="pref-__addonRef__-enable-note" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableNote.label;" />
+                    </column>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-note-replace" preference="pref-__addonRef__-enable-note-replace" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableNoteReplace.label;" />
+                    </column>
+                  </columns>
                 </row>
               </rows>
             </groupbox>
@@ -99,6 +110,7 @@
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.cnki;" value="cnki" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdao;" value="youdao" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdaozhiyun;" value="youdaozhiyun" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutrans;" value="niutrans" />
@@ -174,6 +186,7 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.youdaodict;" value="youdaodict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.bingdict;" value="bingdict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.freedictionaryapi;" value="freedictionaryapi" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.dictSource.webliodict;" value="webliodict" />
                       </menupopup>
                     </menulist>
                     <label value="&zotero.__addonRef__.pref.api.secret.label;" />
@@ -226,6 +239,10 @@
                           <textbox id="zotero-prefpane-__addonRef__-settings-font-size" preference="pref-__addonRef__-font-size" oninput="Zotero.ZoteroPDFTranslate.prefs.updatePreviewPannel()" maxwidth="40" />
                         </row>
                         <row>
+                          <label value="&zotero.__addonRef__.pref.advanced.lineHeight.label;" />
+                          <textbox id="zotero-prefpane-__addonRef__-settings-line-height" preference="pref-__addonRef__-line-height" oninput="Zotero.ZoteroPDFTranslate.prefs.updatePreviewPannel()" maxwidth="40" />
+                        </row>
+                        <row>
                           <checkbox preference="pref-__addonRef__-auto-focus" />
                           <label value="&zotero.__addonRef__.pref.advanced.autoFocus.label;" />
                         </row>
@@ -260,6 +277,10 @@
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-keep-window-top" preference="pref-__addonRef__-keep-window-top" />
                           <label value="&zotero.__addonRef__.pref.advanced.keepWindowTop.label;" />
+                        </row>
+                        <row>
+                          <checkbox id="zotero-prefpane-__addonRef__-settings-keep-popup-size" preference="pref-__addonRef__-keep-popup-size" />
+                          <label value="&zotero.__addonRef__.pref.advanced.keepPopupSize.label;" />
                         </row>
                       </rows>
                     </groupbox>

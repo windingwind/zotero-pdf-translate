@@ -2,6 +2,7 @@ import { TransConfig } from "./config";
 import { baidu } from "./translate/baidu";
 import { baidufield } from "./translate/baidufield";
 import { caiyun } from "./translate/caiyun";
+import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
@@ -13,6 +14,7 @@ import { youdaozhiyun } from "./translate/youdaozhiyun";
 import { youdaodict } from "./dict/youdaodict";
 import { bingdict } from "./dict/bingdict";
 import { freedictionaryapi } from "./dict/freedictionaryapi";
+import { webliodict } from "./dict/weblio";
 import PDFTranslate from "./addon";
 import { TransArgs } from "./base";
 
@@ -24,6 +26,7 @@ class TransEngine extends TransConfig {
   baidu: Function;
   baidufield: Function;
   caiyun: Function;
+  cnki: Function;
   deeplpro: Function;
   deeplfree: Function;
   deepl: Function;
@@ -43,6 +46,7 @@ class TransEngine extends TransConfig {
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
+  webliodict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -54,6 +58,7 @@ class TransEngine extends TransConfig {
     this.baidu = baidu;
     this.baidufield = baidufield;
     this.caiyun = caiyun;
+    this.cnki = cnki;
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;
     this.deepl = deepl;
@@ -73,6 +78,7 @@ class TransEngine extends TransConfig {
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;
+    this.webliodict = webliodict;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
@@ -217,7 +223,11 @@ class TransEngine extends TransConfig {
           this._Addon._sourceText = annotation.text;
           await this.getTranslation();
         }
-        annotation.text = `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
+        annotation.text = (Zotero.Prefs.get(
+          "ZoteroPDFTranslate.enableNoteReplaceMode"
+        ) as boolean)
+          ? this._Addon._translatedText
+          : `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
       }
     } catch (e) {
       Zotero.debug(`ZoteroPDFTranslate.callTranslateNote Error: ${e}`);

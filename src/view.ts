@@ -511,6 +511,9 @@ class TransView extends AddonBase {
     textboxSource.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textboxSource.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
     let rawResultOrder = Zotero.Prefs.get("ZoteroPDFTranslate.rawResultOrder");
     let splitter = _document.createElement("splitter");
@@ -533,6 +536,9 @@ class TransView extends AddonBase {
     textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textboxTranslated.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
     const cbConcat = _document.createElement("checkbox");
     cbConcat.setAttribute("id", "pdf-translate-cbConcat");
@@ -783,19 +789,43 @@ class TransView extends AddonBase {
     textbox.setAttribute("id", "pdf-translate-popup");
     textbox.setAttribute("rows", "3");
     textbox.setAttribute("columns", "10");
-    textbox.style["font-size"] = `${Zotero.Prefs.get(
+    textbox.style.fontSize = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textbox.style.fontFamily = "inherit";
+    textbox.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
-    textbox.style.width = "105px";
-    textbox.style.height = "30px";
-    selectionMenu.style.width = "105px";
-    selectionMenu.style.height = "50px";
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    const w = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
+      : 105;
+    const h = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
+      : 30;
+    textbox.style.width = `${w}px`;
+    textbox.style.height = `${h}px`;
+    selectionMenu.style.width = `${w + 3}px`;
+    selectionMenu.style.height = `${h + 20}px`;
+
+    // Update button width
+    let buttons = selectionMenu.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].style.width = selectionMenu.style.width;
+    }
 
     const onTextAreaResize = (_e) => {
       selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
       selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
 
+      if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
+        Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
+        Zotero.Prefs.set(
+          "ZoteroPDFTranslate.popupHeight",
+          textbox.offsetHeight
+        );
+      }
       // Update button width
       let buttons = selectionMenu.getElementsByTagName("button");
       for (let i = 0; i < buttons.length; i++) {
@@ -1002,10 +1032,14 @@ class TransView extends AddonBase {
       return;
     }
 
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    if (keepSize) {
+      return;
+    }
     // Get current H & W
     let textHeight = this.popupTextBox.scrollHeight;
     let textWidth = this.popupTextBox.scrollWidth;
-    let newWidth = textWidth + 20;
+    const newWidth = textWidth + 20;
     if (
       textHeight / textWidth > 0.75 &&
       newWidth + selectionPopup.offsetLeft < viewContainer.offsetWidth - 50
@@ -1171,6 +1205,13 @@ class TransView extends AddonBase {
       menulist.setAttribute("value", engine);
       let menupopup = _document.createElement("menupopup");
       menulist.appendChild(menupopup);
+
+      let lineHeight = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.lineHeight"
+      ) as string;
+      if (parseFloat(lineHeight) < 0) {
+        lineHeight = "1";
+      }
       for (let source of this._Addon.translate.sources) {
         let menuitem = _document.createElement("menuitem");
         menuitem.setAttribute(
@@ -1239,6 +1280,7 @@ class TransView extends AddonBase {
       textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      textboxTranslated.style.lineHeight = lineHeight;
 
       hboxInfo.append(menuLabel, menulist, buttonRemove);
       vbox.append(hboxInfo, textboxTranslated);
@@ -1266,17 +1308,25 @@ class TransView extends AddonBase {
     let sideBarTextboxTranslated: XUL.Textbox = _document.getElementById(
       "pdf-translate-tabpanel-translated"
     );
+    let lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
+    if (parseFloat(lineHeight) < 0) {
+      lineHeight = "1";
+    }
     if (sideBarTextboxSource) {
       sideBarTextboxSource.value = this._Addon._sourceText;
       sideBarTextboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      sideBarTextboxSource.style.lineHeight = lineHeight;
     }
     if (sideBarTextboxTranslated) {
       sideBarTextboxTranslated.value = this._Addon._translatedText;
       sideBarTextboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      sideBarTextboxTranslated.style.lineHeight = lineHeight;
     }
     if (this.popupTextBox) {
       try {

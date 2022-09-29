@@ -16,6 +16,7 @@ class TransPref extends AddonBase {
     this.buildLanguageSettings();
     this.updatePreviewPannel();
     this.updateAnnotationTranslationSettings();
+    this.updateAddToNoteSettings();
   }
 
   updateSourceParam(type: string) {
@@ -79,10 +80,15 @@ class TransPref extends AddonBase {
     let pannel = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-preview"
     );
-    let text: XUL.Textbox = this._document.getElementById(
+    let fontSizeText: XUL.Textbox = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-font-size"
     );
-    pannel.style["font-size"] = `${parseInt(text.value)}px`;
+    let lineHeightText: XUL.Textbox = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-line-height"
+    );
+    pannel.style["font-size"] = `${parseInt(fontSizeText.value)}px`;
+    pannel.style.lineHeight =
+      parseFloat(lineHeightText.value) < 0 ? "1" : lineHeightText.value;
   }
 
   updateAnnotationTranslationSettings() {
@@ -296,6 +302,17 @@ class TransPref extends AddonBase {
     Zotero.Prefs.set("zoteroniutrans.dictLibList", "");
     Zotero.Prefs.set("zoteroniutrans.memoryLibList", "");
   }
+  updateAddToNoteSettings() {
+    Zotero.debug("ZoteroPDFTranslate: updateAddToNoteSettings.");
+    let enableAddToNote = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-note"
+    ) as XUL.Checkbox;
+    const mode: XUL.Element = this._document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-enable-note-replace"
+    );
+    mode.disabled = !enableAddToNote.checked;
+  }
+
   private buildLanguageSettings() {
     let SLMenuList: XUL.Menulist = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-translate-sl"
