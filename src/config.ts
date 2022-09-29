@@ -18,6 +18,7 @@ class TransConfig extends AddonBase {
       "youdaozhiyun",
       "niutrans",
       "niutranspro",
+      "niutransLog",
       "microsoft",
       "caiyun",
       "deeplfree",

@@ -48,6 +48,7 @@ class TransLocale extends AddonBase {
       caiyun: "彩云*",
       niutrans: "小牛试用",
       niutranspro: "小牛*",
+      niutransLog:"小牛(登录)",
       deeplfree: "DeepL(Free)*",
       deeplpro: "DeepL(Pro)*",
       baidu: "百度*",
@@ -59,6 +60,14 @@ class TransLocale extends AddonBase {
       bingdict: "必应词典(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
     },
+    niutrans_tip: {
+      tipTitle:'提示',
+      tipUserName:'账号为空',
+      tipPassword:'密码为空',
+      errorTipTitle:'登录失败',
+      errorMessage:'未知原因',
+      successMessageTip:"登录成功！"
+    }
   };
 
   en = {
@@ -107,6 +116,7 @@ class TransLocale extends AddonBase {
       caiyun: "LingoCloud(Caiyun)*",
       niutrans: "Niu(Trial)",
       niutranspro: "Niu*",
+      niutransLog:"Niu(Login)",
       deeplfree: "DeepL(Free)*",
       deeplpro: "DeepL(Pro)*",
       baidu: "Baidu*",
@@ -118,6 +128,14 @@ class TransLocale extends AddonBase {
       bingdict: "Bing Dict(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
     },
+    niutrans_tip: {
+      tipTitle:'Tip',
+      tipUserName:'username is null',
+      tipPassword:'password is null',
+      errorTipTitle:'Login failed',
+      errorMessage:'unknown',
+      successMessageTip:'success'
+    }
   };
 
   // You can add support for other languages here, similar to the above

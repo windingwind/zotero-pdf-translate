@@ -21,6 +21,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.caiyun "彩云*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.niutrans "小牛试用">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.niutranspro "小牛*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.niutransLog "小牛(登录)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplfree "DeepL(Free)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.deeplpro "DeepL(Pro)*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidu "百度*">
@@ -32,6 +33,16 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 
+<!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "账号">
+<!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "密码">
+<!ENTITY zotero.__addonRef__.pref.api.niutransDictLib.label "术语词典">
+<!ENTITY zotero.__addonRef__.pref.api.niutransMemoryLib.label "翻译记忆">
+<!ENTITY zotero.__addonRef__.pref.api.niutransSignUp.label "注册账号">
+<!ENTITY zotero.__addonRef__.pref.api.niutransForgotPassword.label "找回密码">
+<!ENTITY zotero.__addonRef__.pref.api.niutransLoginBtn.label "登录">
+<!ENTITY zotero.__addonRef__.pref.api.niutransTip.label "请到">
+<!ENTITY zotero.__addonRef__.pref.api.niutransTipLink.label "小牛翻译云平台">
+<!ENTITY zotero.__addonRef__.pref.api.niutransTipEnd.label "进行添加术语词典库">
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "翻译到">
 <!ENTITY zotero.__addonRef__.pref.api.secret.label "密钥">

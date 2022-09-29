@@ -1,5 +1,7 @@
 import PDFTranslate from "./addon";
 import AddonBase from "./module";
+import { userLogin,getDictLibList, getMemoryLibList, getPublicKey } from "./translate/niutrans";
+import { JSEncrypt } from 'jsencrypt'
 
 class TransPref extends AddonBase {
   private _document: Document;
@@ -24,7 +26,18 @@ class TransPref extends AddonBase {
     let param: XUL.Textbox = this._document.getElementById(
       `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
     );
-
+    // 判断一次是否为小牛翻译登录选项 
+    if (type == 'translate') {
+      let otherTransOptions = this._document.getElementById("other-trans-input");
+      let niuTransOptions = this._document.getElementById("niutrans-login-btn");
+      if (menu.value == 'niutransLog') {
+          niuTransOptions.hidden = false;
+          otherTransOptions.hidden = true;
+      } else {
+          niuTransOptions.hidden = true;
+          otherTransOptions.hidden = false;
+      }
+    }
     let userSecrets = JSON.parse(
       Zotero.Prefs.get("ZoteroPDFTranslate.secretObj") as string
     );
@@ -92,7 +105,197 @@ class TransPref extends AddonBase {
       commentEdit.disabled = false;
     }
   }
+  async login(){
+    let username: XUL.Textbox = this._document.getElementById("zoteroniutrans-username");
+	  let password: XUL.Textbox = this._document.getElementById("zoteroniutrans-password");
+    // Services.locale.getRequestedLocale()获取语言
+    if(typeof username.value == "undefined" || username.value == null || username.value == "") {
+      Zotero.alert(
+        window,
+        `${this._Addon.locale.getString("niutrans_tip", "tipTitle")}`,
+        `${this._Addon.locale.getString("niutrans_tip", "tipUserName")}`
+      );
+      return;
+    }
+    if(typeof password.value == "undefined" || password.value == null || password.value == "") {
+      Zotero.alert(
+        window,
+        `${this._Addon.locale.getString("niutrans_tip", "tipTitle")}`,
+        `${this._Addon.locale.getString("niutrans_tip", "tipPassword")}`
+      );
+      return;
+    }
+    let button = this._document.getElementById("zoteroniutrans-loginbutton");
+    button.setAttribute("disabled", "true")
+    try {
+      let keyxhr = await getPublicKey();
+      if(keyxhr && keyxhr.status && keyxhr.status === 200 && keyxhr.response.flag && keyxhr.response.flag == 1) {
+    
+      }else{
+        return;
+      }
+      
+      let encrypt = new JSEncrypt();
+      encrypt.setPublicKey(keyxhr.response.key);
+      let encryptionPassword = encrypt.encrypt(password.value);
+      encryptionPassword = encodeURIComponent(encryptionPassword);
+      let xhr = await userLogin(username.value,encryptionPassword)
+      if(xhr && xhr.status && xhr.status === 200) {
+        if(xhr.response.flag == 1) {
+          let apikey = xhr.response.apikey;
+          Zotero.Prefs.set("zoteroniutrans.username", username.value);
+          Zotero.Prefs.set("zoteroniutrans.password", password.value);
+          Zotero.Prefs.set("zoteroniutrans.apikey", apikey);
+          this.initDictLibList(apikey);
+          this.initMemoryLibList(apikey);
+          let messagetextbox = this._document.getElementById("zoteroniutrans-messagetextbox");
+          messagetextbox.setAttribute("value",`${this._Addon.locale.getString("niutrans_tip", "successMessageTip")}`);
+        } else {
+          Zotero.alert(
+            window,
+            `${this._Addon.locale.getString("niutrans_tip", "errorTipTitle")}`,
+            xhr.response.msg
+          );
+        }
+      }
+    } catch (error) {
+      Zotero.alert(
+        window,
+        `${this._Addon.locale.getString("niutrans_tip", "errorTipTitle")}`,
+        `${this._Addon.locale.getString("niutrans_tip", "errorMessage")}`
+      );
+    } finally {
+      button.setAttribute("disabled", "false")
+    }
+  }
+  async initDictLibList (apikey){
+    let dictLibListElement = this._document.getElementById("zoteroniutrans-dictLibList");
+    while(dictLibListElement.firstChild) {
+      dictLibListElement.removeChild(dictLibListElement.firstChild)
+    }
 
+    let xhr = await getDictLibList(apikey)
+
+    if(xhr && xhr.status && xhr.status === 200) {
+      if(xhr.response.flag == 0) {
+        //Zotero.Niutrans.View.message("\u672f\u8bed\u8bcd\u5178\u521d\u59cb\u5316"+xhr.response.msg);//术语词典初始化
+      } else {
+        let dlist = xhr.response.dlist;
+        let isUseDictNo;
+
+        let arr = new Array();
+        for(let item in dlist) {
+          let dict = dlist[item];
+          let dic = {
+            dictName:dict.dictName,
+            isUse:dict.isUse,
+            dictNo:dict.dictNo
+          };
+          arr[item] = dic;
+
+          if(dict.isUse == 1) {
+            isUseDictNo = dict.dictNo;
+          }
+
+          let newDictLib = this._document.createElement("menuitem");
+          newDictLib.setAttribute("label", dict.dictName);
+          newDictLib.setAttribute("value", dict.dictNo);
+          dictLibListElement.appendChild(newDictLib);
+        }
+        Zotero.Prefs.set("zoteroniutrans.dictLibList", JSON.stringify(arr));
+
+        let dictNo = Zotero.Prefs.get("zoteroniutrans.dictNo");
+        if(typeof dictNo === "undefined" || dictNo == null || dictNo == "") {
+          if(typeof isUseDictNo === "undefined" || isUseDictNo == null || isUseDictNo == "") {
+            if(arr.length && arr.length > 0) {
+              Zotero.Prefs.set("zoteroniutrans.dictNo", arr[0].dictNo);
+            }
+          } else {
+            Zotero.Prefs.set("zoteroniutrans.dictNo", isUseDictNo);
+          }
+        } else {
+          Zotero.Prefs.set("zoteroniutrans.dictNo", "");
+          Zotero.Prefs.set("zoteroniutrans.dictNo", dictNo);
+        }
+      }
+    }
+  }
+  async initMemoryLibList (apikey){
+    let memoryLibListElement = this._document.getElementById("zoteroniutrans-memoryLibList");
+    while(memoryLibListElement.firstChild) {
+      memoryLibListElement.removeChild(memoryLibListElement.firstChild)
+    }
+
+    let xhr = await getMemoryLibList(apikey)
+
+    if(xhr && xhr.status && xhr.status === 200) {
+      if(xhr.response.flag == 0) {
+        //Zotero.Niutrans.View.message("\u7ffb\u8bd1\u8bb0\u5fc6\u521d\u59cb\u5316"+xhr.response.msg);//翻译记忆初始化
+      } else {
+        let mlist = xhr.response.mlist;
+        let isUseMemoryNo;
+
+        let arr = new Array();
+        for(let item in mlist) {
+          let memory = mlist[item];
+          let mem = {
+            memoryName:memory.memoryName,
+            isUse:memory.isUse,
+            memoryNo:memory.memoryNo
+          };
+          arr[item] = mem;
+
+          if(memory.isUse == 1) {
+            isUseMemoryNo = memory.memoryNo;
+          }
+
+          let newMemoryLib = this._document.createElement("menuitem");
+          newMemoryLib.setAttribute("label", memory.memoryName);
+          newMemoryLib.setAttribute("value", memory.memoryNo);
+          memoryLibListElement.appendChild(newMemoryLib);
+        }
+
+        Zotero.Prefs.set("zoteroniutrans.memoryLibList", JSON.stringify(arr));
+
+        let memoryNo = Zotero.Prefs.get("zoteroniutrans.memoryNo");
+        if(typeof memoryNo === "undefined" || memoryNo == null || memoryNo == "") {
+          if(typeof isUseMemoryNo === "undefined" || isUseMemoryNo == null || isUseMemoryNo == "") {
+            if(arr.length && arr.length > 0) {
+              Zotero.Prefs.set("zoteroniutrans.memoryNo", arr[0].memoryNo);
+            }
+          } else {
+            Zotero.Prefs.set("zoteroniutrans.memoryNo", isUseMemoryNo);
+          }
+        } else {
+          Zotero.Prefs.set("zoteroniutrans.memoryNo", "");
+          Zotero.Prefs.set("zoteroniutrans.memoryNo", memoryNo);
+        }
+      }
+    }
+  }
+  cleanPasswordAndApikey() {
+    Zotero.Prefs.set("zoteroniutrans.password", "");
+    let passwordElement: XUL.Textbox = this._document.getElementById("zoteroniutrans-password");
+    passwordElement.value = "";
+    Zotero.Prefs.set("zoteroniutrans.apikey", "");
+    let messagetextbox = this._document.getElementById("zoteroniutrans-messagetextbox");
+    messagetextbox.setAttribute("value","");
+    this.cleanDictNoAndMemoryNo();
+  }
+  
+  cleanApikey() {
+    Zotero.Prefs.set("zoteroniutrans.apikey", "");
+    let messagetextbox = this._document.getElementById("zoteroniutrans-messagetextbox");
+    messagetextbox.setAttribute("value","");
+    this.cleanDictNoAndMemoryNo();
+  }
+  
+  cleanDictNoAndMemoryNo = function() {
+    Zotero.Prefs.set("zoteroniutrans.dictNo", "");
+    Zotero.Prefs.set("zoteroniutrans.memoryNo", "");
+    Zotero.Prefs.set("zoteroniutrans.dictLibList", "");
+    Zotero.Prefs.set("zoteroniutrans.memoryLibList", "");
+  }
   private buildLanguageSettings() {
     let SLMenuList: XUL.Menulist = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-translate-sl"

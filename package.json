@@ -29,6 +29,7 @@
     "compressing": "^1.5.1",
     "crypto-js": "^4.1.1",
     "esbuild": "^0.14.34",
+    "jsencrypt": "^3.2.1",
     "replace-in-file": "^6.3.2"
   },
   "devDependencies": {

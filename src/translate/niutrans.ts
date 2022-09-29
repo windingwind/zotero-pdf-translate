@@ -4,6 +4,9 @@ async function niutrans(text: string = undefined) {
 async function niutranspro(text: string = undefined) {
   return await this.niutransapi("niutranspro", text);
 }
+async function niutransLog(text: string = undefined) {
+  return await this.niutransText("niutransLog", text);
+}
 async function niutransapi(engine: string, text: string) {
   let args = this.getArgs(engine, text);
   let apiParams = args.secret.split("#");
@@ -38,5 +41,79 @@ async function niutransapi(engine: string, text: string) {
     }
   );
 }
+async function niutransText(engine: string, text: string) {
+  let args = this.getArgs(engine, text);
+  return await this.requestTranslate(
+    async () => {
+      return await Zotero.HTTP.request(
+        "POST",
+        "https://api.niutrans.com/NiuTransServer/translation", {
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json, text/plain, */*"
+          },
+          body: JSON.stringify({
+            from: args.sl.split("-")[0],
+            to: args.tl.split("-")[0],
+            apikey: Zotero.Prefs.get("zoteroniutrans.apikey"),
+            dictNo: Zotero.Prefs.get("zoteroniutrans.dictNo"),
+            memoryNo: Zotero.Prefs.get("zoteroniutrans.memoryNo"),
+            source: "zotero",
+            src_text: args.text,
+          }),
+          responseType: "json",
+        }
+      );
+    },
+    (xhr) => {
+      if (xhr.response.error_code) {
+        throw `${xhr.response.error_code}:${xhr.response.error_msg}`;
+      }
+      let tgt = xhr.response.tgt_text;
+      Zotero.debug(tgt);
+      if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+      return tgt;
+    }
+  );
+}
+// 新增登录接口
+async function userLogin(username:string, password:string) {
+  return await Zotero.HTTP.request(
+    "POST",
+    "https://apis.niutrans.com/NiuTransAPIServer/checkInformation", 
+    {
+      body: `account=${username}&encryptionPassword=${password}`,
+      responseType: "json",
+    }
+  );
+}
 
-export { niutrans, niutransapi, niutranspro };
+async function getDictLibList(apikey:string) {
+  return await Zotero.HTTP.request(
+    "POST",
+    "https://apis.niutrans.com/NiuTransAPIServer/getDictLibList", {
+      body: `apikey=${apikey}`,
+      responseType: "json",
+    }
+  )
+}
+
+async function getMemoryLibList(apikey:string) {
+  return await Zotero.HTTP.request(
+    "POST",
+    "https://apis.niutrans.com/NiuTransAPIServer/getMemoryLibList", {
+      body: `apikey=${apikey}`,
+      responseType: "json",
+    }
+  )
+}
+async function getPublicKey() {
+  return await Zotero.HTTP.request(
+    "GET",
+    "https://apis.niutrans.com/NiuTransAPIServer/getpublickey",
+    {
+      responseType: "json",
+    }
+  );
+}
+export { niutrans, niutransapi, niutranspro, userLogin, getDictLibList, getMemoryLibList, getPublicKey, niutransText, niutransLog };
