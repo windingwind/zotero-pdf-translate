@@ -10,6 +10,7 @@
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "Save to Annotation Body">
 <!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "Enable Update and Edit Last Annotation Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "Show 'Add Translation to Note' in Popup">
+<!ENTITY zotero.__addonRef__.pref.basic.enableNoteReplace.label "Replace Source Text">
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "Service">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.label "Translate Engine">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.google "Google">
@@ -28,10 +29,12 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidufield "BaiduField*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "Tencent*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "Dictionary Engine">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "Youdao Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "Bing Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 
 <!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "username">
 <!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "password">
@@ -65,6 +68,7 @@
 
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
+<!ENTITY zotero.__addonRef__.pref.advanced.lineHeight.label "Line Height">
 <!ENTITY zotero.__addonRef__.pref.advanced.autoFocus.label "SideBar: Auto Focus">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarSettings.label "SideBar: Show Settings">
@@ -74,6 +78,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "SideBar: Show Copy Buttons">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "SideBar: Reverse Raw/Result">
 <!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "Standalone: Keep Window on Top">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepPopupSize.label "Popup: Remember Size">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "Preview">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">

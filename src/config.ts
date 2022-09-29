@@ -14,6 +14,7 @@ class TransConfig extends AddonBase {
       "googleapi",
       // "googleweb",
       "google",
+      "cnki",
       "youdao",
       "youdaozhiyun",
       "niutrans",
@@ -30,6 +31,7 @@ class TransConfig extends AddonBase {
       "youdaodict",
       "bingdict",
       "freedictionaryapi",
+      "webliodict",
     ];
     // this parameter now in src/languages.ts, multiple languages can be supported
     // this.sourcesName = {
@@ -53,9 +55,11 @@ class TransConfig extends AddonBase {
       openl: "service1,service2,...#apikey",
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
+      cnki: "",
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",
+      webliodict: "",
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },

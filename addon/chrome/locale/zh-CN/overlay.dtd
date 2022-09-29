@@ -10,6 +10,7 @@
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "存在笔记本身">
 <!ENTITY zotero.__addonRef__.pref.basic.enableCommentEdit.label "启用更新与编辑上一条批注翻译">
 <!ENTITY zotero.__addonRef__.pref.basic.enableNote.label "在弹窗显示'添加翻译笔记'">
+<!ENTITY zotero.__addonRef__.pref.basic.enableNoteReplace.label "替换原始文本">
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "翻译服务">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.label "翻译引擎">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.google "谷歌">
@@ -28,10 +29,12 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.baidufield "百度垂直领域*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "腾讯*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI学术翻译">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 
 <!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "账号">
 <!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "密码">
@@ -64,6 +67,7 @@
 
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "字体大小">
+<!ENTITY zotero.__addonRef__.pref.advanced.lineHeight.label "行高">
 <!ENTITY zotero.__addonRef__.pref.advanced.autoFocus.label "侧边栏: 自动聚焦">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
@@ -73,6 +77,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarCopy.label "侧边栏: 显示复制按钮">
 <!ENTITY zotero.__addonRef__.pref.advanced.rawResultOrder.label "侧边栏: 反转源/结果显示">
 <!ENTITY zotero.__addonRef__.pref.advanced.keepWindowTop.label "独立窗口: 保持最前">
+<!ENTITY zotero.__addonRef__.pref.advanced.keepPopupSize.label "弹窗: 记住大小">
 <!ENTITY zotero.__addonRef__.pref.advanced.preview.label "预览">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">
