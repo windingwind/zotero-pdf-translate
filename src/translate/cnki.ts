@@ -1,6 +1,6 @@
 const CryptoJS = require("crypto-js");
 
-async function getToken() {
+async function getToken(forceRefresh: boolean = false) {
   let token = "";
   // Just in case the update fails
   let doRefresh = true;
@@ -9,9 +9,10 @@ async function getToken() {
       Zotero.Prefs.get("ZoteroPDFTranslate.cnkiToken") as string
     );
     if (
+      !forceRefresh &&
       tokenObj &&
       tokenObj.token &&
-      new Date().getTime() - tokenObj.token.t < 300 * 1000
+      new Date().getTime() - tokenObj.t < 300 * 1000
     ) {
       token = tokenObj.token;
       doRefresh = false;
@@ -48,7 +49,7 @@ function getWord(t) {
   return (r = r.replace(/\+/g, "-")), r;
 }
 
-async function cnki(text: string = undefined) {
+async function cnki(text: string = undefined, retry: boolean = true) {
   let args = this.getArgs("cnki", text);
 
   return await this.requestTranslate(
@@ -69,7 +70,34 @@ async function cnki(text: string = undefined) {
         }
       );
     },
-    (xhr) => {
+    async (xhr) => {
+      if (retry && xhr.response.data?.isInputVerificationCode) {
+        // Monitor verification
+        await Zotero.HTTP.request(
+          "GET",
+          "https://dict.cnki.net/fyzs-front-api/captchaImage",
+          {
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8",
+              Token: await getToken(),
+            },
+          }
+        );
+        await Zotero.HTTP.request(
+          "POST",
+          "https://dict.cnki.net/fyzs-front-api/translate/addVerificationCodeTimes",
+          {
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8",
+              Token: await getToken(),
+            },
+          }
+        );
+        await getToken(true);
+        // Call translation again
+        return await cnki.call(this, text, false);
+        // throw "CNKI requires verification. Please verify manually in popup or open dict.cnki.net in browser.";
+      }
       let tgt = xhr.response.data?.mResult;
       Zotero.debug(tgt);
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
