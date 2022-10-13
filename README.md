@@ -3,6 +3,8 @@
 This is an add-on for [Zotero 6](https://www.zotero.org/)'s built-in PDF reader.  
 Translate PDFs, annotations, notes, and item titles automatically.
 
+[中文文档](https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d)
+
 ![](imgs/translate.gif)
 
 # Quick Start Guide
