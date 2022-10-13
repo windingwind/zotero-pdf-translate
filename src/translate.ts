@@ -102,7 +102,7 @@ class TransEngine extends TransConfig {
     this._Addon._sourceText = text;
     this._Addon._translatedText = "";
     this._Addon._debug = "";
-    this._Addon.view.updateAllTranslatePanelData(document);
+    this._Addon.view.updateAllTranslatePanelData();
     this._Addon.view.updateAllResults();
     this._Addon.view.updatePopupStyle();
 
@@ -149,7 +149,11 @@ class TransEngine extends TransConfig {
       Zotero.debug(
         `ZoteroPDFTranslate: TranslateExtra returns ${translatedText}`
       );
-      this._Addon.view.updateExtraResults(_window.document, translatedText, i);
+      this._Addon.view.updateExtraResults(
+        _window.document,
+        translatedText as string,
+        i
+      );
       i++;
     }
   }
@@ -595,7 +599,7 @@ class TransEngine extends TransConfig {
         "error_request"
       )} \n\n ${this._Addon.locale.getString(
         "translate_engine",
-        Zotero.Prefs.get("ZoteroPDFTranslate.translateSource")
+        Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string
       )}.\n${this._Addon._debug}`;
     } else if (errorType == "parse") {
       return `${this._Addon.locale.getString("translate_api", "error_parse")}${

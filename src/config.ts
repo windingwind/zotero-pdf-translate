@@ -3,11 +3,11 @@ import AddonBase from "./module";
 
 class TransConfig extends AddonBase {
   sources: string[];
-  sourcesName: Object;
+  sourcesName: any;
   defaultSourceLanguage: string;
   defaultTargetLanguage: string;
-  defaultSecret: Object;
-  LangCultureNames: Object[];
+  defaultSecret: any;
+  LangCultureNames: { LangCultureName: string; DisplayName: string }[];
   constructor(parent: PDFTranslate) {
     super(parent);
     this.sources = [

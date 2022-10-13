@@ -224,7 +224,7 @@ class TransView extends AddonBase {
       n++;
     }
     tabContainer = this._Addon.reader.getReaderTabContainer();
-    const tabbox = tabContainer.querySelector("tabbox");
+    const tabbox = tabContainer.querySelector("tabbox") as HTMLElement;
     tabbox.querySelector("tabs").appendChild(tab);
 
     let panelInfo = this.tabPanel;
@@ -270,11 +270,13 @@ class TransView extends AddonBase {
     //   "pdf-translate-tabpanel-translated"
     // );
     if (Zotero.Prefs.get("ZoteroPDFTranslate.autoFocus")) {
+      // @ts-ignore
       tabbox.selectedIndex = Array.prototype.indexOf.call(
         tabbox.querySelector("tabs").childNodes,
         tabbox.querySelector("#pdf-translate-tab")
       );
     } else {
+      // @ts-ignore
       tabbox.selectedIndex = tabbox.selectedIndex;
     }
   }
@@ -785,7 +787,7 @@ class TransView extends AddonBase {
       currentReader._window.document.createElementNS(
         "http://www.w3.org/1999/xhtml",
         "textarea"
-      );
+      ) as HTMLTextAreaElement;
     textbox.setAttribute("id", "pdf-translate-popup");
     textbox.setAttribute("rows", "3");
     textbox.setAttribute("columns", "10");
@@ -878,7 +880,7 @@ class TransView extends AddonBase {
         currentReader._window.document.createElementNS(
           "http://www.w3.org/1999/xhtml",
           "style"
-        );
+        ) as HTMLStyleElement;
       textStyle.id = "pdf-translate-popup-style";
       textStyle.appendChild(
         currentReader._window.document.createTextNode(`
@@ -897,11 +899,10 @@ class TransView extends AddonBase {
       if (oldStyle) {
         oldStyle.remove();
       }
-      const textStyle: HTMLStyleElement =
-        currentReader._window.document.createElementNS(
-          "http://www.w3.org/1999/xhtml",
-          "style"
-        );
+      const textStyle = currentReader._window.document.createElementNS(
+        "http://www.w3.org/1999/xhtml",
+        "style"
+      ) as HTMLStyleElement;
       textStyle.id = "pdf-translate-popup-style";
       textStyle.appendChild(
         currentReader._window.document.createTextNode(`
@@ -961,7 +962,7 @@ class TransView extends AddonBase {
     translateButton.setAttribute("class", "wide-button pdf-translate-button");
     translateButton.innerHTML = `${this.translateIcon}Translate`;
     translateButton.addEventListener("click", (e: XUL.XULEvent) => {
-      this._Addon.events.onTranslateButtonClick(e, currentReader);
+      this._Addon.events.onTranslateButtonClick(e);
     });
 
     selectionMenu.appendChild(translateButton);
@@ -1042,6 +1043,7 @@ class TransView extends AddonBase {
     const newWidth = textWidth + 20;
     if (
       textHeight / textWidth > 0.75 &&
+      // @ts-ignore
       newWidth + selectionPopup.offsetLeft < viewContainer.offsetWidth - 50
     ) {
       // Update width
