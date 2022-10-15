@@ -502,6 +502,8 @@ class TransEngine extends TransConfig {
       }
     }
 
+    this.checkSecret(window, engine, args.secret);
+
     // bool return for success or fail
     let translateStatus: { status: boolean; res: string } = await this[engine](
       text
