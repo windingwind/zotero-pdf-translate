@@ -69,10 +69,13 @@ class TransConfig extends AddonBase {
           parts[2] ? parts[2] : ""
         }`;
         return {
-          status: flag,
-          info: flag
-            ? partsInfo
-            : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+          status: flag && secret !== this.defaultSecret.youdaozhiyun,
+          info:
+            secret === this.defaultSecret.youdaozhiyun
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       microsoft: (secret: string) => {
@@ -128,10 +131,13 @@ class TransConfig extends AddonBase {
         }
         `;
         return {
-          status: flag,
-          info: flag
-            ? partsInfo
-            : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+          status: flag && secret !== this.defaultSecret.baidu,
+          info:
+            secret === this.defaultSecret.baidu
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       baidufield: (secret: string) => {
@@ -139,10 +145,13 @@ class TransConfig extends AddonBase {
         const flag = parts.length === 3;
         const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
         return {
-          status: flag,
-          info: flag
-            ? partsInfo
-            : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+          status: flag && secret !== this.defaultSecret.baidufield,
+          info:
+            secret === this.defaultSecret.baidufield
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       openl: (secret: string) => {
@@ -150,10 +159,13 @@ class TransConfig extends AddonBase {
         const flag = parts.length === 2;
         const partsInfo = `Services: ${parts[0]}\nAPIKey: ${parts[1]}`;
         return {
-          status: flag,
-          info: flag
-            ? partsInfo
-            : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+          status: flag && secret !== this.defaultSecret.openl,
+          info:
+            secret === this.defaultSecret.openl
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       tencent: (secret: string) => {
@@ -166,10 +178,13 @@ class TransConfig extends AddonBase {
         }
         `;
         return {
-          status: flag,
-          info: flag
-            ? partsInfo
-            : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+          status: flag && secret !== this.defaultSecret.tencent,
+          info:
+            secret === this.defaultSecret.tencent
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       _default: (secret: string) => ({
