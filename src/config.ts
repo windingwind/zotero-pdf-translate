@@ -7,6 +7,7 @@ class TransConfig extends AddonBase {
   defaultSourceLanguage: string;
   defaultTargetLanguage: string;
   defaultSecret: any;
+  secretFormatCheckers: any;
   LangCultureNames: { LangCultureName: string; DisplayName: string }[];
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -59,6 +60,122 @@ class TransConfig extends AddonBase {
       bingdict: "",
       freedictionaryapi: "",
       webliodict: "",
+    };
+    this.secretFormatCheckers = {
+      youdaozhiyun: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = [2, 3].includes(parts.length);
+        const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}\nVocabID: ${
+          parts[2] ? parts[2] : ""
+        }`;
+        return {
+          status: flag,
+          info: flag
+            ? partsInfo
+            : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      microsoft: (secret: string) => {
+        const flag = secret?.length === 32;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `The secret is your Azure translate service KEY. The secret length must be 32, but got ${secret?.length}.`,
+        };
+      },
+      caiyun: (secret: string) => {
+        const flag = secret?.length === 20;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `The secret is your Caiyun service Token. The secret length must be 20, but got ${secret?.length}.`,
+        };
+      },
+      niutranspro: (secret: string) => {
+        const flag = secret?.length === 32;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `The secret is your NiuTrans API-KEY. The secret length must be 32, but got ${secret?.length}.`,
+        };
+      },
+      deeplfree: (secret: string) => {
+        const flag = secret?.length === 39;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `The secret is your DeepL (free plan) KEY. The secret length must be 39, but got ${secret?.length}.`,
+        };
+      },
+      deeplpro: (secret: string) => {
+        const flag = secret?.length === 39;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `The secret is your DeepL (pro plan) KEY. The secret length must be 39, but got ${secret?.length}.`,
+        };
+      },
+      baidu: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = [2, 3].includes(parts.length);
+        const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${
+          parts[2] ? parts[2] : "0"
+        }
+        `;
+        return {
+          status: flag,
+          info: flag
+            ? partsInfo
+            : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      baidufield: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = parts.length === 3;
+        const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
+        return {
+          status: flag,
+          info: flag
+            ? partsInfo
+            : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      openl: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = parts.length === 2;
+        const partsInfo = `Services: ${parts[0]}\nAPIKey: ${parts[1]}`;
+        return {
+          status: flag,
+          info: flag
+            ? partsInfo
+            : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      tencent: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = [2, 3, 4].includes(parts.length);
+        const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${
+          parts[1]
+        }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${
+          parts[3] ? parts[3] : "0"
+        }
+        `;
+        return {
+          status: flag,
+          info: flag
+            ? partsInfo
+            : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      _default: (secret: string) => ({
+        status: true,
+        info: "",
+      }),
     };
     this.LangCultureNames = [
       { LangCultureName: "af-ZA", DisplayName: "Afrikaans - South Africa" },
@@ -219,6 +336,24 @@ class TransConfig extends AddonBase {
       },
       { LangCultureName: "vi-VN", DisplayName: "Vietnamese - Vietnam" },
     ];
+  }
+
+  public checkSecret(_window: Window, engine: string, secret: string) {
+    const cheker =
+      this._Addon.translate.secretFormatCheckers[engine] ||
+      this._Addon.translate.secretFormatCheckers["_default"];
+    const checkResult: { status: boolean; info: string } = cheker(secret);
+    console.log(checkResult);
+    if (!checkResult.status) {
+      _window.alert(
+        `You see this because this engine ${this._Addon.locale.getString(
+          "translate_engine",
+          engine
+        )} requires SECRET, which is NOT correctly set.\n\nDetails:\n${
+          checkResult.info
+        }`
+      );
+    }
   }
 }
 
