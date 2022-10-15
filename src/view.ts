@@ -562,6 +562,19 @@ class TransView extends AddonBase {
       this._Addon.locale.getString("view", "checkbox_concat_text_tip")
     );
 
+    cbConcat.addEventListener("command", (e: XUL.XULEvent) => {
+      [
+        document.getElementById("pdf-translate-cbConcat"),
+        this.standaloneWindow?.document.getElementById(
+          "pdf-translate-cbConcat"
+        ),
+      ]
+        .filter((ele) => ele && ele !== e.target)
+        .forEach((ele) =>
+          ele.setAttribute("checked", e.target.getAttribute("checked"))
+        );
+    });
+
     const clearConcat = _window.document.createElement("label");
     clearConcat.setAttribute("id", "pdf-translate-clearconcat");
     clearConcat.setAttribute("flex", "0");
@@ -632,8 +645,14 @@ class TransView extends AddonBase {
   }
 
   isConcatText() {
-    let cbConcat = document.getElementById("pdf-translate-cbConcat");
-    return cbConcat.getAttribute("checked") == "true";
+    return (
+      document
+        .getElementById("pdf-translate-cbConcat")
+        ?.getAttribute("checked") == "true" ||
+      this.standaloneWindow?.document
+        .getElementById("pdf-translate-cbConcat")
+        ?.getAttribute("checked") == "true"
+    );
   }
 
   private updateTranslatePanelHidden(_document: Document) {
