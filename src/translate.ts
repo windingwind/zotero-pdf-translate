@@ -93,7 +93,7 @@ class TransEngine extends TransConfig {
         this._Addon._sourceText === text)
     ) {
       Zotero.debug("ZoteroPDFTranslate: Using cache");
-      this._Addon.view.updateAllResults();
+      this._Addon.view.updateAllResults(this._Addon._translatedText);
       this._Addon.view.updatePopupStyle();
       return true;
     }
@@ -101,9 +101,8 @@ class TransEngine extends TransConfig {
     Zotero.debug(`Real text is ${text}`);
     this._Addon._sourceText = text;
     this._Addon._translatedText = "";
-    this._Addon._debug = "";
     this._Addon.view.updateAllTranslatePanelData();
-    this._Addon.view.updateAllResults();
+    this._Addon.view.updateAllResults(this._Addon._translatedText);
     this._Addon.view.updatePopupStyle();
 
     let t = new Date().getTime();
@@ -112,9 +111,9 @@ class TransEngine extends TransConfig {
 
     this.callTranslateExtra();
 
-    let success = await this.getTranslation();
+    let result = await this.getTranslation();
 
-    Zotero.debug(`ZoteroPDFTranslate: Translate ${t} returns ${success}`);
+    Zotero.debug(`ZoteroPDFTranslate: Translate ${t} returns ${result.status}`);
     if (this._translateTime > t) {
       Zotero.debug(`ZoteroPDFTranslate: Translate ${t} overwritten.`);
       return true;
@@ -126,7 +125,7 @@ class TransEngine extends TransConfig {
       this._Addon.view.buildPopupPanel();
     }
     // Update result
-    this._Addon.view.updateAllResults();
+    this._Addon.view.updateAllResults(result.res);
     this._Addon.view.updatePopupStyle();
     return true;
   }
@@ -145,15 +144,9 @@ class TransEngine extends TransConfig {
       .filter((e: string) => e);
     let i = 0;
     for (let engine of extraEngines) {
-      let translatedText = await this.getTranslation(engine, text);
-      Zotero.debug(
-        `ZoteroPDFTranslate: TranslateExtra returns ${translatedText}`
-      );
-      this._Addon.view.updateExtraResults(
-        _window.document,
-        translatedText as string,
-        i
-      );
+      let result = await this.getTranslation(engine, text);
+      Zotero.debug(`ZoteroPDFTranslate: TranslateExtra returns ${result}`);
+      this._Addon.view.updateExtraResults(_window.document, result.res, i);
       i++;
     }
   }
@@ -178,11 +171,11 @@ class TransEngine extends TransConfig {
 
       if (this._Addon._sourceText != item.annotationText) {
         this._Addon._sourceText = item.annotationText;
-        let success = await this.getTranslation();
-        if (!success) {
+        let result = await this.getTranslation();
+        if (!result.status) {
           this._Addon.view.showProgressWindow(
             "Annotation Translate Failed",
-            this._Addon._debug,
+            result.res,
             "fail"
           );
           return false;
@@ -207,7 +200,7 @@ class TransEngine extends TransConfig {
         text.length < 20 ? text : text.slice(0, 15) + "..."
       );
       if (Zotero.Prefs.get("ZoteroPDFTranslate.enableCommentEdit")) {
-        this._Addon.view.updateAllResults();
+        this._Addon.view.updateAllResults(this._Addon._translatedText);
       }
       this._lastAnnotationID = item.id;
       return true;
@@ -488,7 +481,7 @@ class TransEngine extends TransConfig {
   public async getTranslation(
     engine: string = undefined,
     text: string = undefined
-  ): Promise<boolean | string> {
+  ): Promise<{ status: boolean; res: string }> {
     // If Text is defined, result will not be stored in the global _translatedText
     // Call current translate engine
     let args = this.getArgs(engine, text);
@@ -510,9 +503,10 @@ class TransEngine extends TransConfig {
     }
 
     // bool return for success or fail
-    let translateStatus: boolean | string = await this[engine](text);
+    let translateStatus: { status: boolean; res: string } = await this[engine](
+      text
+    );
     if (!translateStatus && retry) {
-      this._Addon._debug = "";
       engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string;
       translateStatus = await this[engine](text);
     }
@@ -588,11 +582,10 @@ class TransEngine extends TransConfig {
       return await func(args);
     } catch (e) {
       Zotero.debug(e);
-      this._Addon._debug = e;
-      return false;
+      return String(e);
     }
   }
-  private getErrorInfo(errorType: string) {
+  private getErrorInfo(errorType: string, errorInfo: string) {
     if (errorType == "request") {
       return `${this._Addon.locale.getString(
         "translate_api",
@@ -600,32 +593,39 @@ class TransEngine extends TransConfig {
       )} \n\n ${this._Addon.locale.getString(
         "translate_engine",
         Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string
-      )}.\n${this._Addon._debug}`;
+      )}.\n${errorInfo}`;
     } else if (errorType == "parse") {
-      return `${this._Addon.locale.getString("translate_api", "error_parse")}${
-        this._Addon._debug
-      }`;
+      return `${this._Addon.locale.getString(
+        "translate_api",
+        "error_parse"
+      )}${errorInfo}`;
     } else {
-      return `${this._Addon.locale.getString("translate_api", "error_other")}${
-        this._Addon._debug
-      }`;
+      return `${this._Addon.locale.getString(
+        "translate_api",
+        "error_other"
+      )}${errorInfo}`;
     }
   }
   async requestTranslate(
     request_func: Function,
     parse_func: Function
-  ): Promise<string | boolean> {
+  ): Promise<{ status: boolean; res: string }> {
     let xhr = await this.safeRun(request_func);
     Zotero.debug(xhr);
 
     if (xhr && xhr.status && xhr.status === 200) {
       let res = await this.safeRun(parse_func, xhr);
       if (res) {
-        return res;
+        return {
+          status: true,
+          res: res,
+        };
       }
     }
-    this._Addon._debug = this.getErrorInfo("request");
-    return false;
+    return {
+      status: false,
+      res: this.getErrorInfo("request", xhr),
+    };
   }
 }
 

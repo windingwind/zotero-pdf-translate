@@ -1320,18 +1320,18 @@ class TransView extends AddonBase {
     _document.getElementById("pdf-translate-vbox").appendChild(hbox);
   }
 
-  updateAllResults() {
-    this.updateResults(document);
+  updateAllResults(translatedText: string) {
+    this.updateResults(document, translatedText);
     if (this.standaloneWindow) {
-      this.updateResults(this.standaloneWindow.document);
+      this.updateResults(this.standaloneWindow.document, translatedText);
     }
   }
 
-  private updateResults(_document: Document) {
+  private updateResults(_document: Document, translatedText: string) {
     // Update error info if not success
-    if (this._Addon._debug) {
-      this._Addon._translatedText = this._Addon._debug;
-    }
+    // if (this._Addon._debug) {
+    //   this._Addon._translatedText = this._Addon._debug;
+    // }
     let sideBarTextboxSource: XUL.Textbox = _document.getElementById(
       "pdf-translate-tabpanel-source"
     );
@@ -1352,7 +1352,7 @@ class TransView extends AddonBase {
       sideBarTextboxSource.style.lineHeight = lineHeight;
     }
     if (sideBarTextboxTranslated) {
-      sideBarTextboxTranslated.value = this._Addon._translatedText;
+      sideBarTextboxTranslated.value = translatedText;
       sideBarTextboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
@@ -1360,8 +1360,8 @@ class TransView extends AddonBase {
     }
     if (this.popupTextBox) {
       try {
-        this.popupTextBox.innerHTML = this._Addon._translatedText
-          ? this._Addon._translatedText
+        this.popupTextBox.innerHTML = translatedText
+          ? translatedText
           : this._Addon._sourceText;
       } catch (e) {
         Zotero.debug(e);
