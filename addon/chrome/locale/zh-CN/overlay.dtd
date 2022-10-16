@@ -34,6 +34,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)">
 
 <!ENTITY zotero.__addonRef__.pref.api.sourceLanguage.label "从">
 <!ENTITY zotero.__addonRef__.pref.api.targetLanguage.label "翻译到">

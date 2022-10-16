@@ -32,6 +32,7 @@ class TransConfig extends AddonBase {
       "bingdict",
       "freedictionaryapi",
       "webliodict",
+      "collinsdict"
     ];
     // this parameter now in src/languages.ts, multiple languages can be supported
     // this.sourcesName = {
@@ -60,6 +61,7 @@ class TransConfig extends AddonBase {
       bingdict: "",
       freedictionaryapi: "",
       webliodict: "",
+      collinsdict: ""
     };
     this.secretFormatCheckers = {
       youdaozhiyun: (secret: string) => {
