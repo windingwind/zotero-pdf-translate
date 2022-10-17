@@ -60,6 +60,7 @@ class TransLocale extends AddonBase {
       bingdict: "必应词典(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
+      collinsdict: "柯林斯词典(en↔zh)"
     },
   };
 
@@ -121,6 +122,7 @@ class TransLocale extends AddonBase {
       bingdict: "Bing Dict(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
+      collinsdict: "Collins Dict(en↔zh)"
     },
   };
 
