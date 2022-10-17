@@ -511,7 +511,7 @@ class TransEngine extends TransConfig {
     let translateStatus: { status: boolean; res: string } = await this[engine](
       text
     );
-    if (!translateStatus && retry) {
+    if (!translateStatus.status && retry) {
       engine = Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string;
       translateStatus = await this[engine](text);
     }
