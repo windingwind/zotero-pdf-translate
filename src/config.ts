@@ -117,12 +117,12 @@ class TransConfig extends AddonBase {
         };
       },
       deeplpro: (secret: string) => {
-        const flag = secret?.length === 39;
+        const flag = secret?.length >= 36;
         return {
           status: flag,
           info: flag
             ? ""
-            : `The secret is your DeepL (pro plan) KEY. The secret length must be 39, but got ${secret?.length}.`,
+            : `The secret is your DeepL (pro plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
         };
       },
       baidu: (secret: string) => {
