@@ -56,15 +56,15 @@
                 <row>
                   <columns>
                     <column orient="horizontal">
-                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-auto" preference="pref-__addonRef__-enable-auto" />
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-auto" preference="pref-__addonRef__-enable-auto" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" />
                       <label value="&zotero.__addonRef__.pref.basic.enableAuto.label;" />
                     </column>
                     <column orient="horizontal">
-                      <checkbox oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" id="zotero-prefpane-__addonRef__-settings-enable-mod-key" preference="pref-__addonRef__-enable-mod-key" />
-                      <label value="&zotero.__addonRef__.pref.basic.enableModKey.label;" />
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-mod-key" preference="pref-__addonRef__-enable-mod-key" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableModKey.label;" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" />
                     </column>
                     <column orient="horizontal">
-                      <radiogroup orient="horizontal" id="zotero-prefpane-__addonRef__-settings-mod-key" preference="pref-__addonRef__-mod-key">
+                      <radiogroup orient="horizontal" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" id="zotero-prefpane-__addonRef__-settings-mod-key" preference="pref-__addonRef__-mod-key">
                         <radio id="zotero-prefpane-__addonRef__-settings-mod-key-ctrl" label="&zotero.__addonRef__.pref.basic.modKeyCtrl.label;" value="ctrl" />
                         <radio id="zotero-prefpane-__addonRef__-settings-mod-key-shift" label="&zotero.__addonRef__.pref.basic.modKeyShift.label;" value="shift" />
                         <radio id="zotero-prefpane-__addonRef__-settings-mod-key-alt" label="&zotero.__addonRef__.pref.basic.modKeyAlt.label;" value="alt" />
