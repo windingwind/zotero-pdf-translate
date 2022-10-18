@@ -60,8 +60,8 @@
                       <label value="&zotero.__addonRef__.pref.basic.enableAuto.label;" />
                     </column>
                     <column orient="horizontal">
-                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-mod-key" preference="pref-__addonRef__-enable-mod-key" />
-                      <label value="&zotero.__addonRef__.pref.basic.enableModKey.label;" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" />
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-mod-key" preference="pref-__addonRef__-enable-mod-key" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableModKey.label;" />
                     </column>
                     <column orient="horizontal">
                       <radiogroup orient="horizontal" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" id="zotero-prefpane-__addonRef__-settings-mod-key" preference="pref-__addonRef__-mod-key">

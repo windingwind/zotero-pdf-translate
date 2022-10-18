@@ -14,6 +14,7 @@ class TransPref extends AddonBase {
     this.buildLanguageSettings();
     this.updatePreviewPannel();
     this.updateAnnotationTranslationSettings();
+    this.updateModKeySettings();
     this.updateAddToNoteSettings();
   }
 
@@ -94,10 +95,10 @@ class TransPref extends AddonBase {
   updateModKeySettings() {
     Zotero.debug("ZoteroPDFTranslate: updateModKeySettings.");
     let enableAuto = this._window.document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-settings-enable-auto"
+      "zotero-prefpane-zoteropdftranslate-settings-enable-auto"
     ) as XUL.Checkbox;
     let enableModKey = this._window.document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-settings-enable-mod-key"
+      "zotero-prefpane-zoteropdftranslate-settings-enable-mod-key"
     ) as XUL.Checkbox;
     enableModKey.disabled = !enableAuto.checked;
 
