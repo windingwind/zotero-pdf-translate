@@ -51,6 +51,13 @@ function getWord(t) {
 
 async function cnki(text: string = undefined, retry: boolean = true) {
   let args = this.getArgs("cnki", text);
+  if (args.text.length > 1000) {
+    Zotero.ZoteroPDFTranslate.view.showProgressWindow(
+      "PDF Translate",
+      `Maximam text length is 1000, ${args.text.length} selected. Will only translate first 1000 characters.`
+    );
+    args.text = args.text.slice(0, 1000);
+  }
 
   return await this.requestTranslate(
     async () => {
