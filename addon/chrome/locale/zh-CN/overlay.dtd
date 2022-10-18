@@ -3,6 +3,10 @@
 <!ENTITY zotero.__addonRef__.pref.basic.caption.label "功能">
 <!ENTITY zotero.__addonRef__.pref.basic.enable.label "启用PDF翻译">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "自动翻译">
+<!ENTITY zotero.__addonRef__.pref.basic.enableModKey.label "启用辅助键">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyCtrl.label "Ctrl">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyShift.label "Shift">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyAlt.label "Alt">
 <!ENTITY zotero.__addonRef__.pref.basic.enableDict.label "启用字典">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "启用弹窗">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "自动翻译批注">

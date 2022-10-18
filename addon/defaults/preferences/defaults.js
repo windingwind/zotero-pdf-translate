@@ -1,6 +1,8 @@
 pref("extensions.zotero.ZoteroPDFTranslate.enable", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableAuto", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enablePopup", true);
+pref("extensions.zotero.ZoteroPDFTranslate.enableModKey", false);
+pref("extensions.zotero.ZoteroPDFTranslate.modKey", "ctrl");
 pref("extensions.zotero.ZoteroPDFTranslate.enableComment", true);
 pref("extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition", "comment");
 pref("extensions.zotero.ZoteroPDFTranslate.enableCommentEdit", true);

@@ -3,6 +3,10 @@
 <!ENTITY zotero.__addonRef__.pref.basic.caption.label "Functions">
 <!ENTITY zotero.__addonRef__.pref.basic.enable.label "Enable Translation">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "Automatic Translation">
+<!ENTITY zotero.__addonRef__.pref.basic.enableModKey.label "Enable Mod Key">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyCtrl.label "Ctrl">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyShift.label "Shift">
+<!ENTITY zotero.__addonRef__.pref.basic.modKeyAlt.label "Alt">
 <!ENTITY zotero.__addonRef__.pref.basic.enableDict.label "Enable Dictionary">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "Enable Popup">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "Automatic Annotation Translation">

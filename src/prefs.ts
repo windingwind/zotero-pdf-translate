@@ -91,8 +91,24 @@ class TransPref extends AddonBase {
       parseFloat(lineHeightText.value) < 0 ? "1" : lineHeightText.value;
   }
 
+  updateModKeySettings() {
+    Zotero.debug("ZoteroPDFTranslate: updateModKeySettings.");
+    let enableAuto = this._window.document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-settings-enable-auto"
+    ) as XUL.Checkbox;
+    let enableModKey = this._window.document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-settings-enable-mod-key"
+    ) as XUL.Checkbox;
+    enableModKey.disabled = !enableAuto.checked;
+
+    const modKey: XUL.Element = this._window.document.getElementById(
+      "zotero-prefpane-zoteropdftranslate-settings-mod-key"
+    );
+    modKey.disabled = !(enableAuto.checked && enableModKey.checked);
+  }
+
   updateAnnotationTranslationSettings() {
-    Zotero.debug("ZoteroPDFTranslate: updateannotationTranslationSettings.");
+    Zotero.debug("ZoteroPDFTranslate: updateAnnotationTranslationSettings.");
     let enableAnnotationTranslation = this._window.document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-enable-comment"
     ) as XUL.Checkbox;

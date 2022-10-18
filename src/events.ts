@@ -163,6 +163,27 @@ class TransEvents extends AddonBase {
     let enablePopup = Zotero.Prefs.get("ZoteroPDFTranslate.enablePopup");
     if (enablePopup) {
       if (enableAuto) {
+        let enableModKey = Zotero.Prefs.get("ZoteroPDFTranslate.enableModKey");
+        if (enableModKey) {
+          let isModKeyPressed = false;
+
+          let evt = (event as KeyboardEvent);
+          switch (Zotero.Prefs.get("ZoteroPDFTranslate.modKey")) {
+            case "ctrl":
+              isModKeyPressed = evt.ctrlKey;
+              break;
+            case "shift":
+              isModKeyPressed = evt.shiftKey;
+              break;
+            case "alt":
+              isModKeyPressed = evt.altKey;
+              break;
+          }
+
+          if (!isModKeyPressed)
+            return false;
+        }
+
         this._Addon.view.buildPopupPanel();
       } else {
         this._Addon.view.buildPopupButton();
@@ -301,9 +322,9 @@ class TransEvents extends AddonBase {
       }
       let newInnerHTML = show
         ? // Switch to origin titles
-          currentRow.getField("shortTitle")
+        currentRow.getField("shortTitle")
         : // Switch to translated titles
-          currentRow.getField("title");
+        currentRow.getField("title");
       let titleElement = rowElement.getElementsByClassName(
         "cell-text"
       )[0] as Element;
@@ -379,8 +400,8 @@ class TransEvents extends AddonBase {
         "pdf-translate-standalone",
         `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,${
           Zotero.Prefs.get("ZoteroPDFTranslate.keepWindowTop")
-            ? ",alwaysRaised=yes"
-            : ""
+          ? ",alwaysRaised=yes"
+          : ""
         }`
       );
       this._Addon.view.standaloneWindow = win;

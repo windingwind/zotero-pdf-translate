@@ -8,6 +8,8 @@
       <preferences id="zotero-preferences-__addonRef__">
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
+        <preference id="pref-__addonRef__-enable-mod-key" name="extensions.zotero.ZoteroPDFTranslate.enableModKey" type="bool" />
+        <preference id="pref-__addonRef__-mod-key" name="extensions.zotero.ZoteroPDFTranslate.modKey" type="string" />
         <preference id="pref-__addonRef__-enable-comment" name="extensions.zotero.ZoteroPDFTranslate.enableComment" type="bool" />
         <preference id="pref-__addonRef__-annotationTranslationPosition" name="extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition" type="string" />
         <preference id="pref-__addonRef__-enable-commentedit" name="extensions.zotero.ZoteroPDFTranslate.enableCommentEdit" type="bool" />
@@ -52,8 +54,23 @@
                   <label value="&zotero.__addonRef__.pref.basic.enable.label;" />
                 </row>
                 <row>
-                  <checkbox id="zotero-prefpane-__addonRef__-settings-enable-auto" preference="pref-__addonRef__-enable-auto" />
-                  <label value="&zotero.__addonRef__.pref.basic.enableAuto.label;" />
+                  <columns>
+                    <column orient="horizontal">
+                      <checkbox id="zotero-prefpane-__addonRef__-settings-enable-auto" preference="pref-__addonRef__-enable-auto" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableAuto.label;" />
+                    </column>
+                    <column orient="horizontal">
+                      <checkbox oncommand="Zotero.ZoteroPDFTranslate.prefs.updateModKeySettings();" id="zotero-prefpane-__addonRef__-settings-enable-mod-key" preference="pref-__addonRef__-enable-mod-key" />
+                      <label value="&zotero.__addonRef__.pref.basic.enableModKey.label;" />
+                    </column>
+                    <column orient="horizontal">
+                      <radiogroup orient="horizontal" id="zotero-prefpane-__addonRef__-settings-mod-key" preference="pref-__addonRef__-mod-key">
+                        <radio id="zotero-prefpane-__addonRef__-settings-mod-key-ctrl" label="&zotero.__addonRef__.pref.basic.modKeyCtrl.label;" value="ctrl" />
+                        <radio id="zotero-prefpane-__addonRef__-settings-mod-key-shift" label="&zotero.__addonRef__.pref.basic.modKeyShift.label;" value="shift" />
+                        <radio id="zotero-prefpane-__addonRef__-settings-mod-key-alt" label="&zotero.__addonRef__.pref.basic.modKeyAlt.label;" value="alt" />
+                      </radiogroup>
+                    </column>
+                  </columns>
                 </row>
                 <row>
                   <checkbox id="zotero-prefpane-__addonRef__-settings-enable-dict" preference="pref-__addonRef__-enable-dict" />
