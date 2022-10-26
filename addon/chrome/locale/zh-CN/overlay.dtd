@@ -52,6 +52,7 @@
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
+<!ENTITY zotero.__addonRef__.help.docs.label "文档(中文)">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate 版本 __buildVersion__">
 <!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
 

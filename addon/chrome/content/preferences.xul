@@ -168,6 +168,8 @@
               <caption label="&zotero.__addonRef__.help.feedback.caption.label;" />
               <hbox style="display: block">
                 <label value="&zotero.__addonRef__.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
+                <label value="  "></label>
+                <label value="&zotero.__addonRef__.help.docs.label;" class="zotero-text-link" href="https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d" />
               </hbox>
             </groupbox>
             <label value="&zotero.__addonRef__.help.version.label;" />

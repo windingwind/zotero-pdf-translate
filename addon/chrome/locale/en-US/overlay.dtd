@@ -52,9 +52,9 @@
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
+<!ENTITY zotero.__addonRef__.help.docs.label "Documentation(ZH)">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate VERSION __buildVersion__">
 <!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
-
 
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">
