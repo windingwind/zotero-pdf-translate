@@ -40,7 +40,7 @@ class TransLocale extends AddonBase {
 
     translate_engine: {
       google: "谷歌",
-      googleapi: "谷歌API(中国可用)",
+      googleapi: "谷歌API",
       googleweb: "谷歌(Web)",
       youdao: "有道",
       youdaozhiyun: "有道智云*",

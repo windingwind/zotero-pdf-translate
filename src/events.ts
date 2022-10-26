@@ -508,7 +508,7 @@ class TransEvents extends AddonBase {
     if (!translateSource || !validSource) {
       // Change default translate engine for zh-CN users
       if (Services.locale.getRequestedLocale() === "zh-CN") {
-        translateSource = "googleapi";
+        translateSource = "cnki";
       } else {
         translateSource = this._Addon.translate.sources[0];
       }
