@@ -6,7 +6,7 @@ import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
-import { niutrans, niutranspro, niutransapi, niutransText, niutransLog } from "./translate/niutrans";
+import { niutrans, niutranspro, niutransapi, niutransLog } from "./translate/niutrans";
 import { openl } from "./translate/openl";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
@@ -38,7 +38,6 @@ class TransEngine extends TransConfig {
   niutranspro: Function;
   niutransapi: Function;
   openl: Function;
-  niutransText: Function;
   niutransLog: Function;
   tencent: Function;
   youdao: Function;
@@ -69,7 +68,6 @@ class TransEngine extends TransConfig {
     this.niutrans = niutrans;
     this.niutranspro = niutranspro;
     this.niutransapi = niutransapi;
-    this.niutransText = niutransText;
     this.niutransLog = niutransLog;
     this.openl = openl;
     this.tencent = tencent;
@@ -508,7 +506,6 @@ class TransEngine extends TransConfig {
         ) as string;
       }
     }
-
     // bool return for success or fail
     let translateStatus: boolean | string = await this[engine](text);
     if (!translateStatus && retry) {

@@ -35,11 +35,11 @@
         <preference id="pref-__addonRef__-dict-param" name="extensions.zotero.ZoteroPDFTranslate.dictSecret" type="string" />
         <preference id="pref-__addonRef__-disabled-languages" name="extensions.zotero.ZoteroPDFTranslate.disabledLanguages" type="string" />
         <preference id="pref-__addonRef__-extra-engines" name="extensions.zotero.ZoteroPDFTranslate.extraEngines" type="string" />
-        <preference id="zoteroniutrans-username" name="extensions.zotero.zoteroniutrans.username" type="string" />
-	  		<preference id="zoteroniutrans-password" name="extensions.zotero.zoteroniutrans.password" type="string" />
-	  		<preference id="zoteroniutrans-apikey" name="extensions.zotero.zoteroniutrans.apikey" type="string" />
-	  		<preference id="zoteroniutrans-dictLib" name="extensions.zotero.zoteroniutrans.dictNo" type="string"/>
-	  		<preference id="zoteroniutrans-memoryLib" name="extensions.zotero.zoteroniutrans.memoryNo" type="string"/>
+        <preference id="zoteroniutrans-username" name="extensions.zotero.ZoteroPDFTranslate.niutransUsername" type="string" />
+        <preference id="zoteroniutrans-password" name="extensions.zotero.ZoteroPDFTranslate.niutransPassword" type="string" />
+        <preference id="zoteroniutrans-apikey" name="extensions.zotero.ZoteroPDFTranslate.niutransApikey" type="string" />
+        <preference id="zoteroniutrans-dictLib" name="extensions.zotero.ZoteroPDFTranslate.niutransDictNo" type="string"/>
+        <preference id="zoteroniutrans-memoryLib" name="extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo" type="string"/>
       </preferences>
       <tabbox>
         <tabs>
@@ -150,7 +150,7 @@
                         <hbox>
                             <description>&#160;&#160;&#160;&#160;&#160;&#160;</description>
                             <hbox align="baseline">
-                                <button label="&zotero.__addonRef__.pref.api.niutransLoginBtn.label;" id="zoteroniutrans-loginbutton" oncommand="Zotero.ZoteroPDFTranslate.prefs.login()" style="width:50px"/>
+                                <button label="&zotero.__addonRef__.pref.api.niutransLoginBtn.label;" id="zoteroniutrans-loginbutton" oncommand="Zotero.ZoteroPDFTranslate.prefs.niutransLogin()" style="width:50px"/>
                                 <label value="" id="zoteroniutrans-messagetextbox"/>
                             </hbox>
                         </hbox>
