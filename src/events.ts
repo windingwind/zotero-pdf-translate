@@ -24,7 +24,13 @@ class TransEvents extends AddonBase {
           extraData[ids[0]].type == "reader"
         ) {
           Zotero.debug("ZoteroPDFTranslate: open attachment event detected.");
-          const reader = Zotero.Reader.getByTabID(ids[0]);
+          let reader = Zotero.Reader.getByTabID(ids[0]);
+          let delayCount = 0;
+          while (!reader && delayCount < 10) {
+            await Zotero.Promise.delay(100);
+            reader = Zotero.Reader.getByTabID(ids[0]);
+            delayCount++;
+          }
           await reader._initPromise;
           this.onReaderSelect(reader);
         }
@@ -502,7 +508,7 @@ class TransEvents extends AddonBase {
     if (!translateSource || !validSource) {
       // Change default translate engine for zh-CN users
       if (Services.locale.getRequestedLocale() === "zh-CN") {
-        translateSource = "googleapi";
+        translateSource = "cnki";
       } else {
         translateSource = this._Addon.translate.sources[0];
       }
