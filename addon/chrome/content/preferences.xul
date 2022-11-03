@@ -4,7 +4,7 @@
 <overlay id="__addonRef__-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initPreferences(document)">
+    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initPreferences(window)">
       <preferences id="zotero-preferences-__addonRef__">
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
@@ -106,7 +106,7 @@
                 <row>
                   <hbox align="center">
                     <label value="&zotero.__addonRef__.pref.api.translateSource.label;" />
-                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('translate')">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('translate', true)">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
@@ -181,16 +181,17 @@
                 <row>
                   <hbox align="center">
                     <label value="&zotero.__addonRef__.pref.api.dictSource.label;" />
-                    <menulist id="zotero-prefpane-__addonRef__-settings-dict-source" preference="pref-__addonRef__-dict-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('dict')">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-dict-source" preference="pref-__addonRef__-dict-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('dict', true)">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.youdaodict;" value="youdaodict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.bingdict;" value="bingdict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.freedictionaryapi;" value="freedictionaryapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.webliodict;" value="webliodict" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.dictSource.collinsdict;" value="collinsdict" />
                       </menupopup>
                     </menulist>
                     <label value="&zotero.__addonRef__.pref.api.secret.label;" />
-                    <textbox id="zotero-prefpane-__addonRef__-settings-dict-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('dict')" />
+                    <textbox id="zotero-prefpane-__addonRef__-settings-dict-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('dict')" onblur="Zotero.ZoteroPDFTranslate.prefs.checkParamObj('dict')" />
                   </hbox>
                 </row>
                 <row>
@@ -221,6 +222,8 @@
               <caption label="&zotero.__addonRef__.help.feedback.caption.label;" />
               <hbox style="display: block">
                 <label value="&zotero.__addonRef__.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
+                <label value="  "></label>
+                <label value="&zotero.__addonRef__.help.docs.label;" class="zotero-text-link" href="https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d" />
               </hbox>
             </groupbox>
             <label value="&zotero.__addonRef__.help.version.label;" />
