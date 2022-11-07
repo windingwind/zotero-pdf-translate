@@ -2,10 +2,11 @@ import { TransConfig } from "./config";
 import { baidu } from "./translate/baidu";
 import { baidufield } from "./translate/baidufield";
 import { caiyun } from "./translate/caiyun";
+import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
-import { niutrans, niutranspro, niutransapi, niutransText, niutransLog } from "./translate/niutrans";
+import { niutrans, niutranspro, niutransapi, niutransLog } from "./translate/niutrans";
 import { openl } from "./translate/openl";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";
@@ -13,6 +14,7 @@ import { youdaozhiyun } from "./translate/youdaozhiyun";
 import { youdaodict } from "./dict/youdaodict";
 import { bingdict } from "./dict/bingdict";
 import { freedictionaryapi } from "./dict/freedictionaryapi";
+import { webliodict } from "./dict/weblio";
 import PDFTranslate from "./addon";
 import { TransArgs } from "./base";
 
@@ -24,6 +26,7 @@ class TransEngine extends TransConfig {
   baidu: Function;
   baidufield: Function;
   caiyun: Function;
+  cnki: Function;
   deeplpro: Function;
   deeplfree: Function;
   deepl: Function;
@@ -35,7 +38,6 @@ class TransEngine extends TransConfig {
   niutranspro: Function;
   niutransapi: Function;
   openl: Function;
-  niutransText: Function;
   niutransLog: Function;
   tencent: Function;
   youdao: Function;
@@ -43,6 +45,7 @@ class TransEngine extends TransConfig {
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
+  webliodict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -54,6 +57,7 @@ class TransEngine extends TransConfig {
     this.baidu = baidu;
     this.baidufield = baidufield;
     this.caiyun = caiyun;
+    this.cnki = cnki;
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;
     this.deepl = deepl;
@@ -64,7 +68,6 @@ class TransEngine extends TransConfig {
     this.niutrans = niutrans;
     this.niutranspro = niutranspro;
     this.niutransapi = niutransapi;
-    this.niutransText = niutransText;
     this.niutransLog = niutransLog;
     this.openl = openl;
     this.tencent = tencent;
@@ -73,6 +76,7 @@ class TransEngine extends TransConfig {
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;
+    this.webliodict = webliodict;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
@@ -217,7 +221,11 @@ class TransEngine extends TransConfig {
           this._Addon._sourceText = annotation.text;
           await this.getTranslation();
         }
-        annotation.text = `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
+        annotation.text = (Zotero.Prefs.get(
+          "ZoteroPDFTranslate.enableNoteReplaceMode"
+        ) as boolean)
+          ? this._Addon._translatedText
+          : `${this._Addon._sourceText}\n----\n${this._Addon._translatedText}\n`;
       }
     } catch (e) {
       Zotero.debug(`ZoteroPDFTranslate.callTranslateNote Error: ${e}`);
@@ -498,7 +506,6 @@ class TransEngine extends TransConfig {
         ) as string;
       }
     }
-
     // bool return for success or fail
     let translateStatus: boolean | string = await this[engine](text);
     if (!translateStatus && retry) {
