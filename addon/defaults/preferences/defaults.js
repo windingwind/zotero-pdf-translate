@@ -5,8 +5,10 @@ pref("extensions.zotero.ZoteroPDFTranslate.enableComment", true);
 pref("extensions.zotero.ZoteroPDFTranslate.annotationTranslationPosition", "comment");
 pref("extensions.zotero.ZoteroPDFTranslate.enableCommentEdit", true);
 pref("extensions.zotero.ZoteroPDFTranslate.enableNote", true);
+pref("extensions.zotero.ZoteroPDFTranslate.enableNoteReplaceMode", false);
 pref("extensions.zotero.ZoteroPDFTranslate.enableDict", true);
 pref("extensions.zotero.ZoteroPDFTranslate.fontSize", "12");
+pref("extensions.zotero.ZoteroPDFTranslate.lineHeight", "1.5");
 pref("extensions.zotero.ZoteroPDFTranslate.autoFocus", true);
 pref("extensions.zotero.ZoteroPDFTranslate.rawResultOrder", false);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarEngine", true);
@@ -16,5 +18,14 @@ pref("extensions.zotero.ZoteroPDFTranslate.showSidebarLanguage", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarRaw", true);
 pref("extensions.zotero.ZoteroPDFTranslate.showSidebarCopy", true);
 pref("extensions.zotero.ZoteroPDFTranslate.keepWindowTop", false);
-pref("extensions.zotero.ZoteroPDFTranslate.showSidebarCopy", true);
+pref("extensions.zotero.ZoteroPDFTranslate.keepPopupSize", false);
+pref("extensions.zotero.ZoteroPDFTranslate.popupWidth", 105);
+pref("extensions.zotero.ZoteroPDFTranslate.popupHeight", 30);
 pref("extensions.zotero.ZoteroPDFTranslate.extraEngines", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransUsername", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransPassword", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransApikey", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransDictNo", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransDictLibList","")
+pref("extensions.zotero.ZoteroPDFTranslate.niutransMemoryLibList","")

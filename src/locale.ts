@@ -31,7 +31,7 @@ class TransLocale extends AddonBase {
 
     translate_api: {
       error_request:
-        "[请求错误]\n\n此翻译引擎不可用,可能是密钥错误,也可能是请求过快\n可以尝试其他翻译引擎,或者来此查看相关回答:\nhttps://github.com/windingwind/zotero-pdf-translate/issues \n\n请注意,这些错误与zotero和此翻译插件无关! 错误详情如下:",
+        "[请求错误]\n\n此翻译引擎不可用，可能是密钥错误，也可能是请求过快。\n可以尝试其他翻译引擎，或者来此查看相关回答：\nhttps://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d/age09f \n\n请注意，这些错误与 Zotero 和本翻译插件无关！错误详情如下: ",
       error_parse:
         "[解析错误]\n\n请在此报告相关错误:\nhttps://github.com/windingwind/zotero-pdf-translate/issues",
       error_other:
@@ -40,7 +40,7 @@ class TransLocale extends AddonBase {
 
     translate_engine: {
       google: "谷歌",
-      googleapi: "谷歌API(中国可用)",
+      googleapi: "谷歌API",
       googleweb: "谷歌(Web)",
       youdao: "有道",
       youdaozhiyun: "有道智云*",
@@ -61,6 +61,7 @@ class TransLocale extends AddonBase {
       bingdict: "必应词典(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
+      collinsdict: "柯林斯词典(en↔zh)"
     },
     niutrans_tip: {
       tipTitle:'提示',
@@ -131,6 +132,7 @@ class TransLocale extends AddonBase {
       bingdict: "Bing Dict(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
+      collinsdict: "Collins Dict(en↔zh)"
     },
     niutrans_tip: {
       tipTitle:'Tip',

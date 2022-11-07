@@ -224,7 +224,7 @@ class TransView extends AddonBase {
       n++;
     }
     tabContainer = this._Addon.reader.getReaderTabContainer();
-    const tabbox = tabContainer.querySelector("tabbox");
+    const tabbox = tabContainer.querySelector("tabbox") as HTMLElement;
     tabbox.querySelector("tabs").appendChild(tab);
 
     let panelInfo = this.tabPanel;
@@ -233,7 +233,7 @@ class TransView extends AddonBase {
       panelInfo.setAttribute("id", "pdf-translate-tabpanel");
       panelInfo.setAttribute("flex", "1");
 
-      let vbox = this.buildTranslatePanel(document);
+      let vbox = this.buildTranslatePanel(window);
 
       let hboxOpenWindow: XUL.Box = document.createElement("hbox");
       hboxOpenWindow.setAttribute(
@@ -270,23 +270,25 @@ class TransView extends AddonBase {
     //   "pdf-translate-tabpanel-translated"
     // );
     if (Zotero.Prefs.get("ZoteroPDFTranslate.autoFocus")) {
+      // @ts-ignore
       tabbox.selectedIndex = Array.prototype.indexOf.call(
         tabbox.querySelector("tabs").childNodes,
         tabbox.querySelector("#pdf-translate-tab")
       );
     } else {
+      // @ts-ignore
       tabbox.selectedIndex = tabbox.selectedIndex;
     }
   }
 
-  buildTranslatePanel(_document: Document): XUL.Box {
-    let vbox = _document.createElement("vbox");
+  buildTranslatePanel(_window: Window): XUL.Box {
+    let vbox = _window.document.createElement("vbox");
     vbox.setAttribute("id", "pdf-translate-vbox");
     vbox.setAttribute("flex", "1");
     vbox.setAttribute("align", "stretch");
     vbox.style.padding = "0px 10px 10px 10px";
 
-    let hboxTranslate: XUL.Box = _document.createElement("hbox");
+    let hboxTranslate: XUL.Box = _window.document.createElement("hbox");
     hboxTranslate.setAttribute("id", "pdf-translate-tabpanel-engine-hbox");
     hboxTranslate.setAttribute("flex", "1");
     hboxTranslate.setAttribute("align", "center");
@@ -294,7 +296,7 @@ class TransView extends AddonBase {
     hboxTranslate.minHeight = 50;
     hboxTranslate.style.height = "80px";
 
-    let hboxLanguage: XUL.Box = _document.createElement("hbox");
+    let hboxLanguage: XUL.Box = _window.document.createElement("hbox");
     hboxLanguage.setAttribute("id", "pdf-translate-tabpanel-language-hbox");
     hboxLanguage.setAttribute("flex", "1");
     hboxLanguage.setAttribute("align", "center");
@@ -302,7 +304,7 @@ class TransView extends AddonBase {
     hboxLanguage.minHeight = 50;
     hboxLanguage.style.height = "80px";
 
-    let hboxAnnotation: XUL.Box = _document.createElement("hbox");
+    let hboxAnnotation: XUL.Box = _window.document.createElement("hbox");
     hboxAnnotation.setAttribute("id", "pdf-translate-tabpanel-annotation-hbox");
     hboxAnnotation.setAttribute("flex", "1");
     hboxAnnotation.setAttribute("align", "center");
@@ -311,7 +313,7 @@ class TransView extends AddonBase {
     hboxAnnotation.hidden = true;
     hboxAnnotation.style.height = "80px";
 
-    let hboxCopy: XUL.Box = _document.createElement("hbox");
+    let hboxCopy: XUL.Box = _window.document.createElement("hbox");
     hboxCopy.setAttribute("id", "pdf-translate-tabpanel-copy-hbox");
     hboxCopy.setAttribute("flex", "1");
     hboxCopy.setAttribute("align", "center");
@@ -319,7 +321,7 @@ class TransView extends AddonBase {
     hboxCopy.minHeight = 50;
     hboxCopy.style.height = "80px";
 
-    let hboxConcat: XUL.Box = _document.createElement("hbox");
+    let hboxConcat: XUL.Box = _window.document.createElement("hbox");
     hboxConcat.setAttribute("id", "pdf-translate-tabpanel-concat-hbox");
     hboxConcat.setAttribute("flex", "1");
     hboxConcat.setAttribute("align", "center");
@@ -327,7 +329,7 @@ class TransView extends AddonBase {
     hboxConcat.minHeight = 30;
     hboxConcat.style.height = "30px";
 
-    let hboxSettings: XUL.Box = _document.createElement("hbox");
+    let hboxSettings: XUL.Box = _window.document.createElement("hbox");
     hboxSettings.setAttribute("id", "pdf-translate-tabpanel-settings-hbox");
     hboxSettings.setAttribute("flex", "1");
     hboxSettings.setAttribute("align", "center");
@@ -335,17 +337,17 @@ class TransView extends AddonBase {
     hboxSettings.minHeight = 30;
     hboxSettings.style.height = "30px";
 
-    let SLMenuList = _document.createElement("menulist");
+    let SLMenuList = _window.document.createElement("menulist");
     SLMenuList.setAttribute("id", "pdf-translate-sl");
     SLMenuList.style.width = "145px";
     SLMenuList.setAttribute(
       "value",
       Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage") as string
     );
-    let SLMenuPopup = _document.createElement("menupopup");
+    let SLMenuPopup = _window.document.createElement("menupopup");
     SLMenuList.appendChild(SLMenuPopup);
     for (let lang of this._Addon.translate.LangCultureNames) {
-      let menuitem = _document.createElement("menuitem");
+      let menuitem = _window.document.createElement("menuitem");
       menuitem.setAttribute("label", lang.DisplayName);
       menuitem.setAttribute("value", lang.LangCultureName);
       menuitem.addEventListener("command", (e: XUL.XULEvent) => {
@@ -355,7 +357,7 @@ class TransView extends AddonBase {
       SLMenuPopup.appendChild(menuitem);
     }
 
-    let languageLabel = _document.createElement("label");
+    let languageLabel = _window.document.createElement("label");
     languageLabel.setAttribute("id", "pdf-translate-switch");
     languageLabel.setAttribute("flex", "1");
     languageLabel.style["text-align"] = "center";
@@ -368,8 +370,10 @@ class TransView extends AddonBase {
       e.target.setAttribute("value", "➡️");
     });
     languageLabel.addEventListener("click", (e) => {
-      let SLMenu: XUL.Menulist = _document.getElementById("pdf-translate-sl");
-      let TLMenu: XUL.Menulist = _document.getElementById("pdf-translate-tl");
+      let SLMenu: XUL.Menulist =
+        _window.document.getElementById("pdf-translate-sl");
+      let TLMenu: XUL.Menulist =
+        _window.document.getElementById("pdf-translate-tl");
       let sl = SLMenu.value;
       let tl = TLMenu.value;
       Zotero.Prefs.set("ZoteroPDFTranslate.sourceLanguage", tl);
@@ -378,17 +382,17 @@ class TransView extends AddonBase {
       TLMenu.value = sl;
     });
 
-    let TLMenuList = _document.createElement("menulist");
+    let TLMenuList = _window.document.createElement("menulist");
     TLMenuList.setAttribute("id", "pdf-translate-tl");
     TLMenuList.style.width = "145px";
     TLMenuList.setAttribute(
       "value",
       Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage") as string
     );
-    let TLMenuPopup = _document.createElement("menupopup");
+    let TLMenuPopup = _window.document.createElement("menupopup");
     TLMenuList.appendChild(TLMenuPopup);
     for (let lang of this._Addon.translate.LangCultureNames) {
-      let menuitem = _document.createElement("menuitem");
+      let menuitem = _window.document.createElement("menuitem");
       menuitem.setAttribute("label", lang.DisplayName);
       menuitem.setAttribute("value", lang.LangCultureName);
       menuitem.addEventListener("command", (e: XUL.XULEvent) => {
@@ -399,26 +403,26 @@ class TransView extends AddonBase {
     }
     hboxLanguage.append(SLMenuList, languageLabel, TLMenuList);
 
-    let menuLabel = _document.createElement("label");
+    let menuLabel = _window.document.createElement("label");
     menuLabel.setAttribute(
       "value",
       this._Addon.locale.getString("view", "menu_translate_engine_label")
     );
-    let menulist = _document.createElement("menulist");
+    let menulist = _window.document.createElement("menulist");
     menulist.setAttribute("id", "pdf-translate-engine");
     menulist.setAttribute("flex", "1");
     menulist.setAttribute(
       "value",
       Zotero.Prefs.get("ZoteroPDFTranslate.translateSource") as string
     );
-    let menupopup = _document.createElement("menupopup");
+    let menupopup = _window.document.createElement("menupopup");
     menulist.appendChild(menupopup);
     for (let source of this._Addon.translate.sources) {
       // Skip dict engines
       if (source.indexOf("dict") > -1) {
         continue;
       }
-      let menuitem = _document.createElement("menuitem");
+      let menuitem = _window.document.createElement("menuitem");
       menuitem.setAttribute(
         "label",
         this._Addon.locale.getString("translate_engine", source)
@@ -431,11 +435,16 @@ class TransView extends AddonBase {
           Zotero.Prefs.get("ZoteroPDFTranslate.secretObj") as string
         );
         this._Addon.events.onTranslateButtonClick(e);
+        this._Addon.translate.checkSecret(
+          _window,
+          newSource,
+          userSecrets[newSource]
+        );
       });
       menupopup.appendChild(menuitem);
     }
 
-    let buttonTranslate = _document.createElement("button");
+    let buttonTranslate = _window.document.createElement("button");
     buttonTranslate.setAttribute("id", "pdf-translate-call-button");
     buttonTranslate.setAttribute(
       "label",
@@ -448,7 +457,7 @@ class TransView extends AddonBase {
 
     hboxTranslate.append(menuLabel, menulist, buttonTranslate);
 
-    let buttonUpdateAnnotation = _document.createElement("button");
+    let buttonUpdateAnnotation = _window.document.createElement("button");
     buttonUpdateAnnotation.setAttribute(
       "label",
       this._Addon.locale.getString("view", "button_update_annotation_label")
@@ -460,7 +469,7 @@ class TransView extends AddonBase {
 
     hboxAnnotation.append(buttonUpdateAnnotation);
 
-    let buttonCopySource = _document.createElement("button");
+    let buttonCopySource = _window.document.createElement("button");
     buttonCopySource.setAttribute(
       "label",
       this._Addon.locale.getString("view", "button_copy_source_label")
@@ -470,7 +479,7 @@ class TransView extends AddonBase {
       this._Addon.events.onCopyToClipBoard(this._Addon._sourceText);
     });
 
-    let buttonCopyTranslated = _document.createElement("button");
+    let buttonCopyTranslated = _window.document.createElement("button");
     buttonCopyTranslated.setAttribute(
       "label",
       this._Addon.locale.getString("view", "button_copy_translated_label")
@@ -480,7 +489,7 @@ class TransView extends AddonBase {
       this._Addon.events.onCopyToClipBoard(this._Addon._translatedText);
     });
 
-    let buttonCopyBoth = _document.createElement("button");
+    let buttonCopyBoth = _window.document.createElement("button");
     buttonCopyBoth.setAttribute(
       "label",
       this._Addon.locale.getString("view", "button_copy_both_label")
@@ -494,7 +503,7 @@ class TransView extends AddonBase {
 
     hboxCopy.append(buttonCopySource, buttonCopyTranslated, buttonCopyBoth);
 
-    let textboxSource: XUL.Textbox = _document.createElement("textbox");
+    let textboxSource: XUL.Textbox = _window.document.createElement("textbox");
     textboxSource.setAttribute("id", "pdf-translate-tabpanel-source");
     textboxSource.setAttribute("flex", "1");
     textboxSource.setAttribute("multiline", true);
@@ -511,15 +520,19 @@ class TransView extends AddonBase {
     textboxSource.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textboxSource.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
     let rawResultOrder = Zotero.Prefs.get("ZoteroPDFTranslate.rawResultOrder");
-    let splitter = _document.createElement("splitter");
+    let splitter = _window.document.createElement("splitter");
     splitter.setAttribute("id", "pdf-translate-tabpanel-splitter");
     splitter.setAttribute("collapse", rawResultOrder ? "after" : "before");
-    let grippy = _document.createElement("grippy");
+    let grippy = _window.document.createElement("grippy");
     splitter.append(grippy);
 
-    let textboxTranslated: XUL.Textbox = _document.createElement("textbox");
+    let textboxTranslated: XUL.Textbox =
+      _window.document.createElement("textbox");
     textboxTranslated.setAttribute("id", "pdf-translate-tabpanel-translated");
     textboxTranslated.setAttribute("flex", "1");
     textboxTranslated.setAttribute("multiline", true);
@@ -533,8 +546,11 @@ class TransView extends AddonBase {
     textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textboxTranslated.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
-    const cbConcat = _document.createElement("checkbox");
+    const cbConcat = _window.document.createElement("checkbox");
     cbConcat.setAttribute("id", "pdf-translate-cbConcat");
     cbConcat.setAttribute(
       "label",
@@ -546,7 +562,20 @@ class TransView extends AddonBase {
       this._Addon.locale.getString("view", "checkbox_concat_text_tip")
     );
 
-    const clearConcat = _document.createElement("label");
+    cbConcat.addEventListener("command", (e: XUL.XULEvent) => {
+      [
+        document.getElementById("pdf-translate-cbConcat"),
+        this.standaloneWindow?.document.getElementById(
+          "pdf-translate-cbConcat"
+        ),
+      ]
+        .filter((ele) => ele && ele !== e.target)
+        .forEach((ele) =>
+          ele.setAttribute("checked", e.target.getAttribute("checked"))
+        );
+    });
+
+    const clearConcat = _window.document.createElement("label");
     clearConcat.setAttribute("id", "pdf-translate-clearconcat");
     clearConcat.setAttribute("flex", "0");
     clearConcat.style["text-align"] = "center";
@@ -570,7 +599,8 @@ class TransView extends AddonBase {
 
     hboxConcat.append(cbConcat, clearConcat);
 
-    const autoTranslate: XUL.Checkbox = _document.createElement("checkbox");
+    const autoTranslate: XUL.Checkbox =
+      _window.document.createElement("checkbox");
     autoTranslate.id = "pdf-translate-auto-translate-text";
     autoTranslate.setAttribute(
       "label",
@@ -581,7 +611,7 @@ class TransView extends AddonBase {
     });
 
     const autoTranslateAnnotation: XUL.Checkbox =
-      _document.createElement("checkbox");
+      _window.document.createElement("checkbox");
     autoTranslateAnnotation.id = "pdf-translate-auto-translate-annotation";
     autoTranslateAnnotation.setAttribute(
       "label",
@@ -615,8 +645,14 @@ class TransView extends AddonBase {
   }
 
   isConcatText() {
-    let cbConcat = document.getElementById("pdf-translate-cbConcat");
-    return cbConcat.getAttribute("checked") == "true";
+    return (
+      document
+        .getElementById("pdf-translate-cbConcat")
+        ?.getAttribute("checked") == "true" ||
+      this.standaloneWindow?.document
+        .getElementById("pdf-translate-cbConcat")
+        ?.getAttribute("checked") == "true"
+    );
   }
 
   private updateTranslatePanelHidden(_document: Document) {
@@ -779,23 +815,47 @@ class TransView extends AddonBase {
       currentReader._window.document.createElementNS(
         "http://www.w3.org/1999/xhtml",
         "textarea"
-      );
+      ) as HTMLTextAreaElement;
     textbox.setAttribute("id", "pdf-translate-popup");
     textbox.setAttribute("rows", "3");
     textbox.setAttribute("columns", "10");
-    textbox.style["font-size"] = `${Zotero.Prefs.get(
+    textbox.style.fontSize = `${Zotero.Prefs.get(
       "ZoteroPDFTranslate.fontSize"
     )}px`;
+    textbox.style.fontFamily = "inherit";
+    textbox.style.lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
 
-    textbox.style.width = "105px";
-    textbox.style.height = "30px";
-    selectionMenu.style.width = "105px";
-    selectionMenu.style.height = "50px";
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    const w = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
+      : 105;
+    const h = keepSize
+      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
+      : 30;
+    textbox.style.width = `${w}px`;
+    textbox.style.height = `${h}px`;
+    selectionMenu.style.width = `${w + 3}px`;
+    selectionMenu.style.height = `${h + 20}px`;
+
+    // Update button width
+    let buttons = selectionMenu.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].style.width = selectionMenu.style.width;
+    }
 
     const onTextAreaResize = (_e) => {
       selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
       selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
 
+      if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
+        Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
+        Zotero.Prefs.set(
+          "ZoteroPDFTranslate.popupHeight",
+          textbox.offsetHeight
+        );
+      }
       // Update button width
       let buttons = selectionMenu.getElementsByTagName("button");
       for (let i = 0; i < buttons.length; i++) {
@@ -848,7 +908,7 @@ class TransView extends AddonBase {
         currentReader._window.document.createElementNS(
           "http://www.w3.org/1999/xhtml",
           "style"
-        );
+        ) as HTMLStyleElement;
       textStyle.id = "pdf-translate-popup-style";
       textStyle.appendChild(
         currentReader._window.document.createTextNode(`
@@ -867,11 +927,10 @@ class TransView extends AddonBase {
       if (oldStyle) {
         oldStyle.remove();
       }
-      const textStyle: HTMLStyleElement =
-        currentReader._window.document.createElementNS(
-          "http://www.w3.org/1999/xhtml",
-          "style"
-        );
+      const textStyle = currentReader._window.document.createElementNS(
+        "http://www.w3.org/1999/xhtml",
+        "style"
+      ) as HTMLStyleElement;
       textStyle.id = "pdf-translate-popup-style";
       textStyle.appendChild(
         currentReader._window.document.createTextNode(`
@@ -931,7 +990,7 @@ class TransView extends AddonBase {
     translateButton.setAttribute("class", "wide-button pdf-translate-button");
     translateButton.innerHTML = `${this.translateIcon}Translate`;
     translateButton.addEventListener("click", (e: XUL.XULEvent) => {
-      this._Addon.events.onTranslateButtonClick(e, currentReader);
+      this._Addon.events.onTranslateButtonClick(e);
     });
 
     selectionMenu.appendChild(translateButton);
@@ -1002,12 +1061,17 @@ class TransView extends AddonBase {
       return;
     }
 
+    const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
+    if (keepSize) {
+      return;
+    }
     // Get current H & W
     let textHeight = this.popupTextBox.scrollHeight;
     let textWidth = this.popupTextBox.scrollWidth;
-    let newWidth = textWidth + 20;
+    const newWidth = textWidth + 20;
     if (
       textHeight / textWidth > 0.75 &&
+      // @ts-ignore
       newWidth + selectionPopup.offsetLeft < viewContainer.offsetWidth - 50
     ) {
       // Update width
@@ -1048,7 +1112,7 @@ class TransView extends AddonBase {
       return;
     }
     let _document = this.standaloneWindow.document;
-    let vbox = this.buildTranslatePanel(_document);
+    let vbox = this.buildTranslatePanel(this.standaloneWindow);
 
     _document
       .getElementById("pdf-translate-standalone-container")
@@ -1171,6 +1235,13 @@ class TransView extends AddonBase {
       menulist.setAttribute("value", engine);
       let menupopup = _document.createElement("menupopup");
       menulist.appendChild(menupopup);
+
+      let lineHeight = Zotero.Prefs.get(
+        "ZoteroPDFTranslate.lineHeight"
+      ) as string;
+      if (parseFloat(lineHeight) < 0) {
+        lineHeight = "1";
+      }
       for (let source of this._Addon.translate.sources) {
         let menuitem = _document.createElement("menuitem");
         menuitem.setAttribute(
@@ -1239,6 +1310,7 @@ class TransView extends AddonBase {
       textboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      textboxTranslated.style.lineHeight = lineHeight;
 
       hboxInfo.append(menuLabel, menulist, buttonRemove);
       vbox.append(hboxInfo, textboxTranslated);
@@ -1248,40 +1320,48 @@ class TransView extends AddonBase {
     _document.getElementById("pdf-translate-vbox").appendChild(hbox);
   }
 
-  updateAllResults() {
-    this.updateResults(document);
+  updateAllResults(translatedText: string) {
+    this.updateResults(document, translatedText);
     if (this.standaloneWindow) {
-      this.updateResults(this.standaloneWindow.document);
+      this.updateResults(this.standaloneWindow.document, translatedText);
     }
   }
 
-  private updateResults(_document: Document) {
+  private updateResults(_document: Document, translatedText: string) {
     // Update error info if not success
-    if (this._Addon._debug) {
-      this._Addon._translatedText = this._Addon._debug;
-    }
+    // if (this._Addon._debug) {
+    //   this._Addon._translatedText = this._Addon._debug;
+    // }
     let sideBarTextboxSource: XUL.Textbox = _document.getElementById(
       "pdf-translate-tabpanel-source"
     );
     let sideBarTextboxTranslated: XUL.Textbox = _document.getElementById(
       "pdf-translate-tabpanel-translated"
     );
+    let lineHeight = Zotero.Prefs.get(
+      "ZoteroPDFTranslate.lineHeight"
+    ) as string;
+    if (parseFloat(lineHeight) < 0) {
+      lineHeight = "1";
+    }
     if (sideBarTextboxSource) {
       sideBarTextboxSource.value = this._Addon._sourceText;
       sideBarTextboxSource.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      sideBarTextboxSource.style.lineHeight = lineHeight;
     }
     if (sideBarTextboxTranslated) {
-      sideBarTextboxTranslated.value = this._Addon._translatedText;
+      sideBarTextboxTranslated.value = translatedText;
       sideBarTextboxTranslated.style["font-size"] = `${Zotero.Prefs.get(
         "ZoteroPDFTranslate.fontSize"
       )}px`;
+      sideBarTextboxTranslated.style.lineHeight = lineHeight;
     }
     if (this.popupTextBox) {
       try {
-        this.popupTextBox.innerHTML = this._Addon._translatedText
-          ? this._Addon._translatedText
+        this.popupTextBox.innerHTML = translatedText
+          ? translatedText
           : this._Addon._sourceText;
       } catch (e) {
         Zotero.debug(e);
