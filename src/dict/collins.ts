@@ -35,13 +35,13 @@ async function collinsdict(text: string = undefined) {
       const explanationText: string = Array.prototype.map
         .call(doc.querySelectorAll(".hom"), (e) => {
           console.log(e);
-  
+
           return e.innerText
             .replace(/&nbsp;/g, " ")
             .replace(/[0-9]\./g, "\n$&");
         })
         .join("");
-  
+
       const result = `${phoneticText}\n${explanationText}`; // insert phonetic symbol to result
 
       // TODO: wait for pr #224
