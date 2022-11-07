@@ -6,7 +6,12 @@ import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
-import { niutrans, niutranspro, niutransapi, niutransLog } from "./translate/niutrans";
+import {
+  niutrans,
+  niutranspro,
+  niutransapi,
+  niutransLog,
+} from "./translate/niutrans";
 import { openl } from "./translate/openl";
 import { tencent } from "./translate/tencent";
 import { youdao } from "./translate/youdao";

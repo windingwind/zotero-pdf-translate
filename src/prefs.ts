@@ -27,19 +27,32 @@ class TransPref extends AddonBase {
       `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
     );
 
-    if (type == 'translate') {
-      let otherTransOptions = this._window.document.getElementById("other-trans-input");
-      let niuTransOptions = this._window.document.getElementById("niutrans-login-btn");
-      if (menu.value == 'niutransLog') {
-          niuTransOptions.hidden = false;
-          otherTransOptions.hidden = true;
-          let memoryObj = JSON.parse(Zotero.Prefs.get("ZoteroPDFTranslate.niutransMemoryLibList") as string)
-          let dictOBbj = JSON.parse(Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictLibList") as string)
-          this.initDictLibList(dictOBbj)
-          this.initMemoryLibList(memoryObj)
+    if (type == "translate") {
+      // For NiuTrans login
+      let otherTransOptions =
+        this._window.document.getElementById("other-trans-input");
+      let niuTransOptions =
+        this._window.document.getElementById("niutrans-login-btn");
+      if (menu.value == "niutransLog") {
+        niuTransOptions.hidden = false;
+        otherTransOptions.hidden = true;
+        try {
+          let memoryObj = JSON.parse(
+            Zotero.Prefs.get(
+              "ZoteroPDFTranslate.niutransMemoryLibList"
+            ) as string
+          );
+          let dictOBbj = JSON.parse(
+            Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictLibList") as string
+          );
+          this.niutransInitDictLibList(dictOBbj);
+          this.niutransInitMemoryLibList(memoryObj);
+        } catch (e) {
+          Zotero.debug(e);
+        }
       } else {
-          niuTransOptions.hidden = true;
-          otherTransOptions.hidden = false;
+        niuTransOptions.hidden = true;
+        otherTransOptions.hidden = false;
       }
     }
     let userSecrets = JSON.parse(
@@ -127,10 +140,19 @@ class TransPref extends AddonBase {
       commentEdit.disabled = false;
     }
   }
-  async niutransLogin(){
-    let username: XUL.Textbox = this._window.document.getElementById("zoteroniutrans-username");
-    let password: XUL.Textbox = this._window.document.getElementById("zoteroniutrans-password");
-    if(typeof username.value === "undefined" || username.value === null || username.value === "") {
+
+  async niutransLogin() {
+    let username: XUL.Textbox = this._window.document.getElementById(
+      "zoteroniutrans-username"
+    );
+    let password: XUL.Textbox = this._window.document.getElementById(
+      "zoteroniutrans-password"
+    );
+    if (
+      typeof username.value === "undefined" ||
+      username.value === null ||
+      username.value === ""
+    ) {
       Zotero.alert(
         window,
         `${this._Addon.locale.getString("niutrans_tip", "tipTitle")}`,
@@ -138,7 +160,11 @@ class TransPref extends AddonBase {
       );
       return;
     }
-    if(typeof password.value === "undefined" || password.value === null || password.value === "") {
+    if (
+      typeof password.value === "undefined" ||
+      password.value === null ||
+      password.value === ""
+    ) {
       Zotero.alert(
         window,
         `${this._Addon.locale.getString("niutrans_tip", "tipTitle")}`,
@@ -146,18 +172,29 @@ class TransPref extends AddonBase {
       );
       return;
     }
-    let button = this._window.document.getElementById("zoteroniutrans-loginbutton");
-    button.setAttribute("disabled", "true")
+    let button = this._window.document.getElementById(
+      "zoteroniutrans-loginbutton"
+    );
+    button.setAttribute("disabled", "true");
     try {
-      let loginInfo = await niutransLogin(username.value,password.value)
+      let loginInfo = await niutransLogin(username.value, password.value);
       if (loginInfo.loginFlag) {
-        let messagetextbox = this._window.document.getElementById("zoteroniutrans-messagetextbox");
-        messagetextbox.setAttribute("value",`${this._Addon.locale.getString("niutrans_tip", "successMessageTip")}`);
-        let memoryObj = JSON.parse(Zotero.Prefs.get("ZoteroPDFTranslate.niutransMemoryLibList") as string)
-        let dictOBbj = JSON.parse(Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictLibList") as string)
-        this.initDictLibList(dictOBbj)
-        this.initMemoryLibList(memoryObj)
-      }else{
+        let messagetextbox = this._window.document.getElementById(
+          "zoteroniutrans-messagetextbox"
+        );
+        messagetextbox.setAttribute(
+          "value",
+          `${this._Addon.locale.getString("niutrans_tip", "successMessageTip")}`
+        );
+        let memoryObj = JSON.parse(
+          Zotero.Prefs.get("ZoteroPDFTranslate.niutransMemoryLibList") as string
+        );
+        let dictOBbj = JSON.parse(
+          Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictLibList") as string
+        );
+        this.niutransInitDictLibList(dictOBbj);
+        this.niutransInitMemoryLibList(memoryObj);
+      } else {
         Zotero.alert(
           window,
           `${this._Addon.locale.getString("niutrans_tip", "errorTipTitle")}`,
@@ -171,30 +208,32 @@ class TransPref extends AddonBase {
         `${this._Addon.locale.getString("niutrans_tip", "errorMessage")}`
       );
     } finally {
-      button.setAttribute("disabled", "false")
+      button.setAttribute("disabled", "false");
     }
   }
-  initDictLibList (xhr){
-    let dictLibListElement = this._window.document.getElementById("zoteroniutrans-dictLibList");
-    while(dictLibListElement.firstChild) {
-      dictLibListElement.removeChild(dictLibListElement.firstChild)
+  niutransInitDictLibList(xhr) {
+    let dictLibListElement = this._window.document.getElementById(
+      "zoteroniutrans-dictLibList"
+    );
+    while (dictLibListElement.firstChild) {
+      dictLibListElement.removeChild(dictLibListElement.firstChild);
     }
-    if(xhr.flag == 0) {
+    if (xhr.flag == 0) {
     } else {
       let dlist = xhr.dlist;
-      let isUseDictNo:string;
+      let isUseDictNo: string;
 
       let arr = new Array();
-      for(let item in dlist) {
+      for (let item in dlist) {
         let dict = dlist[item];
         let dic = {
-          dictName:dict.dictName,
-          isUse:dict.isUse,
-          dictNo:dict.dictNo
+          dictName: dict.dictName,
+          isUse: dict.isUse,
+          dictNo: dict.dictNo,
         };
         arr[item] = dic;
 
-        if(dict.isUse == 1) {
+        if (dict.isUse == 1) {
           isUseDictNo = dict.dictNo;
         }
 
@@ -204,10 +243,17 @@ class TransPref extends AddonBase {
         dictLibListElement.appendChild(newDictLib);
       }
       let dictNo = Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictNo");
-      if(typeof dictNo === "undefined" || dictNo === null || dictNo === "") {
-        if(typeof isUseDictNo === "undefined" || isUseDictNo === null || isUseDictNo === "") {
-          if(arr.length && arr.length > 0) {
-            Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictNo", arr[0].dictNo);
+      if (typeof dictNo === "undefined" || dictNo === null || dictNo === "") {
+        if (
+          typeof isUseDictNo === "undefined" ||
+          isUseDictNo === null ||
+          isUseDictNo === ""
+        ) {
+          if (arr.length && arr.length > 0) {
+            Zotero.Prefs.set(
+              "ZoteroPDFTranslate.niutransDictNo",
+              arr[0].dictNo
+            );
           }
         } else {
           Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictNo", isUseDictNo);
@@ -218,27 +264,29 @@ class TransPref extends AddonBase {
       }
     }
   }
-  initMemoryLibList (xhr){
-    let memoryLibListElement = this._window.document.getElementById("zoteroniutrans-memoryLibList");
-    while(memoryLibListElement.firstChild) {
-      memoryLibListElement.removeChild(memoryLibListElement.firstChild)
+  niutransInitMemoryLibList(xhr) {
+    let memoryLibListElement = this._window.document.getElementById(
+      "zoteroniutrans-memoryLibList"
+    );
+    while (memoryLibListElement.firstChild) {
+      memoryLibListElement.removeChild(memoryLibListElement.firstChild);
     }
-    if(xhr.flag == 0) {
+    if (xhr.flag == 0) {
     } else {
       let mlist = xhr.mlist;
-      let isUseMemoryNo:string;
+      let isUseMemoryNo: string;
 
       let arr = new Array();
-      for(let item in mlist) {
+      for (let item in mlist) {
         let memory = mlist[item];
         let mem = {
-          memoryName:memory.memoryName,
-          isUse:memory.isUse,
-          memoryNo:memory.memoryNo
+          memoryName: memory.memoryName,
+          isUse: memory.isUse,
+          memoryNo: memory.memoryNo,
         };
         arr[item] = mem;
 
-        if(memory.isUse == 1) {
+        if (memory.isUse == 1) {
           isUseMemoryNo = memory.memoryNo;
         }
 
@@ -248,13 +296,27 @@ class TransPref extends AddonBase {
         memoryLibListElement.appendChild(newMemoryLib);
       }
       let memoryNo = Zotero.Prefs.get("ZoteroPDFTranslate.niutransMemoryNo");
-      if(typeof memoryNo === "undefined" || memoryNo === null || memoryNo === "") {
-        if(typeof isUseMemoryNo === "undefined" || isUseMemoryNo === null || isUseMemoryNo === "") {
-          if(arr.length && arr.length > 0) {
-            Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryNo", arr[0].memoryNo);
+      if (
+        typeof memoryNo === "undefined" ||
+        memoryNo === null ||
+        memoryNo === ""
+      ) {
+        if (
+          typeof isUseMemoryNo === "undefined" ||
+          isUseMemoryNo === null ||
+          isUseMemoryNo === ""
+        ) {
+          if (arr.length && arr.length > 0) {
+            Zotero.Prefs.set(
+              "ZoteroPDFTranslate.niutransMemoryNo",
+              arr[0].memoryNo
+            );
           }
         } else {
-          Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryNo", isUseMemoryNo);
+          Zotero.Prefs.set(
+            "ZoteroPDFTranslate.niutransMemoryNo",
+            isUseMemoryNo
+          );
         }
       } else {
         Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryNo", "");
@@ -262,29 +324,36 @@ class TransPref extends AddonBase {
       }
     }
   }
-  cleanPasswordAndApikey() {
+  niutransCleanPasswordAndApikey() {
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransPassword", "");
-    let passwordElement: XUL.Textbox = this._window.document.getElementById("zoteroniutrans-password");
+    let passwordElement: XUL.Textbox = this._window.document.getElementById(
+      "zoteroniutrans-password"
+    );
     passwordElement.value = "";
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransApikey", "");
-    let messagetextbox = this._window.document.getElementById("zoteroniutrans-messagetextbox");
-    messagetextbox.setAttribute("value","");
+    let messagetextbox = this._window.document.getElementById(
+      "zoteroniutrans-messagetextbox"
+    );
+    messagetextbox.setAttribute("value", "");
     this.cleanDictNoAndMemoryNo();
   }
-  
+
   cleanApikey() {
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransApikey", "");
-    let messagetextbox = this._window.document.getElementById("zoteroniutrans-messagetextbox");
-    messagetextbox.setAttribute("value","");
+    let messagetextbox = this._window.document.getElementById(
+      "zoteroniutrans-messagetextbox"
+    );
+    messagetextbox.setAttribute("value", "");
     this.cleanDictNoAndMemoryNo();
   }
-  
-  cleanDictNoAndMemoryNo = function() {
+
+  cleanDictNoAndMemoryNo = function () {
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictNo", "");
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryNo", "");
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictLibList", "");
     Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryLibList", "");
-  }
+  };
+
   updateAddToNoteSettings() {
     Zotero.debug("ZoteroPDFTranslate: updateAddToNoteSettings.");
     let enableAddToNote = this._window.document.getElementById(

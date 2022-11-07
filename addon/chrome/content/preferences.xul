@@ -38,8 +38,8 @@
         <preference id="zoteroniutrans-username" name="extensions.zotero.ZoteroPDFTranslate.niutransUsername" type="string" />
         <preference id="zoteroniutrans-password" name="extensions.zotero.ZoteroPDFTranslate.niutransPassword" type="string" />
         <preference id="zoteroniutrans-apikey" name="extensions.zotero.ZoteroPDFTranslate.niutransApikey" type="string" />
-        <preference id="zoteroniutrans-dictLib" name="extensions.zotero.ZoteroPDFTranslate.niutransDictNo" type="string"/>
-        <preference id="zoteroniutrans-memoryLib" name="extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo" type="string"/>
+        <preference id="zoteroniutrans-dictLib" name="extensions.zotero.ZoteroPDFTranslate.niutransDictNo" type="string" />
+        <preference id="zoteroniutrans-memoryLib" name="extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo" type="string" />
       </preferences>
       <tabbox>
         <tabs>
@@ -127,55 +127,55 @@
                       </menupopup>
                     </menulist>
                     <row id='other-trans-input' hidden="false">
-                        <label value="&zotero.__addonRef__.pref.api.secret.label;" />
-                        <textbox id="zotero-prefpane-__addonRef__-settings-translate-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('translate')" />
+                      <label value="&zotero.__addonRef__.pref.api.secret.label;" />
+                      <textbox id="zotero-prefpane-__addonRef__-settings-translate-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('translate')" />
                     </row>
                   </hbox>
                 </row>
                 <row id="niutrans-login-btn" hidden="true">
                   <hbox>
                     <vbox>
-                        <hbox>
-                            <label value="&zotero.__addonRef__.pref.api.niutransUserName.label;" />
-                            <textbox id="zoteroniutrans-username" preference="zoteroniutrans-username" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanPasswordAndApikey()" style="width:150px" />
-                            <description>&#160;&#160;</description>
-                            <label value="&zotero.__addonRef__.pref.api.niutransSignUp.label;" class="zotero-text-link" href="https://niutrans.com/register"/>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransUserName.label;" />
+                        <textbox id="zoteroniutrans-username" preference="zoteroniutrans-username" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanPasswordAndApikey()" style="width:150px" />
+                        <description>&#160;&#160;</description>
+                        <label value="&zotero.__addonRef__.pref.api.niutransSignUp.label;" class="zotero-text-link" href="https://niutrans.com/register" />
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransPassword.label;" />
+                        <textbox id="zoteroniutrans-password" type="password" preference="zoteroniutrans-password" style="width:150px" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanApikey()" />
+                        <description>&#160;&#160;</description>
+                        <label value="&zotero.__addonRef__.pref.api.niutransForgotPassword.label;" class="zotero-text-link" href="https://niutrans.com/password_find" />
+                      </hbox>
+                      <hbox>
+                        <description>&#160;&#160;&#160;&#160;&#160;&#160;</description>
+                        <hbox align="baseline">
+                          <button label="&zotero.__addonRef__.pref.api.niutransLoginBtn.label;" id="zoteroniutrans-loginbutton" oncommand="Zotero.ZoteroPDFTranslate.prefs.niutransLogin()" style="width:50px" />
+                          <label value="" id="zoteroniutrans-messagetextbox" />
                         </hbox>
-                        <hbox>
-                            <label value="&zotero.__addonRef__.pref.api.niutransPassword.label;" />
-                            <textbox id="zoteroniutrans-password" type="password" preference="zoteroniutrans-password" style="width:150px" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanApikey()"/>
-                            <description>&#160;&#160;</description>
-                            <label value="&zotero.__addonRef__.pref.api.niutransForgotPassword.label;" class="zotero-text-link" href="https://niutrans.com/password_find"/>
-                        </hbox>
-                        <hbox>
-                            <description>&#160;&#160;&#160;&#160;&#160;&#160;</description>
-                            <hbox align="baseline">
-                                <button label="&zotero.__addonRef__.pref.api.niutransLoginBtn.label;" id="zoteroniutrans-loginbutton" oncommand="Zotero.ZoteroPDFTranslate.prefs.niutransLogin()" style="width:50px"/>
-                                <label value="" id="zoteroniutrans-messagetextbox"/>
-                            </hbox>
-                        </hbox>
-                    </vbox> 
-                </hbox>
-                <hbox>
+                      </hbox>
+                    </vbox>
+                  </hbox>
+                  <hbox>
                     <vbox>
-                        <hbox>
-                            <label value="&zotero.__addonRef__.pref.api.niutransDictLib.label;"/>
-                            <menulist id="zoteroniutrans-dictLib" preference="zoteroniutrans-dictLib" width="150px">
-                                <menupopup id="zoteroniutrans-dictLibList"></menupopup>
-                            </menulist>
-                        </hbox>
-                        <hbox>
-                            <label value="&zotero.__addonRef__.pref.api.niutransMemoryLib.label;"/>
-                            <menulist id="zoteroniutrans-memoryLib" preference="zoteroniutrans-memoryLib" width="150px">
-                                <menupopup id="zoteroniutrans-memoryLibList"></menupopup>
-                            </menulist>
-                        </hbox>
-                        <hbox>
-                            <label value="&zotero.__addonRef__.pref.api.niutransTip.label;"/>
-                            <label value="&zotero.__addonRef__.pref.api.niutransTipLink.label;" class="zotero-text-link" href="https://niutrans.com/cloud/resource/index"/>
-                            <label value="&zotero.__addonRef__.pref.api.niutransTipEnd.label;"/>
-                        </hbox>
-                    </vbox> 
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransDictLib.label;" />
+                        <menulist id="zoteroniutrans-dictLib" preference="zoteroniutrans-dictLib" width="150px">
+                          <menupopup id="zoteroniutrans-dictLibList"></menupopup>
+                        </menulist>
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransMemoryLib.label;" />
+                        <menulist id="zoteroniutrans-memoryLib" preference="zoteroniutrans-memoryLib" width="150px">
+                          <menupopup id="zoteroniutrans-memoryLibList"></menupopup>
+                        </menulist>
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransTip.label;" />
+                        <label value="&zotero.__addonRef__.pref.api.niutransTipLink.label;" class="zotero-text-link" href="https://niutrans.com/cloud/resource/index" />
+                        <label value="&zotero.__addonRef__.pref.api.niutransTipEnd.label;" />
+                      </hbox>
+                    </vbox>
                   </hbox>
                 </row>
                 <row>

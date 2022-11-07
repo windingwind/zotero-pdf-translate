@@ -33,7 +33,7 @@ class TransConfig extends AddonBase {
       "bingdict",
       "freedictionaryapi",
       "webliodict",
-      "collinsdict"
+      "collinsdict",
     ];
     // this parameter now in src/languages.ts, multiple languages can be supported
     // this.sourcesName = {
@@ -62,7 +62,7 @@ class TransConfig extends AddonBase {
       bingdict: "",
       freedictionaryapi: "",
       webliodict: "",
-      collinsdict: ""
+      collinsdict: "",
     };
     this.secretFormatCheckers = {
       youdaozhiyun: (secret: string) => {
@@ -106,6 +106,15 @@ class TransConfig extends AddonBase {
           info: flag
             ? ""
             : `The secret is your NiuTrans API-KEY. The secret length must be 32, but got ${secret?.length}.`,
+        };
+      },
+      niutransLog: (secret: string) => {
+        const flag = Boolean(
+          Zotero.Prefs.get("ZoteroPDFTranslate.niutransApikey")
+        );
+        return {
+          status: flag,
+          info: flag ? "" : "Please login/请登录",
         };
       },
       deeplfree: (secret: string) => {
