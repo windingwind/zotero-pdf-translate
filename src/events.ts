@@ -221,7 +221,7 @@ class TransEvents extends AddonBase {
 
   public onTranslateKey(event: XUL.XULEvent) {
     if (Zotero_Tabs.selectedID == "zotero-pane") {
-      this.onSwitchTitle(!this._titleTranslation);
+      this.onTranslateTitle("items", false);
     } else {
       this.onTranslateButtonClick(event);
     }
@@ -241,7 +241,10 @@ class TransEvents extends AddonBase {
     event.preventDefault();
   }
 
-  public async onTranslateTitle(selectedType: string, force: boolean = false) {
+  public async onTranslateTitle(
+    selectedType: "collection" | "items",
+    force: boolean = false
+  ) {
     let isFeed =
       Zotero.Libraries.get(ZoteroPane.getSelectedLibraryID()).libraryType ==
       "feed";
@@ -269,13 +272,13 @@ class TransEvents extends AddonBase {
         });
       }
     } else if (selectedType == "items") {
-      items = ZoteroPane.getSelectedItems();
+      items = ZoteroPane.getSelectedItems().filter((item) =>
+        item.isRegularItem()
+      );
     }
 
     let status = await this._Addon.translate.callTranslateTitle(items, force);
-    await Zotero.Promise.delay(200);
     Zotero.debug(status);
-    this.onSwitchTitle(true);
     return true;
   }
 
@@ -348,7 +351,9 @@ class TransEvents extends AddonBase {
         });
       }
     } else if (selectedType == "items") {
-      items = ZoteroPane.getSelectedItems();
+      items = ZoteroPane.getSelectedItems().filter((item) =>
+        item.isRegularItem()
+      );
     }
 
     let status = await this._Addon.translate.callTranslateAbstract(

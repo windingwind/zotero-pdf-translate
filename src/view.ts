@@ -1379,7 +1379,7 @@ class TransView extends AddonBase {
     textbox.value = text;
   }
 
-  showProgressWindow(
+  async showProgressWindow(
     header: string,
     context: string,
     type: string = "default",
@@ -1396,6 +1396,19 @@ class TransView extends AddonBase {
     if (t > 0) {
       progressWindow.startCloseTimer(t);
     }
+    // Wait for ready
+    while (!progressWindow.progress._itemText && t < 100) {
+      t += 1;
+      await Zotero.Promise.delay(10);
+    }
+    return progressWindow;
+  }
+
+  changeProgressWindowDescription(progressWindow, context) {
+    if (!progressWindow || progressWindow.closed) {
+      return;
+    }
+    progressWindow.progress._itemText.innerHTML = context;
   }
 }
 

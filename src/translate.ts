@@ -243,248 +243,137 @@ class TransEngine extends TransConfig {
   public async callTranslateTitle(
     items: Array<Zotero.Item>,
     force: boolean = false,
-    noAlert: boolean = false,
-    noRetry: boolean = false,
-    noSave: boolean = false
+    noSave: boolean = false,
+    noSwitch: boolean = false
   ) {
     this._translateTime = new Date().getTime();
     let status = {};
-    let itemCount = items.length;
-    if (items.length > 1) {
-      // Update titles in batch
-      let titles: string[] = [];
-      let titleSplitter = "©";
-      let itemSplitter = "℗";
+    if (items.length === 0) {
+      return;
+    }
+    let successCount = 0;
+    let failCount = 0;
+    let skipCount = 0;
+    const progressText = () =>
+      `Translating ${items.length} items.\n${successCount} succeeded, ${failCount} failed, ${skipCount} skipped.`;
+    const progress = await this._Addon.view.showProgressWindow(
+      "[Pending] PDF Translate",
+      progressText(),
+      "success",
+      -1
+    );
+    progress.progress.setProgress(1);
 
-      while (items.length > 0) {
-        let batchItems = items.splice(0, 10);
-        for (let item of batchItems) {
-          // Skip translated or language disabled title
-          if (
-            (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
-            this.getLanguageDisable(item.getField("language").split("-")[0])
-          ) {
-            continue;
-          }
-          titles.push(`${item.id} ${titleSplitter} ${item.getField("title")}`);
-          status[item.id] = false;
-        }
-
-        Zotero.debug(
-          `ZoteroPDFTranslate: callTranslateTitle, count=${titles.length}`
-        );
-        if (titles.length == 0) {
-          return status;
-        }
-        let titleText = titles.join(` ${itemSplitter} `);
-        this._Addon._sourceText = titleText;
-        let success = await this.getTranslation();
-        if (!success) {
-          Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
-          return status;
-        }
-        for (let _ of this._Addon._translatedText.split(itemSplitter)) {
-          let itemID = _.split(titleSplitter)[0].trim();
-          let newTitle = _.split(titleSplitter)[1];
-          Zotero.debug(`${itemID}, ${newTitle}`);
-          // Retry
-          try {
-            let item = Zotero.Items.get(itemID) as Zotero.Item;
-            if (item) {
-              if (!noSave) {
-                item.setField("shortTitle", "🔤" + newTitle);
-                await item.saveTx();
-              }
-              status[itemID] = newTitle;
-            }
-          } catch (e) {
-            Zotero.debug(e);
-          }
-        }
-      }
-    } else {
-      let item = items[0];
+    for (const item of items) {
       if (
         (!force && item.getField("shortTitle").indexOf("🔤") >= 0) ||
         this.getLanguageDisable(item.getField("language").split("-")[0])
       ) {
-        return status;
-      }
-      status[item.id] = false;
-      this._Addon._sourceText = item.getField("title");
-      let success = await this.getTranslation();
-      if (!success) {
-        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
-        return status;
-      }
-      try {
-        if (!noSave) {
-          item.setField("shortTitle", "🔤" + this._Addon._translatedText);
-          await item.saveTx();
-        }
-        status[item.id] = this._Addon._translatedText;
-      } catch (e) {
-        Zotero.debug(e);
-      }
-    }
-
-    for (let itemID in status) {
-      if (!noRetry && !status[itemID]) {
-        let _status = await this.callTranslateTitle(
-          Zotero.Items.get([itemID]) as Zotero.Item[],
-          force,
-          true,
-          true,
-          noSave
-        );
-        status[itemID] = _status[itemID];
-      }
-    }
-    let successCount = 0;
-    let failCount = 0;
-    for (let i in status) {
-      if (status[i]) {
-        successCount += 1;
+        skipCount += 1;
       } else {
-        failCount += 1;
+        status[item.id] = false;
+        this._Addon._sourceText = item.getField("title");
+        let success = await this.getTranslation();
+        if (!success) {
+          Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+          failCount += 1;
+          continue;
+        }
+        try {
+          if (!noSave) {
+            item.setField("shortTitle", "🔤" + this._Addon._translatedText);
+            await item.saveTx();
+            successCount += 1;
+            status[item.id] = true;
+          }
+        } catch (e) {
+          failCount += 1;
+          Zotero.debug(e);
+        }
+        // Let QPS > 1
+        await Zotero.Promise.delay(810);
+      }
+      this._Addon.view.changeProgressWindowDescription(
+        progress,
+        progressText()
+      );
+      progress?.progress.setProgress((successCount / items.length) * 100);
+      await Zotero.Promise.delay(200);
+      if (!noSwitch) {
+        await this._Addon.events.onSwitchTitle(true);
       }
     }
-    if (!noAlert) {
-      this._Addon.view.showProgressWindow(
-        "Title Translation",
-        `${successCount} items updated, ${failCount} failed, ${
-          itemCount - successCount - failCount
-        } skipped.`
-      );
-    }
+    progress?.progress.setProgress(100);
+    progress?.startCloseTimer(5000);
     return status;
   }
 
   public async callTranslateAbstract(
     items: Array<Zotero.Item>,
     force: boolean = false,
-    noAlert: boolean = false,
-    noRetry: boolean = false,
     noSave: boolean = false
   ) {
     this._translateTime = new Date().getTime();
     let status = {};
-    let itemCount = items.length;
-    if (items.length > 1) {
-      // Update titles in batch
-      let titles: string[] = [];
-      let titleSplitter = "©";
-      let itemSplitter = "℗";
+    if (items.length === 0) {
+      return;
+    }
+    let successCount = 0;
+    let failCount = 0;
+    let skipCount = 0;
+    const progressText = () =>
+      `Translating ${items.length} items.\n${successCount} succeeded, ${failCount} failed, ${skipCount} skipped.`;
+    const progress = await this._Addon.view.showProgressWindow(
+      "[Pending] PDF Translate",
+      progressText(),
+      "success",
+      -1
+    );
+    progress.progress.setProgress(1);
 
-      while (items.length > 0) {
-        let batchItems = items.splice(0, 10);
-        for (let item of batchItems) {
-          // Skip translated or language disabled title
-          if (
-            (!force && item.getField("abstractNote").indexOf("🔤") >= 0) ||
-            this.getLanguageDisable(item.getField("language").split("-")[0])
-          ) {
-            continue;
-          }
-          titles.push(
-            `${item.id} ${titleSplitter} ${item.getField("abstractNote")}`
-          );
-          status[item.id] = false;
-        }
-
-        Zotero.debug(
-          `ZoteroPDFTranslate: callTranslateAbstract, count=${titles.length}`
-        );
-        if (titles.length == 0) {
-          return status;
-        }
-        let titleText = titles.join(` ${itemSplitter} `);
-        this._Addon._sourceText = titleText;
-        let success = await this.getTranslation();
-        if (!success) {
-          Zotero.debug("ZoteroPDFTranslate.callTranslateAbstract failed");
-          return status;
-        }
-        for (let _ of this._Addon._translatedText.split(itemSplitter)) {
-          let itemID = _.split(titleSplitter)[0].trim();
-          let newTitle = _.split(titleSplitter)[1];
-          Zotero.debug(`${itemID}, ${newTitle}`);
-          // Retry
-          try {
-            let item = Zotero.Items.get(itemID) as Zotero.Item;
-            if (item) {
-              if (!noSave) {
-                item.setField(
-                  "abstractNote",
-                  "🔤" + newTitle + item.getField("abstractNote")
-                );
-                await item.saveTx();
-              }
-              status[itemID] = newTitle;
-            }
-          } catch (e) {
-            Zotero.debug(e);
-          }
-        }
-      }
-    } else {
-      let item = items[0];
+    for (const item of items) {
       if (
         (!force && item.getField("abstractNote").indexOf("🔤") >= 0) ||
         this.getLanguageDisable(item.getField("language").split("-")[0])
       ) {
-        return status;
-      }
-      status[item.id] = false;
-      this._Addon._sourceText = item.getField("abstractNote");
-      let success = await this.getTranslation();
-      if (!success) {
-        Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
-        return status;
-      }
-      try {
-        if (!noSave) {
-          item.setField(
-            "abstractNote",
-            "🔤" + this._Addon._translatedText + item.getField("abstractNote")
-          );
-          await item.saveTx();
-        }
-        status[item.id] = this._Addon._translatedText;
-      } catch (e) {
-        Zotero.debug(e);
-      }
-    }
-
-    for (let itemID in status) {
-      if (!noRetry && !status[itemID]) {
-        let _status = await this.callTranslateAbstract(
-          Zotero.Items.get([itemID]) as Zotero.Item[],
-          force,
-          true,
-          true,
-          noSave
-        );
-        status[itemID] = _status[itemID];
-      }
-    }
-    let successCount = 0;
-    let failCount = 0;
-    for (let i in status) {
-      if (status[i]) {
-        successCount += 1;
+        skipCount += 1;
       } else {
-        failCount += 1;
+        status[item.id] = false;
+        this._Addon._sourceText = item.getField("abstractNote");
+        let success = await this.getTranslation();
+        if (!success) {
+          Zotero.debug("ZoteroPDFTranslate.callTranslateTitle failed");
+          failCount += 1;
+          continue;
+        }
+        try {
+          if (!noSave) {
+            item.setField(
+              "abstractNote",
+              "🔤" +
+                this._Addon._translatedText +
+                "\n" +
+                item.getField("abstractNote")
+            );
+            await item.saveTx();
+            successCount += 1;
+            status[item.id] = true;
+          }
+        } catch (e) {
+          failCount += 1;
+          Zotero.debug(e);
+        }
+        // Let QPS > 1
+        await Zotero.Promise.delay(1010);
       }
-    }
-    if (!noAlert) {
-      this._Addon.view.showProgressWindow(
-        "Abstract Translation",
-        `${successCount} items updated, ${failCount} failed, ${
-          itemCount - successCount - failCount
-        } skipped.`
+      this._Addon.view.changeProgressWindowDescription(
+        progress,
+        progressText()
       );
+      progress?.progress.setProgress((successCount / items.length) * 100);
     }
+    progress?.progress.setProgress(100);
+    progress?.startCloseTimer(5000);
     return status;
   }
 
