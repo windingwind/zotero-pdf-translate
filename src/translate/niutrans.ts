@@ -1,9 +1,11 @@
-import { JSEncrypt } from 'jsencrypt'
 async function niutrans(text: string = undefined) {
   return await this.niutransapi("niutrans", text);
 }
 async function niutranspro(text: string = undefined) {
   return await this.niutransapi("niutranspro", text);
+}
+async function niutransLog(text: string = undefined) {
+  return await this.niutransText("niutransLog", text);
 }
 async function niutransapi(engine: string, text: string) {
   let args = this.getArgs(engine, text);
@@ -39,8 +41,8 @@ async function niutransapi(engine: string, text: string) {
     }
   );
 }
-async function niutransLog(text: string = undefined) {
-  let args = this.getArgs("niutransLog", text);
+async function niutransText(engine: string, text: string) {
+  let args = this.getArgs(engine, text);
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
@@ -53,9 +55,9 @@ async function niutransLog(text: string = undefined) {
           body: JSON.stringify({
             from: args.sl.split("-")[0],
             to: args.tl.split("-")[0],
-            apikey: Zotero.Prefs.get("ZoteroPDFTranslate.niutransApikey"),
-            dictNo: Zotero.Prefs.get("ZoteroPDFTranslate.niutransDictNo"),
-            memoryNo: Zotero.Prefs.get("ZoteroPDFTranslate.niutransMemoryNo"),
+            apikey: Zotero.Prefs.get("zoteroniutrans.apikey"),
+            dictNo: Zotero.Prefs.get("zoteroniutrans.dictNo"),
+            memoryNo: Zotero.Prefs.get("zoteroniutrans.memoryNo"),
             source: "zotero",
             src_text: args.text,
           }),
@@ -74,39 +76,8 @@ async function niutransLog(text: string = undefined) {
     }
   );
 }
-async function niutransLogin(username:string, password:string) {
-  let loginFlag:boolean
-  let loginErrorMessage:string
-  let keyxhr = await getPublicKey();
-  if(keyxhr && keyxhr.status && keyxhr.status === 200 && keyxhr.response.flag && keyxhr.response.flag === 1){}else{return;}
-  let encrypt = new JSEncrypt();
-  encrypt.setPublicKey(keyxhr.response.key);
-  let encryptionPassword = encrypt.encrypt(password);
-  encryptionPassword = encodeURIComponent(encryptionPassword);
-  let userLoginXhr = await loginApi(username,encryptionPassword)
-  if(userLoginXhr && userLoginXhr.status && userLoginXhr.status === 200) {
-    if(userLoginXhr.response.flag == 1) {
-      let apikey = userLoginXhr.response.apikey;
-      Zotero.Prefs.set("ZoteroPDFTranslate.niutransUsername", username);
-      Zotero.Prefs.set("ZoteroPDFTranslate.niutransPassword", password);
-      Zotero.Prefs.set("ZoteroPDFTranslate.niutransApikey", apikey);
-      let dicLibXhr = await getDictLibList(apikey)
-      let memoryLibXhr = await getMemoryLibList(apikey)
-      if(dicLibXhr && dicLibXhr.status && dicLibXhr.status === 200){
-        Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictLibList", JSON.stringify(dicLibXhr.response));
-      }
-      if(memoryLibXhr && memoryLibXhr.status && memoryLibXhr.status === 200){
-        Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryLibList", JSON.stringify(memoryLibXhr.response));
-      }
-      loginFlag = true
-    } else {
-      loginFlag = false
-      loginErrorMessage = userLoginXhr.response.msg
-    }
-  }
-  return {loginFlag, loginErrorMessage}
-}
-async function loginApi(username:string, password:string) {
+// 新增登录接口
+async function userLogin(username:string, password:string) {
   return await Zotero.HTTP.request(
     "POST",
     "https://apis.niutrans.com/NiuTransAPIServer/checkInformation", 
@@ -116,6 +87,7 @@ async function loginApi(username:string, password:string) {
     }
   );
 }
+
 async function getDictLibList(apikey:string) {
   return await Zotero.HTTP.request(
     "POST",
@@ -144,4 +116,4 @@ async function getPublicKey() {
     }
   );
 }
-export { niutrans, niutransapi, niutranspro, niutransLogin, niutransLog};
+export { niutrans, niutransapi, niutranspro, userLogin, getDictLibList, getMemoryLibList, getPublicKey, niutransText, niutransLog };
