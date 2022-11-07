@@ -9,6 +9,7 @@ class PDFTranslate {
   _selectedText: string;
   _sourceText: string;
   _translatedText: string;
+  _debug: string;
   public events: TransEvents;
   public view: TransView;
   public reader: TransReader;
@@ -20,6 +21,7 @@ class PDFTranslate {
     this._selectedText = "";
     this._sourceText = "";
     this._translatedText = "";
+    this._debug = "";
     this.events = new TransEvents(this);
     this.view = new TransView(this);
     this.reader = new TransReader(this);

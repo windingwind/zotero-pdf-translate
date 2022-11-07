@@ -4,27 +4,26 @@ import { userLogin,getDictLibList, getMemoryLibList, getPublicKey } from "./tran
 import { JSEncrypt } from 'jsencrypt'
 
 class TransPref extends AddonBase {
-  private _window: Window;
+  private _document: Document;
   constructor(parent: PDFTranslate) {
     super(parent);
   }
-  initPreferences(_window: Window) {
-    this._window = _window;
+  initPreferences(_document: Document) {
+    this._document = _document;
     Zotero.debug("ZoteroPDFTranslate: Initialize preferences.");
     this.updateSourceParam("translate");
     this.updateSourceParam("dict");
     this.buildLanguageSettings();
     this.updatePreviewPannel();
     this.updateAnnotationTranslationSettings();
-    this.updateAddToNoteSettings();
   }
 
-  updateSourceParam(type: string, checkSecretFormat: boolean = false) {
+  updateSourceParam(type: string) {
     Zotero.debug("ZoteroPDFTranslate: updateSourceParam.");
-    let menu: XUL.Menulist = this._window.document.getElementById(
+    let menu: XUL.Menulist = this._document.getElementById(
       `zotero-prefpane-zoteropdftranslate-settings-${type}-source`
     );
-    let param: XUL.Textbox = this._window.document.getElementById(
+    let param: XUL.Textbox = this._document.getElementById(
       `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
     );
     // 判断一次是否为小牛翻译登录选项 
@@ -54,16 +53,13 @@ class TransPref extends AddonBase {
       );
     }
     param.value = secret;
-    if (checkSecretFormat) {
-      this._Addon.translate.checkSecret(this._window, menu.value, secret);
-    }
   }
 
   updateParamObj(type: string) {
-    let menu: XUL.Menulist = this._window.document.getElementById(
+    let menu: XUL.Menulist = this._document.getElementById(
       `zotero-prefpane-zoteropdftranslate-settings-${type}-source`
     );
-    let param: XUL.Textbox = this._window.document.getElementById(
+    let param: XUL.Textbox = this._document.getElementById(
       `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
     );
 
@@ -78,43 +74,28 @@ class TransPref extends AddonBase {
     );
   }
 
-  checkParamObj(type: string) {
-    let menu: XUL.Menulist = this._window.document.getElementById(
-      `zotero-prefpane-zoteropdftranslate-settings-${type}-source`
-    );
-    let param: XUL.Textbox = this._window.document.getElementById(
-      `zotero-prefpane-zoteropdftranslate-settings-${type}-param`
-    );
-    this._Addon.translate.checkSecret(this._window, menu.value, param.value);
-  }
-
   updatePreviewPannel() {
     Zotero.debug("ZoteroPDFTranslate: updatePreviewPannel.");
-    let pannel = this._window.document.getElementById(
+    let pannel = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-preview"
     );
-    let fontSizeText: XUL.Textbox = this._window.document.getElementById(
+    let text: XUL.Textbox = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-font-size"
     );
-    let lineHeightText: XUL.Textbox = this._window.document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-line-height"
-    );
-    pannel.style["font-size"] = `${parseInt(fontSizeText.value)}px`;
-    pannel.style.lineHeight =
-      parseFloat(lineHeightText.value) < 0 ? "1" : lineHeightText.value;
+    pannel.style["font-size"] = `${parseInt(text.value)}px`;
   }
 
   updateAnnotationTranslationSettings() {
     Zotero.debug("ZoteroPDFTranslate: updateannotationTranslationSettings.");
-    let enableAnnotationTranslation = this._window.document.getElementById(
+    let enableAnnotationTranslation = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-enable-comment"
     ) as XUL.Checkbox;
-    const position: XUL.Element = this._window.document.getElementById(
+    const position: XUL.Element = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-annotation-translation-position"
     );
     position.disabled = !enableAnnotationTranslation.checked;
 
-    const commentEdit: XUL.Checkbox = this._window.document.getElementById(
+    const commentEdit: XUL.Checkbox = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-enable-commentedit"
     );
     if (!enableAnnotationTranslation.checked || position.value === "body") {
@@ -315,35 +296,24 @@ class TransPref extends AddonBase {
     Zotero.Prefs.set("zoteroniutrans.dictLibList", "");
     Zotero.Prefs.set("zoteroniutrans.memoryLibList", "");
   }
-  updateAddToNoteSettings() {
-    Zotero.debug("ZoteroPDFTranslate: updateAddToNoteSettings.");
-    let enableAddToNote = this._window.document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-enable-note"
-    ) as XUL.Checkbox;
-    const mode: XUL.Element = this._window.document.getElementById(
-      "zotero-prefpane-zoteropdftranslate-settings-enable-note-replace"
-    );
-    mode.disabled = !enableAddToNote.checked;
-  }
-
   private buildLanguageSettings() {
-    let SLMenuList: XUL.Menulist = this._window.document.getElementById(
+    let SLMenuList: XUL.Menulist = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-translate-sl"
     );
-    let SLMenuPopup = this._window.document.createElement("menupopup");
+    let SLMenuPopup = this._document.createElement("menupopup");
     let sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage");
     let slIndex = 0;
 
-    let TLMenuList: XUL.Menulist = this._window.document.getElementById(
+    let TLMenuList: XUL.Menulist = this._document.getElementById(
       "zotero-prefpane-zoteropdftranslate-settings-translate-tl"
     );
-    let TLMenuPopup = this._window.document.createElement("menupopup");
+    let TLMenuPopup = this._document.createElement("menupopup");
     let tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage");
     let tlIndex = 0;
 
     let i = 0;
     for (let lang of this._Addon.translate.LangCultureNames) {
-      let SLMenuItem = this._window.document.createElement("menuitem");
+      let SLMenuItem = this._document.createElement("menuitem");
       SLMenuItem.setAttribute("label", lang.DisplayName);
       SLMenuItem.setAttribute("value", lang.LangCultureName);
       SLMenuItem.addEventListener("command", (e: XUL.XULEvent) => {
@@ -354,7 +324,7 @@ class TransPref extends AddonBase {
         slIndex = i;
       }
 
-      let TLMenuItem = this._window.document.createElement("menuitem");
+      let TLMenuItem = this._document.createElement("menuitem");
       TLMenuItem.setAttribute("label", lang.DisplayName);
       TLMenuItem.setAttribute("value", lang.LangCultureName);
       TLMenuItem.addEventListener("command", (e: XUL.XULEvent) => {

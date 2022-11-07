@@ -1,8 +1,6 @@
-import PDFTranslate from "./addon";
-
 class AddonBase {
-  protected _Addon: PDFTranslate;
-  constructor(parent: PDFTranslate) {
+  protected _Addon: any;
+  constructor(parent: any) {
     this._Addon = parent;
   }
 }

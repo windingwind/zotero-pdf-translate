@@ -11,13 +11,7 @@ async function bingdict(text: string = undefined) {
     },
     (xhr) => {
       let res = xhr.response;
-      try {
-        res = res.match(
-          /<meta name=\"description\" content=\"(.+) \" ?\/>/gm
-        )[0];
-      } catch (e) {
-        return "";
-      }
+      res = res.match(/<meta name=\"description\" content=\"(.+) \" ?\/>/gm)[0];
 
       let tgt = "";
       for (let line of res.split("，").slice(1)) {
@@ -28,7 +22,6 @@ async function bingdict(text: string = undefined) {
           tgt += line + "\n";
         }
       }
-      tgt = tgt.replace(/" \/>/g, "");
 
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
       return tgt;

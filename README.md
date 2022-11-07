@@ -3,8 +3,6 @@
 This is an add-on for [Zotero 6](https://www.zotero.org/)'s built-in PDF reader.  
 Translate PDFs, annotations, notes, and item titles automatically.
 
-[中文文档](https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d)
-
 ![](imgs/translate.gif)
 
 # Quick Start Guide
@@ -69,7 +67,6 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 - Enable Update and Edit Last Annotation Translation, default `true`
 - Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`
   > Unvisible if no active note editor opened.
-  - Replace Source Text: Use translation to replace the source text when adding to note, default `false`
 
 ### General-Translate Engine
 
@@ -78,7 +75,6 @@ The default engine is Google Translate. Currently, we support:
 | ---- | ---- | ---- |
 | Google Translate | No | [100+](https://translate.google.com/about/languages/) |
 | Google Translate(API) | No | Use `translate.googleapis.com` |
-| CNKI | No | https://dict.cnki.net |
 | Youdao Translate | No | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
 | Youdao Zhiyun | Yes | [100+](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
 | Niu Translate(Trial) | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) **UNSTABLE** |
@@ -122,7 +118,7 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 **Baidu Translate**  
 Apply [here](https://fanyi-api.baidu.com/product/11).  
-The secret format is `MY_APPID#MY_KEY#ACTION(optional, see https://api.fanyi.baidu.com/doc/21, default 0)`(split with '#').
+The secret format is `MY_APPID#MY_KEY`(split with '#').
 
 **Baidu Field Translate 百度垂直领域翻译**  
 Apply [here](https://fanyi-api.baidu.com/product/12).  
@@ -157,10 +153,8 @@ Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,so
 ### Advanced-UI
 
 - `Font Size`: The font size of result text, default `12`
-- `Line Height`: The line height of result text, default `1.5`
 - `SideBar: Show xxx`: Show or hide sidebar elements, default `true`
 - `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the sidebar if `true`, default `false`
-- `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
 
 ### Advanced-Others
 
@@ -170,9 +164,7 @@ Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,so
 
 This section is for developers.
 
-This addon is built based on the [Zotero Addon Template](https://github.com/windingwind/zotero-addon-template).
-
-### Setup
+### Use this repo as a Zotero Addon Template
 
 This repo can be used as a Zotero 6.x addon template. To start with, clone this repo and install npm dependencies:
 

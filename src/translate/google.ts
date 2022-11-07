@@ -111,8 +111,8 @@ async function _google(engine: string, text: string = undefined) {
       return await Zotero.HTTP.request(
         "GET",
         `${
-          args.secret ? args.secret : urls[engine]
-        }/translate_a/single?client=gtx&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+          urls[engine]
+        }/translate_a/single?client=webapp&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
           args.text
         )}&q=${encodeURIComponent(args.text)}`,
         { responseType: "json" }
@@ -136,4 +136,4 @@ async function _google(engine: string, text: string = undefined) {
   );
 }
 
-export { google, googleapi, _google };
+export { google, googleapi, googleweb, _google };
