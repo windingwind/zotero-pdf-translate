@@ -35,7 +35,6 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "Bing Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
-<!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "Collins Dict(en↔zh)">
 
 <!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "username">
 <!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "password">
@@ -63,9 +62,9 @@
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "User Guide and Feedback">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
-<!ENTITY zotero.__addonRef__.help.docs.label "Documentation(ZH)">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate VERSION __buildVersion__">
 <!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
+
 
 <!ENTITY zotero.__addonRef__.pref.advanced.UI.label "UI">
 <!ENTITY zotero.__addonRef__.pref.advanced.fontSize.label "Font Size">

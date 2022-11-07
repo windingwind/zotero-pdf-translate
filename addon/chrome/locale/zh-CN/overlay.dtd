@@ -14,7 +14,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.caption.label "翻译服务">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.label "翻译引擎">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.google "谷歌">
-<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "谷歌API">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.googleapi "谷歌API(中国可用)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.googleweb "谷歌(Web)">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.youdao "有道">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.youdaozhiyun "有道智云*">
@@ -35,7 +35,6 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
-<!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)">
 
 <!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "账号">
 <!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "密码">
@@ -63,7 +62,6 @@
 
 <!ENTITY zotero.__addonRef__.help.feedback.caption.label "使用方法及问题反馈">
 <!ENTITY zotero.__addonRef__.help.feedback.label "GitHub">
-<!ENTITY zotero.__addonRef__.help.docs.label "文档(中文)">
 <!ENTITY zotero.__addonRef__.help.version.label "Zotero PDF Translate 版本 __buildVersion__">
 <!ENTITY zotero.__addonRef__.help.releasetime.label "Build __buildTime__">
 

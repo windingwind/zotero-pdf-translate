@@ -1,6 +1,6 @@
 const CryptoJS = require("crypto-js");
 
-async function getToken(forceRefresh: boolean = false) {
+async function getToken() {
   let token = "";
   // Just in case the update fails
   let doRefresh = true;
@@ -9,10 +9,9 @@ async function getToken(forceRefresh: boolean = false) {
       Zotero.Prefs.get("ZoteroPDFTranslate.cnkiToken") as string
     );
     if (
-      !forceRefresh &&
       tokenObj &&
       tokenObj.token &&
-      new Date().getTime() - tokenObj.t < 300 * 1000
+      new Date().getTime() - tokenObj.token.t < 300 * 1000
     ) {
       token = tokenObj.token;
       doRefresh = false;
@@ -49,15 +48,8 @@ function getWord(t) {
   return (r = r.replace(/\+/g, "-")), r;
 }
 
-async function cnki(text: string = undefined, retry: boolean = true) {
+async function cnki(text: string = undefined) {
   let args = this.getArgs("cnki", text);
-  if (args.text.length > 1000) {
-    Zotero.ZoteroPDFTranslate.view.showProgressWindow(
-      "PDF Translate",
-      `Maximam text length is 1000, ${args.text.length} selected. Will only translate first 1000 characters.`
-    );
-    args.text = args.text.slice(0, 1000);
-  }
 
   return await this.requestTranslate(
     async () => {
@@ -77,34 +69,7 @@ async function cnki(text: string = undefined, retry: boolean = true) {
         }
       );
     },
-    async (xhr) => {
-      if (retry && xhr.response.data?.isInputVerificationCode) {
-        // Monitor verification
-        await Zotero.HTTP.request(
-          "GET",
-          "https://dict.cnki.net/fyzs-front-api/captchaImage",
-          {
-            headers: {
-              "Content-Type": "application/json;charset=UTF-8",
-              Token: await getToken(),
-            },
-          }
-        );
-        await Zotero.HTTP.request(
-          "POST",
-          "https://dict.cnki.net/fyzs-front-api/translate/addVerificationCodeTimes",
-          {
-            headers: {
-              "Content-Type": "application/json;charset=UTF-8",
-              Token: await getToken(),
-            },
-          }
-        );
-        await getToken(true);
-        // Call translation again
-        return await cnki.call(this, text, false);
-        // throw "CNKI requires verification. Please verify manually in popup or open dict.cnki.net in browser.";
-      }
+    (xhr) => {
       let tgt = xhr.response.data?.mResult;
       Zotero.debug(tgt);
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
