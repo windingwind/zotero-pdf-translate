@@ -24,7 +24,13 @@ class TransEvents extends AddonBase {
           extraData[ids[0]].type == "reader"
         ) {
           Zotero.debug("ZoteroPDFTranslate: open attachment event detected.");
-          const reader = Zotero.Reader.getByTabID(ids[0]);
+          let reader = Zotero.Reader.getByTabID(ids[0]);
+          let delayCount = 0;
+          while (!reader && delayCount < 10) {
+            await Zotero.Promise.delay(100);
+            reader = Zotero.Reader.getByTabID(ids[0]);
+            delayCount++;
+          }
           await reader._initPromise;
           this.onReaderSelect(reader);
         }
@@ -215,7 +221,7 @@ class TransEvents extends AddonBase {
 
   public onTranslateKey(event: XUL.XULEvent) {
     if (Zotero_Tabs.selectedID == "zotero-pane") {
-      this.onSwitchTitle(!this._titleTranslation);
+      this.onTranslateTitle("items", false);
     } else {
       this.onTranslateButtonClick(event);
     }
@@ -235,7 +241,10 @@ class TransEvents extends AddonBase {
     event.preventDefault();
   }
 
-  public async onTranslateTitle(selectedType: string, force: boolean = false) {
+  public async onTranslateTitle(
+    selectedType: "collection" | "items",
+    force: boolean = false
+  ) {
     let isFeed =
       Zotero.Libraries.get(ZoteroPane.getSelectedLibraryID()).libraryType ==
       "feed";
@@ -263,13 +272,13 @@ class TransEvents extends AddonBase {
         });
       }
     } else if (selectedType == "items") {
-      items = ZoteroPane.getSelectedItems();
+      items = ZoteroPane.getSelectedItems().filter((item) =>
+        item.isRegularItem()
+      );
     }
 
     let status = await this._Addon.translate.callTranslateTitle(items, force);
-    await Zotero.Promise.delay(200);
     Zotero.debug(status);
-    this.onSwitchTitle(true);
     return true;
   }
 
@@ -342,7 +351,9 @@ class TransEvents extends AddonBase {
         });
       }
     } else if (selectedType == "items") {
-      items = ZoteroPane.getSelectedItems();
+      items = ZoteroPane.getSelectedItems().filter((item) =>
+        item.isRegularItem()
+      );
     }
 
     let status = await this._Addon.translate.callTranslateAbstract(
@@ -502,7 +513,7 @@ class TransEvents extends AddonBase {
     if (!translateSource || !validSource) {
       // Change default translate engine for zh-CN users
       if (Services.locale.getRequestedLocale() === "zh-CN") {
-        translateSource = "googleapi";
+        translateSource = "cnki";
       } else {
         translateSource = this._Addon.translate.sources[0];
       }

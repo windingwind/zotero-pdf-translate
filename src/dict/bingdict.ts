@@ -13,7 +13,13 @@ async function bingdict(text: string = undefined) {
       let res = xhr.response;
       Zotero.ZoteroPDFTranslate._audioSourceURL = 
         res.match(/https?:\/\/\S+\.mp3/);  // match 'http://*.mp3'
-      res = res.match(/<meta name=\"description\" content=\"(.+) \" ?\/>/gm)[0];
+      try {
+        res = res.match(
+          /<meta name=\"description\" content=\"(.+) \" ?\/>/gm
+        )[0];
+      } catch (e) {
+        return "";
+      }
 
       let tgt = "";
       for (let line of res.split("，").slice(1)) {
@@ -24,6 +30,7 @@ async function bingdict(text: string = undefined) {
           tgt += line + "\n";
         }
       }
+      tgt = tgt.replace(/" \/>/g, "");
 
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
       return tgt;

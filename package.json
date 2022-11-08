@@ -3,7 +3,7 @@
   "addonName": "Zotero PDF Translate",
   "addonID": "zoteropdftranslate@euclpts.com",
   "addonRef": "zoteropdftranslate",
-  "version": "0.8.25",
+  "version": "0.8.30",
   "description": "PDF translation for Zotero built-in PDF reader.",
   "main": "src/index.js",
   "scripts": {
@@ -29,10 +29,11 @@
     "compressing": "^1.5.1",
     "crypto-js": "^4.1.1",
     "esbuild": "^0.14.34",
+    "jsencrypt": "^3.2.1",
     "replace-in-file": "^6.3.2"
   },
   "devDependencies": {
     "release-it": "^14.14.0",
-    "zotero-types": "^0.0.4"
+    "zotero-types": "^0.0.5"
   }
 }

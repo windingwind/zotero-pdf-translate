@@ -4,7 +4,7 @@
 <overlay id="__addonRef__-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
   <prefwindow id="zotero-prefs">
-    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initPreferences(document)">
+    <prefpane id="zotero-prefpane-__addonRef__" insertafter="zotero-prefpane-advanced" label="Translate" image="chrome://__addonRef__/skin/favicon.png" onpaneload="Zotero.ZoteroPDFTranslate.prefs.initPreferences(window)">
       <preferences id="zotero-preferences-__addonRef__">
         <preference id="pref-__addonRef__-enable" name="extensions.zotero.ZoteroPDFTranslate.enable" type="bool" />
         <preference id="pref-__addonRef__-enable-popup" name="extensions.zotero.ZoteroPDFTranslate.enablePopup" type="bool" />
@@ -35,6 +35,11 @@
         <preference id="pref-__addonRef__-dict-param" name="extensions.zotero.ZoteroPDFTranslate.dictSecret" type="string" />
         <preference id="pref-__addonRef__-disabled-languages" name="extensions.zotero.ZoteroPDFTranslate.disabledLanguages" type="string" />
         <preference id="pref-__addonRef__-extra-engines" name="extensions.zotero.ZoteroPDFTranslate.extraEngines" type="string" />
+        <preference id="zoteroniutrans-username" name="extensions.zotero.ZoteroPDFTranslate.niutransUsername" type="string" />
+        <preference id="zoteroniutrans-password" name="extensions.zotero.ZoteroPDFTranslate.niutransPassword" type="string" />
+        <preference id="zoteroniutrans-apikey" name="extensions.zotero.ZoteroPDFTranslate.niutransApikey" type="string" />
+        <preference id="zoteroniutrans-dictLib" name="extensions.zotero.ZoteroPDFTranslate.niutransDictNo" type="string" />
+        <preference id="zoteroniutrans-memoryLib" name="extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo" type="string" />
       </preferences>
       <tabbox>
         <tabs>
@@ -101,7 +106,7 @@
                 <row>
                   <hbox align="center">
                     <label value="&zotero.__addonRef__.pref.api.translateSource.label;" />
-                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('translate')">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-translate-source" preference="pref-__addonRef__-translate-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('translate', true)">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.googleapi;" value="googleapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.google;" value="google" />
@@ -110,6 +115,7 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.youdaozhiyun;" value="youdaozhiyun" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutrans;" value="niutrans" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutranspro;" value="niutranspro" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.niutransLog;" value="niutransLog" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.microsoft;" value="microsoft" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.caiyun;" value="caiyun" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplfree;" value="deeplfree" />
@@ -120,23 +126,72 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.openl;" value="openl" />
                       </menupopup>
                     </menulist>
-                    <label value="&zotero.__addonRef__.pref.api.secret.label;" />
-                    <textbox id="zotero-prefpane-__addonRef__-settings-translate-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('translate')" />
+                    <row id='other-trans-input' hidden="false">
+                      <label value="&zotero.__addonRef__.pref.api.secret.label;" />
+                      <textbox id="zotero-prefpane-__addonRef__-settings-translate-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('translate')" />
+                    </row>
+                  </hbox>
+                </row>
+                <row id="niutrans-login-btn" hidden="true">
+                  <hbox>
+                    <vbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransUserName.label;" />
+                        <textbox id="zoteroniutrans-username" preference="zoteroniutrans-username" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanPasswordAndApikey()" style="width:150px" />
+                        <description>&#160;&#160;</description>
+                        <label value="&zotero.__addonRef__.pref.api.niutransSignUp.label;" class="zotero-text-link" href="https://niutrans.com/register" />
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransPassword.label;" />
+                        <textbox id="zoteroniutrans-password" type="password" preference="zoteroniutrans-password" style="width:150px" onchange="Zotero.ZoteroPDFTranslate.prefs.cleanApikey()" />
+                        <description>&#160;&#160;</description>
+                        <label value="&zotero.__addonRef__.pref.api.niutransForgotPassword.label;" class="zotero-text-link" href="https://niutrans.com/password_find" />
+                      </hbox>
+                      <hbox>
+                        <description>&#160;&#160;&#160;&#160;&#160;&#160;</description>
+                        <hbox align="baseline">
+                          <button label="&zotero.__addonRef__.pref.api.niutransLoginBtn.label;" id="zoteroniutrans-loginbutton" oncommand="Zotero.ZoteroPDFTranslate.prefs.niutransLogin()" style="width:50px" />
+                          <label value="" id="zoteroniutrans-messagetextbox" />
+                        </hbox>
+                      </hbox>
+                    </vbox>
+                  </hbox>
+                  <hbox>
+                    <vbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransDictLib.label;" />
+                        <menulist id="zoteroniutrans-dictLib" preference="zoteroniutrans-dictLib" width="150px">
+                          <menupopup id="zoteroniutrans-dictLibList"></menupopup>
+                        </menulist>
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransMemoryLib.label;" />
+                        <menulist id="zoteroniutrans-memoryLib" preference="zoteroniutrans-memoryLib" width="150px">
+                          <menupopup id="zoteroniutrans-memoryLibList"></menupopup>
+                        </menulist>
+                      </hbox>
+                      <hbox>
+                        <label value="&zotero.__addonRef__.pref.api.niutransTip.label;" />
+                        <label value="&zotero.__addonRef__.pref.api.niutransTipLink.label;" class="zotero-text-link" href="https://niutrans.com/cloud/resource/index" />
+                        <label value="&zotero.__addonRef__.pref.api.niutransTipEnd.label;" />
+                      </hbox>
+                    </vbox>
                   </hbox>
                 </row>
                 <row>
                   <hbox align="center">
                     <label value="&zotero.__addonRef__.pref.api.dictSource.label;" />
-                    <menulist id="zotero-prefpane-__addonRef__-settings-dict-source" preference="pref-__addonRef__-dict-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('dict')">
+                    <menulist id="zotero-prefpane-__addonRef__-settings-dict-source" preference="pref-__addonRef__-dict-source" oncommand="Zotero.ZoteroPDFTranslate.prefs.updateSourceParam('dict', true)">
                       <menupopup>
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.youdaodict;" value="youdaodict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.bingdict;" value="bingdict" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.freedictionaryapi;" value="freedictionaryapi" />
                         <menuitem label="&zotero.__addonRef__.pref.api.dictSource.webliodict;" value="webliodict" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.dictSource.collinsdict;" value="collinsdict" />
                       </menupopup>
                     </menulist>
                     <label value="&zotero.__addonRef__.pref.api.secret.label;" />
-                    <textbox id="zotero-prefpane-__addonRef__-settings-dict-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('dict')" />
+                    <textbox id="zotero-prefpane-__addonRef__-settings-dict-param" oninput="Zotero.ZoteroPDFTranslate.prefs.updateParamObj('dict')" onblur="Zotero.ZoteroPDFTranslate.prefs.checkParamObj('dict')" />
                   </hbox>
                 </row>
                 <row>
@@ -167,6 +222,8 @@
               <caption label="&zotero.__addonRef__.help.feedback.caption.label;" />
               <hbox style="display: block">
                 <label value="&zotero.__addonRef__.help.feedback.label;" class="zotero-text-link" href="https://github.com/windingwind/zotero-pdf-translate/issues" />
+                <label value="  "></label>
+                <label value="&zotero.__addonRef__.help.docs.label;" class="zotero-text-link" href="https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d" />
               </hbox>
             </groupbox>
             <label value="&zotero.__addonRef__.help.version.label;" />
