@@ -13,7 +13,6 @@ async function collinsdict(text: string = undefined) {
     },
     (xhr) => {
       if (xhr.responseURL.includes("?q="))
-        // Since this is En-Zh dict, error prompt is in Chinese.
         return "";
 
       const parser = Components.classes[
@@ -44,13 +43,13 @@ async function collinsdict(text: string = undefined) {
 
       const result = `${phoneticText}\n${explanationText}`; // insert phonetic symbol to result
 
-      // TODO: wait for pr #224
       const audioURL: string[] = Array.prototype.map.call(
         phoneticElements,
         (e) => {
           e.querySelectorAll("a")[0].getAttribute("data-src-mp3");
         }
       );
+      Zotero.ZoteroPDFTranslate._audioSourceURL = audioURL;
 
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = result;
       return result;

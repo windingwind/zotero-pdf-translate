@@ -808,7 +808,7 @@ class TransView extends AddonBase {
     }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
-    let audioButton: HTMLButtonElement = selectionMenu.ownerDocument
+    let audioButton: XUL.Button = selectionMenu.ownerDocument
       .getElementById("pdf-translate-popup-audio-button");
     if (this._Addon._audioSourceURL.length < 1) {
       audioButton && audioButton.remove();
