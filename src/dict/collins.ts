@@ -25,32 +25,20 @@ async function collinsdict(text: string = undefined) {
 
       const phoneticElements = doc.querySelectorAll(".type-");
       const phoneticText = `[${Array.prototype.map
-        .call(doc.querySelectorAll(".type-"), (e) => {
-          return e.innerText.trim();
-        })
+        .call(phoneticElements, (e) => e.innerText.trim())
         .join("")}]`;
 
       // script in innerText
       const explanationText: string = Array.prototype.map
-        .call(doc.querySelectorAll(".hom"), (e) => {
-          console.log(e);
+        .call(doc.querySelectorAll(".hom"), e =>
+          e.innerText.replace(/&nbsp;/g, " ").replace(/[0-9]\./g, "\n$&")
+        ).join("");
 
-          return e.innerText
-            .replace(/&nbsp;/g, " ")
-            .replace(/[0-9]\./g, "\n$&");
-        })
-        .join("");
-
-      const result = `${phoneticText}\n${explanationText}`; // insert phonetic symbol to result
-
-      const audioURL: string[] = Array.prototype.map.call(
+      Zotero.ZoteroPDFTranslate._audioSourceURL = Array.prototype.map.call(
         phoneticElements,
-        (e) => {
-          e.querySelectorAll("a")[0].getAttribute("data-src-mp3");
-        }
+        e => e.querySelectorAll("a")[0].getAttribute("data-src-mp3")
       );
-      Zotero.ZoteroPDFTranslate._audioSourceURL = audioURL;
-
+      const result = `${phoneticText}\n${explanationText}`; // insert phonetic symbol to result
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = result;
       return result;
     }

@@ -12,7 +12,7 @@ async function bingdict(text: string = undefined) {
     (xhr) => {
       let res = xhr.response;
       Zotero.ZoteroPDFTranslate._audioSourceURL = 
-        res.match(/https?:\/\/\S+\.mp3/);  // match 'http://*.mp3'
+        Array.from(new Set(res.match(/https?:\/\/\S+\.mp3/g)));
       try {
         res = res.match(
           /<meta name=\"description\" content=\"(.+) \" ?\/>/gm

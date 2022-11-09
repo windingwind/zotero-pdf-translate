@@ -803,30 +803,25 @@ class TransView extends AddonBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${
-      this.translateIcon
-    }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${this.translateIcon
+      }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
-    let audioButton: XUL.Button = selectionMenu.ownerDocument
-      .getElementById("pdf-translate-popup-audio-button");
-    if (this._Addon._audioSourceURL.length < 1) {
-      audioButton && audioButton.remove();
-      audioButton = null;
-    } else if (!audioButton) {  // create once only
-      audioButton = selectionMenu.ownerDocument.createElement("div");
-      audioButton.innerHTML = "🔊";
-      audioButton.setAttribute("id", "pdf-translate-popup-audio-button");
-      audioButton.setAttribute("class", "toolbarButton");
-      audioButton.setAttribute("style", 
-        "margin: 2px; width: 20px; cursor: pointer;");
-      audioButton.addEventListener("click", () =>
-        new Audio(Zotero.ZoteroPDFTranslate._audioSourceURL[0] || '').play()
-      );
-      selectionMenu.appendChild(audioButton);
-    }
+    const toolbar: HTMLDivElement =
+      selectionMenu.getElementsByClassName("colors")[0];
+    toolbar.querySelectorAll(".translate-audio-button")
+      .forEach(btn => btn.remove());
 
-
+    Zotero.ZoteroPDFTranslate._audioSourceURL.forEach((url: string, idx: number) => {
+      let btn: HTMLDivElement =
+        selectionMenu.ownerDocument.createElement("button");
+      btn.setAttribute("class", "toolbarButton translate-audio-button");
+      btn.setAttribute("tabindex", "-1");
+      btn.setAttribute("title", `对应第${idx + 1}个音标`);
+      btn.innerHTML = "🔊";
+      btn.onclick = () => new Audio(url).play();
+      toolbar.appendChild(btn);
+    });
     this.onPopopItemChange(selectionMenu);
 
     // Create text
@@ -849,14 +844,14 @@ class TransView extends AddonBase {
     const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
     const w = keepSize
       ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
-      : 105;
+      : 20 * toolbar.children.length + 2;
     const h = keepSize
       ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
       : 30;
     textbox.style.width = `${w}px`;
     textbox.style.height = `${h}px`;
     selectionMenu.style.width = `${w + 3}px`;
-    selectionMenu.style.height = `${h + (audioButton ? 46 : 20)}px`;
+    selectionMenu.style.height = `${h + 20}px`;
 
     // Update button width
     let buttons = selectionMenu.getElementsByTagName("button");
@@ -866,8 +861,7 @@ class TransView extends AddonBase {
 
     const onTextAreaResize = (_e) => {
       selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
-      selectionMenu.style.height = 
-        `${textbox.offsetHeight + (audioButton ? 46 : 20)}px`;
+      selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
 
       if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
         Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
