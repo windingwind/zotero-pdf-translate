@@ -40,6 +40,8 @@
         <preference id="zoteroniutrans-apikey" name="extensions.zotero.ZoteroPDFTranslate.niutransApikey" type="string" />
         <preference id="zoteroniutrans-dictLib" name="extensions.zotero.ZoteroPDFTranslate.niutransDictNo" type="string" />
         <preference id="zoteroniutrans-memoryLib" name="extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo" type="string" />
+        <preference id="pref-__addonRef__-audio-auto" name="extensions.zotero.ZoteroPDFTranslate.autoPlay" type="bool" />
+        <preference id="pref-__addonRef__-audio-button" name="extensions.zotero.ZoteroPDFTranslate.showPlayBtn" type="bool" />
       </preferences>
       <tabbox>
         <tabs>
@@ -99,6 +101,21 @@
                   </columns>
                 </row>
               </rows>
+
+              <groupbox>
+                <caption label="&zotero.__addonRef__.pref.audio.caption.label;" />
+                <hbox>
+                  <checkbox preference="pref-__addonRef__-audio-auto" label="&zotero.__addonRef__.pref.audio.auto;" />
+                  <checkbox preference="pref-__addonRef__-audio-button" label="&zotero.__addonRef__.pref.audio.button;" />
+                </hbox>
+                <!-- <label value="&zotero.__addonRef__.pref.audio.greo;" />
+                <menulist>
+                  <menupopup>
+                    <menuitem label="en" value="UK" />
+                    <menuitem label="am" value="US" />
+                  </menupopup>
+                </menulist> -->
+              </groupbox>
             </groupbox>
             <groupbox>
               <caption label="&zotero.__addonRef__.pref.api.caption.label;" />

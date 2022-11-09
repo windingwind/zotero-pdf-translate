@@ -84,3 +84,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
 <!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "Extra engines in standalone window(split with ',')">
+
+<!ENTITY zotero.__addonRef__.pref.audio.caption.label "词典发音(Bing and Collins only)">
+<!ENTITY zotero.__addonRef__.pref.audio.auto "Auto play">
+<!ENTITY zotero.__addonRef__.pref.audio.button "Show play buttons in popup panel">

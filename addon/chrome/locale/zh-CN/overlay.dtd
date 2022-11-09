@@ -84,3 +84,8 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">
 <!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "独立窗口额外翻译引擎(用','分隔)">
+
+
+<!ENTITY zotero.__addonRef__.pref.audio.caption.label "词典发音（仅必应与柯林斯词典）">
+<!ENTITY zotero.__addonRef__.pref.audio.auto "自动播放">
+<!ENTITY zotero.__addonRef__.pref.audio.button "弹窗中显示播放键">
