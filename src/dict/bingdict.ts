@@ -11,8 +11,9 @@ async function bingdict(text: string = undefined) {
     },
     (xhr) => {
       let res = xhr.response;
-      Zotero.ZoteroPDFTranslate._audioSourceURL = 
-        Array.from(new Set(res.match(/https?:\/\/\S+\.mp3/g)));
+      this._Addon._audioSourceURLs = Array.from(
+        new Set(res.match(/https?:\/\/\S+\.mp3/g))
+      );
       try {
         res = res.match(
           /<meta name=\"description\" content=\"(.+) \" ?\/>/gm

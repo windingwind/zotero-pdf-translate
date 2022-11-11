@@ -27,5 +27,7 @@ pref("extensions.zotero.ZoteroPDFTranslate.niutransPassword", "");
 pref("extensions.zotero.ZoteroPDFTranslate.niutransApikey", "");
 pref("extensions.zotero.ZoteroPDFTranslate.niutransDictNo", "");
 pref("extensions.zotero.ZoteroPDFTranslate.niutransMemoryNo", "");
-pref("extensions.zotero.ZoteroPDFTranslate.niutransDictLibList","")
-pref("extensions.zotero.ZoteroPDFTranslate.niutransMemoryLibList","")
+pref("extensions.zotero.ZoteroPDFTranslate.niutransDictLibList", "");
+pref("extensions.zotero.ZoteroPDFTranslate.niutransMemoryLibList", "");
+pref("extensions.zotero.ZoteroPDFTranslate.autoPlay", false);
+pref("extensions.zotero.ZoteroPDFTranslate.showPlayBtn", true);

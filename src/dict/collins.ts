@@ -12,8 +12,7 @@ async function collinsdict(text: string = undefined) {
       );
     },
     (xhr) => {
-      if (xhr.responseURL.includes("?q="))
-        return "";
+      if (xhr.responseURL.includes("?q=")) return "";
 
       const parser = Components.classes[
         "@mozilla.org/xmlextras/domparser;1"
@@ -30,13 +29,14 @@ async function collinsdict(text: string = undefined) {
 
       // script in innerText
       const explanationText: string = Array.prototype.map
-        .call(doc.querySelectorAll(".hom"), e =>
+        .call(doc.querySelectorAll(".hom"), (e) =>
           e.innerText.replace(/&nbsp;/g, " ").replace(/[0-9]\./g, "\n$&")
-        ).join("");
+        )
+        .join("");
 
-      Zotero.ZoteroPDFTranslate._audioSourceURL = Array.prototype.map.call(
+      this._Addon._audioSourceURLs = Array.prototype.map.call(
         phoneticElements,
-        e => e.querySelectorAll("a")[0].getAttribute("data-src-mp3")
+        (e) => e.querySelectorAll("a")[0].getAttribute("data-src-mp3")
       );
       const result = `${phoneticText}\n${explanationText}`; // insert phonetic symbol to result
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = result;

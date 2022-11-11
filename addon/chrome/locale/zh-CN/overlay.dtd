@@ -32,10 +32,14 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI学术翻译">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
-<!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)🔊">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
-<!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)🔊">
+<!ENTITY zotero.__addonRef__.pref.audio.caption.label "发音">
+<!ENTITY zotero.__addonRef__.pref.audio.auto "自动播放">
+<!ENTITY zotero.__addonRef__.pref.audio.button "弹窗中显示播放键">
+
 
 <!ENTITY zotero.__addonRef__.pref.api.niutransUserName.label "账号">
 <!ENTITY zotero.__addonRef__.pref.api.niutransPassword.label "密码">
@@ -84,8 +88,3 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "重新打开文件/重启Zotero以应用更改。">
 <!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "独立窗口额外翻译引擎(用','分隔)">
-
-
-<!ENTITY zotero.__addonRef__.pref.audio.caption.label "词典发音（仅必应与柯林斯词典）">
-<!ENTITY zotero.__addonRef__.pref.audio.auto "自动播放">
-<!ENTITY zotero.__addonRef__.pref.audio.button "弹窗中显示播放键">
