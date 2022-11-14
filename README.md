@@ -11,12 +11,20 @@ Translate PDFs, annotations, notes, and item titles automatically.
 
 ## Install
 
-- Download the latest release (.xpi file) from the [Releases Page](https://github.com/windingwind/zotero-pdf-translate/releases)  
+### From local file
+- Download the latest release (.xpi file) from the [Latest Release Page](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
   _Note_ If you're using Firefox as your browser, right-click the `.xpi` and select "Save As.."
 - In Zotero click `Tools` in the top menu bar and then click `Addons`
 - Go to the Extensions page and then click the gear icon in the top right.
 - Select `Install Add-on from file`.
 - Browse to where you downloaded the `.xpi` file and select it.
+- Restart Zotero, by clicking `restart now` in the extensions list where the
+  Zotero PDF Translate plugin is now listed.
+
+### From remote link
+- In Zotero click `Tools` in the top menu bar and then click `Addons`.
+- Drag [Latest Release](https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi) and drop it in the Zotero UI.
+- Click `install now`.
 - Restart Zotero, by clicking `restart now` in the extensions list where the
   Zotero PDF Translate plugin is now listed.
 
