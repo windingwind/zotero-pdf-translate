@@ -314,6 +314,7 @@ class TransConfig extends AddonBase {
       { LangCultureName: "pt-PT", DisplayName: "Portuguese - Portugal" },
       { LangCultureName: "pa-IN", DisplayName: "Punjabi - India" },
       { LangCultureName: "ro-RO", DisplayName: "Romanian - Romania" },
+      { LangCultureName: "rw-RW", DisplayName: "Swahili - Kenya" },
       { LangCultureName: "ru-RU", DisplayName: "Russian - Russia" },
       { LangCultureName: "sa-IN", DisplayName: "Sanskrit - India" },
       {
