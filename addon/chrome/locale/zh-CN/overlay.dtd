@@ -36,6 +36,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)🔊">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.haicidict "海词词典(en↔zh)🔊">
 <!ENTITY zotero.__addonRef__.pref.audio.caption.label "发音">
 <!ENTITY zotero.__addonRef__.pref.audio.auto "自动播放">
 <!ENTITY zotero.__addonRef__.pref.audio.button "弹窗中显示播放键">
@@ -76,7 +77,7 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.lineHeight.label "行高">
 <!ENTITY zotero.__addonRef__.pref.advanced.autoFocus.label "侧边栏: 自动聚焦">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
-<!ENTITY zotero.__addonRef__.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
+<!ENTITY zotero.__addonRef__llins.pref.advanced.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarSettings.label "侧边栏: 显示设置">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarConcat.label "侧边栏: 显示拼接文本菜单">
 <!ENTITY zotero.__addonRef__.pref.advanced.showSidebarRaw.label "侧边栏: 显示源文本">

@@ -23,6 +23,7 @@ import { webliodict } from "./dict/weblio";
 import PDFTranslate from "./addon";
 import { TransArgs } from "./base";
 import { collinsdict } from "./dict/collins";
+import { haicidict } from "./dict/haicidict";
 
 class TransEngine extends TransConfig {
   _translateTime: number;
@@ -53,6 +54,7 @@ class TransEngine extends TransConfig {
   freedictionaryapi: Function;
   webliodict: Function;
   collinsdict: Function;
+  haicidict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -85,6 +87,7 @@ class TransEngine extends TransConfig {
     this.freedictionaryapi = freedictionaryapi;
     this.webliodict = webliodict;
     this.collinsdict = collinsdict;
+    this.haicidict = haicidict;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
