@@ -271,10 +271,10 @@
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-engine" preference="pref-__addonRef__-show-sidebar-engine" />
                           <label value="&zotero.__addonRef__.pref.advanced.showSidebarEngine.label;" />
                         </row>
-                        <!-- <row>
+                        <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-language" preference="pref-__addonRef__-show-sidebar-language" />
                           <label value="&zotero.__addonRef__.pref.advanced.showSidebarLanguage.label;" />
-                        </row> -->
+                        </row>
                         <row>
                           <checkbox id="zotero-prefpane-__addonRef__-settings-show-sidebar-settings" preference="pref-__addonRef__-show-sidebar-settings" />
                           <label value="&zotero.__addonRef__.pref.advanced.showSidebarSettings.label;" />
