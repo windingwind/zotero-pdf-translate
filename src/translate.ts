@@ -6,6 +6,7 @@ import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
+import { haici } from "./translate/haici";
 import {
   niutrans,
   niutranspro,
@@ -49,6 +50,7 @@ class TransEngine extends TransConfig {
   tencent: Function;
   youdao: Function;
   youdaozhiyun: Function;
+  haici: Function;
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
@@ -82,6 +84,7 @@ class TransEngine extends TransConfig {
     this.tencent = tencent;
     this.youdao = youdao;
     this.youdaozhiyun = youdaozhiyun;
+    this.haici = haici;
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;

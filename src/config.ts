@@ -59,6 +59,7 @@ class TransConfig extends AddonBase {
       tencent:
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       cnki: "",
+      haici: "",
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",
