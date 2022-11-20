@@ -1,6 +1,3 @@
-import hmacSHA1 from "crypto-js/hmac-sha1";
-import Base64 from "crypto-js/enc-base64";
-
 async function tencent(text: string = undefined) {
   let args = this.getArgs("tencent", text);
   let params = args.secret.split("#");
@@ -15,9 +12,9 @@ async function tencent(text: string = undefined) {
     projectId = params[3];
   }
 
-  function encodeRFC5987ValueChars(str) {
+  function encodeRFC5987ValueChars(str: string) {
     return encodeURIComponent(str)
-      .replace(/['()]/g, escape) // i.e., %27 %28 %29
+      .replace(/['()]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`) // i.e., %27 %28 %29
       .replace(/\*/g, "%2A")
       .replace(/%20/g, "+");
   }
@@ -27,14 +24,12 @@ async function tencent(text: string = undefined) {
   }&SourceText=#$#&Target=${args.tl.split("-")[0]}&Timestamp=${new Date()
     .getTime()
     .toString()
-    .substr(0, 10)}&Version=2018-03-21`;
+    .substring(0, 10)}&Version=2018-03-21`;
 
   let sha1Str = encodeRFC5987ValueChars(
-    Base64.stringify(
-      hmacSHA1(
-        `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", args.text)}`,
-        secretKey
-      )
+    await hmacSha1Digest(
+      `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", args.text)}`,
+      secretKey
     )
   );
 
@@ -66,6 +61,17 @@ async function tencent(text: string = undefined) {
       return tgt;
     }
   );
+}
+
+async function hmacSha1Digest(stringToSign: string, secretKey: string) {
+	const enc = new TextEncoder()
+	const key = await crypto.subtle.importKey('raw', enc.encode(secretKey), {
+		name: 'HMAC',
+		hash: 'SHA-1'
+	}, false, ['sign'])
+	const signature = await crypto.subtle.sign('HMAC', key, enc.encode(stringToSign))
+	const signedString = String.fromCharCode(...new Uint8Array(signature))
+	return btoa(signedString)
 }
 
 export { tencent };
