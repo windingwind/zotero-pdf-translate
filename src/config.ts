@@ -29,6 +29,8 @@ class TransConfig extends AddonBase {
       "baidufield",
       "openl",
       "tencent",
+      "haici",
+      "xftrans",
       "youdaodict",
       "bingdict",
       "freedictionaryapi",
@@ -60,6 +62,7 @@ class TransConfig extends AddonBase {
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       cnki: "",
       haici: "",
+      xftrans: "AppID#nApiSecret#ApiKey",
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",
@@ -200,6 +203,20 @@ class TransConfig extends AddonBase {
               : flag
               ? partsInfo
               : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+        };
+      },
+      xftrans: (secret: string) => {
+        const parts = secret?.split("#");
+        const flag = parts.length === 3;
+        const partsInfo = `AppID: ${parts[0]}\nApiSecret: ${parts[1]}\nApiKey: ${parts[2]}`;
+        return {
+          status: flag && secret !== this.defaultSecret.xftrans,
+          info:
+            secret === this.defaultSecret.xftrans
+              ? "The secret is not set."
+              : flag
+              ? partsInfo
+              : `The secret format of Xftrans Domain Text Translation is AppID#nApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       _default: (secret: string) => ({

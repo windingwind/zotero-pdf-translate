@@ -142,6 +142,7 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.tencent;" value="tencent" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.openl;" value="openl" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.haici;" value="haici" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.xftrans;" value="xftrans" />
                       </menupopup>
                     </menulist>
                     <row id='other-trans-input' hidden="false">

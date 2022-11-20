@@ -31,6 +31,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.haici "Haici">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.xftrans "Xftrans*">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "Dictionary Engine">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "Youdao Dict(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "Bing Dict(en↔zh)🔊">

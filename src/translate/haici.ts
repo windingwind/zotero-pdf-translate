@@ -13,16 +13,12 @@ async function haici(text: string = undefined) {
               responseType: "text"
             }
         );
-        let appId = xhr.response.match(/"(.+)"/)[1]
+        let appId = xhr.response.match(/"(.+)"/)[1];
         return await Zotero.HTTP.request(
           "GET",
           `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${
             appId
-            }&from=${
-                args.sl
-            }&to=${
-                args.tl
-            }&texts=["${
+            }&from=${args.sl}&to=${args.tl}&texts=["${
             encodeURIComponent(
                 args.text
             )
@@ -34,7 +30,7 @@ async function haici(text: string = undefined) {
         let tgt = "";
         xhr.response.forEach(line => {
             tgt += line.TranslatedText
-        })
+        });
         Zotero.debug(tgt);
         if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
         return tgt;

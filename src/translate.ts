@@ -7,6 +7,7 @@ import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
 import { haici } from "./translate/haici";
+import { xftrans } from "./translate/xftrans";
 import {
   niutrans,
   niutranspro,
@@ -51,6 +52,7 @@ class TransEngine extends TransConfig {
   youdao: Function;
   youdaozhiyun: Function;
   haici: Function;
+  xftrans: Function;
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
@@ -85,6 +87,7 @@ class TransEngine extends TransConfig {
     this.youdao = youdao;
     this.youdaozhiyun = youdaozhiyun;
     this.haici = haici;
+    this.xftrans = xftrans;
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;

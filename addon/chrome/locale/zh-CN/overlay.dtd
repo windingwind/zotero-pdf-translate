@@ -31,6 +31,7 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI学术翻译">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.haici "海词翻译">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.xftrans "科大讯飞*">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)🔊">
