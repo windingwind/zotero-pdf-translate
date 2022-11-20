@@ -37,7 +37,7 @@ async function haicidict(text: string = undefined) {
         res = res.replace(/[\t\n]+/g, "")
         for (let line of res.match(/<li>[\s\S]+?<\/li>/g)) {
           Zotero.debug(line);
-          tgt += line.replace(/<\/?.+?>/g, "").replace(/[\n\t]+/g, " ").trim()
+          tgt += (line.replace(/<\/?.+?>/g, "").replace(/[\n\t]+/g, " ").trim() + '\n')
         }  
         if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
         return tgt;
