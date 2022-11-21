@@ -62,7 +62,7 @@ class TransConfig extends AddonBase {
         "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
       cnki: "",
       haici: "",
-      xftrans: "AppID#nApiSecret#ApiKey",
+      xftrans: "AppID#ApiSecret#ApiKey",
       youdaodict: "",
       bingdict: "",
       freedictionaryapi: "",
@@ -216,7 +216,7 @@ class TransConfig extends AddonBase {
               ? "The secret is not set."
               : flag
               ? partsInfo
-              : `The secret format of Xftrans Domain Text Translation is AppID#nApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              : `The secret format of Xftrans Domain Text Translation is AppID#ApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
         };
       },
       _default: (secret: string) => ({
