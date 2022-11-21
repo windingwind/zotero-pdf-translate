@@ -45,35 +45,34 @@ async function getAppId(forceRefresh: boolean = false) {
 }
 
 async function haici(text: string = undefined) {
-    let args = this.getArgs("haici", text);
-    return await this.requestTranslate(
-      async () => {
-        return await Zotero.HTTP.request(
-          "GET",
-          `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${
-              await getAppId()
-            }&from=${args.sl}&to=${args.tl}&texts=["${
-              encodeURIComponent(
-                args.text
-              )
-          }"]`,
-          { responseType: "json" }
-        );
-      },
-      (xhr) => {
-        try {
-          let tgt = "";
-          xhr.response.forEach(line => {
-              tgt += line.TranslatedText
-          });
-          Zotero.debug(tgt);
-          if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
-          return tgt;
-        } catch {
-          return `Please retry later, because we get this response from api: \n${xhr.response}`
-        }
+  let args = this.getArgs("haici", text);
+  return await this.requestTranslate(
+    async () => {
+      return await Zotero.HTTP.request(
+        "GET",
+        `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${
+            await getAppId()
+          }&from=${args.sl}&to=${args.tl}&texts=["${
+            encodeURIComponent(
+              args.text
+            )
+        }"]`,
+        { responseType: "json" }
+      );
+    },
+    (xhr) => {
+      try {
+        let tgt = "";
+        xhr.response.forEach(line => {
+            tgt += line.TranslatedText
+        });
+        Zotero.debug(tgt);
+        if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+        return tgt;
+      } catch {
+        return `Please retry later, because we get this response from api: \n${xhr.response}`
       }
-    );
-  }
-  export { haici };
-  
+    }
+  );
+}
+export { haici };
