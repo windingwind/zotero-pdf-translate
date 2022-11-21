@@ -34,7 +34,6 @@ async function haicidict(text: string = undefined) {
         } catch (e) {
           return "";
         }
-        res = res.replace(/[\t\n]+/g, "")
         for (let line of res.match(/<li>[\s\S]+?<\/li>/g)) {
           Zotero.debug(line);
           tgt += (line.replace(/<\/?.+?>/g, "").replace(/[\n\t]+/g, " ").trim() + '\n')
