@@ -30,12 +30,15 @@
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.tencent "腾讯*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.openl "OpenL*">
 <!ENTITY zotero.__addonRef__.pref.api.translateSource.cnki "CNKI学术翻译">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.haici "海词翻译">
+<!ENTITY zotero.__addonRef__.pref.api.translateSource.xftrans "科大讯飞*">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.label "字典引擎">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.youdaodict "有道词典(en↔zh)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.bingdict "必应词典(en↔zh)🔊">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.freedictionaryapi "FreeDictionaryAPI(en↔en)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.webliodict "weblio(en↔ja)">
 <!ENTITY zotero.__addonRef__.pref.api.dictSource.collinsdict "柯林斯词典(en↔zh)🔊">
+<!ENTITY zotero.__addonRef__.pref.api.dictSource.haicidict "海词词典(en↔zh)🔊">
 <!ENTITY zotero.__addonRef__.pref.audio.caption.label "发音">
 <!ENTITY zotero.__addonRef__.pref.audio.auto "自动播放">
 <!ENTITY zotero.__addonRef__.pref.audio.button "弹窗中显示播放键">

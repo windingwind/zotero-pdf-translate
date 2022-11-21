@@ -56,12 +56,15 @@ class TransLocale extends AddonBase {
       tencent: "腾讯*",
       openl: "OpenL*",
       cnki: 'CNKI学术翻译',
+      haici: '海词翻译',
+      xftrans: '科大讯飞*',
       label: "字典引擎",
       youdaodict: "有道词典(en↔zh)",
       bingdict: "必应词典(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
-      collinsdict: "柯林斯词典(en↔zh)"
+      collinsdict: "柯林斯词典(en↔zh)",
+      haicidict: "海词词典(en↔zh)"
     },
     niutrans_tip: {
       tipTitle:'提示',
@@ -127,12 +130,15 @@ class TransLocale extends AddonBase {
       tencent: "Tencent*",
       openl: "OpenL*",
       cnki: 'CNKI',
+      haici: 'Haici',
+      xftrans: 'Xftrans*',
       label: "Dictionary Engine",
       youdaodict: "Youdao Dict(en↔zh)",
       bingdict: "Bing Dict(en↔zh)",
       freedictionaryapi: "FreeDictionaryAPI(en↔en)",
       webliodict: "weblio(en↔ja)",
-      collinsdict: "Collins Dict(en↔zh)"
+      collinsdict: "Collins Dict(en↔zh)",
+      haicidict: "Haici Dict(en↔zh)"
     },
     niutrans_tip: {
       tipTitle:'Tip',

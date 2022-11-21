@@ -6,6 +6,8 @@ import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
+import { haici } from "./translate/haici";
+import { xftrans } from "./translate/xftrans";
 import {
   niutrans,
   niutranspro,
@@ -23,6 +25,7 @@ import { webliodict } from "./dict/weblio";
 import PDFTranslate from "./addon";
 import { TransArgs } from "./base";
 import { collinsdict } from "./dict/collins";
+import { haicidict } from "./dict/haicidict";
 
 class TransEngine extends TransConfig {
   _translateTime: number;
@@ -48,11 +51,14 @@ class TransEngine extends TransConfig {
   tencent: Function;
   youdao: Function;
   youdaozhiyun: Function;
+  haici: Function;
+  xftrans: Function;
   youdaodict: Function;
   bingdict: Function;
   freedictionaryapi: Function;
   webliodict: Function;
   collinsdict: Function;
+  haicidict: Function;
 
   constructor(parent: PDFTranslate) {
     super(parent);
@@ -80,11 +86,14 @@ class TransEngine extends TransConfig {
     this.tencent = tencent;
     this.youdao = youdao;
     this.youdaozhiyun = youdaozhiyun;
+    this.haici = haici;
+    this.xftrans = xftrans;
     this.youdaodict = youdaodict;
     this.bingdict = bingdict;
     this.freedictionaryapi = freedictionaryapi;
     this.webliodict = webliodict;
     this.collinsdict = collinsdict;
+    this.haicidict = haicidict;
   }
 
   async callTranslate(text: string = "", disableCache: boolean = true) {
