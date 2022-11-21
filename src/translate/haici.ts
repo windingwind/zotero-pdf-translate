@@ -31,11 +31,12 @@ async function getAppId(forceRefresh: boolean = false) {
       }
     );
     if (xhr && xhr.response) {
+      appId = xhr.response.match(/"(.+)"/)[1]
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.haiciAppId",
         JSON.stringify({
           t: new Date().getTime(),
-          appId: xhr.response.match(/"(.+)"/)[1]
+          appId: appId
         })
       );
     }
