@@ -6,6 +6,7 @@ async function getAppId(forceRefresh: boolean = false) {
     const appIdObj = JSON.parse(
       Zotero.Prefs.get("ZoteroPDFTranslate.haiciAppId") as string
     );
+    Zotero.debug(appIdObj)
     if (
       !forceRefresh &&
       appIdObj &&
@@ -15,7 +16,9 @@ async function getAppId(forceRefresh: boolean = false) {
       appId = appIdObj.appId;
       doRefresh = false;
     }
-  } catch (e) {}
+  } catch (e) {
+    Zotero.debug(e)
+  }
   if (doRefresh) {
     const xhr = await Zotero.HTTP.request(
       "GET",
@@ -27,7 +30,7 @@ async function getAppId(forceRefresh: boolean = false) {
         responseType: "text"
       }
     );
-    if (xhr && xhr.response && xhr.response.code === 200) {
+    if (xhr && xhr.response) {
       Zotero.Prefs.set(
         "ZoteroPDFTranslate.haiciAppId",
         JSON.stringify({
@@ -49,21 +52,25 @@ async function haici(text: string = undefined) {
           `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${
               await getAppId()
             }&from=${args.sl}&to=${args.tl}&texts=["${
-            encodeURIComponent(
-              args.text
-            )
+              encodeURIComponent(
+                args.text
+              )
           }"]`,
           { responseType: "json" }
         );
       },
       (xhr) => {
-        let tgt = "";
-        xhr.response.forEach(line => {
-            tgt += line.TranslatedText
-        });
-        Zotero.debug(tgt);
-        if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
-        return tgt;
+        try {
+          let tgt = "";
+          xhr.response.forEach(line => {
+              tgt += line.TranslatedText
+          });
+          Zotero.debug(tgt);
+          if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
+          return tgt;
+        } catch {
+          return `Please retry later, because we get this response from api: \n${xhr.response}`
+        }
       }
     );
   }
