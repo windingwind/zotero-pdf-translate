@@ -31,7 +31,7 @@ class TransEvents extends AddonBase {
             reader = Zotero.Reader.getByTabID(ids[0]);
             delayCount++;
           }
-          await reader._initPromise;
+          await reader?._initPromise;
           this.onReaderSelect(reader);
         }
         if (
@@ -185,11 +185,13 @@ class TransEvents extends AddonBase {
     this._readerSelect = new Date().getTime();
     this._Addon.reader.currentReader = reader;
     if (!reader) {
-      this._Addon.view.showProgressWindow(
-        "PDF Translate",
-        "The PDF reader is not loaded correctly and the translate tools will not work on this page.\nPlease reopen this PDF attachment.",
-        "fail"
-      );
+      if (Zotero_Tabs.selectedType === "reader") {
+        this._Addon.view.showProgressWindow(
+          "PDF Translate",
+          "The PDF reader is not loaded correctly and the translate tools will not work on this page.\nPlease reopen this PDF attachment.",
+          "fail"
+        );
+      }
       return;
     }
     this._Addon.view.updateTranslatePanel(reader);
