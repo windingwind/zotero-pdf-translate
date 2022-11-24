@@ -1,12 +1,9 @@
-import SHA256 from "crypto-js/sha256";
-import hex from "crypto-js/enc-hex";
-
 async function youdaozhiyun(text: string = undefined) {
   const args = this.getArgs("youdaozhiyun", text);
 
   function encodeRFC5987ValueChars(str) {
     return encodeURIComponent(str)
-      .replace(/['()]/g, escape) // i.e., %27 %28 %29
+      .replace(/['()]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`) // i.e., %27 %28 %29
       .replace(/\*/g, "%2A")
       .replace(/%20/g, "+");
   }
@@ -27,7 +24,7 @@ async function youdaozhiyun(text: string = undefined) {
   const to = args.tl;
   const str1 = appid + truncate(query) + salt + curtime + key;
 
-  const sign = SHA256(str1).toString(hex);
+  const sign = await sha256Digest(str1);
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
@@ -55,4 +52,12 @@ async function youdaozhiyun(text: string = undefined) {
     }
   );
 }
+
+async function sha256Digest(message: string) {
+  const enc = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(message));
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export { youdaozhiyun };
