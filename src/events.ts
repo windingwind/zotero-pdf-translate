@@ -71,10 +71,17 @@ class TransEvents extends AddonBase {
 
   public async onInit() {
     Zotero.debug("ZoteroPDFTranslate: init called");
+    await Zotero.Promise.all([
+      Zotero.initializationPromise,
+      Zotero.unlockPromise,
+      Zotero.uiReadyPromise,
+    ]);
 
     this.resetState();
 
     this.onWindowReaderCheck();
+
+    this.initSidebarSelectionChangeListener();
 
     // Register the callback in Zotero as an item observer
     let notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, [
@@ -174,9 +181,17 @@ class TransEvents extends AddonBase {
     }
   }
 
-  public async onReaderSelect(reader): Promise<void> {
+  public async onReaderSelect(reader: _ZoteroReaderInstance): Promise<void> {
     this._readerSelect = new Date().getTime();
     this._Addon.reader.currentReader = reader;
+    if (!reader) {
+      this._Addon.view.showProgressWindow(
+        "PDF Translate",
+        "The PDF reader is not loaded correctly and the translate tools will not work on this page.\nPlease reopen this PDF attachment.",
+        "fail"
+      );
+      return;
+    }
     this._Addon.view.updateTranslatePanel(reader);
     this.bindAddToNote(this._Addon.reader.currentReader);
   }
@@ -488,6 +503,30 @@ class TransEvents extends AddonBase {
     };
     currentReader._addToNote = currentReader._addToNoteTranslate;
     return true;
+  }
+
+  private initSidebarSelectionChangeListener(): void {
+    const deck =
+      document.querySelector(".notes-pane-deck").previousElementSibling;
+    const observer = new MutationObserver(async (mutations) => {
+      mutations.forEach(async (mutation) => {
+        if (mutation.type == "attributes") {
+          console.log("ZoteroPDFTranslate SidebarSelectionChangeListener");
+          let reader = await this._Addon.reader.getReader();
+          let delayCount = 0;
+          while (!reader && delayCount < 10) {
+            await Zotero.Promise.delay(100);
+            reader = await this._Addon.reader.getReader();
+            delayCount++;
+          }
+          await this.onReaderSelect(reader);
+        }
+      });
+    });
+    observer.observe(deck, {
+      attributes: true,
+      attributeFilter: ["selectedIndex"],
+    });
   }
 
   private resetState(): void {

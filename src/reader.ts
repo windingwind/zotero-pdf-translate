@@ -8,7 +8,7 @@ class TransReader extends AddonBase {
   }
   async getReader(): Promise<_ZoteroReaderInstance> {
     const reader = Zotero.Reader.getByTabID(Zotero_Tabs.selectedID);
-    await reader._initPromise;
+    await reader?._initPromise;
     return reader;
   }
 
@@ -31,10 +31,10 @@ class TransReader extends AddonBase {
   }
 
   getReaderTabContainer(): Element {
-    if (!Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)) {
-      return undefined;
-    }
-    return document.getElementById(`${Zotero_Tabs.selectedID}-context`);
+    const deck =
+      document.querySelector(".notes-pane-deck").previousElementSibling;
+    // @ts-ignore
+    return deck.selectedPanel;
   }
 
   getSelectedText(currentReader: _ZoteroReaderInstance): string {
