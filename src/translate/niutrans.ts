@@ -13,7 +13,7 @@ async function niutransapi(engine: string, text: string) {
   let memoryNo = apiParams.length > 2 ? apiParams[2] : "";
   let urls = {
     niutrans: "https://test.niutrans.com/NiuTransServer/testaligntrans?",
-    niutranspro: `http://api.niutrans.com/NiuTransServer/translation?apikey=${secret}&dictNo=${dictNo}&memoryNo=${memoryNo}&`,
+    niutranspro: `https://api.niutrans.com/NiuTransServer/translation?apikey=${secret}&dictNo=${dictNo}&memoryNo=${memoryNo}&`,
   };
   let param = `from=${args.sl.split("-")[0]}&to=${args.tl.split("-")[0]}`;
   return await this.requestTranslate(
