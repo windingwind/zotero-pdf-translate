@@ -36,7 +36,7 @@ class TransConfig extends AddonBase {
       "freedictionaryapi",
       "webliodict",
       "collinsdict",
-      "haicidict"
+      "haicidict",
     ];
     // this parameter now in src/languages.ts, multiple languages can be supported
     // this.sourcesName = {
@@ -68,7 +68,7 @@ class TransConfig extends AddonBase {
       freedictionaryapi: "",
       webliodict: "",
       collinsdict: "",
-      haicidict: ""
+      haicidict: "",
     };
     this.secretFormatCheckers = {
       youdaozhiyun: (secret: string) => {
@@ -124,12 +124,12 @@ class TransConfig extends AddonBase {
         };
       },
       deeplfree: (secret: string) => {
-        const flag = secret?.length === 39;
+        const flag = secret?.length >= 36;
         return {
           status: flag,
           info: flag
             ? ""
-            : `The secret is your DeepL (free plan) KEY. The secret length must be 39, but got ${secret?.length}.`,
+            : `The secret is your DeepL (free plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
         };
       },
       deeplpro: (secret: string) => {
