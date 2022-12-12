@@ -34,6 +34,6 @@
   },
   "devDependencies": {
     "release-it": "^15.5.0",
-    "zotero-types": "^0.0.5"
+    "zotero-types": "^0.0.8"
   }
 }
