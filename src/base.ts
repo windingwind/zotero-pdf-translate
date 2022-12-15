@@ -67,4 +67,11 @@ interface TransArgs {
   text: string;
 }
 
-export { CopyHelper, Shortcut, TransArgs };
+function str2dom(res: string): Document {
+  const parser = Components.classes[
+    "@mozilla.org/xmlextras/domparser;1"
+  ].createInstance(Components.interfaces.nsIDOMParser);
+  return parser.parseFromString(res, "text/html");
+}
+
+export { CopyHelper, str2dom, Shortcut, TransArgs };

@@ -1,3 +1,5 @@
+import { str2dom } from "../base";
+
 async function collinsdict(text: string = undefined) {
   let args = this.getArgs("collinsdict", text);
   const dictURL =
@@ -12,12 +14,10 @@ async function collinsdict(text: string = undefined) {
       );
     },
     (xhr) => {
-      if (xhr.responseURL.includes("?q=")) return "";
+      if (xhr.responseURL.includes("?q="))
+        return "";
 
-      const parser = Components.classes[
-        "@mozilla.org/xmlextras/domparser;1"
-      ].createInstance(Components.interfaces.nsIDOMParser);
-      const doc: Document = parser.parseFromString(xhr.response, "text/html"); // parse responsive html doc
+      const doc: Document = str2dom(xhr.response); // parse responsive html doc
       Array.prototype.forEach.call(doc.querySelectorAll("script"), (e) =>
         e.remove()
       );
