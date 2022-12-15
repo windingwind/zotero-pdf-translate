@@ -1,3 +1,5 @@
+import { str2dom } from "../base";
+
 async function webliodict(text: string = undefined) {
   let args = this.getArgs("webliodict", text);
 
@@ -11,12 +13,7 @@ async function webliodict(text: string = undefined) {
     },
     (xhr) => {
       let res = xhr.response;
-
-      const parser = Components.classes[
-        "@mozilla.org/xmlextras/domparser;1"
-      ].createInstance(Components.interfaces.nsIDOMParser);
-      const doc: Document = parser.parseFromString(res, "text/html");
-      const translations: string[][] = [];
+      const doc: Document = str2dom(res), translations: string[][] = [];
 
       const process = (ele: Element) => {
         return Array.prototype.map.call(ele.children, (e: HTMLElement) =>

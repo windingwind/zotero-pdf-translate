@@ -1,3 +1,5 @@
+import { str2dom } from "../base";
+
 async function bingdict(text: string = undefined) {
   let args = this.getArgs("bingdict", text);
 
@@ -11,8 +13,9 @@ async function bingdict(text: string = undefined) {
     },
     (xhr) => {
       let res = xhr.response;
-      this._Addon._audioSourceURLs = Array.from(
-        new Set(res.match(/https?:\/\/\S+\.mp3/g))
+      const mp3s = Array.from(str2dom(res).querySelectorAll(".hd_area .bigaud"));
+      this._Addon._audioSourceURLs = mp3s.map(
+        a => a.getAttribute('onclick').match(/https?:\/\/\S+\.mp3/g)
       );
       try {
         res = res.match(
@@ -24,7 +27,6 @@ async function bingdict(text: string = undefined) {
 
       let tgt = "";
       for (let line of res.split("，").slice(1)) {
-        Zotero.debug(line);
         if (line.indexOf("网络释义") > -1) {
           tgt += line.slice(0, line.lastIndexOf("；"));
         } else {
