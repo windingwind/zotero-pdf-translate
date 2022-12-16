@@ -1349,7 +1349,8 @@ class TransView extends AddonBase {
     }
     if (this._Addon._translatedText.length > 1 &&
       Zotero.Prefs.get("ZoteroPDFTranslate.autoPlay"))
-      new Audio(this._Addon._audioSourceURLs[0][1] || '').play();
+      if (this._Addon._audioSourceURLs[0])
+        new Audio(this._Addon._audioSourceURLs[0][1] || '').play();
   }
 
   private updateResults(_document: Document, translatedText: string) {
