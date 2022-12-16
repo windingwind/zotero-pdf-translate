@@ -807,21 +807,25 @@ class TransView extends AddonBase {
       }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
-    // clear previous audio buttons
-    const toolbar: HTMLDivElement = selectionMenu.querySelector(".colors");
-    toolbar.querySelectorAll(".translate-audio-button")
-      .forEach(btn => btn.remove());
+    let audioBox: XUL.Box =
+      selectionMenu.querySelector("#pdf-translate-popup-audio-box");
+    audioBox?.remove();
+    audioBox = selectionMenu.ownerDocument.createElement('div');
+    audioBox.id = "pdf-translate-popup-audio-box";
+    audioBox.style.display = "flex";
+    selectionMenu.appendChild(audioBox);
 
     if (Zotero.Prefs.get("ZoteroPDFTranslate.showPlayBtn"))
-      this._Addon._audioSourceURLs.forEach((url: string, idx: number) => {
-        let btn: HTMLButtonElement =
+      this._Addon._audioSourceURLs.forEach(phonetic => {
+        const btn: HTMLButtonElement =
           selectionMenu.ownerDocument.createElement("button");
-        btn.setAttribute("class", "toolbarButton translate-audio-button");
+
+        btn.setAttribute("class", "toolbarButton");
         btn.setAttribute("tabindex", "-1");
-        btn.setAttribute("title", `Prononciation ${idx + 1}`);
-        btn.innerHTML = "🔊";
-        btn.onclick = () => new Audio(url).play();
-        toolbar.appendChild(btn);
+        btn.setAttribute("title", phonetic[0]);
+        btn.innerHTML = "🔊 " + phonetic[0];
+        btn.onclick = () => new Audio(phonetic[1]).play();
+        audioBox.appendChild(btn);
       });
     this.onPopopItemChange(selectionMenu);
 
@@ -845,7 +849,7 @@ class TransView extends AddonBase {
     const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
     const w = keepSize
       ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
-      : 20 * toolbar.children.length + 2;
+      : 105;
     const h = keepSize
       ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
       : 30;
@@ -992,9 +996,8 @@ class TransView extends AddonBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${
-      this.translateIcon
-    }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${this.translateIcon
+      }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -1344,9 +1347,9 @@ class TransView extends AddonBase {
     if (this.standaloneWindow) {
       this.updateResults(this.standaloneWindow.document, translatedText);
     }
-    if (this._Addon._translatedText.length > 1 && 
+    if (this._Addon._translatedText.length > 1 &&
       Zotero.Prefs.get("ZoteroPDFTranslate.autoPlay"))
-      new Audio(this._Addon._audioSourceURLs[0] || '').play();
+      new Audio(this._Addon._audioSourceURLs[0][1] || '').play();
   }
 
   private updateResults(_document: Document, translatedText: string) {

@@ -14,7 +14,7 @@ async function haicidict(text: string = undefined) {
       let regex = /naudio="(\w+.mp3\?t=\w+?)"/
       this._Addon._audioSourceURLs = Array.prototype.map.call(
         res.match(new RegExp(regex, "gi")),
-        (e) => 'http://audio.dict.cn/' + e.match(new RegExp(regex, "i"))[1]
+        (e) => ["", 'http://audio.dict.cn/' + e.match(new RegExp(regex, "i"))[1]]
       );
       Zotero.debug(this._Addon._audioSourceURLs);
       let tgt = "";

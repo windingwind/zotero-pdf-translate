@@ -9,7 +9,7 @@ class PDFTranslate {
   _selectedText: string;
   _sourceText: string;
   _translatedText: string;
-  _audioSourceURLs: Array<string>;
+  _audioSourceURLs: Array<Array<string>>;  // 0: label, 1: url
   public events: TransEvents;
   public view: TransView;
   public reader: TransReader;
