@@ -816,15 +816,15 @@ class TransView extends AddonBase {
     selectionMenu.appendChild(audioBox);
 
     if (Zotero.Prefs.get("ZoteroPDFTranslate.showPlayBtn"))
-      this._Addon._audioSourceURLs.forEach(phonetic => {
+      this._Addon._phonetic.forEach(phonetic => {
         const btn: HTMLButtonElement =
           selectionMenu.ownerDocument.createElement("button");
 
         btn.setAttribute("class", "toolbarButton");
         btn.setAttribute("tabindex", "-1");
-        btn.setAttribute("title", phonetic[0]);
-        btn.innerHTML = "🔊 " + phonetic[0];
-        btn.onclick = () => new Audio(phonetic[1]).play();
+        btn.setAttribute("title", phonetic.text);
+        btn.innerHTML = "🔊 " + phonetic.text;
+        btn.onclick = () => new Audio(phonetic.url).play();
         audioBox.appendChild(btn);
       });
     this.onPopopItemChange(selectionMenu);
@@ -1349,8 +1349,7 @@ class TransView extends AddonBase {
     }
     if (this._Addon._translatedText.length > 1 &&
       Zotero.Prefs.get("ZoteroPDFTranslate.autoPlay"))
-      if (this._Addon._audioSourceURLs[0])
-        new Audio(this._Addon._audioSourceURLs[0][1] || '').play();
+      new Audio(this._Addon._phonetic[0]?.url || '').play();
   }
 
   private updateResults(_document: Document, translatedText: string) {

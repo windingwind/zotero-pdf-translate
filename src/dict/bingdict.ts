@@ -16,11 +16,11 @@ async function bingdict(text: string = undefined) {
       const doc = str2dom(res),
         mp3s = Array.from(doc.querySelectorAll(".hd_area .bigaud")),
         phoneticText = doc.querySelectorAll(".hd_area .b_primtxt");
-      this._Addon._audioSourceURLs = mp3s.map(
-        (a: HTMLAnchorElement, i: number) => [
-            phoneticText[i].innerHTML.replace("&nbsp;", ""),
-            a.getAttribute('onclick').match(/https?:\/\/\S+\.mp3/g)
-      ]);
+      this._Addon._phonetic = mp3s.map(
+        (a: HTMLAnchorElement, i: number) => ({
+          text: phoneticText[i].innerHTML.replace("&nbsp;", " "),
+          url: a.getAttribute('onclick').match(/https?:\/\/\S+\.mp3/g)
+        }));
       try {
         res = res.match(
           /<meta name=\"description\" content=\"(.+) \" ?\/>/gm

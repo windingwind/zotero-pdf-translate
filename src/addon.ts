@@ -9,7 +9,7 @@ class PDFTranslate {
   _selectedText: string;
   _sourceText: string;
   _translatedText: string;
-  _audioSourceURLs: Array<Array<string>>;  // 0: label, 1: url
+  _phonetic: Array<{ text: string, url: string }>; 
   public events: TransEvents;
   public view: TransView;
   public reader: TransReader;
@@ -21,7 +21,7 @@ class PDFTranslate {
     this._selectedText = "";
     this._sourceText = "";
     this._translatedText = "";
-    this._audioSourceURLs = [];
+    this._phonetic = [];
     this.events = new TransEvents(this);
     this.view = new TransView(this);
     this.reader = new TransReader(this);

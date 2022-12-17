@@ -23,22 +23,22 @@ async function collinsdict(text: string = undefined) {
       );
 
       const phoneticElements = doc.querySelectorAll(".type-");
-      this._Addon._audioSourceURLs = Array.prototype.map.call(
+      this._Addon._phonetic = Array.prototype.map.call(
         phoneticElements,
-        (e) => [
-          e.innerText.trim(),
-          e.querySelector("a").getAttribute("data-src-mp3")
-        ]
+        (e: HTMLElement) => ({
+          text: e.innerText.trim(),
+          url: e.querySelector("a").getAttribute("data-src-mp3")
+        })
       );
       // script in innerText
       const explanationText: string = Array.prototype.map
-        .call(doc.querySelectorAll(".hom"), (e) =>
+        .call(doc.querySelectorAll(".hom"), (e: HTMLSpanElement) =>
           e.innerText.replace(/&nbsp;/g, " ").replace(/[0-9]\./g, "\n$&")
         )
         .join("");
 
       const result = explanationText; // insert phonetic symbol to result
-      if (!text) 
+      if (!text)
         Zotero.ZoteroPDFTranslate._translatedText = result;
       return result;
     }

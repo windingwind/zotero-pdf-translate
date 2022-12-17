@@ -409,7 +409,7 @@ class TransEngine extends TransConfig {
         ) as string;
       }
     }
-    this._Addon._audioSourceURLs = [];  // clear previous audio
+    this._Addon._phonetic = [];  // clear previous audio
 
     this.checkSecret(window, engine, args.secret);
 
