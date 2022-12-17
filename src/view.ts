@@ -803,26 +803,36 @@ class TransView extends AddonBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${this.translateIcon
-      }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
-    let audioBox: XUL.Box =
-      selectionMenu.querySelector("#pdf-translate-popup-audio-box");
+    let audioBox: XUL.Box = selectionMenu.querySelector(
+      "#pdf-translate-popup-audio-box"
+    );
     audioBox?.remove();
-    audioBox = selectionMenu.ownerDocument.createElement('div');
+    audioBox = selectionMenu.ownerDocument.createElement("div");
     audioBox.id = "pdf-translate-popup-audio-box";
     audioBox.style.display = "flex";
+    audioBox.style.width = "100%";
+    audioBox.style.justifyContent = "space-evenly";
     selectionMenu.appendChild(audioBox);
 
+    const colors = selectionMenu.querySelector(".colors") as HTMLDivElement;
+    colors.style.width = "100%";
+    colors.style.justifyContent = "space-evenly";
+
     if (Zotero.Prefs.get("ZoteroPDFTranslate.showPlayBtn"))
-      this._Addon._phonetic.forEach(phonetic => {
+      this._Addon._phonetic.forEach((phonetic) => {
         const btn: HTMLButtonElement =
           selectionMenu.ownerDocument.createElement("button");
 
         btn.setAttribute("class", "toolbarButton");
         btn.setAttribute("tabindex", "-1");
         btn.setAttribute("title", phonetic.text);
+        btn.style.whiteSpace = "nowrap";
+        btn.style.flexGrow = "1";
         btn.innerHTML = "🔊 " + phonetic.text;
         btn.onclick = () => new Audio(phonetic.url).play();
         audioBox.appendChild(btn);
@@ -847,38 +857,26 @@ class TransView extends AddonBase {
     ) as string;
 
     const keepSize = Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize");
-    const w = keepSize
-      ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
-      : 105;
+    const w = Math.max(
+      keepSize
+        ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupWidth"))
+        : 105,
+      selectionMenu.scrollWidth - 3
+    );
     const h = keepSize
       ? Number(Zotero.Prefs.get("ZoteroPDFTranslate.popupHeight"))
       : 30;
+    console.log(w, h);
     textbox.style.width = `${w}px`;
     textbox.style.height = `${h}px`;
-    selectionMenu.style.width = `${w + 3}px`;
-    selectionMenu.style.height = `${h + 20}px`;
-
-    // Update button width
-    let buttons = selectionMenu.getElementsByTagName("button");
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].style.width = selectionMenu.style.width;
-    }
 
     const onTextAreaResize = (_e) => {
-      selectionMenu.style.width = `${textbox.offsetWidth + 3}px`;
-      selectionMenu.style.height = `${textbox.offsetHeight + 20}px`;
-
       if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
         Zotero.Prefs.set("ZoteroPDFTranslate.popupWidth", textbox.offsetWidth);
         Zotero.Prefs.set(
           "ZoteroPDFTranslate.popupHeight",
           textbox.offsetHeight
         );
-      }
-      // Update button width
-      let buttons = selectionMenu.getElementsByTagName("button");
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].style.width = selectionMenu.style.width;
       }
     };
 
@@ -913,6 +911,9 @@ class TransView extends AddonBase {
 
     textbox.addEventListener("mouseup", (e) => {
       textbox.removeEventListener("mousemove", onTextAreaResize);
+      if (selectionMenu.scrollWidth > textbox.offsetWidth + 3) {
+        textbox.style.width = `${selectionMenu.scrollWidth - 3}px`;
+      }
     });
 
     textbox.addEventListener("mouseenter", (e) => {
@@ -996,8 +997,9 @@ class TransView extends AddonBase {
       "wide-button pdf-translate-add-to-note"
     );
     translateAddToNoteButton.setAttribute("hidden", "hidden");
-    translateAddToNoteButton.innerHTML = `${this.translateIcon
-      }${Zotero.getString("pdfReader.addToNote")}`;
+    translateAddToNoteButton.innerHTML = `${
+      this.translateIcon
+    }${Zotero.getString("pdfReader.addToNote")}`;
     selectionMenu.appendChild(translateAddToNoteButton);
 
     this.onPopopItemChange(selectionMenu);
@@ -1101,11 +1103,13 @@ class TransView extends AddonBase {
       return;
     }
     this.popupTextBox.style.height = `${textHeight + 3}px`;
-    if (selectionMenu.ownerDocument
-      .getElementById("pdf-translate-popup-audio-button"))
+    if (
+      selectionMenu.ownerDocument.getElementById(
+        "pdf-translate-popup-audio-button"
+      )
+    )
       selectionMenu.style.height = `${textHeight + 46}px`;
-    else
-      selectionMenu.style.height = `${textHeight + 20}px`;
+    else selectionMenu.style.height = `${textHeight + 20}px`;
 
     // Update button width
     let buttons = selectionMenu.getElementsByTagName("button");
@@ -1347,9 +1351,11 @@ class TransView extends AddonBase {
     if (this.standaloneWindow) {
       this.updateResults(this.standaloneWindow.document, translatedText);
     }
-    if (this._Addon._translatedText.length > 1 &&
-      Zotero.Prefs.get("ZoteroPDFTranslate.autoPlay"))
-      new Audio(this._Addon._phonetic[0]?.url || '').play();
+    if (
+      this._Addon._translatedText.length > 1 &&
+      Zotero.Prefs.get("ZoteroPDFTranslate.autoPlay")
+    )
+      new Audio(this._Addon._phonetic[0]?.url || "").play();
   }
 
   private updateResults(_document: Document, translatedText: string) {
