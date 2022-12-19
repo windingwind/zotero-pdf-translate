@@ -1,4 +1,4 @@
-const CryptoJS = require("crypto-js");
+import { aesEcbEncrypt, base64 } from './crypto';
 
 async function getToken(forceRefresh: boolean = false) {
   let token = "";
@@ -10,14 +10,13 @@ async function getToken(forceRefresh: boolean = false) {
     );
     if (
       !forceRefresh &&
-      tokenObj &&
-      tokenObj.token &&
+      tokenObj?.token &&
       new Date().getTime() - tokenObj.t < 300 * 1000
     ) {
       token = tokenObj.token;
       doRefresh = false;
     }
-  } catch (e) {}
+  } catch (e) { }
   if (doRefresh) {
     const xhr = await Zotero.HTTP.request(
       "GET",
@@ -40,13 +39,11 @@ async function getToken(forceRefresh: boolean = false) {
   return token;
 }
 
-function getWord(t) {
-  var n = "4e87183cfd3a45fe";
-  var e = { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 },
-    i = CryptoJS.enc.Utf8.parse(n),
-    s = CryptoJS.AES.encrypt(t, i, e),
-    r = s.toString().replace(/\//g, "_");
-  return (r = r.replace(/\+/g, "-")), r;
+async function getWord(text: string) {
+  const encrtypted = await aesEcbEncrypt(text, "4e87183cfd3a45fe");
+  const base64str = base64(encrtypted);
+  return base64str.replace(/\//g, "_")
+    .replace(/\+/g, "-");
 }
 
 async function cnki(text: string = undefined, retry: boolean = true) {
@@ -70,7 +67,7 @@ async function cnki(text: string = undefined, retry: boolean = true) {
             Token: await getToken(),
           },
           body: JSON.stringify({
-            words: getWord(args.text),
+            words: await getWord(args.text),
             translateType: null,
           }),
           responseType: "json",

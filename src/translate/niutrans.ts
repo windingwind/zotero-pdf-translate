@@ -83,19 +83,19 @@ async function niutransLogin(username:string, password:string) {
   encrypt.setPublicKey(keyxhr.response.key);
   let encryptionPassword = encrypt.encrypt(password);
   encryptionPassword = encodeURIComponent(encryptionPassword);
-  let userLoginXhr = await loginApi(username,encryptionPassword)
+  const userLoginXhr = await loginApi(username,encryptionPassword)
   if(userLoginXhr && userLoginXhr.status && userLoginXhr.status === 200) {
     if(userLoginXhr.response.flag == 1) {
       let apikey = userLoginXhr.response.apikey;
       Zotero.Prefs.set("ZoteroPDFTranslate.niutransUsername", username);
       Zotero.Prefs.set("ZoteroPDFTranslate.niutransPassword", password);
       Zotero.Prefs.set("ZoteroPDFTranslate.niutransApikey", apikey);
-      let dicLibXhr = await getDictLibList(apikey)
-      let memoryLibXhr = await getMemoryLibList(apikey)
-      if(dicLibXhr && dicLibXhr.status && dicLibXhr.status === 200){
+      const dicLibXhr = await getDictLibList(apikey)
+      const memoryLibXhr = await getMemoryLibList(apikey)
+      if(dicLibXhr?.status === 200){
         Zotero.Prefs.set("ZoteroPDFTranslate.niutransDictLibList", JSON.stringify(dicLibXhr.response));
       }
-      if(memoryLibXhr && memoryLibXhr.status && memoryLibXhr.status === 200){
+      if(memoryLibXhr?.status === 200){
         Zotero.Prefs.set("ZoteroPDFTranslate.niutransMemoryLibList", JSON.stringify(memoryLibXhr.response));
       }
       loginFlag = true

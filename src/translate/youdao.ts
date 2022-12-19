@@ -28,4 +28,5 @@ async function youdao(text: string = undefined) {
     }
   );
 }
+
 export { youdao };
