@@ -1,3 +1,5 @@
+import { base64, hmacSha1Digest } from "./crypto";
+
 async function tencent(text: string = undefined) {
   let args = this.getArgs("tencent", text);
   let params = args.secret.split("#");
@@ -19,18 +21,17 @@ async function tencent(text: string = undefined) {
       .replace(/%20/g, "+");
   }
 
-  let rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${
-    args.sl.split("-")[0]
-  }&SourceText=#$#&Target=${args.tl.split("-")[0]}&Timestamp=${new Date()
-    .getTime()
-    .toString()
-    .substring(0, 10)}&Version=2018-03-21`;
+  const rawStr = `Action=TextTranslate&Language=zh-CN&Nonce=9744&ProjectId=${projectId}&Region=${region}&SecretId=${secretId}&Source=${args.sl.split("-")[0]
+    }&SourceText=#$#&Target=${args.tl.split("-")[0]}&Timestamp=${new Date()
+      .getTime()
+      .toString()
+      .substring(0, 10)}&Version=2018-03-21`;
 
-  let sha1Str = encodeRFC5987ValueChars(
-    await hmacSha1Digest(
+  const sha1Str = encodeRFC5987ValueChars(
+    base64(await hmacSha1Digest(
       `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", args.text)}`,
       secretKey
-    )
+    ))
   );
 
   return await this.requestTranslate(
@@ -61,17 +62,6 @@ async function tencent(text: string = undefined) {
       return tgt;
     }
   );
-}
-
-async function hmacSha1Digest(stringToSign: string, secretKey: string) {
-	const enc = new TextEncoder()
-	const key = await crypto.subtle.importKey('raw', enc.encode(secretKey), {
-		name: 'HMAC',
-		hash: 'SHA-1'
-	}, false, ['sign'])
-	const signature = await crypto.subtle.sign('HMAC', key, enc.encode(stringToSign))
-	const signedString = String.fromCharCode(...new Uint8Array(signature))
-	return btoa(signedString)
 }
 
 export { tencent };

@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js'
+import { base64, hmacSha256Digest, sha256Digest } from "./crypto";
 
 function transLang(inlang: string = undefined) {
   const langs = [
@@ -14,6 +14,7 @@ function transLang(inlang: string = undefined) {
   )
   return outlang
 }
+
 async function xftrans(text: string = undefined) {
   let args = this.getArgs("xftrans", text);
   Zotero.debug(args.secret)
@@ -33,11 +34,11 @@ async function xftrans(text: string = undefined) {
       from: transLang(args.sl),
       to: transLang(args.tl)
   }
-  let date = (new Date().toUTCString())
-  let postBody = getPostBody(transVar.text, transVar.from, transVar.to)
-  let digest = getDigest(postBody)
+  const date = new Date().toUTCString()
+  const postBody = getPostBody(transVar.text, transVar.from, transVar.to)
+  const digest = await getDigest(postBody)
   Zotero.debug(digest)
-  let options = {
+  const options = {
     url: config.hostUrl,
     headers: {
       'Content-Type': 'application/json',
@@ -45,14 +46,14 @@ async function xftrans(text: string = undefined) {
       'Host': config.host,
       'Date': date,
       'Digest': digest,
-      'Authorization': getAuthStr(date, digest)
+      'Authorization': await getAuthStr(date, digest)
     },
     json: true,
     body: postBody
   }
   Zotero.debug(options)
   function getPostBody(text, from, to) {
-    let digestObj = {
+    const digestObj = {
       common: {
         app_id: config.appid
       },
@@ -61,19 +62,19 @@ async function xftrans(text: string = undefined) {
         to : to
       },
       data:{
-        text: CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(text))
+        text: base64(new TextEncoder().encode(text))
       }
     }
     return digestObj
   }
-  function getDigest(body) {
-    return 'SHA-256=' + CryptoJS.enc.Base64.stringify(CryptoJS.SHA256(JSON.stringify(body)))
+  async function getDigest(body: any) {
+    return `SHA-256=${base64(await sha256Digest(JSON.stringify(body)))}`;
   }
-  function getAuthStr(date, digest) {
-    let signatureOrigin = `host: ${config.host}\ndate: ${date}\nPOST ${config.uri} HTTP/1.1\ndigest: ${digest}`
-    let signatureSha = CryptoJS.HmacSHA256(signatureOrigin, config.apiSecret)
-    let signature = CryptoJS.enc.Base64.stringify(signatureSha)
-    let authorizationOrigin = `api_key="${config.apiKey}", algorithm="hmac-sha256", headers="host date request-line digest", signature="${signature}"`
+  async function getAuthStr(date: string, digest: string) {
+    const signatureOrigin = `host: ${config.host}\ndate: ${date}\nPOST ${config.uri} HTTP/1.1\ndigest: ${digest}`
+    const signatureSha = await hmacSha256Digest(signatureOrigin, config.apiSecret)
+    const signature = base64(signatureSha)
+    const authorizationOrigin = `api_key="${config.apiKey}", algorithm="hmac-sha256", headers="host date request-line digest", signature="${signature}"`
     return authorizationOrigin
   }
   return await this.requestTranslate(
@@ -96,6 +97,6 @@ async function xftrans(text: string = undefined) {
     }
   );
 }
-  
+
 export { xftrans };
   

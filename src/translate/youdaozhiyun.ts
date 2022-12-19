@@ -1,3 +1,5 @@
+import {hex, sha256Digest} from './crypto';
+
 async function youdaozhiyun(text: string = undefined) {
   const args = this.getArgs("youdaozhiyun", text);
 
@@ -24,7 +26,7 @@ async function youdaozhiyun(text: string = undefined) {
   const to = args.tl;
   const str1 = appid + truncate(query) + salt + curtime + key;
 
-  const sign = await sha256Digest(str1);
+  const sign = hex(await sha256Digest(str1));
   return await this.requestTranslate(
     async () => {
       return await Zotero.HTTP.request(
@@ -51,13 +53,6 @@ async function youdaozhiyun(text: string = undefined) {
       return tgt;
     }
   );
-}
-
-async function sha256Digest(message: string) {
-  const enc = new TextEncoder();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(message));
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 export { youdaozhiyun };
