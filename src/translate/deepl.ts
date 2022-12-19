@@ -5,13 +5,13 @@ async function deeplpro(text: string = undefined) {
   return await this.deepl("deeplpro", text);
 }
 async function deepl(engine: string, text: string) {
-  let urls = {
+  const urls = {
     deeplfree: "https://api-free.deepl.com/v2/translate",
     deeplpro: "https://api.deepl.com/v2/translate",
   };
-  let args = this.getArgs(engine, text);
-  let req_body = `auth_key=${args.secret}&text=${
-    args.text
+  const args = this.getArgs(engine, text);
+  const reqBody = `auth_key=${args.secret}&text=${
+    encodeURIComponent(args.text)
   }&source_lang=${args.sl.split("-")[0].toUpperCase()}&target_lang=${args.tl
     .split("-")[0]
     .toUpperCase()}`;
@@ -20,11 +20,11 @@ async function deepl(engine: string, text: string) {
     async () => {
       return await Zotero.HTTP.request("POST", urls[engine], {
         responseType: "json",
-        body: req_body,
+        body: reqBody,
       });
     },
     (xhr) => {
-      let tgt = xhr.response.translations[0].text;
+      const tgt = xhr.response.translations[0].text;
       Zotero.debug(tgt);
       if (!text) Zotero.ZoteroPDFTranslate._translatedText = tgt;
       return tgt;
