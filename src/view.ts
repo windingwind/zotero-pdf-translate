@@ -791,6 +791,7 @@ class TransView extends AddonBase {
     if (!selectionMenu) {
       return false;
     }
+    selectionMenu.style.height = "-moz-fit-content";
 
     let translateAddToNoteButton =
       selectionMenu.ownerDocument.createElement("div");
@@ -816,7 +817,7 @@ class TransView extends AddonBase {
     audioBox.id = "pdf-translate-popup-audio-box";
     audioBox.style.display = "flex";
     audioBox.style.width = "calc(100% - 4px)";
-    audioBox.style.marginLeft = "2px"
+    audioBox.style.marginLeft = "2px";
     audioBox.style.justifyContent = "space-evenly";
     selectionMenu.appendChild(audioBox);
 
@@ -869,7 +870,7 @@ class TransView extends AddonBase {
       : 30;
     textbox.style.width = `${w}px`;
     textbox.style.height = `${h}px`;
-    textbox.style.marginLeft = '2px';
+    textbox.style.marginLeft = "2px";
 
     const onTextAreaResize = (_e) => {
       if (Zotero.Prefs.get("ZoteroPDFTranslate.keepPopupSize")) {
@@ -915,12 +916,6 @@ class TransView extends AddonBase {
       if (selectionMenu.scrollWidth > textbox.offsetWidth + 4) {
         textbox.style.width = `${selectionMenu.scrollWidth - 4}px`;
       }
-      if (selectionMenu.ownerDocument.getElementById(
-          "pdf-translate-popup-audio-button"
-      ))
-        selectionMenu.style.height = `${textbox.scrollHeight + 46}px`;
-      else 
-        selectionMenu.style.height = `${textbox.scrollHeight + 20}px`;
     });
 
     textbox.addEventListener("mouseenter", (e) => {
