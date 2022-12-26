@@ -33,6 +33,6 @@
     "esbuild": "^0.16.9",
     "release-it": "^15.5.1",
     "replace-in-file": "^6.3.5",
-    "zotero-types": "^0.0.8"
+    "zotero-types": "^0.1.2"
   }
 }
