@@ -137,6 +137,7 @@
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.caiyun;" value="caiyun" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplfree;" value="deeplfree" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplpro;" value="deeplpro" />
+                        <menuitem label="&zotero.__addonRef__.pref.api.translateSource.deeplcustom;" value="deeplcustom" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.baidu;" value="baidu" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.baidufield;" value="baidufield" />
                         <menuitem label="&zotero.__addonRef__.pref.api.translateSource.tencent;" value="tencent" />

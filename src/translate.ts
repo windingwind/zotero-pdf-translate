@@ -4,6 +4,7 @@ import { baidufield } from "./translate/baidufield";
 import { caiyun } from "./translate/caiyun";
 import { cnki } from "./translate/cnki";
 import { deeplfree, deeplpro, deepl } from "./translate/deepl";
+import { deeplcustom } from "./translate/deeplcustom";
 import { google, googleapi, _google } from "./translate/google";
 import { microsoft } from "./translate/microsoft";
 import { haici } from "./translate/haici";
@@ -39,6 +40,7 @@ class TransEngine extends TransConfig {
   deeplpro: Function;
   deeplfree: Function;
   deepl: Function;
+  deeplcustom: Function;
   google: Function;
   googleapi: Function;
   _google: Function;
@@ -74,6 +76,7 @@ class TransEngine extends TransConfig {
     this.deeplfree = deeplfree;
     this.deeplpro = deeplpro;
     this.deepl = deepl;
+    this.deeplcustom = deeplcustom;
     this.google = google;
     this.googleapi = googleapi;
     this._google = _google;

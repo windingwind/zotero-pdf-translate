@@ -25,6 +25,7 @@ class TransConfig extends AddonBase {
       "caiyun",
       "deeplfree",
       "deeplpro",
+      "deeplcustom",
       "baidu",
       "baidufield",
       "openl",
@@ -55,6 +56,7 @@ class TransConfig extends AddonBase {
       niutranspro: "",
       deeplfree: "",
       deeplpro: "",
+      deeplcustom:"http://server/translate",
       baidu: "appid#key",
       baidufield: "appid#key#field",
       openl: "service1,service2,...#apikey",
@@ -139,6 +141,15 @@ class TransConfig extends AddonBase {
           info: flag
             ? ""
             : `The secret is your DeepL (pro plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
+        };
+      },
+      deeplcustom: (secret: string) => {
+        const flag = secret;
+        return {
+          status: flag,
+          info: flag
+            ? ""
+            : `Please enter custom DeepL URL in "secret" field./请在“密钥”里填写自建的DeepL网址`,
         };
       },
       baidu: (secret: string) => {
