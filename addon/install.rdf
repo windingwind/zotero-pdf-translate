@@ -12,10 +12,11 @@
         em:creator="__author__"
         em:description="__description__"
         em:homepageURL="__homepage__"
-        em:iconURL="chrome://__addonRef__/skin/favicon.png"
-        em:updateURL="https://raw.githubusercontent.com/windingwind/zotero-pdf-translate/master/update.rdf">>
-        <em:type>2</em:type>
-        <em:targetApplication RDF:resource="rdf:#$x61SL3"/>
+        em:iconURL="chrome://__addonRef__/content/icons/favicon.png"
+        em:optionsURL="chrome://__addonRef__/content/preferences.xul"
+        em:updateURL="__updaterdf__"
+        em:multiprocessCompatible="true"
+        em:bootstrap="true">
         <em:targetApplication>
             <Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>

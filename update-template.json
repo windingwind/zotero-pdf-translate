@@ -1,0 +1,26 @@
+{
+  "addons": {
+    "__addonID__": {
+      "updates": [
+        {
+          "version": "__buildVersion__",
+          "update_link": "__releasepage__",
+          "applications": {
+            "gecko": {
+              "strict_min_version": "60.0"
+            }
+          }
+        },
+        {
+          "version": "__buildVersion__",
+          "update_link": "__releasepage__",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.999"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-  <rdf:Description rdf:about="urn:mozilla:extension:zoteropdftranslate@euclpts.com">
+  <rdf:Description rdf:about="urn:mozilla:extension:__addonID__">
     <em:updates>
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.9.8</em:version>
+            <em:version>__buildVersion__</em:version>
             <em:targetApplication>
               <rdf:Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>
                 <em:minVersion>6.999</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
-                <em:updateLink>https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi</em:updateLink>
+                <em:updateLink>__releasepage__</em:updateLink>
               </rdf:Description>
             </em:targetApplication>
             <em:targetApplication>
@@ -19,7 +19,7 @@
                 <em:id>juris-m@juris-m.github.io</em:id>
                 <em:minVersion>6.999</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
-                <em:updateLink>https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi</em:updateLink>
+                <em:updateLink>__releasepage__</em:updateLink>
               </rdf:Description>
             </em:targetApplication>
           </rdf:Description>

@@ -1,15 +1,12 @@
 {
-    "compilerOptions": {
-      "module": "CommonJS",
-      "target": "ES6",
-    },
-    "include": [
-      "src",
-      "typing",
-      "node_modules/zotero-types"
-    ],
-    "exclude": [
-      "builds",
-      "addon"
-    ]
-  }
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "target": "ES2017",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src", "typing", "node_modules/zotero-types"],
+  "exclude": ["builds", "addon"]
+}

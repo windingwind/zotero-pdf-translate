@@ -1,0 +1,9 @@
+{
+  "usage": "Copy and rename this file to zotero-cmd.json. Edit the cmd.",
+  "killZoteroWindows": "taskkill /f /im zotero.exe",
+  "killZoteroUnix": "kill -9 $(ps -x | grep zotero)",
+  "exec": {
+    "6": "/path/to/zotero6.exe",
+    "7": "/path/to/zotero7.exe"
+  }
+}
