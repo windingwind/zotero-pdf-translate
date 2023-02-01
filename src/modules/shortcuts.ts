@@ -1,15 +1,6 @@
 import { config } from "../../package.json";
 
 export function registerShortcuts() {
-  //   ztoolkit.Shortcut.register("element", {
-  //     id:,
-  //     key: "T",
-  //     callback: (keyOptions) => {
-  //       addon.hooks.onShortcuts(Zotero_Tabs.selectedType);
-  //     },
-  //     modifiers: "accel",
-  //   });
-
   ztoolkit.Shortcut.register("element", {
     id: `${config.addonRef}-translateKey`,
     key: "T",
