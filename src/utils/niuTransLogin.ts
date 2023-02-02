@@ -60,14 +60,6 @@ export async function niutransStatusCallback(status: boolean) {
           href: "https://niutrans.com/register",
           innerHTML: getString("service.niutranspro.dialog.signup"),
         },
-        listeners: [
-          {
-            type: "click",
-            listener: (ev: Event) => {
-              Zotero.launchURL((ev.target as HTMLLinkElement)?.href);
-            },
-          },
-        ],
       },
       false
     )
@@ -104,14 +96,6 @@ export async function niutransStatusCallback(status: boolean) {
           href: "https://niutrans.com/password_find",
           innerHTML: getString("service.niutranspro.dialog.forget"),
         },
-        listeners: [
-          {
-            type: "click",
-            listener: (ev: Event) => {
-              Zotero.launchURL((ev.target as HTMLLinkElement)?.href);
-            },
-          },
-        ],
       },
       false
     )
@@ -201,14 +185,6 @@ export async function niutransStatusCallback(status: boolean) {
             href: "https://niutrans.com/cloud/resource/index",
             innerHTML: getString("service.niutranspro.dialog.tip1"),
           },
-          listeners: [
-            {
-              type: "click",
-              listener: (ev: Event) => {
-                Zotero.launchURL((ev.target as HTMLLinkElement)?.href);
-              },
-            },
-          ],
         },
         {
           tag: "span",
@@ -221,7 +197,9 @@ export async function niutransStatusCallback(status: boolean) {
     .addButton(
       getString(`service.niutranspro.dialog.${signInOrRefresh}`),
       "signin"
-    );
+    )
+    .addCell(4, 1, { tag: "fragment" }, false)
+    .addCell(4, 2, { tag: "fragment" }, false);
 
   if (status) {
     dialog.addButton(
