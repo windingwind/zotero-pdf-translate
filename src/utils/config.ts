@@ -3,13 +3,6 @@ interface TranslateService {
   id: string;
   defaultSecret?: string;
   secretValidator?: (secret: string) => SecretValidateResult;
-  serviceURL?: string;
-  secretStatusButton?: {
-    [key in "pass" | "fail"]: {
-      label: string;
-      callback(service: TranslateService): void;
-    };
-  };
 }
 
 export interface SecretValidateResult {

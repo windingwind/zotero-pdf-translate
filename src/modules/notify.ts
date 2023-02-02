@@ -1,16 +1,11 @@
 export function registerNotify(types: _ZoteroTypes.Notifier.Type[]) {
   const callback = {
-    notify: async (
-      event: string,
-      type: string,
-      ids: Array<string>,
-      extraData: { [key: string]: any }
-    ) => {
+    notify: async (...data: Parameters<_ZoteroTypes.Notifier.Notify>) => {
       if (!addon?.data.alive) {
         unregisterNotify(notifyID);
         return;
       }
-      addon.hooks.onNotify(event, type, ids, extraData);
+      addon.hooks.onNotify(...data);
     },
   };
 

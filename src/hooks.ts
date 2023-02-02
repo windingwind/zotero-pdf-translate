@@ -65,11 +65,11 @@ function onShutdown(): void {
 function onNotify(
   event: string,
   type: string,
-  ids: Array<string>,
+  ids: Array<string | number>,
   extraData: { [key: string]: any }
 ) {
   if (event === "add" && type === "item") {
-    const annotationItems = Zotero.Items.get(ids).filter((item) =>
+    const annotationItems = Zotero.Items.get(ids as number[]).filter((item) =>
       item.isAnnotation()
     );
     if (annotationItems.length === 0) {

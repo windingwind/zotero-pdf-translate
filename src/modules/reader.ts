@@ -39,7 +39,7 @@ async function initializeReaderSelectionEvent(
     return;
   }
   instance._pdftranslateInitialized = true;
-  instance._iframeWindow.addEventListener("pointerup", (ev: MouseEvent) => {
+  instance._iframeWindow?.addEventListener("pointerup", (ev: MouseEvent) => {
     // Work around to only allow event from iframe#viewer
     const target = ev.target as Element;
     if (!target?.ownerDocument?.querySelector("#viewer")?.contains(target)) {
@@ -58,7 +58,10 @@ async function initializeReaderAnnotationButton(
   }
   await instance._initPromise;
   await instance._waitForReader();
-  const _document = instance._iframeWindow.document;
+  const _document = instance._iframeWindow?.document;
+  if (!_document) {
+    return [];
+  }
   const hitItems: Zotero.Item[] = [];
   for (const moreButton of _document.querySelectorAll(".more")) {
     if (moreButton.getAttribute("_pdftranslateInitialized") === "true") {
@@ -72,6 +75,9 @@ async function initializeReaderAnnotationButton(
     }
     const itemKey =
       annotationWrapper.getAttribute("data-sidebar-annotation-id") || "";
+    if (!instance.itemID) {
+      continue;
+    }
     const libraryID = Zotero.Items.get(instance.itemID).libraryID;
     const annotationItem = (await Zotero.Items.getByLibraryAndKeyAsync(
       libraryID,

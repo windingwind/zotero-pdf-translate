@@ -66,7 +66,7 @@ export function updateReaderPopup() {
 }
 
 export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
-  const popup = readerInstance._iframeWindow.document.querySelector(
+  const popup = readerInstance._iframeWindow?.document.querySelector(
     "#selection-menu"
   ) as HTMLDivElement;
   if (!popup) {

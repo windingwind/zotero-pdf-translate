@@ -1,5 +1,6 @@
 import { getService, SecretValidateResult, SERVICES } from "./config";
 import { getString } from "./locale";
+import { niutransStatusCallback } from "./niuTransLogin";
 import { getPref, setPref } from "./prefs";
 
 export interface TranslateTask {
@@ -323,6 +324,6 @@ export const secretStatusButtonData: {
       pass: "service.niutranspro.secret.pass",
       fail: "service.niutranspro.secret.fail",
     },
-    callback: (status: boolean) => {},
+    callback: niutransStatusCallback,
   },
 };

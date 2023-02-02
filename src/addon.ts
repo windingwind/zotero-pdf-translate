@@ -89,6 +89,7 @@ import { ClibpoardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ReaderTool } from "zotero-plugin-toolkit/dist/tools/reader";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
 import { ItemTreeManager } from "zotero-plugin-toolkit/dist/managers/itemTree";
+import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
 
 export class ZToolkit extends BasicTool {
   Global: typeof ToolkitGlobal;
@@ -101,6 +102,7 @@ export class ZToolkit extends BasicTool {
   PreferencePane: PreferencePaneManager;
   ReaderTabPanel: ReaderTabPanelManager;
   ReaderInstance: ReaderInstanceManager;
+  Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   Clipboard: typeof ClibpoardHelper;
 
@@ -116,6 +118,7 @@ export class ZToolkit extends BasicTool {
     this.PreferencePane = new PreferencePaneManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.ReaderInstance = new ReaderInstanceManager(this);
+    this.Dialog = DialogHelper;
     this.ProgressWindow = ProgressWindowHelper;
     this.ProgressWindow.setIconURI(
       "default",
