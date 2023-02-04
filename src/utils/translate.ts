@@ -68,7 +68,7 @@ export interface TranslateTask {
    *
    * For extra services function.
    */
-  extraTasks: Omit<TranslateTask, "extraTasks">[];
+  extraTasks: TranslateTask[] & { extraTasks: [] }[];
 }
 
 export type TranslateTaskProcessor = (
@@ -147,7 +147,11 @@ export function addTranslateTask(
 
   addon.data.translate.queue.push(newTask);
   // In case window panel requires extra translations
-  if (type === "text" && !service && addon.data.panel.windowPanel) {
+  if (
+    type === "text" &&
+    addon.data.panel.windowPanel &&
+    !addon.data.panel.windowPanel.closed
+  ) {
     (getPref("extraEngines") as string)
       .split(",")
       .filter((s) => s)
@@ -160,6 +164,7 @@ export function addTranslateTask(
           audio: [],
           service: extraService,
           candidateServices: [],
+          extraTasks: [],
           itemId,
           status: "waiting",
         })

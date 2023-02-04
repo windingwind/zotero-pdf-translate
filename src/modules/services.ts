@@ -120,6 +120,17 @@ export class TranslationServices {
     }
     // Run task
     await runner.run(task);
+    // Run extra tasks. Do not wait.
+    Promise.all(
+      task.extraTasks.map((extraTask) => {
+        return this.runTranslationTask(extraTask, {
+          noCheckZoteroItemLanguage: options.noCheckZoteroItemLanguage,
+          noDisplay: true,
+        });
+      })
+    ).then(() => {
+      addon.hooks.onReaderTabPanelRefresh();
+    });
     // Try candidate services if current run fails
     if (task.status === "fail" && task.candidateServices.length > 0) {
       task.service = task.candidateServices.shift()!;

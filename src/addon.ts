@@ -18,8 +18,8 @@ class Addon {
     };
     panel: {
       tabOptionId: string;
-      activePanels: XUL.TabPanel[];
-      windowPanel: XUL.TabPanel | null;
+      activePanels: HTMLElement[];
+      windowPanel: Window | null;
     };
     popup: {
       currentPopup: HTMLDivElement | null;

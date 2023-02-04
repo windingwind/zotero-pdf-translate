@@ -42,7 +42,33 @@ export function registerReaderTabPanel() {
     });
 }
 
-export function openWindowPanel() {}
+async function openWindowPanel() {
+  if (addon.data.panel.windowPanel && !addon.data.panel.windowPanel.closed) {
+    addon.data.panel.windowPanel.close();
+  }
+  const dialogData = {
+    loadLock: Zotero.Promise.defer(),
+  };
+  const win: Window = ztoolkit.getGlobal("openDialog")(
+    `chrome://${config.addonRef}/content/standalone.xhtml`,
+    `${config.addonRef}-standalone`,
+    `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,dialog=no,${
+      getPref("keepWindowTop") ? ",alwaysRaised=yes" : ""
+    }`,
+    dialogData
+  );
+  await dialogData.loadLock.promise;
+  buildPanel(
+    win.document.querySelector("#panel-container") as XUL.Box,
+    "standalone"
+  );
+  win.addEventListener("resize", (ev) => {
+    updateTextAreaSize(win.document);
+  });
+  buildExtraPanel(win.document.querySelector("#extra-container") as XUL.Box);
+  updateTextAreaSize(win.document);
+  addon.data.panel.windowPanel = win;
+}
 
 export function updateReaderTabPanels() {
   ztoolkit.ReaderTabPanel.changeTabPanel(addon.data.panel.tabOptionId, {
@@ -50,6 +76,9 @@ export function updateReaderTabPanels() {
   });
   cleanPanels();
   addon.data.panel.activePanels.forEach((panel) => updatePanel(panel));
+  if (addon.data.panel.windowPanel && !addon.data.panel.windowPanel.closed) {
+    updateExtraPanel(addon.data.panel.windowPanel.document);
+  }
 }
 
 function createPanel(ownerDeck: XUL.Deck, refID: string) {
@@ -102,11 +131,7 @@ function createPanel(ownerDeck: XUL.Deck, refID: string) {
   return container.querySelector("tabpanel") as XUL.TabPanel;
 }
 
-function buildPanel(
-  panel: XUL.TabPanel,
-  refID: string,
-  force: boolean = false
-) {
+function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
   const makeId = (type: string) => `${config.addonRef}-${refID}-panel-${type}`;
   // Manually existance check to avoid unnecessary element creation with ...
   if (!force && panel.querySelector(`#${makeId("root")}`)) {
@@ -134,8 +159,8 @@ function buildPanel(
             align: "center",
           },
           properties: {
-            maxHeight: 50,
-            minHeight: 50,
+            maxHeight: 30,
+            minHeight: 30,
           },
           children: [
             {
@@ -190,6 +215,19 @@ function buildPanel(
                 {
                   type: "click",
                   listener: (ev: Event) => {
+                    if (!getLastTranslateTask()) {
+                      addTranslateTask(
+                        (
+                          panel.querySelector(
+                            `#${makeId(
+                              getPref("rawResultOrder")
+                                ? "resulttext"
+                                : "rawtext"
+                            )}`
+                          ) as HTMLTextAreaElement
+                        )?.value
+                      );
+                    }
                     addon.hooks.onTranslate(undefined, {
                       noCheckZoteroItemLanguage: true,
                     });
@@ -207,8 +245,8 @@ function buildPanel(
             align: "center",
           },
           properties: {
-            maxHeight: 50,
-            minHeight: 50,
+            maxHeight: 30,
+            minHeight: 30,
           },
           children: [
             {
@@ -252,7 +290,7 @@ function buildPanel(
                     const langto = getPref("targetLanguage") as string;
                     setPref("targetLanguage", langfrom);
                     setPref("sourceLanguage", langto);
-                    addon.hooks.onReaderPopupRefresh();
+                    addon.hooks.onReaderTabPanelRefresh();
                   },
                 },
               ],
@@ -295,8 +333,8 @@ function buildPanel(
             align: "center",
           },
           properties: {
-            maxHeight: 50,
-            minHeight: 50,
+            maxHeight: 30,
+            minHeight: 30,
           },
           children: [
             {
@@ -350,8 +388,8 @@ function buildPanel(
             align: "center",
           },
           properties: {
-            maxHeight: 50,
-            minHeight: 50,
+            maxHeight: 30,
+            minHeight: 30,
           },
           children: [
             {
@@ -497,8 +535,8 @@ function buildPanel(
             align: "center",
           },
           properties: {
-            maxHeight: 50,
-            minHeight: 50,
+            maxHeight: 30,
+            minHeight: 30,
           },
           children: [
             {
@@ -584,6 +622,36 @@ function buildPanel(
             },
           ],
         },
+        {
+          tag: "hbox",
+          id: makeId("openwindow"),
+          attributes: {
+            flex: "1",
+            align: "center",
+          },
+          properties: {
+            maxHeight: 30,
+            minHeight: 30,
+          },
+          children: [
+            {
+              tag: "button",
+              namespace: "xul",
+              attributes: {
+                label: getString("readerpanel.openwindow.open.label"),
+                flex: "1",
+              },
+              listeners: [
+                {
+                  type: "click",
+                  listener: (e: Event) => {
+                    openWindowPanel();
+                  },
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     panel
@@ -593,7 +661,232 @@ function buildPanel(
   recordPanel(panel);
 }
 
-function updatePanel(panel: XUL.TabPanel) {
+function buildExtraPanel(panel: XUL.Box) {
+  ztoolkit.UI.appendElement(
+    {
+      tag: "hbox",
+      id: "extraTools",
+      attributes: {
+        flex: "1",
+        align: "center",
+      },
+      properties: {
+        maxHeight: 30,
+        minHeight: 30,
+      },
+      ignoreIfExists: true,
+      children: [
+        {
+          tag: "button",
+          namespace: "xul",
+          attributes: {
+            label: getString("readerpanel.extra.addservice.label"),
+            flex: "0",
+          },
+          listeners: [
+            {
+              type: "click",
+              listener: (ev: Event) => {
+                setPref(
+                  "extraEngines",
+                  `${getPref("extraEngines")},${SERVICES[0].id}`
+                );
+                buildExtraPanel(panel);
+                updateTextAreaSize(panel);
+              },
+            },
+          ],
+        },
+        {
+          tag: "button",
+          namespace: "xul",
+          attributes: {
+            label: getString("readerpanel.extra.resize.label"),
+            flex: "0",
+          },
+          listeners: [
+            {
+              type: "click",
+              listener: (ev: Event) => {
+                const win = addon.data.panel.windowPanel;
+                if (!win) {
+                  return;
+                }
+                Array.from(win.document.querySelectorAll("textarea")).forEach(
+                  (elem) => (elem.style.width = "280px")
+                );
+                ztoolkit.getGlobal("setTimeout")(() => {
+                  win?.resizeTo(300, win.outerHeight);
+                }, 10);
+              },
+            },
+          ],
+        },
+        {
+          tag: "button",
+          namespace: "xul",
+          attributes: {
+            label: getString(
+              `readerpanel.extra.${
+                getPref("keepWindowTop") ? "pinned" : "pin"
+              }.label`
+            ),
+            flex: "0",
+          },
+          styles: {
+            minWidth: "0px",
+          },
+          listeners: [
+            {
+              type: "click",
+              listener: (ev: Event) => {
+                setPref("keepWindowTop", !getPref("keepWindowTop"));
+                openWindowPanel();
+              },
+            },
+          ],
+        },
+      ],
+    },
+    panel
+  );
+  ztoolkit.UI.appendElement(
+    {
+      tag: "vbox",
+      attributes: {
+        flex: "1",
+        align: "stretch",
+      },
+      children: (getPref("extraEngines") as string)
+        .split(",")
+        .filter((thisServiceId) =>
+          SERVICES.find((service) => service.id === thisServiceId)
+        )
+        .map((serviceId, idx) => {
+          return {
+            tag: "vbox",
+            attributes: {
+              flex: "1",
+              align: "stretch",
+            },
+            children: [
+              {
+                tag: "hbox",
+                id: `${serviceId}-${idx}`,
+                attributes: {
+                  flex: "1",
+                  align: "center",
+                },
+                properties: {
+                  maxHeight: 30,
+                  minHeight: 30,
+                },
+                classList: [serviceId],
+                children: [
+                  {
+                    tag: "menulist",
+                    attributes: {
+                      flex: "1",
+                      value: serviceId,
+                    },
+                    listeners: [
+                      {
+                        type: "command",
+                        listener: (ev: Event) => {
+                          const menulist = ev.currentTarget as XUL.MenuList;
+                          const newService = menulist.value;
+                          const [serviceId, idx] =
+                            menulist.parentElement?.id.split("-") || [];
+                          const extraServices = (
+                            getPref("extraEngines") as string
+                          ).split(",");
+                          if (extraServices[Number(idx)] === serviceId) {
+                            // If the idx and service matches
+                            extraServices[Number(idx)] = newService;
+                            menulist.parentElement!.id = `${newService}-${idx}`;
+                            menulist.parentElement!.className = newService;
+                            setPref("extraEngines", extraServices.join(","));
+                          } else {
+                            // Otherwise reload window
+                            openWindowPanel();
+                          }
+                        },
+                      },
+                    ],
+                    children: [
+                      {
+                        tag: "menupopup",
+                        children: SERVICES.filter(
+                          (service) => service.type === "sentence"
+                        ).map((service) => ({
+                          tag: "menuitem",
+                          attributes: {
+                            label: getString(`service.${service.id}`),
+                            value: service.id,
+                          },
+                        })),
+                      },
+                    ],
+                  },
+                  {
+                    tag: "button",
+                    namespace: "xul",
+                    attributes: {
+                      label: getString("readerpanel.extra.removeservice.label"),
+                    },
+                    styles: {
+                      minWidth: "0px",
+                    },
+                    listeners: [
+                      {
+                        type: "click",
+                        listener: (ev) => {
+                          const [serviceId, idx] =
+                            (ev.target as XUL.Button).parentElement?.id.split(
+                              "-"
+                            ) || [];
+                          const extraServices = (
+                            getPref("extraEngines") as string
+                          ).split(",");
+                          // If the idx and service matches
+                          if (extraServices[Number(idx)] === serviceId) {
+                            extraServices.splice(Number(idx), 1);
+                            setPref("extraEngines", extraServices.join(","));
+                          }
+                          openWindowPanel();
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                tag: "hbox",
+                attributes: {
+                  flex: "1",
+                  spellcheck: false,
+                },
+                children: [
+                  {
+                    tag: "textarea",
+                    styles: {
+                      resize: "none",
+                      fontSize: `${getPref("fontSize")}px`,
+                      "font-family": "inherit",
+                      lineHeight: getPref("lineHeight") as string,
+                    },
+                  },
+                ],
+              },
+            ],
+          };
+        }),
+    },
+    panel
+  );
+}
+
+function updatePanel(panel: HTMLElement) {
   const idPrefix = panel
     .querySelector(`.${config.addonRef}-panel-root`)!
     .id.split("-")
@@ -650,9 +943,21 @@ function updatePanel(panel: XUL.TabPanel) {
     ?.setAttribute("collapse", reverseRawResult ? "after" : "before");
 }
 
-function updateTextAreaSize(panel: XUL.TabPanel) {
+function updateExtraPanel(container: HTMLElement | Document) {
+  const extraTasks = getLastTranslateTask()?.extraTasks;
+  if (extraTasks?.length === 0) {
+    return;
+  }
+  extraTasks?.forEach((task) => {
+    Array.from(
+      container.querySelectorAll(`.${task.service}+hbox>textarea`)
+    ).forEach((elem) => ((elem as HTMLTextAreaElement).value = task.result));
+  });
+}
+
+function updateTextAreaSize(container: HTMLElement | Document) {
   const setTimeout = ztoolkit.getGlobal("setTimeout");
-  Array.from(panel.querySelectorAll("textarea")).forEach((elem) => {
+  Array.from(container.querySelectorAll("textarea")).forEach((elem) => {
     elem.style.width = "0px";
     setTimeout(() => {
       elem.style.width = `${elem.parentElement?.scrollWidth}px`;
@@ -665,7 +970,7 @@ function updateTextAreasSize() {
   addon.data.panel.activePanels.forEach((panel) => updateTextAreaSize(panel));
 }
 
-function recordPanel(panel: XUL.TabPanel) {
+function recordPanel(panel: HTMLElement) {
   addon.data.panel.activePanels.push(panel);
 }
 
