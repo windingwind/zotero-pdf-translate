@@ -1,6 +1,6 @@
 {
   "name": "zotero-pdf-translate",
-  "version": "1.0.0-3",
+  "version": "1.0.0",
   "description": "PDF translation for Zotero built-in PDF reader.",
   "config": {
     "addonName": "Zotero PDF Translate",
