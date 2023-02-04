@@ -1,5 +1,4 @@
 <!ENTITY zotero.__addonRef__.pref.general.label "通用">
-<!ENTITY zotero.__addonRef__.pref.basic.caption.label "功能">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "自动翻译选择内容">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "启用弹窗">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "自动翻译批注">
@@ -16,16 +15,6 @@
 <!ENTITY zotero.__addonRef__.pref.service.useWordService.label "使用字典服务翻译词语">
 <!ENTITY zotero.__addonRef__.pref.service.wordServices.label "字典服务">
 <!ENTITY zotero.__addonRef__.pref.service.wordServicesSecret.label "密钥">
-<!ENTITY zotero.__addonRef__.pref.service.niutransUserName.label "账号">
-<!ENTITY zotero.__addonRef__.pref.service.niutransPassword.label "密码">
-<!ENTITY zotero.__addonRef__.pref.service.niutransDictLib.label "术语词典">
-<!ENTITY zotero.__addonRef__.pref.service.niutransMemoryLib.label "翻译记忆">
-<!ENTITY zotero.__addonRef__.pref.service.niutransSignUp.label "注册账号">
-<!ENTITY zotero.__addonRef__.pref.service.niutransForgotPassword.label "找回密码">
-<!ENTITY zotero.__addonRef__.pref.service.niutransLoginBtn.label "登录">
-<!ENTITY zotero.__addonRef__.pref.service.niutransTip.label "请到">
-<!ENTITY zotero.__addonRef__.pref.service.niutransTipLink.label "小牛翻译云平台">
-<!ENTITY zotero.__addonRef__.pref.service.niutransTipEnd.label "进行添加术语词典库">
 <!ENTITY zotero.__addonRef__.pref.service.langfrom.label "从">
 <!ENTITY zotero.__addonRef__.pref.service.langto.label "翻译到">
 <!ENTITY zotero.__addonRef__.pref.service.hint.label "带🗝️翻译服务需要密钥; 请参阅GitHub">
@@ -49,7 +38,6 @@
 <!ENTITY zotero.__addonRef__.pref.interface.rawResultOrder.label "侧边栏: 反转源/结果显示">
 <!ENTITY zotero.__addonRef__.pref.interface.keepWindowTop.label "独立窗口: 保持最前">
 <!ENTITY zotero.__addonRef__.pref.interface.keepPopupSize.label "弹窗: 记住大小">
-<!ENTITY zotero.__addonRef__.pref.interface.preview.label "预览">
 
 <!ENTITY zotero.__addonRef__.pref.advanced.label "高级">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "对特定语言文件关闭自动翻译(用','分隔)">
