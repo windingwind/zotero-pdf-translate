@@ -340,8 +340,8 @@ async function setMemoryLibList(apikey: string) {
       "niutransMemoryLibList",
       JSON.stringify(
         memoryList.map((memory) => ({
-          dictName: memory.memoryName,
-          dictNo: memory.memoryNo,
+          memoryName: memory.memoryName,
+          memoryNo: memory.memoryNo,
         }))
       )
     );

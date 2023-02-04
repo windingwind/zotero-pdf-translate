@@ -38,4 +38,25 @@ export function setDefaultPrefSettings() {
   if (getPref("translateSource") === "niutransLog") {
     setPref("translateSource", "niutranspro");
   }
+  try {
+    const oldDict = JSON.parse(
+      (getPref("niutransDictLibList") as string) || "{}"
+    );
+    if (oldDict?.dlist) {
+      setPref("niutransDictLibList", JSON.stringify(oldDict.dlist));
+    } else {
+      setPref("niutransDictLibList", "[]");
+    }
+    const oldMemory = JSON.parse(
+      (getPref("niutransMemoryLibList") as string) || "{}"
+    );
+    if (oldMemory?.mlist) {
+      setPref("niutransMemoryLibList", JSON.stringify(oldMemory?.mlist));
+    } else {
+      setPref("niutransMemoryLibList", "[]");
+    }
+  } catch (e) {
+    setPref("niutransDictLibList", "[]");
+    setPref("niutransMemoryLibList", "[]");
+  }
 }
