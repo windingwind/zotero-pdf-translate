@@ -9,6 +9,13 @@ export function updateReaderPopup() {
   if (!popup) {
     return;
   }
+  const enablePopup = getPref("enablePopup");
+  Array.from(popup.querySelectorAll(`.${config.addonRef}-readerpopup`)).forEach(
+    (elem) => ((elem as HTMLElement).hidden = !enablePopup)
+  );
+  if (!enablePopup) {
+    return;
+  }
   const task = getLastTranslateTask();
   if (!task) {
     return;
@@ -97,6 +104,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
         {
           tag: "div",
           id: makeId("audiobox"),
+          classList: [`${config.addonRef}-readerpopup`],
           styles: {
             display: "flex",
             width: "calc(100% - 4px)",
@@ -108,7 +116,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
         {
           tag: "div",
           id: makeId("translate"),
-          classList: ["wide-button"],
+          classList: ["wide-button", `${config.addonRef}-readerpopup`],
           properties: {
             innerHTML: `${SVGIcon}${getString("readerpopup.translate.label")}`,
             hidden: getPref("enableAuto"),
@@ -137,7 +145,10 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             rows: "3",
             columns: "10",
           },
-          classList: [`${config.addonRef}-popup-textarea`],
+          classList: [
+            `${config.addonRef}-popup-textarea`,
+            `${config.addonRef}-readerpopup`,
+          ],
           styles: {
             fontSize: `${getPref("fontSize")}px`,
             fontFamily: "inherit",
@@ -258,7 +269,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
         {
           tag: "div",
           id: makeId("addtonote"),
-          classList: ["wide-button"],
+          classList: ["wide-button", `${config.addonRef}-readerpopup`],
           properties: {
             innerHTML: `${SVGIcon}${Zotero.getString("pdfReader.addToNote")}`,
           },
