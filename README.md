@@ -1,5 +1,7 @@
 # ![PDFTranslate](addon/chrome/content/icons/favicon.png)Zotero PDF Translate
 
+[![Using Zotero Plugin Template](https://img.shields.io/badge/Using-Zotero%20Plugin%20Template-blue?style=flat-square&logo=github)](https://github.com/windingwind/zotero-plugin-template)
+
 This is an add-on for [Zotero](https://www.zotero.org/)'s built-in PDF reader.  
 Translate PDFs, annotations, notes, and item titles automatically.
 
