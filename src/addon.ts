@@ -85,7 +85,7 @@ import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/prefe
 import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
 import { ReaderInstanceManager } from "zotero-plugin-toolkit/dist/managers/readerInstance";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
-import { ClibpoardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
+import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ReaderTool } from "zotero-plugin-toolkit/dist/tools/reader";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
 import { ItemTreeManager } from "zotero-plugin-toolkit/dist/managers/itemTree";
@@ -104,7 +104,7 @@ export class ZToolkit extends BasicTool {
   ReaderInstance: ReaderInstanceManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
-  Clipboard: typeof ClibpoardHelper;
+  Clipboard: typeof ClipboardHelper;
 
   constructor() {
     super();
@@ -124,7 +124,7 @@ export class ZToolkit extends BasicTool {
       "default",
       `chrome://${config.addonRef}/content/icons/favicon.png`
     );
-    this.Clipboard = ClibpoardHelper;
+    this.Clipboard = ClipboardHelper;
   }
 
   unregisterAll() {
