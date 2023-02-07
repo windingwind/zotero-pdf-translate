@@ -385,11 +385,16 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
 
 function updatePopupSize(
   selectionMenu: HTMLDivElement,
-  textarea: HTMLTextAreaElement
+  textarea: HTMLTextAreaElement,
+  resetSize: boolean = true
 ): void {
   const keepSize = getPref("keepPopupSize") as boolean;
   if (keepSize) {
     return;
+  }
+  if (resetSize) {
+    textarea.style.width = "105px";
+    textarea.style.height = "30px";
   }
   const viewer = selectionMenu.ownerDocument.querySelector(
     "#viewer"
@@ -405,7 +410,7 @@ function updatePopupSize(
   ) {
     // Update width
     textarea.style.width = `${newWidth}px`;
-    updatePopupSize(selectionMenu, textarea);
+    updatePopupSize(selectionMenu, textarea, false);
     return;
   }
   // Update height
