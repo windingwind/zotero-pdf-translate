@@ -687,12 +687,14 @@ function buildExtraPanel(panel: XUL.Box) {
             {
               type: "click",
               listener: (ev: Event) => {
+                const extraServices = getPref("extraEngines");
                 setPref(
                   "extraEngines",
-                  `${getPref("extraEngines")},${SERVICES[0].id}`
+                  extraServices
+                    ? `${extraServices},${SERVICES[0].id}`
+                    : SERVICES[0].id
                 );
-                buildExtraPanel(panel);
-                updateTextAreaSize(panel);
+                openWindowPanel();
               },
             },
           ],

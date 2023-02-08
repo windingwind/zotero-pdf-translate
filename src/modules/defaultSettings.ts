@@ -29,6 +29,11 @@ export function setDefaultPrefSettings() {
     setPref("disabledLanguages", "zh,中文,中文;");
   }
 
+  const extraServices = getPref("extraEngines") as string;
+  if (extraServices.startsWith(",")) {
+    setPref("extraEngines", extraServices.slice(1));
+  }
+
   // For NiuTrans login. niutransLog is deprecated.
   const niutransApiKey = getPref("niutransApikey") as string;
   if (niutransApiKey) {
