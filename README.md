@@ -1,6 +1,8 @@
-# ![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon.png)Zotero PDF Translate
+# ![PDFTranslate](addon/chrome/content/icons/favicon.png)Zotero PDF Translate
 
-This is an add-on for [Zotero 6](https://www.zotero.org/)'s built-in PDF reader.  
+[![Using Zotero Plugin Template](https://img.shields.io/badge/Using-Zotero%20Plugin%20Template-blue?style=flat-square&logo=github)](https://github.com/windingwind/zotero-plugin-template)
+
+This is an add-on for [Zotero](https://www.zotero.org/)'s built-in PDF reader.  
 Translate PDFs, annotations, notes, and item titles automatically.
 
 [中文文档](https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d)
@@ -12,6 +14,7 @@ Translate PDFs, annotations, notes, and item titles automatically.
 ## Install
 
 ### From local file
+
 - Download the latest release (.xpi file) from the [Latest Release Page](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
   _Note_ If you're using Firefox as your browser, right-click the `.xpi` and select "Save As.."
 - In Zotero click `Tools` in the top menu bar and then click `Addons`
@@ -22,6 +25,7 @@ Translate PDFs, annotations, notes, and item titles automatically.
   Zotero PDF Translate plugin is now listed.
 
 ### From remote link
+
 - In Zotero click `Tools` in the top menu bar and then click `Addons`.
 - Drag [Latest Release](https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi) and drop it in the Zotero UI.
 - Click `install now`.
@@ -67,19 +71,18 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 ## Settings
 
-### General-Functions
+### General
 
 - Enable Translation, default `true`
 - Automatic Translation, default `true`
 - Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
 - Enable Popup: Show results in a right-click popup or only in the sidebar, default `true`
 - Automatic Annotation Translation: Save annotation's translation as comment, default `true`
-- Enable Update and Edit Last Annotation Translation, default `true`
-- Show '![PDFTranslate](addon/chrome/skin/default/zoteropdftranslate/favicon%400.5x.png)Add to Note' in Popup: default `true`
+- Show 'Add to Note(With Translation)' in Popup: default `true`
   > Unvisible if no active note editor opened.
   - Replace Source Text: Use translation to replace the source text when adding to note, default `false`
 
-### General-Translate Engine
+### Service
 
 The default engine is Google Translate. Currently, we support:  
 | Translate Engine | Require Secret | Supported Languages |
@@ -99,10 +102,6 @@ The default engine is Google Translate. Currently, we support:
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
 
 > If the engine you want is not yet supported, please post an issue.
-
-### General-Language Settings
-
-You can change the source and target language here. For some Translate Engines, the `secret` is required. They are listed below:
 
 **Microsoft Translate**  
 Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
@@ -162,7 +161,7 @@ Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,so
 
 > [Chinese Document](https://docs.openl.club/#/)
 
-### Advanced-UI
+### User Interface
 
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
@@ -170,175 +169,38 @@ Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,so
 - `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the sidebar if `true`, default `false`
 - `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
 
-### Advanced-Others
+### Advanced
 
 - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 
 ## Development & Contributing
 
-This section is for developers.
+This addon is built based on the [Zotero Plugin Template](https://github.com/windingwind/zotero-plugin-template). See the setup and debug details there.
 
-This addon is built based on the [Zotero Addon Template](https://github.com/windingwind/zotero-addon-template).
+To startup, run
 
-### Setup
-
-This repo can be used as a Zotero 6.x addon template. To start with, clone this repo and install npm dependencies:
-
-```shell
-git clone git@github.com:windingwind/zotero-pdf-translate.git
+```bash
+git clone https://github.com/windingwind/zotero-pdf-translate.git
 cd zotero-pdf-translate
-npm i
+npm install
+npm run build
 ```
 
-Change the settings in `package.json`. Modify `addonRef` and `addonID` to avoid confliction.
-
-### Directory Structure
-
-This section shows the directory structure of a template.
-
-- All `.js/.ts` code files are in `./src`;
-- Addon config files: `./addon/chrome.manifest`, `./addon/install.rdf`;
-- UI files: `./addon/chrome/content/*.xul`. The `overlay.xul` also defines the main entrance;
-- Locale files: `./addon/chrome/locale/*.dtd`;
-- Resource files: `./addon/chrome/skin/default/__addonRef__/*.dtd`;
-
-```shell
-│  .gitignore
-│  .release-it.json # release-it conf
-|  jsconfig.json    # https://code.visualstudio.com/docs/languages/jsconfig#
-│  build.js         # esbuild
-│  LICENSE
-│  package.json     # npm conf
-│  README.md        # readme
-│  update.rdf       # addon update
-│
-├─.github           # github conf
-│
-├─addon             # addon dir
-│  │  chrome.manifest  #addon conf
-│  │  install.rdf   # addon install conf
-│  │
-│  └─chrome
-│      ├─content    # UI
-│      │  │  overlay.xul
-│      │  │  preferences.xul
-│      │  │  standalone.xul
-│      │  │
-│      │  └─scripts
-│      ├─locale     # locale
-│      │  ├─en-US
-│      │  │      overlay.dtd
-│      │  │
-│      │  └─zh-CN
-│      │         overlay.dtd
-│      │
-│      └─skin       # style
-│          └─default
-│              └─zoteropdftranslate
-│                      favicon.png
-│                      favicon@0.5x.png
-│
-├─builds            # build dir
-│  └─zotero-pdf-translate.xpi
-│
-├─imgs              # readme images
-│
-└─src               # source code
-    │  index.ts     # main entry
-    │  base.ts      # base class
-    │  PDFTranslate.ts  # main class
-    │  events.ts    # events class
-    │  reader.ts    # reader class
-    │  translate.ts # translate class
-    │  view.ts      # UI class
-    │  prefs.ts     # preferences class
-    │
-    ├─translate     # translate engines
-    │       baidu.ts
-    │       caiyun.ts
-    │       config.ts
-    │       deepl.ts
-    │       google.ts
-    │       microsoft.ts
-    │       niutrans.ts
-    │       tencent.ts
-    │       youdao.ts
-    |
-    └─dict          # dictionary engines
-            youdaodict.ts
-```
-
-### Build
-
-```shell
-# A release-it command: version increase, npm run build, git push, and GitHub release
-# You need to set the environment variable GITHUB_TOKEN https://github.com/settings/tokens
-# release-it: https://github.com/release-it/release-it
-npm run release
-```
-
-Alternatively, build it directly using build.js: `npm run build`
-
-### Build Steps
-
-1. Clean `./builds`
-2. Copy `./addon` to `./builds`
-3. Esbuild to `./builds/addon/chrome/content/scripts`
-4. Replace `__buildVersion__` and `__buildTime__` in `./builds/addon`
-5. Zip the `./builds/addon` to `./builds/*.xpi`
-
-### Debug
-
-1. Copy zotero command line config file. Modify the commands.
-
-```sh
-cp zotero-cmd-default.json zotero-cmd.json
-```
-
-2. Setup addon development environment following this [link](https://www.zotero.org/support/dev/client_coding/plugin_development#setting_up_a_plugin_development_environment).
-
-3. Build addon and restart Zotero with this npm command.
-
-```sh
-npm run restart
-```
-
-You can also debug code in these ways:
-
-- Test code segments in Tools->Developer->Run Javascript;
-- Debug output with `Zotero.debug()`. Find the outputs in Help->Debug Output Logging->View Output;
-- UI debug. Zotero is built on the Firefox XUL framework. Debug XUL UI with software like [XUL Explorer](https://udn.realityripple.com/docs/Archive/Mozilla/XUL_Explorer).
-  > XUL Documents:  
-  > https://www.xul.fr/tutorial/  
-  > http://www.xulplanet.com/
+The plugin is built to `./builds/*.xpi`.
 
 ### Contributing
 
-**Search for a Zotero API**  
-Zotero docs are outdated or incomplete. Searching the source code of Zotero is unavoidable.  
-Clone https://github.com/zotero/zotero and search the keyword globally. You can search the UI text in `.xul`/`.dtd` files, and then search the keys of the text value in `.js`/`.xul` files.
+**Add new translate service**
 
-**Persistence settings**  
-Zotero Prefs can persistence a value. See `src/prefs.ts` and `addon/chrome/content/preferences.xul` for detailed usage in js/xul.
-
-**Add a translate/dict engine**
-
-1. Add a `.ts` file under `src/${translate or dict}` with the same format with other engines;
-2. Update the sources, sourcesName, and defaultSecret in `src/config.ts`;
-3. Update the `zotero-prefpane-__addonRef__-settings-${translate or dict}-source` menulist in `addon/chrome/content/preferences.xul`;
-4. Update the ui entry of the `translate/dict engine` in `addon/chrome/locale/${en-US or zh-CN}/overlay.dtd`.
-5. Import and add you `engine or dict` to the class `TransEngine` and `constructor` of `src/translate.ts`
-6. Build and test.
+1. Add service config to `src/utils/config.ts` > `SERVICES`;
+2. Add translation task processor under `src/modules/services/${serviceId}.ts` with the same format with other services. The export function set the translation result to `data.result` if runs successfully and throw an error if fails;
+3. Import the task processor function in `src/modules/services.ts`.
+4. Add locale string `service.${serviceId}` in `addon/chrome/locale/${lang}/addon.properties`.
+5. Build and test.
 
 ## Disclaimer
 
 Use this code under AGPL. No warranties are provided. Keep the laws of your locality in mind!
-
-Part of the code of this repo refers to other open-source projects within the allowed scope.
-
-- zotero-scihub
-- zotero-tag
-- zotero-better-bibtex(`d.ts`)
 
 ## My Other Zotero Addons
 

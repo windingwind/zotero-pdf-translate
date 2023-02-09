@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE window>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/overlay.css"?>
+<?xml-stylesheet href="chrome://zotero-platform-version/content/style.css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero-react-client.css"?>
+
+<window
+  id="__addonRef__-standalone"
+  title="Translate Panel"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  windowtype="__addonRef__-standalone"
+  persist="screenX screenY width height"
+  onload="window.arguments[0].loadLock.resolve()"
+>
+  <html:style>
+    #zoteropdftranslate-standalone-panel-openwindow { display: none; }
+  </html:style>
+  <hbox id="panel-container" flex="1"></hbox>
+  <vbox
+    id="extra-container"
+    flex="1"
+    style="padding: 0px 10px 10px 10px"
+  ></vbox>
+</window>

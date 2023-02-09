@@ -1,0 +1,231 @@
+<vbox
+  id="zotero-prefpane-__addonRef__"
+  onload="Zotero.__addonInstance__.hooks.onPrefsLoad(event)"
+>
+  <groupbox>
+    <label><html:h2>&zotero.__addonRef__.pref.general.label;</html:h2></label>
+    <checkbox
+      id="__addonRef__-enableAuto"
+      label="&zotero.__addonRef__.pref.basic.enableAuto.label;"
+      native="true"
+      preference="__prefsPrefix__.enableAuto"
+    />
+    <hbox>
+      <checkbox
+        id="__addonRef__-enableComment"
+        label="&zotero.__addonRef__.pref.basic.enableComment.label;"
+        native="true"
+        preference="__prefsPrefix__.enableComment"
+      />
+      <radiogroup
+        id="__addonRef__-annotationTranslationPosition"
+        class="auto-annotation"
+        orient="horizontal"
+        native="true"
+        preference="__prefsPrefix__.annotationTranslationPosition"
+      >
+        <radio
+          label="&zotero.__addonRef__.pref.basic.annotationTranslationInComment.label;"
+          value="comment"
+        />
+        <radio
+          label="&zotero.__addonRef__.pref.basic.annotationTranslationInBody.label;"
+          value="body"
+        />
+      </radiogroup>
+    </hbox>
+    <checkbox
+      id="__addonRef__-enablePopup"
+      label="&zotero.__addonRef__.pref.basic.enablePopup.label;"
+      native="true"
+      preference="__prefsPrefix__.enablePopup"
+    />
+    <hbox>
+      <checkbox
+        id="__addonRef__-enableAddToNote"
+        class="enable-popup"
+        label="&zotero.__addonRef__.pref.basic.enableNote.label;"
+        native="true"
+        preference="__prefsPrefix__.enableNote"
+      />
+      <checkbox
+        id="__addonRef__-enableNoteReplaceMode"
+        class="enable-popup enable-popup-addtonote"
+        label="&zotero.__addonRef__.pref.basic.enableNoteReplaceMode.label;"
+        native="true"
+        preference="__prefsPrefix__.enableNoteReplaceMode"
+      />
+    </hbox>
+    <hbox>
+      <checkbox
+        label="&zotero.__addonRef__.pref.audio.autoPlay;"
+        native="true"
+        preference="__prefsPrefix__.autoPlay"
+      />
+      <checkbox
+        label="&zotero.__addonRef__.pref.audio.showPlayBtn;"
+        native="true"
+        preference="__prefsPrefix__.showPlayBtn"
+      />
+    </hbox>
+  </groupbox>
+  <groupbox>
+    <label><html:h2>&zotero.__addonRef__.pref.service.label;</html:h2></label>
+    <hbox>
+      <label
+        id="tttest"
+        value="&zotero.__addonRef__.pref.service.sentenceServices.label;"
+      ></label>
+      <!-- Replace -->
+      <box id="__addonRef__-sentenceServices-placeholder"></box>
+      <label
+        value="&zotero.__addonRef__.pref.service.sentenceServicesSecret.label;"
+      ></label>
+      <html:input
+        type="text"
+        id="__addonRef__-sentenceServicesSecret"
+      ></html:input>
+      <button id="__addonRef__-sentenceServicesStatus"></button>
+    </hbox>
+    <checkbox
+      id="__addonRef__-useWordService"
+      label="&zotero.__addonRef__.pref.service.useWordService.label;"
+      native="true"
+      preference="__prefsPrefix__.enableDict"
+    />
+    <hbox>
+      <label
+        value="&zotero.__addonRef__.pref.service.wordServices.label;"
+      ></label>
+      <!-- Replace -->
+      <box id="__addonRef__-wordServices-placeholder"></box>
+      <label
+        value="&zotero.__addonRef__.pref.service.wordServicesSecret.label;"
+      ></label>
+      <html:input
+        type="text"
+        id="__addonRef__-wordServicesSecret"
+        class="use-word-service"
+      ></html:input>
+    </hbox>
+    <hbox>
+      <label value="&zotero.__addonRef__.pref.service.langfrom.label;"></label>
+      <!-- Replace -->
+      <box id="__addonRef__-langfrom-placeholder"></box>
+      <label value="&zotero.__addonRef__.pref.service.langto.label;"></label>
+      <!-- Replace -->
+      <box id="__addonRef__-langto-placeholder"></box>
+    </hbox>
+    <label value="&zotero.__addonRef__.pref.service.hint.label;"></label>
+  </groupbox>
+</vbox>
+<groupbox>
+  <label><html:h2>&zotero.__addonRef__.pref.interface.label;</html:h2></label>
+  <hbox>
+    <label value="&zotero.__addonRef__.pref.interface.fontSize.label;"></label>
+    <html:input
+      id="__addonRef__-fontSize"
+      type="text"
+      preference="__prefsPrefix__.fontSize"
+    ></html:input>
+  </hbox>
+  <hbox>
+    <label
+      value="&zotero.__addonRef__.pref.interface.lineHeight.label;"
+    ></label>
+    <html:input
+      id="__addonRef__-lineHeight"
+      type="text"
+      preference="__prefsPrefix__.lineHeight"
+    ></html:input>
+  </hbox>
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.autoFocus.label;"
+    native="true"
+    preference="__prefsPrefix__.autoFocus"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarEngine.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarEngine"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarSettings.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarSettings"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarConcat.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarConcat"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarLanguage.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarLanguage"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarRaw.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarRaw"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.rawResultOrder.label;"
+    native="true"
+    preference="__prefsPrefix__.rawResultOrder"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.showSidebarCopy.label;"
+    native="true"
+    preference="__prefsPrefix__.showSidebarCopy"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.keepWindowTop.label;"
+    native="true"
+    preference="__prefsPrefix__.keepWindowTop"
+  />
+  <checkbox
+    label="&zotero.__addonRef__.pref.interface.keepPopupSize.label;"
+    native="true"
+    preference="__prefsPrefix__.keepPopupSize"
+  />
+</groupbox>
+<groupbox>
+  <label><html:h2>&zotero.__addonRef__.pref.advanced.label;</html:h2></label>
+  <hbox>
+    <label
+      value="&zotero.__addonRef__.pref.advanced.disabledLanguages.label;"
+    ></label>
+    <html:input
+      type="text"
+      preference="__prefsPrefix__.disabledLanguages"
+    ></html:input>
+  </hbox>
+  <hbox>
+    <label
+      value="&zotero.__addonRef__.pref.advanced.extraEngines.label;"
+    ></label>
+    <html:input
+      type="text"
+      preference="__prefsPrefix__.extraEngines"
+    ></html:input>
+  </hbox>
+</groupbox>
+<groupbox>
+  <label><html:h2>&zotero.__addonRef__.pref.about.label;</html:h2></label>
+  <label
+    value="&zotero.__addonRef__.help.version.label;  &zotero.__addonRef__.help.releasetime.label;"
+  ></label>
+  <hbox>
+    <label
+      value="&zotero.__addonRef__.help.feedback.label;"
+      class="zotero-text-link"
+      href="https://github.com/windingwind/zotero-pdf-translate/issues"
+    ></label>
+    <label
+      value="&zotero.__addonRef__.help.docs.label;"
+      class="zotero-text-link"
+      href="https://zotero.yuque.com/staff-gkhviy/pdf-trans"
+    ></label>
+  </hbox>
+</groupbox>

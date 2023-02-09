@@ -1,0 +1,29 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Restart-Z6",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "restart-dev-z6"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Restart-Z7",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "restart-dev-z7"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Restart in Prod Mode",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "restart-prod"]
+    }
+  ]
+}

@@ -1,7 +1,3 @@
 content __addonRef__ chrome/content/
-skin __addonRef__ default	chrome/skin/default/__addonRef__/
 locale __addonRef__ en-US chrome/locale/en-US/
 locale __addonRef__ zh-CN chrome/locale/zh-CN/
-
-overlay chrome://zotero/content/zoteroPane.xul chrome://__addonRef__/content/overlay.xul
-overlay chrome://zotero/content/preferences/preferences.xul chrome://__addonRef__/content/preferences.xul
