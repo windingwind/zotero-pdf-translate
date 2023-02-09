@@ -336,8 +336,8 @@ export const secretStatusButtonData: {
       pass: "service.deeplcustom.secret.pass",
       fail: "service.deeplcustom.secret.fail",
     },
-    callback: function(status: boolean){
-      Zotero.launchURL("https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md")
+    callback: function() {
+      Zotero.launchURL("https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md");
     },
   },
 };
