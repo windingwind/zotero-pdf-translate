@@ -331,4 +331,13 @@ export const secretStatusButtonData: {
     },
     callback: niutransStatusCallback,
   },
+  deeplcustom: {
+    labels: {
+      pass: "service.deeplcustom.secret.pass",
+      fail: "service.deeplcustom.secret.fail",
+    },
+    callback: function(status: boolean){
+      Zotero.launchURL("https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md")
+    },
+  },
 };
