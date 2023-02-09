@@ -1,51 +1,57 @@
-[中文文档](https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README-CN.md)
+[English](https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README-EN.md)
 
-This is a fork of [Zotero PDF Translate](https://github.com/windingwind/zotero-pdf-translate), providing DeepL engine for users who have troubles creating accounts.
+本项目 fork 自 [Zotero PDF Translate](https://github.com/windingwind/zotero-pdf-translate)。
 
-# Configuration
-## Introduction
+由于各种原因，在国内注册 DeepL 的免费计划都十分困难。本项目可让用户在不注册账号的前提下，使用 DeepL 作为翻译服务。
 
-By reverse engineering DeepL client, [zu1k](https://github.com/zu1k) provides access to DeepL without creating accounts.
+# 配置
+## 简介
 
-## How-to
+[zu1k](https://github.com/zu1k) 通过逆向 DeepL 客户端使用的协议，实现免费的 DeepL API。
 
-**1. Install Docker**
+## 具体步骤
 
-See [Docker Website](https://www.docker.com/)
+**1. 安装 Docker**
 
-**2. Pull Image**
+参考： [Docker 官网](https://www.docker.com/)
 
-Run in terminal:
+**2. 拉取镜像**
+
+在终端中执行：
 
 ```Shell
 docker pull kanikig/deepl-bk
 ```
 
-zu1k has deleted the image, therefore using a backup from [KANIKIG](https://github.com/KANIKIG) .
+由于原作者 zu1k 已删除镜像，因而使用 [KANIKIG](https://github.com/KANIKIG) 的备份。
 
-**3. Deploy DeepL Service**
+**3. 部署 DeepL 服务**
 
-Mac(Intel) and Windows ：
+Mac（Intel）和 Windows ：
 
 ```Shell
 docker run -itd -p 8080:80 kanikig/deepl-bk 
 ```
 
-Mac(M1/M2)：
+
+Mac（M1/M2）：
 
 ```Shell
 docker run --platform linux/amd64 -p 8080:80 -itd kanikig/deepl-bk
 ```
 
-8080 is the port where the service will be running on. It can be modified to any other available port.
 
-**4. Configure in Zotero**
+其中，8080 是服务运行的端口，可以修改为其他数值。
 
-Zotero -> Preferences -> PDF Translate -> Services -> DeepL(Custom), enter URL in the secret section. If you follow as above, the URL should be: http://127.0.0.1:8080/translate。
+**4. 在 Zotero 中配置**
 
-## Reference
+打开 Zotero - 选项 - 翻译 - 翻译引擎 - DeepL(自定义)，在密钥中输入网址。如果按照上完进行配置，则链接为： http://127.0.0.1:8080/translate。
 
-[Mac 翻译软件Bob，使用免费DeepL API](https://zhuanlan.zhihu.com/p/484946276)
+## 参考链接
+
+如果访问速度慢，可参考 [Mac 翻译软件Bob，使用免费DeepL API](https://zhuanlan.zhihu.com/p/484946276) 设置代理。
+
+其他参考链接：
 
 [求助 zu1k/deepl 镜像](https://github.com/clubxdev/bob-plugin-deeplx/issues/2)
 
