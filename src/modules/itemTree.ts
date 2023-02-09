@@ -1,17 +1,17 @@
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 
-export function registerExtraColumns() {
-  ztoolkit.ItemTree.register(
+export async function registerExtraColumns() {
+  await ztoolkit.ItemTree.register(
     "titleTranslation",
-    getString("columns.titleTranslation"),
+    getString("field.titleTranslation"),
     (
       field: string,
       unformatted: boolean,
       includeBaseMapped: boolean,
       item: Zotero.Item
     ) => {
-      return ztoolkit.ExtraField.getExtraField(item, "titleTranslation") || "";
+      return ztoolkit.ExtraField.getExtraField(item, field) || "";
     }
   );
 }

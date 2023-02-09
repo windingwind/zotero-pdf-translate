@@ -89,6 +89,7 @@ import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ReaderTool } from "zotero-plugin-toolkit/dist/tools/reader";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
 import { ItemTreeManager } from "zotero-plugin-toolkit/dist/managers/itemTree";
+import { ItemBoxManager } from "zotero-plugin-toolkit/dist/managers/itemBox";
 import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
 
 export class ZToolkit extends BasicTool {
@@ -99,6 +100,7 @@ export class ZToolkit extends BasicTool {
   Shortcut: ShortcutManager;
   Menu: MenuManager;
   ItemTree: ItemTreeManager;
+  ItemBox: ItemBoxManager;
   PreferencePane: PreferencePaneManager;
   ReaderTabPanel: ReaderTabPanelManager;
   ReaderInstance: ReaderInstanceManager;
@@ -115,6 +117,7 @@ export class ZToolkit extends BasicTool {
     this.Shortcut = new ShortcutManager(this);
     this.Menu = new MenuManager(this);
     this.ItemTree = new ItemTreeManager(this);
+    this.ItemBox = new ItemBoxManager(this);
     this.PreferencePane = new PreferencePaneManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.ReaderInstance = new ReaderInstanceManager(this);

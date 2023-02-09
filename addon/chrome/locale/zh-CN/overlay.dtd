@@ -36,6 +36,8 @@
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarRaw.label "侧边栏: 显示源文本">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarCopy.label "侧边栏: 显示复制按钮">
 <!ENTITY zotero.__addonRef__.pref.interface.rawResultOrder.label "侧边栏: 反转源/结果显示">
+<!ENTITY zotero.__addonRef__.pref.interface.showItemBoxTitleTranslation.label "信息边栏: 显示标题翻译">
+<!ENTITY zotero.__addonRef__.pref.interface.showItemBoxAbstractTranslation.label "信息边栏：显示摘要翻译">
 <!ENTITY zotero.__addonRef__.pref.interface.keepWindowTop.label "独立窗口: 保持最前">
 <!ENTITY zotero.__addonRef__.pref.interface.keepPopupSize.label "弹窗: 记住大小">
 

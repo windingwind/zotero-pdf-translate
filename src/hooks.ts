@@ -30,6 +30,7 @@ import {
 } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
+import { registerItemBoxExtraRows } from "./modules/itemBox";
 
 async function onStartup() {
   await Promise.all([
@@ -46,7 +47,8 @@ async function onStartup() {
   registerReaderInitializer();
   registerPrefsWindow();
   registerMenu();
-  registerExtraColumns();
+  await registerExtraColumns();
+  await registerItemBoxExtraRows();
   registerTitleRenderer();
   registerShortcuts();
 }

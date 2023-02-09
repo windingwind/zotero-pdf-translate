@@ -19,6 +19,8 @@ pref("__prefsPrefix__.showSidebarConcat", true);
 pref("__prefsPrefix__.showSidebarLanguage", true);
 pref("__prefsPrefix__.showSidebarRaw", true);
 pref("__prefsPrefix__.showSidebarCopy", true);
+pref("__prefsPrefix__.showItemBoxTitleTranslation", true);
+pref("__prefsPrefix__.showItemBoxAbstractTranslation", true);
 pref("__prefsPrefix__.keepWindowTop", false);
 pref("__prefsPrefix__.keepPopupSize", false);
 pref("__prefsPrefix__.popupWidth", 105);

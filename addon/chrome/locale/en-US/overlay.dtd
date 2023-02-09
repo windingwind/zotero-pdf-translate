@@ -36,6 +36,8 @@
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarRaw.label "SideBar: Show Raw">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarCopy.label "SideBar: Show Copy Buttons">
 <!ENTITY zotero.__addonRef__.pref.interface.rawResultOrder.label "SideBar: Reverse Raw/Result">
+<!ENTITY zotero.__addonRef__.pref.interface.showItemBoxTitleTranslation.label "Info Panel: Show Title Translation">
+<!ENTITY zotero.__addonRef__.pref.interface.showItemBoxAbstractTranslation.label "Info Panel: Show Abstract Translation">
 <!ENTITY zotero.__addonRef__.pref.interface.keepWindowTop.label "Standalone: Keep Window on Top">
 <!ENTITY zotero.__addonRef__.pref.interface.keepPopupSize.label "Popup: Remember Size">
 
