@@ -79,6 +79,7 @@ export function updateReaderTabPanels() {
   if (addon.data.panel.windowPanel && !addon.data.panel.windowPanel.closed) {
     updateExtraPanel(addon.data.panel.windowPanel.document);
   }
+  updateTextAreasSize(true);
 }
 
 function createPanel(ownerDeck: XUL.Deck, refID: string) {
@@ -957,9 +958,16 @@ function updateExtraPanel(container: HTMLElement | Document) {
   });
 }
 
-function updateTextAreaSize(container: HTMLElement | Document) {
+function updateTextAreaSize(
+  container: HTMLElement | Document,
+  noDelay: boolean = false
+) {
   const setTimeout = ztoolkit.getGlobal("setTimeout");
   Array.from(container.querySelectorAll("textarea")).forEach((elem) => {
+    if (noDelay) {
+      elem.style.width = `${elem.parentElement?.scrollWidth}px`;
+      return;
+    }
     elem.style.width = "0px";
     setTimeout(() => {
       elem.style.width = `${elem.parentElement?.scrollWidth}px`;
@@ -967,9 +975,11 @@ function updateTextAreaSize(container: HTMLElement | Document) {
   });
 }
 
-function updateTextAreasSize() {
+function updateTextAreasSize(noDelay: boolean = false) {
   cleanPanels();
-  addon.data.panel.activePanels.forEach((panel) => updateTextAreaSize(panel));
+  addon.data.panel.activePanels.forEach((panel) =>
+    updateTextAreaSize(panel, noDelay)
+  );
 }
 
 function recordPanel(panel: HTMLElement) {
