@@ -25,7 +25,7 @@ export default <TranslateTaskProcessor>async function (data) {
     throw "Parse error";
   }
   let tgt = "";
-  for (let line of res.split("，").slice(1)) {
+  for (let line of res.split("，").slice(3)) {
     if (line.indexOf("网络释义") > -1) {
       tgt += line.slice(0, line.lastIndexOf("；"));
     } else {
