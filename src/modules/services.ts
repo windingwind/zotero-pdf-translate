@@ -32,7 +32,7 @@ export class TranslationServices {
     });
     import("./services/deeplcustom").then(
       (e) => (this.deeplcustom = new TranslateTaskRunner(e.default))
-    ); 
+    );
     import("./services/freedictionaryapi").then(
       (e) => (this.freedictionaryapi = new TranslateTaskRunner(e.default))
     );
@@ -81,7 +81,7 @@ export class TranslationServices {
       noCheckZoteroItemLanguage?: boolean;
       noDisplay?: boolean;
     } = {}
-  ) {
+  ): Promise<boolean> {
     ztoolkit.log("runTranslationTask", options);
     task = task || getLastTranslateTask();
     if (!task || !task.raw) {
@@ -109,6 +109,7 @@ export class TranslationServices {
     }
     // Remove possible translation results (for annotations).
     task.raw = task.raw.replace(/🔤[\s\S]*🔤/g, "");
+    task.result = "";
     // Display raw
     if (!options.noDisplay) {
       addon.hooks.onReaderPopupRefresh();
@@ -124,21 +125,23 @@ export class TranslationServices {
     // Run task
     await runner.run(task);
     // Run extra tasks. Do not wait.
-    Promise.all(
-      task.extraTasks.map((extraTask) => {
-        return this.runTranslationTask(extraTask, {
-          noCheckZoteroItemLanguage: options.noCheckZoteroItemLanguage,
-          noDisplay: true,
-        });
-      })
-    ).then(() => {
-      addon.hooks.onReaderTabPanelRefresh();
-    });
+    if (task.extraTasks?.length) {
+      Promise.all(
+        task.extraTasks.map((extraTask) => {
+          return this.runTranslationTask(extraTask, {
+            noCheckZoteroItemLanguage: options.noCheckZoteroItemLanguage,
+            noDisplay: true,
+          });
+        })
+      ).then(() => {
+        addon.hooks.onReaderTabPanelRefresh();
+      });
+    }
     // Try candidate services if current run fails
     if (task.status === "fail" && task.candidateServices.length > 0) {
       task.service = task.candidateServices.shift()!;
       task.status = "waiting";
-      await runner.run(task);
+      return await this.runTranslationTask(task, options);
     } else {
       // Display result
       if (!options.noDisplay) {
