@@ -3,7 +3,7 @@
     "zoteropdftranslate@euclpts.com": {
       "updates": [
         {
-          "version": "1.0.8",
+          "version": "1.0.9",
           "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi",
           "applications": {
             "gecko": {
@@ -12,7 +12,7 @@
           }
         },
         {
-          "version": "1.0.8",
+          "version": "1.0.9",
           "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi",
           "applications": {
             "zotero": {
