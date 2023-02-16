@@ -122,7 +122,8 @@ export function addTranslateTask(
     (addon.data.translate.concatCheckbox || addon.data.translate.concatKey);
   const lastTask = getLastTranslateTask({ type: "text" });
   if (isConcatMode && lastTask) {
-    lastTask.raw += "" + raw;
+    lastTask.raw += " " + raw;
+    lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
     return;
   }
   // Create a new task
@@ -336,8 +337,10 @@ export const secretStatusButtonData: {
       pass: "service.deeplcustom.secret.pass",
       fail: "service.deeplcustom.secret.fail",
     },
-    callback: function() {
-      Zotero.launchURL("https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md");
+    callback: function () {
+      Zotero.launchURL(
+        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md"
+      );
     },
   },
 };
