@@ -40,6 +40,7 @@ export function registerReaderTabPanel() {
     ?.addEventListener("click", (ev) => {
       updateTextAreasSize();
     });
+  updateTextAreasSize(true);
 }
 
 async function openWindowPanel() {
