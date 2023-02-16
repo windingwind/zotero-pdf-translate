@@ -125,13 +125,11 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "deeplcustom",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = secret;
+      const flag = Boolean(secret);
       return {
         secret,
         status: flag,
-        info: flag
-          ? ""
-          : `Please enter custom DeepL URL.`,
+        info: flag ? "" : `Please enter custom DeepL URL.`,
       };
     },
   },
