@@ -164,6 +164,8 @@ function onReaderTextSelection(readerInstance: _ZoteroTypes.ReaderInstance) {
   const selection = ztoolkit.Reader.getSelectedText(readerInstance);
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
+    addon.hooks.onReaderPopupBuild(readerInstance);
+    addon.hooks.onReaderPopupRefresh();
     return;
   }
   addTranslateTask(selection, readerInstance.itemID);
