@@ -122,6 +122,21 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "deeplcustom",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const flag = secret;
+      return {
+        secret,
+        status: flag,
+        info: flag
+          ? ""
+          : `Please enter custom DeepL URL.`,
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "baidu",
     defaultSecret: "appid#key",
     secretValidator(secret: string) {
