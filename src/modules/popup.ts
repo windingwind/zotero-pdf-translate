@@ -155,10 +155,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             lineHeight: `${
               Number(getPref("lineHeight")) * Number(getPref("fontSize"))
             }px`,
-            width: `${Math.max(
-              keepSize ? Number(getPref("popupWidth")) : 105,
-              popup.scrollWidth - 4
-            )}px`,
+            width: "-moz-available",
             height: `${Math.max(
               keepSize ? Number(getPref("popupHeight")) : 30
             )}px`,
@@ -393,7 +390,7 @@ function updatePopupSize(
     return;
   }
   if (resetSize) {
-    textarea.style.width = "105px";
+    textarea.style.width = "-moz-available";
     textarea.style.height = "30px";
   }
   const viewer = selectionMenu.ownerDocument.querySelector(
