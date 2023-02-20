@@ -124,7 +124,6 @@ export class ZToolkit extends BasicTool {
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.ReaderInstance = new ReaderInstanceManager(this);
     this.Prompt = new PromptManager(this);
-
     this.Dialog = DialogHelper;
     this.ProgressWindow = ProgressWindowHelper;
     this.ProgressWindow.setIconURI(
