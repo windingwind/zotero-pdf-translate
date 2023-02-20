@@ -31,6 +31,7 @@ import {
 import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
+import { registerPrompt } from "./modules/prompt";
 
 async function onStartup() {
   await Promise.all([
@@ -51,6 +52,7 @@ async function onStartup() {
   await registerItemBoxExtraRows();
   registerTitleRenderer();
   registerShortcuts();
+  registerPrompt()
 }
 
 function onShutdown(): void {
