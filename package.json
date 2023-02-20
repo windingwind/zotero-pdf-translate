@@ -40,18 +40,18 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "jsencrypt": "^3.3.1",
-    "zotero-plugin-toolkit": "^2.0.5"
+    "zotero-plugin-toolkit": "^2.0.6"
   },
   "devDependencies": {
-    "@types/node": "^18.11.17",
-    "compressing": "^1.6.3",
+    "@types/node": "^18.14.0",
+    "compressing": "^1.7.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.4",
-    "minimist": "^1.2.7",
+    "esbuild": "^0.17.9",
+    "minimist": "^1.2.8",
     "release-it": "^15.6.0",
     "replace-in-file": "^6.3.5",
-    "typescript": "^4.9.4",
-    "zotero-types": "^1.0.10"
+    "typescript": "^4.9.5",
+    "zotero-types": "^1.0.11"
   }
 }
