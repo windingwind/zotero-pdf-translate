@@ -25,7 +25,6 @@ export function registerPrompt() {
         // @ts-ignore
         prompt.exit()
       }
-      console.log(task)
       prompt.inputNode.placeholder = task.service
       const rawText = task.raw, resultText = task.result;
 
@@ -49,7 +48,6 @@ export function registerPrompt() {
           }
         }
         sentences = sentences.filter(s => s.length > 0)
-        console.log(sentences)
         for (let i = 0; i < sentences.length; i++) {
           console.log(sentences[i])
           node.appendChild(ztoolkit.UI.createElement(document, "span", {
@@ -169,7 +167,6 @@ export function registerPrompt() {
         document.removeEventListener('mouseup', mouseUpHandler);
       };
       resizer.addEventListener('mousedown', mouseDownHandler);
-      // resizer
       container.append(rawDiv, resizer, resultDiv)
     }
   }])
