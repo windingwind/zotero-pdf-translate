@@ -3,7 +3,7 @@ import { config } from "../../package.json";
 export function registerPrompt() {
   ztoolkit.Prompt.register([{
     name: "Translate Sentences",
-    label: "Translate",
+    label: config.addonName,
     when: () => {
       const selection = ztoolkit.Reader.getSelectedText(
         Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)
