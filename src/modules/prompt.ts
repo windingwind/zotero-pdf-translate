@@ -1,21 +1,22 @@
 import { config } from "../../package.json";
 
 export function registerPrompt() {
+  let getSelection = () => {
+    return ztoolkit.Reader.getSelectedText(
+      Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)
+    );
+  }
   ztoolkit.Prompt.register([{
     name: "Translate Sentences",
     label: config.addonInstance,
     when: () => {
-      const selection = ztoolkit.Reader.getSelectedText(
-        Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)
-      );
+      const selection = getSelection();
       const sl = Zotero.Prefs.get("ZoteroPDFTranslate.sourceLanguage") as string
       const tl = Zotero.Prefs.get("ZoteroPDFTranslate.targetLanguage") as string
       return selection.length > 0 && Zotero?.PDFTranslate && sl.startsWith("en") && tl.startsWith("zh")
     },
     callback: async (prompt) => {
-      const selection = ztoolkit.Reader.getSelectedText(
-        Zotero.Reader.getByTabID(Zotero_Tabs.selectedID)
-      );
+      const selection = getSelection();
       const queue = Zotero.PDFTranslate.data.translate.queue
       let task = queue.find((task: any) => task.raw == selection && task.result.length > 0)
       if (!task) {
@@ -49,37 +50,41 @@ export function registerPrompt() {
         sentences = sentences.filter(s => s.length > 0)
         for (let i = 0; i < sentences.length; i++) {
           console.log(sentences[i])
-          node.appendChild(ztoolkit.UI.createElement(document, "span", {
-            id: `sentence-${i}`,
-            properties: {
-              innerText: sentences[i]
-            },
-            styles: {
-              borderRadius: "3px"
-            },
-            listeners: [
-              {
-                type: "mousemove",
-                listener: function () {
-                  const hightlightColor = "#fee972"
-                  // @ts-ignore
-                  const span = this as HTMLSpanElement
-                  const parentNode = span.parentNode as HTMLDivElement
-                  parentNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "")
-                  span.style.backgroundColor = hightlightColor
-                  const siblingNode = (parentNode?.previousSibling?.previousSibling || parentNode?.nextSibling?.nextSibling) as HTMLDivElement
-                  siblingNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "");
-                  const twinSpan = siblingNode.querySelector(`span[id=sentence-${i}]`) as HTMLSpanElement
-                  twinSpan.style.backgroundColor = hightlightColor;
-                  if (direction == "column" && siblingNode.classList.contains("result")) {
-                    siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5 - parentNode.offsetHeight);
-                  } else {
-                    siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5);
+          ztoolkit.UI.appendElement(
+            {
+              tag: "span",
+              id: `sentence-${i}`,
+              properties: {
+                innerText: sentences[i]
+              },
+              styles: {
+                borderRadius: "3px"
+              },
+              listeners: [
+                {
+                  type: "mousemove",
+                  listener: function () {
+                    const highlightColor = "#fee972"
+                    // @ts-ignore
+                    const span = this as HTMLSpanElement
+                    const parentNode = span.parentNode as HTMLDivElement
+                    parentNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "")
+                    span.style.backgroundColor = highlightColor
+                    const siblingNode = (parentNode?.previousSibling?.previousSibling || parentNode?.nextSibling?.nextSibling) as HTMLDivElement
+                    siblingNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "");
+                    const twinSpan = siblingNode.querySelector(`span[id=sentence-${i}]`) as HTMLSpanElement
+                    twinSpan.style.backgroundColor = highlightColor;
+                    if (direction == "column" && siblingNode.classList.contains("result")) {
+                      siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5 - parentNode.offsetHeight);
+                    } else {
+                      siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5);
+                    }
                   }
                 }
-              }
-            ]
-          }))
+              ]
+            },
+            node
+          )
         }
       }
       const container = prompt.createCommandsContainer() as HTMLDivElement
@@ -88,13 +93,13 @@ export function registerPrompt() {
       const direction = directions[1]
       // @ts-ignore
       container.style = `
-          display: flex;
-          flex-direction: ${direction};
-          padding: .5em 1em;
-          margin-left: 0px;
-          width: 100%;
-          height: 25em;
-        `
+        display: flex;
+        flex-direction: ${direction};
+        padding: .5em 1em;
+        margin-left: 0px;
+        width: 100%;
+        height: 25em;
+      `
       const props = {
         styles: {
           height: "100%",
@@ -134,10 +139,11 @@ export function registerPrompt() {
       const rect = container.getBoundingClientRect();
       const H = rect.height;
       const W = rect.width;
-      const mouseDownHandler = function (e: any) {
+      const mouseDownHandler = function (e: MouseEvent) {
         // hide
-        rawDiv.childNodes.forEach((e: any) => e.style.display = "none")
-        resultDiv.childNodes.forEach((e: any) => e.style.display = "none")
+        [rawDiv, resultDiv].forEach(div => {
+          div.querySelectorAll("span").forEach((e: HTMLSpanElement) => e.style.display = "none")
+        })
         y = e.clientY;
         x = e.clientX;
         const rect = resultDiv.getBoundingClientRect()
@@ -146,7 +152,7 @@ export function registerPrompt() {
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
       };
-      const mouseMoveHandler = function (e: any) {
+      const mouseMoveHandler = function (e: MouseEvent) {
         const dy = e.clientY - y;
         const dx = e.clientX - x;
         if (direction == "column") {
@@ -160,8 +166,9 @@ export function registerPrompt() {
       };
       const mouseUpHandler = function () {
         // show
-        rawDiv.childNodes.forEach((e: any) => e.style.display = "")
-        resultDiv.childNodes.forEach((e: any) => e.style.display = "")
+        [rawDiv, resultDiv].forEach(div => {
+          div.querySelectorAll("span").forEach((e: HTMLSpanElement) => e.style.display = "")
+        })
         document.removeEventListener('mousemove', mouseMoveHandler);
         document.removeEventListener('mouseup', mouseUpHandler);
       };
