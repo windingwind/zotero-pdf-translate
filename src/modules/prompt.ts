@@ -19,6 +19,7 @@ export function registerPrompt() {
       const selection = getSelection();
       const queue = Zotero.PDFTranslate.data.translate.queue
       let task = queue.find((task: any) => task.raw == selection && task.result.length > 0)
+      task = null
       if (!task) {
         prompt.showTip("Loading...")
         task = await Zotero.PDFTranslate.api.translate(selection)
@@ -29,27 +30,48 @@ export function registerPrompt() {
       prompt.inputNode.placeholder = task.service
       const rawText = task.raw, resultText = task.result;
 
-      let addSentences = (node: HTMLElement, text: string, sep: string) => {
-        let sentences = text.match(new RegExp(`.+?${sep}\\s*`, "g"))! as string[]
+      let addSentences = (node: HTMLElement, text: string, dividers: string[]) => {
         let i = 0
-        while (i < sentences.length - 1) {
-          if (
-            // Fig. 5
-            /(table|fig|figure)\.\s*$/i.test(sentences[i]) ||
-            // et al.,
-            (/(et al)\.$/i.test(sentences[i]) && /^,/i.test(sentences[i + 1])) ||
-            // 2.33
-            (/\d\.$/i.test(sentences[i]) && /^\d/i.test(sentences[i + 1]))
-          ) {
-            sentences[i] = sentences[i] + sentences[i + 1]
-            sentences.splice(i + 1, 1)
-          } else {
-            i += 1
-          }
+        let sentences: string[] = []
+        let sentence = ""
+        // https://www.npmjs.com/package/sentence-extractor?activeTab=explore
+        const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "ie.",
+          "eg.", "e.g.", "et al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms."]
+        const abbrLength = 2
+        let isAbbr = (i: number) => {
+          return abbrs.find((abbr: string) => {
+            return (
+              i >= abbr.length && text[i - abbr.length] == " " &&
+              text.slice(i - abbr.length + 1, i + 1).toLowerCase() == abbr.toLowerCase()
+            )
+          })
         }
-        sentences = sentences.filter(s => s.length > 0)
+        let isNumber = (i: number) => {
+          return i - 1 >= 0 && /\d/.test(text[i - 1]) && i + 1 < text.length && /\d/.test(text[i + 1])
+        }
+        while (i < text.length) {
+          let char = text[i]
+          sentence += char
+          if (dividers.indexOf(char) != -1) {
+            if (char == ".") {
+              if (isAbbr(i) || isNumber(i)) {
+                i += 1
+                continue
+              }
+            }
+            const blank = " "
+            i += 1
+            while (text[i] == blank) {
+              sentence += blank
+              i += 1
+            }
+            sentences.push(sentence)
+            sentence = ""
+            continue
+          }
+          i += 1
+        }
         for (let i = 0; i < sentences.length; i++) {
-          console.log(sentences[i])
           ztoolkit.UI.appendElement(
             {
               tag: "span",
@@ -92,13 +114,13 @@ export function registerPrompt() {
       const directions = ["row", "column"]
       const direction = directions[1]
       container.setAttribute("style", `
-        display: flex;
-        flex-direction: ${direction};
-        padding: .5em 1em;
-        margin-left: 0px;
-        width: 100%;
-        height: 25em;
-      `)
+          display: flex;
+          flex-direction: ${direction};
+          padding: .5em 1em;
+          margin-left: 0px;
+          width: 100%;
+          height: 25em;
+        `)
       const props = {
         styles: {
           height: "100%",
@@ -117,12 +139,13 @@ export function registerPrompt() {
         ...props,
         classList: ["raw"]
       })
-      addSentences(rawDiv, rawText, "[\\.;]")
+
+      addSentences(rawDiv, rawText, [".", ";", "?", "!"])
       const resultDiv = ztoolkit.UI.createElement(document, "div", {
         ...props,
         classList: ["result"]
       })
-      addSentences(resultDiv, resultText, "[。;；]")
+      addSentences(resultDiv, resultText, [";", "?", "!", "！", "；", "。", "？"])
       const size = 5
       const resizer = ztoolkit.UI.createElement(document, "div", {
         styles: {

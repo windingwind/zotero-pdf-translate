@@ -40,6 +40,7 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "jsencrypt": "^3.3.1",
+    "sentence-extractor": "^1.0.7",
     "zotero-plugin-toolkit": "^2.0.5"
   },
   "devDependencies": {
