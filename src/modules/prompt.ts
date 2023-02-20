@@ -37,7 +37,6 @@ export function registerPrompt() {
         // https://www.npmjs.com/package/sentence-extractor?activeTab=explore
         const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "ie.",
           "eg.", "e.g.", "et al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms."]
-        const abbrLength = 2
         let isAbbr = (i: number) => {
           return abbrs.find((abbr: string) => {
             return (
