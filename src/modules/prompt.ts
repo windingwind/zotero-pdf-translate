@@ -40,7 +40,6 @@ export function registerPrompt() {
             // 2.33
             (/\d\.$/i.test(sentences[i]) && /^\d/i.test(sentences[i + 1]))
           ) {
-            console.log(sentences[i], "-", sentences[i + 1])
             sentences[i] = sentences[i] + sentences[i + 1]
             sentences.splice(i + 1, 1)
           } else {
