@@ -91,15 +91,14 @@ export function registerPrompt() {
       // TODO: prefs: direction
       const directions = ["row", "column"]
       const direction = directions[1]
-      // @ts-ignore
-      container.style = `
+      container.setAttribute("style", `
         display: flex;
         flex-direction: ${direction};
         padding: .5em 1em;
         margin-left: 0px;
         width: 100%;
         height: 25em;
-      `
+      `)
       const props = {
         styles: {
           height: "100%",
