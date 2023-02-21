@@ -37,23 +37,34 @@ export function registerPrompt() {
         // https://www.npmjs.com/package/sentence-extractor?activeTab=explore
         const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "ie.",
           "eg.", "e.g.", "et al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms."]
+        let getWord = (i: number) => {
+          let before, after;
+          before = text.slice(0, i).match(/[\.a-zA-Z]+$/)
+          after = text.slice(i + 1).match(/^[\.a-zA-Z]+/)
+          let word = ([before, ["."], after].filter(i => i) as string[][])
+            .map((i: string[]) => i[0]).join("")
+          return word
+        }
         let isAbbr = (i: number) => {
+          const word = getWord(i)
           return abbrs.find((abbr: string) => {
-            return (
-              i >= abbr.length && text[i - abbr.length] == " " &&
-              text.slice(i - abbr.length + 1, i + 1).toLowerCase() == abbr.toLowerCase()
-            )
+            return word.toLowerCase() == abbr.toLowerCase()
           })
         }
         let isNumber = (i: number) => {
           return i - 1 >= 0 && /\d/.test(text[i - 1]) && i + 1 < text.length && /\d/.test(text[i + 1])
+        }
+        let isPotentialAbbr = (i: number) => {
+          const word = getWord(i)
+          let parts = word.split(".").filter(i => i)
+          return parts.length > 2 && parts.every(part => part.length <= 2)
         }
         while (i < text.length) {
           let char = text[i]
           sentence += char
           if (dividers.indexOf(char) != -1) {
             if (char == ".") {
-              if (isAbbr(i) || isNumber(i)) {
+              if (isAbbr(i) || isNumber(i) || isPotentialAbbr(i)) {
                 i += 1
                 continue
               }
