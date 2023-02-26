@@ -169,7 +169,6 @@ export function registerPrompt() {
           cursor: direction == "column" ? "ns-resize" : "ew-resize",
         },
       })
-      // 可调
       let y = 0, x = 0;
       let h = 0, w = 0;
       const rect = container.getBoundingClientRect();
