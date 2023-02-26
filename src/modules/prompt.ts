@@ -36,7 +36,7 @@ export function registerPrompt() {
         let sentence = ""
         // https://www.npmjs.com/package/sentence-extractor?activeTab=explore
         const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "ie.",
-          "eg.", "e.g.", "et al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms."]
+          "eg.", "e.g.", "al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms.", "fig."]
         let getWord = (i: number) => {
           let before, after;
           before = text.slice(0, i).match(/[\.a-zA-Z]+$/)
@@ -46,9 +46,13 @@ export function registerPrompt() {
           return word
         }
         let isAbbr = (i: number) => {
-          const word = getWord(i)
+          const word = getWord(i).toLowerCase().replace(/\s+/g, " ")
           return abbrs.find((abbr: string) => {
-            return word.toLowerCase() == abbr.toLowerCase()
+            abbr = abbr.toLowerCase()
+            if (word.includes("al.")) {
+              console.log(word, abbr)
+            }
+            return word == abbr
           })
         }
         let isNumber = (i: number) => {
@@ -150,12 +154,12 @@ export function registerPrompt() {
         classList: ["raw"]
       })
 
-      addSentences(rawDiv, rawText, [".", ";", "?", "!"])
+      addSentences(rawDiv, rawText, [".", "?", "!"])
       const resultDiv = ztoolkit.UI.createElement(document, "div", {
         ...props,
         classList: ["result"]
       })
-      addSentences(resultDiv, resultText, [";", "?", "!", "！", "；", "。", "？"])
+      addSentences(resultDiv, resultText, ["?", "!", "！", "。", "？"])
       const size = 5
       const resizer = ztoolkit.UI.createElement(document, "div", {
         styles: {
