@@ -29,7 +29,6 @@ export function registerPrompt() {
       }
       prompt.inputNode.placeholder = task.service
       const rawText = task.raw, resultText = task.result;
-
       let addSentences = (node: HTMLElement, text: string, dividers: string[]) => {
         let i = 0
         let sentences: string[] = []
@@ -49,9 +48,6 @@ export function registerPrompt() {
           const word = getWord(i).toLowerCase().replace(/\s+/g, " ")
           return abbrs.find((abbr: string) => {
             abbr = abbr.toLowerCase()
-            if (word.includes("al.")) {
-              console.log(word, abbr)
-            }
             return word == abbr
           })
         }
@@ -68,7 +64,7 @@ export function registerPrompt() {
           sentence += char
           if (dividers.indexOf(char) != -1) {
             if (char == ".") {
-              if (isAbbr(i) || isNumber(i) || isPotentialAbbr(i)) {
+              if (((isAbbr(i) || isPotentialAbbr(i)) && !/^\.\s[A-Z]/.test(text.slice(i))) || isNumber(i)) {
                 i += 1
                 continue
               }
