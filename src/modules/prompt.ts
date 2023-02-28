@@ -34,7 +34,7 @@ export function registerPrompt() {
         let sentences: string[] = []
         let sentence = ""
         // https://www.npmjs.com/package/sentence-extractor?activeTab=explore
-        const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "ie.",
+        const abbrs = ["a.m.", "p.m.", "etc.", "vol.", "inc.", "jr.", "dr.", "tex.", "co.", "prof.", "rev.", "revd.", "hon.", "v.s.", "i.e.", "ie.",
           "eg.", "e.g.", "al.", "st.", "ph.d.", "capt.", "mr.", "mrs.", "ms.", "fig."]
         let getWord = (i: number) => {
           let before, after;
@@ -51,9 +51,9 @@ export function registerPrompt() {
             return word == abbr
           })
         }
-        let isNumber = (i: number) => {
-          return i - 1 >= 0 && /\d/.test(text[i - 1]) && i + 1 < text.length && /\d/.test(text[i + 1])
-        }
+        // let isNumber = (i: number) => {
+        //   return i - 1 >= 0 && /\d/.test(text[i - 1]) && i + 1 < text.length && /\d/.test(text[i + 1])
+        // }
         let isPotentialAbbr = (i: number) => {
           const word = getWord(i)
           let parts = word.split(".").filter(i => i)
@@ -64,7 +64,7 @@ export function registerPrompt() {
           sentence += char
           if (dividers.indexOf(char) != -1) {
             if (char == ".") {
-              if (((isAbbr(i) || isPotentialAbbr(i)) && !/^\.\s[A-Z]/.test(text.slice(i))) || isNumber(i)) {
+              if ((i + 1< text.length && text[i+1] != " ") || ((isAbbr(i) || isPotentialAbbr(i)) && !/^\.\s[A-Z]/.test(text.slice(i)))) {
                 i += 1
                 continue
               }
