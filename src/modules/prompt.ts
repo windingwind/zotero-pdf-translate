@@ -82,7 +82,7 @@ export function registerPrompt() {
           i += 1
         }
         for (let i = 0; i < sentences.length; i++) {
-          ztoolkit.UI.appendElement(
+          const span = ztoolkit.UI.appendElement(
             {
               tag: "span",
               id: `sentence-${i}`,
@@ -95,21 +95,27 @@ export function registerPrompt() {
               listeners: [
                 {
                   type: "mousemove",
-                  listener: function () {
-                    const highlightColor = "#fee972"
-                    // @ts-ignore
-                    const span = this as HTMLSpanElement
-                    const parentNode = span.parentNode as HTMLDivElement
-                    parentNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "")
+                  listener: () => {
+                    const highlightColor = "#fee972";
+
+                    let twinNode = [...container.querySelectorAll(".text-container")]
+                      .find(e => e != node) as HTMLDivElement;
+
+                    node.querySelectorAll("span").forEach(e => e.style.backgroundColor = "")
                     span.style.backgroundColor = highlightColor
-                    const siblingNode = (parentNode?.previousSibling?.previousSibling || parentNode?.nextSibling?.nextSibling) as HTMLDivElement
-                    siblingNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "");
-                    const twinSpan = siblingNode.querySelector(`span[id=sentence-${i}]`) as HTMLSpanElement
+                    
+                    twinNode?.querySelectorAll("span").forEach(e => e.style.backgroundColor = "");
+
+                    const twinSpan = twinNode.querySelector(`span[id=sentence-${i}]`) as HTMLSpanElement
+
                     twinSpan.style.backgroundColor = highlightColor;
-                    if (direction == "column" && siblingNode.classList.contains("result")) {
-                      siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5 - parentNode.offsetHeight);
+
+                    const twinNodeContainer = twinNode.parentNode as HTMLDivElement;
+                    const nodeContainer = node.parentNode as HTMLDivElement;
+                    if (direction == "column" && twinNode.classList.contains("result")) {
+                      twinNodeContainer.scrollTo(0, twinSpan.offsetTop - twinNodeContainer.offsetHeight * .5 - nodeContainer.offsetHeight);
                     } else {
-                      siblingNode.scrollTo(0, twinSpan.offsetTop - siblingNode.offsetHeight * .5);
+                      twinNodeContainer.scrollTo(0, twinSpan.offsetTop - twinNodeContainer.offsetHeight * .5);
                     }
                   }
                 }
@@ -151,7 +157,7 @@ export function registerPrompt() {
           children: [
             {
               tag: "div",
-              classList: [className],
+              classList: [className, "text-container"],
               styles: {
                 fontSize: "1em",
                 lineHeight: "1.5em",
@@ -160,7 +166,7 @@ export function registerPrompt() {
             }
           ]
         });
-        addSentences(subContainer.querySelector(`.${className}`)!, text, dividers);
+        addSentences(subContainer.querySelector(".text-container")!, text, dividers);
         subContainers.push(subContainer);
       })
 
@@ -180,12 +186,12 @@ export function registerPrompt() {
       const W = rect.width;
       const mouseDownHandler = function (e: MouseEvent) {
         // hide
-        [rawDiv, resultDiv].forEach(div => {
+        subContainers.forEach(div => {
           div.querySelectorAll("span").forEach((e: HTMLSpanElement) => e.style.display = "none")
         })
         y = e.clientY;
         x = e.clientX;
-        const rect = resultDiv.getBoundingClientRect()
+        const rect = subContainers[1].getBoundingClientRect()
         h = rect.height;
         w = rect.width;
         document.addEventListener('mousemove', mouseMoveHandler);
@@ -195,17 +201,17 @@ export function registerPrompt() {
         const dy = e.clientY - y;
         const dx = e.clientX - x;
         if (direction == "column") {
-          resultDiv.style.height = `${h - dy}px`;
-          rawDiv.style.height = `${H - (h - dy) - size}px`;
+          subContainers[1].style.height = `${h - dy}px`;
+          subContainers[0].style.height = `${H - (h - dy) - size}px`;
         }
         if (direction == "row") {
-          resultDiv.style.width = `${w - dx}px`;
-          rawDiv.style.width = `${W - (w - dx) - size}px`;
+          subContainers[1].style.width = `${w - dx}px`;
+          subContainers[0].style.width = `${W - (w - dx) - size}px`;
         }
       };
       const mouseUpHandler = function () {
         // show
-        [rawDiv, resultDiv].forEach(div => {
+        subContainers.forEach(div => {
           div.querySelectorAll("span").forEach((e: HTMLSpanElement) => e.style.display = "")
         })
         document.removeEventListener('mousemove', mouseMoveHandler);
