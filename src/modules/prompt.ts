@@ -124,38 +124,46 @@ export function registerPrompt() {
       const directions = ["row", "column"]
       const direction = directions[1]
       container.setAttribute("style", `
-          display: flex;
-          flex-direction: ${direction};
-          padding: .5em 1em;
-          margin-left: 0px;
-          width: 100%;
-          height: 25em;
-        `)
-      const props = {
-        styles: {
-          height: "100%",
-          width: "100%",
-          minWidth: "10em",
-          minHeight: "5em",
-          border: "1px solid #eee",
-          textAlign: "justify",
-          padding: ".5em",
-          fontSize: "1em",
-          lineHeight: "1.5em",
-          overflowY: "auto"
-        },
-      }
-      const rawDiv = ztoolkit.UI.createElement(document, "div", {
-        ...props,
-        classList: ["raw"]
+        display: flex;
+        flex-direction: ${direction};
+        padding: .5em 1em;
+        margin-left: 0px;
+        width: 100%;
+        height: 25em;
+      `)
+      const subContainers: HTMLDivElement[] = [];
+      [
+        ["raw", rawText, [".", "?", "!"]],
+        ["result", resultText, ["?", "!", "！", "。", "？"]]
+      ].forEach((args: any[]) => {        
+        let [className, text, dividers] = args;
+        const subContainer = ztoolkit.UI.createElement(document, "div", {
+          styles: {
+            padding: ".5em",
+            border: "1px solid #eee",
+            overflowY: "auto",
+            minWidth: "10em",
+            minHeight: "5em",
+            height: "100%",
+            width: "100%",
+            textAlign: "justify",
+          },
+          children: [
+            {
+              tag: "div",
+              classList: [className],
+              styles: {
+                fontSize: "1em",
+                lineHeight: "1.5em",
+                marginBottom: ".5em"
+              },
+            }
+          ]
+        });
+        addSentences(subContainer.querySelector(`.${className}`)!, text, dividers);
+        subContainers.push(subContainer);
       })
 
-      addSentences(rawDiv, rawText, [".", "?", "!"])
-      const resultDiv = ztoolkit.UI.createElement(document, "div", {
-        ...props,
-        classList: ["result"]
-      })
-      addSentences(resultDiv, resultText, ["?", "!", "！", "。", "？"])
       const size = 5
       const resizer = ztoolkit.UI.createElement(document, "div", {
         styles: {
@@ -204,7 +212,8 @@ export function registerPrompt() {
         document.removeEventListener('mouseup', mouseUpHandler);
       };
       resizer.addEventListener('mousedown', mouseDownHandler);
-      container.append(rawDiv, resizer, resultDiv)
+
+      container.append(subContainers[0], resizer, subContainers[1])
     }
   }])
 }
