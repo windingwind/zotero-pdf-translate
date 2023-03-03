@@ -248,6 +248,11 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     },
   },
   {
+    type: "sentence",
+    id: "openai",
+    defaultSecret: "",
+  },
+  {
     type: "word",
     id: "bingdict",
   },
