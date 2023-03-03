@@ -249,7 +249,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
-    id: "openai",
+    id: "gpt",
     defaultSecret: "",
   },
   {
