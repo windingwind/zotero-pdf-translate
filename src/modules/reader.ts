@@ -13,6 +13,18 @@ export function registerReaderInitializer() {
     `${config.addonRef}-annotationButtons`,
     initializeReaderAnnotationButton
   );
+  // Force re-initialize
+  Zotero.Reader._readers.forEach((r) => {
+    initializeReaderSelectionEvent(r);
+    initializeReaderAnnotationButton(r);
+  });
+}
+
+export function unregisterReaderInitializer() {
+  Zotero.Reader._readers.forEach((r) => {
+    unInitializeReaderAnnotationButton(r);
+    unInitializeReaderSelectionEvent(r);
+  });
 }
 
 export async function checkReaderAnnotationButton(items: Zotero.Item[]) {
@@ -39,7 +51,7 @@ async function initializeReaderSelectionEvent(
     return;
   }
   instance._pdftranslateInitialized = true;
-  instance._iframeWindow?.addEventListener("pointerup", (ev: MouseEvent) => {
+  function selectionCallback(ev: MouseEvent) {
     // Work around to only allow event from iframe#viewer
     const target = ev.target as Element;
     if (!target?.ownerDocument?.querySelector("#viewer")?.contains(target)) {
@@ -47,7 +59,24 @@ async function initializeReaderSelectionEvent(
     }
     addon.data.translate.concatKey = ev.altKey;
     addon.hooks.onReaderTextSelection(instance);
-  });
+  }
+  instance._iframeWindow?.addEventListener("pointerup", selectionCallback);
+  instance._pdftranslateSelectionCallback = selectionCallback;
+}
+
+async function unInitializeReaderSelectionEvent(
+  instance: _ZoteroTypes.ReaderInstance
+): Promise<void> {
+  await instance._initPromise;
+  await instance._waitForReader();
+  if (!instance._pdftranslateInitialized) {
+    return;
+  }
+  instance._iframeWindow?.removeEventListener(
+    "pointerup",
+    instance._pdftranslateSelectionCallback
+  );
+  instance._pdftranslateInitialized = false;
 }
 
 async function initializeReaderAnnotationButton(
@@ -123,9 +152,29 @@ async function initializeReaderAnnotationButton(
             },
           },
         ],
+        enableElementRecord: true,
       },
       moreButton
     );
   }
   return hitItems;
+}
+
+async function unInitializeReaderAnnotationButton(
+  instance: _ZoteroTypes.ReaderInstance
+): Promise<void> {
+  if (!instance) {
+    return;
+  }
+  await instance._initPromise;
+  await instance._waitForReader();
+  const _document = instance._iframeWindow?.document;
+  if (!_document) {
+    return;
+  }
+  for (const moreButton of _document.querySelectorAll(".more")) {
+    if (moreButton.getAttribute("_pdftranslateInitialized") === "true") {
+      moreButton.removeAttribute("_pdftranslateInitialized");
+    }
+  }
 }
