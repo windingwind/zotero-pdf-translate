@@ -20,6 +20,8 @@ if (!basicTool.getGlobal("Zotero")[config.addonInstance]) {
   ztoolkit.basicOptions.log.disableConsole = addon.data.env === "production";
   ztoolkit.UI.basicOptions.ui.enableElementJSONLog =
     addon.data.env === "development";
+  // Set the default false and enable manually
+  ztoolkit.UI.basicOptions.ui.enableElementRecord = false;
   Zotero[config.addonInstance] = addon;
   // Trigger addon hook for initialization
   addon.hooks.onStartup();

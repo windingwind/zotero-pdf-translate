@@ -46,7 +46,8 @@ Once you have the plugin installed simply, open any PDF in your collections.
 - Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
 - Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
   ![](imgs/standalone.png)
-- Dictionary for single word translation(v0.7.1). _Only for en2zh and en2en now_
+- Dictionary for single word translation(v0.7.1).
+- SentenceBySentence Translation(v1.1.0). After a translation, press `shift`+`P` and select `Translate Sentences`. _Only for en2zh and en2en now_. Thanks @MuiseDestiny
 
 ### Q&A
 
@@ -221,3 +222,11 @@ I'm windingwind, an active Zotero(https://www.zotero.org) plugin developer. Devo
 Sponsor me to buy a cup of coffee. I spend more than 24 hours every week coding, debugging, and replying to issues in my plugin repositories. The plugins are open-source and totally free.
 
 If you sponsor more than $10 a month, you can list your name/logo here and have priority for feature requests/bug fixes!
+
+## Sponsors
+
+Thanks
+[peachgirl100](https://github.com/peachgirl100)
+and other anonymous sponsors!
+
+If you want to leave your name here, please email me or leave a message with the donation.

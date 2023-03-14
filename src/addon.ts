@@ -84,6 +84,7 @@ import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
 import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/preferencePane";
 import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
 import { ReaderInstanceManager } from "zotero-plugin-toolkit/dist/managers/readerInstance";
+import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ReaderTool } from "zotero-plugin-toolkit/dist/tools/reader";
@@ -101,6 +102,7 @@ export class ZToolkit extends BasicTool {
   Menu: MenuManager;
   ItemTree: ItemTreeManager;
   ItemBox: ItemBoxManager;
+  Prompt: PromptManager;
   PreferencePane: PreferencePaneManager;
   ReaderTabPanel: ReaderTabPanelManager;
   ReaderInstance: ReaderInstanceManager;
@@ -121,6 +123,7 @@ export class ZToolkit extends BasicTool {
     this.PreferencePane = new PreferencePaneManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.ReaderInstance = new ReaderInstanceManager(this);
+    this.Prompt = new PromptManager(this);
     this.Dialog = DialogHelper;
     this.ProgressWindow = ProgressWindowHelper;
     this.ProgressWindow.setIconURI(

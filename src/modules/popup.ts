@@ -109,7 +109,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             display: "flex",
             width: "calc(100% - 4px)",
             marginLeft: "2px",
-            justyfiContent: "space-evenly",
+            justifyContent: "space-evenly",
           },
           ignoreIfExists: true,
         },
@@ -160,6 +160,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               keepSize ? Number(getPref("popupHeight")) : 30
             )}px`,
             marginLeft: "2px",
+            // @ts-ignore
             scrollbarWidth: "none",
           },
           properties: {

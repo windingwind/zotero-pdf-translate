@@ -12,6 +12,7 @@ import { registerNotify } from "./modules/notify";
 import {
   checkReaderAnnotationButton,
   registerReaderInitializer,
+  unregisterReaderInitializer,
 } from "./modules/reader";
 import { getPref, setPref } from "./utils/prefs";
 import {
@@ -31,6 +32,7 @@ import {
 import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
+import { registerPrompt } from "./modules/prompt";
 
 async function onStartup() {
   await Promise.all([
@@ -51,10 +53,12 @@ async function onStartup() {
   await registerItemBoxExtraRows();
   registerTitleRenderer();
   registerShortcuts();
+  registerPrompt();
 }
 
 function onShutdown(): void {
   ztoolkit.unregisterAll();
+  unregisterReaderInitializer();
   // Remove addon object
   addon.data.alive = false;
   delete Zotero[config.addonInstance];

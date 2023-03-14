@@ -1,6 +1,6 @@
 {
   "name": "zotero-pdf-translate",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "PDF translation for Zotero built-in PDF reader.",
   "config": {
     "addonName": "Zotero PDF Translate",
@@ -40,7 +40,7 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "jsencrypt": "^3.3.1",
-    "zotero-plugin-toolkit": "^2.0.5"
+    "zotero-plugin-toolkit": "^2.0.8"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

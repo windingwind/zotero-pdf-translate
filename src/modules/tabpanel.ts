@@ -456,7 +456,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("rawtext"),
               styles: {
                 resize: "none",
-                "font-family": "inherit",
+                fontFamily: "inherit",
               },
               listeners: [
                 {
@@ -504,7 +504,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("resulttext"),
               styles: {
                 resize: "none",
-                "font-family": "inherit",
+                fontFamily: "inherit",
               },
               listeners: [
                 {
