@@ -343,4 +343,15 @@ export const secretStatusButtonData: {
       );
     },
   },
+  gpt: {
+    labels: {
+      pass: "service.gpt.secret.pass",
+      fail: "service.gpt.secret.fail",
+    },
+    callback: function () {
+      Zotero.launchURL(
+        "https://platform.openai.com/signup"
+      );
+    },
+  },
 };
