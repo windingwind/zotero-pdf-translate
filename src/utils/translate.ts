@@ -343,4 +343,15 @@ export const secretStatusButtonData: {
       );
     },
   },
+  gpt: {
+    labels: {
+      pass: "service.gpt.secret.pass",
+      fail: "service.gpt.secret.fail",
+    },
+    callback: function () {
+      Zotero.launchURL(
+        "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b"
+      );
+    },
+  },
 };
