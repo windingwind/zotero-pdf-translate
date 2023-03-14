@@ -64,6 +64,9 @@ export class TranslationServices {
     import("./services/xftrans").then(
       (e) => (this.xftrans = new TranslateTaskRunner(e.default))
     );
+    import("./services/gpt").then(
+      (e) => (this.gpt = new TranslateTaskRunner(e.default))
+    );
     import("./services/youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default))
     );
