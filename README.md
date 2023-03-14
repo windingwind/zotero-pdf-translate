@@ -216,3 +216,11 @@ I'm windingwind, an active Zotero(https://www.zotero.org) plugin developer. Devo
 Sponsor me to buy a cup of coffee. I spend more than 24 hours every week coding, debugging, and replying to issues in my plugin repositories. The plugins are open-source and totally free.
 
 If you sponsor more than $10 a month, you can list your name/logo here and have priority for feature requests/bug fixes!
+
+## Sponsors
+
+Thanks
+[peachgirl100](https://github.com/peachgirl100)
+and other anonymous sponsors!
+
+If you want to leave your name here, please email me or leave a message with the donation.
