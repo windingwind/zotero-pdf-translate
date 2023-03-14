@@ -350,7 +350,7 @@ export const secretStatusButtonData: {
     },
     callback: function () {
       Zotero.launchURL(
-        "https://platform.openai.com/signup"
+        "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b"
       );
     },
   },
