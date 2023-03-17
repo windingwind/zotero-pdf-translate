@@ -30,6 +30,9 @@ export class TranslationServices {
       this.deeplfree = new TranslateTaskRunner(e.deeplfree);
       this.deeplpro = new TranslateTaskRunner(e.deeplpro);
     });
+    import("./services/deeplx").then((e) => {
+      this.deeplx = new TranslateTaskRunner(e.default);
+    });
     import("./services/deeplcustom").then(
       (e) => (this.deeplcustom = new TranslateTaskRunner(e.default))
     );

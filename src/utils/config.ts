@@ -132,6 +132,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
         info: flag ? "" : `Please enter custom DeepL URL.`,
       };
     },
+    },
+  {
+    type: "sentence",
+    id: "deeplx",
   },
   {
     type: "sentence",
