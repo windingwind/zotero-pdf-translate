@@ -16,7 +16,7 @@ export default <TranslateTaskProcessor>async function (data) {
 	} else {
 		return
 	}
-    const reqBody = JSON.stringify({
+    var reqBody = JSON.stringify({
         jsonrpc: "2.0",
         method: "LMT_handle_texts",
         id: id,
@@ -41,6 +41,11 @@ export default <TranslateTaskProcessor>async function (data) {
             },
         },
     });
+    if ((id+5)%29 == 0 || (id+3)%13 == 0) {
+			reqBody = reqBody.replace('"method":"', '"method" : "');
+		} else {
+			reqBody = reqBody.replace('"method":"', '"method": "');
+		}
     const xhr = await Zotero.HTTP.request("POST", url, {
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -61,5 +66,5 @@ export default <TranslateTaskProcessor>async function (data) {
     if (xhr?.status !== 200) {
         throw `Request error: ${xhr?.status}`;
     }
-    data.result = xhr.response.data;
+    data.result = xhr.response.result.texts[0].text;
 };
