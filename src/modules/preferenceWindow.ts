@@ -406,6 +406,11 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
         } else {
           statusButton.hidden = true;
         }
+        // hide GPT model when change service
+        const gptModelMenu = doc.querySelector(
+          `#${makeId("gptModel")}`
+        ) as XUL.MenuList;
+        gptModelMenu.hidden = true;
         // Update gpt model when opening the settings page
         if (serviceId === "gpt") {
           updateGPTModelMenu(doc, secretCheckResult.secret);
