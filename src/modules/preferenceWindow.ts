@@ -6,7 +6,9 @@ import {
   validateServiceSecret,
   secretStatusButtonData,
   setServiceSecret,
+  getServiceSecret,
 } from "../utils/translate";
+import { updateGPTModel } from "./services/gpt";
 
 export function registerPrefsWindow() {
   ztoolkit.PreferencePane.register({
@@ -170,6 +172,41 @@ function buildPrefsPane() {
     },
     doc.querySelector(`#${makeId("langto-placeholder")}`)!
   );
+  // Set defualt GPT model
+  ztoolkit.UI.replaceElement(
+    {
+      tag: "menulist",
+      id: makeId("gptModel"),
+      attributes: {
+        value: getPref("gptModel") as string,
+        native: "true",
+      },
+      listeners: [
+        {
+          type: "command",
+          listener: (e: Event) => {
+            onPrefsEvents("setGPTModel");
+          },
+        },
+      ],
+      children: [
+        {
+          tag: "menupopup",
+          id: makeId("modelList"),
+          children: [
+            {
+              tag: "menuitem",
+              attributes: {
+                label: "gpt-3.5-turbo",
+                value: "gpt-3.5-turbo",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    doc.querySelector(`#${makeId("sentenceServices-gptModel")}`)!
+  );
 
   doc
     .querySelector(`#${makeId("enableAuto")}`)
@@ -205,6 +242,12 @@ function buildPrefsPane() {
     .querySelector(`#${makeId("sentenceServicesSecret")}`)
     ?.addEventListener("input", (e: Event) => {
       onPrefsEvents("updateSentenceSecret");
+    });
+
+  doc
+    .querySelector(`#${makeId("sentenceServicesSecret")}`)
+    ?.addEventListener("blur", (e: Event) => {
+      onPrefsEvents("completeUpdateSentenceSecret");
     });
 
   doc
@@ -319,6 +362,16 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
         );
       }
       break;
+    case "completeUpdateSentenceSecret":
+      {
+        const doc = addon.data.prefs.window?.document!;
+        const serviceId = getPref("translateSource") as string;
+        const secret = getServiceSecret(serviceId);
+        if (serviceId === "gpt") {
+          updateGPTModelMenu(doc, secret);
+        }
+      }
+      break;
     case "setSentenceSecret":
       {
         const serviceId = getPref("translateSource") as string;
@@ -352,6 +405,10 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           };
         } else {
           statusButton.hidden = true;
+        }
+        // Update gpt model when opening the settings page
+        if (serviceId === "gpt") {
+          updateGPTModelMenu(doc, secretCheckResult.secret);
         }
       }
       break;
@@ -428,6 +485,17 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       addon.hooks.onReaderPopupRefresh();
       addon.hooks.onReaderTabPanelRefresh();
       break;
+    case "setGPTModel":
+      {
+        Zotero.debug("setGPTModel");
+        setPref(
+          "gptModel",
+          (
+            doc.querySelector(`#${makeId("gptModel")}`) as XUL.MenuList
+          ).getAttribute("value")!
+        );
+      }
+      break;
     default:
       return;
   }
@@ -435,4 +503,43 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
 
 function makeId(type: string) {
   return `${config.addonRef}-${type}`;
+}
+
+// Update  the model from openAI:
+function updateGPTModelMenu(doc: Document, secret: string) {
+  const gptModelMenu = doc.querySelector(
+    `#${makeId("gptModel")}`
+  ) as XUL.MenuList;
+  gptModelMenu.hidden = true;
+
+  //Display the gptModelMenu only when the API retrieves the model
+  if (secret) {
+    updateGPTModel(secret).then((models) => {
+      const child = models.map((model: string) => {
+        return {
+          tag: "menuitem",
+          attributes: {
+            label: model,
+            value: model,
+          },
+        };
+      });
+      ztoolkit.UI.replaceElement(
+        {
+          tag: "menupopup",
+          id: makeId("modelList"),
+          children: child,
+        },
+        doc.querySelector(`#${makeId("modelList")}`) as XUL.MenuList
+      );
+      // Handling the case of lost model permissions
+      const selectedModel = getPref("gptModel") as string;
+      const currentModel = models.includes(selectedModel)
+        ? selectedModel
+        : "gpt-3.5-turbo";
+      gptModelMenu.value = currentModel;
+      setPref("gptModel", currentModel);
+      gptModelMenu.hidden = false;
+    });
+  }
 }

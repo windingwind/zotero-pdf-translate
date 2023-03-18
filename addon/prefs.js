@@ -36,3 +36,4 @@ pref("__prefsPrefix__.showPlayBtn", true);
 pref("__prefsPrefix__.disabledLanguages", "");
 pref("__prefsPrefix__.extraEngines", "");
 pref("__prefsPrefix__.titleColumnMode", "raw");
+pref("__prefsPrefix__.gptModel", "gpt-3.5-turbo");
