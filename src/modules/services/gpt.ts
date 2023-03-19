@@ -23,6 +23,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
         ],
         stream: true,
       }),
+      responseType: "text",
       requestObserver: (xmlhttp: XMLHttpRequest) => {
         let preLength = 0;
         let result = "";
@@ -31,14 +32,19 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
           let newResponse = e.target.response.slice(preLength);
           let dataArray = newResponse.split("data: ");
           for (let data of dataArray) {
-            if (data && !data.includes("DONE")) {
+            try {
               let obj = JSON.parse(data);
-              let content = obj.choices[0].delta.content || "";
-              result += content;
+              let choice = obj.choices[0];
+              if (choice.finish_reason) {
+                break;
+              }
+              result += choice.delta.content || "";
+            } catch {
+              continue;
             }
           }
           preLength = e.target.response.length;
-          // Removing \n in front of data
+          // Remove \n\n from the beginning of the data
           data.result = result.replace(/^\n\n/, "");
           addon.hooks.onReaderPopupRefresh();
           addon.hooks.onReaderTabPanelRefresh();
