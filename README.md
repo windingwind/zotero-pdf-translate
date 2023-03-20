@@ -206,6 +206,12 @@ The plugin is built to `./builds/*.xpi`.
 4. Add locale string `service.${serviceId}` in `addon/chrome/locale/${lang}/addon.properties`.
 5. Build and test.
 
+**Extra options for translate service**
+
+If the service requires extra options, the minimal implement would be putting them in the `secret` input in the prefs window, like the existing services does.
+
+If there are complex options, please bind a callback in `src/utils/translate.ts > secretStatusButtonData` which create a highly customizable dialog window with `ztoolkit.Dialog`. See the example of NiuTrans login here: https://github.com/windingwind/zotero-pdf-translate/blob/main/src/utils/niuTransLogin.ts
+
 ## Disclaimer
 
 Use this code under AGPL. No warranties are provided. Keep the laws of your locality in mind!
