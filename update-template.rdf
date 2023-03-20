@@ -9,7 +9,7 @@
             <em:targetApplication>
               <rdf:Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>
-                <em:minVersion>6.999</em:minVersion>
+                <em:minVersion>5.999</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
                 <em:updateLink>__releasepage__</em:updateLink>
               </rdf:Description>
@@ -17,7 +17,7 @@
             <em:targetApplication>
               <rdf:Description>
                 <em:id>juris-m@juris-m.github.io</em:id>
-                <em:minVersion>6.999</em:minVersion>
+                <em:minVersion>5.999</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
                 <em:updateLink>__releasepage__</em:updateLink>
               </rdf:Description>
