@@ -1,4 +1,5 @@
 import { getService, SecretValidateResult, SERVICES } from "./config";
+import { gptStatusCallback } from "./gptModels";
 import { getString } from "./locale";
 import { niutransStatusCallback } from "./niuTransLogin";
 import { getPref, setPref } from "./prefs";
@@ -348,10 +349,6 @@ export const secretStatusButtonData: {
       pass: "service.gpt.secret.pass",
       fail: "service.gpt.secret.fail",
     },
-    callback: function () {
-      Zotero.launchURL(
-        "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b"
-      );
-    },
+    callback: gptStatusCallback,
   },
 };

@@ -1,8 +1,10 @@
 import { TranslateTaskProcessor } from "../../utils/translate";
 import { getPref } from "../../utils/prefs";
+import { getServiceSecret } from "../../utils/translate";
 
 export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   const model = getPref("gptModel");
+  const temperature = parseFloat(getPref("gptTemperature") as string);
   const xhr = await Zotero.HTTP.request(
     "POST",
     "https://api.openai.com/v1/chat/completions",
@@ -21,6 +23,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
             } to ${data.langto.split("-")[0]}: ${data.raw}`,
           },
         ],
+        temperature: temperature,
         stream: true,
       }),
       responseType: "text",
@@ -58,7 +61,8 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-export const updateGPTModel = async function (secret: string) {
+export const updateGPTModel = async function () {
+  const secret = getServiceSecret("gpt");
   const xhr = await Zotero.HTTP.request(
     "GET",
     "https://api.openai.com/v1/models",
@@ -70,9 +74,7 @@ export const updateGPTModel = async function (secret: string) {
       responseType: "json",
     }
   );
-  if (xhr?.status !== 200) {
-    throw `Request error: ${xhr?.status}`;
-  }
+
   const models = xhr.response.data;
   const availableModels = [];
   for (const model of models) {
