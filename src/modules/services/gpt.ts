@@ -57,8 +57,10 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
           data.result = result.replace(/^\n\n/, "");
           preLength = e.target.response.length;
 
-          addon.hooks.onReaderPopupRefresh();
-          addon.hooks.onReaderTabPanelRefresh();
+          if (data.type === "text") {
+            addon.hooks.onReaderPopupRefresh();
+            addon.hooks.onReaderTabPanelRefresh();
+          }
         };
       },
     }
@@ -91,6 +93,6 @@ export const updateGPTModel = async function () {
       availableModels.push(model.id);
     }
   }
-  
+
   return availableModels;
 };
