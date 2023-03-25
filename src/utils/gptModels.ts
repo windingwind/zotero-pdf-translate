@@ -3,52 +3,56 @@ import { getString } from "./locale";
 import { updateGPTModel } from "../modules/services/gpt";
 
 export async function gptStatusCallback(status: boolean) {
-  let selectedModel = getPref("gptModel");
+  const selectedModel = getPref("gptModel");
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
     models: getPref("gptModel"),
     temperature: parseFloat(getPref("gptTemperature") as string),
-    loadCallback: () => {
+    loadCallback: async () => {
       const doc = dialog.window.document;
-      updateGPTModel()
-        .then((models) => {
-          ztoolkit.UI.replaceElement(
-            {
-              tag: "select",
-              id: "gptModels",
-              attributes: {
-                "data-bind": "models",
-                "data-prop": "value",
-              },
-              children: models.map((model: string) => ({
-                tag: "option",
-                id: "models",
-                properties: {
-                  value: model,
-                  innerHTML: model,
-                },
-              })),
+
+      try {
+        const models = await updateGPTModel();
+        ztoolkit.UI.replaceElement(
+          {
+            tag: "select",
+            id: "gptModels",
+            attributes: {
+              "data-bind": "models",
+              "data-prop": "value",
             },
-            doc.getElementById("gptModels")!
-          );
-          doc.querySelector("#gptStatus")!.innerHTML = getString(
-            "service.gpt.dialog.status.available"
-          );
-        })
-        .catch((e) => {
-          let gptStatus = "unexpect";
-          const HTTP = Zotero.HTTP;
-          if (e instanceof HTTP.TimeoutException) {
-            gptStatus = "timeout";
-          } else if (e.xmlhttp?.status === 401) {
-            gptStatus = "invalid";
-          }
-          doc.querySelector("#gptStatus")!.innerHTML = getString(
-            `service.gpt.dialog.status.${gptStatus}`
-          );
-        });
+            children: models.map((model: string) => ({
+              tag: "option",
+              properties: {
+                value: model,
+                innerHTML: model,
+                selected: model === selectedModel,
+              },
+            })),
+          },
+          doc.querySelector("#gptModels")!
+        );
+
+        doc.querySelector("#gptStatus")!.innerHTML = getString(
+          "service.gpt.dialog.status.available"
+        );
+      } catch (error: any) {
+        const HTTP = Zotero.HTTP;
+        let gptStatus = "unexpect";
+
+        if (error instanceof HTTP.TimeoutException) {
+          gptStatus = "timeout";
+        } else if (error.xmlhttp?.status === 401) {
+          gptStatus = "invalid";
+        }
+
+        doc.querySelector("#gptStatus")!.innerHTML = getString(
+          `service.gpt.dialog.status.${gptStatus}`
+        );
+      }
     },
   };
+
   dialog
     .setDialogData(dialogData)
     .addCell(
@@ -167,15 +171,20 @@ export async function gptStatusCallback(status: boolean) {
     )
     .addButton(getString("service.gpt.dialog.save"), "save")
     .addButton(getString("service.gpt.dialog.close"), "close");
+
   dialog.open(getString("service.gpt.dialog.title"));
+
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
     case "save":
       {
-        setPref("gptModel", dialogData.models);
-        if (dialogData.temperature >= 0 && dialogData.temperature <= 2) {
+        const temperature = dialogData.temperature;
+
+        if (temperature && temperature >= 0 && temperature <= 2) {
           setPref("gptTemperature", dialogData.temperature.toString());
         }
+
+        setPref("gptModel", dialogData.models);
       }
       break;
     default:

@@ -34,6 +34,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
           // Only concatenate the new strings
           let newResponse = e.target.response.slice(preLength);
           let dataArray = newResponse.split("data: ");
+
           for (let data of dataArray) {
             try {
               let obj = JSON.parse(data);
@@ -46,9 +47,16 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
               continue;
             }
           }
-          preLength = e.target.response.length;
+
+          // Clear timeouts caused by stream transfers
+          if (e.target.timeout) {
+            e.target.timeout = 0;
+          }
+
           // Remove \n\n from the beginning of the data
           data.result = result.replace(/^\n\n/, "");
+          preLength = e.target.response.length;
+
           addon.hooks.onReaderPopupRefresh();
           addon.hooks.onReaderTabPanelRefresh();
         };
@@ -77,10 +85,12 @@ export const updateGPTModel = async function () {
 
   const models = xhr.response.data;
   const availableModels = [];
+
   for (const model of models) {
     if (model.id.includes("gpt")) {
       availableModels.push(model.id);
     }
   }
+  
   return availableModels;
 };
