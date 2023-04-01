@@ -13,14 +13,14 @@ export async function gptStatusCallback(status: boolean) {
 
       try {
         const models = await updateGPTModel();
-        ztoolkit.UI.replaceElement(
+        // Due to an unknown bug with Zotero 7, the `<select>` element cannot be properly rendered.
+        // Toolkit uses a workaround to render the element, so please do not touch the original element and just replace its inner `<option>` elements.
+        // See https://groups.google.com/g/zotero-dev/c/iG763ZlWQ_U
+        const modelsSelect = doc.querySelector("#gptModels")!;
+        modelsSelect.innerHTML = "";
+        ztoolkit.UI.appendElement(
           {
-            tag: "select",
-            id: "gptModels",
-            attributes: {
-              "data-bind": "models",
-              "data-prop": "value",
-            },
+            tag: "fragment",
             children: models.map((model: string) => ({
               tag: "option",
               properties: {
@@ -30,7 +30,7 @@ export async function gptStatusCallback(status: boolean) {
               },
             })),
           },
-          doc.querySelector("#gptModels")!
+          modelsSelect
         );
 
         doc.querySelector("#gptStatus")!.innerHTML = getString(
