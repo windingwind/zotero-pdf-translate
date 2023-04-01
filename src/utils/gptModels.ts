@@ -63,9 +63,9 @@ export async function gptStatusCallback(status: boolean) {
         namespace: "html",
         styles: {
           display: "grid",
-          "grid-template-columns": "1fr 4fr",
-          "grid-row-gap": "10px",
-          "grid-column-gap": "5px",
+          gridTemplateColumns: "1fr 4fr",
+          rowGap: "10px",
+          columnGap: "5px",
         },
         children: [
           {
@@ -129,11 +129,11 @@ export async function gptStatusCallback(status: boolean) {
         namespace: "html",
         styles: {
           display: "grid",
-          "grid-template-columns": "1fr 4fr 1fr",
-          "grid-row-gap": "5px",
-          "grid-column-gap": "5px",
-          "margin-top": "10px",
-          "justify-content": "space-between",
+          gridTemplateColumns: "1fr 4fr 1fr",
+          rowGap: "5px",
+          columnGap: "5px",
+          marginTop: "10px",
+          justifyContent: "space-between",
         },
         children: [
           {
@@ -148,7 +148,7 @@ export async function gptStatusCallback(status: boolean) {
             namespace: "html",
             id: "gptStatus",
             styles: {
-              "text-align": "center",
+              textAlign: "center",
             },
             properties: {
               innerHTML: getString("service.gpt.dialog.status.load"),
@@ -157,14 +157,13 @@ export async function gptStatusCallback(status: boolean) {
           {
             tag: "a",
             styles: {
-              "text-decoration": "none",
+              textDecoration: "none",
             },
             properties: {
               href: "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
               innerHTML: getString("service.gpt.dialog.help"),
             },
           },
-          ,
         ],
       },
       false
