@@ -66,7 +66,7 @@ function onShutdown(): void {
 
 /**
  * This function is just an example of dispatcher for Notify events.
- * Any operations should be placed in a function to keep this funcion clear.
+ * Any operations should be placed in a function to keep this function clear.
  */
 function onNotify(
   event: string,
@@ -202,7 +202,7 @@ function onSwitchTitleColumnDisplay() {
 
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
-// Otherwise the code would be hard to read and maintian.
+// Otherwise the code would be hard to read and maintain.
 
 export default {
   onStartup,
