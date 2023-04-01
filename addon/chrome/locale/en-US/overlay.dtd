@@ -28,7 +28,6 @@
 <!ENTITY zotero.__addonRef__.pref.interface.label "User Interface">
 <!ENTITY zotero.__addonRef__.pref.interface.fontSize.label "Font Size">
 <!ENTITY zotero.__addonRef__.pref.interface.lineHeight.label "Line Height">
-<!ENTITY zotero.__addonRef__.pref.interface.splitChar.label "Split Char">
 <!ENTITY zotero.__addonRef__.pref.interface.autoFocus.label "SideBar: Auto Focus">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarEngine.label "SideBar: Show Engine Selection Menu">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarSettings.label "SideBar: Show Settings">
@@ -46,5 +45,6 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
 <!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "Extra engines in standalone window(split with ',')">
+<!ENTITY zotero.__addonRef__.pref.advanced.splitChar.label "Split Character(between text and translation)">
 
 <!ENTITY zotero.__addonRef__.pref.about.label "About">
