@@ -36,5 +36,6 @@ pref("__prefsPrefix__.showPlayBtn", true);
 pref("__prefsPrefix__.disabledLanguages", "");
 pref("__prefsPrefix__.extraEngines", "");
 pref("__prefsPrefix__.titleColumnMode", "raw");
+pref("__prefsPrefix__.gptUrl", "https://api.openai.com/v1/chat/completions");
 pref("__prefsPrefix__.gptModel", "gpt-3.5-turbo");
 pref("__prefsPrefix__.gptTemperature", "1.0");
