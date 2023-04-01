@@ -28,6 +28,7 @@
 <!ENTITY zotero.__addonRef__.pref.interface.label "用户界面">
 <!ENTITY zotero.__addonRef__.pref.interface.fontSize.label "字体大小">
 <!ENTITY zotero.__addonRef__.pref.interface.lineHeight.label "行高">
+<!ENTITY zotero.__addonRef__.pref.interface.splitChar.label "分隔符">
 <!ENTITY zotero.__addonRef__.pref.interface.autoFocus.label "侧边栏: 自动聚焦">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarEngine.label "侧边栏: 显示翻译引擎选择菜单">
 <!ENTITY zotero.__addonRef__.pref.interface.showSidebarLanguage.label "侧边栏: 显示语言选择菜单">

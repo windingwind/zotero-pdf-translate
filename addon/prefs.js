@@ -11,6 +11,7 @@ pref("__prefsPrefix__.sourceLanguage", "en-US");
 pref("__prefsPrefix__.targetLanguage", "");
 pref("__prefsPrefix__.fontSize", "12");
 pref("__prefsPrefix__.lineHeight", "1.5");
+pref("__prefsPrefix__.splitChar", "\ud83d\udd24");
 pref("__prefsPrefix__.autoFocus", true);
 pref("__prefsPrefix__.rawResultOrder", false);
 pref("__prefsPrefix__.showSidebarEngine", true);
