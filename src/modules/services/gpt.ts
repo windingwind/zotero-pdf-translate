@@ -5,9 +5,10 @@ import { getServiceSecret } from "../../utils/translate";
 export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   const model = getPref("gptModel");
   const temperature = parseFloat(getPref("gptTemperature") as string);
+  const apiUrl = getPref("gptUrl");
   const xhr = await Zotero.HTTP.request(
     "POST",
-    "https://api.openai.com/v1/chat/completions",
+    apiUrl,
     {
       headers: {
         "Content-Type": "application/json",

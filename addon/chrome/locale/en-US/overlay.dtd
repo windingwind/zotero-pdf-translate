@@ -45,5 +45,6 @@
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.label "Disable Automatic Translation when File Language is(split with ',')">
 <!ENTITY zotero.__addonRef__.pref.advanced.disabledLanguages.alert "Reopen files/restart Zotero to apply.">
 <!ENTITY zotero.__addonRef__.pref.advanced.extraEngines.label "Extra engines in standalone window(split with ',')">
+<!ENTITY zotero.__addonRef__.pref.advanced.splitChar.label "Split Character(between text and translation)">
 
 <!ENTITY zotero.__addonRef__.pref.about.label "About">
