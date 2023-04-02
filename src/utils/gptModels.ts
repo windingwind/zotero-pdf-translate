@@ -6,6 +6,7 @@ export async function gptStatusCallback(status: boolean) {
   const selectedModel = getPref("gptModel");
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
+    url: getPref("gptUrl"),
     models: getPref("gptModel"),
     temperature: parseFloat(getPref("gptTemperature") as string),
     loadCallback: async () => {
@@ -68,6 +69,25 @@ export async function gptStatusCallback(status: boolean) {
           columnGap: "5px",
         },
         children: [
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "url",
+            },
+            properties: {
+              innerHTML: getString("service.gpt.dialog.url"),
+            },
+          },
+          {
+            tag: "input",
+            id: "gptUrl",
+            attributes: {
+              "data-bind": "url",
+              "data-prop": "value",
+              type: "string",
+            },
+          },
           {
             tag: "label",
             namespace: "html",
@@ -183,6 +203,7 @@ export async function gptStatusCallback(status: boolean) {
           setPref("gptTemperature", dialogData.temperature.toString());
         }
 
+        setPref("gptUrl", dialogData.url)
         setPref("gptModel", dialogData.models);
       }
       break;
