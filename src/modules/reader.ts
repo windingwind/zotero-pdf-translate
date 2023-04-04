@@ -57,6 +57,10 @@ async function initializeReaderSelectionEvent(
     if (!target?.ownerDocument?.querySelector("#viewer")?.contains(target)) {
       return false;
     }
+    // Callback when the selected content is not null
+    if (!ztoolkit.Reader.getSelectedText(instance)) {
+      return false;
+    }
     addon.data.translate.concatKey = ev.altKey;
     addon.hooks.onReaderTextSelection(instance);
   }
