@@ -114,13 +114,14 @@ export class TranslationServices {
       return false;
     }
     // Remove possible translation results (for annotations).
-    const splitChar = task.raw.includes(getPref("splitChar") as string) 
+    const splitChar = task.raw.includes(getPref("splitChar") as string)
       ? ""
       : getPref("splitChar");
     // /🔤[^🔤]*🔤/g
-    const regex = splitChar === ""
-      ? ""
-      : new RegExp(`${splitChar}[^${splitChar}]*${splitChar}`, "g");
+    const regex =
+      splitChar === ""
+        ? ""
+        : new RegExp(`${splitChar}[^${splitChar}]*${splitChar}`, "g");
     task.raw = task.raw.replace(regex, "");
     task.result = "";
     // Display raw
@@ -209,7 +210,8 @@ export class TranslationServices {
               ztoolkit.ExtraField.setExtraField(
                 item,
                 "abstractTranslation",
-                task.result
+                // A dirty workaround to make it collapsible on Zotero 6
+                ztoolkit.isZotero7() ? task.result : " " + task.result
               );
               item.saveTx();
             }
