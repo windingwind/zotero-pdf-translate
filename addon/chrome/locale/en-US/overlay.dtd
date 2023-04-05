@@ -1,6 +1,7 @@
 <!ENTITY zotero.__addonRef__.pref.general.label "General">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "Auto-Trans Selection">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "Enable Popup">
+<!ENTITY zotero.__addonRef__.pref.basic.enableHidePopupTextarea.label "Hide Popup Textarea">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "Auto-Trans Annotation">
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInComment.label "Save to Annotation Comment">
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "Save to Annotation Body">

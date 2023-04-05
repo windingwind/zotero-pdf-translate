@@ -10,6 +10,7 @@ export function updateReaderPopup() {
     return;
   }
   const enablePopup = getPref("enablePopup");
+  const hidePopupTextarea = getPref("enableHidePopupTextarea") as boolean;
   Array.from(popup.querySelectorAll(`.${config.addonRef}-readerpopup`)).forEach(
     (elem) => ((elem as HTMLElement).hidden = !enablePopup)
   );
@@ -62,7 +63,7 @@ export function updateReaderPopup() {
     );
   }
   translateButton.hidden = task.status !== "waiting";
-  textarea.hidden = task.status === "waiting";
+  textarea.hidden = hidePopupTextarea || task.status === "waiting";
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
@@ -96,6 +97,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
     `${config.addonRef}-${readerInstance._instanceID}-${type}`;
 
   const onTextAreaCopy = getOnTextAreaCopy(popup, makeId("text"));
+  const hidePopupTextarea = getPref("enableHidePopupTextarea") as boolean;
 
   ztoolkit.UI.appendElement(
     {
@@ -132,7 +134,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                   button.ownerDocument.querySelector(
                     `#${makeId("text")}`
                   ) as HTMLTextAreaElement
-                ).hidden = false;
+                ).hidden = hidePopupTextarea;
               },
             },
           ],

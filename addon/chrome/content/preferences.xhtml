@@ -34,12 +34,21 @@
         />
       </radiogroup>
     </hbox>
-    <checkbox
-      id="__addonRef__-enablePopup"
-      label="&zotero.__addonRef__.pref.basic.enablePopup.label;"
-      native="true"
-      preference="__prefsPrefix__.enablePopup"
-    />
+    <hbox>
+      <checkbox
+        id="__addonRef__-enablePopup"
+        label="&zotero.__addonRef__.pref.basic.enablePopup.label;"
+        native="true"
+        preference="__prefsPrefix__.enablePopup"
+      />
+      <checkbox
+        id="__addonRef__-enableHidePopupTextarea"
+        class="enable-popup"
+        label="&zotero.__addonRef__.pref.basic.enableHidePopupTextarea.label;"
+        native="true"
+        preference="__prefsPrefix__.enableHidePopupTextarea"
+      />
+    </hbox>
     <hbox>
       <checkbox
         id="__addonRef__-enableAddToNote"

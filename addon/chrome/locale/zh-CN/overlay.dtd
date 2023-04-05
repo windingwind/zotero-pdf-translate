@@ -1,6 +1,7 @@
 <!ENTITY zotero.__addonRef__.pref.general.label "通用">
 <!ENTITY zotero.__addonRef__.pref.basic.enableAuto.label "自动翻译选择内容">
 <!ENTITY zotero.__addonRef__.pref.basic.enablePopup.label "启用弹窗">
+<!ENTITY zotero.__addonRef__.pref.basic.enableHidePopupTextarea.label "隐藏翻译弹窗">
 <!ENTITY zotero.__addonRef__.pref.basic.enableComment.label "自动翻译批注">
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInComment.label "存在笔记评论">
 <!ENTITY zotero.__addonRef__.pref.basic.annotationTranslationInBody.label "存在笔记本身">
