@@ -754,6 +754,15 @@ function buildExtraPanel(panel: XUL.Box) {
     },
     panel
   );
+  const extraEngines = (getPref("extraEngines") as string)
+    .split(",")
+    .filter((thisServiceId) =>
+      SERVICES.find((service) => service.id === thisServiceId)
+    );
+  if (!extraEngines.length) {
+    panel.style.display = "contents";
+    return;
+  }
   ztoolkit.UI.appendElement(
     {
       tag: "vbox",
@@ -761,130 +770,125 @@ function buildExtraPanel(panel: XUL.Box) {
         flex: "1",
         align: "stretch",
       },
-      children: (getPref("extraEngines") as string)
-        .split(",")
-        .filter((thisServiceId) =>
-          SERVICES.find((service) => service.id === thisServiceId)
-        )
-        .map((serviceId, idx) => {
-          return {
-            tag: "vbox",
-            attributes: {
-              flex: "1",
-              align: "stretch",
-            },
-            children: [
-              {
-                tag: "hbox",
-                id: `${serviceId}-${idx}`,
-                attributes: {
-                  flex: "1",
-                  align: "center",
-                },
-                properties: {
-                  maxHeight: 30,
-                  minHeight: 30,
-                },
-                classList: [serviceId],
-                children: [
-                  {
-                    tag: "menulist",
-                    attributes: {
-                      flex: "1",
-                      value: serviceId,
-                    },
-                    listeners: [
-                      {
-                        type: "command",
-                        listener: (ev: Event) => {
-                          const menulist = ev.currentTarget as XUL.MenuList;
-                          const newService = menulist.value;
-                          const [serviceId, idx] =
-                            menulist.parentElement?.id.split("-") || [];
-                          const extraServices = (
-                            getPref("extraEngines") as string
-                          ).split(",");
-                          if (extraServices[Number(idx)] === serviceId) {
-                            // If the idx and service matches
-                            extraServices[Number(idx)] = newService;
-                            menulist.parentElement!.id = `${newService}-${idx}`;
-                            menulist.parentElement!.className = newService;
-                            setPref("extraEngines", extraServices.join(","));
-                          } else {
-                            // Otherwise reload window
-                            openWindowPanel();
-                          }
-                        },
-                      },
-                    ],
-                    children: [
-                      {
-                        tag: "menupopup",
-                        children: SERVICES.filter(
-                          (service) => service.type === "sentence"
-                        ).map((service) => ({
-                          tag: "menuitem",
-                          attributes: {
-                            label: getString(`service.${service.id}`),
-                            value: service.id,
-                          },
-                        })),
-                      },
-                    ],
+      children: extraEngines.map((serviceId, idx) => {
+        return {
+          tag: "vbox",
+          attributes: {
+            flex: "1",
+            align: "stretch",
+          },
+          children: [
+            {
+              tag: "hbox",
+              id: `${serviceId}-${idx}`,
+              attributes: {
+                flex: "1",
+                align: "center",
+              },
+              properties: {
+                maxHeight: 30,
+                minHeight: 30,
+              },
+              classList: [serviceId],
+              children: [
+                {
+                  tag: "menulist",
+                  attributes: {
+                    flex: "1",
+                    value: serviceId,
                   },
-                  {
-                    tag: "button",
-                    namespace: "xul",
-                    attributes: {
-                      label: getString("readerpanel.extra.removeservice.label"),
-                    },
-                    styles: {
-                      minWidth: "0px",
-                    },
-                    listeners: [
-                      {
-                        type: "click",
-                        listener: (ev) => {
-                          const [serviceId, idx] =
-                            (ev.target as XUL.Button).parentElement?.id.split(
-                              "-"
-                            ) || [];
-                          const extraServices = (
-                            getPref("extraEngines") as string
-                          ).split(",");
+                  listeners: [
+                    {
+                      type: "command",
+                      listener: (ev: Event) => {
+                        const menulist = ev.currentTarget as XUL.MenuList;
+                        const newService = menulist.value;
+                        const [serviceId, idx] =
+                          menulist.parentElement?.id.split("-") || [];
+                        const extraServices = (
+                          getPref("extraEngines") as string
+                        ).split(",");
+                        if (extraServices[Number(idx)] === serviceId) {
                           // If the idx and service matches
-                          if (extraServices[Number(idx)] === serviceId) {
-                            extraServices.splice(Number(idx), 1);
-                            setPref("extraEngines", extraServices.join(","));
-                          }
+                          extraServices[Number(idx)] = newService;
+                          menulist.parentElement!.id = `${newService}-${idx}`;
+                          menulist.parentElement!.className = newService;
+                          setPref("extraEngines", extraServices.join(","));
+                        } else {
+                          // Otherwise reload window
                           openWindowPanel();
-                        },
+                        }
                       },
-                    ],
-                  },
-                ],
-              },
-              {
-                tag: "hbox",
-                attributes: {
-                  flex: "1",
-                  spellcheck: false,
-                },
-                children: [
-                  {
-                    tag: "textarea",
-                    styles: {
-                      resize: "none",
-                      fontSize: `${getPref("fontSize")}px`,
-                      "font-family": "inherit",
-                      lineHeight: getPref("lineHeight") as string,
                     },
+                  ],
+                  children: [
+                    {
+                      tag: "menupopup",
+                      children: SERVICES.filter(
+                        (service) => service.type === "sentence"
+                      ).map((service) => ({
+                        tag: "menuitem",
+                        attributes: {
+                          label: getString(`service.${service.id}`),
+                          value: service.id,
+                        },
+                      })),
+                    },
+                  ],
+                },
+                {
+                  tag: "button",
+                  namespace: "xul",
+                  attributes: {
+                    label: getString("readerpanel.extra.removeservice.label"),
                   },
-                ],
+                  styles: {
+                    minWidth: "0px",
+                  },
+                  listeners: [
+                    {
+                      type: "click",
+                      listener: (ev) => {
+                        const [serviceId, idx] =
+                          (ev.target as XUL.Button).parentElement?.id.split(
+                            "-"
+                          ) || [];
+                        const extraServices = (
+                          getPref("extraEngines") as string
+                        ).split(",");
+                        // If the idx and service matches
+                        if (extraServices[Number(idx)] === serviceId) {
+                          extraServices.splice(Number(idx), 1);
+                          setPref("extraEngines", extraServices.join(","));
+                        }
+                        openWindowPanel();
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              tag: "hbox",
+              attributes: {
+                flex: "1",
+                spellcheck: false,
               },
-            ],
-          };
-        }),
+              children: [
+                {
+                  tag: "textarea",
+                  styles: {
+                    resize: "none",
+                    fontSize: `${getPref("fontSize")}px`,
+                    "font-family": "inherit",
+                    lineHeight: getPref("lineHeight") as string,
+                  },
+                },
+              ],
+            },
+          ],
+        };
+      }),
     },
     panel
   );
