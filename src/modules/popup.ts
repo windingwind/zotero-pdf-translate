@@ -3,6 +3,7 @@ import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/translate";
+import { slice } from "../utils/str";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -246,22 +247,25 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               },
             },
             {
-              type: "dbclick",
+              type: "dblclick",
               listener: (_ev) => {
                 const textarea = popup.querySelector(
                   `#${makeId("text")}`
                 ) as HTMLTextAreaElement;
                 textarea.selectionStart = 0;
                 textarea.selectionEnd = textarea.value.length;
-                new ztoolkit.Clipboard()
-                  .addText(
-                    textarea.value.slice(
-                      textarea.selectionStart,
-                      textarea.selectionEnd
-                    ),
-                    "text/unicode"
-                  )
-                  .copy();
+                const text = textarea.value.slice(
+                  textarea.selectionStart,
+                  textarea.selectionEnd
+                );
+                new ztoolkit.Clipboard().addText(text, "text/unicode").copy();
+                new ztoolkit.ProgressWindow("Copied to Clipboard")
+                  .createLine({
+                    text: slice(text, 50),
+                    progress: 100,
+                    type: "default",
+                  })
+                  .show();
               },
             },
           ],
