@@ -106,7 +106,9 @@ export class TranslationServices {
         const disabledLanguages = (
           getPref("disabledLanguages") as string
         ).split(",");
-        disabledByItemLanguage = disabledLanguages.includes(itemLanguage);
+        disabledByItemLanguage =
+          disabledLanguages.length > 0 &&
+          disabledLanguages.includes(itemLanguage);
       }
     }
     if (disabledByItemLanguage) {
