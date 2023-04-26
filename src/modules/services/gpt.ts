@@ -19,9 +19,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
         messages: [
           {
             role: "user",
-            content: `Translate this passage from ${
-              data.langfrom.split("-")[0]
-            } to ${data.langto.split("-")[0]}: ${data.raw}`,
+            content: `You are an academic expert with specialized knowledge in various fields. Please translate the following text from ${data.langfrom.split("-")[0]} into ${data.langto.split("-")[0]} using professional language  while ensuring the sentence flow:${data.raw}`,
           },
         ],
         temperature: temperature,
