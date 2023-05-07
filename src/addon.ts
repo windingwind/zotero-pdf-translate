@@ -30,7 +30,7 @@ class Addon {
       queue: TranslateTask[];
       maximumQueueLength: number;
       batchTaskDelay: number;
-      batchTaskDelayGPT: number,
+      batchTaskDelayGPT: number;
       services: TranslationServices;
     };
   };
