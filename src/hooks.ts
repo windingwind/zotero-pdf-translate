@@ -160,7 +160,21 @@ async function onTranslateInBatch(
 ) {
   for (const task of tasks) {
     await addon.hooks.onTranslate(task, options);
-    await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
+    /**
+     * Yuankun Liu (https://github.com/lyk7539511)
+     *  
+     * Here, the `if` statement determines whether to use GPT as the translation engine. 
+     * If so, the waiting time for batch translation is increased from the original 1000 
+     * to 21000 to avoid triggering OpenAI's API call limit of 3 calls per minute. 
+     * This prevents missing translations due to missed wait times.
+     */
+    if (getPref('translateSource') === 'gpt') {
+      await Zotero.Promise.delay(addon.data.translate.batchTaskDelayGPT);
+    }
+    else {
+      await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
+    }
+      
   }
 }
 
