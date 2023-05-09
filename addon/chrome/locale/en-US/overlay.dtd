@@ -13,6 +13,7 @@
 <!ENTITY zotero.__addonRef__.pref.service.label "Service">
 <!ENTITY zotero.__addonRef__.pref.service.sentenceServices.label "Translation Services">
 <!ENTITY zotero.__addonRef__.pref.service.sentenceServicesSecret.label "Secret">
+<!ENTITY zotero.__addonRef__.pref.service.gptNoCreditCardDelay.label "Use 21s Delay Time for an OpenAI User Who are NOT Tied to a Credit Card in Batch Translate Task">
 <!ENTITY zotero.__addonRef__.pref.service.useWordService.label "Use Dictionary Service for Word Translation">
 <!ENTITY zotero.__addonRef__.pref.service.wordServices.label "Dictionary Services">
 <!ENTITY zotero.__addonRef__.pref.service.wordServicesSecret.label "Secret">

@@ -13,6 +13,7 @@
 <!ENTITY zotero.__addonRef__.pref.service.label "服务">
 <!ENTITY zotero.__addonRef__.pref.service.sentenceServices.label "翻译服务">
 <!ENTITY zotero.__addonRef__.pref.service.sentenceServicesSecret.label "密钥">
+<!ENTITY zotero.__addonRef__.pref.service.gptNoCreditCardDelay.label "对于没有添加信用卡的OpenAI用户, 如果要批量翻译, 请务必勾选此选项增加21秒等待时间">
 <!ENTITY zotero.__addonRef__.pref.service.useWordService.label "使用字典服务翻译词语">
 <!ENTITY zotero.__addonRef__.pref.service.wordServices.label "字典服务">
 <!ENTITY zotero.__addonRef__.pref.service.wordServicesSecret.label "密钥">
