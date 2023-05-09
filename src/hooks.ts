@@ -158,23 +158,25 @@ async function onTranslateInBatch(
     Addon["data"]["translate"]["services"]["runTranslationTask"]
   >["1"] = {}
 ) {
+  let current:number = 0;
   for (const task of tasks) {
-    await addon.hooks.onTranslate(task, options);
+
     /**
      * Yuankun Liu (https://github.com/lyk7539511)
      *  
-     * Here, the `if` statement determines whether to use GPT as the translation engine. 
-     * If so, the waiting time for batch translation is increased from the original 1000 
-     * to 21000 to avoid triggering OpenAI's API call limit of 3 calls per minute. 
-     * This prevents missing translations due to missed wait times.
+     * OpenAI has an API call limit of three times per minute for users who 
+     * have not added a credit card. Therefore, it is up to the user to decide 
+     * whether to add a delay time to avoid triggering the limit condition.
      */
-    if (getPref('translateSource') === 'gpt') {
+
+    current += 1; // The first three translation tasks will never be delayed.
+    if (!(current <= 3) && getPref('enableGptNoCreditCardDelay')) {
       await Zotero.Promise.delay(addon.data.translate.batchTaskDelayGPT);
     }
     else {
       await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
     }
-      
+    await addon.hooks.onTranslate(task, options);      
   }
 }
 
