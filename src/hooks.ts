@@ -170,7 +170,7 @@ async function onTranslateInBatch(
      */
 
     current += 1; // The first three translation tasks will never be delayed.
-    if (!(current <= 3) && getPref('enableGptNoCreditCardDelay')) {
+    if (!(current <= 3) && getPref('enableGptNoCreditCardDelay') && (getPref('translateSource') === 'gpt')) {
       await Zotero.Promise.delay(addon.data.translate.batchTaskDelayGPT);
     }
     else {
