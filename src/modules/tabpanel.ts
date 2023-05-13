@@ -149,7 +149,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
         align: "stretch",
       },
       styles: {
-        padding: "0px 10px 10px 10px",
+        padding: "8px",
       },
       ignoreIfExists: true,
       children: [
@@ -157,19 +157,15 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           tag: "hbox",
           id: makeId("engine"),
           attributes: {
-            flex: "1",
+            flex: "0",
             align: "center",
-          },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
           },
           children: [
             {
               tag: "menulist",
               id: makeId("services"),
               attributes: {
-                flex: "1",
+                flex: "0",
               },
               listeners: [
                 {
@@ -243,12 +239,11 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           tag: "hbox",
           id: makeId("lang"),
           attributes: {
-            flex: "1",
+            flex: "0",
             align: "center",
           },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
+          styles: {
+            marginTop: "8px",
           },
           children: [
             {
@@ -281,6 +276,10 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
             },
             {
               tag: "div",
+              styles: {
+                paddingLeft: "8px",
+                paddingRight: "8px",
+              },
               properties: {
                 innerHTML: "↔️",
               },
@@ -331,22 +330,27 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           tag: "hbox",
           id: makeId("auto"),
           attributes: {
-            flex: "1",
+            flex: "0",
             align: "center",
           },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
+          styles: {
+            marginTop: "8px",
           },
           children: [
             {
               tag: "div",
+              styles: {
+                paddingLeft: "8px",
+              },
               properties: {
                 innerHTML: getString("readerpanel.auto.description.label"),
               },
             },
             {
               tag: "checkbox",
+              styles: {
+                paddingLeft: "8px",
+              },
               id: makeId("autotrans"),
               attributes: {
                 label: getString("readerpanel.auto.selection.label"),
@@ -363,6 +367,9 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
             },
             {
               tag: "checkbox",
+              styles: {
+                paddingLeft: "8px",
+              },
               id: makeId("autoannot"),
               attributes: {
                 label: getString("readerpanel.auto.annotation.label"),
@@ -385,23 +392,28 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
         {
           tag: "hbox",
           id: makeId("concat"),
-          attributes: {
-            flex: "1",
-            align: "center",
+          styles: {
+            marginTop: "8px",
           },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
+          attributes: {
+            flex: "0",
+            align: "center",
           },
           children: [
             {
               tag: "div",
+              styles: {
+                paddingLeft: "8px",
+              },
               properties: {
                 innerHTML: getString("readerpanel.concat.description.label"),
               },
             },
             {
               tag: "checkbox",
+              styles: {
+                paddingLeft: "8px",
+              },
               id: makeId("concat"),
               attributes: {
                 label: `${getString(
@@ -422,6 +434,9 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
             },
             {
               tag: "button",
+              styles: {
+                paddingLeft: "8px",
+              },
               namespace: "xul",
               attributes: {
                 label: getString("readerpanel.concat.clear.label"),
@@ -449,6 +464,9 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           attributes: {
             flex: "1",
             spellcheck: false,
+          },
+          styles: {
+            marginTop: "8px",
           },
           children: [
             {
@@ -533,12 +551,11 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           tag: "hbox",
           id: makeId("copy"),
           attributes: {
-            flex: "1",
+            flex: "0",
             align: "center",
           },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
+          styles: {
+            marginTop: "8px",
           },
           children: [
             {
@@ -627,13 +644,12 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
         {
           tag: "hbox",
           id: makeId("openwindow"),
-          attributes: {
-            flex: "1",
-            align: "center",
+          styles: {
+            marginTop: "8px",
           },
-          properties: {
-            maxHeight: 30,
-            minHeight: 30,
+          attributes: {
+            flex: "0",
+            align: "center",
           },
           children: [
             {
@@ -672,9 +688,10 @@ function buildExtraPanel(panel: XUL.Box) {
         flex: "1",
         align: "center",
       },
-      properties: {
-        maxHeight: 30,
-        minHeight: 30,
+      styles: {
+        paddingLeft: "8px",
+        paddingRight: "8px",
+        marginBottom: "8px",
       },
       ignoreIfExists: true,
       children: [
@@ -683,7 +700,7 @@ function buildExtraPanel(panel: XUL.Box) {
           namespace: "xul",
           attributes: {
             label: getString("readerpanel.extra.addservice.label"),
-            flex: "0",
+            flex: "1",
           },
           listeners: [
             {
@@ -706,7 +723,7 @@ function buildExtraPanel(panel: XUL.Box) {
           namespace: "xul",
           attributes: {
             label: getString("readerpanel.extra.resize.label"),
-            flex: "0",
+            flex: "1",
           },
           listeners: [
             {
@@ -735,7 +752,7 @@ function buildExtraPanel(panel: XUL.Box) {
                 getPref("keepWindowTop") ? "pinned" : "pin"
               }.label`
             ),
-            flex: "0",
+            flex: "1",
           },
           styles: {
             minWidth: "0px",
@@ -784,10 +801,6 @@ function buildExtraPanel(panel: XUL.Box) {
               attributes: {
                 flex: "1",
                 align: "center",
-              },
-              properties: {
-                maxHeight: 30,
-                minHeight: 30,
               },
               classList: [serviceId],
               children: [
