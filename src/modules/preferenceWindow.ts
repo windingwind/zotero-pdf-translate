@@ -196,6 +196,12 @@ function buildPrefsPane() {
     });
 
   doc
+    .querySelector(`#${makeId("gptNoCreditCardDelay")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("setGptNoCreditCardDelay");
+    });
+
+  doc
     .querySelector(`#${makeId("useWordService")}`)
     ?.addEventListener("command", (e: Event) => {
       onPrefsEvents("setUseWordService");
@@ -229,6 +235,7 @@ function buildPrefsPane() {
 function updatePrefsPaneDefault() {
   onPrefsEvents("setAutoTranslateAnnotation", false);
   onPrefsEvents("setEnablePopup", false);
+  onPrefsEvents("setGptNoCreditCardDelay", false)
   onPrefsEvents("setUseWordService", false);
   onPrefsEvents("setSentenceSecret", false);
   onPrefsEvents("setWordSecret", false);
@@ -283,6 +290,16 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           : (getPref("enableNote") as boolean);
         const hidden = !elemValue;
         setDisabled("enable-popup-addtonote", hidden);
+      }
+      break;
+    case "setGptNoCreditCardDelay":
+      {
+        let elemValue = fromElement
+          ? (doc.querySelector(`#${makeId("gptNoCreditCardDelay")}`) as XUL.Checkbox)
+              .checked
+          : (getPref("enableGptNoCreditCardDelay") as boolean);
+        const hidden = !elemValue;
+        setDisabled("enable-gpt-no-credit-card-delay", hidden);
       }
       break;
     case "setUseWordService":

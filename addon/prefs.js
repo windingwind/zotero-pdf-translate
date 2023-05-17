@@ -1,4 +1,5 @@
 pref("__prefsPrefix__.enableAuto", true);
+pref("__prefsPrefix__.enableGptNoCreditCardDelay", false);
 pref("__prefsPrefix__.enableDict", true);
 pref("__prefsPrefix__.enablePopup", true);
 pref("__prefsPrefix__.enableComment", true);

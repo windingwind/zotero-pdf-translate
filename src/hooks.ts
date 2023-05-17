@@ -158,9 +158,25 @@ async function onTranslateInBatch(
     Addon["data"]["translate"]["services"]["runTranslationTask"]
   >["1"] = {}
 ) {
+  let current:number = 0;
   for (const task of tasks) {
-    await addon.hooks.onTranslate(task, options);
-    await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
+
+    /**
+     * Yuankun Liu (https://github.com/lyk7539511)
+     *  
+     * OpenAI has an API call limit of three times per minute for users who 
+     * have not added a credit card. Therefore, it is up to the user to decide 
+     * whether to add a delay time to avoid triggering the limit condition.
+     */
+
+    current += 1; // The first three translation tasks will never be delayed.
+    if (!(current <= 3) && getPref('enableGptNoCreditCardDelay') && (getPref('translateSource') === 'gpt')) {
+      await Zotero.Promise.delay(addon.data.translate.batchTaskDelayGPT);
+    }
+    else {
+      await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
+    }
+    await addon.hooks.onTranslate(task, options);      
   }
 }
 
