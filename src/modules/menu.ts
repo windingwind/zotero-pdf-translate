@@ -47,35 +47,4 @@ export function registerMenu() {
     },
     icon: menuIcon,
   });
-  ztoolkit.Menu.register("item", {
-    tag: "menu",
-    label: getString("itemmenu.more.label"),
-    children: [
-      {
-        tag: "menuitem",
-        label: getString("itemmenu.retranslateTitle.label"),
-        commandListener: (ev) => {
-          addon.hooks.onTranslateInBatch(
-            ZoteroPane.getSelectedItems(true)
-              .map((id) => addTranslateTitleTask(id, false))
-              .filter((task) => task) as TranslateTask[],
-            { noDisplay: true }
-          );
-        },
-      },
-      {
-        tag: "menuitem",
-        label: getString("itemmenu.retranslateAbstract.label"),
-        commandListener: (ev) => {
-          addon.hooks.onTranslateInBatch(
-            ZoteroPane.getSelectedItems(true)
-              .map((id) => addTranslateAbstractTask(id, false))
-              .filter((task) => task) as TranslateTask[],
-            { noDisplay: true }
-          );
-        },
-      },
-    ],
-    icon: menuIcon,
-  });
 }
