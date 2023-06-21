@@ -158,7 +158,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             lineHeight: `${
               Number(getPref("lineHeight")) * Number(getPref("fontSize"))
             }px`,
-            width: "-moz-available",
+            width: keepSize ? `${getPref("popupWidth")}px` : "-moz-available",
             height: `${Math.max(
               keepSize ? Number(getPref("popupHeight")) : 30
             )}px`,
