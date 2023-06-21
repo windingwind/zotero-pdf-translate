@@ -11,7 +11,7 @@ class Addon {
     env: "development" | "production";
     ztoolkit: ZToolkit;
     locale: {
-      stringBundle: any;
+      current?: any;
     };
     prefs: {
       window: Window | null;
@@ -43,7 +43,7 @@ class Addon {
       alive: true,
       env: __env__,
       ztoolkit: new ZToolkit(),
-      locale: { stringBundle: null },
+      locale: {},
       prefs: { window: null },
       panel: { tabOptionId: "", activePanels: [], windowPanel: null },
       popup: { currentPopup: null },

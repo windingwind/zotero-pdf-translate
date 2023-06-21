@@ -1,9 +1,12 @@
-const { execSync } = require("child_process");
-const { exit } = require("process");
-const { exec } = require("./zotero-cmd.json");
+import process from "process";
+import { execSync } from "child_process";
+import { exit } from "process";
+import minimist from "minimist";
+import cmd from "./zotero-cmd.json" assert { type: "json" };
+const { exec } = cmd;
 
 // Run node start.js -h for help
-const args = require("minimist")(process.argv.slice(2));
+const args = minimist(process.argv.slice(2));
 
 if (args.help || args.h) {
   console.log("Start Zotero Args:");
