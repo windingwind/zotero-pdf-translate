@@ -503,6 +503,9 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
           tag: "splitter",
           id: makeId("splitter"),
           attributes: { collapse: "after" },
+          styles: {
+            height: "3px",
+          },
           children: [
             {
               tag: "grippy",
