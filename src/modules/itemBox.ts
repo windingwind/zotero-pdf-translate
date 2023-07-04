@@ -9,7 +9,7 @@ export async function registerItemBoxExtraRows() {
       // getField hook is registered in itemTree.ts
       undefined,
       {
-        editable: true,
+        editable: false,
         setFieldHook: (field, value, loadIn, item, original) => {
           ztoolkit.ExtraField.setExtraField(item, field, value);
           return true;
@@ -28,7 +28,7 @@ export async function registerItemBoxExtraRows() {
         return ztoolkit.ExtraField.getExtraField(item, field) || "";
       },
       {
-        editable: true,
+        editable: false,
         setFieldHook: (field, value, loadIn, item, original) => {
           ztoolkit.ExtraField.setExtraField(item, field, value);
           return true;
