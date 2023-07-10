@@ -60,6 +60,7 @@ export default <TranslateTaskProcessor>async function (data) {
   //   // throw "CNKI requires verification. Please verify manually in popup or open dict.cnki.net in browser.";
   // }
   let tgt = xhr.response.data?.mResult;
+  tgt = tgt.replace('(查看名企职位领高薪offer！--->智联招聘https://dict.cnki.net/ad.html)', '');
   data.result = tgt;
 };
 
