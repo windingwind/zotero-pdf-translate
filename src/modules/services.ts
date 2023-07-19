@@ -6,25 +6,25 @@ import {
 } from "../utils/translate";
 
 export class TranslationServices {
-  [key: string]: TranslateTaskRunner | Function;
+  [key: string]: TranslateTaskRunner | unknown;
   constructor() {
     import("./services/baidu").then(
-      (e) => (this.baidu = new TranslateTaskRunner(e.default))
+      (e) => (this.baidu = new TranslateTaskRunner(e.default)),
     );
     import("./services/baidufield").then(
-      (e) => (this.baidufield = new TranslateTaskRunner(e.default))
+      (e) => (this.baidufield = new TranslateTaskRunner(e.default)),
     );
     import("./services/bingdict").then(
-      (e) => (this.bingdict = new TranslateTaskRunner(e.default))
+      (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
     );
     import("./services/caiyun").then(
-      (e) => (this.caiyun = new TranslateTaskRunner(e.default))
+      (e) => (this.caiyun = new TranslateTaskRunner(e.default)),
     );
     import("./services/cnki").then(
-      (e) => (this.cnki = new TranslateTaskRunner(e.default))
+      (e) => (this.cnki = new TranslateTaskRunner(e.default)),
     );
     import("./services/collinsdict").then(
-      (e) => (this.collinsdict = new TranslateTaskRunner(e.default))
+      (e) => (this.collinsdict = new TranslateTaskRunner(e.default)),
     );
     import("./services/deepl").then((e) => {
       this.deeplfree = new TranslateTaskRunner(e.deeplfree);
@@ -34,50 +34,50 @@ export class TranslationServices {
       this.deeplx = new TranslateTaskRunner(e.default);
     });
     import("./services/deeplcustom").then(
-      (e) => (this.deeplcustom = new TranslateTaskRunner(e.default))
+      (e) => (this.deeplcustom = new TranslateTaskRunner(e.default)),
     );
     import("./services/freedictionaryapi").then(
-      (e) => (this.freedictionaryapi = new TranslateTaskRunner(e.default))
+      (e) => (this.freedictionaryapi = new TranslateTaskRunner(e.default)),
     );
     import("./services/google").then((e) => {
       this.googleapi = new TranslateTaskRunner(e.googleapi);
       this.google = new TranslateTaskRunner(e.google);
     });
     import("./services/haici").then(
-      (e) => (this.haici = new TranslateTaskRunner(e.default))
+      (e) => (this.haici = new TranslateTaskRunner(e.default)),
     );
     import("./services/haicidict").then(
-      (e) => (this.haicidict = new TranslateTaskRunner(e.default))
+      (e) => (this.haicidict = new TranslateTaskRunner(e.default)),
     );
     import("./services/microsoft").then(
-      (e) => (this.microsoft = new TranslateTaskRunner(e.default))
+      (e) => (this.microsoft = new TranslateTaskRunner(e.default)),
     );
     import("./services/niutrans").then(
-      (e) => (this.niutranspro = new TranslateTaskRunner(e.default))
+      (e) => (this.niutranspro = new TranslateTaskRunner(e.default)),
     );
     import("./services/openl").then(
-      (e) => (this.openl = new TranslateTaskRunner(e.default))
+      (e) => (this.openl = new TranslateTaskRunner(e.default)),
     );
     import("./services/tencent").then(
-      (e) => (this.tencent = new TranslateTaskRunner(e.default))
+      (e) => (this.tencent = new TranslateTaskRunner(e.default)),
     );
     import("./services/webliodict").then(
-      (e) => (this.webliodict = new TranslateTaskRunner(e.default))
+      (e) => (this.webliodict = new TranslateTaskRunner(e.default)),
     );
     import("./services/xftrans").then(
-      (e) => (this.xftrans = new TranslateTaskRunner(e.default))
+      (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
     );
     import("./services/gpt").then(
-      (e) => (this.gpt = new TranslateTaskRunner(e.gptTranslate))
+      (e) => (this.gpt = new TranslateTaskRunner(e.gptTranslate)),
     );
     import("./services/youdao").then(
-      (e) => (this.youdao = new TranslateTaskRunner(e.default))
+      (e) => (this.youdao = new TranslateTaskRunner(e.default)),
     );
     import("./services/youdaodict").then(
-      (e) => (this.youdaodict = new TranslateTaskRunner(e.default))
+      (e) => (this.youdaodict = new TranslateTaskRunner(e.default)),
     );
     import("./services/youdaozhiyun").then(
-      (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default))
+      (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default)),
     );
   }
 
@@ -86,7 +86,7 @@ export class TranslationServices {
     options: {
       noCheckZoteroItemLanguage?: boolean;
       noDisplay?: boolean;
-    } = {}
+    } = {},
   ): Promise<boolean> {
     ztoolkit.log("runTranslationTask", options);
     task = task || getLastTranslateTask();
@@ -148,7 +148,7 @@ export class TranslationServices {
             noCheckZoteroItemLanguage: options.noCheckZoteroItemLanguage,
             noDisplay: true,
           });
-        })
+        }),
       ).then(() => {
         addon.hooks.onReaderTabPanelRefresh();
       });
@@ -200,7 +200,7 @@ export class TranslationServices {
               ztoolkit.ExtraField.setExtraField(
                 item,
                 "titleTranslation",
-                task.result
+                task.result,
               );
               item.saveTx();
             }
@@ -213,7 +213,7 @@ export class TranslationServices {
                 item,
                 "abstractTranslation",
                 // A dirty workaround to make it collapsible on Zotero 6
-                ztoolkit.isZotero7() ? task.result : " " + task.result
+                ztoolkit.isZotero7() ? task.result : " " + task.result,
               );
               item.saveTx();
             }

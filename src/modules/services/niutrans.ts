@@ -23,7 +23,7 @@ export default <TranslateTaskProcessor>async function (data) {
         src_text: data.raw,
       }),
       responseType: "json",
-    }
+    },
   );
 
   if (xhr?.status !== 200) {

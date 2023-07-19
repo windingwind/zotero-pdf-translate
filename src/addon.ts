@@ -128,7 +128,7 @@ export class ZToolkit extends BasicTool {
     this.ProgressWindow = ProgressWindowHelper;
     this.ProgressWindow.setIconURI(
       "default",
-      `chrome://${config.addonRef}/content/icons/favicon.png`
+      `chrome://${config.addonRef}/content/icons/favicon.png`,
     );
     this.Clipboard = ClipboardHelper;
   }

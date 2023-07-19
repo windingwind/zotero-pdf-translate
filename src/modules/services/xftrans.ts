@@ -2,7 +2,7 @@ import { base64, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
 import { TranslateTaskProcessor } from "../../utils/translate";
 
 export default <TranslateTaskProcessor>async function (data) {
-  let [appid, apiSecret, apiKey] = data.secret.split("#");
+  const [appid, apiSecret, apiKey] = data.secret.split("#");
   const config = {
     appid,
     apiSecret,
@@ -24,7 +24,7 @@ export default <TranslateTaskProcessor>async function (data) {
     return outlang;
   }
 
-  let transVar = {
+  const transVar = {
     text: data.raw,
     from: transLang(data.langfrom),
     to: transLang(data.langto),
@@ -67,7 +67,7 @@ export default <TranslateTaskProcessor>async function (data) {
     const signatureOrigin = `host: ${config.host}\ndate: ${date}\nPOST ${config.uri} HTTP/1.1\ndigest: ${digest}`;
     const signatureSha = await hmacSha256Digest(
       signatureOrigin,
-      config.apiSecret
+      config.apiSecret,
     );
     const signature = base64(signatureSha);
     const authorizationOrigin = `api_key="${config.apiKey}", algorithm="hmac-sha256", headers="host date request-line digest", signature="${signature}"`;

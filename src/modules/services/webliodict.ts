@@ -4,13 +4,13 @@ export default <TranslateTaskProcessor>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://ejje.weblio.jp/content/${encodeURIComponent(data.raw)}/`,
-    { responseType: "text" }
+    { responseType: "text" },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
 
-  let res = xhr.response;
+  const res = xhr.response;
   const doc: Document = ztoolkit
     .getDOMParser()
     .parseFromString(res, "text/html");
@@ -21,7 +21,7 @@ export default <TranslateTaskProcessor>async function (data) {
       return [];
     }
     return Array.from(ele.children).map((e) =>
-      (e as HTMLElement).innerText.trim()
+      (e as HTMLElement).innerText.trim(),
     );
   };
 
@@ -30,7 +30,7 @@ export default <TranslateTaskProcessor>async function (data) {
 
   Array.prototype.forEach.call(
     doc.querySelector(".summaryM")?.children,
-    (e: Element) => translations.push(process(e))
+    (e: Element) => translations.push(process(e)),
   );
 
   Array.from(doc.querySelectorAll(".intrst"))

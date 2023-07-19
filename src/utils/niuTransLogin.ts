@@ -37,10 +37,10 @@ export async function niutransStatusCallback(status: boolean) {
           for: "username",
         },
         properties: {
-          innerHTML: getString("service.niutranspro.dialog.username"),
+          innerHTML: getString("service-niutranspro-dialog-username"),
         },
       },
-      false
+      false,
     )
     .addCell(0, 1, {
       tag: "input",
@@ -58,10 +58,10 @@ export async function niutransStatusCallback(status: boolean) {
         tag: "a",
         properties: {
           href: "https://niutrans.com/register",
-          innerHTML: getString("service.niutranspro.dialog.signup"),
+          innerHTML: getString("service-niutranspro-dialog-signup"),
         },
       },
-      false
+      false,
     )
     .addCell(
       1,
@@ -73,10 +73,10 @@ export async function niutransStatusCallback(status: boolean) {
           for: "password",
         },
         properties: {
-          innerHTML: getString("service.niutranspro.dialog.password"),
+          innerHTML: getString("service-niutranspro-dialog-password"),
         },
       },
-      false
+      false,
     )
     .addCell(1, 1, {
       tag: "input",
@@ -94,10 +94,10 @@ export async function niutransStatusCallback(status: boolean) {
         tag: "a",
         properties: {
           href: "https://niutrans.com/password_find",
-          innerHTML: getString("service.niutranspro.dialog.forget"),
+          innerHTML: getString("service-niutranspro-dialog-forget"),
         },
       },
-      false
+      false,
     )
     .addCell(
       2,
@@ -106,10 +106,10 @@ export async function niutransStatusCallback(status: boolean) {
         tag: "label",
         namespace: "html",
         properties: {
-          innerHTML: getString("service.niutranspro.dialog.dictLib"),
+          innerHTML: getString("service-niutranspro-dialog-dictLib"),
         },
       },
-      false
+      false,
     )
     .addCell(
       2,
@@ -128,10 +128,10 @@ export async function niutransStatusCallback(status: boolean) {
               value: dict.dictNo,
               innerHTML: dict.dictName,
             },
-          })
+          }),
         ),
       },
-      false
+      false,
     )
     .addCell(
       3,
@@ -140,10 +140,10 @@ export async function niutransStatusCallback(status: boolean) {
         tag: "label",
         namespace: "html",
         properties: {
-          innerHTML: getString("service.niutranspro.dialog.memoryLib"),
+          innerHTML: getString("service-niutranspro-dialog-memoryLib"),
         },
       },
-      false
+      false,
     )
     .addCell(
       3,
@@ -162,10 +162,10 @@ export async function niutransStatusCallback(status: boolean) {
               value: memory.memoryNo,
               innerHTML: memory.memoryName,
             },
-          })
+          }),
         ),
       },
-      false
+      false,
     )
     .addCell(4, 0, {
       tag: "div",
@@ -176,41 +176,41 @@ export async function niutransStatusCallback(status: boolean) {
         {
           tag: "span",
           properties: {
-            innerHTML: getString("service.niutranspro.dialog.tip0"),
+            innerHTML: getString("service-niutranspro-dialog-tip0"),
           },
         },
         {
           tag: "a",
           properties: {
             href: "https://niutrans.com/cloud/resource/index",
-            innerHTML: getString("service.niutranspro.dialog.tip1"),
+            innerHTML: getString("service-niutranspro-dialog-tip1"),
           },
         },
         {
           tag: "span",
           properties: {
-            innerHTML: getString("service.niutranspro.dialog.tip2"),
+            innerHTML: getString("service-niutranspro-dialog-tip2"),
           },
         },
       ],
     })
     .addButton(
-      getString(`service.niutranspro.dialog.${signInOrRefresh}`),
-      "signin"
+      getString(`service-niutranspro-dialog-${signInOrRefresh}`),
+      "signin",
     )
     .addCell(4, 1, { tag: "fragment" }, false)
     .addCell(4, 2, { tag: "fragment" }, false);
 
   if (status) {
     dialog.addButton(
-      getString("service.niutranspro.dialog.signout"),
-      "signout"
+      getString("service-niutranspro-dialog-signout"),
+      "signout",
     );
   }
 
   dialog
-    .addButton(getString("service.niutranspro.dialog.close"), "close")
-    .open(getString("service.niutranspro.dialog.title"));
+    .addButton(getString("service-niutranspro-dialog-close"), "close")
+    .open(getString("service-niutranspro-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
@@ -218,7 +218,7 @@ export async function niutransStatusCallback(status: boolean) {
       {
         const { loginFlag, loginErrorMessage } = await niutransLogin(
           dialogData.username,
-          dialogData.password
+          dialogData.password,
         );
         if (!loginFlag) {
           window.alert(loginErrorMessage);
@@ -236,6 +236,7 @@ export async function niutransStatusCallback(status: boolean) {
         setPref("niutransMemoryNo", "");
         setServiceSecret("niutranspro", "");
         await niutransStatusCallback(false);
+        break;
       }
     }
     default:
@@ -246,19 +247,18 @@ export async function niutransStatusCallback(status: boolean) {
 async function niutransLogin(username: string, password: string) {
   let loginFlag = false;
   let loginErrorMessage = "Not login";
-  let keyxhr = await getPublicKey();
-  if (keyxhr?.status === 200 && keyxhr.response.flag === 1) {
-  } else {
+  const keyxhr = await getPublicKey();
+  if (keyxhr?.status !== 200 || keyxhr.response.flag !== 1) {
     return { loginFlag, loginErrorMessage };
   }
-  let encrypt = new JSEncrypt();
+  const encrypt = new JSEncrypt();
   encrypt.setPublicKey(keyxhr.response.key);
   let encryptionPassword = encrypt.encrypt(password);
   encryptionPassword = encodeURIComponent(encryptionPassword);
   const userLoginXhr = await loginApi(username, encryptionPassword);
   if (userLoginXhr?.status === 200) {
     if (userLoginXhr.response.flag === 1) {
-      let apikey = userLoginXhr.response.apikey;
+      const apikey = userLoginXhr.response.apikey;
       setPref("niutransUsername", username);
       setPref("niutransPassword", password);
       setServiceSecret("niutranspro", apikey);
@@ -280,7 +280,7 @@ async function loginApi(username: string, password: string) {
     {
       body: `account=${username}&encryptionPassword=${password}`,
       responseType: "json",
-    }
+    },
   );
 }
 
@@ -291,7 +291,7 @@ async function setDictLibList(apikey: string) {
     {
       body: `apikey=${apikey}`,
       responseType: "json",
-    }
+    },
   );
   if (xhr?.status === 200 && xhr.response.flag !== 0) {
     const dictList = xhr.response.dlist as {
@@ -309,8 +309,8 @@ async function setDictLibList(apikey: string) {
         dictList.map((dict) => ({
           dictName: dict.dictName,
           dictNo: dict.dictNo,
-        }))
-      )
+        })),
+      ),
     );
   }
 }
@@ -322,7 +322,7 @@ async function setMemoryLibList(apikey: string) {
     {
       body: `apikey=${apikey}`,
       responseType: "json",
-    }
+    },
   );
 
   if (xhr?.status === 200 && xhr.response.flag !== 0) {
@@ -342,8 +342,8 @@ async function setMemoryLibList(apikey: string) {
         memoryList.map((memory) => ({
           memoryName: memory.memoryName,
           memoryNo: memory.memoryNo,
-        }))
-      )
+        })),
+      ),
     );
   }
 }
@@ -354,6 +354,6 @@ async function getPublicKey() {
     "https://apis.niutrans.com/NiuTransAPIServer/getpublickey",
     {
       responseType: "json",
-    }
+    },
   );
 }

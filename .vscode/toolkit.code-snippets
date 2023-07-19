@@ -1,45 +1,45 @@
 {
-    "appendElement - full": {
-        "scope": "javascript,typescript",
-        "prefix": "appendElement",
-        "body": [
-            "appendElement({",
-            "\ttag: '${1:div}',",
-            "\tid: '${2:id}',",
-            "\tnamespace: '${3:html}',",
-            "\tclassList: ['${4:class}'],",
-            "\tstyles: {${5:style}: '$6'},",
-            "\tproperties: {},",
-            "\tattributes: {},",
-            "\t[{ '${7:onload}', (e: Event) => $8, ${9:false} }],",
-            "\tcheckExistanceParent: ${10:HTMLElement},",
-            "\tignoreIfExists: ${11:true},",
-            "\tskipIfExists: ${12:true},",
-            "\tremoveIfExists: ${13:true},",
-            "\tcustomCheck: (doc: Document, options: ElementOptions) => ${14:true},",
-            "\tchildren: [$15]",
-            "}, ${16:container});"
-        ]
-    },
-    "appendElement - minimum": {
-        "scope": "javascript,typescript",
-        "prefix": "appendElement",
-        "body": "appendElement({ tag: '$1' }, $2);"
-    },
-    "register Notifier": {
-        "scope": "javascript,typescript",
-        "prefix": "registerObserver",
-        "body": [
-            "registerObserver({",
-            "\t notify: (",
-            "\t\tevent: _ZoteroTypes.Notifier.Event,",
-            "\t\ttype: _ZoteroTypes.Notifier.Type,",
-            "\t\tids: string[],",
-            "\t\textraData: _ZoteroTypes.anyObj",
-            "\t) => {",
-            "\t\t$0",
-            "\t}",
-            "});"
-        ]
-    }
+  "appendElement - full": {
+    "scope": "javascript,typescript",
+    "prefix": "appendElement",
+    "body": [
+      "appendElement({",
+      "\ttag: '${1:div}',",
+      "\tid: '${2:id}',",
+      "\tnamespace: '${3:html}',",
+      "\tclassList: ['${4:class}'],",
+      "\tstyles: {${5:style}: '$6'},",
+      "\tproperties: {},",
+      "\tattributes: {},",
+      "\t[{ '${7:onload}', (e: Event) => $8, ${9:false} }],",
+      "\tcheckExistanceParent: ${10:HTMLElement},",
+      "\tignoreIfExists: ${11:true},",
+      "\tskipIfExists: ${12:true},",
+      "\tremoveIfExists: ${13:true},",
+      "\tcustomCheck: (doc: Document, options: ElementOptions) => ${14:true},",
+      "\tchildren: [$15]",
+      "}, ${16:container});"
+    ]
+  },
+  "appendElement - minimum": {
+    "scope": "javascript,typescript",
+    "prefix": "appendElement",
+    "body": "appendElement({ tag: '$1' }, $2);"
+  },
+  "register Notifier": {
+    "scope": "javascript,typescript",
+    "prefix": "registerObserver",
+    "body": [
+      "registerObserver({",
+      "\t notify: (",
+      "\t\tevent: _ZoteroTypes.Notifier.Event,",
+      "\t\ttype: _ZoteroTypes.Notifier.Type,",
+      "\t\tids: string[],",
+      "\t\textraData: _ZoteroTypes.anyObj",
+      "\t) => {",
+      "\t\t$0",
+      "\t}",
+      "});"
+    ]
+  }
 }

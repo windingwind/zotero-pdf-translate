@@ -4,7 +4,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://www.youdao.com/w/${encodeURIComponent(data.raw)}/`,
-    { responseType: "text" }
+    { responseType: "text" },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
@@ -13,7 +13,7 @@ export default <TranslateTaskProcessor>async function (data) {
   let res = xhr.response;
   res = res.replace(/(\r\n|\n|\r)/gm, "");
   res = res.match(
-    /<div id="phrsListTab.*webTrans" class="trans-wrapper trans-tab">/gm
+    /<div id="phrsListTab.*webTrans" class="trans-wrapper trans-tab">/gm,
   );
 
   let tgt = "";

@@ -2,9 +2,9 @@ import { base64, hmacSha1Digest } from "../../utils/crypto";
 import { TranslateTaskProcessor } from "../../utils/translate";
 
 export default <TranslateTaskProcessor>async function (data) {
-  let params = data.secret.split("#");
-  let secretId = params[0];
-  let secretKey = params[1];
+  const params = data.secret.split("#");
+  const secretId = params[0];
+  const secretKey = params[1];
   let region = "ap-shanghai";
   if (params.length >= 3) {
     region = params[2];
@@ -18,7 +18,7 @@ export default <TranslateTaskProcessor>async function (data) {
     return encodeURIComponent(str)
       .replace(
         /['()]/g,
-        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
       ) // i.e., %27 %28 %29
       .replace(/\*/g, "%2A")
       .replace(/%20/g, "+");
@@ -35,9 +35,9 @@ export default <TranslateTaskProcessor>async function (data) {
     base64(
       await hmacSha1Digest(
         `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", data.raw)}`,
-        secretKey
-      )
-    )
+        secretKey,
+      ),
+    ),
   );
 
   const xhr = await Zotero.HTTP.request(
@@ -50,10 +50,10 @@ export default <TranslateTaskProcessor>async function (data) {
       // Encode \s to +
       body: `${rawStr.replace(
         "#$#",
-        encodeRFC5987ValueChars(data.raw)
+        encodeRFC5987ValueChars(data.raw),
       )}&Signature=${sha1Str}`,
       responseType: "json",
-    }
+    },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;

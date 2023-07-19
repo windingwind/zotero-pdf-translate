@@ -18,7 +18,7 @@ export function registerNotify(types: _ZoteroTypes.Notifier.Type[]) {
     (e: Event) => {
       unregisterNotify(notifyID);
     },
-    false
+    false,
   );
 }
 

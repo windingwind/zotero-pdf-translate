@@ -6,7 +6,7 @@ export default <TranslateTaskProcessor>async function (data) {
     return encodeURIComponent(str)
       .replace(
         /['()]/g,
-        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
       ) // i.e., %27 %28 %29
       .replace(/\*/g, "%2A")
       .replace(/%20/g, "+");
@@ -31,21 +31,21 @@ export default <TranslateTaskProcessor>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://openapi.youdao.com/api?q=${encodeRFC5987ValueChars(
-      query
+      query,
     )}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&vocabId=${vocabId}`,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       responseType: "json",
-    }
+    },
   );
 
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
 
-  let res = xhr.response;
+  const res = xhr.response;
   if (parseInt(res.errorCode) !== 0) {
     throw `Service error: ${res.errorCode}`;
   }

@@ -25,7 +25,7 @@ export default <TranslateTaskProcessor>async function (data) {
         translateType: null,
       }),
       responseType: "json",
-    }
+    },
   );
 
   if (xhr.response.data?.isInputVerificationCode) {
@@ -60,7 +60,10 @@ export default <TranslateTaskProcessor>async function (data) {
   //   // throw "CNKI requires verification. Please verify manually in popup or open dict.cnki.net in browser.";
   // }
   let tgt = xhr.response.data?.mResult;
-  tgt = tgt.replace('(查看名企职位领高薪offer！--->智联招聘https://dict.cnki.net/ad.html)', '');
+  tgt = tgt.replace(
+    "(查看名企职位领高薪offer！--->智联招聘https://dict.cnki.net/ad.html)",
+    "",
+  );
   data.result = tgt;
 };
 
@@ -78,14 +81,16 @@ async function getToken(forceRefresh: boolean = false) {
       token = tokenObj.token;
       doRefresh = false;
     }
-  } catch (e) {}
+  } catch (e) {
+    ztoolkit.log(e);
+  }
   if (doRefresh) {
     const xhr = await Zotero.HTTP.request(
       "GET",
       "https://dict.cnki.net/fyzs-front-api/getToken",
       {
         responseType: "json",
-      }
+      },
     );
     if (xhr && xhr.response && xhr.response.code === 200) {
       token = xhr.response.token;
@@ -94,7 +99,7 @@ async function getToken(forceRefresh: boolean = false) {
         JSON.stringify({
           t: new Date().getTime(),
           token: xhr.response.data,
-        })
+        }),
       );
     }
   }

@@ -19,7 +19,7 @@ export default <TranslateTaskProcessor>async function (data) {
       },
       responseType: "json",
       body: req_body,
-    }
+    },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;

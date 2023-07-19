@@ -13,7 +13,7 @@ export function updateReaderPopup() {
   const enablePopup = getPref("enablePopup");
   const hidePopupTextarea = getPref("enableHidePopupTextarea") as boolean;
   Array.from(popup.querySelectorAll(`.${config.addonRef}-readerpopup`)).forEach(
-    (elem) => ((elem as HTMLElement).hidden = !enablePopup)
+    (elem) => ((elem as HTMLElement).hidden = !enablePopup),
   );
   if (!enablePopup) {
     return;
@@ -27,16 +27,16 @@ export function updateReaderPopup() {
   const makeId = (type: string) => `${idPrefix}-${type}`;
 
   const audiobox = popup?.querySelector(
-    `#${makeId("audiobox")}`
+    `#${makeId("audiobox")}`,
   ) as HTMLDivElement;
   const translateButton = popup?.querySelector(
-    `#${makeId("translate")}`
+    `#${makeId("translate")}`,
   ) as HTMLDivElement;
   const textarea = popup?.querySelector(
-    `#${makeId("text")}`
+    `#${makeId("text")}`,
   ) as HTMLTextAreaElement;
   const addToNoteButton = popup?.querySelector(
-    `#${makeId("addtonote")}`
+    `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
   if (task.audio.length > 0 && getPref("showPlayBtn")) {
     audiobox.innerHTML = "";
@@ -60,7 +60,7 @@ export function updateReaderPopup() {
           styles: { whiteSpace: "nowrap", flexGrow: "1" },
         })),
       },
-      audiobox
+      audiobox,
     );
   }
   translateButton.hidden = task.status !== "waiting";
@@ -70,13 +70,13 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  addToNoteButton.hidden = !Boolean(ZoteroContextPane.getActiveEditor());
+  addToNoteButton.hidden = !ZoteroContextPane.getActiveEditor();
   updatePopupSize(popup, textarea);
 }
 
 export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
   const popup = readerInstance._iframeWindow?.document.querySelector(
-    "#selection-menu"
+    "#selection-menu",
   ) as HTMLDivElement;
   if (!popup) {
     return;
@@ -85,7 +85,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
   popup.style.height = "-moz-fit-content";
   popup.setAttribute(
     `${config.addonRef}-prefix`,
-    `${config.addonRef}-${readerInstance._instanceID}`
+    `${config.addonRef}-${readerInstance._instanceID}`,
   );
 
   const colors = popup.querySelector(".colors") as HTMLDivElement;
@@ -121,7 +121,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
           id: makeId("translate"),
           classList: ["wide-button", `${config.addonRef}-readerpopup`],
           properties: {
-            innerHTML: `${SVGIcon}${getString("readerpopup.translate.label")}`,
+            innerHTML: `${SVGIcon}${getString("readerpopup-translate-label")}`,
             hidden: getPref("enableAuto"),
           },
           listeners: [
@@ -133,7 +133,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                 button.hidden = true;
                 (
                   button.ownerDocument.querySelector(
-                    `#${makeId("text")}`
+                    `#${makeId("text")}`,
                   ) as HTMLTextAreaElement
                 ).hidden = hidePopupTextarea;
               },
@@ -160,9 +160,10 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             }px`,
             width: keepSize ? `${getPref("popupWidth")}px` : "-moz-available",
             height: `${Math.max(
-              keepSize ? Number(getPref("popupHeight")) : 30
+              keepSize ? Number(getPref("popupHeight")) : 30,
             )}px`,
             marginLeft: "2px",
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             scrollbarWidth: "none",
           },
@@ -179,7 +180,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               listener: (_ev) => {
                 _ev.target?.addEventListener(
                   "mousemove",
-                  onTextAreaResize as (ev: Event) => void
+                  onTextAreaResize as (ev: Event) => void,
                 );
               },
             },
@@ -188,10 +189,10 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               listener: (_ev) => {
                 _ev.target?.removeEventListener(
                   "mousemove",
-                  onTextAreaResize as (ev: Event) => void
+                  onTextAreaResize as (ev: Event) => void,
                 );
                 const textarea = popup.querySelector(
-                  `#${makeId("text")}`
+                  `#${makeId("text")}`,
                 ) as HTMLTextAreaElement;
                 if (popup.scrollWidth > textarea.offsetWidth + 4) {
                   textarea.style.width = `${popup.scrollWidth - 4}px`;
@@ -203,11 +204,11 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               listener: (_ev) => {
                 _ev.target?.addEventListener(
                   "keydown",
-                  onTextAreaCopy as (ev: Event) => void
+                  onTextAreaCopy as (ev: Event) => void,
                 );
                 const head =
                   readerInstance._iframe.contentWindow.document.querySelector(
-                    "head"
+                    "head",
                   );
                 ztoolkit.UI.appendElement(
                   {
@@ -218,7 +219,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                     },
                     skipIfExists: true,
                   },
-                  head
+                  head,
                 );
               },
             },
@@ -227,11 +228,11 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               listener: (_ev) => {
                 _ev.target?.removeEventListener(
                   "keydown",
-                  onTextAreaCopy as (ev: Event) => void
+                  onTextAreaCopy as (ev: Event) => void,
                 );
                 const head =
                   readerInstance._iframe.contentWindow.document.querySelector(
-                    "head"
+                    "head",
                   );
                 ztoolkit.UI.appendElement(
                   {
@@ -242,7 +243,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                     },
                     skipIfExists: true,
                   },
-                  head
+                  head,
                 );
               },
             },
@@ -250,13 +251,13 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
               type: "dblclick",
               listener: (_ev) => {
                 const textarea = popup.querySelector(
-                  `#${makeId("text")}`
+                  `#${makeId("text")}`,
                 ) as HTMLTextAreaElement;
                 textarea.selectionStart = 0;
                 textarea.selectionEnd = textarea.value.length;
                 const text = textarea.value.slice(
                   textarea.selectionStart,
-                  textarea.selectionEnd
+                  textarea.selectionEnd,
                 );
                 new ztoolkit.Clipboard().addText(text, "text/unicode").copy();
                 new ztoolkit.ProgressWindow("Copied to Clipboard")
@@ -275,7 +276,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
           id: makeId("addtonote"),
           classList: ["wide-button", `${config.addonRef}-readerpopup`],
           properties: {
-            innerHTML: `${SVGIcon}${Zotero.getString("pdfReader.addToNote")}`,
+            innerHTML: `${SVGIcon}${Zotero.getString("pdfReader-addToNote")}`,
           },
           ignoreIfExists: true,
           listeners: [
@@ -296,7 +297,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                 const task = addTranslateTask(
                   selection,
                   readerInstance.itemID,
-                  "text"
+                  "text",
                 );
                 if (!task) {
                   return;
@@ -317,6 +318,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                       comment: replaceMode ? "" : task.result,
                       attachmentItemID: task.itemId,
                       pageLabel:
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         readerInstance._iframeWindow.wrappedJSObject.extractor
                           .pageLabelsCache[readerInstance.state.pageIndex],
@@ -336,7 +338,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
         },
       ],
     },
-    popup
+    popup,
   );
 }
 
@@ -351,7 +353,7 @@ function onTextAreaResize(ev: MouseEvent) {
 function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
   return (ev: KeyboardEvent) => {
     const textarea = selectionMenu.querySelector(
-      `#${targetId}`
+      `#${targetId}`,
     ) as HTMLTextAreaElement;
     const isMod = ev.ctrlKey || ev.metaKey;
     if (ev.key === "c" && isMod) {
@@ -360,9 +362,9 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
           .addText(
             textarea.value.slice(
               textarea.selectionStart,
-              textarea.selectionEnd
+              textarea.selectionEnd,
             ),
-            "text/unicode"
+            "text/unicode",
           )
           .copy();
       }, 10);
@@ -375,12 +377,12 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
       new ztoolkit.Clipboard()
         .addText(
           textarea.value.slice(textarea.selectionStart, textarea.selectionEnd),
-          "text/unicode"
+          "text/unicode",
         )
         .copy();
       textarea.value = `${textarea.value.slice(
         0,
-        textarea.selectionStart
+        textarea.selectionStart,
       )}${textarea.value.slice(textarea.selectionEnd)}`;
       ev.stopPropagation();
     }
@@ -390,7 +392,7 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
 function updatePopupSize(
   selectionMenu: HTMLDivElement,
   textarea: HTMLTextAreaElement,
-  resetSize: boolean = true
+  resetSize: boolean = true,
 ): void {
   const keepSize = getPref("keepPopupSize") as boolean;
   if (keepSize) {
@@ -401,11 +403,11 @@ function updatePopupSize(
     textarea.style.height = "30px";
   }
   const viewer = selectionMenu.ownerDocument.querySelector(
-    "#viewer"
+    "#viewer",
   ) as HTMLDivElement;
   // Get current H & W
-  let textHeight = textarea.scrollHeight;
-  let textWidth = textarea.scrollWidth;
+  const textHeight = textarea.scrollHeight;
+  const textWidth = textarea.scrollWidth;
   const newWidth = textWidth + 20;
   // Check until H/W<0.75 and don't overflow viewer border
   if (

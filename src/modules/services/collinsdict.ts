@@ -5,7 +5,7 @@ export default <TranslateTaskProcessor>async function (data) {
     "GET",
     "https://www.collinsdictionary.com/zh/dictionary/english-chinese/" +
       encodeURIComponent(data.raw),
-    { responseType: "text" }
+    { responseType: "text" },
   );
 
   if (xhr?.status !== 200) {
@@ -20,11 +20,11 @@ export default <TranslateTaskProcessor>async function (data) {
     .getDOMParser()
     .parseFromString(xhr.response, "text/html");
   Array.prototype.forEach.call(doc.querySelectorAll("script"), (e) =>
-    e.remove()
+    e.remove(),
   );
 
   const phoneticElements = Array.from(
-    doc.querySelectorAll(".type-")
+    doc.querySelectorAll(".type-"),
   ) as HTMLElement[];
   data.audio = phoneticElements.map((e) => ({
     text: e.innerText.trim(),
@@ -33,7 +33,7 @@ export default <TranslateTaskProcessor>async function (data) {
   // script in innerText
   const explanationText: string = Array.prototype.map
     .call(doc.querySelectorAll(".hom"), (e: HTMLSpanElement) =>
-      e.innerText.replace(/&nbsp;/g, " ").replace(/[0-9]\./g, "\n$&")
+      e.innerText.replace(/&nbsp;/g, " ").replace(/[0-9]\./g, "\n$&"),
     )
     .join("");
 

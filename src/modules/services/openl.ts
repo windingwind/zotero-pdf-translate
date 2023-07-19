@@ -1,7 +1,7 @@
 import { TranslateTaskProcessor } from "../../utils/translate";
 
 export default <TranslateTaskProcessor>async function (data) {
-  let [services, apikey] = data.secret.split("#");
+  const [services, apikey] = data.secret.split("#");
   const serviceList = services.split(",");
 
   const xhr = await Zotero.HTTP.request(
@@ -19,13 +19,13 @@ export default <TranslateTaskProcessor>async function (data) {
         target_lang: data.langto.split("-")[0],
       }),
       responseType: "json",
-    }
+    },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
 
-  let res = xhr.response as {
+  const res = xhr.response as {
     status: boolean | any;
     [key: string]: any;
   };
@@ -44,7 +44,7 @@ export default <TranslateTaskProcessor>async function (data) {
       throw "Service error: all OpenL services failed.";
     }
   } else {
-    for (let openLService of openLServices) {
+    for (const openLService of openLServices) {
       if (res[openLService].status) {
         tgt += `[${openLService}] ${res[openLService].result}\n`;
       }

@@ -31,11 +31,11 @@ export async function gptStatusCallback(status: boolean) {
               },
             })),
           },
-          modelsSelect
+          modelsSelect,
         );
 
         doc.querySelector("#gptStatus")!.innerHTML = getString(
-          "service.gpt.dialog.status.available"
+          "service-gpt-dialog-status-available",
         );
       } catch (error: any) {
         const HTTP = Zotero.HTTP;
@@ -48,7 +48,7 @@ export async function gptStatusCallback(status: boolean) {
         }
 
         doc.querySelector("#gptStatus")!.innerHTML = getString(
-          `service.gpt.dialog.status.${gptStatus}`
+          `service-gpt-dialog-status-${gptStatus}`,
         );
       }
     },
@@ -76,7 +76,7 @@ export async function gptStatusCallback(status: boolean) {
               for: "url",
             },
             properties: {
-              innerHTML: getString("service.gpt.dialog.url"),
+              innerHTML: getString("service-gpt-dialog-url"),
             },
           },
           {
@@ -95,7 +95,7 @@ export async function gptStatusCallback(status: boolean) {
               for: "models",
             },
             properties: {
-              innerHTML: getString("service.gpt.dialog.models"),
+              innerHTML: getString("service-gpt-dialog-models"),
             },
           },
           {
@@ -122,7 +122,7 @@ export async function gptStatusCallback(status: boolean) {
               for: "temperature",
             },
             properties: {
-              innerHTML: getString("service.gpt.dialog.temperature"),
+              innerHTML: getString("service-gpt-dialog-temperature"),
             },
           },
           {
@@ -139,7 +139,7 @@ export async function gptStatusCallback(status: boolean) {
           },
         ],
       },
-      false
+      false,
     )
     .addCell(
       1,
@@ -160,7 +160,7 @@ export async function gptStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             properties: {
-              innerHTML: getString("service.gpt.dialog.status"),
+              innerHTML: getString("service-gpt-dialog-status"),
             },
           },
           {
@@ -171,7 +171,7 @@ export async function gptStatusCallback(status: boolean) {
               textAlign: "center",
             },
             properties: {
-              innerHTML: getString("service.gpt.dialog.status.load"),
+              innerHTML: getString("service-gpt-dialog-status-load"),
             },
           },
           {
@@ -181,17 +181,17 @@ export async function gptStatusCallback(status: boolean) {
             },
             properties: {
               href: "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
-              innerHTML: getString("service.gpt.dialog.help"),
+              innerHTML: getString("service-gpt-dialog-help"),
             },
           },
         ],
       },
-      false
+      false,
     )
-    .addButton(getString("service.gpt.dialog.save"), "save")
-    .addButton(getString("service.gpt.dialog.close"), "close");
+    .addButton(getString("service-gpt-dialog-save"), "save")
+    .addButton(getString("service-gpt-dialog-close"), "close");
 
-  dialog.open(getString("service.gpt.dialog.title"));
+  dialog.open(getString("service-gpt-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
@@ -203,7 +203,7 @@ export async function gptStatusCallback(status: boolean) {
           setPref("gptTemperature", dialogData.temperature.toString());
         }
 
-        setPref("gptUrl", dialogData.url)
+        setPref("gptUrl", dialogData.url);
         setPref("gptModel", dialogData.models);
       }
       break;

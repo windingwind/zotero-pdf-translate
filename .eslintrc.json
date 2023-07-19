@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": [
+      "warn",
+      {
+        "ts-expect-error": "allow-with-description",
+        "ts-ignore": "allow-with-description",
+        "ts-nocheck": "allow-with-description",
+        "ts-check": "allow-with-description"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": ["off", { "ignoreRestArgs": true }],
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
+  "ignorePatterns": [
+    "**/build/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/scripts/**",
+    "**/*.js",
+    "**/*.bak"
+  ]
+}

@@ -9,7 +9,7 @@ export default <TranslateTaskProcessor>async function (data) {
         Accept: "application/json",
       },
       responseType: "json",
-    }
+    },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
@@ -30,9 +30,9 @@ export default <TranslateTaskProcessor>async function (data) {
               (d: any) =>
                 `${d.definition}\n${
                   d.example ? `\t[example] ${d.example}` : ""
-                }`
+                }`,
             )
-            .join("")}`
+            .join("")}`,
       )
       .join("----\n");
   }

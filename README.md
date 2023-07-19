@@ -87,22 +87,22 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 ### Service
 
 The default engine is Google Translate. Currently, we support:  
-| Translate Engine             | Require Secret         | Supported Languages                                                                                                                                                                                                                                                |
+| Translate Engine | Require Secret | Supported Languages |
 | ---------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Google Translate             | No                     | [100+](https://translate.google.com/about/languages/)                                                                                                                                                                                                              |
-| Google Translate(API)        | No                     | Use `translate.googleapis.com`                                                                                                                                                                                                                                     |
-| CNKI                         | No                     | https://dict.cnki.net                                                                                                                                                                                                                                              |
-| Youdao Translate             | No                     | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
-| Youdao Zhiyun                | Yes                    | [100+](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)  |
-| Niu Translate(Trial)         | No                     | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) **UNSTABLE**                                                                                                                                                                                 |
-| Niu Translate                | Yes                    | [100+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                                                                                                              |
-| Microsoft Translate          | Yes(free 2M)           | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                                                                                                      |
-| LingoCloud(Caiyun) Translate | Yes                    | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes)                                                                                                                                                                                   |
-| DeepL Translate              | Yes(free 500k)         | [100+](https://www.deepl.com/pro?cta=header-prices/#developer)                                                                                                                                                                                                     |
-| Baidu Translate              | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11)                                                                                                                                                                                                                     |
-| Baidu Field                  | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12)                                                                                                                                                                                                                    |
-| Tencent Translate            | Yes(QPS5, free-5M)     | [15](https://cloud.tencent.com/document/product/551/7372)                                                                                                                                                                                                          |
-| GPT(OpenAI)                  | Yes(free-$18)          | [Based on the gpt-3.5-turbo model](https://openai.com/pricing#chat)                                                                                                                                                                                                |
+| Google Translate | No | [100+](https://translate.google.com/about/languages/) |
+| Google Translate(API) | No | Use `translate.googleapis.com` |
+| CNKI | No | https://dict.cnki.net |
+| Youdao Translate | No | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
+| Youdao Zhiyun | Yes | [100+](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
+| Niu Translate(Trial) | No | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) **UNSTABLE** |
+| Niu Translate | Yes | [100+](https://niutrans.com/documents/contents/trans_text#accessMode) |
+| Microsoft Translate | Yes(free 2M) | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support) |
+| LingoCloud(Caiyun) Translate | Yes | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
+| DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
+| Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11) |
+| Baidu Field | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12) |
+| Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
+| GPT(OpenAI) | Yes(free-$18) | [Based on the gpt-3.5-turbo model](https://openai.com/pricing#chat) |
 
 > If the engine you want is not yet supported, please post an issue.
 

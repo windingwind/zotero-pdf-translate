@@ -10,12 +10,12 @@ import {
 
 export function registerReaderTabPanel() {
   ztoolkit.ReaderTabPanel.register(
-    getString("readerpanel.label"),
+    getString("readerpanel-label"),
     (
       panel: XUL.TabPanel | undefined,
       ownerDeck: XUL.Deck,
       ownerWindow: Window,
-      readerInstance: _ZoteroTypes.ReaderInstance
+      readerInstance: _ZoteroTypes.ReaderInstance,
     ) => {
       if (ownerDeck.selectedPanel?.children[0].tagName === "vbox") {
         panel = createPanel(ownerDeck, readerInstance._instanceID);
@@ -24,7 +24,7 @@ export function registerReaderTabPanel() {
     },
     {
       selectPanel: getPref("autoFocus") as boolean,
-    }
+    },
   ).then((tabId) => {
     addon.data.panel.tabOptionId = tabId;
   });
@@ -56,12 +56,12 @@ async function openWindowPanel() {
     `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,dialog=no,${
       getPref("keepWindowTop") ? ",alwaysRaised=yes" : ""
     }`,
-    dialogData
+    dialogData,
   );
   await dialogData.loadLock.promise;
   buildPanel(
     win.document.querySelector("#panel-container") as XUL.Box,
-    "standalone"
+    "standalone",
   );
   win.addEventListener("resize", (ev) => {
     updateTextAreaSize(win.document);
@@ -106,7 +106,7 @@ function createPanel(ownerDeck: XUL.Deck, refID: string) {
             {
               tag: "tab",
               attributes: {
-                label: getString("readerpanel.label"),
+                label: getString("readerpanel-label"),
               },
             },
           ],
@@ -128,7 +128,7 @@ function createPanel(ownerDeck: XUL.Deck, refID: string) {
         },
       ],
     },
-    container
+    container,
   );
   return container.querySelector("tabpanel") as XUL.TabPanel;
 }
@@ -189,11 +189,11 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                 {
                   tag: "menupopup",
                   children: SERVICES.filter(
-                    (service) => service.type === "sentence"
+                    (service) => service.type === "sentence",
                   ).map((service) => ({
                     tag: "menuitem",
                     attributes: {
-                      label: getString(`service.${service.id}`),
+                      label: getString(`service-${service.id}`),
                       value: service.id,
                     },
                   })),
@@ -205,7 +205,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               namespace: "xul",
               attributes: {
                 label: `${getString(
-                  "readerpanel.translate.button.label"
+                  "readerpanel-translate-button-label",
                 )}(${getString("ctrl")} + T)`,
                 flex: "1",
               },
@@ -220,10 +220,10 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                             `#${makeId(
                               getPref("rawResultOrder")
                                 ? "resulttext"
-                                : "rawtext"
-                            )}`
+                                : "rawtext",
+                            )}`,
                           ) as HTMLTextAreaElement
-                        )?.value
+                        )?.value,
                       );
                     }
                     addon.hooks.onTranslate(undefined, {
@@ -343,7 +343,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                 paddingLeft: "8px",
               },
               properties: {
-                innerHTML: getString("readerpanel.auto.description.label"),
+                innerHTML: getString("readerpanel-auto-description-label"),
               },
             },
             {
@@ -353,7 +353,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               },
               id: makeId("autotrans"),
               attributes: {
-                label: getString("readerpanel.auto.selection.label"),
+                label: getString("readerpanel-auto-selection-label"),
               },
               listeners: [
                 {
@@ -372,7 +372,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               },
               id: makeId("autoannot"),
               attributes: {
-                label: getString("readerpanel.auto.annotation.label"),
+                label: getString("readerpanel-auto-annotation-label"),
               },
               listeners: [
                 {
@@ -380,7 +380,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                   listener: (e: Event) => {
                     setPref(
                       "enableComment",
-                      (e.target as XUL.Checkbox).checked
+                      (e.target as XUL.Checkbox).checked,
                     );
                     addon.hooks.onReaderTabPanelRefresh();
                   },
@@ -406,7 +406,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                 paddingLeft: "8px",
               },
               properties: {
-                innerHTML: getString("readerpanel.concat.description.label"),
+                innerHTML: getString("readerpanel-concat-description-label"),
               },
             },
             {
@@ -417,7 +417,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("concat"),
               attributes: {
                 label: `${getString(
-                  "readerpanel.concat.enable.label"
+                  "readerpanel-concat-enable-label",
                 )}/${getString("alt")}`,
               },
               listeners: [
@@ -439,7 +439,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               },
               namespace: "xul",
               attributes: {
-                label: getString("readerpanel.concat.clear.label"),
+                label: getString("readerpanel-concat-clear-label"),
                 flex: "0",
               },
               listeners: [
@@ -564,14 +564,14 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
             {
               tag: "div",
               properties: {
-                innerHTML: getString("readerpanel.copy.description.label"),
+                innerHTML: getString("readerpanel-copy-description-label"),
               },
             },
             {
               tag: "button",
               namespace: "xul",
               attributes: {
-                label: getString("readerpanel.copy.raw.label"),
+                label: getString("readerpanel-copy-raw-label"),
                 flex: "1",
               },
               listeners: [
@@ -595,7 +595,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               tag: "button",
               namespace: "xul",
               attributes: {
-                label: getString("readerpanel.copy.result.label"),
+                label: getString("readerpanel-copy-result-label"),
                 flex: "1",
               },
               listeners: [
@@ -619,7 +619,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               tag: "button",
               namespace: "xul",
               attributes: {
-                label: getString("readerpanel.copy.both.label"),
+                label: getString("readerpanel-copy-both-label"),
                 flex: "1",
               },
               listeners: [
@@ -635,7 +635,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                     new ztoolkit.Clipboard()
                       .addText(
                         `${task.raw}\n----\n${task.result}`,
-                        "text/unicode"
+                        "text/unicode",
                       )
                       .copy();
                   },
@@ -659,7 +659,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               tag: "button",
               namespace: "xul",
               attributes: {
-                label: getString("readerpanel.openwindow.open.label"),
+                label: getString("readerpanel-openwindow-open-label"),
                 flex: "1",
               },
               listeners: [
@@ -675,7 +675,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
         },
       ],
     },
-    panel
+    panel,
   );
   updatePanel(panel);
   updateTextAreaSize(panel);
@@ -702,7 +702,7 @@ function buildExtraPanel(panel: XUL.Box) {
           tag: "button",
           namespace: "xul",
           attributes: {
-            label: getString("readerpanel.extra.addservice.label"),
+            label: getString("readerpanel-extra-addservice-label"),
             flex: "1",
           },
           listeners: [
@@ -714,7 +714,7 @@ function buildExtraPanel(panel: XUL.Box) {
                   "extraEngines",
                   extraServices
                     ? `${extraServices},${SERVICES[0].id}`
-                    : SERVICES[0].id
+                    : SERVICES[0].id,
                 );
                 openWindowPanel();
               },
@@ -725,7 +725,7 @@ function buildExtraPanel(panel: XUL.Box) {
           tag: "button",
           namespace: "xul",
           attributes: {
-            label: getString("readerpanel.extra.resize.label"),
+            label: getString("readerpanel-extra-resize-label"),
             flex: "1",
           },
           listeners: [
@@ -737,7 +737,7 @@ function buildExtraPanel(panel: XUL.Box) {
                   return;
                 }
                 Array.from(win.document.querySelectorAll("textarea")).forEach(
-                  (elem) => (elem.style.width = "280px")
+                  (elem) => (elem.style.width = "280px"),
                 );
                 ztoolkit.getGlobal("setTimeout")(() => {
                   win?.resizeTo(300, win.outerHeight);
@@ -751,9 +751,9 @@ function buildExtraPanel(panel: XUL.Box) {
           namespace: "xul",
           attributes: {
             label: getString(
-              `readerpanel.extra.${
+              `readerpanel-extra-${
                 getPref("keepWindowTop") ? "pinned" : "pin"
-              }.label`
+              }-label`,
             ),
             flex: "1",
           },
@@ -772,12 +772,12 @@ function buildExtraPanel(panel: XUL.Box) {
         },
       ],
     },
-    panel
+    panel,
   );
   const extraEngines = (getPref("extraEngines") as string)
     .split(",")
     .filter((thisServiceId) =>
-      SERVICES.find((service) => service.id === thisServiceId)
+      SERVICES.find((service) => service.id === thisServiceId),
     );
   if (!extraEngines.length) {
     panel.style.display = "contents";
@@ -841,11 +841,11 @@ function buildExtraPanel(panel: XUL.Box) {
                     {
                       tag: "menupopup",
                       children: SERVICES.filter(
-                        (service) => service.type === "sentence"
+                        (service) => service.type === "sentence",
                       ).map((service) => ({
                         tag: "menuitem",
                         attributes: {
-                          label: getString(`service.${service.id}`),
+                          label: getString(`service-${service.id}`),
                           value: service.id,
                         },
                       })),
@@ -856,7 +856,7 @@ function buildExtraPanel(panel: XUL.Box) {
                   tag: "button",
                   namespace: "xul",
                   attributes: {
-                    label: getString("readerpanel.extra.removeservice.label"),
+                    label: getString("readerpanel-extra-removeservice-label"),
                   },
                   styles: {
                     minWidth: "0px",
@@ -867,7 +867,7 @@ function buildExtraPanel(panel: XUL.Box) {
                       listener: (ev) => {
                         const [serviceId, idx] =
                           (ev.target as XUL.Button).parentElement?.id.split(
-                            "-"
+                            "-",
                           ) || [];
                         const extraServices = (
                           getPref("extraEngines") as string
@@ -906,7 +906,7 @@ function buildExtraPanel(panel: XUL.Box) {
         };
       }),
     },
-    panel
+    panel,
   );
 }
 
@@ -974,14 +974,14 @@ function updateExtraPanel(container: HTMLElement | Document) {
   }
   extraTasks?.forEach((task) => {
     Array.from(
-      container.querySelectorAll(`.${task.service}+hbox>textarea`)
+      container.querySelectorAll(`.${task.service}+hbox>textarea`),
     ).forEach((elem) => ((elem as HTMLTextAreaElement).value = task.result));
   });
 }
 
 function updateTextAreaSize(
   container: HTMLElement | Document,
-  noDelay: boolean = false
+  noDelay: boolean = false,
 ) {
   const setTimeout = ztoolkit.getGlobal("setTimeout");
   Array.from(container.querySelectorAll("textarea")).forEach((elem) => {
@@ -999,7 +999,7 @@ function updateTextAreaSize(
 function updateTextAreasSize(noDelay: boolean = false) {
   cleanPanels();
   addon.data.panel.activePanels.forEach((panel) =>
-    updateTextAreaSize(panel, noDelay)
+    updateTextAreaSize(panel, noDelay),
   );
 }
 
@@ -1009,6 +1009,6 @@ function recordPanel(panel: HTMLElement) {
 
 function cleanPanels() {
   addon.data.panel.activePanels = addon.data.panel.activePanels.filter(
-    (elem) => elem.parentElement
+    (elem) => elem.parentElement,
   );
 }

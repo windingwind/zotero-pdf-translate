@@ -3,12 +3,12 @@ name: Feature request
 about: Suggest an idea for this project
 title: "[Feature]Complete the Title Here"
 labels: enhancement
-assignees: ''
-
+assignees: ""
 ---
 
 **Before Issue/提问之前**
-1. See #6 and search the [Issues Page](https://github.com/windingwind/zotero-pdf-translate/issues) to make sure this is not a duplicated issue;  
+
+1. See #6 and search the [Issues Page](https://github.com/windingwind/zotero-pdf-translate/issues) to make sure this is not a duplicated issue;
 
 **Issues not in the template format will be ignored/不按模板格式或不完整填写模板内容的提问将不会被回复。如果你看不懂英文可以用中文提问，但请有礼貌地详细描述你的问题，不要浪费大家的时间！！！**
 

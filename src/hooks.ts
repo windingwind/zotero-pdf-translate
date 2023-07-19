@@ -72,11 +72,11 @@ function onNotify(
   event: string,
   type: string,
   ids: Array<string | number>,
-  extraData: { [key: string]: any }
+  extraData: { [key: string]: any },
 ) {
   if (event === "add" && type === "item") {
     const annotationItems = Zotero.Items.get(ids as number[]).filter((item) =>
-      item.isAnnotation()
+      item.isAnnotation(),
     );
     if (annotationItems.length === 0) {
       return;
@@ -87,7 +87,7 @@ function onNotify(
         annotationItems
           .map((item) => addTranslateAnnotationTask(item.id))
           .filter((task) => task) as TranslateTask[],
-        { noDisplay: true }
+        { noDisplay: true },
       );
     }
   } else {
@@ -108,7 +108,7 @@ function onShortcuts(type: string) {
           ZoteroPane.getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
-          { noDisplay: true }
+          { noDisplay: true },
         );
       }
       break;
@@ -128,13 +128,13 @@ async function onTranslate(): Promise<void>;
 async function onTranslate(
   options: Parameters<
     Addon["data"]["translate"]["services"]["runTranslationTask"]
-  >["1"]
+  >["1"],
 ): Promise<void>;
 async function onTranslate(
   task: TranslateTask | undefined,
   options?: Parameters<
     Addon["data"]["translate"]["services"]["runTranslationTask"]
-  >["1"]
+  >["1"],
 ): Promise<void>;
 async function onTranslate(...data: any) {
   let task = undefined;
@@ -156,7 +156,7 @@ async function onTranslateInBatch(
   tasks: TranslateTask[],
   options: Parameters<
     Addon["data"]["translate"]["services"]["runTranslationTask"]
-  >["1"] = {}
+  >["1"] = {},
 ) {
   for (const task of tasks) {
     await addon.hooks.onTranslate(task, options);
@@ -195,7 +195,7 @@ function onReaderTabPanelRefresh() {
 function onSwitchTitleColumnDisplay() {
   setPref(
     "titleColumnMode",
-    getPref("titleColumnMode") === "raw" ? "result" : "raw"
+    getPref("titleColumnMode") === "raw" ? "result" : "raw",
   );
   ztoolkit.ItemTree.refresh();
 }

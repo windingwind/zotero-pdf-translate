@@ -45,7 +45,7 @@ export function setDefaultPrefSettings() {
   }
   try {
     const oldDict = JSON.parse(
-      (getPref("niutransDictLibList") as string) || "{}"
+      (getPref("niutransDictLibList") as string) || "{}",
     );
     if (oldDict?.dlist) {
       setPref("niutransDictLibList", JSON.stringify(oldDict.dlist));
@@ -53,7 +53,7 @@ export function setDefaultPrefSettings() {
       setPref("niutransDictLibList", "[]");
     }
     const oldMemory = JSON.parse(
-      (getPref("niutransMemoryLibList") as string) || "{}"
+      (getPref("niutransMemoryLibList") as string) || "{}",
     );
     if (oldMemory?.mlist) {
       setPref("niutransMemoryLibList", JSON.stringify(oldMemory?.mlist));

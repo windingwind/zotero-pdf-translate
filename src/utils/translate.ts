@@ -73,7 +73,7 @@ export interface TranslateTask {
 }
 
 export type TranslateTaskProcessor = (
-  data: Required<TranslateTask>
+  data: Required<TranslateTask>,
 ) => Promise<void> | void;
 
 export class TranslateTaskRunner {
@@ -98,8 +98,8 @@ export class TranslateTaskRunner {
   }
 
   protected makeErrorInfo(serviceId: string, detail: string) {
-    return `${getString("service.errorPrefix")} ${getString(
-      `service.${serviceId}`
+    return `${getString("service-errorPrefix")} ${getString(
+      `service-${serviceId}`,
     )}\n\n${detail}`;
   }
 }
@@ -108,13 +108,14 @@ export function addTranslateTask(
   raw: string,
   itemId?: number,
   type?: TranslateTask["type"],
-  service?: string
+  service?: string,
 ) {
   if (!raw) {
     return;
   }
   type = type || "text";
   // Filter raw string
+  // eslint-disable-next-line no-control-regex
   raw = raw.replace(/[\u0000-\u001F\u007F-\u009F]/gu, " ").normalize("NFKC");
 
   // Append raw text to last task's raw if in concat mode
@@ -169,7 +170,7 @@ export function addTranslateTask(
           extraTasks: [],
           itemId,
           status: "waiting",
-        })
+        }),
       );
   }
   // Keep queue size
@@ -187,7 +188,7 @@ export function addTranslateAnnotationTask(itemId: number) {
 
 export function addTranslateTitleTask(
   itemId: number,
-  skipIfExists: boolean = false
+  skipIfExists: boolean = false,
 ) {
   const item = Zotero.Items.get(itemId);
   if (
@@ -203,7 +204,7 @@ export function addTranslateTitleTask(
 
 export function addTranslateAbstractTask(
   itemId: number,
-  skipIfExists: boolean = false
+  skipIfExists: boolean = false,
 ) {
   const item = Zotero.Items.get(itemId);
   if (
@@ -216,7 +217,7 @@ export function addTranslateAbstractTask(
     return addTranslateTask(
       item.getField("abstractNote") as string,
       item.id,
-      "abstract"
+      "abstract",
     );
   }
 }
@@ -243,7 +244,7 @@ function cleanTasks() {
   ) {
     addon.data.translate.queue.splice(
       0,
-      Math.floor(addon.data.translate.maximumQueueLength / 3)
+      Math.floor(addon.data.translate.maximumQueueLength / 3),
     );
   }
 }
@@ -254,7 +255,7 @@ export function getTranslateTasks(count: number) {
 
 export function getLastTranslateTask<
   K extends keyof TranslateTask,
-  V extends TranslateTask[K]
+  V extends TranslateTask[K],
 >(conditions?: { [key in K]: V }) {
   const queue = addon.data.translate.queue;
   let i = queue.length - 1;
@@ -306,7 +307,7 @@ export function setServiceSecret(serviceId: string, secret: string) {
 
 export function validateServiceSecret(
   serviceId: string,
-  validateCallback?: (result: SecretValidateResult) => void
+  validateCallback?: (result: SecretValidateResult) => void,
 ): SecretValidateResult {
   const secret = getServiceSecret(serviceId);
   const validator = getService(serviceId).secretValidator;
@@ -340,7 +341,7 @@ export const secretStatusButtonData: {
     },
     callback: function () {
       Zotero.launchURL(
-        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md"
+        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
       );
     },
   },

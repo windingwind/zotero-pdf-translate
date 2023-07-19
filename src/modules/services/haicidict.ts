@@ -18,9 +18,9 @@ export default <TranslateTaskProcessor>async function (data) {
         url: "http://audio.dict.cn/" + s.match(new RegExp(audioRegex, "i"))![1],
       })) || [];
     const symbolsRegex = /<span>(.)[\n\t\s]*?<bdo lang="EN-US">(.+?)<\/bdo>/;
-    let symbols: string[] = [];
+    const symbols: string[] = [];
     res.match(new RegExp(symbolsRegex, "g"))!.forEach((line) => {
-      let [_, country, sym] = line.match(symbolsRegex)!;
+      const [_, country, sym] = line.match(symbolsRegex)!;
       symbols.push(`${country} ${sym}`);
     });
     tgt += symbols.join("\n") + "\n";
@@ -28,7 +28,7 @@ export default <TranslateTaskProcessor>async function (data) {
   } catch (e) {
     throw "Parse error";
   }
-  for (let line of res.match(/<li>[\s\S]+?<\/li>/g) || []) {
+  for (const line of res.match(/<li>[\s\S]+?<\/li>/g) || []) {
     tgt +=
       line
         .replace(/<\/?.+?>/g, "")

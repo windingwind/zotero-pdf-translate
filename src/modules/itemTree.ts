@@ -4,22 +4,22 @@ import { getPref } from "../utils/prefs";
 export async function registerExtraColumns() {
   await ztoolkit.ItemTree.register(
     "titleTranslation",
-    getString("field.titleTranslation"),
+    getString("field-titleTranslation"),
     (
       field: string,
       unformatted: boolean,
       includeBaseMapped: boolean,
-      item: Zotero.Item
+      item: Zotero.Item,
     ) => {
       return ztoolkit.ExtraField.getExtraField(item, field) || "";
-    }
+    },
   );
 }
 
 export function registerTitleRenderer() {
   ztoolkit.ItemTree.addRenderCellHook(
     "title",
-    (index: number, data: string, column: any, original: Function) => {
+    (index: number, data: string, column: any, original) => {
       if (getPref("titleColumnMode") === "result") {
         const item = (ZoteroPane.itemsView.getRow(index) as any)
           .ref as Zotero.Item;
@@ -28,6 +28,6 @@ export function registerTitleRenderer() {
       }
       const span = original(index, data, column) as HTMLSpanElement;
       return span;
-    }
+    },
   ).then(() => ztoolkit.ItemTree.refresh());
 }

@@ -5,7 +5,7 @@ export async function registerItemBoxExtraRows() {
   if (getPref("showItemBoxTitleTranslation") !== false) {
     await ztoolkit.ItemBox.register(
       "titleTranslation",
-      getString("field.titleTranslation"),
+      getString("field-titleTranslation"),
       // getField hook is registered in itemTree.ts
       undefined,
       {
@@ -16,14 +16,14 @@ export async function registerItemBoxExtraRows() {
         },
         index: 2,
         multiline: true,
-      }
+      },
     );
   }
 
   if (getPref("showItemBoxAbstractTranslation") !== false) {
     await ztoolkit.ItemBox.register(
       "abstractTranslation",
-      getString("field.abstractTranslation"),
+      getString("field-abstractTranslation"),
       (field, unformatted, includeBaseMapped, item, original) => {
         return ztoolkit.ExtraField.getExtraField(item, field) || "";
       },
@@ -36,7 +36,7 @@ export async function registerItemBoxExtraRows() {
         index: 3,
         multiline: true,
         collapsible: true,
-      }
+      },
     );
   }
 }

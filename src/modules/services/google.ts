@@ -9,16 +9,18 @@ export const google = <TranslateTaskProcessor>async function (data) {
 
 async function _google(url: string, data: Required<TranslateTask>) {
   function TL(a: any) {
-    var k = "";
-    var b = 406644;
-    var b1 = 3293161072;
+    const k = "";
+    const b = 406644;
+    const b1 = 3293161072;
 
-    var jd = ".";
-    var $b = "+-a^+6";
-    var Zb = "+-3^+b+-f";
+    const jd = ".";
+    const $b = "+-a^+6";
+    const Zb = "+-3^+b+-f";
 
-    for (var e = [], f = 0, g = 0; g < a.length; g++) {
-      var m = a.charCodeAt(g);
+    let e, f, g;
+
+    for (e = [], f = 0, g = 0; g < a.length; g++) {
+      let m = a.charCodeAt(g);
       128 > m
         ? (e[f++] = m)
         : (2048 > m
@@ -44,29 +46,28 @@ async function _google(url: string, data: Required<TranslateTask>) {
   }
 
   function RL(a: any, b: any) {
-    var t = "a";
-    var Yb = "+";
-    for (var c = 0; c < b.length - 2; c += 3) {
-      var d = b.charAt(c + 2),
-        // @ts-ignore
-        d = d >= t ? d.charCodeAt(0) - 87 : Number(d),
-        // @ts-ignore
-        d = b.charAt(c + 1) == Yb ? a >>> d : a << d;
+    const t = "a";
+    const Yb = "+";
+    let d;
+    for (let c = 0; c < b.length - 2; c += 3) {
+      (d = b.charAt(c + 2)),
+        (d = d >= t ? d.charCodeAt(0) - 87 : Number(d)),
+        (d = b.charAt(c + 1) == Yb ? a >>> d : a << d);
       a = b.charAt(c) == Yb ? (a + d) & 4294967295 : a ^ d;
     }
     return a;
   }
 
-  let param = `sl=${data.langfrom}&tl=${data.langto}`;
+  const param = `sl=${data.langfrom}&tl=${data.langto}`;
 
   const xhr = await Zotero.HTTP.request(
     "GET",
     `${
       data.secret ? data.secret : url
     }/translate_a/single?client=gtx&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
-      data.raw
+      data.raw,
     )}&q=${encodeURIComponent(data.raw)}`,
-    { responseType: "json" }
+    { responseType: "json" },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;

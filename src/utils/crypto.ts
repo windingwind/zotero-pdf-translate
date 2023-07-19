@@ -18,7 +18,7 @@ async function hmacSha1Digest(stringToSign: string, secretKey: string) {
       hash: "SHA-1",
     },
     false,
-    ["sign"]
+    ["sign"],
   );
   return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
 }
@@ -33,7 +33,7 @@ async function hmacSha256Digest(stringToSign: string, secretKey: string) {
       hash: "SHA-256",
     },
     false,
-    ["sign"]
+    ["sign"],
   );
   return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
 }
@@ -59,7 +59,7 @@ async function aesEcbEncrypt(message: string, secret: string) {
       name: "AES-CBC",
     },
     false,
-    ["encrypt"]
+    ["encrypt"],
   );
 
   const encodeStr = new TextEncoder().encode(message);
@@ -86,9 +86,9 @@ async function aesEcbEncrypt(message: string, secret: string) {
           iv: block,
         },
         key,
-        zeros
-      )
-    )
+        zeros,
+      ),
+    ),
   );
   // concatenate encrypted blocks
   const encrypted = new Uint8Array(encryptedBlocks.length * 16);

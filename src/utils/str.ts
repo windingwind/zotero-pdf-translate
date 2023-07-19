@@ -8,13 +8,13 @@ export function fill(
   options: { char: string; position: "start" | "end" } = {
     char: " ",
     position: "end",
-  }
+  },
 ) {
   if (str.length >= len) {
     return str;
   }
   return str[options.position === "start" ? "padStart" : "padEnd"](
     len - str.length,
-    options.char
+    options.char,
   );
 }

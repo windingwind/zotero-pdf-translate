@@ -12,9 +12,8 @@ export function registerPrefsWindow() {
   ztoolkit.PreferencePane.register({
     pluginID: config.addonID,
     src: rootURI + "chrome/content/preferences.xhtml",
-    label: getString("pref.title"),
+    label: getString("pref-title"),
     image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-    extraDTD: [`chrome://${config.addonRef}/locale/overlay.dtd`],
     defaultXUL: true,
   });
 }
@@ -52,18 +51,18 @@ function buildPrefsPane() {
         {
           tag: "menupopup",
           children: SERVICES.filter(
-            (service) => service.type === "sentence"
+            (service) => service.type === "sentence",
           ).map((service) => ({
             tag: "menuitem",
             attributes: {
-              label: getString(`service.${service.id}`),
+              label: getString(`service-${service.id}`),
               value: service.id,
             },
           })),
         },
       ],
     },
-    doc.querySelector(`#${makeId("sentenceServices-placeholder")}`)!
+    doc.querySelector(`#${makeId("sentenceServices-placeholder")}`)!,
   );
 
   ztoolkit.UI.replaceElement(
@@ -90,15 +89,15 @@ function buildPrefsPane() {
             (service) => ({
               tag: "menuitem",
               attributes: {
-                label: getString(`service.${service.id}`),
+                label: getString(`service-${service.id}`),
                 value: service.id,
               },
-            })
+            }),
           ),
         },
       ],
     },
-    doc.querySelector(`#${makeId("wordServices-placeholder")}`)!
+    doc.querySelector(`#${makeId("wordServices-placeholder")}`)!,
   );
 
   ztoolkit.UI.replaceElement(
@@ -133,7 +132,7 @@ function buildPrefsPane() {
         },
       ],
     },
-    doc.querySelector(`#${makeId("langfrom-placeholder")}`)!
+    doc.querySelector(`#${makeId("langfrom-placeholder")}`)!,
   );
 
   ztoolkit.UI.replaceElement(
@@ -168,7 +167,7 @@ function buildPrefsPane() {
         },
       ],
     },
-    doc.querySelector(`#${makeId("langto-placeholder")}`)!
+    doc.querySelector(`#${makeId("langto-placeholder")}`)!,
   );
 
   doc
@@ -244,7 +243,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     doc
       .querySelectorAll(`.${className}`)
       .forEach(
-        (elem) => ((elem as XUL.Element & XUL.IDisabled).disabled = disabled)
+        (elem) => ((elem as XUL.Element & XUL.IDisabled).disabled = disabled),
       );
   };
   switch (type) {
@@ -253,7 +252,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setAutoTranslateAnnotation":
       {
-        let elemValue = fromElement
+        const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("enableComment")}`) as XUL.Checkbox)
               .checked
           : (getPref("enableComment") as boolean);
@@ -264,7 +263,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setEnablePopup":
       {
-        let elemValue = fromElement
+        const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("enablePopup")}`) as XUL.Checkbox)
               .checked
           : (getPref("enablePopup") as boolean);
@@ -277,7 +276,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setEnableAddToNote":
       {
-        let elemValue = fromElement
+        const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("enableAddToNote")}`) as XUL.Checkbox)
               .checked
           : (getPref("enableNote") as boolean);
@@ -287,7 +286,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setUseWordService":
       {
-        let elemValue = fromElement
+        const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("useWordService")}`) as XUL.Checkbox)
               .checked
           : (getPref("enableDict") as boolean);
@@ -301,7 +300,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           "translateSource",
           (
             doc.querySelector(`#${makeId("sentenceServices")}`) as XUL.MenuList
-          ).getAttribute("value")!
+          ).getAttribute("value")!,
         );
         onPrefsEvents("setSentenceSecret", fromElement);
         addon.hooks.onReaderTabPanelRefresh();
@@ -313,9 +312,9 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           getPref("translateSource") as string,
           (
             doc.querySelector(
-              `#${makeId("sentenceServicesSecret")}`
+              `#${makeId("sentenceServicesSecret")}`,
             ) as HTMLInputElement
-          ).value
+          ).value,
         );
       }
       break;
@@ -327,25 +326,25 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           (validateResult) => {
             if (fromElement && !validateResult.status) {
               addon.data.prefs.window?.alert(
-                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`
+                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`,
               );
             }
-          }
+          },
         );
         (
           doc.querySelector(
-            `#${makeId("sentenceServicesSecret")}`
+            `#${makeId("sentenceServicesSecret")}`,
           ) as HTMLInputElement
         ).value = secretCheckResult.secret;
         // Update secret status button
         const statusButtonData = secretStatusButtonData[serviceId];
         const statusButton = doc.querySelector(
-          `#${makeId("sentenceServicesStatus")}`
+          `#${makeId("sentenceServicesStatus")}`,
         ) as XUL.Button;
         if (statusButtonData) {
           statusButton.hidden = false;
           statusButton.label = getString(
-            statusButtonData.labels[secretCheckResult.status ? "pass" : "fail"]
+            statusButtonData.labels[secretCheckResult.status ? "pass" : "fail"],
           );
           statusButton.onclick = (ev) => {
             statusButtonData.callback(secretCheckResult.status);
@@ -361,7 +360,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           "dictSource",
           (
             doc.querySelector(`#${makeId("wordServices")}`) as XUL.MenuList
-          ).getAttribute("value")!
+          ).getAttribute("value")!,
         );
         onPrefsEvents("setWordSecret", fromElement);
       }
@@ -372,9 +371,9 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           getPref("dictSource") as string,
           (
             doc.querySelector(
-              `#${makeId("wordServicesSecret")}`
+              `#${makeId("wordServicesSecret")}`,
             ) as HTMLInputElement
-          ).value
+          ).value,
         );
       }
       break;
@@ -386,14 +385,14 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           (validateResult) => {
             if (fromElement && !validateResult.status) {
               addon.data.prefs.window?.alert(
-                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`
+                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`,
               );
             }
-          }
+          },
         );
         (
           doc.querySelector(
-            `#${makeId("wordServicesSecret")}`
+            `#${makeId("wordServicesSecret")}`,
           ) as HTMLInputElement
         ).value = secretCheckResult.secret;
       }
@@ -404,7 +403,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           "sourceLanguage",
           (
             doc.querySelector(`#${makeId("langfrom")}`) as XUL.MenuList
-          ).getAttribute("value")!
+          ).getAttribute("value")!,
         );
         addon.hooks.onReaderTabPanelRefresh();
       }
@@ -415,7 +414,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           "targetLanguage",
           (
             doc.querySelector(`#${makeId("langto")}`) as XUL.MenuList
-          ).getAttribute("value")!
+          ).getAttribute("value")!,
         );
         addon.hooks.onReaderTabPanelRefresh();
       }

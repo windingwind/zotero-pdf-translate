@@ -13,34 +13,34 @@ export function registerMenu() {
   });
   ztoolkit.Menu.register("item", {
     tag: "menuitem",
-    label: getString("itemmenu.translateTitle.label"),
+    label: getString("itemmenu-translateTitle-label"),
     commandListener: (ev) => {
       addon.hooks.onTranslateInBatch(
         ZoteroPane.getSelectedItems(true)
           .map((id) => addTranslateTitleTask(id, true))
           .filter((task) => task) as TranslateTask[],
-        { noDisplay: true }
+        { noDisplay: true },
       );
     },
     icon: menuIcon,
   });
   ztoolkit.Menu.register("item", {
     tag: "menuitem",
-    label: getString("itemmenu.translateAbstract.label"),
+    label: getString("itemmenu-translateAbstract-label"),
     commandListener: (ev) => {
       addon.hooks.onTranslateInBatch(
         ZoteroPane.getSelectedItems(true)
           .map((id) => addTranslateAbstractTask(id, true))
           .filter((task) => task) as TranslateTask[],
-        { noDisplay: true }
+        { noDisplay: true },
       );
     },
     icon: menuIcon,
   });
   ztoolkit.Menu.register("item", {
     tag: "menuitem",
-    label: `${getString("itemmenu.switchTitleMode.label")}(${getString(
-      "ctrl"
+    label: `${getString("itemmenu-switchTitleMode-label")}(${getString(
+      "ctrl",
     )} + T)`,
     commandListener: (ev) => {
       addon.hooks.onSwitchTitleColumnDisplay();

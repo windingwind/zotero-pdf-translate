@@ -51,7 +51,7 @@ async function waitForZotero() {
                 resolve();
               }
             },
-            false
+            false,
           );
         },
       };
@@ -71,28 +71,28 @@ async function startup({ id, version, resourceURI, rootURI }, reason) {
     rootURI = resourceURI.spec;
   }
 
-  if (Zotero.platformMajorVersion >= 102) {
-    var aomStartup = Components.classes[
-      "@mozilla.org/addons/addon-manager-startup;1"
-    ].getService(Components.interfaces.amIAddonManagerStartup);
-    var manifestURI = Services.io.newURI(rootURI + "manifest.json");
-    chromeHandle = aomStartup.registerChrome(manifestURI, [
-      ["content", "__addonRef__", rootURI + "chrome/content/"],
-    ]);
-  } else {
-    setDefaultPrefs(rootURI);
-  }
+  var aomStartup = Components.classes[
+    "@mozilla.org/addons/addon-manager-startup;1"
+  ].getService(Components.interfaces.amIAddonManagerStartup);
+  var manifestURI = Services.io.newURI(rootURI + "manifest.json");
+  chromeHandle = aomStartup.registerChrome(manifestURI, [
+    ["content", "__addonRef__", rootURI + "chrome/content/"],
+  ]);
 
-  // Global variables for plugin code
+  /**
+   * Global variables for plugin code.
+   * The `_globalThis` is the global root variable of the plugin sandbox environment
+   * and all child variables assigned to it is globally accessible.
+   * See `src/index.ts` for details.
+   */
   const ctx = {
     rootURI,
   };
   ctx._globalThis = ctx;
 
   Services.scriptloader.loadSubScript(
-    `${rootURI}/chrome/content/scripts/index.js`,
+    `${rootURI}/chrome/content/scripts/__addonRef__.js`,
     ctx,
-    "utf8"
   );
 }
 
@@ -102,7 +102,7 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
   }
   if (typeof Zotero === "undefined") {
     Zotero = Components.classes["@zotero.org/Zotero;1"].getService(
-      Components.interfaces.nsISupports
+      Components.interfaces.nsISupports,
     ).wrappedJSObject;
   }
   Zotero.__addonInstance__.hooks.onShutdown();
@@ -111,7 +111,7 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
     .getService(Components.interfaces.nsIStringBundleService)
     .flushBundles();
 
-  Cu.unload(`${rootURI}/chrome/content/scripts/index.js`);
+  Cu.unload(`${rootURI}/chrome/content/scripts/__addonRef__.js`);
 
   if (chromeHandle) {
     chromeHandle.destruct();
@@ -120,27 +120,3 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
 }
 
 function uninstall(data, reason) {}
-
-// Loads default preferences from defaults/preferences/prefs.js in Zotero 6
-function setDefaultPrefs(rootURI) {
-  var branch = Services.prefs.getDefaultBranch("");
-  var obj = {
-    pref(pref, value) {
-      switch (typeof value) {
-        case "boolean":
-          branch.setBoolPref(pref, value);
-          break;
-        case "string":
-          branch.setStringPref(pref, value);
-          break;
-        case "number":
-          branch.setIntPref(pref, value);
-          break;
-        default:
-          Zotero.logError(`Invalid type '${typeof value}' for pref '${pref}'`);
-      }
-    },
-  };
-  Zotero.getMainWindow().console.log(rootURI + "prefs.js");
-  Services.scriptloader.loadSubScript(rootURI + "prefs.js", obj);
-}

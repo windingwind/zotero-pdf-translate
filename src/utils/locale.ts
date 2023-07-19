@@ -39,22 +39,20 @@ function initLocale() {
  * getString("addon-dynamic-example", { args: { count: 2 } }); // I have 2 apples
  * ```
  */
-function getString(localeString: string): string;
-function getString(localeString: string, branch: string): string;
+function getString(localString: string): string;
+function getString(localString: string, branch: string): string;
 function getString(
   localeString: string,
-  options: { branch?: string | undefined; args?: Record<string, unknown> }
+  options: { branch?: string | undefined; args?: Record<string, unknown> },
 ): string;
 function getString(...inputs: any[]) {
-  // Old .properties uses . while .ftl uses -
-  const localeString = (inputs[0] as string).replace(/\./g, "-");
   if (inputs.length === 1) {
-    return _getString(localeString);
+    return _getString(inputs[0]);
   } else if (inputs.length === 2) {
     if (typeof inputs[1] === "string") {
-      return _getString(localeString, { branch: inputs[1] });
+      return _getString(inputs[0], { branch: inputs[1] });
     } else {
-      return _getString(localeString, inputs[1]);
+      return _getString(inputs[0], inputs[1]);
     }
   } else {
     throw new Error("Invalid arguments");
@@ -63,18 +61,27 @@ function getString(...inputs: any[]) {
 
 function _getString(
   localeString: string,
-  options: { branch?: string | undefined; args?: Record<string, unknown> } = {}
+  options: { branch?: string | undefined; args?: Record<string, unknown> } = {},
 ): string {
+  switch (localeString) {
+    case "alt":
+      return Zotero.isMac ? "⌥" : "Alt";
+    case "ctrl":
+      return Zotero.isMac ? "⌘" : "Ctrl";
+    case "shift":
+      return Zotero.isMac ? "⇧" : "Shift";
+  }
+  const localStringWithPrefix = `${config.addonRef}-${localeString}`;
   const { branch, args } = options;
   const pattern = addon.data.locale?.current.formatMessagesSync([
-    { id: localeString, args },
+    { id: localStringWithPrefix, args },
   ])[0];
   if (!pattern) {
-    return localeString;
+    return localStringWithPrefix;
   }
   if (branch && pattern.attributes) {
-    return pattern.attributes[branch] || localeString;
+    return pattern.attributes[branch] || localStringWithPrefix;
   } else {
-    return pattern.value || localeString;
+    return pattern.value || localStringWithPrefix;
   }
 }

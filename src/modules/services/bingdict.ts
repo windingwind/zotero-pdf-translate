@@ -4,7 +4,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://cn.bing.com/dict/search?q=${encodeURIComponent(data.raw)}/`,
-    { responseType: "text" }
+    { responseType: "text" },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
@@ -20,12 +20,12 @@ export default <TranslateTaskProcessor>async function (data) {
   }));
 
   try {
-    res = res.match(/<meta name=\"description\" content=\"(.+) \" ?\/>/gm)[0];
+    res = res.match(/<meta name="description" content="(.+) " ?\/>/gm)[0];
   } catch (e) {
     throw "Parse error";
   }
   let tgt = "";
-  for (let line of res.split("，").slice(3)) {
+  for (const line of res.split("，").slice(3)) {
     if (line.indexOf("网络释义") > -1) {
       tgt += line.slice(0, line.lastIndexOf("；"));
     } else {

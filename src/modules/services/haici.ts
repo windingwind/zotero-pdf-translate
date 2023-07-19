@@ -7,7 +7,7 @@ export default <TranslateTaskProcessor>async function (data) {
     `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${await getAppId()}&from=${
       data.langfrom
     }&to=${data.langto}&texts=["${encodeURIComponent(data.raw)}"]`,
-    { responseType: "json" }
+    { responseType: "json" },
   );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
@@ -39,7 +39,9 @@ async function getAppId(forceRefresh: boolean = false) {
       appId = appIdObj.appId;
       doRefresh = false;
     }
-  } catch (e) {}
+  } catch (e) {
+    ztoolkit.log(e);
+  }
   if (doRefresh) {
     const xhr = await Zotero.HTTP.request(
       "GET",
@@ -49,7 +51,7 @@ async function getAppId(forceRefresh: boolean = false) {
           Referer: "http://fanyi.dict.cn/",
         },
         responseType: "text",
-      }
+      },
     );
     if (xhr && xhr.response) {
       appId = xhr.response.match(/"(.+)"/)[1];
@@ -58,7 +60,7 @@ async function getAppId(forceRefresh: boolean = false) {
         JSON.stringify({
           t: new Date().getTime(),
           appId: appId,
-        })
+        }),
       );
     }
   }
