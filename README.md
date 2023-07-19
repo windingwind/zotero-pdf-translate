@@ -195,7 +195,7 @@ npm install
 npm run build
 ```
 
-The plugin is built to `./builds/*.xpi`.
+The plugin is built to `./build/*.xpi`.
 
 ### Contributing
 
