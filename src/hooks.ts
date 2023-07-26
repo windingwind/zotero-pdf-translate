@@ -33,6 +33,7 @@ import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
+import { createZToolkit } from "./utils/ztoolkit";
 
 async function onStartup() {
   await Promise.all([
@@ -45,6 +46,12 @@ async function onStartup() {
   setDefaultPrefSettings();
 
   registerNotify(["item"]);
+  await onMainWindowLoad(window);
+}
+
+async function onMainWindowLoad(win: Window): Promise<void> {
+  // Create ztoolkit for every window
+  addon.data.ztoolkit = createZToolkit();
   registerReaderTabPanel();
   registerReaderInitializer();
   registerPrefsWindow();
@@ -54,6 +61,10 @@ async function onStartup() {
   registerTitleRenderer();
   registerShortcuts();
   registerPrompt();
+}
+
+async function onMainWindowUnload(win: Window): Promise<void> {
+  ztoolkit.unregisterAll();
 }
 
 function onShutdown(): void {
@@ -206,6 +217,8 @@ function onSwitchTitleColumnDisplay() {
 
 export default {
   onStartup,
+  onMainWindowLoad,
+  onMainWindowUnload,
   onShutdown,
   onNotify,
   onPrefsLoad,
