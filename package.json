@@ -42,19 +42,19 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "jsencrypt": "^3.3.2",
-    "zotero-plugin-toolkit": "^2.1.5"
+    "zotero-plugin-toolkit": "^2.2.1"
   },
   "devDependencies": {
-    "@types/node": "^18.16.19",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@types/node": "^18.17.1",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.2.1",
     "chokidar-cli": "^3.0.0",
-    "compressing": "^1.9.0",
+    "compressing": "^1.9.1",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.17.19",
-    "eslint": "^8.44.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
     "prettier": "^3.0.0",
     "release-it": "^15.11.0",
     "replace-in-file": "^7.0.1",

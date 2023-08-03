@@ -15,20 +15,20 @@ if (!basicTool.getGlobal("Zotero")[config.addonInstance]) {
   defineGlobal("crypto");
   defineGlobal("TextEncoder");
   _globalThis.addon = new Addon();
-  Object.defineProperty(_globalThis, "ztoolkit", {
-    get() {
-      return _globalThis.addon.data.ztoolkit;
-    },
+  defineGlobal("ztoolkit", () => {
+    return _globalThis.addon.data.ztoolkit;
   });
   Zotero[config.addonInstance] = addon;
   // Trigger addon hook for initialization
   addon.hooks.onStartup();
 }
 
-function defineGlobal(name: Parameters<BasicTool["getGlobal"]>[0]) {
+function defineGlobal(name: Parameters<BasicTool["getGlobal"]>[0]): void;
+function defineGlobal(name: string, getter: () => any): void;
+function defineGlobal(name: string, getter?: () => any) {
   Object.defineProperty(_globalThis, name, {
     get() {
-      return basicTool.getGlobal(name);
+      return getter ? getter() : basicTool.getGlobal(name);
     },
   });
 }

@@ -45,15 +45,32 @@ async function onStartup() {
 
   setDefaultPrefSettings();
 
+  registerReaderInitializer();
+
   registerNotify(["item"]);
   await onMainWindowLoad(window);
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
+  await new Promise((resolve) => {
+    if (win.document.readyState !== "complete") {
+      win.document.addEventListener("readystatechange", () => {
+        if (win.document.readyState === "complete") {
+          resolve(void 0);
+        }
+      });
+    }
+    resolve(void 0);
+  });
+
+  await Promise.all([
+    Zotero.initializationPromise,
+    Zotero.unlockPromise,
+    Zotero.uiReadyPromise,
+  ]);
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
   registerReaderTabPanel();
-  registerReaderInitializer();
   registerPrefsWindow();
   registerMenu();
   await registerExtraColumns();

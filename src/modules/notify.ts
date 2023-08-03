@@ -11,15 +11,6 @@ export function registerNotify(types: _ZoteroTypes.Notifier.Type[]) {
 
   // Register the callback in Zotero as an item observer
   const notifyID = Zotero.Notifier.registerObserver(callback, types);
-
-  // Unregister callback when the window closes (important to avoid a memory leak)
-  window.addEventListener(
-    "unload",
-    (e: Event) => {
-      unregisterNotify(notifyID);
-    },
-    false,
-  );
 }
 
 function unregisterNotify(notifyID: string) {

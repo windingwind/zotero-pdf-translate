@@ -22,6 +22,8 @@ const t = new Date();
 const buildTime = dateFormat("YYYY-mm-dd HH:MM:SS", new Date());
 const buildDir = "build";
 
+const isPreRelease = version.includes("-");
+
 function copyFileSync(source, target) {
   var targetFile = target;
 
@@ -131,16 +133,20 @@ function replaceString() {
   const optionsAddon = {
     files: [
       `${buildDir}/addon/**/*.xhtml`,
+      `${buildDir}/addon/**/*.html`,
       `${buildDir}/addon/**/*.json`,
       `${buildDir}/addon/prefs.js`,
       `${buildDir}/addon/manifest.json`,
       `${buildDir}/addon/bootstrap.js`,
-      "update.json",
     ],
     from: replaceFrom,
     to: replaceTo,
     countMatches: true,
   };
+
+  if (!isPreRelease) {
+    optionsAddon.files.push("update.json");
+  }
 
   const replaceResult = replaceInFileSync(optionsAddon);
 
@@ -231,7 +237,13 @@ async function main() {
 
   copyFolderRecursiveSync("addon", buildDir);
 
-  copyFileSync("update-template.json", "update.json");
+  if (isPreRelease) {
+    console.log(
+      "[Build] [Warn] Running in pre-release mode. update.json will not be replaced.",
+    );
+  } else {
+    copyFileSync("update-template.json", "update.json");
+  }
 
   await esbuild();
 
