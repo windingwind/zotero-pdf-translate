@@ -83,4 +83,4 @@ pref-about-feedback =
 pref-about-docs =
     .value = Documentation(ZH)
 pref-about-version =
-    .value = { $name } 版本 { $version } Build { $time }
+    .value = { $name } Version { $version } Build { $time }

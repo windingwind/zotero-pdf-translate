@@ -16,13 +16,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
       messages: [
         {
           role: "user",
-          content: `As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${
-            data.langfrom.split("-")[0]
-          } to ${
-            data.langto.split("-")[0]
-          } of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${
-            data.raw
-          } 🔤  Please provide the translated result without any additional explanation and remove 🔤.`,
+          content: eval((("`" + getPref("gptPrompt")) as string) + "`"),
         },
       ],
       temperature: temperature,

@@ -70,6 +70,7 @@ service-gpt-dialog-title=GPT Config
 service-gpt-dialog-url=API
 service-gpt-dialog-models=Model
 service-gpt-dialog-temperature=Temp
+service-gpt-dialog-prompt=Prompt
 service-gpt-dialog-status=Status
 service-gpt-dialog-help=help
 service-gpt-dialog-save=save

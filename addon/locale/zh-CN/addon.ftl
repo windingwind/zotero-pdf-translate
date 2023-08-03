@@ -70,6 +70,7 @@ service-gpt-dialog-title=GPT 配置项
 service-gpt-dialog-url=接口
 service-gpt-dialog-models=模型
 service-gpt-dialog-temperature=温度
+service-gpt-dialog-prompt=Prompt
 service-gpt-dialog-status=状态
 service-gpt-dialog-help=帮助
 service-gpt-dialog-save=保存

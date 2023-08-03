@@ -329,15 +329,15 @@ export const secretStatusButtonData: {
 } = {
   niutranspro: {
     labels: {
-      pass: "service.niutranspro.secret.pass",
-      fail: "service.niutranspro.secret.fail",
+      pass: "service-niutranspro-secret-pass",
+      fail: "service-niutranspro-secret-fail",
     },
     callback: niutransStatusCallback,
   },
   deeplcustom: {
     labels: {
-      pass: "service.deeplcustom.secret.pass",
-      fail: "service.deeplcustom.secret.fail",
+      pass: "service-deeplcustom-secret-pass",
+      fail: "service-deeplcustom-secret-fail",
     },
     callback: function () {
       Zotero.launchURL(
@@ -347,8 +347,8 @@ export const secretStatusButtonData: {
   },
   gpt: {
     labels: {
-      pass: "service.gpt.secret.pass",
-      fail: "service.gpt.secret.fail",
+      pass: "service-gpt-secret-pass",
+      fail: "service-gpt-secret-fail",
     },
     callback: gptStatusCallback,
   },

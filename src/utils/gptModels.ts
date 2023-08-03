@@ -9,6 +9,7 @@ export async function gptStatusCallback(status: boolean) {
     url: getPref("gptUrl"),
     models: getPref("gptModel"),
     temperature: parseFloat(getPref("gptTemperature") as string),
+    prompt: getPref("gptPrompt"),
     loadCallback: async () => {
       const doc = dialog.window.document;
 
@@ -137,6 +138,24 @@ export async function gptStatusCallback(status: boolean) {
               step: 0.1,
             },
           },
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "prompt",
+            },
+            properties: {
+              innerHTML: getString("service-gpt-dialog-prompt"),
+            },
+          },
+          {
+            tag: "input",
+            id: "prompt",
+            attributes: {
+              "data-bind": "prompt",
+              "data-prop": "value",
+            },
+          },
         ],
       },
       false,
@@ -205,6 +224,7 @@ export async function gptStatusCallback(status: boolean) {
 
         setPref("gptUrl", dialogData.url);
         setPref("gptModel", dialogData.models);
+        setPref("gptPrompt", dialogData.prompt);
       }
       break;
     default:
