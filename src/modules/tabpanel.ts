@@ -166,6 +166,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("services"),
               attributes: {
                 flex: "0",
+                native: "true",
               },
               listeners: [
                 {
@@ -251,6 +252,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("langfrom"),
               attributes: {
                 flex: "1",
+                native: "true",
               },
               listeners: [
                 {
@@ -301,6 +303,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("langto"),
               attributes: {
                 flex: "1",
+                native: "true",
               },
               listeners: [
                 {
@@ -354,6 +357,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("autotrans"),
               attributes: {
                 label: getString("readerpanel-auto-selection-label"),
+                native: "true",
               },
               listeners: [
                 {
@@ -373,6 +377,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               id: makeId("autoannot"),
               attributes: {
                 label: getString("readerpanel-auto-annotation-label"),
+                native: "true",
               },
               listeners: [
                 {
@@ -419,6 +424,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                 label: `${getString(
                   "readerpanel-concat-enable-label",
                 )}/${getString("alt")}`,
+                native: "true",
               },
               listeners: [
                 {
@@ -434,9 +440,6 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
             },
             {
               tag: "button",
-              styles: {
-                paddingLeft: "8px",
-              },
               namespace: "xul",
               attributes: {
                 label: getString("readerpanel-concat-clear-label"),
@@ -812,6 +815,7 @@ function buildExtraPanel(panel: XUL.Box) {
                   attributes: {
                     flex: "1",
                     value: serviceId,
+                    native: "true",
                   },
                   listeners: [
                     {
@@ -1009,6 +1013,6 @@ function recordPanel(panel: HTMLElement) {
 
 function cleanPanels() {
   addon.data.panel.activePanels = addon.data.panel.activePanels.filter(
-    (elem) => elem.parentElement,
+    (elem) => elem.parentElement && (elem as any).ownerGlobal,
   );
 }
