@@ -81,6 +81,12 @@ service-gpt-dialog-status-timeout=请求超时
 service-gpt-dialog-status-invalid=密钥不可用
 service-gpt-dialog-status-unexpect=服务不可用
 
+service-cnki-settings=设置
+service-cnki-dialog-regex=CNKI广告移除正则表达式
+service-cnki-dialog-save=保存
+service-cnki-dialog-close=关闭
+service-cnki-dialog-title=CNKI 设置
+
 readerpopup-translate-label=翻译
 
 pref-title=翻译

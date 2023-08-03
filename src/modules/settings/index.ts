@@ -1,3 +1,4 @@
+import { cnkiStatusCallback } from "./cnki";
 import { gptStatusCallback } from "./gpt";
 import { niutransStatusCallback } from "./niutrans";
 
@@ -31,5 +32,12 @@ export const secretStatusButtonData: {
       fail: "service-gpt-secret-fail",
     },
     callback: gptStatusCallback,
+  },
+  cnki: {
+    labels: {
+      pass: "service-cnki-settings",
+      fail: "service-cnki-settings",
+    },
+    callback: cnkiStatusCallback,
   },
 };

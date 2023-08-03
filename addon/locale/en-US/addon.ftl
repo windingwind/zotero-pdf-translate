@@ -81,6 +81,12 @@ service-gpt-dialog-status-timeout=timeout
 service-gpt-dialog-status-invalid=secret invalid
 service-gpt-dialog-status-unexpect=fail
 
+service-cnki-settings=Settings
+service-cnki-dialog-regex=CNKI Addvertisements Regex
+service-cnki-dialog-save=Save
+service-cnki-dialog-close=Close
+service-cnki-dialog-title=CNKI Config
+
 readerpopup-translate-label=Translate
 
 pref-title=Translate
