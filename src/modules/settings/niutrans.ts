@@ -1,7 +1,7 @@
 import { JSEncrypt } from "jsencrypt";
-import { getString } from "./locale";
-import { getPref, setPref } from "./prefs";
-import { setServiceSecret } from "./translate";
+import { getString } from "../../utils/locale";
+import { getPref, setPref } from "../../utils/prefs";
+import { setServiceSecret } from "../../utils/secret";
 
 export async function niutransStatusCallback(status: boolean) {
   const dictLibList = getPref("niutransDictLibList") as string;

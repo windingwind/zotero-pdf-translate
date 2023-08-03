@@ -6,7 +6,7 @@ import {
   addTranslateTask,
   getLastTranslateTask,
   putTranslateTaskAtHead,
-} from "../utils/translate";
+} from "../utils/task";
 
 export function registerReaderTabPanel() {
   ztoolkit.ReaderTabPanel.register(

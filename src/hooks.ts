@@ -21,8 +21,8 @@ import {
   addTranslateTitleTask,
   getLastTranslateTask,
   TranslateTask,
-} from "./utils/translate";
-import { setDefaultPrefSettings } from "./modules/defaultSettings";
+} from "./utils/task";
+import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
 import {

@@ -1,6 +1,6 @@
 import { getService, SERVICES } from "../utils/config";
 import { clearPref, getPref, setPref } from "../utils/prefs";
-import { setServiceSecret } from "../utils/translate";
+import { setServiceSecret } from "../utils/secret";
 
 export function setDefaultPrefSettings() {
   const isZhCN = Zotero.locale === "zh-CN";

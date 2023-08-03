@@ -1,5 +1,5 @@
 import { base64, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
   const [appid, apiSecret, apiKey] = data.secret.split("#");

@@ -1,6 +1,6 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
-import { addTranslateAnnotationTask } from "../utils/translate";
+import { addTranslateAnnotationTask } from "../utils/task";
 
 export function registerReaderInitializer() {
   ztoolkit.ReaderInstance.register(

@@ -1,6 +1,6 @@
-import { getPref, setPref } from "./prefs";
-import { getString } from "./locale";
-import { updateGPTModel } from "../modules/services/gpt";
+import { getPref, setPref } from "../../utils/prefs";
+import { getString } from "../../utils/locale";
+import { updateGPTModel } from "../services/gpt";
 
 export async function gptStatusCallback(status: boolean) {
   const selectedModel = getPref("gptModel");

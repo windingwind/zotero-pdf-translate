@@ -4,7 +4,7 @@ import {
   addTranslateAbstractTask,
   addTranslateTitleTask,
   TranslateTask,
-} from "../utils/translate";
+} from "../utils/task";
 
 export function registerMenu() {
   const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;

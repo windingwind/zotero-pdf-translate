@@ -2,7 +2,7 @@ import { SVGIcon } from "../utils/config";
 import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
-import { addTranslateTask, getLastTranslateTask } from "../utils/translate";
+import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
 
 export function updateReaderPopup() {

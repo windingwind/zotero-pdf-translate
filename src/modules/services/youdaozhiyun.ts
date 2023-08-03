@@ -1,5 +1,5 @@
 import { hex, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
   function encodeRFC5987ValueChars(str: string) {

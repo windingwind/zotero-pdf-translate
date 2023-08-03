@@ -1,4 +1,4 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 
 export const googleapi = <TranslateTaskProcessor>async function (data) {
   return await _google("https://translate.googleapis.com", data);

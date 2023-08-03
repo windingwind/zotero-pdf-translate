@@ -1,5 +1,5 @@
 import { getPref } from "./utils/prefs";
-import { TranslateTask } from "./utils/translate";
+import { TranslateTask } from "./utils/task";
 
 /**
  * To plugin developers: Please use this API to translate your custom text.

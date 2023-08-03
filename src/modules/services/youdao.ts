@@ -1,4 +1,4 @@
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
   const param = `${data.langfrom.toUpperCase().replace("-", "_")}2${data.langto

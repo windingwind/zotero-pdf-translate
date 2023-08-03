@@ -1,6 +1,6 @@
 import api from "./api";
 import hooks from "./hooks";
-import { TranslateTask } from "./utils/translate";
+import { TranslateTask } from "./utils/task";
 import { TranslationServices } from "./modules/services";
 import { createZToolkit } from "./utils/ztoolkit";
 

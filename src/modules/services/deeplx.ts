@@ -1,4 +1,4 @@
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 export default <TranslateTaskProcessor>async function (data) {
   const id = 1000 * (Math.floor(Math.random() * 99999) + 8300000) + 1;
   const url = "https://www2.deepl.com/jsonrpc";

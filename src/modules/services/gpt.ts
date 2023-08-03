@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
-import { getServiceSecret } from "../../utils/translate";
+import { getServiceSecret } from "../../utils/secret";
 
 export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   const model = getPref("gptModel");

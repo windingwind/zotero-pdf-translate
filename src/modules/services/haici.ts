@@ -1,5 +1,5 @@
 import { getPref, setPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
   const xhr = await Zotero.HTTP.request(

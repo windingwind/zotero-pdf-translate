@@ -1,4 +1,4 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/translate";
+import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 
 export const deeplfree = <TranslateTaskProcessor>async function (data) {
   return await deepl("https://api-free.deepl.com/v2/translate", data);

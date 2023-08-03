@@ -1,8 +1,7 @@
-import { getService, SecretValidateResult, SERVICES } from "./config";
-import { gptStatusCallback } from "./gptModels";
+import { SERVICES } from "./config";
 import { getString } from "./locale";
-import { niutransStatusCallback } from "./niuTransLogin";
-import { getPref, setPref } from "./prefs";
+import { getPref } from "./prefs";
+import { getServiceSecret } from "./secret";
 
 export interface TranslateTask {
   /**
@@ -284,72 +283,3 @@ export function putTranslateTaskAtHead(taskId: string) {
   }
   return false;
 }
-
-export function getServiceSecret(serviceId: string) {
-  try {
-    return JSON.parse(getPref("secretObj") as string)[serviceId] || "";
-  } catch (e) {
-    setPref("secretObj", "{}");
-    return "";
-  }
-}
-
-export function setServiceSecret(serviceId: string, secret: string) {
-  let secrets;
-  try {
-    secrets = JSON.parse(getPref("secretObj") as string) || {};
-  } catch (e) {
-    secrets = {};
-  }
-  secrets[serviceId] = secret;
-  setPref("secretObj", JSON.stringify(secrets));
-}
-
-export function validateServiceSecret(
-  serviceId: string,
-  validateCallback?: (result: SecretValidateResult) => void,
-): SecretValidateResult {
-  const secret = getServiceSecret(serviceId);
-  const validator = getService(serviceId).secretValidator;
-  if (!validator) {
-    return { secret, status: true, info: "" };
-  }
-  const validateResult = validator(secret);
-  if (validateCallback) {
-    validateCallback(validateResult);
-  }
-  return validateResult;
-}
-
-export const secretStatusButtonData: {
-  [key: string]: {
-    labels: { [_k in "pass" | "fail"]: string };
-    callback(status: boolean): void;
-  };
-} = {
-  niutranspro: {
-    labels: {
-      pass: "service-niutranspro-secret-pass",
-      fail: "service-niutranspro-secret-fail",
-    },
-    callback: niutransStatusCallback,
-  },
-  deeplcustom: {
-    labels: {
-      pass: "service-deeplcustom-secret-pass",
-      fail: "service-deeplcustom-secret-fail",
-    },
-    callback: function () {
-      Zotero.launchURL(
-        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
-      );
-    },
-  },
-  gpt: {
-    labels: {
-      pass: "service-gpt-secret-pass",
-      fail: "service-gpt-secret-fail",
-    },
-    callback: gptStatusCallback,
-  },
-};
