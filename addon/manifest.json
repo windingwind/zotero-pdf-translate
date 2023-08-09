@@ -4,6 +4,7 @@
   "version": "__buildVersion__",
   "description": "__description__",
   "author": "__author__",
+  "homepage_url": "__homepage__",
   "icons": {
     "48": "chrome/content/icons/favicon.png",
     "96": "chrome/content/icons/favicon@2x.png"

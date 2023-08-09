@@ -1,10 +1,10 @@
-# ![PDFTranslate](addon/chrome/content/icons/favicon.png)Zotero PDF Translate
+# ![Translate for Zotero](addon/chrome/content/icons/favicon.png)Translate for Zotero
 
 [![zotero target version](https://img.shields.io/badge/Zotero-7-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
 [![Using Zotero Plugin Template](https://img.shields.io/badge/Using-Zotero%20Plugin%20Template-blue?style=flat-square&logo=github)](https://github.com/windingwind/zotero-plugin-template)
 
-This is an add-on for [Zotero](https://www.zotero.org/)'s built-in PDF reader.  
-Translate PDFs, annotations, notes, and item titles automatically.
+_Translate for Zotero_, a.k.a. _Zotero PDF Translate_, is a [Zotero](https://www.zotero.org/) plugin.  
+Translate PDF, EPub, webpage, metadata, annotations, notes to the target language. Support 20+ translate services.
 
 [中文文档](https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d)
 

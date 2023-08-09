@@ -1,9 +1,9 @@
 {
   "name": "zotero-pdf-translate",
   "version": "1.1.0-6",
-  "description": "PDF translation for Zotero built-in PDF reader.",
+  "description": "Translate PDF, EPub, webpage, and metadata.",
   "config": {
-    "addonName": "Zotero PDF Translate",
+    "addonName": "Translate for Zotero",
     "addonID": "zoteropdftranslate@euclpts.com",
     "addonRef": "zoteropdftranslate",
     "prefsPrefix": "extensions.zotero.ZoteroPDFTranslate",
