@@ -23,8 +23,11 @@ export function registerReaderInitializer() {
 export function unregisterReaderInitializer() {
   Zotero.Reader._readers.forEach((r) => {
     unInitializeReaderAnnotationButton(r);
-    unInitializeReaderSelectionEvent(r);
   });
+  addon.data.popup.observers.forEach((observer) => {
+    observer.deref()?.disconnect();
+  });
+  addon.data.popup.observers = [];
 }
 
 export async function checkReaderAnnotationButton(items: Zotero.Item[]) {
@@ -47,40 +50,38 @@ async function initializeReaderSelectionEvent(
 ) {
   await instance._initPromise;
   await instance._waitForReader();
-  if (instance._pdftranslateInitialized) {
-    return;
-  }
-  instance._pdftranslateInitialized = true;
-  function selectionCallback(ev: MouseEvent) {
-    // Work around to only allow event from iframe#viewer
-    const target = ev.target as Element;
-    if (!target?.ownerDocument?.querySelector("#viewer")?.contains(target)) {
-      return false;
-    }
-    // Callback when the selected content is not null
+  async function selectionCallback(ev: MouseEvent) {
     if (!ztoolkit.Reader.getSelectedText(instance)) {
       return false;
     }
     addon.data.translate.concatKey = ev.altKey;
-    addon.hooks.onReaderTextSelection(instance);
+    await addon.hooks.onReaderTextSelection(instance);
   }
-  instance._iframeWindow?.addEventListener("pointerup", selectionCallback);
-  instance._pdftranslateSelectionCallback = selectionCallback;
-}
-
-async function unInitializeReaderSelectionEvent(
-  instance: _ZoteroTypes.ReaderInstance,
-): Promise<void> {
-  await instance._initPromise;
-  await instance._waitForReader();
-  if (!instance._pdftranslateInitialized) {
+  function addSelectionCallback(iframe: HTMLIFrameElement) {
+    iframe.contentWindow?.addEventListener("pointerup", selectionCallback);
+  }
+  const container =
+    instance._iframeWindow?.document?.querySelector("#split-view");
+  if (!container) {
     return;
   }
-  instance._iframeWindow?.removeEventListener(
-    "pointerup",
-    instance._pdftranslateSelectionCallback,
-  );
-  instance._pdftranslateInitialized = false;
+  const observer = new (ztoolkit.getGlobal("MutationObserver"))((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "childList") {
+        for (const node of Array.from(mutation.addedNodes)) {
+          if (node.nodeName === "IFRAME") {
+            addSelectionCallback(node as HTMLIFrameElement);
+          }
+        }
+      }
+    }
+  });
+  observer.observe(container, {
+    childList: true,
+    subtree: true,
+  });
+  container.querySelectorAll("iframe").forEach(addSelectionCallback);
+  addon.data.popup.observers.push(new WeakRef(observer));
 }
 
 async function initializeReaderAnnotationButton(
@@ -96,7 +97,7 @@ async function initializeReaderAnnotationButton(
     return [];
   }
   const hitItems: Zotero.Item[] = [];
-  for (const moreButton of _document.querySelectorAll(".more")) {
+  for (const moreButton of Array.from(_document.querySelectorAll(".more"))) {
     if (moreButton.getAttribute("_pdftranslateInitialized") === "true") {
       continue;
     }
@@ -176,7 +177,7 @@ async function unInitializeReaderAnnotationButton(
   if (!_document) {
     return;
   }
-  for (const moreButton of _document.querySelectorAll(".more")) {
+  for (const moreButton of Array.from(_document.querySelectorAll(".more"))) {
     if (moreButton.getAttribute("_pdftranslateInitialized") === "true") {
       moreButton.removeAttribute("_pdftranslateInitialized");
     }

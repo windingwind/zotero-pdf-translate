@@ -4,7 +4,7 @@ export function registerPrompt() {
   const getSelection = () => {
     return ztoolkit.Reader.getSelectedText(
       Zotero.Reader.getByTabID(Zotero_Tabs.selectedID),
-    );
+    ).trim();
   };
   ztoolkit.Prompt.register([
     {
@@ -143,7 +143,9 @@ export function registerPrompt() {
                       const highlightColor = "#fee972";
 
                       const twinNode = [
-                        ...container.querySelectorAll(".text-container"),
+                        ...Array.from(
+                          container.querySelectorAll(".text-container"),
+                        ),
                       ].find((e) => e != node) as HTMLDivElement;
 
                       node

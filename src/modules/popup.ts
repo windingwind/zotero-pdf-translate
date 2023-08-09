@@ -4,6 +4,7 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
+import { waitUtilAsync } from "../utils/wait";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -74,9 +75,17 @@ export function updateReaderPopup() {
   updatePopupSize(popup, textarea);
 }
 
-export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
+export async function buildReaderPopup(
+  readerInstance: _ZoteroTypes.ReaderInstance,
+) {
+  await waitUtilAsync(
+    () =>
+      !!readerInstance._iframeWindow?.document.querySelector(
+        ".selection-popup",
+      ),
+  );
   const popup = readerInstance._iframeWindow?.document.querySelector(
-    "#selection-menu",
+    ".selection-popup",
   ) as HTMLDivElement;
   if (!popup) {
     return;
@@ -171,7 +180,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
             onpointerup: (e: Event) => e.stopPropagation(),
             ondragstart: (e: Event) => e.stopPropagation(),
             spellcheck: false,
-            value: ztoolkit.Reader.getSelectedText(readerInstance),
+            value: ztoolkit.Reader.getSelectedText(readerInstance).trim(),
           },
           ignoreIfExists: true,
           listeners: [
@@ -197,54 +206,6 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                 if (popup.scrollWidth > textarea.offsetWidth + 4) {
                   textarea.style.width = `${popup.scrollWidth - 4}px`;
                 }
-              },
-            },
-            {
-              type: "mouseenter",
-              listener: (_ev) => {
-                _ev.target?.addEventListener(
-                  "keydown",
-                  onTextAreaCopy as (ev: Event) => void,
-                );
-                const head =
-                  readerInstance._iframe.contentWindow.document.querySelector(
-                    "head",
-                  );
-                ztoolkit.UI.appendElement(
-                  {
-                    tag: "style",
-                    id: makeId("style"),
-                    properties: {
-                      innerHTML: `.${config.addonRef}-popup-textarea::-moz-selection {background: #7fbbea;}`,
-                    },
-                    skipIfExists: true,
-                  },
-                  head,
-                );
-              },
-            },
-            {
-              type: "mouseleave",
-              listener: (_ev) => {
-                _ev.target?.removeEventListener(
-                  "keydown",
-                  onTextAreaCopy as (ev: Event) => void,
-                );
-                const head =
-                  readerInstance._iframe.contentWindow.document.querySelector(
-                    "head",
-                  );
-                ztoolkit.UI.appendElement(
-                  {
-                    tag: "style",
-                    id: makeId("style"),
-                    properties: {
-                      innerHTML: `.${config.addonRef}-popup-textarea::-moz-selection {background: #bfbfbf;}`,
-                    },
-                    skipIfExists: true,
-                  },
-                  head,
-                );
               },
             },
             {
@@ -293,7 +254,7 @@ export function buildReaderPopup(readerInstance: _ZoteroTypes.ReaderInstance) {
                   return;
                 }
                 const selection =
-                  ztoolkit.Reader.getSelectedText(readerInstance);
+                  ztoolkit.Reader.getSelectedText(readerInstance).trim();
                 const task = addTranslateTask(
                   selection,
                   readerInstance.itemID,
@@ -402,9 +363,7 @@ function updatePopupSize(
     textarea.style.width = "-moz-available";
     textarea.style.height = "30px";
   }
-  const viewer = selectionMenu.ownerDocument.querySelector(
-    "#viewer",
-  ) as HTMLDivElement;
+  const viewer = selectionMenu.ownerDocument.body;
   // Get current H & W
   const textHeight = textarea.scrollHeight;
   const textWidth = textarea.scrollWidth;

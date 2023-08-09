@@ -192,24 +192,26 @@ async function onTranslateInBatch(
   }
 }
 
-function onReaderTextSelection(readerInstance: _ZoteroTypes.ReaderInstance) {
-  const selection = ztoolkit.Reader.getSelectedText(readerInstance);
+async function onReaderTextSelection(
+  readerInstance: _ZoteroTypes.ReaderInstance,
+) {
+  const selection = ztoolkit.Reader.getSelectedText(readerInstance).trim();
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
-    addon.hooks.onReaderPopupBuild(readerInstance);
+    await addon.hooks.onReaderPopupBuild(readerInstance);
     addon.hooks.onReaderPopupRefresh();
     return;
   }
   addTranslateTask(selection, readerInstance.itemID);
-  addon.hooks.onReaderPopupBuild(readerInstance);
+  await addon.hooks.onReaderPopupBuild(readerInstance);
   addon.hooks.onReaderPopupRefresh();
   if (getPref("enableAuto")) {
     addon.hooks.onTranslate();
   }
 }
 
-function onReaderPopupBuild(readerInstance: _ZoteroTypes.ReaderInstance) {
-  buildReaderPopup(readerInstance);
+async function onReaderPopupBuild(readerInstance: _ZoteroTypes.ReaderInstance) {
+  await buildReaderPopup(readerInstance);
 }
 
 function onReaderPopupRefresh() {

@@ -23,6 +23,7 @@ class Addon {
     };
     popup: {
       currentPopup: HTMLDivElement | null;
+      observers: WeakRef<MutationObserver>[];
     };
     translate: {
       concatKey: boolean;
@@ -46,7 +47,7 @@ class Addon {
       locale: {},
       prefs: { window: null },
       panel: { tabOptionId: "", activePanels: [], windowPanel: null },
-      popup: { currentPopup: null },
+      popup: { currentPopup: null, observers: [] },
       translate: {
         concatKey: false,
         concatCheckbox: false,
