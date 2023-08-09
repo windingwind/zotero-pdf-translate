@@ -203,7 +203,7 @@ The plugin is built to `./build/*.xpi`.
 
 1. Add service config to `src/utils/config.ts` > `SERVICES`;
 2. Add translation task processor under `src/modules/services/${serviceId}.ts` with the same format with other services. The export function set the translation result to `data.result` if runs successfully and throw an error if fails;
-3. Import the task processor function in `src/modules/services.ts`.
+3. Import the task processor function in `src/modules/services/index.ts`.
 4. Add locale string `service.${serviceId}` in `addon/chrome/locale/${lang}/addon.properties`.
 5. Build and test.
 
@@ -211,7 +211,7 @@ The plugin is built to `./build/*.xpi`.
 
 If the service requires extra options, the minimal implement would be putting them in the `secret` input in the prefs window, like the existing services does.
 
-If there are complex options, please bind a callback in `src/utils/translate.ts > secretStatusButtonData` which create a highly customizable dialog window with `ztoolkit.Dialog`. See the example of NiuTrans login here: https://github.com/windingwind/zotero-pdf-translate/blob/main/src/utils/niuTransLogin.ts
+If there are complex options, please bind a callback in `src/modules/settings/index.ts > secretStatusButtonData` which create a highly customizable dialog window with `ztoolkit.Dialog`. See the example of NiuTrans login here: https://github.com/windingwind/zotero-pdf-translate/blob/main/src/modules/settings/niutrans.ts
 
 ## Disclaimer
 
