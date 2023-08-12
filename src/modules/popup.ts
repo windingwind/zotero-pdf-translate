@@ -237,7 +237,7 @@ export async function buildReaderPopup(
           id: makeId("addtonote"),
           classList: ["wide-button", `${config.addonRef}-readerpopup`],
           properties: {
-            innerHTML: `${SVGIcon}${Zotero.getString("pdfReader-addToNote")}`,
+            innerHTML: `${SVGIcon}${Zotero.getString("pdfReader.addToNote")}`,
           },
           ignoreIfExists: true,
           listeners: [
