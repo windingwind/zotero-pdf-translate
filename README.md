@@ -181,6 +181,7 @@ The secret format is `sk-#SecretKey`(split with '#').
 ### Advanced
 
 - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
+- Split Character(between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
 
 ## Development & Contributing
 
