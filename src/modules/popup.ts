@@ -203,8 +203,8 @@ export async function buildReaderPopup(
                 const textarea = popup.querySelector(
                   `#${makeId("text")}`,
                 ) as HTMLTextAreaElement;
-                if (popup.scrollWidth > textarea.offsetWidth + 4) {
-                  textarea.style.width = `${popup.scrollWidth - 4}px`;
+                if (popup.scrollWidth > textarea.offsetWidth + 10) {
+                  textarea.style.width = `${popup.scrollWidth - 10}px`;
                 }
               },
             },
