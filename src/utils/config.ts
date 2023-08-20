@@ -139,6 +139,27 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "aliyun",
+    defaultSecret: "accessKeyId#accessKeySecret",
+    secretValidator(secret: string) {
+      const parts = secret?.split("#");
+      const flag = parts.length === 2;
+      const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
+      const source = getService("aliyun");
+      return {
+        secret,
+        status: flag && secret !== source.defaultSecret,
+        info:
+          secret === source.defaultSecret
+            ? "The secret is not set."
+            : flag
+            ? partsInfo
+            : `The secret format of Aliyun Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "baidu",
     defaultSecret: "appid#key",
     secretValidator(secret: string) {
@@ -146,8 +167,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
       const flag = [2, 3].includes(parts.length);
       const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${
         parts[2] ? parts[2] : "0"
-      }
-        `;
+      }`;
       const source = getService("baidu");
       return {
         secret,

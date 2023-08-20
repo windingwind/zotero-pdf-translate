@@ -8,6 +8,9 @@ import {
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
+    import("./aliyun").then(
+      (e) => (this.aliyun = new TranslateTaskRunner(e.default)),
+    );
     import("./baidu").then(
       (e) => (this.baidu = new TranslateTaskRunner(e.default)),
     );

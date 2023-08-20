@@ -33,6 +33,7 @@ service-baidu=Baidu🗝️
 service-baidufield=Baidu Field🗝️
 service-openl=OpenL🗝️
 service-tencent=Tencent🗝️
+service-aliyun=Aliyun🗝️
 service-xftrans=Xftrans🗝️
 service-gpt=GPT🗝️
 service-haici=Haici
