@@ -7,7 +7,11 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   const temperature = parseFloat(getPref("gptTemperature") as string);
   const apiUrl = getPref("gptUrl");
 
-  function transformContent(langFrom: string, langTo: string, sourceText: string) {
+  function transformContent(
+    langFrom: string,
+    langTo: string,
+    sourceText: string,
+  ) {
     return (getPref("gptPrompt") as string)
       .replaceAll("${langFrom}", langFrom)
       .replaceAll("${langTo}", langTo)
