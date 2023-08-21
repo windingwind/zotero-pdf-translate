@@ -3,6 +3,12 @@ function base64(buffer: ArrayBuffer) {
   return ztoolkit.getGlobal("btoa")(str);
 }
 
+function randomString(length: number) {
+  const baseLen = Math.ceil(length / 4) * 3;
+  const random = crypto.getRandomValues(new Uint8Array(baseLen));
+  return base64(random).substring(0, length);
+}
+
 function hex(buffer: ArrayBuffer) {
   const hashArray = Array.from(new Uint8Array(buffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
@@ -103,6 +109,7 @@ async function aesEcbEncrypt(message: string, secret: string) {
 export {
   aesEcbEncrypt,
   base64,
+  randomString,
   hex,
   hmacSha1Digest,
   hmacSha256Digest,

@@ -33,6 +33,7 @@ service-baidu=百度🗝️
 service-baidufield=百度垂直领域🗝️
 service-openl=OpenL🗝️
 service-tencent=腾讯🗝️
+service-aliyun=阿里🗝️
 service-xftrans=讯飞🗝️
 service-gpt=GPT🗝️
 service-haici=海词
