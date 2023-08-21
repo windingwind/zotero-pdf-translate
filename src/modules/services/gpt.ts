@@ -6,6 +6,14 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   const model = getPref("gptModel");
   const temperature = parseFloat(getPref("gptTemperature") as string);
   const apiUrl = getPref("gptUrl");
+
+  function transformContent(langFrom: string, langTo: string, sourceText: string) {
+    return (getPref("gptPrompt") as string)
+      .replaceAll("${langFrom}", langFrom)
+      .replaceAll("${langTo}", langTo)
+      .replaceAll("${sourceText}", sourceText);
+  }
+
   const xhr = await Zotero.HTTP.request("POST", apiUrl, {
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +24,7 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
       messages: [
         {
           role: "user",
-          content: eval((("`" + getPref("gptPrompt")) as string) + "`"),
+          content: transformContent(data.langfrom, data.langto, data.raw),
         },
       ],
       temperature: temperature,
