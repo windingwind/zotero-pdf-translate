@@ -14,15 +14,19 @@ export default <TranslateTaskProcessor>async function (data) {
     return str.split("-")[0];
   }
 
-  const encodedBody = `AccessKeyId=${accessKeyId
-    }&Action=TranslateGeneral&Format=JSON&FormatType=text&SignatureMethod=HMAC-SHA1&SignatureNonce=${encodeURIComponent(randomString(12))
-    }&SignatureVersion=1.0&SourceLanguage=auto&SourceText=${encodeURIComponent(data.raw)
-    }&TargetLanguage=${languageCode(data.langto)}&Timestamp=${encodeURIComponent(new Date().toISOString())
-    }&Version=2018-10-12`;
+  const encodedBody = `AccessKeyId=${accessKeyId}&Action=TranslateGeneral&Format=JSON&FormatType=text&SignatureMethod=HMAC-SHA1&SignatureNonce=${encodeURIComponent(
+    randomString(12),
+  )}&SignatureVersion=1.0&SourceLanguage=auto&SourceText=${encodeURIComponent(
+    data.raw,
+  )}&TargetLanguage=${languageCode(data.langto)}&Timestamp=${encodeURIComponent(
+    new Date().toISOString(),
+  )}&Version=2018-10-12`;
 
   const stringToSign = `POST&%2F&${encodeURIComponent(encodedBody)}`;
 
-  const signature = base64(await hmacSha1Digest(stringToSign, `${accessKeySecret}&`));
+  const signature = base64(
+    await hmacSha1Digest(stringToSign, `${accessKeySecret}&`),
+  );
 
   const xhr = await Zotero.HTTP.request("POST", "https://mt.aliyuncs.com/", {
     headers: {
