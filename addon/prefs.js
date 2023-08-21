@@ -43,7 +43,7 @@ pref("__prefsPrefix__.gptModel", "gpt-3.5-turbo");
 pref("__prefsPrefix__.gptTemperature", "1.0");
 pref(
   "__prefsPrefix__.gptPrompt",
-  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${data.langfrom} to ${data.langto} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${data.raw} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref(
   "__prefsPrefix__.cnkiRegex",
