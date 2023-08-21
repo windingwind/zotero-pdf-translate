@@ -99,6 +99,7 @@ The default engine is Google Translate. Currently, we support:
 | Microsoft Translate | Yes(free 2M) | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support) |
 | LingoCloud(Caiyun) Translate | Yes | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes) |
 | DeepL Translate | Yes(free 500k) | [100+](https://www.deepl.com/pro?cta=header-prices/#developer) |
+| Aliyun Translate | Yes(free-1M) | [200+](https://help.aliyun.com/document_detail/158269.html) |
 | Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11) |
 | Baidu Field | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
@@ -121,7 +122,7 @@ The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 
 > About `VOCABID`  
 > 登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表 id 即可。
-
+>
 > [Official Document](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)
 
 **Niu Translate**  
@@ -129,6 +130,12 @@ Apply [here](https://niutrans.com/NiuTransAuthCenter/login).
 The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
+
+**Aliyun Translate**
+Apply [here](https://www.aliyun.com/product/ai/base_alimt).
+The secret format is `accessKeyId#accessKeySecret`.
+
+> [Chinere Document](https://help.aliyun.com/document_detail/158269.html)
 
 **Baidu Translate**  
 Apply [here](https://fanyi-api.baidu.com/product/11).  
@@ -226,7 +233,7 @@ Use this code under AGPL. No warranties are provided. Keep the laws of your loca
 
 ## Sponsor Me
 
-I'm windingwind, an active Zotero(https://www.zotero.org) plugin developer. Devoting to making reading papers easier.
+I'm windingwind, an active [Zotero](https://www.zotero.org) plugin developer. Devoting to making reading papers easier.
 
 Sponsor me to buy a cup of coffee. I spend more than 24 hours every week coding, debugging, and replying to issues in my plugin repositories. The plugins are open-source and totally free.
 
