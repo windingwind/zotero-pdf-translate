@@ -28,7 +28,8 @@
     "release": "npm run lint && release-it",
     "lint": "prettier --write . && eslint . --ext .ts --fix",
     "update-deps": "npm update --save",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -55,6 +56,8 @@
     "esbuild": "^0.17.19",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.9.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.0",
     "release-it": "^15.11.0",
     "replace-in-file": "^7.0.1",
