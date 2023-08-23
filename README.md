@@ -14,6 +14,8 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 ## Install
 
+> For Zotero 6, install the [latest stable version](https://github.com/windingwind/zotero-pdf-translate/releases/latest); For Zotero 7, install the [latest prerelease version](https://github.com/windingwind/zotero-pdf-translate/releases/)
+
 ### From local file
 
 - Download the latest release (.xpi file) from the [Latest Release Page](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
