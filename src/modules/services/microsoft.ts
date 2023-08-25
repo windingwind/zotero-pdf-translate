@@ -1,24 +1,18 @@
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const req_body = JSON.stringify([
-    {
-      text: data.raw,
-    },
-  ]);
+  const reqBody = JSON.stringify([{ Text: data.raw }]);
 
   const xhr = await Zotero.HTTP.request(
     "POST",
     `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${data.langto}`,
     {
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Host: "api.cognitive.microsofttranslator.com",
-        "Content-Length": req_body.length,
+        "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": data.secret,
       },
       responseType: "json",
-      body: req_body,
+      body: reqBody,
     },
   );
   if (xhr?.status !== 200) {
