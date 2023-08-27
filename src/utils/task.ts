@@ -69,6 +69,10 @@ export interface TranslateTask {
    * For extra services function.
    */
   extraTasks: TranslateTask[] & { extraTasks: [] }[];
+  /**
+   * Whether to mute error info, depends on the implementation of the service.
+   */
+  silent?: boolean;
 }
 
 export type TranslateTaskProcessor = (

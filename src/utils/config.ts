@@ -89,6 +89,13 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     type: "sentence",
     id: "caiyun",
     defaultSecret: "3975l6lr5pcbvidl6jl2",
+    secretValidator(secret: string) {
+      return {
+        secret,
+        status: secret !== "",
+        info: "",
+      };
+    },
   },
   {
     type: "sentence",

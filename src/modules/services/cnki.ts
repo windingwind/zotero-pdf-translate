@@ -3,7 +3,7 @@ import { getPref, setPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
-  if (data.raw.length > 1000) {
+  if (data.raw.length > 1000 && !data.silent) {
     new ztoolkit.ProgressWindow("PDF Translate")
       .createLine({
         text: `Maximam text length is 1000, ${data.raw.length} selected. Will only translate first 1000 characters.`,
