@@ -17,10 +17,9 @@ export default <TranslateTaskProcessor>async function (data) {
   function encodeRFC5987ValueChars(str: string) {
     return encodeURIComponent(str)
       .replace(
-        /['()]/g,
+        /['()*]/g,
         (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
-      ) // i.e., %27 %28 %29
-      .replace(/\*/g, "%2A")
+      ) // i.e., %27 %28 %29 %2A
       .replace(/%20/g, "+");
   }
 
