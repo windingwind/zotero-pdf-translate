@@ -14,9 +14,16 @@ export default <TranslateTaskProcessor>async function (data) {
     return str.split("-")[0];
   }
 
+  function encodeRFC3986URIComponent(str: string) {
+    return encodeURIComponent(str).replace(
+      /[!'()*]/g,
+      (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+    );
+  }
+
   const encodedBody = `AccessKeyId=${accessKeyId}&Action=TranslateGeneral&Format=JSON&FormatType=text&SignatureMethod=HMAC-SHA1&SignatureNonce=${encodeURIComponent(
     randomString(12),
-  )}&SignatureVersion=1.0&SourceLanguage=auto&SourceText=${encodeURIComponent(
+  )}&SignatureVersion=1.0&SourceLanguage=auto&SourceText=${encodeRFC3986URIComponent(
     data.raw,
   )}&TargetLanguage=${languageCode(data.langto)}&Timestamp=${encodeURIComponent(
     new Date().toISOString(),
