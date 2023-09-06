@@ -7,7 +7,8 @@ export default <TranslateTaskProcessor>async function (data) {
   const memoryNo = getPref("niutransMemoryNo");
   const xhr = await Zotero.HTTP.request(
     "POST",
-    "https://api.niutrans.com/NiuTransServer/translation",
+    // Use http to avoid license issue
+    "http://api.niutrans.com/NiuTransServer/translation",
     {
       headers: {
         "content-type": "application/json",
