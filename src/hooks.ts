@@ -25,10 +25,7 @@ import {
 import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
-import {
-  registerExtraColumns,
-  registerTitleRenderer,
-} from "./modules/itemTree";
+import { registerExtraColumns } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
@@ -75,7 +72,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   registerMenu();
   await registerExtraColumns();
   await registerItemBoxExtraRows();
-  registerTitleRenderer();
   registerShortcuts();
   registerPrompt();
 }

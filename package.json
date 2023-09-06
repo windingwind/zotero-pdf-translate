@@ -43,7 +43,7 @@
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
     "jsencrypt": "^3.3.2",
-    "zotero-plugin-toolkit": "^2.2.4"
+    "zotero-plugin-toolkit": "^2.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.17.1",
