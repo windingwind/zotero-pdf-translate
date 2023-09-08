@@ -93,7 +93,6 @@ readerpopup-translate-label=翻译
 pref-title=翻译
 
 itemmenu-translateTitle-label=翻译标题
-itemmenu-switchTitleMode-label=切换原标题/翻译
 itemmenu-translateAbstract-label=翻译摘要
 itemmenu-more-label=更多翻译选项...
 itemmenu-retranslateTitle-label=重新翻译标题

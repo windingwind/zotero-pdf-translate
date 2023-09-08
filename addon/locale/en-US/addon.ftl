@@ -93,7 +93,6 @@ readerpopup-translate-label=Translate
 pref-title=Translate
 
 itemmenu-translateTitle-label=Translate Title
-itemmenu-switchTitleMode-label=Switch Original Title/Translation
 itemmenu-translateAbstract-label=Translate Abstract
 itemmenu-more-label=More Translation Options...
 itemmenu-retranslateTitle-label=Retranslate Title

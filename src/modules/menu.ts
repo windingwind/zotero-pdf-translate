@@ -37,14 +37,4 @@ export function registerMenu() {
     },
     icon: menuIcon,
   });
-  ztoolkit.Menu.register("item", {
-    tag: "menuitem",
-    label: `${getString("itemmenu-switchTitleMode-label")}(${getString(
-      "ctrl",
-    )} + T)`,
-    commandListener: (ev) => {
-      addon.hooks.onSwitchTitleColumnDisplay();
-    },
-    icon: menuIcon,
-  });
 }
