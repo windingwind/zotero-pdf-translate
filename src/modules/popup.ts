@@ -135,7 +135,7 @@ export async function buildReaderPopup(
           },
           listeners: [
             {
-              type: "mouseup",
+              type: "click",
               listener: (ev: Event) => {
                 addon.hooks.onTranslate({ noCheckZoteroItemLanguage: true });
                 const button = ev.target as HTMLDivElement;
@@ -242,7 +242,7 @@ export async function buildReaderPopup(
           ignoreIfExists: true,
           listeners: [
             {
-              type: "mouseup",
+              type: "click",
               listener: async (ev) => {
                 const noteEditor =
                   ZoteroContextPane && ZoteroContextPane.getActiveEditor();
@@ -253,10 +253,12 @@ export async function buildReaderPopup(
                 if (!editorInstance) {
                   return;
                 }
-                const selection =
-                  ztoolkit.Reader.getSelectedText(readerInstance).trim();
+                const annotation: Record<string, any> =
+                  // @ts-ignore
+                  readerInstance._internalReader._lastView._selectionPopup
+                    .annotation;
                 const task = addTranslateTask(
-                  selection,
+                  annotation.text,
                   readerInstance.itemID,
                   "text",
                 );
@@ -271,28 +273,13 @@ export async function buildReaderPopup(
                   return;
                 }
                 const replaceMode = getPref("enableNoteReplaceMode") as boolean;
-                const { html } =
-                  Zotero.EditorInstanceUtilities.serializeAnnotations([
-                    {
-                      type: "highlight",
-                      text: replaceMode ? task.result : task.raw,
-                      comment: replaceMode ? "" : task.result,
-                      attachmentItemID: task.itemId,
-                      pageLabel:
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        readerInstance._iframeWindow.wrappedJSObject.extractor
-                          .pageLabelsCache[readerInstance.state.pageIndex],
-                      position: {
-                        rects: [],
-                      },
-                    },
-                  ]);
-                editorInstance._postMessage({
-                  action: "insertHTML",
-                  pos: null,
-                  html,
-                });
+                if (replaceMode) {
+                  annotation.text = task.result;
+                } else {
+                  annotation.comment = task.result;
+                }
+                // @ts-ignore
+                readerInstance._addToNote([annotation]);
               },
             },
           ],

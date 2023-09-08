@@ -46,22 +46,22 @@
     "zotero-plugin-toolkit": "^2.3.3"
   },
   "devDependencies": {
-    "@types/node": "^18.17.1",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
+    "@types/node": "^18.17.14",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "chokidar-cli": "^3.0.0",
-    "compressing": "^1.9.1",
-    "concurrently": "^8.2.0",
+    "compressing": "^1.10.0",
+    "concurrently": "^8.2.1",
     "cross-env": "^7.0.3",
     "esbuild": "^0.17.19",
-    "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^8.10.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.3",
     "release-it": "^15.11.0",
     "replace-in-file": "^7.0.1",
-    "typescript": "^5.1.6",
-    "zotero-types": "^1.2.1"
+    "typescript": "^5.2.2",
+    "zotero-types": "^1.2.2"
   }
 }
