@@ -109,6 +109,9 @@ The default engine is Google Translate. Currently, we support:
 
 > If the engine you want is not yet supported, please post an issue.
 
+***Google**
+Google does not require a secret, but you can put your own API URL in the secret to replace the default URL (translate.google.com/translate.googleapi.com).
+
 **Microsoft Translate**  
 Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
 The secret format is `MY_SECRET`.
