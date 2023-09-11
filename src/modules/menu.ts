@@ -7,7 +7,7 @@ import {
 } from "../utils/task";
 
 export function registerMenu() {
-  const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
+  const menuIcon = `chrome://${config.addonRef}/content/icons/favicon.png`;
   ztoolkit.Menu.register("item", {
     tag: "menuseparator",
   });
