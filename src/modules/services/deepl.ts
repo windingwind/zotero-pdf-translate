@@ -6,7 +6,12 @@ export const deeplfree = <TranslateTaskProcessor>async function (data) {
 
 export const deeplpro = <TranslateTaskProcessor>async function (data) {
   // See https://github.com/windingwind/zotero-pdf-translate/issues/579
-  return await deepl(data.secret.endsWith('dp')?"https://api.deepl-pro.com/v2/translate":"https://api.deepl.com/v2/translate", data);
+  return await deepl(
+    data.secret.endsWith("dp")
+      ? "https://api.deepl-pro.com/v2/translate"
+      : "https://api.deepl.com/v2/translate",
+    data,
+  );
 };
 
 async function deepl(url: string, data: Required<TranslateTask>) {
