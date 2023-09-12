@@ -12,8 +12,8 @@
           }
         },
         {
-          "version": "1.1.0-15",
-          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.1.0-15/zotero-pdf-translate.xpi",
+          "version": "1.1.0-17",
+          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.1.0-17/zotero-pdf-translate.xpi",
           "applications": {
             "zotero": {
               "strict_min_version": "6.999"
