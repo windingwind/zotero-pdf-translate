@@ -1,58 +1,17 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
-import { updateGPTModel } from "../services/gpt";
 
-export async function gptStatusCallback(status: boolean) {
-  const selectedModel = getPref("gptModel");
+async function gptStatusCallback(
+  prefix: "chatGPT" | "azureGPT",
+  status: boolean,
+) {
+  const addonPrefix = prefix.toLocaleLowerCase();
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
-    url: getPref("gptUrl"),
-    models: getPref("gptModel"),
-    temperature: parseFloat(getPref("gptTemperature") as string),
-    prompt: getPref("gptPrompt"),
-    loadCallback: async () => {
-      const doc = dialog.window.document;
-
-      try {
-        const models = await updateGPTModel();
-        // Due to an unknown bug with Zotero 7, the `<select>` element cannot be properly rendered.
-        // Toolkit uses a workaround to render the element, so please do not touch the original element and just replace its inner `<option>` elements.
-        // See https://groups.google.com/g/zotero-dev/c/iG763ZlWQ_U
-        const modelsSelect = doc.querySelector("#gptModels")!;
-        modelsSelect.innerHTML = "";
-        ztoolkit.UI.appendElement(
-          {
-            tag: "fragment",
-            children: models.map((model: string) => ({
-              tag: "option",
-              properties: {
-                value: model,
-                innerHTML: model,
-                selected: model === selectedModel,
-              },
-            })),
-          },
-          modelsSelect,
-        );
-
-        doc.querySelector("#gptStatus")!.innerHTML = getString(
-          "service-gpt-dialog-status-available",
-        );
-      } catch (error: any) {
-        const HTTP = Zotero.HTTP;
-        let gptStatus = "unexpect";
-
-        if (error instanceof HTTP.TimeoutException) {
-          gptStatus = "timeout";
-        } else if (error.xmlhttp?.status === 401) {
-          gptStatus = "invalid";
-        }
-
-        doc.querySelector("#gptStatus")!.innerHTML = getString(
-          `service-gpt-dialog-status-${gptStatus}`,
-        );
-      }
-    },
+    endPoint: getPref(`${prefix}.endPoint`),
+    model: getPref(`${prefix}.model`),
+    temperature: parseFloat(getPref(`${prefix}.temperature`) as string),
+    prompt: getPref(`${prefix}.prompt`),
   };
 
   dialog
@@ -74,17 +33,17 @@ export async function gptStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             attributes: {
-              for: "url",
+              for: "endPoint",
             },
             properties: {
-              innerHTML: getString("service-gpt-dialog-url"),
+              innerHTML: getString(`service-${addonPrefix}-dialog-endPoint`),
             },
           },
           {
             tag: "input",
-            id: "gptUrl",
+            id: "endPoint",
             attributes: {
-              "data-bind": "url",
+              "data-bind": "endPoint",
               "data-prop": "value",
               type: "string",
             },
@@ -93,28 +52,20 @@ export async function gptStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             attributes: {
-              for: "models",
+              for: "model",
             },
             properties: {
-              innerHTML: getString("service-gpt-dialog-models"),
+              innerHTML: getString(`service-${addonPrefix}-dialog-model`),
             },
           },
           {
-            tag: "select",
-            id: "gptModels",
+            tag: "input",
+            id: "gptModel",
             attributes: {
-              "data-bind": "models",
+              "data-bind": "model",
               "data-prop": "value",
+              type: "string",
             },
-            children: [
-              {
-                tag: "option",
-                properties: {
-                  value: selectedModel,
-                  innerHTML: selectedModel,
-                },
-              },
-            ],
           },
           {
             tag: "label",
@@ -123,7 +74,7 @@ export async function gptStatusCallback(status: boolean) {
               for: "temperature",
             },
             properties: {
-              innerHTML: getString("service-gpt-dialog-temperature"),
+              innerHTML: getString(`service-${addonPrefix}-dialog-temperature`),
             },
           },
           {
@@ -145,7 +96,7 @@ export async function gptStatusCallback(status: boolean) {
               for: "prompt",
             },
             properties: {
-              innerHTML: getString("service-gpt-dialog-prompt"),
+              innerHTML: getString(`service-${addonPrefix}-dialog-prompt`),
             },
           },
           {
@@ -160,57 +111,11 @@ export async function gptStatusCallback(status: boolean) {
       },
       false,
     )
-    .addCell(
-      1,
-      0,
-      {
-        tag: "div",
-        namespace: "html",
-        styles: {
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr 1fr",
-          rowGap: "5px",
-          columnGap: "5px",
-          marginTop: "10px",
-          justifyContent: "space-between",
-        },
-        children: [
-          {
-            tag: "label",
-            namespace: "html",
-            properties: {
-              innerHTML: getString("service-gpt-dialog-status"),
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            id: "gptStatus",
-            styles: {
-              textAlign: "center",
-            },
-            properties: {
-              innerHTML: getString("service-gpt-dialog-status-load"),
-            },
-          },
-          {
-            tag: "a",
-            styles: {
-              textDecoration: "none",
-            },
-            properties: {
-              href: "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
-              innerHTML: getString("service-gpt-dialog-help"),
-            },
-          },
-        ],
-      },
-      false,
-    )
-    .addButton(getString("service-gpt-dialog-save"), "save")
-    .addButton(getString("service-gpt-dialog-close"), "close");
+    .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
+    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
+    .addButton(getString(`service-${addonPrefix}-dialog-help`), "help");
 
-  dialog.open(getString("service-gpt-dialog-title"));
+  dialog.open(getString(`service-${addonPrefix}-dialog-title`));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
@@ -219,15 +124,37 @@ export async function gptStatusCallback(status: boolean) {
         const temperature = dialogData.temperature;
 
         if (temperature && temperature >= 0 && temperature <= 2) {
-          setPref("gptTemperature", dialogData.temperature.toString());
+          setPref(`${prefix}.temperature`, dialogData.temperature.toString());
         }
 
-        setPref("gptUrl", dialogData.url);
-        setPref("gptModel", dialogData.models);
-        setPref("gptPrompt", dialogData.prompt);
+        setPref(`${prefix}.endPoint`, dialogData.endPoint);
+        setPref(`${prefix}.model`, dialogData.model);
+        setPref(`${prefix}.prompt`, dialogData.prompt);
+      }
+      break;
+    case "help":
+      {
+        const helpURL = {
+          chatGPT:
+            "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
+          azureGPT:
+            "https://learn.microsoft.com/en-us/azure/ai-services/openai/reference",
+        };
+
+        Zotero.launchURL(helpURL[prefix]);
       }
       break;
     default:
       break;
   }
+}
+
+export async function chatGPTStatusCallback(status: boolean) {
+  const prefix = "chatGPT";
+  gptStatusCallback(prefix, status);
+}
+
+export async function azureGPTStatusCallback(status: boolean) {
+  const prefix = "azureGPT";
+  gptStatusCallback(prefix, status);
 }

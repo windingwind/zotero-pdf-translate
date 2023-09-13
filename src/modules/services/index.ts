@@ -71,7 +71,10 @@ export class TranslationServices {
       (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
     );
     import("./gpt").then(
-      (e) => (this.gpt = new TranslateTaskRunner(e.gptTranslate)),
+      (e) => (this.chatgpt = new TranslateTaskRunner(e.chatGPT)),
+    );
+    import("./gpt").then(
+      (e) => (this.azuregpt = new TranslateTaskRunner(e.azureGPT)),
     );
     import("./youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default)),
