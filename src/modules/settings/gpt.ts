@@ -12,6 +12,7 @@ async function gptStatusCallback(
     model: getPref(`${prefix}.model`),
     temperature: parseFloat(getPref(`${prefix}.temperature`) as string),
     prompt: getPref(`${prefix}.prompt`),
+    apiVersion: getPref("azureGPT.apiVersion"),
   };
 
   dialog
@@ -92,6 +93,31 @@ async function gptStatusCallback(
           {
             tag: "label",
             namespace: "html",
+            styles: {
+              display: prefix === "azureGPT" ? "" : "none",
+            },
+            attributes: {
+              for: "apiVersion",
+            },
+            properties: {
+              innerHTML: getString(`service-${addonPrefix}-dialog-apiVersion`),
+            },
+          },
+          {
+            tag: "input",
+            id: "apiVersion",
+            styles: {
+              display: prefix === "azureGPT" ? "" : "none",
+            },
+            attributes: {
+              "data-bind": "apiVersion",
+              "data-prop": "value",
+              type: "string",
+            },
+          },
+          {
+            tag: "label",
+            namespace: "html",
             attributes: {
               for: "prompt",
             },
@@ -130,6 +156,7 @@ async function gptStatusCallback(
         setPref(`${prefix}.endPoint`, dialogData.endPoint);
         setPref(`${prefix}.model`, dialogData.model);
         setPref(`${prefix}.prompt`, dialogData.prompt);
+        setPref("azureGPT.apiVersion", dialogData.apiVersion);
       }
       break;
     case "help":
@@ -138,7 +165,7 @@ async function gptStatusCallback(
           chatGPT:
             "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
           azureGPT:
-            "https://learn.microsoft.com/en-us/azure/ai-services/openai/reference",
+            "https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions",
         };
 
         Zotero.launchURL(helpURL[prefix]);
