@@ -83,6 +83,7 @@ service-azuregpt-dialog-title=AzureGPT Config
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Name
 service-azuregpt-dialog-temperature=Temp
+service-azuregpt-dialog-apiVersion=Version
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-help=Help
 service-azuregpt-dialog-save=Save

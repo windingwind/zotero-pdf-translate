@@ -83,6 +83,7 @@ service-azuregpt-dialog-title=AzureGPT 配置项
 service-azuregpt-dialog-endPoint=终结点
 service-azuregpt-dialog-model=部署名
 service-azuregpt-dialog-temperature=温度
+service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-help=帮助
 service-azuregpt-dialog-save=保存
