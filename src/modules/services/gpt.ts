@@ -2,10 +2,10 @@ import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 
 const gptTranslate = async function (
-  apiURL: Required<string>,
-  model: Required<string>,
-  temperature: Required<number>,
-  prefix: Required<string>,
+  apiURL: string,
+  model: string,
+  temperature: number,
+  prefix: string,
   data: Required<TranslateTask>,
 ) {
   function transformContent(

@@ -73,9 +73,9 @@ service-chatgpt-dialog-endPoint=API
 service-chatgpt-dialog-model=Model
 service-chatgpt-dialog-temperature=Temp
 service-chatgpt-dialog-prompt=Prompt
-service-chatgpt-dialog-help=help
-service-chatgpt-dialog-save=save
-service-chatgpt-dialog-close=close
+service-chatgpt-dialog-help=Help
+service-chatgpt-dialog-save=Save
+service-chatgpt-dialog-close=Close
 
 service-azuregpt-secret-pass=Config
 service-azuregpt-secret-fail=Config
@@ -84,9 +84,9 @@ service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Name
 service-azuregpt-dialog-temperature=Temp
 service-azuregpt-dialog-prompt=Prompt
-service-azuregpt-dialog-help=help
-service-azuregpt-dialog-save=save
-service-azuregpt-dialog-close=close
+service-azuregpt-dialog-help=Help
+service-azuregpt-dialog-save=Save
+service-azuregpt-dialog-close=Close
 
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex

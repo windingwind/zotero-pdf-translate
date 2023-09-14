@@ -70,12 +70,10 @@ export class TranslationServices {
     import("./xftrans").then(
       (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
     );
-    import("./gpt").then(
-      (e) => (this.chatgpt = new TranslateTaskRunner(e.chatGPT)),
-    );
-    import("./gpt").then(
-      (e) => (this.azuregpt = new TranslateTaskRunner(e.azureGPT)),
-    );
+    import("./gpt").then((e) => {
+      this.chatgpt = new TranslateTaskRunner(e.chatGPT);
+      this.azuregpt = new TranslateTaskRunner(e.azureGPT);
+    });
     import("./youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default)),
     );
