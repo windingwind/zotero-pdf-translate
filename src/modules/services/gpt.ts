@@ -1,27 +1,29 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
-import { getServiceSecret } from "../../utils/secret";
 
-export const gptTranslate = <TranslateTaskProcessor>async function (data) {
-  const model = getPref("gptModel");
-  const temperature = parseFloat(getPref("gptTemperature") as string);
-  const apiUrl = getPref("gptUrl");
-
+const gptTranslate = async function (
+  apiURL: string,
+  model: string,
+  temperature: number,
+  prefix: string,
+  data: Required<TranslateTask>,
+) {
   function transformContent(
     langFrom: string,
     langTo: string,
     sourceText: string,
   ) {
-    return (getPref("gptPrompt") as string)
+    return (getPref(`${prefix}.prompt`) as string)
       .replaceAll("${langFrom}", langFrom)
       .replaceAll("${langTo}", langTo)
       .replaceAll("${sourceText}", sourceText);
   }
 
-  const xhr = await Zotero.HTTP.request("POST", apiUrl, {
+  const xhr = await Zotero.HTTP.request("POST", apiURL, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${data.secret}`,
+      "api-key": data.secret,
     },
     body: JSON.stringify({
       model: model,
@@ -78,28 +80,22 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-export const updateGPTModel = async function () {
-  const secret = getServiceSecret("gpt");
-  const xhr = await Zotero.HTTP.request(
-    "GET",
-    "https://api.openai.com/v1/models",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${secret}`,
-      },
-      responseType: "json",
-    },
-  );
+export const chatGPT = <TranslateTaskProcessor>async function (data) {
+  const apiURL = getPref("chatGPT.endPoint") as string;
+  const model = getPref("chatGPT.model") as string;
+  const temperature = parseFloat(getPref("chatGPT.temperature") as string);
 
-  const models = xhr.response.data;
-  const availableModels = [];
+  return await gptTranslate(apiURL, model, temperature, "chatGPT", data);
+};
 
-  for (const model of models) {
-    if (model.id.includes("gpt")) {
-      availableModels.push(model.id);
-    }
-  }
+export const azureGPT = <TranslateTaskProcessor>async function (data) {
+  const endPoint = getPref("azureGPT.endPoint") as string;
+  const apiVersion = getPref("azureGPT.apiVersion");
+  const model = getPref("azureGPT.model") as string;
+  const temperature = parseFloat(getPref("azureGPT.temperature") as string);
+  const apiURL = new URL(endPoint);
+  apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
+  apiURL.search = `api-version=${apiVersion}`;
 
-  return availableModels;
+  return await gptTranslate(apiURL.href, model, temperature, "azureGPT", data);
 };

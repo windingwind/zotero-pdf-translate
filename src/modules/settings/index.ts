@@ -1,5 +1,5 @@
 import { cnkiStatusCallback } from "./cnki";
-import { gptStatusCallback } from "./gpt";
+import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
 import { niutransStatusCallback } from "./niutrans";
 
 export const secretStatusButtonData: {
@@ -26,12 +26,19 @@ export const secretStatusButtonData: {
       );
     },
   },
-  gpt: {
+  chatgpt: {
     labels: {
-      pass: "service-gpt-secret-pass",
-      fail: "service-gpt-secret-fail",
+      pass: "service-chatgpt-secret-pass",
+      fail: "service-chatgpt-secret-fail",
     },
-    callback: gptStatusCallback,
+    callback: chatGPTStatusCallback,
+  },
+  azuregpt: {
+    labels: {
+      pass: "service-azuregpt-secret-pass",
+      fail: "service-azuregpt-secret-fail",
+    },
+    callback: azureGPTStatusCallback,
   },
   cnki: {
     labels: {
