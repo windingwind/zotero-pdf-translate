@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getString } from "../utils/locale";
+import { getPref } from "../utils/prefs";
 import {
   addTranslateAbstractTask,
   addTranslateTitleTask,
@@ -11,30 +12,33 @@ export function registerMenu() {
   ztoolkit.Menu.register("item", {
     tag: "menuseparator",
   });
-  ztoolkit.Menu.register("item", {
-    tag: "menuitem",
-    label: getString("itemmenu-translateTitle-label"),
-    commandListener: (ev) => {
-      addon.hooks.onTranslateInBatch(
-        ZoteroPane.getSelectedItems(true)
-          .map((id) => addTranslateTitleTask(id, true))
-          .filter((task) => task) as TranslateTask[],
-        { noDisplay: true },
-      );
-    },
-    icon: menuIcon,
-  });
-  ztoolkit.Menu.register("item", {
-    tag: "menuitem",
-    label: getString("itemmenu-translateAbstract-label"),
-    commandListener: (ev) => {
-      addon.hooks.onTranslateInBatch(
-        ZoteroPane.getSelectedItems(true)
-          .map((id) => addTranslateAbstractTask(id, true))
-          .filter((task) => task) as TranslateTask[],
-        { noDisplay: true },
-      );
-    },
-    icon: menuIcon,
-  });
+  getPref("showItemMenuTitleTranslation") &&
+    ztoolkit.Menu.register("item", {
+      tag: "menuitem",
+      label: getString("itemmenu-translateTitle-label"),
+      commandListener: (ev) => {
+        addon.hooks.onTranslateInBatch(
+          ZoteroPane.getSelectedItems(true)
+            .map((id) => addTranslateTitleTask(id, true))
+            .filter((task) => task) as TranslateTask[],
+          { noDisplay: true },
+        );
+      },
+      icon: menuIcon,
+    });
+
+  getPref("showItemMenuAbstractTranslation") &&
+    ztoolkit.Menu.register("item", {
+      tag: "menuitem",
+      label: getString("itemmenu-translateAbstract-label"),
+      commandListener: (ev) => {
+        addon.hooks.onTranslateInBatch(
+          ZoteroPane.getSelectedItems(true)
+            .map((id) => addTranslateAbstractTask(id, true))
+            .filter((task) => task) as TranslateTask[],
+          { noDisplay: true },
+        );
+      },
+      icon: menuIcon,
+    });
 }
