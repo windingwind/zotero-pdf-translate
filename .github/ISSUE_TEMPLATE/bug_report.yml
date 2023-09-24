@@ -18,7 +18,7 @@ body:
   - type: checkboxes
     id: check-frequent
     attributes:
-      label: Have you checked the FAQ (#6)?
+      label: Have you checked the FAQ (https://github.com/windingwind/zotero-pdf-translate/issues/6)?
       description: Please check the FAQ to see if your question has already been answered.
       options:
         - label: I have checked the FAQ
