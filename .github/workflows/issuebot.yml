@@ -2,6 +2,9 @@ name: Close inactive issues
 on:
   schedule:
     - cron: "30 1 * * *"
+  issues:
+    types:
+      - labeled
 
 jobs:
   close-issues:
@@ -21,3 +24,14 @@ jobs:
           days-before-pr-stale: -1
           days-before-pr-close: -1
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+  issue-invalid:
+    name: close invalid issue
+    if: github.event.label.name == 'invalid'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-cool/issues-helper@v3
+        with:
+          åactions: close-issue, create-comment
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. This issue is marked as `invalid` and closed. Please make sure you are reporting an issue and following the issue template.
