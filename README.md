@@ -120,6 +120,7 @@ The secret format is `MY_SECRET`.
 
 **DeepL Translate**  
 Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+The secret format is `secretToken` or `secretToken#glossaryId` (if you want to specify some translate glossary).
 
 **Youdao Zhiyun Translate 有道智云**  
 Apply [here](https://ai.youdao.com/login.s).  
