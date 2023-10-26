@@ -75,6 +75,8 @@ pref-interface-keepPopupSize =
     .label = Popup: Remember Size
 
 pref-advanced = Advanced
+pref-advanced-enableAutoDetectLanguage =
+    .label = Auto Detect Item Language
 pref-advanced-disabledLanguages =
     .value = Disable Automatic Translation when File Language is(split with ',')
 pref-advanced-disabledLanguages-alert = Reopen files/restart Zotero to apply.

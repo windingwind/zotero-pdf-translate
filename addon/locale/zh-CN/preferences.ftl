@@ -73,6 +73,8 @@ pref-interface-keepPopupSize =
     .label = 弹窗: 记住大小
 
 pref-advanced = 高级
+pref-advanced-enableAutoDetectLanguage =
+    .label = 自动检测条目语言
 pref-advanced-disabledLanguages = 对特定语言文件关闭自动翻译(用','分隔)
 pref-advanced-disabledLanguages-alert = 重新打开文件/重启Zotero以应用更改。
 pref-advanced-extraEngines = 独立窗口额外翻译引擎(用','分隔)

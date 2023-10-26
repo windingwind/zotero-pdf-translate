@@ -1,3 +1,7 @@
+import { franc } from "franc";
+import ISO6393_3_TO_2 = require("iso639-js/alpha3to2mapping.json");
+import ISO6393_MACRO_LANGS = require("iso639-js/reference/iso639-3-macrolanguages.json");
+
 interface TranslateService {
   type: "word" | "sentence";
   id: string;
@@ -339,6 +343,28 @@ export function getService(id: string) {
   return SERVICES[SERVICES.findIndex((service) => service.id === id)];
 }
 
+export function inferLanguage(str: string) {
+  const langCode = mapISO6393to6391(franc(str, { minLength: 3 }));
+  if (!langCode) {
+    return {
+      code: "",
+      name: "Unknown",
+    };
+  }
+  return matchLanguage(langCode);
+}
+
+export function matchLanguage(str: string) {
+  return (
+    LANG_CODE[
+      LANG_CODE_INDEX_MAP[str.split("-")[0].split("_")[0].toLowerCase()]
+    ] || {
+      code: "",
+      name: "Unknown",
+    }
+  );
+}
+
 export const LANG_CODE = <const>[
   { code: "af", name: "Afrikaans" },
   { code: "af-ZA", name: "Afrikaans (South Africa)" },
@@ -583,6 +609,44 @@ export const LANG_CODE = <const>[
   { code: "zu", name: "Zulu" },
   { code: "zu-ZA", name: "Zulu (South Africa)" },
 ];
+
+const MACRO_LANG_MAP = Object.keys(ISO6393_MACRO_LANGS).reduce(
+  (prev, curr) => {
+    ISO6393_MACRO_LANGS[curr as keyof typeof ISO6393_MACRO_LANGS].forEach(
+      (macroLang) => {
+        Object.keys(macroLang).forEach((macroLangCode) => {
+          prev[macroLangCode] = curr;
+        });
+      },
+    );
+    return prev;
+  },
+  {} as Record<string, string>,
+);
+
+const LANG_CODE_INDEX_MAP = LANG_CODE.reduce(
+  (acc, cur, index) => {
+    const code = cur.code.split("-")[0];
+    if (acc[code]) {
+      return acc;
+    }
+    acc[cur.code] = index;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
+
+function mapISO6393to6391(code: string) {
+  return (
+    ISO6393_3_TO_2[code as keyof typeof ISO6393_3_TO_2] ||
+    ISO6393_3_TO_2[
+      MACRO_LANG_MAP[
+        code as keyof typeof MACRO_LANG_MAP
+      ] as keyof typeof ISO6393_3_TO_2
+    ] ||
+    undefined
+  );
+}
 
 export const SVGIcon = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" width="16" height="16" xml:space="preserve">
