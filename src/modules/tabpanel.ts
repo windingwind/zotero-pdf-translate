@@ -1,9 +1,6 @@
 import { getString } from "../utils/locale";
 import { config } from "../../package.json";
-import {
-  LANG_CODE,
-  SERVICES,
-} from "../utils/config";
+import { LANG_CODE, SERVICES } from "../utils/config";
 import { getPref, setPref } from "../utils/prefs";
 import {
   addTranslateTask,

@@ -7,11 +7,13 @@ import {
   registerReaderTabPanel,
   updateReaderTabPanels,
 } from "./modules/tabpanel";
-import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
-import { registerNotify } from "./modules/notify";
 import {
-  registerReaderInitializer,
-} from "./modules/reader";
+  ReaderPopupEvent,
+  buildReaderPopup,
+  updateReaderPopup,
+} from "./modules/popup";
+import { registerNotify } from "./modules/notify";
+import { registerReaderInitializer } from "./modules/reader";
 import { getPref, setPref } from "./utils/prefs";
 import {
   addTranslateAnnotationTask,
@@ -184,26 +186,20 @@ async function onTranslateInBatch(
   }
 }
 
-async function onReaderTextSelection(
-  readerInstance: _ZoteroTypes.ReaderInstance,
-) {
+function onReaderPopupShow(event: ReaderPopupEvent) {
   const selection = addon.data.translate.selectedText;
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
-    await addon.hooks.onReaderPopupBuild(readerInstance);
+    buildReaderPopup(event);
     addon.hooks.onReaderPopupRefresh();
     return;
   }
-  addTranslateTask(selection, readerInstance.itemID);
-  await addon.hooks.onReaderPopupBuild(readerInstance);
+  addTranslateTask(selection, event.reader.itemID);
+  buildReaderPopup(event);
   addon.hooks.onReaderPopupRefresh();
   if (getPref("enableAuto")) {
     addon.hooks.onTranslate();
   }
-}
-
-async function onReaderPopupBuild(readerInstance: _ZoteroTypes.ReaderInstance) {
-  await buildReaderPopup(readerInstance);
 }
 
 function onReaderPopupRefresh() {
@@ -236,8 +232,7 @@ export default {
   onShortcuts,
   onTranslate,
   onTranslateInBatch,
-  onReaderTextSelection,
-  onReaderPopupBuild,
+  onReaderPopupShow,
   onReaderPopupRefresh,
   onReaderTabPanelRefresh,
   onSwitchTitleColumnDisplay,

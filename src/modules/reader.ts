@@ -1,19 +1,15 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
 import { addTranslateAnnotationTask } from "../utils/task";
+import { ReaderPopupEvent } from "./popup";
 
 export function registerReaderInitializer() {
   Zotero.Reader.registerEventListener(
     "renderTextSelectionPopup",
-    (event: {
-      reader: _ZoteroTypes.ReaderInstance;
-      doc: Document;
-      params: { annotation: { text: string } };
-      append: (node: Node) => void;
-    }) => {
+    (event: ReaderPopupEvent) => {
       const { reader, doc, params, append } = event;
       addon.data.translate.selectedText = params.annotation.text.trim();
-      addon.hooks.onReaderTextSelection(reader);
+      addon.hooks.onReaderPopupShow(event);
     },
     config.addonID,
   );
