@@ -26,6 +26,7 @@ class Addon {
       observers: WeakRef<MutationObserver>[];
     };
     translate: {
+      selectedText: string;
       concatKey: boolean;
       concatCheckbox: boolean;
       queue: TranslateTask[];
@@ -49,6 +50,7 @@ class Addon {
       panel: { tabOptionId: "", activePanels: [], windowPanel: null },
       popup: { currentPopup: null, observers: [] },
       translate: {
+        selectedText: "",
         concatKey: false,
         concatCheckbox: false,
         queue: [],

@@ -3,11 +3,11 @@ import { SVGIcon } from "../utils/config";
 import { addTranslateAnnotationTask } from "../utils/task";
 
 export function registerReaderInitializer() {
-  ztoolkit.ReaderInstance.register(
-    "initialized",
-    `${config.addonRef}-selection`,
-    initializeReaderSelectionEvent,
-  );
+  // ztoolkit.ReaderInstance.register(
+  //   "initialized",
+  //   `${config.addonRef}-selection`,
+  //   initializeReaderSelectionEvent,
+  // );
   ztoolkit.ReaderInstance.register(
     "initialized",
     `${config.addonRef}-annotationButtons`,
@@ -15,9 +15,24 @@ export function registerReaderInitializer() {
   );
   // Force re-initialize
   Zotero.Reader._readers.forEach((r) => {
-    initializeReaderSelectionEvent(r);
+    // initializeReaderSelectionEvent(r);
     initializeReaderAnnotationButton(r);
   });
+
+  Zotero.Reader.registerEventListener(
+    "renderTextSelectionPopup",
+    (event: {
+      reader: _ZoteroTypes.ReaderInstance;
+      doc: Document;
+      params: { annotation: { text: string } };
+      append: (node: Node) => void;
+    }) => {
+      const { reader, doc, params, append } = event;
+      ztoolkit.log(event);
+      addon.data.translate.selectedText = params.annotation.text.trim();
+      addon.hooks.onReaderTextSelection(reader);
+    },
+  );
 }
 
 export function unregisterReaderInitializer() {
@@ -43,45 +58,6 @@ export async function checkReaderAnnotationButton(items: Zotero.Item[]) {
     await Zotero.Promise.delay(period);
     t += period;
   }
-}
-
-async function initializeReaderSelectionEvent(
-  instance: _ZoteroTypes.ReaderInstance,
-) {
-  await instance._initPromise;
-  await instance._waitForReader();
-  async function selectionCallback(ev: MouseEvent) {
-    if (!ztoolkit.Reader.getSelectedText(instance)) {
-      return false;
-    }
-    addon.data.translate.concatKey = ev.altKey;
-    await addon.hooks.onReaderTextSelection(instance);
-  }
-  function addSelectionCallback(iframe: HTMLIFrameElement) {
-    iframe.contentWindow?.addEventListener("pointerup", selectionCallback);
-  }
-  const container =
-    instance._iframeWindow?.document?.querySelector("#split-view");
-  if (!container) {
-    return;
-  }
-  const observer = new (ztoolkit.getGlobal("MutationObserver"))((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type === "childList") {
-        for (const node of Array.from(mutation.addedNodes)) {
-          if (node.nodeName === "IFRAME") {
-            addSelectionCallback(node as HTMLIFrameElement);
-          }
-        }
-      }
-    }
-  });
-  observer.observe(container, {
-    childList: true,
-    subtree: true,
-  });
-  container.querySelectorAll("iframe").forEach(addSelectionCallback);
-  addon.data.popup.observers.push(new WeakRef(observer));
 }
 
 async function initializeReaderAnnotationButton(

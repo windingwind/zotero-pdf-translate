@@ -180,7 +180,7 @@ export async function buildReaderPopup(
             onpointerup: (e: Event) => e.stopPropagation(),
             ondragstart: (e: Event) => e.stopPropagation(),
             spellcheck: false,
-            value: ztoolkit.Reader.getSelectedText(readerInstance).trim(),
+            value: addon.data.translate.selectedText,
           },
           ignoreIfExists: true,
           listeners: [

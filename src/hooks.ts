@@ -191,7 +191,7 @@ async function onTranslateInBatch(
 async function onReaderTextSelection(
   readerInstance: _ZoteroTypes.ReaderInstance,
 ) {
-  const selection = ztoolkit.Reader.getSelectedText(readerInstance).trim();
+  const selection = addon.data.translate.selectedText;
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
     await addon.hooks.onReaderPopupBuild(readerInstance);
