@@ -1,4 +1,4 @@
-import { SERVICES } from "./config";
+import { SERVICES, inferLanguage, matchLanguage } from "./config";
 import { getString } from "./locale";
 import { getPref } from "./prefs";
 import { getServiceSecret } from "./secret";
@@ -86,8 +86,11 @@ export class TranslateTaskRunner {
   }
 
   public async run(data: TranslateTask) {
-    data.langfrom = getPref("sourceLanguage") as string;
-    data.langto = getPref("targetLanguage") as string;
+    const { fromLanguage, toLanguage } = autoDetectLanguage(
+      Zotero.Items.get(data.itemId || -1),
+    );
+    data.langfrom = fromLanguage;
+    data.langto = toLanguage;
     data.secret = getServiceSecret(data.service);
     data.status = "processing";
     try {
@@ -286,4 +289,41 @@ export function putTranslateTaskAtHead(taskId: string) {
     return true;
   }
   return false;
+}
+
+export function autoDetectLanguage(item: Zotero.Item) {
+  const topItem = Zotero.Items.getTopLevel([item])[0];
+  let fromLanguage = getPref("sourceLanguage") as string;
+  const toLanguage = getPref("targetLanguage") as string;
+  if (getPref("enableAutoDetectLanguage")) {
+    if (topItem) {
+      const itemLanguage =
+        // Respect language field
+        matchLanguage((topItem.getField("language") as string) || "").code;
+      if (itemLanguage) {
+        fromLanguage = itemLanguage;
+      } else {
+        // Respect AbstractNote or Title inferred language
+        const inferredLanguage = inferLanguage(
+          (topItem.getField("abstractNote") as string) ||
+            (topItem.getField("title") as string) ||
+            "",
+        ).code;
+        if (inferredLanguage) {
+          // Update language field so that it can be used in the future
+          fromLanguage = inferredLanguage;
+          topItem.setField("language", fromLanguage);
+        }
+      }
+      if (itemLanguage === toLanguage || itemLanguage === fromLanguage) {
+        // If the item language is the same as the target/source language, do nothing
+      } else if (itemLanguage) {
+        fromLanguage = itemLanguage;
+      }
+    }
+  }
+  return {
+    fromLanguage,
+    toLanguage,
+  };
 }

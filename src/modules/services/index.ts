@@ -104,14 +104,15 @@ export class TranslationServices {
     if (!options.noCheckZoteroItemLanguage && task.itemId) {
       const item = Zotero.Items.getTopLevel([Zotero.Items.get(task.itemId)])[0];
       if (item) {
-        const itemLanguage = (
-          (item.getField("language") as string) || ""
-        ).split("-")[0];
+        const itemLanguage = getPref("autoDetectLanguage")
+          ? task.langfrom
+          : ((item.getField("language") as string) || "").split("-")[0];
         const disabledLanguages = (
           getPref("disabledLanguages") as string
         ).split(",");
         disabledByItemLanguage =
           disabledLanguages.length > 0 &&
+          !!itemLanguage &&
           disabledLanguages.includes(itemLanguage);
       }
     }

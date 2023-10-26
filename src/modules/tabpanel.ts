@@ -3,12 +3,11 @@ import { config } from "../../package.json";
 import {
   LANG_CODE,
   SERVICES,
-  inferLanguage,
-  matchLanguage,
 } from "../utils/config";
 import { getPref, setPref } from "../utils/prefs";
 import {
   addTranslateTask,
+  autoDetectLanguage,
   getLastTranslateTask,
   putTranslateTaskAtHead,
 } from "../utils/task";
@@ -958,39 +957,9 @@ function updatePanel(panel: HTMLElement) {
 
   setValue("services", getPref("translateSource") as string);
 
-  let fromLanguage = getPref("sourceLanguage") as string;
-  const toLanguage = getPref("targetLanguage") as string;
-  if (getPref("enableAutoDetectLanguage")) {
-    const currentItem = Zotero.Items.getTopLevel([Zotero.Items.get(
-      panel.getAttribute("item-id") as string,
-    )])[0];
-    if (currentItem) {
-      const itemLanguage =
-        // Respect language field
-        matchLanguage((currentItem.getField("language") as string) || "").code;
-      if (itemLanguage) {
-        fromLanguage = itemLanguage;
-      } else {
-        // Respect AbstractNote or Title inferred language
-        const inferredLanguage = inferLanguage(
-          (currentItem.getField("abstractNote") as string) ||
-            (currentItem.getField("title") as string) ||
-            "",
-        ).code;
-        if (inferredLanguage) {
-          // Update language field so that it can be used in the future
-          fromLanguage = inferredLanguage;
-          currentItem.setField("language", fromLanguage);
-        }
-      }
-      if (itemLanguage === toLanguage || itemLanguage === fromLanguage) {
-        // If the item language is the same as the target/source language, do nothing
-      } else if (itemLanguage) {
-        fromLanguage = itemLanguage;
-      }
-    }
-  }
-
+  const { fromLanguage, toLanguage } = autoDetectLanguage(
+    Zotero.Items.get(panel.getAttribute("item-id") as string),
+  );
   setValue("langfrom", fromLanguage);
   setValue("langto", toLanguage);
 
