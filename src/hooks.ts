@@ -10,9 +10,7 @@ import {
 import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
 import { registerNotify } from "./modules/notify";
 import {
-  checkReaderAnnotationButton,
   registerReaderInitializer,
-  unregisterReaderInitializer,
 } from "./modules/reader";
 import { getPref, setPref } from "./utils/prefs";
 import {
@@ -82,7 +80,6 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 
 function onShutdown(): void {
   ztoolkit.unregisterAll();
-  unregisterReaderInitializer();
   // Remove addon object
   addon.data.alive = false;
   delete Zotero[config.addonInstance];
@@ -105,7 +102,6 @@ function onNotify(
     if (annotationItems.length === 0) {
       return;
     }
-    checkReaderAnnotationButton(annotationItems);
     if (getPref("enableComment")) {
       addon.hooks.onTranslateInBatch(
         annotationItems
