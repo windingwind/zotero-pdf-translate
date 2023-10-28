@@ -32,6 +32,7 @@ class Addon {
       maximumQueueLength: number;
       batchTaskDelay: number;
       services: TranslationServices;
+      cachedSourceLanguage: Record<number, string>;
     };
   };
   // Lifecycle hooks
@@ -56,6 +57,7 @@ class Addon {
         maximumQueueLength: 100,
         batchTaskDelay: 1000,
         services: new TranslationServices(),
+        cachedSourceLanguage: {},
       },
     };
     this.hooks = hooks;

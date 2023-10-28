@@ -295,6 +295,13 @@ export function autoDetectLanguage(item: Zotero.Item) {
   const topItem = Zotero.Items.getTopLevel([item])[0];
   let fromLanguage = getPref("sourceLanguage") as string;
   const toLanguage = getPref("targetLanguage") as string;
+  // Use cached source language
+  if (addon.data.translate.cachedSourceLanguage[item.id]) {
+    return {
+      fromLanguage: addon.data.translate.cachedSourceLanguage[item.id],
+      toLanguage,
+    };
+  }
   if (getPref("enableAutoDetectLanguage")) {
     if (topItem) {
       const itemLanguage =

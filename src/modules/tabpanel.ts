@@ -263,7 +263,11 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
                 {
                   type: "command",
                   listener: (e: Event) => {
-                    setPref("sourceLanguage", (e.target as XUL.MenuList).value);
+                    const newValue = (e.target as XUL.MenuList).value;
+                    setPref("sourceLanguage", newValue);
+                    itemID &&
+                      (addon.data.translate.cachedSourceLanguage[itemID] =
+                        newValue);
                     addon.hooks.onReaderTabPanelRefresh();
                   },
                 },
