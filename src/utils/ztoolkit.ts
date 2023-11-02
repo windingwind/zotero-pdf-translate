@@ -29,26 +29,21 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
 }
 
 import { BasicTool, unregister } from "zotero-plugin-toolkit/dist/basic";
-import { ToolkitGlobal } from "zotero-plugin-toolkit/dist/managers/toolkitGlobal";
 import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
 import { ShortcutManager } from "zotero-plugin-toolkit/dist/managers/shortcut";
 import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
 import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/preferencePane";
 import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
-import { ReaderInstanceManager } from "zotero-plugin-toolkit/dist/managers/readerInstance";
 import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
-import { ReaderTool } from "zotero-plugin-toolkit/dist/tools/reader";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
 import { ItemTreeManager } from "zotero-plugin-toolkit/dist/managers/itemTree";
 import { ItemBoxManager } from "zotero-plugin-toolkit/dist/managers/itemBox";
 import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
 
 export class MyToolkit extends BasicTool {
-  Global: typeof ToolkitGlobal;
   UI: UITool;
-  Reader: ReaderTool;
   ExtraField: ExtraFieldTool;
   Shortcut: ShortcutManager;
   Menu: MenuManager;
@@ -57,16 +52,13 @@ export class MyToolkit extends BasicTool {
   Prompt: PromptManager;
   PreferencePane: PreferencePaneManager;
   ReaderTabPanel: ReaderTabPanelManager;
-  ReaderInstance: ReaderInstanceManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   Clipboard: typeof ClipboardHelper;
 
   constructor() {
     super();
-    this.Global = ToolkitGlobal;
     this.UI = new UITool(this);
-    this.Reader = new ReaderTool(this);
     this.ExtraField = new ExtraFieldTool(this);
     this.Shortcut = new ShortcutManager(this);
     this.Menu = new MenuManager(this);
@@ -74,7 +66,6 @@ export class MyToolkit extends BasicTool {
     this.ItemBox = new ItemBoxManager(this);
     this.PreferencePane = new PreferencePaneManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
-    this.ReaderInstance = new ReaderInstanceManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = DialogHelper;
     this.ProgressWindow = ProgressWindowHelper;
