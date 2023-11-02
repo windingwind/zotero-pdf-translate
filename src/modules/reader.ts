@@ -1,12 +1,11 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
 import { addTranslateAnnotationTask } from "../utils/task";
-import { ReaderPopupEvent } from "./popup";
 
 export function registerReaderInitializer() {
   Zotero.Reader.registerEventListener(
     "renderTextSelectionPopup",
-    (event: ReaderPopupEvent) => {
+    (event) => {
       const { reader, doc, params, append } = event;
       addon.data.translate.selectedText = params.annotation.text.trim();
       addon.hooks.onReaderPopupShow(event);
@@ -16,18 +15,9 @@ export function registerReaderInitializer() {
 
   Zotero.Reader.registerEventListener(
     "renderSidebarAnnotationHeader",
-    (event: {
-      reader: _ZoteroTypes.ReaderInstance;
-      doc: Document;
-      params: { annotation: { text: string } };
-      append: (node: Node) => void;
-    }) => {
+    (event) => {
       const { reader, doc, params, append } = event;
-      const annotationData = params.annotation as _ZoteroTypes.Annotations & {
-        id: string;
-        text: string;
-        libraryID: number;
-      };
+      const annotationData = params.annotation;
       const annotationItem = Zotero.Items.getByLibraryAndKey(
         annotationData.libraryID,
         annotationData.id,
