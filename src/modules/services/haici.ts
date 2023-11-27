@@ -6,7 +6,9 @@ export default <TranslateTaskProcessor>async function (data) {
     "GET",
     `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${await getAppId()}&from=${
       data.langfrom
-    }&to=${data.langto}&texts=["${encodeURIComponent(data.raw.replace(/"/g, '\\"'))}"]`,
+    }&to=${data.langto}&texts=["${encodeURIComponent(
+      data.raw.replace(/"/g, '\\"'),
+    )}"]`,
     { responseType: "json" },
   );
   if (xhr?.status !== 200) {

@@ -184,8 +184,26 @@ export function addTranslateTask(
   return newTask;
 }
 
-export function addTranslateAnnotationTask(itemId: number) {
-  const item = Zotero.Items.get(itemId);
+export function addTranslateAnnotationTask(
+  libraryID: number,
+  itemKey: string,
+): TranslateTask | undefined;
+export function addTranslateAnnotationTask(
+  itemID: number,
+): TranslateTask | undefined;
+export function addTranslateAnnotationTask(
+  itemIDOrLibraryID: number,
+  itemKey?: string,
+) {
+  let item: Zotero.Item | false;
+  if (itemKey) {
+    item = Zotero.Items.getByLibraryAndKey(
+      itemIDOrLibraryID,
+      itemKey,
+    ) as Zotero.Item;
+  } else {
+    item = Zotero.Items.get(itemIDOrLibraryID);
+  }
   if (!item) {
     return;
   }

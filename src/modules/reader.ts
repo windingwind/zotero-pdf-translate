@@ -18,19 +18,9 @@ export function registerReaderInitializer() {
     (event) => {
       const { reader, doc, params, append } = event;
       const annotationData = params.annotation;
-      const annotationItem = Zotero.Items.getByLibraryAndKey(
-        annotationData.libraryID,
-        annotationData.id,
-      ) as Zotero.Item;
-
-      if (!annotationItem) {
-        return;
-      }
-      const itemID = annotationItem.id;
 
       append(
         ztoolkit.UI.createElement(doc, "div", {
-          id: `pdftranslate-translate-annotation-${itemID}`,
           classList: ["icon"],
           properties: {
             innerHTML: SVGIcon,
@@ -39,7 +29,10 @@ export function registerReaderInitializer() {
             {
               type: "click",
               listener: (e) => {
-                const task = addTranslateAnnotationTask(itemID);
+                const task = addTranslateAnnotationTask(
+                  reader._item.libraryID,
+                  annotationData.id,
+                );
                 addon.hooks.onTranslate(task, {
                   noCheckZoteroItemLanguage: true,
                 });
