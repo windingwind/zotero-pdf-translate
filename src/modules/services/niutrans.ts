@@ -22,6 +22,7 @@ export default <TranslateTaskProcessor>async function (data) {
         memoryNo,
         source: "zotero",
         src_text: data.raw,
+        caller_id: data.callerID,
       }),
       responseType: "json",
     },

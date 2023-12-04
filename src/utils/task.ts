@@ -2,6 +2,7 @@ import { SERVICES, inferLanguage, matchLanguage } from "./config";
 import { getString } from "./locale";
 import { getPref } from "./prefs";
 import { getServiceSecret } from "./secret";
+import { config } from "../../package.json";
 
 export interface TranslateTask {
   /**
@@ -73,6 +74,13 @@ export interface TranslateTask {
    * Whether to mute error info, depends on the implementation of the service.
    */
   silent?: boolean;
+  /**
+   * Caller identifier.
+   *
+   * This is for translate service provider to identify the caller.
+   * If not provided, the call will fail.
+   */
+  callerID?: string;
 }
 
 export type TranslateTaskProcessor = (
@@ -86,11 +94,16 @@ export class TranslateTaskRunner {
   }
 
   public async run(data: TranslateTask) {
-    const { fromLanguage, toLanguage } = autoDetectLanguage(
-      Zotero.Items.get(data.itemId || -1),
-    );
-    data.langfrom = fromLanguage;
-    data.langto = toLanguage;
+    if (!data.langfrom || !data.langto) {
+      const { fromLanguage, toLanguage } = autoDetectLanguage(
+        Zotero.Items.get(data.itemId || -1),
+      );
+      data.langfrom = data.langfrom || fromLanguage;
+      data.langto = data.langto || toLanguage;
+    }
+
+    data.callerID = data.callerID || config.addonID;
+
     data.secret = getServiceSecret(data.service);
     data.status = "processing";
     try {

@@ -103,7 +103,7 @@ export class TranslationServices {
     let disabledByItemLanguage = false;
     if (!options.noCheckZoteroItemLanguage && task.itemId) {
       const item = Zotero.Items.getTopLevel([Zotero.Items.get(task.itemId)])[0];
-      if (item) {
+      if (item && task.type !== "custom") {
         const itemLanguage = getPref("autoDetectLanguage")
           ? task.langfrom
           : ((item.getField("language") as string) || "").split("-")[0];
