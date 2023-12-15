@@ -6,7 +6,10 @@ export function registerPrompt() {
       name: "Translate Sentences",
       label: config.addonInstance,
       when: () => {
-        const selection = addon.data.translate.selectedText;
+        ////////////////////////////////////////////////////////////////////
+        // const selection = addon.data.translate.selectedText;
+        const selection = "I love banana!!!";
+        ////////////////////////////////////////////////////////////////////
         const sl = Zotero.Prefs.get(
           "ZoteroPDFTranslate.sourceLanguage",
         ) as string;
@@ -17,11 +20,14 @@ export function registerPrompt() {
           selection.length > 0 &&
           Zotero?.PDFTranslate &&
           sl.startsWith("en") &&
-          tl.startsWith("zh")
+          tl.startsWith("ja")
         );
       },
       callback: async (prompt) => {
-        const selection = addon.data.translate.selectedText;
+        ////////////////////////////////////////////////////////////////////
+        // const selection = addon.data.translate.selectedText;
+        const selection = "I love banana!!!";
+        ////////////////////////////////////////////////////////////////////
         const queue = Zotero.PDFTranslate.data.translate.queue;
         let task = queue.find(
           (task: any) => task.raw == selection && task.result.length > 0,
@@ -36,8 +42,10 @@ export function registerPrompt() {
           prompt.exit();
         }
         prompt.inputNode.placeholder = task.service;
+        ////////////////////////////////////////////////////////////////////
         const rawText = task.raw,
           resultText = task.result;
+        ////////////////////////////////////////////////////////////////////
         const addSentences = (
           node: HTMLElement,
           text: string,

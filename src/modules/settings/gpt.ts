@@ -89,31 +89,6 @@ async function gptStatusCallback(
               step: 0.1,
             },
           },
-          // {
-          //   tag: "label",
-          //   namespace: "html",
-          //   styles: {
-          //     display: prefix === "azureGPT" ? "" : "none",
-          //   },
-          //   attributes: {
-          //     for: "apiVersion",
-          //   },
-          //   properties: {
-          //     innerHTML: getString(`service-${addonPrefix}-dialog-apiVersion`),
-          //   },
-          // },
-          // {
-          //   tag: "input",
-          //   id: "apiVersion",
-          //   styles: {
-          //     display: prefix === "azureGPT" ? "" : "none",
-          //   },
-          //   attributes: {
-          //     "data-bind": "apiVersion",
-          //     "data-prop": "value",
-          //     type: "string",
-          //   },
-          // },
           {
             tag: "label",
             namespace: "html",

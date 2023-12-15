@@ -170,7 +170,10 @@ export function buildReaderPopup(event: ReaderPopupEvent) {
             onpointerup: (e: Event) => e.stopPropagation(),
             ondragstart: (e: Event) => e.stopPropagation(),
             spellcheck: false,
-            value: addon.data.translate.selectedText,
+            ////////////////////////////////////////////////////////////////////
+            // value: addon.data.translate.selectedText,
+            value: "I love banana!!!",
+            ////////////////////////////////////////////////////////////////////
           },
           ignoreIfExists: true,
           listeners: [
@@ -244,7 +247,10 @@ export function buildReaderPopup(event: ReaderPopupEvent) {
                   return;
                 }
                 const task = addTranslateTask(
-                  addon.data.translate.selectedText,
+                  // addon.data.translate.selectedText
+                  ////////////////////////////////////////////////////////////////////
+                  "I love banana!!!",
+                  ////////////////////////////////////////////////////////////////////
                   reader.itemID,
                   "text",
                 );

@@ -94,6 +94,7 @@ export class TranslateTaskRunner {
   }
 
   public async run(data: TranslateTask) {
+    // 翻訳元言語がわからないとき，autoDetectLanguage関数を用いて自動検出する
     if (!data.langfrom || !data.langto) {
       const { fromLanguage, toLanguage } = autoDetectLanguage(
         Zotero.Items.get(data.itemId || -1),
@@ -102,12 +103,15 @@ export class TranslateTaskRunner {
       data.langto = data.langto || toLanguage;
     }
 
+    // 呼び出し元のIDがない場合，設定ファイルからaddonIDを使用する
     data.callerID = data.callerID || config.addonID;
 
+    // 秘密鍵の入手(あやしい？)
     data.secret = getServiceSecret(data.service);
     data.status = "processing";
-    try {
+    try { // 翻訳処理の実行
       ztoolkit.log(data);
+      // this.processerで翻訳を行うはず
       await this.processor(data as Required<TranslateTask>);
       data.status = "success";
     } catch (e) {
@@ -116,6 +120,7 @@ export class TranslateTaskRunner {
     }
   }
 
+  // errorメッセージの作成
   protected makeErrorInfo(serviceId: string, detail: string) {
     return `${getString("service-errorPrefix")} ${getString(
       `service-${serviceId}`,
@@ -344,8 +349,8 @@ export function autoDetectLanguage(item: Zotero.Item) {
         // Respect AbstractNote or Title inferred language
         const inferredLanguage = inferLanguage(
           (topItem.getField("abstractNote") as string) ||
-            (topItem.getField("title") as string) ||
-            "",
+          (topItem.getField("title") as string) ||
+          "",
         ).code;
         if (inferredLanguage) {
           // Update language field so that it can be used in the future

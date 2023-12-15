@@ -1,17 +1,18 @@
 import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 
-const gptTranslate = async function ( // gptで翻訳する
+const gptTranslate = async function (
+  // gptで翻訳する
   apiURL: string, // gptのapiURL
   model: string, // gpt-3.5-turboみたいな
-  temperature: number,  // 不明
-  prefix: string,   // 'chatGPT'とか
-  data: Required<TranslateTask>,  // 必要なデータ
+  temperature: number, // LLMの精度にかかわるパラメータらしい
+  prefix: string, // 'chatGPT'とか
+  data: Required<TranslateTask>, // 必要なデータ
 ) {
   function transformContent(
-    langFrom: string,   // 翻訳元言語
-    langTo: string,   // 翻訳先言語
-    sourceText: string,   // 原文テキスト
+    langFrom: string, // 翻訳元言語
+    langTo: string, // 翻訳先言語
+    sourceText: string, // 原文テキスト
   ) {
     return (getPref(`${prefix}.prompt`) as string)
       .replaceAll("${langFrom}", langFrom)
@@ -19,7 +20,8 @@ const gptTranslate = async function ( // gptで翻訳する
       .replaceAll("${sourceText}", sourceText);
   }
 
-  const xhr = await Zotero.HTTP.request("POST", apiURL, { // 変数の指定
+  const xhr = await Zotero.HTTP.request("POST", apiURL, {
+    // 変数の指定
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${data.secret}`,
@@ -87,5 +89,3 @@ export const chatGPT = <TranslateTaskProcessor>async function (data) {
 
   return await gptTranslate(apiURL, model, temperature, "chatGPT", data);
 };
-
-
