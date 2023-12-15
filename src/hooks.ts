@@ -187,10 +187,7 @@ async function onTranslateInBatch(
 }
 
 function onReaderPopupShow(event: ReaderPopupEvent) {
-  ////////////////////////////////////////////////////////////////////
-  // const selection = addon.data.translate.selectedText;
-  const selection = "I love banana!!!!";
-  ////////////////////////////////////////////////////////////////////
+  const selection = addon.data.translate.selectedText;
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
     buildReaderPopup(event);

@@ -7,7 +7,10 @@ export function registerReaderInitializer() {
     "renderTextSelectionPopup",
     (event) => {
       const { reader, doc, params, append } = event;
-      addon.data.translate.selectedText = params.annotation.text.trim();
+      ////////////////////////////////////////////////////////////////////
+      // addon.data.translate.selectedText = params.annotation.text.trim();
+      addon.data.translate.selectedText = "I love bananas. It is nice!!";
+      ////////////////////////////////////////////////////////////////////
       addon.hooks.onReaderPopupShow(event);
     },
     config.addonID,

@@ -212,7 +212,7 @@ function buildPanel(panel: HTMLElement, refID: string, force: boolean = false) {
               attributes: {
                 label: `${getString(
                   "readerpanel-translate-button-label",
-                )}(${getString("ctrl")} + T2044)`,
+                )}(${getString("ctrl")} + T2052)`,
                 flex: "1",
               },
               listeners: [
