@@ -36,7 +36,7 @@ const gptTranslate = async function (
       messages: [
         {
           role: "user",
-          content: transformContent(data.langfrom, data.langto, data.raw),
+          content: transformContent(data.text),
         },
       ],
       temperature: temperature,

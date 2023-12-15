@@ -81,6 +81,8 @@ export interface TranslateTask {
    * If not provided, the call will fail.
    */
   callerID?: string;
+
+  text?: string;
 }
 
 export type TranslateTaskProcessor = (
@@ -109,7 +111,8 @@ export class TranslateTaskRunner {
     // 秘密鍵の入手(あやしい？)
     data.secret = getServiceSecret(data.service);
     data.status = "processing";
-    try { // 翻訳処理の実行
+    try {
+      // 翻訳処理の実行
       ztoolkit.log(data);
       // this.processerで翻訳を行うはず
       await this.processor(data as Required<TranslateTask>);
@@ -349,8 +352,8 @@ export function autoDetectLanguage(item: Zotero.Item) {
         // Respect AbstractNote or Title inferred language
         const inferredLanguage = inferLanguage(
           (topItem.getField("abstractNote") as string) ||
-          (topItem.getField("title") as string) ||
-          "",
+            (topItem.getField("title") as string) ||
+            "",
         ).code;
         if (inferredLanguage) {
           // Update language field so that it can be used in the future
