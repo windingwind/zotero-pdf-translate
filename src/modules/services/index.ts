@@ -8,81 +8,18 @@ import {
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
-    import("./aliyun").then(
-      (e) => (this.aliyun = new TranslateTaskRunner(e.default)),
-    );
-    import("./baidu").then(
-      (e) => (this.baidu = new TranslateTaskRunner(e.default)),
-    );
-    import("./baidufield").then(
-      (e) => (this.baidufield = new TranslateTaskRunner(e.default)),
-    );
-    import("./bingdict").then(
-      (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
-    );
-    import("./caiyun").then(
-      (e) => (this.caiyun = new TranslateTaskRunner(e.default)),
-    );
-    import("./cnki").then(
-      (e) => (this.cnki = new TranslateTaskRunner(e.default)),
-    );
-    import("./collinsdict").then(
-      (e) => (this.collinsdict = new TranslateTaskRunner(e.default)),
-    );
     import("./deepl").then((e) => {
       this.deeplfree = new TranslateTaskRunner(e.deeplfree);
       this.deeplpro = new TranslateTaskRunner(e.deeplpro);
     });
-    import("./deeplx").then((e) => {
-      this.deeplx = new TranslateTaskRunner(e.default);
-    });
-    import("./deeplcustom").then(
-      (e) => (this.deeplcustom = new TranslateTaskRunner(e.default)),
-    );
-    import("./freedictionaryapi").then(
-      (e) => (this.freedictionaryapi = new TranslateTaskRunner(e.default)),
-    );
     import("./google").then((e) => {
       this.googleapi = new TranslateTaskRunner(e.googleapi);
       this.google = new TranslateTaskRunner(e.google);
     });
-    import("./haici").then(
-      (e) => (this.haici = new TranslateTaskRunner(e.default)),
-    );
-    import("./haicidict").then(
-      (e) => (this.haicidict = new TranslateTaskRunner(e.default)),
-    );
-    import("./microsoft").then(
-      (e) => (this.microsoft = new TranslateTaskRunner(e.default)),
-    );
-    import("./niutrans").then(
-      (e) => (this.niutranspro = new TranslateTaskRunner(e.default)),
-    );
-    import("./openl").then(
-      (e) => (this.openl = new TranslateTaskRunner(e.default)),
-    );
-    import("./tencent").then(
-      (e) => (this.tencent = new TranslateTaskRunner(e.default)),
-    );
-    import("./webliodict").then(
-      (e) => (this.webliodict = new TranslateTaskRunner(e.default)),
-    );
-    import("./xftrans").then(
-      (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
-    );
     import("./gpt").then((e) => {
       this.chatgpt = new TranslateTaskRunner(e.chatGPT);
       this.azuregpt = new TranslateTaskRunner(e.azureGPT);
     });
-    import("./youdao").then(
-      (e) => (this.youdao = new TranslateTaskRunner(e.default)),
-    );
-    import("./youdaodict").then(
-      (e) => (this.youdaodict = new TranslateTaskRunner(e.default)),
-    );
-    import("./youdaozhiyun").then(
-      (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default)),
-    );
   }
 
   public async runTranslationTask(
@@ -186,9 +123,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"
