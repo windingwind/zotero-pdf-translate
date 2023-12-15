@@ -9,7 +9,10 @@ export function registerReaderInitializer() {
       const { reader, doc, params, append } = event;
       ////////////////////////////////////////////////////////////////////
       // addon.data.translate.selectedText = params.annotation.text.trim();
-      addon.data.translate.selectedText = "I love bananas. It is nice!!";
+      const item = ZoteroPane.getSelectedItems()[0];
+      var abstract = item.getField("abstractNote");
+      // addon.data.translate.selectedText = "I love bananas. It is nice!!";
+      addon.data.translate.selectedText = abstract.toString();
       ////////////////////////////////////////////////////////////////////
       addon.hooks.onReaderPopupShow(event);
     },

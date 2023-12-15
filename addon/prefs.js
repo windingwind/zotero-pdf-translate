@@ -43,6 +43,6 @@ pref("__prefsPrefix__.chatGPT.model", "gpt-3.5-turbo");
 pref("__prefsPrefix__.chatGPT.temperature", "1.0");
 pref(
   "__prefsPrefix__.chatGPT.prompt",
-  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+  // "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+  "You are the best scientist who can demonstrate a deep understanding of all science and technology and always lead to the right results. Read the following statement and suggest three tags that best describe its content in the format ##. #${text}#",
 );
-
