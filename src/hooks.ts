@@ -1,4 +1,4 @@
-import { initLocale } from "./utils/locale";
+import { getString, initLocale } from "./utils/locale";
 import {
   registerPrefsScripts,
   registerPrefsWindow,
@@ -31,6 +31,94 @@ import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
+
+// pdf文書の全文の取得
+const FullText = async () => {
+  const item = ZoteroPane.getSelectedItems()[0];
+  const fulltext: string[] = [];
+  if (item.isRegularItem()) {
+    // not an attachment already
+    const attachmentIDs = item.getAttachments();
+    for (const id of attachmentIDs) {
+      const attachment = Zotero.Items.get(id);
+      if (
+        attachment.attachmentContentType == "application/pdf" ||
+        attachment.attachmentContentType == "text/html"
+      ) {
+        const text = await attachment.attachmentText;
+        fulltext.push(text);
+        window.alert(fulltext.toString());
+
+        return fulltext.toString();
+      }
+    }
+  }
+};
+
+// ChatGPT の要約結果
+function GPT_summary() {
+  return "要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。";
+}
+
+// ChatGPT のタグ付け結果の配列
+function GPT_tag() {
+  return [
+    "ChatGPTがつけたタグ1",
+    "ChatGPTがつけたタグ2",
+    "ChatGPTがつけたタグ3",
+  ];
+}
+
+// ここに「pdfが読み込まれた時に実行される関数」を記述する
+// function onLoadingPdf() {
+// const summary = document.getElementById("generated-summary");
+// if (summary != null) {
+//   window.alert("要約・タグ付け完了!!");
+//   summary.innerHTML = GPT_summary();
+// }
+// for (const tag of GPT_tag()) {
+//   const items = ZoteroPane.getSelectedItems();
+//   items[items.length - 1].addTag(tag);
+// }
+//   window.alert("pdf読み込み");
+// }
+
+// onLoadingPdf();
+
+// ZoteroPane.document.addEventListener("focus", function(){
+//   window.alert("aaaaaaa");
+// });
+
+export class UIExampleFactory {
+  static registerLibraryTabPanel() {
+    const tabId = ztoolkit.LibraryTabPanel.register(
+      getString("tabpanel-lib-tab-label"),
+      (panel: XUL.Element, win: Window) => {
+        const elem = ztoolkit.UI.createElement(win.document, "vbox", {
+          children: [
+            {
+              tag: "h2",
+              properties: {
+                innerText: "要約",
+              },
+            },
+            {
+              id: "generated-summary",
+              tag: "div",
+              properties: {
+                innerText: "ここに要約文が出力されます。",
+              },
+            },
+          ],
+        });
+        panel.append(elem);
+      },
+      {
+        targetIndex: 1,
+      },
+    );
+  }
+}
 
 async function onStartup() {
   await Promise.all([
@@ -74,6 +162,9 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   await registerItemBoxExtraRows();
   registerShortcuts();
   registerPrompt();
+
+  // 下の行のコメントを外すと動かなくなります
+  // UIExampleFactory.registerLibraryTabPanel();
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {

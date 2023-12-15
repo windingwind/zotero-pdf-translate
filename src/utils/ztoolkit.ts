@@ -55,6 +55,7 @@ export class MyToolkit extends BasicTool {
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   Clipboard: typeof ClipboardHelper;
+  LibraryTabPanel: any;
 
   constructor() {
     super();
