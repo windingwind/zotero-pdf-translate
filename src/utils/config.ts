@@ -26,83 +26,6 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
-    id: "cnki",
-  },
-  {
-    type: "sentence",
-    id: "haici",
-  },
-  {
-    type: "sentence",
-    id: "youdao",
-  },
-  {
-    type: "sentence",
-    id: "youdaozhiyun",
-    defaultSecret: "appid#appsecret#vocabid(optional)",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = [2, 3].includes(parts.length);
-      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}\nVocabID: ${
-        parts[2] ? parts[2] : ""
-      }`;
-      const source = getService("youdaozhiyun");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "niutranspro",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = secret?.length === 32;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your NiuTrans API-KEY. The secret length must be 32, but got ${secret?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "microsoft",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = secret?.length === 32;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your Azure translate service KEY. The secret length must be 32, but got ${secret?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "caiyun",
-    defaultSecret: "3975l6lr5pcbvidl6jl2",
-    secretValidator(secret: string) {
-      return {
-        secret,
-        status: secret !== "",
-        info: "",
-      };
-    },
-  },
-  {
-    type: "sentence",
     id: "deeplfree",
     defaultSecret: "",
     secretValidator(secret: string) {
@@ -133,157 +56,6 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
-    id: "deeplcustom",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = Boolean(secret);
-      return {
-        secret,
-        status: flag,
-        info: flag ? "" : `Please enter custom DeepL URL.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "deeplx",
-  },
-  {
-    type: "sentence",
-    id: "aliyun",
-    defaultSecret: "accessKeyId#accessKeySecret",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 2;
-      const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
-      const source = getService("aliyun");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of Aliyun Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "baidu",
-    defaultSecret: "appid#key",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = [2, 3].includes(parts.length);
-      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${
-        parts[2] ? parts[2] : "0"
-      }`;
-      const source = getService("baidu");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "baidufield",
-    defaultSecret: "appid#key#field",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 3;
-      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
-      const source = getService("baidufield");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "openl",
-    defaultSecret: "service1,service2,...#apikey",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 2;
-      const partsInfo = `Services: ${parts[0]}\nAPIKey: ${parts[1]}`;
-      const source = getService("openl");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "tencent",
-    defaultSecret:
-      "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = [2, 3, 4].includes(parts.length);
-      const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${
-        parts[1]
-      }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${
-        parts[3] ? parts[3] : "0"
-      }
-        `;
-      const source = getService("tencent");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "xftrans",
-    defaultSecret: "AppID#ApiSecret#ApiKey",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 3;
-      const partsInfo = `AppID: ${parts[0]}\nApiSecret: ${parts[1]}\nApiKey: ${parts[2]}`;
-      const source = getService("xftrans");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-            ? partsInfo
-            : `The secret format of Xftrans Domain Text Translation is AppID#ApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
     id: "chatgpt",
     defaultSecret: "",
     secretValidator(secret: string) {
@@ -295,47 +67,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
         info: empty
           ? "The secret is not set."
           : status
-          ? "Click the button to check connectivity."
-          : "Ths secret key format is invalid.",
+            ? "Click the button to check connectivity."
+            : "Ths secret key format is invalid.",
       };
     },
-  },
-  {
-    type: "sentence",
-    id: "azuregpt",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = Boolean(secret);
-      return {
-        secret,
-        status: flag,
-        info: flag ? "" : "The secret is not set.",
-      };
-    },
-  },
-  {
-    type: "word",
-    id: "bingdict",
-  },
-  {
-    type: "word",
-    id: "haicidict",
-  },
-  {
-    type: "word",
-    id: "youdaodict",
-  },
-  {
-    type: "word",
-    id: "freedictionaryapi",
-  },
-  {
-    type: "word",
-    id: "webliodict",
-  },
-  {
-    type: "word",
-    id: "collinsdict",
   },
 ];
 
@@ -357,7 +92,7 @@ export function inferLanguage(str: string) {
 export function matchLanguage(str: string) {
   return (
     LANG_CODE[
-      LANG_CODE_INDEX_MAP[str.split("-")[0].split("_")[0].toLowerCase()]
+    LANG_CODE_INDEX_MAP[str.split("-")[0].split("_")[0].toLowerCase()]
     ] || {
       code: "",
       name: "Unknown",
@@ -640,9 +375,9 @@ function mapISO6393to6391(code: string) {
   return (
     ISO6393_3_TO_2[code as keyof typeof ISO6393_3_TO_2] ||
     ISO6393_3_TO_2[
-      MACRO_LANG_MAP[
-        code as keyof typeof MACRO_LANG_MAP
-      ] as keyof typeof ISO6393_3_TO_2
+    MACRO_LANG_MAP[
+    code as keyof typeof MACRO_LANG_MAP
+    ] as keyof typeof ISO6393_3_TO_2
     ] ||
     undefined
   );

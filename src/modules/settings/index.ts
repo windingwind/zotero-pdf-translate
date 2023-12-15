@@ -1,6 +1,4 @@
-import { cnkiStatusCallback } from "./cnki";
-import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
-import { niutransStatusCallback } from "./niutrans";
+import { chatGPTStatusCallback } from "./gpt";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -8,13 +6,6 @@ export const secretStatusButtonData: {
     callback(status: boolean): void;
   };
 } = {
-  niutranspro: {
-    labels: {
-      pass: "service-niutranspro-secret-pass",
-      fail: "service-niutranspro-secret-fail",
-    },
-    callback: niutransStatusCallback,
-  },
   deeplcustom: {
     labels: {
       pass: "service-deeplcustom-secret-pass",
@@ -33,18 +24,6 @@ export const secretStatusButtonData: {
     },
     callback: chatGPTStatusCallback,
   },
-  azuregpt: {
-    labels: {
-      pass: "service-azuregpt-secret-pass",
-      fail: "service-azuregpt-secret-fail",
-    },
-    callback: azureGPTStatusCallback,
-  },
-  cnki: {
-    labels: {
-      pass: "service-cnki-settings",
-      fail: "service-cnki-settings",
-    },
-    callback: cnkiStatusCallback,
-  },
+
+
 };

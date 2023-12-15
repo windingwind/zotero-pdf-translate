@@ -18,7 +18,6 @@ export class TranslationServices {
     });
     import("./gpt").then((e) => {
       this.chatgpt = new TranslateTaskRunner(e.chatGPT);
-      this.azuregpt = new TranslateTaskRunner(e.azureGPT);
     });
   }
 

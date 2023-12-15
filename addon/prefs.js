@@ -29,12 +29,6 @@ pref("__prefsPrefix__.keepWindowTop", false);
 pref("__prefsPrefix__.keepPopupSize", false);
 pref("__prefsPrefix__.popupWidth", 105);
 pref("__prefsPrefix__.popupHeight", 30);
-pref("__prefsPrefix__.niutransUsername", "");
-pref("__prefsPrefix__.niutransPassword", "");
-pref("__prefsPrefix__.niutransDictNo", "");
-pref("__prefsPrefix__.niutransMemoryNo", "");
-pref("__prefsPrefix__.niutransDictLibList", "[]");
-pref("__prefsPrefix__.niutransMemoryLibList", "[]");
 pref("__prefsPrefix__.autoPlay", false);
 pref("__prefsPrefix__.showPlayBtn", true);
 pref("__prefsPrefix__.enableAutoDetectLanguage", true);
@@ -51,15 +45,4 @@ pref(
   "__prefsPrefix__.chatGPT.prompt",
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
-pref("__prefsPrefix__.azureGPT.endPoint", "");
-pref("__prefsPrefix__.azureGPT.model", "");
-pref("__prefsPrefix__.azureGPT.apiVersion", "2023-05-15");
-pref("__prefsPrefix__.azureGPT.temperature", "1.0");
-pref(
-  "__prefsPrefix__.azureGPT.prompt",
-  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
-);
-pref(
-  "__prefsPrefix__.cnkiRegex",
-  "(查看名企职位.+?https://dict.cnki.net[a-zA-Z./]+.html?)",
-);
+
