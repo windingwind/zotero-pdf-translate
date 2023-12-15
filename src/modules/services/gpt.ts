@@ -10,14 +10,18 @@ const gptTranslate = async function (
   data: Required<TranslateTask>, // 必要なデータ
 ) {
   function transformContent(
-    langFrom: string, // 翻訳元言語
-    langTo: string, // 翻訳先言語
-    sourceText: string, // 原文テキスト
+    // langFrom: string, // 翻訳元言語
+    // langTo: string, // 翻訳先言語
+    // sourceText: string, // 原文テキスト
+    text: string,
   ) {
-    return (getPref(`${prefix}.prompt`) as string)
-      .replaceAll("${langFrom}", langFrom)
-      .replaceAll("${langTo}", langTo)
-      .replaceAll("${sourceText}", sourceText);
+    return (
+      (getPref(`${prefix}.prompt`) as string)
+        // .replaceAll("${langFrom}", langFrom)
+        // .replaceAll("${langTo}", langTo)
+        // .replaceAll("${sourceText}", sourceText);
+        .replaceAll("${text}", text)
+    );
   }
 
   const xhr = await Zotero.HTTP.request("POST", apiURL, {
