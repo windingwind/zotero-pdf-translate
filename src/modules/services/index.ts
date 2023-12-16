@@ -62,7 +62,6 @@ export class TranslationServices {
     // Display raw
     if (!options.noDisplay) {
       addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
     }
     // Get task runner
     const runner = this[task.service] as TranslateTaskRunner;
@@ -82,9 +81,7 @@ export class TranslationServices {
             noDisplay: true,
           });
         }),
-      ).then(() => {
-        addon.hooks.onReaderTabPanelRefresh();
-      });
+      ).then(() => {});
     }
     // Try candidate services if current run fails
     if (task.status === "fail" && task.candidateServices.length > 0) {
@@ -95,7 +92,6 @@ export class TranslationServices {
       // Display result
       if (!options.noDisplay) {
         addon.hooks.onReaderPopupRefresh();
-        addon.hooks.onReaderTabPanelRefresh();
       }
     }
     const success = task.status === "success";

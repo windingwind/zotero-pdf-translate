@@ -4,10 +4,6 @@ import {
   registerPrefsWindow,
 } from "./modules/preferenceWindow";
 import {
-  registerReaderTabPanel,
-  updateReaderTabPanels,
-} from "./modules/tabpanel";
-import {
   ReaderPopupEvent,
   buildReaderPopup,
   updateReaderPopup,
@@ -24,11 +20,7 @@ import {
 } from "./utils/task";
 import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
-import { registerMenu } from "./modules/menu";
-import { registerExtraColumns } from "./modules/itemTree";
-import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
-import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
 import { randomInt } from "crypto";
@@ -180,12 +172,7 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   ]);
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
-  registerReaderTabPanel();
   registerPrefsWindow();
-  registerMenu();
-  await registerExtraColumns();
-  await registerItemBoxExtraRows();
-  registerShortcuts();
   registerPrompt();
   registerLibraryTabPanel();
   onLoadingPdf();
@@ -321,10 +308,6 @@ function onReaderPopupRefresh() {
   updateReaderPopup();
 }
 
-function onReaderTabPanelRefresh() {
-  updateReaderTabPanels();
-}
-
 function onSwitchTitleColumnDisplay() {
   setPref(
     "titleColumnMode",
@@ -349,6 +332,5 @@ export default {
   onTranslateInBatch,
   onReaderPopupShow,
   onReaderPopupRefresh,
-  onReaderTabPanelRefresh,
   onSwitchTitleColumnDisplay,
 };
