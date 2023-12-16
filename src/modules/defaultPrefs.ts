@@ -5,7 +5,7 @@ export function setDefaultPrefSettings() {
   const servicesIds = SERVICES.map((service) => service.id);
   if (!servicesIds.includes((getPref("translateSource") as string) || "")) {
     // Google Translate is not accessible in China mainland
-    setPref("translateSource", "googleapi");
+    setPref("translateSource", "chatGPT");
   }
 
   if (!getPref("targetLanguage")) {
