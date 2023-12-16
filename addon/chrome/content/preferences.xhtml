@@ -13,6 +13,7 @@
       native="true"
       preference="__prefsPrefix__.enableAuto"
     />
+    <!--
     <hbox>
       <checkbox
         id="__addonRef__-enableComment"
@@ -37,49 +38,7 @@
         />
       </radiogroup>
     </hbox>
-    <hbox>
-      <checkbox
-        id="__addonRef__-enablePopup"
-        data-l10n-id="pref-basic-enablePopup"
-        native="true"
-        preference="__prefsPrefix__.enablePopup"
-      />
-      <checkbox
-        id="__addonRef__-enableHidePopupTextarea"
-        data-l10n-id="pref-basic-enableHidePopupTextarea"
-        class="enable-popup"
-        native="true"
-        preference="__prefsPrefix__.enableHidePopupTextarea"
-      />
-    </hbox>
-    <hbox>
-      <checkbox
-        id="__addonRef__-enableAddToNote"
-        data-l10n-id="pref-basic-enableNote"
-        class="enable-popup"
-        native="true"
-        preference="__prefsPrefix__.enableNote"
-      />
-      <checkbox
-        id="__addonRef__-enableNoteReplaceMode"
-        data-l10n-id="pref-basic-enableNoteReplaceMode"
-        class="enable-popup enable-popup-addtonote"
-        native="true"
-        preference="__prefsPrefix__.enableNoteReplaceMode"
-      />
-    </hbox>
-    <hbox>
-      <checkbox
-        data-l10n-id="pref-audio-autoPlay"
-        native="true"
-        preference="__prefsPrefix__.autoPlay"
-      />
-      <checkbox
-        data-l10n-id="pref-audio-showPlayBtn"
-        native="true"
-        preference="__prefsPrefix__.showPlayBtn"
-      />
-    </hbox>
+    -->
   </groupbox>
   <groupbox>
     <label><html:h2 data-l10n-id="pref-service"></html:h2></label>
@@ -94,12 +53,6 @@
       ></html:input>
       <button id="__addonRef__-sentenceServicesStatus"></button>
     </hbox>
-    <checkbox
-      id="__addonRef__-useWordService"
-      data-l10n-id="pref-service-useWordService"
-      native="true"
-      preference="__prefsPrefix__.enableDict"
-    />
     <hbox>
       <label data-l10n-id="pref-service-wordServices"></label>
       <!-- Replace -->
@@ -140,77 +93,8 @@
       preference="__prefsPrefix__.lineHeight"
     ></html:input>
   </hbox>
-  <checkbox
-    data-l10n-id="pref-interface-showItemMenuTitleTranslation"
-    native="true"
-    preference="__prefsPrefix__.showItemMenuTitleTranslation"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showItemMenuAbstractTranslation"
-    native="true"
-    preference="__prefsPrefix__.showItemMenuAbstractTranslation"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-autoFocus"
-    native="true"
-    preference="__prefsPrefix__.autoFocus"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarEngine"
-    native="true"
-    preference="__prefsPrefix__.showSidebarEngine"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarSettings"
-    native="true"
-    preference="__prefsPrefix__.showSidebarSettings"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarConcat"
-    native="true"
-    preference="__prefsPrefix__.showSidebarConcat"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarLanguage"
-    native="true"
-    preference="__prefsPrefix__.showSidebarLanguage"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarRaw"
-    native="true"
-    preference="__prefsPrefix__.showSidebarRaw"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-rawResultOrder"
-    native="true"
-    preference="__prefsPrefix__.rawResultOrder"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showSidebarCopy"
-    native="true"
-    preference="__prefsPrefix__.showSidebarCopy"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showItemBoxTitleTranslation"
-    native="true"
-    preference="__prefsPrefix__.showItemBoxTitleTranslation"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-showItemBoxAbstractTranslation"
-    native="true"
-    preference="__prefsPrefix__.showItemBoxAbstractTranslation"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-keepWindowTop"
-    native="true"
-    preference="__prefsPrefix__.keepWindowTop"
-  />
-  <checkbox
-    data-l10n-id="pref-interface-keepPopupSize"
-    native="true"
-    preference="__prefsPrefix__.keepPopupSize"
-  />
 </groupbox>
+
 <groupbox>
   <label><html:h2 data-l10n-id="pref-advanced"></html:h2></label>
   <hbox>
@@ -220,41 +104,12 @@
       preference="__prefsPrefix__.enableAutoDetectLanguage"
     />
   </hbox>
-  <hbox>
-    <label data-l10n-id="pref-advanced-disabledLanguages"></label>
-    <html:input
-      type="text"
-      preference="__prefsPrefix__.disabledLanguages"
-    ></html:input>
-  </hbox>
-  <hbox>
-    <label data-l10n-id="pref-advanced-extraEngines"></label>
-    <html:input
-      type="text"
-      preference="__prefsPrefix__.extraEngines"
-    ></html:input>
-  </hbox>
-  <hbox>
-    <label data-l10n-id="pref-advanced-splitChar"></label>
-    <html:input type="text" preference="__prefsPrefix__.splitChar"></html:input>
-  </hbox>
 </groupbox>
+
 <groupbox>
   <label><html:h2 data-l10n-id="pref-about"></html:h2></label>
   <label
     data-l10n-id="pref-about-version"
     data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
   ></label>
-  <hbox>
-    <label
-      data-l10n-id="pref-about-feedback"
-      class="zotero-text-link"
-      href="https://github.com/windingwind/zotero-pdf-translate/issues"
-    ></label>
-    <label
-      data-l10n-id="pref-about-docs"
-      class="zotero-text-link"
-      href="https://zotero.yuque.com/staff-gkhviy/pdf-trans"
-    ></label>
-  </hbox>
 </groupbox>
