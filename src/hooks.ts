@@ -32,8 +32,48 @@ import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
 
+// 要約結果の配列
+let summaries: string[] = [
+  "これは1番目の要約です。",
+  "これは2番目の要約です。",
+  "これは3番目の要約です。",
+];
+
+function registerLibraryTabPanel() {
+  window.alert("registerLibraryTabPanel() 開始");
+  const tabId = ztoolkit.LibraryTabPanel.register(
+    "要約",
+    (panel: XUL.Element, win: Window) => {
+      const elem = ztoolkit.UI.createElement(win.document, "vbox", {
+        children: [
+          {
+            tag: "h2",
+            properties: {
+              innerText: "要約",
+            },
+          },
+          {
+            id: "generated-summary",
+            tag: "div",
+            properties: {
+              innerText: "ここに要約文が出力されます。",
+            },
+          },
+        ],
+      });
+      panel.append(elem);
+    },
+    {
+      targetIndex: 1,
+    },
+  );
+
+  window.alert("registerLibraryTabPanel() 完了");
+}
+
 // pdf文書の全文の取得
 const FullText = async () => {
+  window.alert("FullText() 開始");
   const item = ZoteroPane.getSelectedItems()[0];
   const fulltext: string[] = [];
   if (item.isRegularItem()) {
@@ -47,8 +87,7 @@ const FullText = async () => {
       ) {
         const text = await attachment.attachmentText;
         fulltext.push(text);
-        window.alert(fulltext.toString());
-
+        window.alert("FullText() 完了");
         return fulltext.toString();
       }
     }
@@ -57,11 +96,13 @@ const FullText = async () => {
 
 // ChatGPT の要約結果
 function GPT_summary() {
+  window.alert("GPT_summary() 完了");
   return "要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。要約結果はこれです。";
 }
 
 // ChatGPT のタグ付け結果の配列
 function GPT_tag() {
+  window.alert("GPT_tag() 完了");
   return [
     "ChatGPTがつけたタグ1",
     "ChatGPTがつけたタグ2",
@@ -70,54 +111,18 @@ function GPT_tag() {
 }
 
 // ここに「pdfが読み込まれた時に実行される関数」を記述する
-// function onLoadingPdf() {
-// const summary = document.getElementById("generated-summary");
-// if (summary != null) {
-//   window.alert("要約・タグ付け完了!!");
-//   summary.innerHTML = GPT_summary();
-// }
-// for (const tag of GPT_tag()) {
-//   const items = ZoteroPane.getSelectedItems();
-//   items[items.length - 1].addTag(tag);
-// }
-//   window.alert("pdf読み込み");
-// }
-
-// onLoadingPdf();
-
-// ZoteroPane.document.addEventListener("focus", function(){
-//   window.alert("aaaaaaa");
-// });
-
-export class UIExampleFactory {
-  static registerLibraryTabPanel() {
-    const tabId = ztoolkit.LibraryTabPanel.register(
-      getString("tabpanel-lib-tab-label"),
-      (panel: XUL.Element, win: Window) => {
-        const elem = ztoolkit.UI.createElement(win.document, "vbox", {
-          children: [
-            {
-              tag: "h2",
-              properties: {
-                innerText: "要約",
-              },
-            },
-            {
-              id: "generated-summary",
-              tag: "div",
-              properties: {
-                innerText: "ここに要約文が出力されます。",
-              },
-            },
-          ],
-        });
-        panel.append(elem);
-      },
-      {
-        targetIndex: 1,
-      },
-    );
+function onLoadingPdf() {
+  window.alert("onLoadingPdf() 開始");
+  const summary = window.document.getElementById("generated-summary");
+  if (summary != null) {
+    window.alert("要約・タグ付け完了!!");
+    summary.innerHTML = GPT_summary();
   }
+  for (const tag of GPT_tag()) {
+    const items = ZoteroPane.getSelectedItems();
+    items[0].addTag(tag);
+  }
+  window.alert("onLoadingPdf() 完了");
 }
 
 async function onStartup() {
@@ -162,9 +167,8 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   await registerItemBoxExtraRows();
   registerShortcuts();
   registerPrompt();
-
-  // 下の行のコメントを外すと動かなくなります
-  // UIExampleFactory.registerLibraryTabPanel();
+  registerLibraryTabPanel();
+  onLoadingPdf();
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
