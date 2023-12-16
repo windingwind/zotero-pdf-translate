@@ -6,17 +6,6 @@ export const secretStatusButtonData: {
     callback(status: boolean): void;
   };
 } = {
-  deeplcustom: {
-    labels: {
-      pass: "service-deeplcustom-secret-pass",
-      fail: "service-deeplcustom-secret-fail",
-    },
-    callback: function () {
-      Zotero.launchURL(
-        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
-      );
-    },
-  },
   chatgpt: {
     labels: {
       pass: "service-chatgpt-secret-pass",
@@ -24,6 +13,4 @@ export const secretStatusButtonData: {
     },
     callback: chatGPTStatusCallback,
   },
-
-
 };

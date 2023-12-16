@@ -8,14 +8,6 @@ import {
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
-    import("./deepl").then((e) => {
-      this.deeplfree = new TranslateTaskRunner(e.deeplfree);
-      this.deeplpro = new TranslateTaskRunner(e.deeplpro);
-    });
-    import("./google").then((e) => {
-      this.googleapi = new TranslateTaskRunner(e.googleapi);
-      this.google = new TranslateTaskRunner(e.google);
-    });
     import("./gpt").then((e) => {
       this.chatgpt = new TranslateTaskRunner(e.chatGPT);
     });
@@ -122,8 +114,9 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
-                }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${
+                currentText[currentText.length - 1] === "\n" ? "" : "\n"
+              }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"
