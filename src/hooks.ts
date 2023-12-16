@@ -20,7 +20,6 @@ import {
 } from "./utils/task";
 import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
-import { registerMenu } from "./modules/menu";
 import { config } from "../package.json";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
@@ -154,7 +153,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
   registerPrefsWindow();
-  registerMenu();
   registerPrompt();
   registerLibraryTabPanel();
   onLoadingPdf();
