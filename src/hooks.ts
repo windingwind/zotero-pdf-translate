@@ -12,7 +12,7 @@ import {
   buildReaderPopup,
   updateReaderPopup,
 } from "./modules/popup";
-import { registerNotify } from "./modules/notify";
+// import { registerNotify } from "./modules/notify";
 import { registerReaderInitializer } from "./modules/reader";
 import { getPref, setPref } from "./utils/prefs";
 import {
@@ -33,7 +33,7 @@ import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
 
 // 要約結果の配列
-let summaries: string[] = [
+const summaries: string[] = [
   "これは1番目の要約です。",
   "これは2番目の要約です。",
   "これは3番目の要約です。",
@@ -125,6 +125,41 @@ function onLoadingPdf() {
   window.alert("onLoadingPdf() 完了");
 }
 
+function registerNotify() {
+  const callback = {
+    notify: async (
+      event: string,
+      type: string,
+      ids: number[] | string[],
+      extraData: { [key: string]: any },
+    ) => {
+      // ztoolkit.log({ type });
+      if (type == "item") {
+        for (const id of ids) {
+          //ここに実行したい関数を追加
+          onLoadingPdf();
+        }
+      }
+      if (!addon?.data.alive) {
+        unregisterNotify(notifyID);
+        return;
+      }
+      addon.hooks.onNotify(event, type, ids, extraData);
+    },
+  };
+
+  // Register the callback in Zotero as an item observer
+  const notifyID = Zotero.Notifier.registerObserver(callback, [
+    "tab",
+    "item",
+    "file",
+  ]);
+}
+
+function unregisterNotify(notifyID: string) {
+  Zotero.Notifier.unregisterObserver(notifyID);
+}
+
 async function onStartup() {
   await Promise.all([
     Zotero.initializationPromise,
@@ -137,7 +172,8 @@ async function onStartup() {
 
   registerReaderInitializer();
 
-  registerNotify(["item"]);
+  // registerNotify(["item"]);
+  registerNotify();
   await onMainWindowLoad(window);
 }
 
@@ -168,7 +204,7 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   registerShortcuts();
   registerPrompt();
   registerLibraryTabPanel();
-  onLoadingPdf();
+  // onLoadingPdf();
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
