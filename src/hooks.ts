@@ -4,10 +4,6 @@ import {
   registerPrefsWindow,
 } from "./modules/preferenceWindow";
 import {
-  registerReaderTabPanel,
-  updateReaderTabPanels,
-} from "./modules/tabpanel";
-import {
   ReaderPopupEvent,
   buildReaderPopup,
   updateReaderPopup,
@@ -157,7 +153,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   ]);
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
-  registerReaderTabPanel();
   registerPrefsWindow();
   registerMenu();
   registerPrompt();
@@ -295,10 +290,6 @@ function onReaderPopupRefresh() {
   updateReaderPopup();
 }
 
-function onReaderTabPanelRefresh() {
-  updateReaderTabPanels();
-}
-
 function onSwitchTitleColumnDisplay() {
   setPref(
     "titleColumnMode",
@@ -323,6 +314,5 @@ export default {
   onTranslateInBatch,
   onReaderPopupShow,
   onReaderPopupRefresh,
-  onReaderTabPanelRefresh,
   onSwitchTitleColumnDisplay,
 };

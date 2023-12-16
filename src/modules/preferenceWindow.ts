@@ -245,18 +245,8 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
   };
   switch (type) {
     case "setAutoTranslateSelection":
-      addon.hooks.onReaderTabPanelRefresh();
       break;
     case "setAutoTranslateAnnotation":
-      {
-        const elemValue = fromElement
-          ? (doc.querySelector(`#${makeId("enableComment")}`) as XUL.Checkbox)
-              .checked
-          : (getPref("enableComment") as boolean);
-        const hidden = !elemValue;
-        setDisabled("auto-annotation", hidden);
-        addon.hooks.onReaderTabPanelRefresh();
-      }
       break;
     case "setEnablePopup":
       {
@@ -292,16 +282,6 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       }
       break;
     case "setSentenceService":
-      {
-        setPref(
-          "translateSource",
-          (
-            doc.querySelector(`#${makeId("sentenceServices")}`) as XUL.MenuList
-          ).getAttribute("value")!,
-        );
-        onPrefsEvents("setSentenceSecret", fromElement);
-        addon.hooks.onReaderTabPanelRefresh();
-      }
       break;
     case "updateSentenceSecret":
       {
@@ -395,34 +375,16 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       }
       break;
     case "setSourceLanguage":
-      {
-        setPref(
-          "sourceLanguage",
-          (
-            doc.querySelector(`#${makeId("langfrom")}`) as XUL.MenuList
-          ).getAttribute("value")!,
-        );
-        addon.hooks.onReaderTabPanelRefresh();
-      }
       break;
     case "setTargetLanguage":
-      {
-        setPref(
-          "targetLanguage",
-          (
-            doc.querySelector(`#${makeId("langto")}`) as XUL.MenuList
-          ).getAttribute("value")!,
-        );
-        addon.hooks.onReaderTabPanelRefresh();
-      }
       break;
     case "updateFontSize":
       addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+
       break;
     case "updatelineHeight":
       addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+
       break;
     default:
       return;
