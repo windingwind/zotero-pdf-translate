@@ -81,7 +81,16 @@ const FullText = async () => {
 
 // ChatGPT の要約結果
 function GPT_summary() {
-  return "要約結果" + Math.random();
+  const task = getLastTranslateTask();
+  let summary_text: string; // `summary_text`をifブロックの外で定義
+
+  if (!task) {
+    summary_text = "Not Yet. I'm sorry///."; // 値を割り当てる
+  } else {
+    summary_text = task.result; // 値を割り当てる
+  }
+
+  return summary_text + Math.random(); // `summary_text`はここで利用可能
 }
 
 // ChatGPT のタグ付け結果の配列
@@ -131,6 +140,10 @@ function onLoadingPdf() {
         " を追加",
     );
   }
+}
+
+function Summaryshow(event: ReaderPopupEvent) {
+  onLoadingPdf();
 }
 
 // ここに「論文を選択したときに実行される関数」を記述する
@@ -322,6 +335,7 @@ function onSwitchTitleColumnDisplay() {
 
 export default {
   onStartup,
+  Summaryshow,
   onMainWindowLoad,
   onMainWindowUnload,
   onShutdown,

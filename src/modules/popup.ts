@@ -72,7 +72,10 @@ export function updateReaderPopup() {
   }
   translateButton.hidden = task.status !== "waiting";
   textarea.hidden = hidePopupTextarea || task.status === "waiting";
-  textarea.value = task.result || task.raw;
+  ////////////////////////////////////////////////////////////////////////////////////
+  // textarea.value = task.result || task.raw;
+  textarea.value = "HIIIIIIIIIefnailenflj";
+  ////////////////////////////////////////////////////////////////////////////////////
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
