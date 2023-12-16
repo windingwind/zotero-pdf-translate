@@ -25,10 +25,7 @@ import {
 import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
-import { registerExtraColumns } from "./modules/itemTree";
-import { registerShortcuts } from "./modules/shortcuts";
 import { config } from "../package.json";
-import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
 
@@ -163,9 +160,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   registerReaderTabPanel();
   registerPrefsWindow();
   registerMenu();
-  await registerExtraColumns();
-  await registerItemBoxExtraRows();
-  registerShortcuts();
   registerPrompt();
   registerLibraryTabPanel();
   onLoadingPdf();
