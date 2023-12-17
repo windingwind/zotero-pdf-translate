@@ -38,6 +38,14 @@ async function onStartup() {
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
   ]);
+
+  // TODO: Remove this after zotero#3387 is merged
+  if (__env__ === "development") {
+    // Keep in sync with the scripts/startup.mjs
+    const loadDevToolWhen = `Plugin ${config.addonID} startup`;
+    ztoolkit.log(loadDevToolWhen);
+  }
+
   initLocale();
 
   setDefaultPrefSettings();

@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v**
+
+permissions:
+  contents: write
+
+jobs:
+  release-it:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GitHub_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          # cache: npm
+
+      - name: Install deps
+        run: npm install
+
+      - name: Release to GitHub
+        # if: github.event_name == 'push' && github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          npm run release -- --no-increment --no-git --github.release --ci --verbose
