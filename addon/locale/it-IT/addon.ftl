@@ -89,6 +89,14 @@ service-azuregpt-dialog-help=Aiuto
 service-azuregpt-dialog-save=Salva
 service-azuregpt-dialog-close=Chiudi
 
+service-gemini-secret-pass=Configura
+service-gemini-secret-fail=Configura
+service-gemini-dialog-title=Configura Gemini
+service-gemini-dialog-endPoint=EndPoint
+service-gemini-dialog-prompt=Prompt
+service-gemini-dialog-save=Salva
+service-gemini-dialog-close=Chiudi
+
 service-cnki-settings=Impostazioni
 service-cnki-dialog-regex=Regex per gli annunci CNKI
 service-cnki-dialog-save=Salva

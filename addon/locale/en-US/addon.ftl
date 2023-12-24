@@ -37,6 +37,7 @@ service-aliyun=Aliyun🗝️
 service-xftrans=Xftrans🗝️
 service-chatgpt=ChatGPT🗝️
 service-azuregpt=AzureGPT🗝️
+service-gemini=Gemini🗝️
 service-haici=Haici
 service-bingdict=Bing Dict(en↔zh)🔊
 service-haicidict=Haici Dict(en↔zh)🔊
@@ -88,6 +89,14 @@ service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-help=Help
 service-azuregpt-dialog-save=Save
 service-azuregpt-dialog-close=Close
+
+service-gemini-secret-pass=Config
+service-gemini-secret-fail=Config
+service-gemini-dialog-title=Gemini Config
+service-gemini-dialog-endPoint=EndPoint
+service-gemini-dialog-prompt=Prompt
+service-gemini-dialog-save=Save
+service-gemini-dialog-close=Close
 
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex

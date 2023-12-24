@@ -1,5 +1,6 @@
 import { cnkiStatusCallback } from "./cnki";
 import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
+import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 
 export const secretStatusButtonData: {
@@ -39,6 +40,13 @@ export const secretStatusButtonData: {
       fail: "service-azuregpt-secret-fail",
     },
     callback: azureGPTStatusCallback,
+  },  
+  gemini: {
+    labels: {
+      pass: "service-gemini-secret-pass",
+      fail: "service-gemini-secret-fail",
+    },
+    callback: geminiStatusCallback,
   },
   cnki: {
     labels: {

@@ -8,6 +8,7 @@ export function registerReaderInitializer() {
     (event) => {
       const { reader, doc, params, append } = event;
       addon.data.translate.selectedText = params.annotation.text.trim();
+      // @ts-ignore
       addon.hooks.onReaderPopupShow(event);
     },
     config.addonID,

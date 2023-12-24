@@ -74,6 +74,9 @@ export class TranslationServices {
       this.chatgpt = new TranslateTaskRunner(e.chatGPT);
       this.azuregpt = new TranslateTaskRunner(e.azureGPT);
     });
+    import("./gemini").then((e) => {
+      this.gemini = new TranslateTaskRunner(e.gemini);
+    });
     import("./youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default)),
     );
