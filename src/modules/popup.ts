@@ -102,7 +102,6 @@ export function buildReaderPopup(event: ReaderPopupEvent) {
     `${config.addonRef}-${reader._instanceID}-${type}`;
 
   const hidePopupTextarea = getPref("enableHidePopupTextarea") as boolean;
-  // @ts-ignore
   append(
     ztoolkit.UI.createElement(doc, "fragment", {
       children: [
