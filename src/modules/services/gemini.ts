@@ -60,7 +60,6 @@ const geminiTranslate = async function (
 
 export const gemini = <TranslateTaskProcessor>async function (data) {
   const apiURL = getPref("gemini.endPoint") as string;
-  const model = getPref("gemini.model") as string;
 
   return await geminiTranslate(apiURL, data);
 };
