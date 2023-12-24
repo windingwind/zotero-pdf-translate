@@ -106,6 +106,7 @@ The default engine is Google Translate. Currently, we support:
 | Baidu Field | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
 | GPT(OpenAI) | Yes(free-$18) | [Based on the gpt-3.5-turbo model](https://openai.com/pricing#chat) |
+| Gemini | Yes(free-) | [Based on the Gemini Pro model](https://ai.google.dev/pricing) |
 
 > If the engine you want is not yet supported, please post an issue.
 
