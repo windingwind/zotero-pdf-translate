@@ -5,13 +5,6 @@ import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
 
-export declare type ReaderPopupEvent = Parameters<
-  _ZoteroTypes.Reader.ReaderEventHandler<
-    _ZoteroTypes.Reader.ReaderEventMap["renderTextSelectionPopup"],
-    "renderTextSelectionPopup"
-  >
->[0];
-
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
   if (!popup) {
@@ -81,7 +74,9 @@ export function updateReaderPopup() {
   updatePopupSize(popup, textarea);
 }
 
-export function buildReaderPopup(event: ReaderPopupEvent) {
+export function buildReaderPopup(
+  event: _ZoteroTypes.Reader.EventParams<"renderTextSelectionPopup">,
+) {
   const { reader, doc, append } = event;
   const annotation = event.params.annotation;
   const popup = doc.querySelector(".selection-popup") as HTMLDivElement;

@@ -54,8 +54,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -164,8 +164,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of Aliyun Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of Aliyun Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -187,8 +187,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -208,8 +208,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -229,8 +229,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -256,8 +256,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -277,8 +277,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           secret === source.defaultSecret
             ? "The secret is not set."
             : flag
-            ? partsInfo
-            : `The secret format of Xftrans Domain Text Translation is AppID#ApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              ? partsInfo
+              : `The secret format of Xftrans Domain Text Translation is AppID#ApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -295,8 +295,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
         info: empty
           ? "The secret is not set."
           : status
-          ? "Click the button to check connectivity."
-          : "Ths secret key format is invalid.",
+            ? "Click the button to check connectivity."
+            : "Ths secret key format is invalid.",
       };
     },
   },

@@ -7,11 +7,7 @@ import {
   registerReaderTabPanel,
   updateReaderTabPanels,
 } from "./modules/tabpanel";
-import {
-  ReaderPopupEvent,
-  buildReaderPopup,
-  updateReaderPopup,
-} from "./modules/popup";
+import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
 import { registerNotify } from "./modules/notify";
 import { registerReaderInitializer } from "./modules/reader";
 import { getPref, setPref } from "./utils/prefs";
@@ -194,7 +190,9 @@ async function onTranslateInBatch(
   }
 }
 
-function onReaderPopupShow(event: ReaderPopupEvent) {
+function onReaderPopupShow(
+  event: _ZoteroTypes.Reader.EventParams<"renderTextSelectionPopup">,
+) {
   const selection = addon.data.translate.selectedText;
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
