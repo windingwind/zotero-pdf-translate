@@ -40,7 +40,7 @@ export const secretStatusButtonData: {
       fail: "service-azuregpt-secret-fail",
     },
     callback: azureGPTStatusCallback,
-  },  
+  },
   gemini: {
     labels: {
       pass: "service-gemini-secret-pass",

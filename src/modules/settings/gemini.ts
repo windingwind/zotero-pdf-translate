@@ -1,10 +1,7 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
-async function gptStatusCallback(
-  prefix: "gemini",
-  status: boolean,
-) {
+async function gptStatusCallback(prefix: "gemini", status: boolean) {
   const addonPrefix = prefix.toLocaleLowerCase();
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
@@ -70,7 +67,7 @@ async function gptStatusCallback(
       false,
     )
     .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
-    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
+    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close");
 
   dialog.open(getString(`service-${addonPrefix}-dialog-title`));
 
@@ -91,4 +88,3 @@ export async function geminiStatusCallback(status: boolean) {
   const prefix = "gemini";
   gptStatusCallback(prefix, status);
 }
-
