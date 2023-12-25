@@ -89,6 +89,14 @@ service-azuregpt-dialog-help=帮助
 service-azuregpt-dialog-save=保存
 service-azuregpt-dialog-close=关闭
 
+service-gemini-secret-pass=配置
+service-gemini-secret-fail=配置
+service-gemini-dialog-title=Gemini 配置
+service-gemini-dialog-endPoint=接口
+service-gemini-dialog-prompt=Prompt
+service-gemini-dialog-save=保存
+service-gemini-dialog-close=关闭
+
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式
 service-cnki-dialog-save=保存
