@@ -12,8 +12,8 @@
           }
         },
         {
-          "version": "1.1.0-25",
-          "update_link": "undefined/download/v1.1.0-25/zotero-pdf-translate.xpi",
+          "version": "1.1.0-26",
+          "update_link": "undefined/download/v1.1.0-26/zotero-pdf-translate.xpi",
           "applications": {
             "zotero": {
               "strict_min_version": "6.999"
