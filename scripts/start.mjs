@@ -2,7 +2,7 @@ import details from "../package.json" assert { type: "json" };
 import { Logger } from "./utils.mjs";
 import cmd from "./zotero-cmd.json" assert { type: "json" };
 import { spawn } from "child_process";
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, rmSync } from "fs";
 import { clearFolder } from "./utils.mjs";
 import path from "path";
 import { exit } from "process";
@@ -43,6 +43,11 @@ function prepareDevEnv() {
     }
   } else {
     writeAddonProxyFile();
+  }
+
+  const addonXpiFilePath = path.join(profilePath, `extensions/${addonID}.xpi`);
+  if (existsSync(addonXpiFilePath)) {
+    rmSync(addonXpiFilePath);
   }
 
   const prefsPath = path.join(profilePath, "prefs.js");
