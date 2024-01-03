@@ -350,7 +350,7 @@ export function autoDetectLanguage(item: Zotero.Item) {
         if (inferredLanguage) {
           // Update language field so that it can be used in the future
           fromLanguage = inferredLanguage;
-          topItem.setField("language", fromLanguage);
+          topItem.isRegularItem() && topItem.setField("language", fromLanguage);
         }
       }
       if (itemLanguage === toLanguage || itemLanguage === fromLanguage) {
