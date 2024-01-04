@@ -30,27 +30,23 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
 
 import { BasicTool, unregister } from "zotero-plugin-toolkit/dist/basic";
 import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
-import { ShortcutManager } from "zotero-plugin-toolkit/dist/managers/shortcut";
 import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
-import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/preferencePane";
 import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
 import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
-import { ItemTreeManager } from "zotero-plugin-toolkit/dist/managers/itemTree";
 import { ItemBoxManager } from "zotero-plugin-toolkit/dist/managers/itemBox";
 import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
+import { KeyboardManager } from "zotero-plugin-toolkit/dist/managers/keyboard";
 
 export class MyToolkit extends BasicTool {
   UI: UITool;
   ExtraField: ExtraFieldTool;
-  Shortcut: ShortcutManager;
+  Keyboard: KeyboardManager;
   Menu: MenuManager;
-  ItemTree: ItemTreeManager;
   ItemBox: ItemBoxManager;
   Prompt: PromptManager;
-  PreferencePane: PreferencePaneManager;
   ReaderTabPanel: ReaderTabPanelManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
@@ -60,11 +56,9 @@ export class MyToolkit extends BasicTool {
     super();
     this.UI = new UITool(this);
     this.ExtraField = new ExtraFieldTool(this);
-    this.Shortcut = new ShortcutManager(this);
+    this.Keyboard = new KeyboardManager(this);
     this.Menu = new MenuManager(this);
-    this.ItemTree = new ItemTreeManager(this);
     this.ItemBox = new ItemBoxManager(this);
-    this.PreferencePane = new PreferencePaneManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = DialogHelper;

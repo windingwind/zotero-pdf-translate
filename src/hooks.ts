@@ -1,3 +1,4 @@
+import { config } from "../package.json";
 import { initLocale } from "./utils/locale";
 import {
   registerPrefsScripts,
@@ -10,7 +11,7 @@ import {
 import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
 import { registerNotify } from "./modules/notify";
 import { registerReaderInitializer } from "./modules/reader";
-import { getPref, setPref } from "./utils/prefs";
+import { getPref } from "./utils/prefs";
 import {
   addTranslateAnnotationTask,
   addTranslateTask,
@@ -23,7 +24,6 @@ import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
 import { registerExtraColumns } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
-import { config } from "../package.json";
 import { registerItemBoxExtraRows } from "./modules/itemBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
@@ -47,6 +47,8 @@ async function onStartup() {
   setDefaultPrefSettings();
 
   registerReaderInitializer();
+
+  registerShortcuts();
 
   registerNotify(["item"]);
   await onMainWindowLoad(window);
@@ -76,7 +78,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   registerMenu();
   await registerExtraColumns();
   await registerItemBoxExtraRows();
-  registerShortcuts();
   registerPrompt();
 }
 
@@ -129,7 +130,6 @@ function onShortcuts(type: string) {
   switch (type) {
     case "library":
       {
-        addon.hooks.onSwitchTitleColumnDisplay();
         addon.hooks.onTranslateInBatch(
           ZoteroPane.getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
@@ -216,14 +216,6 @@ function onReaderTabPanelRefresh() {
   updateReaderTabPanels();
 }
 
-function onSwitchTitleColumnDisplay() {
-  setPref(
-    "titleColumnMode",
-    getPref("titleColumnMode") === "raw" ? "result" : "raw",
-  );
-  ztoolkit.ItemTree.refresh();
-}
-
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
 // Otherwise the code would be hard to read and maintain.
@@ -241,5 +233,4 @@ export default {
   onReaderPopupShow,
   onReaderPopupRefresh,
   onReaderTabPanelRefresh,
-  onSwitchTitleColumnDisplay,
 };

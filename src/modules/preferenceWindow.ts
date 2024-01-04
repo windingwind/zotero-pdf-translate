@@ -1,4 +1,4 @@
-import { config } from "../../package.json";
+import { config, homepage } from "../../package.json";
 import { LANG_CODE, SERVICES } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
@@ -6,12 +6,12 @@ import { setServiceSecret, validateServiceSecret } from "../utils/secret";
 import { secretStatusButtonData } from "./settings";
 
 export function registerPrefsWindow() {
-  ztoolkit.PreferencePane.register({
+  Zotero.PreferencePanes.register({
     pluginID: config.addonID,
     src: rootURI + "chrome/content/preferences.xhtml",
     label: getString("pref-title"),
     image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-    defaultXUL: true,
+    helpURL: homepage,
   });
 }
 

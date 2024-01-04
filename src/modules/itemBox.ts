@@ -6,8 +6,9 @@ export async function registerItemBoxExtraRows() {
     await ztoolkit.ItemBox.register(
       "titleTranslation",
       getString("field-titleTranslation"),
-      // getField hook is registered in itemTree.ts
-      undefined,
+      (field, unformatted, includeBaseMapped, item, original) => {
+        return ztoolkit.ExtraField.getExtraField(item, field) || "";
+      },
       {
         editable: false,
         setFieldHook: (field, value, loadIn, item, original) => {
