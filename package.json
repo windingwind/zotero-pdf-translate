@@ -8,7 +8,7 @@
     "addonRef": "zoteropdftranslate",
     "prefsPrefix": "extensions.zotero.ZoteroPDFTranslate",
     "addonInstance": "PDFTranslate",
-    "releasepage": "https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi",
+    "releasePage": "https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi",
     "updateJSON": "https://raw.githubusercontent.com/windingwind/zotero-pdf-translate/main/update.json"
   },
   "main": "src/index.ts",
