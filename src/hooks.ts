@@ -79,6 +79,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   await registerExtraColumns();
   await registerItemBoxExtraRows();
   registerPrompt();
+
+  win.document.addEventListener("focusout", () => {
+    addon.data.translate.concatKey = false;
+  });
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
