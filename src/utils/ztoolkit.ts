@@ -28,7 +28,11 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
   );
 }
 
-import { BasicTool, unregister } from "zotero-plugin-toolkit/dist/basic";
+import {
+  BasicTool,
+  makeHelperTool,
+  unregister,
+} from "zotero-plugin-toolkit/dist/basic";
 import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
 import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
 import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
@@ -61,9 +65,9 @@ export class MyToolkit extends BasicTool {
     this.ItemBox = new ItemBoxManager(this);
     this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.Prompt = new PromptManager(this);
-    this.Dialog = DialogHelper;
-    this.ProgressWindow = ProgressWindowHelper;
-    this.Clipboard = ClipboardHelper;
+    this.Dialog = makeHelperTool(DialogHelper, this);
+    this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);
+    this.Clipboard = makeHelperTool(ClipboardHelper, this);
   }
 
   unregisterAll() {
