@@ -18,13 +18,13 @@
       "\tremoveIfExists: ${13:true},",
       "\tcustomCheck: (doc: Document, options: ElementOptions) => ${14:true},",
       "\tchildren: [$15]",
-      "}, ${16:container});"
-    ]
+      "}, ${16:container});",
+    ],
   },
   "appendElement - minimum": {
     "scope": "javascript,typescript",
     "prefix": "appendElement",
-    "body": "appendElement({ tag: '$1' }, $2);"
+    "body": "appendElement({ tag: '$1' }, $2);",
   },
   "register Notifier": {
     "scope": "javascript,typescript",
@@ -39,7 +39,7 @@
       "\t) => {",
       "\t\t$0",
       "\t}",
-      "});"
-    ]
-  }
+      "});",
+    ],
+  },
 }
