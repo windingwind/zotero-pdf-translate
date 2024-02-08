@@ -3,19 +3,9 @@ export default <TranslateTaskProcessor>async function (data) {
   const id = 1000 * (Math.floor(Math.random() * 99999) + 8300000) + 1;
   const url = "https://www2.deepl.com/jsonrpc";
   const t = data.raw;
-  let ICounts = 0;
-  let ts = Date.now();
-  for (let i = 0; i < t.length; i++) {
-    if (t[i] == "i") {
-      ICounts++;
-    }
-  }
-  if (ICounts != 0) {
-    ICounts++;
-    ts = ts - (ts % ICounts) + ICounts;
-  } else {
-    return;
-  }
+  const ICounts = (t.match(/i/g) || []).length + 1;
+  const ts = Date.now();
+
   let reqBody = JSON.stringify({
     jsonrpc: "2.0",
     method: "LMT_handle_texts",
@@ -32,7 +22,7 @@ export default <TranslateTaskProcessor>async function (data) {
         source_lang_user_selected: data.langfrom.split("-")[0].toUpperCase(),
         target_lang: data.langto.split("-")[0].toUpperCase(),
       },
-      timestamp: ts,
+      timestamp: ts - (ts % ICounts) + ICounts,
       commonJobParams: {
         wasSpoken: false,
         transcribe_as: "",
