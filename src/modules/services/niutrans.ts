@@ -7,8 +7,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const memoryNo = getPref("niutransMemoryNo");
   const xhr = await Zotero.HTTP.request(
     "POST",
-    // Use http to avoid license issue
-    "http://api.niutrans.com/NiuTransServer/translation",
+    `https://niutrans.com/niuInterface/textTranslation?pluginType=zotero&apikey=${apikey}`,
     {
       headers: {
         "content-type": "application/json",
@@ -17,9 +16,10 @@ export default <TranslateTaskProcessor>async function (data) {
       body: JSON.stringify({
         from: data.langfrom.split("-")[0],
         to: data.langto.split("-")[0],
-        apikey,
-        dictNo,
-        memoryNo,
+        termDictionaryLibraryId: dictNo,
+        translationMemoryLibraryId: memoryNo,
+        // TEMP: implement realmCode in settings
+        realmCode: 99,
         source: "zotero",
         src_text: data.raw,
         caller_id: data.callerID,
@@ -32,8 +32,8 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Request error: ${xhr?.status}`;
   }
 
-  if (xhr.response.error_code) {
-    throw `Service error: ${xhr.response.error_code}:${xhr.response.error_msg}`;
+  if (xhr.response.code !== 200) {
+    throw `Service error: ${xhr.response.code}:${xhr.response.msg}`;
   }
-  data.result = xhr.response.tgt_text;
+  data.result = xhr.response.data.tgt_text;
 };
