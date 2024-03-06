@@ -140,7 +140,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
       return {
         secret,
         status: flag,
-        info: flag ? "" : `Please enter custom DeepL URL.`,
+        info: flag ? "" : `Please enter DeepLX API.`,
       };
     },
   },
