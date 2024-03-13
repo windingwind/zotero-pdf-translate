@@ -124,9 +124,7 @@ export class TranslationServices {
       return false;
     }
     // Remove possible translation results (for annotations).
-    const splitChar = task.raw.includes(getPref("splitChar") as string)
-      ? ""
-      : getPref("splitChar");
+    const splitChar = (getPref("splitChar") as string).trim();
     // /🔤[^🔤]*🔤/g
     const regex =
       splitChar === ""
