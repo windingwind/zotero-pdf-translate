@@ -8,5 +8,6 @@ export async function registerExtraColumns() {
     dataProvider: (item, dataKey) =>
       ztoolkit.ExtraField.getExtraField(item, "titleTranslation") || "",
     pluginID: config.addonID,
+    zoteroPersist: ["width", "hidden", "sortDirection"],
   });
 }
