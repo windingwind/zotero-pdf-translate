@@ -95,6 +95,7 @@ export class TranslateTaskRunner {
 
   public async run(data: TranslateTask) {
     if (!data.langfrom || !data.langto) {
+      ztoolkit.log("try auto detect language");
       const { fromLanguage, toLanguage } = autoDetectLanguage(
         Zotero.Items.get(data.itemId || -1),
       );
@@ -324,44 +325,47 @@ export function putTranslateTaskAtHead(taskId: string) {
 
 export function autoDetectLanguage(item: Zotero.Item) {
   const topItem = Zotero.Items.getTopLevel([item])[0];
-  let fromLanguage = getPref("sourceLanguage") as string;
+  const fromLanguage = getPref("sourceLanguage") as string;
   const toLanguage = getPref("targetLanguage") as string;
+  let detectedFromLanguage = fromLanguage;
   // Use cached source language
-  if (addon.data.translate.cachedSourceLanguage[item.id]) {
+  const sourceLanguageCache =
+    addon.data.translate.cachedSourceLanguage[item.id];
+  if (sourceLanguageCache && sourceLanguageCache !== toLanguage) {
     return {
-      fromLanguage: addon.data.translate.cachedSourceLanguage[item.id],
+      fromLanguage: sourceLanguageCache,
       toLanguage,
     };
   }
   if (getPref("enableAutoDetectLanguage")) {
     if (topItem) {
-      const itemLanguage =
+      let itemLanguage: string =
         // Respect language field
         matchLanguage((topItem.getField("language") as string) || "").code;
-      if (itemLanguage) {
-        fromLanguage = itemLanguage;
-      } else {
+      ztoolkit.log("try itemLanguage", itemLanguage);
+      if (!itemLanguage) {
         // Respect AbstractNote or Title inferred language
         const inferredLanguage = inferLanguage(
           (topItem.getField("abstractNote") as string) ||
             (topItem.getField("title") as string) ||
             "",
         ).code;
+        ztoolkit.log("try inferredLanguage", inferredLanguage);
         if (inferredLanguage) {
           // Update language field so that it can be used in the future
-          fromLanguage = inferredLanguage;
+          itemLanguage = inferredLanguage;
           topItem.isRegularItem() && topItem.setField("language", fromLanguage);
         }
       }
-      if (itemLanguage === toLanguage || itemLanguage === fromLanguage) {
-        // If the item language is the same as the target/source language, do nothing
-      } else if (itemLanguage) {
-        fromLanguage = itemLanguage;
+      if (itemLanguage && ![fromLanguage, toLanguage].includes(itemLanguage)) {
+        ztoolkit.log("use autoDetect", itemLanguage);
+        // If the item language is not the same as the target/source language, use it
+        detectedFromLanguage = itemLanguage;
       }
     }
   }
   return {
-    fromLanguage,
+    fromLanguage: detectedFromLanguage,
     toLanguage,
   };
 }
