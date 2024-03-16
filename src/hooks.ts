@@ -107,6 +107,7 @@ function onNotify(
   extraData: { [key: string]: any },
 ) {
   if (event === "add" && type === "item") {
+    if (extraData?.skipAutoSync) return;
     const annotationItems = Zotero.Items.get(ids as number[]).filter((item) =>
       item.isAnnotation(),
     );
