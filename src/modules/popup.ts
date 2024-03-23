@@ -240,7 +240,7 @@ export function buildReaderPopup(
                 const task = addTranslateTask(
                   addon.data.translate.selectedText,
                   reader.itemID,
-                  "text",
+                  "addtonote",
                 );
                 if (!task) {
                   return;
