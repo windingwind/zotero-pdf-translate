@@ -71,3 +71,7 @@ pref(
   "__prefsPrefix__.cnkiRegex",
   "(查看名企职位.+?https://dict.cnki.net[a-zA-Z./]+.html?)",
 );
+pref(
+  "__prefsPrefix__.cnkiSplitTime",
+  1
+)

@@ -26,6 +26,9 @@ export class TranslationServices {
     import("./cnki").then(
       (e) => (this.cnki = new TranslateTaskRunner(e.default)),
     );
+    import("./cnkisplit").then(
+      (e) => (this.cnkisplit = new TranslateTaskRunner(e.default)),
+    );
     import("./collinsdict").then(
       (e) => (this.collinsdict = new TranslateTaskRunner(e.default)),
     );

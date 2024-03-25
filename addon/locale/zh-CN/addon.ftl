@@ -20,6 +20,7 @@ readerpanel-extra-pinned-label=📍取消置顶
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
+service-cnkisplit=CNKI(拆分翻译)
 service-youdao=有道
 service-youdaozhiyun=有道智云🗝️
 service-niutranspro=小牛🗝️
