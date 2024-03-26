@@ -20,6 +20,7 @@ readerpanel-extra-pinned-label=📍Sblocca
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
+service-cnkisplit=CNKI(Traduzione Segmentata)
 service-youdao=Youdao
 service-youdaozhiyun=Youdao Zhiyun🗝️
 service-niutranspro=Niu Trans🗝️
