@@ -10,7 +10,8 @@ import {
 } from "../utils/task";
 
 export function registerReaderTabPanel() {
-  Zotero.ItemPaneManager.registerSections({
+  // @ts-ignore
+  Zotero.ItemPaneManager.registerSection({
     paneID: "translate",
     pluginID: config.addonID,
     head: {
@@ -906,9 +907,7 @@ function onRender(options: any) {
 
   setValue("services", getPref("translateSource") as string);
 
-  const { fromLanguage, toLanguage } = autoDetectLanguage(
-    options.getData().item,
-  );
+  const { fromLanguage, toLanguage } = autoDetectLanguage(options.item);
   setValue("langfrom", fromLanguage);
   setValue("langto", toLanguage);
 
