@@ -70,7 +70,7 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  addToNoteButton.hidden = !ZoteroContextPane.getActiveEditor();
+  addToNoteButton.hidden = !ZoteroContextPane.activeEditor;
   updatePopupSize(popup, textarea);
 }
 
@@ -229,7 +229,7 @@ export function buildReaderPopup(
               type: "click",
               listener: async (ev) => {
                 const noteEditor =
-                  ZoteroContextPane && ZoteroContextPane.getActiveEditor();
+                  ZoteroContextPane && ZoteroContextPane.activeEditor;
                 if (!noteEditor) {
                   return;
                 }
