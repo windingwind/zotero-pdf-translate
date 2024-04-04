@@ -13,7 +13,7 @@
       native="true"
       preference="__prefsPrefix__.enableAuto"
     />
-    <hbox>
+    <hbox align="center">
       <checkbox
         id="__addonRef__-enableComment"
         data-l10n-id="pref-basic-enableComment"
@@ -37,7 +37,7 @@
         />
       </radiogroup>
     </hbox>
-    <hbox>
+    <hbox align="center">
       <checkbox
         id="__addonRef__-enablePopup"
         data-l10n-id="pref-basic-enablePopup"
@@ -52,7 +52,7 @@
         preference="__prefsPrefix__.enableHidePopupTextarea"
       />
     </hbox>
-    <hbox>
+    <hbox align="center">
       <checkbox
         id="__addonRef__-enableAddToNote"
         data-l10n-id="pref-basic-enableNote"
@@ -68,7 +68,7 @@
         preference="__prefsPrefix__.enableNoteReplaceMode"
       />
     </hbox>
-    <hbox>
+    <hbox align="center">
       <checkbox
         data-l10n-id="pref-audio-autoPlay"
         native="true"
@@ -83,7 +83,7 @@
   </groupbox>
   <groupbox>
     <label><html:h2 data-l10n-id="pref-service"></html:h2></label>
-    <hbox>
+    <hbox align="center">
       <label data-l10n-id="pref-service-sentenceServices"></label>
       <!-- Replace -->
       <box id="__addonRef__-sentenceServices-placeholder"></box>
@@ -100,7 +100,7 @@
       native="true"
       preference="__prefsPrefix__.enableDict"
     />
-    <hbox>
+    <hbox align="center">
       <label data-l10n-id="pref-service-wordServices"></label>
       <!-- Replace -->
       <box id="__addonRef__-wordServices-placeholder"></box>
@@ -111,7 +111,7 @@
         class="use-word-service"
       ></html:input>
     </hbox>
-    <hbox>
+    <hbox align="center">
       <label data-l10n-id="pref-service-langfrom"></label>
       <!-- Replace -->
       <box id="__addonRef__-langfrom-placeholder"></box>
@@ -124,7 +124,7 @@
 </vbox>
 <groupbox>
   <label><html:h2 data-l10n-id="pref-interface"></html:h2></label>
-  <hbox>
+  <hbox align="center">
     <label data-l10n-id="pref-interface-fontSize"></label>
     <html:input
       id="__addonRef__-fontSize"
@@ -132,7 +132,7 @@
       preference="__prefsPrefix__.fontSize"
     ></html:input>
   </hbox>
-  <hbox>
+  <hbox align="center">
     <label data-l10n-id="pref-interface-lineHeight"></label>
     <html:input
       id="__addonRef__-lineHeight"
@@ -213,28 +213,28 @@
 </groupbox>
 <groupbox>
   <label><html:h2 data-l10n-id="pref-advanced"></html:h2></label>
-  <hbox>
+  <hbox align="center">
     <checkbox
       data-l10n-id="pref-advanced-enableAutoDetectLanguage"
       native="true"
       preference="__prefsPrefix__.enableAutoDetectLanguage"
     />
   </hbox>
-  <hbox>
+  <hbox align="center">
     <label data-l10n-id="pref-advanced-disabledLanguages"></label>
     <html:input
       type="text"
       preference="__prefsPrefix__.disabledLanguages"
     ></html:input>
   </hbox>
-  <hbox>
+  <hbox align="center">
     <label data-l10n-id="pref-advanced-extraEngines"></label>
     <html:input
       type="text"
       preference="__prefsPrefix__.extraEngines"
     ></html:input>
   </hbox>
-  <hbox>
+  <hbox align="center">
     <label data-l10n-id="pref-advanced-splitChar"></label>
     <html:input type="text" preference="__prefsPrefix__.splitChar"></html:input>
   </hbox>
@@ -245,7 +245,7 @@
     data-l10n-id="pref-about-version"
     data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
   ></label>
-  <hbox>
+  <hbox align="center">
     <label
       data-l10n-id="pref-about-feedback"
       class="zotero-text-link"
