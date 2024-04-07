@@ -1,6 +1,6 @@
-import { aesEcbEncrypt, base64 } from "../../utils/crypto";
-import { getPref, setPref } from "../../utils/prefs";
+import { getPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
+import { getToken, getWord } from "./cnki"
 
 export default <TranslateTaskProcessor>async function (data) {
   const progressWindow = new ztoolkit.ProgressWindow("PDF Translate");
@@ -65,48 +65,3 @@ export default <TranslateTaskProcessor>async function (data) {
 
   data.result = translatedText.trim();
 };
-
-async function getToken(forceRefresh: boolean = false) {
-  let token = "";
-  // Just in case the update fails
-  let doRefresh = true;
-  try {
-    const tokenObj = JSON.parse(getPref("cnkiToken") as string);
-    if (
-      !forceRefresh &&
-      tokenObj?.token &&
-      new Date().getTime() - tokenObj.t < 300 * 1000
-    ) {
-      token = tokenObj.token;
-      doRefresh = false;
-    }
-  } catch (e) {
-    ztoolkit.log(e);
-  }
-  if (doRefresh) {
-    const xhr = await Zotero.HTTP.request(
-      "GET",
-      "https://dict.cnki.net/fyzs-front-api/getToken",
-      {
-        responseType: "json",
-      },
-    );
-    if (xhr && xhr.response && xhr.response.code === 200) {
-      token = xhr.response.token;
-      setPref(
-        "cnkiToken",
-        JSON.stringify({
-          t: new Date().getTime(),
-          token: xhr.response.data,
-        }),
-      );
-    }
-  }
-  return token;
-}
-
-async function getWord(text: string) {
-  const encrtypted = await aesEcbEncrypt(text, "4e87183cfd3a45fe");
-  const base64str = base64(encrtypted);
-  return base64str.replace(/\//g, "_").replace(/\+/g, "-");
-}

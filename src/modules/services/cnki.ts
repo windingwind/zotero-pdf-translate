@@ -64,7 +64,7 @@ export default <TranslateTaskProcessor>async function (data) {
   data.result = tgt;
 };
 
-async function getToken(forceRefresh: boolean = false) {
+export async function getToken(forceRefresh: boolean = false) {
   let token = "";
   // Just in case the update fails
   let doRefresh = true;
@@ -103,7 +103,7 @@ async function getToken(forceRefresh: boolean = false) {
   return token;
 }
 
-async function getWord(text: string) {
+export async function getWord(text: string) {
   const encrtypted = await aesEcbEncrypt(text, "4e87183cfd3a45fe");
   const base64str = base64(encrtypted);
   return base64str.replace(/\//g, "_").replace(/\+/g, "-");
