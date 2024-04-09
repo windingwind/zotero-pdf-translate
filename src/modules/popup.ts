@@ -63,14 +63,22 @@ export function updateReaderPopup() {
       audiobox,
     );
   }
-  translateButton.hidden = task.status !== "waiting";
+  if (task.status !== "waiting") {
+    translateButton.style.display = "none";
+  } else {
+    translateButton.style.removeProperty("display");
+  }
   textarea.hidden = hidePopupTextarea || task.status === "waiting";
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  addToNoteButton.hidden = !ZoteroContextPane.getActiveEditor();
+  if (!ZoteroContextPane.activeEditor) {
+    addToNoteButton.style.display = "none";
+  } else {
+    addToNoteButton.style.removeProperty("display");
+  }
   updatePopupSize(popup, textarea);
 }
 
@@ -113,9 +121,14 @@ export function buildReaderPopup(
           ignoreIfExists: true,
         },
         {
-          tag: "div",
+          tag: "button",
+          namespace: "html",
           id: makeId("translate"),
-          classList: ["wide-button", `${config.addonRef}-readerpopup`],
+          classList: [
+            "toolbar-button",
+            "wide-button",
+            `${config.addonRef}-readerpopup`,
+          ],
           properties: {
             innerHTML: `${SVGIcon}${getString("readerpopup-translate-label")}`,
             hidden: getPref("enableAuto"),
@@ -217,9 +230,17 @@ export function buildReaderPopup(
           ],
         },
         {
-          tag: "div",
+          tag: "button",
+          namespace: "html",
           id: makeId("addtonote"),
-          classList: ["wide-button", `${config.addonRef}-readerpopup`],
+          classList: [
+            "toolbar-button",
+            "wide-button",
+            `${config.addonRef}-readerpopup`,
+          ],
+          styles: {
+            marginTop: "8px",
+          },
           properties: {
             innerHTML: `${SVGIcon}${Zotero.getString("pdfReader.addToNote")}`,
           },
@@ -229,7 +250,7 @@ export function buildReaderPopup(
               type: "click",
               listener: async (ev) => {
                 const noteEditor =
-                  ZoteroContextPane && ZoteroContextPane.getActiveEditor();
+                  ZoteroContextPane && ZoteroContextPane.activeEditor;
                 if (!noteEditor) {
                   return;
                 }
