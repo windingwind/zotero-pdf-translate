@@ -73,6 +73,11 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   ]);
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
+
+  (win as any).MozXULElement.insertFTLIfNeeded(
+    `${config.addonRef}-mainWindow.ftl`,
+  );
+
   registerReaderTabPanel();
   registerPrefsWindow();
   registerMenu();
@@ -87,6 +92,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
 
 async function onMainWindowUnload(win: Window): Promise<void> {
   ztoolkit.unregisterAll();
+
+  win.document
+    .querySelector(`[href="${config.addonRef}-mainWindow.ftl"]`)
+    ?.remove();
 }
 
 function onShutdown(): void {
