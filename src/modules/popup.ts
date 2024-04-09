@@ -217,7 +217,7 @@ export function buildReaderPopup(
                   textarea.selectionStart,
                   textarea.selectionEnd,
                 );
-                new ztoolkit.Clipboard().addText(text, "text/unicode").copy();
+                new ztoolkit.Clipboard().addText(text, "text/plain").copy();
                 new ztoolkit.ProgressWindow("Copied to Clipboard")
                   .createLine({
                     text: slice(text, 50),
@@ -312,7 +312,7 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
               textarea.selectionStart,
               textarea.selectionEnd,
             ),
-            "text/unicode",
+            "text/plain",
           )
           .copy();
       }, 10);
@@ -325,7 +325,7 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
       new ztoolkit.Clipboard()
         .addText(
           textarea.value.slice(textarea.selectionStart, textarea.selectionEnd),
-          "text/unicode",
+          "text/plain",
         )
         .copy();
       textarea.value = `${textarea.value.slice(

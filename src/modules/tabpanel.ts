@@ -559,7 +559,7 @@ function onInit({
                               return;
                             }
                             new ztoolkit.Clipboard()
-                              .addText(task.raw, "text/unicode")
+                              .addText(task.raw, "text/plain")
                               .copy();
                           },
                         },
@@ -586,7 +586,7 @@ function onInit({
                               return;
                             }
                             new ztoolkit.Clipboard()
-                              .addText(task.result, "text/unicode")
+                              .addText(task.result, "text/plain")
                               .copy();
                           },
                         },
@@ -615,7 +615,7 @@ function onInit({
                             new ztoolkit.Clipboard()
                               .addText(
                                 `${task.raw}\n----\n${task.result}`,
-                                "text/unicode",
+                                "text/plain",
                               )
                               .copy();
                           },
