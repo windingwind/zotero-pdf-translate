@@ -29,24 +29,26 @@ export function registerReaderTabPanel() {
 }
 
 async function openWindowPanel() {
-  if (addon.data.panel.windowPanel && !addon.data.panel.windowPanel.closed) {
-    addon.data.panel.windowPanel.close();
-  }
-  const dialogData = {
-    loadLock: Zotero.Promise.defer(),
-  };
-  const win: Window = ztoolkit.getGlobal("openDialog")(
-    `chrome://${config.addonRef}/content/standalone.xhtml`,
-    `${config.addonRef}-standalone`,
-    `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,dialog=no,${
-      getPref("keepWindowTop") ? ",alwaysRaised=yes" : ""
-    }`,
-    dialogData,
-  );
-  await dialogData.loadLock.promise;
-  // onInit(win.document.querySelector("#panel-container") as XUL.Box);
-  buildExtraPanel(win.document.querySelector("#extra-container") as XUL.Box);
-  addon.data.panel.windowPanel = win;
+  window.alert("Not implemented yet, please wait for the next update.");
+  return;
+  // if (addon.data.panel.windowPanel && !addon.data.panel.windowPanel.closed) {
+  //   addon.data.panel.windowPanel.close();
+  // }
+  // const dialogData = {
+  //   loadLock: Zotero.Promise.defer(),
+  // };
+  // const win: Window = ztoolkit.getGlobal("openDialog")(
+  //   `chrome://${config.addonRef}/content/standalone.xhtml`,
+  //   `${config.addonRef}-standalone`,
+  //   `chrome,extrachrome,menubar,resizable=yes,scrollbars,status,dialog=no,${
+  //     getPref("keepWindowTop") ? ",alwaysRaised=yes" : ""
+  //   }`,
+  //   dialogData,
+  // );
+  // await dialogData.loadLock.promise;
+  // // onInit(win.document.querySelector("#panel-container") as XUL.Box);
+  // buildExtraPanel(win.document.querySelector("#extra-container") as XUL.Box);
+  // addon.data.panel.windowPanel = win;
 }
 
 export function updateReaderTabPanels() {
