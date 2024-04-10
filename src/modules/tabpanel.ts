@@ -67,7 +67,6 @@ export function updateReaderTabPanels() {
 function onInit({
   body,
   refresh,
-  item,
 }: _ZoteroTypes.ItemPaneManager.SectionInitHookArgs) {
   const paneUID = Zotero_Tabs.selectedID;
   body.dataset.paneUid = paneUID;
@@ -189,10 +188,11 @@ function onInit({
                   listener: (e: Event) => {
                     const newValue = (e.target as XUL.MenuList).value;
                     setPref("sourceLanguage", newValue);
-                    const itemID = item?.id;
+                    const itemID = body.dataset.itemID;
                     itemID &&
-                      (addon.data.translate.cachedSourceLanguage[itemID] =
-                        newValue);
+                      (addon.data.translate.cachedSourceLanguage[
+                        Number(itemID)
+                      ] = newValue);
                     addon.hooks.onReaderTabPanelRefresh();
                   },
                 },
@@ -884,11 +884,14 @@ function buildExtraPanel(panel: XUL.Box) {
 
 function onItemChange({
   tabType,
+  item,
+  body,
   setEnabled,
 }: _ZoteroTypes.ItemPaneManager.SectionHookArgs) {
   if (tabType !== "reader") {
     setEnabled(false);
   }
+  body.dataset.itemID = String(item?.id);
   return true;
 }
 
