@@ -17,6 +17,7 @@ readerpanel-extra-resize-label=Ripristina larghezza
 readerpanel-extra-pin-label=📌Fissa
 readerpanel-extra-pinned-label=📍Sblocca
 
+service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI

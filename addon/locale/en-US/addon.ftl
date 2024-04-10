@@ -17,6 +17,7 @@ readerpanel-extra-resize-label=Reset Width
 readerpanel-extra-pin-label=📌Pin
 readerpanel-extra-pinned-label=📍Unpin
 
+service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI

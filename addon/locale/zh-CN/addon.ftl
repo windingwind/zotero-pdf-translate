@@ -17,6 +17,7 @@ readerpanel-extra-resize-label=重置宽度
 readerpanel-extra-pin-label=📌置顶
 readerpanel-extra-pinned-label=📍取消置顶
 
+service-huoshan=火山翻译🗝️
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
