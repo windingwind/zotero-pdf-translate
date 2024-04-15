@@ -51,7 +51,7 @@ export default <TranslateTaskProcessor>async function (data) {
     if (currentChunk) {
       chunks.push(currentChunk);
     }
-    if (progressWindow){
+    if (chunks.length <= 1 && progressWindow){
       progressWindow.createLine({
         text: `Maximum text length is 800, ${data.raw.length} selected. Will split ${chunks.length} sections to translate.`,
       }).show();
