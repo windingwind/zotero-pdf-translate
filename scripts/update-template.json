@@ -16,7 +16,7 @@
           "update_link": "__updateLink__",
           "applications": {
             "zotero": {
-              "strict_min_version": "6.999"
+              "strict_min_version": "7.0.0-beta.70"
             }
           }
         }

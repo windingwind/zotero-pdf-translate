@@ -1,6 +1,6 @@
 {
   "name": "zotero-pdf-translate",
-  "version": "1.1.0-beta.38",
+  "version": "1.1.0-beta.41",
   "description": "Translate PDF, EPub, webpage, metadata, annotations, notes to the target language. Support 20+ translate services.",
   "config": {
     "addonName": "Translate for Zotero",
@@ -35,7 +35,7 @@
     "franc": "^6.1.0",
     "iso639-js": "^1.1.3",
     "jsencrypt": "^3.3.2",
-    "zotero-plugin-toolkit": "^2.3.25"
+    "zotero-plugin-toolkit": "^2.3.29"
   },
   "devDependencies": {
     "@types/node": "^20.11.4",
