@@ -56,11 +56,4 @@ export const secretStatusButtonData: {
     },
     callback: cnkiStatusCallback,
   },
-  cnkisplit: {
-    labels: {
-      pass: "service-cnki-settings",
-      fail: "service-cnki-settings",
-    },
-    callback: cnkiStatusCallback,
-  },
 };

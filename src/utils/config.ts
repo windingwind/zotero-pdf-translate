@@ -30,10 +30,6 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
-    id: "cnkisplit",
-  },
-  {
-    type: "sentence",
     id: "haici",
   },
   {

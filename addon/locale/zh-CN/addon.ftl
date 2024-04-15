@@ -20,7 +20,6 @@ readerpanel-extra-pinned-label=📍取消置顶
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
-service-cnkisplit=CNKI(拆分翻译)
 service-youdao=有道
 service-youdaozhiyun=有道智云🗝️
 service-niutranspro=小牛🗝️
@@ -103,6 +102,7 @@ service-cnki-dialog-regex=CNKI广告移除正则表达式
 service-cnki-dialog-save=保存
 service-cnki-dialog-close=关闭
 service-cnki-dialog-title=CNKI 设置
+service-cnki-dialog-split=超过800字符自动拆分翻译
 
 readerpopup-translate-label=翻译
 

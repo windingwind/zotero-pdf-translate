@@ -20,7 +20,6 @@ readerpanel-extra-pinned-label=📍Sblocca
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
-service-cnkisplit=CNKI(Traduzione Segmentata)
 service-youdao=Youdao
 service-youdaozhiyun=Youdao Zhiyun🗝️
 service-niutranspro=Niu Trans🗝️
@@ -103,6 +102,7 @@ service-cnki-dialog-regex=Regex per gli annunci CNKI
 service-cnki-dialog-save=Salva
 service-cnki-dialog-close=Chiudi
 service-cnki-dialog-title=Configura CNKI
+service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 caratteri
 
 readerpopup-translate-label=Traduci
 

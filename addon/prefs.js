@@ -72,6 +72,10 @@ pref(
   "(查看名企职位.+?https://dict.cnki.net[a-zA-Z./]+.html?)",
 );
 pref(
-  "__prefsPrefix__.cnkiSplitTime",
+  "__prefsPrefix__.cnkiSplitSecond",
   1
+)
+pref(
+  "__prefsPrefix__.cnkiUseSplit",
+  false
 )
