@@ -99,22 +99,31 @@ export async function gptStatusCallback(status: boolean) {
             },
           },
           {
-            tag: "select",
+            tag: "input",
             id: "gptModels",
             attributes: {
               "data-bind": "models",
               "data-prop": "value",
+              type: "string",
             },
-            children: [
-              {
-                tag: "option",
-                properties: {
-                  value: selectedModel,
-                  innerHTML: selectedModel,
-                },
-              },
-            ],
           },
+          // {
+          //   tag: "select",
+          //   id: "gptModels",
+          //   attributes: {
+          //     "data-bind": "models",
+          //     "data-prop": "value",
+          //   },
+          //   children: [
+          //     {
+          //       tag: "option",
+          //       properties: {
+          //         value: selectedModel,
+          //         innerHTML: selectedModel,
+          //       },
+          //     },
+          //   ],
+          // },
           {
             tag: "label",
             namespace: "html",
