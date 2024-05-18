@@ -41,7 +41,7 @@ const geminiTranslate = async function (
         let result = "";
         xmlhttp.onprogress = (e: any) => {
           // Only concatenate the new strings
-          const newResponse = JSON.parse(e.target.response.slice(preLength));
+          const newResponse = e.target.response.slice(preLength);
           const dataArray = newResponse.split("data: ");
 
           for (const data of dataArray) {
@@ -55,6 +55,7 @@ const geminiTranslate = async function (
             e.target.timeout = 0;
           }
 
+          data.result = result;
           preLength = e.target.response.length;
 
           if (data.type === "text") {
