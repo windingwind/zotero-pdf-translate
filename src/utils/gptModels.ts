@@ -51,6 +51,7 @@ export async function gptStatusCallback(status: boolean) {
           `service.gpt.dialog.status.${gptStatus}`
         );
       }
+
     },
   };
 
@@ -99,21 +100,13 @@ export async function gptStatusCallback(status: boolean) {
             },
           },
           {
-            tag: "select",
+            tag: "input",
             id: "gptModels",
             attributes: {
               "data-bind": "models",
               "data-prop": "value",
+              type: "string",
             },
-            children: [
-              {
-                tag: "option",
-                properties: {
-                  value: selectedModel,
-                  innerHTML: selectedModel,
-                },
-              },
-            ],
           },
           {
             tag: "label",
