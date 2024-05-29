@@ -3,8 +3,8 @@
     "zoteropdftranslate@euclpts.com": {
       "updates": [
         {
-          "version": "1.0.26",
-          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.0.26/zotero-pdf-translate.xpi",
+          "version": "1.0.25",
+          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.0.25/zotero-pdf-translate.xpi",
           "applications": {
             "gecko": {
               "strict_min_version": "60.0"
@@ -12,8 +12,8 @@
           }
         },
         {
-          "version": "1.1.0-beta.41",
-          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.1.0-beta.41/zotero-pdf-translate.xpi",
+          "version": "1.1.0-beta.42",
+          "update_link": "https://github.com/windingwind/zotero-pdf-translate/releases/download/v1.1.0-beta.42/translate-for-zotero.xpi",
           "applications": {
             "zotero": {
               "strict_min_version": "7.0.0-beta.70"
