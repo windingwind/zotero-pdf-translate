@@ -6,7 +6,7 @@ function base64(buffer: ArrayBuffer) {
 function randomString(length: number) {
   const baseLen = Math.ceil(length / 4) * 3;
   const random = crypto.getRandomValues(new Uint8Array(baseLen));
-  return base64(random).substring(0, length);
+  return base64(random as unknown as ArrayBuffer).substring(0, length);
 }
 
 function hex(buffer: ArrayBuffer) {

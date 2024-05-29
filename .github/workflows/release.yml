@@ -7,14 +7,17 @@ on:
 
 permissions:
   contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  release-it:
+  release:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GitHub_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -22,12 +25,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # cache: npm
 
       - name: Install deps
         run: npm install
 
-      - name: Release to GitHub
-        # if: github.event_name == 'push' && github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v')
+      - name: Build
         run: |
-          npm run release -- --no-increment --no-git --github.release --ci --verbose
+          npm run build
+
+      - name: Release to GitHub
+        run: |
+          npm run release
+          # cp build/update.json update.json
+          # cp build/update-beta.json update-beta.json
+          # git add update.json
+          # git add update-beta.json
+          # git commit -m 'chore(publish): synchronizing `update.json`'
+          # git push
+          sleep 1s
+
+      - name: Notify release
+        uses: apexskier/github-release-commenter@v1
+        continue-on-error: true
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          comment-template: |
+            :rocket: _This ticket has been resolved in {release_tag}. See {release_link} for release notes._

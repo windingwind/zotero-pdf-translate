@@ -279,7 +279,7 @@ export function buildReaderPopup(
                 } else {
                   annotation.comment = task.result;
                 }
-                // @ts-ignore
+                // @ts-ignore should be fixed in the zotero-types
                 reader._addToNote([annotation]);
               },
             },

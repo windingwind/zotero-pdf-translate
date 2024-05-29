@@ -7,18 +7,15 @@
     "addonID": "zoteropdftranslate@euclpts.com",
     "addonRef": "zoteropdftranslate",
     "prefsPrefix": "extensions.zotero.ZoteroPDFTranslate",
-    "addonInstance": "PDFTranslate",
-    "releasePage": "https://github.com/windingwind/zotero-pdf-translate/releases",
-    "updateJSON": "https://raw.githubusercontent.com/windingwind/zotero-pdf-translate/main/update.json"
+    "addonInstance": "PDFTranslate"
   },
   "main": "src/index.ts",
   "scripts": {
-    "start": "node scripts/server.mjs",
-    "build": "tsc --noEmit && node scripts/build.mjs production",
-    "stop": "node scripts/stop.mjs",
+    "start": "zotero-plugin serve",
+    "build": "tsc --noEmit && zotero-plugin build",
+    "release": "zotero-plugin release",
     "lint": "prettier --write . && eslint . --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "release-it --only-version --preReleaseId=beta",
     "update-deps": "npm update --save"
   },
   "repository": {
@@ -32,28 +29,29 @@
   },
   "homepage": "https://github.com/windingwind/zotero-pdf-translate#readme",
   "dependencies": {
-    "franc": "^6.1.0",
+    "franc": "^6.2.0",
     "iso639-js": "^1.1.3",
     "jsencrypt": "^3.3.2",
-    "zotero-plugin-toolkit": "^2.3.29"
+    "zotero-plugin-toolkit": "^2.3.31"
   },
   "devDependencies": {
-    "@types/node": "^20.11.4",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.1.1",
+    "@types/node": "^20.12.12",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
     "chokidar-cli": "^3.0.0",
-    "compressing": "^1.10.0",
+    "compressing": "^1.10.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.20.1",
-    "eslint": "^8.56.0",
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1",
-    "release-it": "^17.0.1",
-    "replace-in-file": "^7.0.2",
-    "typescript": "^5.3.3",
+    "lint-staged": "^15.2.5",
+    "prettier": "^3.2.5",
+    "release-it": "^17.3.0",
+    "replace-in-file": "^7.2.0",
+    "typescript": "^5.4.5",
+    "zotero-plugin-scaffold": "^0.0.24",
     "zotero-types": "^2.0.0"
   },
   "eslintConfig": {
