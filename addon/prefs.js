@@ -61,7 +61,7 @@ pref(
 );
 pref(
   "__prefsPrefix__.gemini.endPoint",
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest",
 );
 pref(
   "__prefsPrefix__.gemini.prompt",
