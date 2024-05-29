@@ -151,15 +151,19 @@ The secret format is `MY_APPID#MY_KEY#ACTION(optional, see https://api.fanyi.bai
 Apply [here](https://fanyi-api.baidu.com/product/12).  
 The secret format is `MY_APPID#MY_KEY#DOMAIN_CODE`(split with '#').
 
-| Domain Code | 领域         | 语言方向    |
-| ----------- | ------------ | ----------- |
-| electronics | 电子科技领域 | 中文-->英语 |
-| finance     | 金融财经领域 | 中文-->英语 |
-| finance     | 金融财经领域 | 英语-->中文 |
-| mechanics   | 水利机械领域 | 中文-->英语 |
-| medicine    | 生物医药领域 | 中文-->英语 |
-| medicine    | 生物医药领域 | 英语-->中文 |
-| novel       | 网络文学领域 | 中文-->英语 |
+| Domain Code | 领域         | 支持语言方向                          |
+| ----------- | ------------ | ------------------------------------- |
+| it          | 信息技术领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| finance     | 金融财经领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| machinery   | 机械制造领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| senimed     | 生物医药领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| novel       | 网络文学领域 | 中文（简）-> 英语                     |
+| academic    | 学术论文领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| aerospace   | 航空航天领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| wiki        | 人文社科领域 | 中文（简）-> 英语                     |
+| news        | 新闻资讯领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| law         | 法律法规领域 | 中文（简）-> 英语、英语 -> 中文（简） |
+| contract    | 合同领域     | 中文（简）-> 英语、英语 -> 中文（简） |
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
