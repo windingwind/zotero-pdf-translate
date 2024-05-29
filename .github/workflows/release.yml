@@ -27,7 +27,7 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm install
+        run: npm install -f
 
       - name: Build
         run: |
