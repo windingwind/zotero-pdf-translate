@@ -46,7 +46,8 @@ const geminiTranslate = async function (
 
           for (const data of dataArray) {
             if (data) {
-              result += JSON.parse(data).candidates[0].content.parts[0].text || "";
+              result +=
+                JSON.parse(data).candidates[0].content.parts[0].text || "";
             }
           }
 
