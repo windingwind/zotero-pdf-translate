@@ -153,10 +153,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
               attributes: {
                 label: getString("readerpanel-translate-button-label"),
                 tooltiptext: `(${getString("ctrl")} + T)`,
-                flex: "1",
               },
               styles: {
                 minWidth: "auto",
+                flex: "1",
               },
               listeners: [
                 {
@@ -196,8 +196,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
               tag: "menulist",
               classList: [makeClass("langfrom")],
               attributes: {
-                flex: "1",
                 native: "true",
+              },
+              styles: {
+                flex: "1",
               },
               listeners: [
                 {
@@ -257,8 +259,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
               tag: "menulist",
               classList: [makeClass("langto")],
               attributes: {
-                flex: "1",
                 native: "true",
+              },
+              styles: {
+                flex: "1",
               },
               listeners: [
                 {
@@ -560,10 +564,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
                       namespace: "xul",
                       attributes: {
                         label: getString("readerpanel-copy-raw-label"),
-                        flex: "1",
                       },
                       styles: {
                         minWidth: "auto",
+                        flex: "1",
                       },
                       listeners: [
                         {
@@ -587,10 +591,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
                       namespace: "xul",
                       attributes: {
                         label: getString("readerpanel-copy-result-label"),
-                        flex: "1",
                       },
                       styles: {
                         minWidth: "auto",
+                        flex: "1",
                       },
                       listeners: [
                         {
@@ -614,10 +618,10 @@ function onInitUI({ body }: { body: HTMLElement }) {
                       namespace: "xul",
                       attributes: {
                         label: getString("readerpanel-copy-both-label"),
-                        flex: "1",
                       },
                       styles: {
                         minWidth: "auto",
+                        flex: "1",
                       },
                       listeners: [
                         {
@@ -650,7 +654,6 @@ function onInitUI({ body }: { body: HTMLElement }) {
           namespace: "xul",
           attributes: {
             label: getString("readerpanel-openwindow-open-label"),
-            flex: "1",
           },
           styles: {
             minWidth: "auto",
