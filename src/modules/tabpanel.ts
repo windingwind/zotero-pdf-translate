@@ -9,8 +9,10 @@ import {
   putTranslateTaskAtHead,
 } from "../utils/task";
 
+let paneKey = "";
+
 export function registerReaderTabPanel() {
-  Zotero.ItemPaneManager.registerSection({
+  const key = Zotero.ItemPaneManager.registerSection({
     paneID: "translate",
     pluginID: config.addonID,
     header: {
@@ -25,7 +27,16 @@ export function registerReaderTabPanel() {
     onDestroy,
     onRender,
     onItemChange,
+    sectionButtons: [
+      {
+        type: "fullHeight",
+        icon: `chrome://${config.addonRef}/content/icons/full-16.svg`,
+        l10nID: `${config.addonRef}-itemPaneSection-fullHeight`,
+        onClick: onUpdateHeight,
+      },
+    ],
   });
+  if (key) paneKey = key;
 }
 
 async function openWindowPanel() {
@@ -71,12 +82,18 @@ function onInit({
   const paneUID = Zotero_Tabs.selectedID;
   body.dataset.paneUid = paneUID;
   addon.data.panel.activePanels[paneUID] = refresh;
+}
 
+function onInitUI({ body }: { body: HTMLElement }) {
+  if (body.dataset.rendered) return;
+  body.dataset.rendered = "true";
+  const paneUID = body.dataset.paneUid;
   const makeClass = (type: string) => `${paneUID}-${type}`;
 
   body.style.display = "flex";
   body.style.flexDirection = "column";
   body.style.gap = "6px";
+  body.style.setProperty("height", "var(--details-height, 450px)");
 
   ztoolkit.UI.appendElement(
     {
@@ -283,7 +300,7 @@ function onInit({
           },
           styles: {
             minHeight: "100px",
-            maxHeight: "calc((100vh - 100px) / 2)",
+            flex: "1",
           },
           listeners: [
             {
@@ -322,7 +339,7 @@ function onInit({
           },
           styles: {
             minHeight: "100px",
-            maxHeight: "calc((100vh - 100px) / 2)",
+            flex: "1",
           },
           listeners: [
             {
@@ -648,6 +665,7 @@ function onInit({
           ],
         },
       ],
+      enableElementRecord: false,
     },
     body,
   );
@@ -899,6 +917,9 @@ function onRender({
   body,
   item,
 }: _ZoteroTypes.ItemPaneManager.SectionHookArgs) {
+  onInitUI({ body });
+  onUpdateHeight({ body });
+
   const makeClass = (type: string) => `${body.dataset.paneUid}-${type}`;
   const updateHidden = (type: string, pref: string) => {
     const elem = body.querySelector(`.${makeClass(type)}`) as XUL.Box;
@@ -964,4 +985,17 @@ function onDestroy(options: any) {
   const { body } = options;
   const paneUID = body.dataset.paneUid;
   delete addon.data.panel.activePanels[paneUID];
+}
+
+function onUpdateHeight({ body }: { body: HTMLElement }) {
+  const details = body.closest("item-details");
+  const head = body.closest("item-pane-custom-section")?.querySelector(".head");
+  const heightKey = "--details-height";
+
+  body?.style.setProperty(
+    heightKey,
+    `${details!.querySelector(".zotero-view-item")!.clientHeight - head!.clientHeight - 8}px`,
+  );
+  // @ts-ignore
+  details.scrollToPane(paneKey);
 }
