@@ -44,7 +44,12 @@ service-collinsdict=Collins Dict(en↔zh)🔊
 service-youdaodict=Haici Dict(en↔zh)
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
-service-errorPrefix=[Errore nella richiesta]\n\nMotore di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.\nSi prega di usare un altro motore di traduzione o di segnalare il problema qui: \n https://github.com/windingwind/zotero-pdf-translate/issues \n\nIl messaggio seguente non è di Zotero o dell'estensione PDF Translate ma proviene da
+service-errorPrefix=[Errore nella richiesta]
+    Motore di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
+    Si prega di usare un altro motore di traduzione o di segnalare il problema qui: 
+    https://github.com/windingwind/zotero-pdf-translate/issues
+    
+    Il messaggio seguente non è di Zotero o dell'estensione PDF Translate ma proviene da
 
 service-niutranspro-secret-pass=Ancora...
 service-niutranspro-secret-fail=Login

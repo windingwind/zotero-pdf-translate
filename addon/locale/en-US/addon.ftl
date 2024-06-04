@@ -45,7 +45,12 @@ service-collinsdict=Collins Dict(en↔zh)🔊
 service-youdaodict=Haici Dict(en↔zh)
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
-service-errorPrefix=[Request Error]\n\nEngine not available, invalid secret, or request too fast.\nUse another translation engine or post the issue here: \n https://github.com/windingwind/zotero-pdf-translate/issues \n\nThe message below is not Zotero or the PDF Translate addon, but from
+service-errorPrefix=[Request Error]
+    Engine not available, invalid secret, or request too fast.
+    Use another translation engine or post the issue here: 
+    https://github.com/windingwind/zotero-pdf-translate/issues
+    
+    The message below is not Zotero or the PDF Translate addon, but from
 
 service-niutranspro-secret-pass=More...
 service-niutranspro-secret-fail=Login
