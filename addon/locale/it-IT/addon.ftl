@@ -54,6 +54,7 @@ service-errorPrefix=[Errore nella richiesta]
 service-niutranspro-secret-pass=Ancora...
 service-niutranspro-secret-fail=Login
 service-niutranspro-dialog-title=NiuTrans Account
+service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
 service-niutranspro-dialog-password=Password
 service-niutranspro-dialog-signup=Registrati

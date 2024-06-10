@@ -54,6 +54,7 @@ service-errorPrefix=[请求错误]
 service-niutranspro-secret-pass=更多...
 service-niutranspro-secret-fail=登录
 service-niutranspro-dialog-title=小牛翻译账户
+service-niutranspro-dialog-endpoint=接口
 service-niutranspro-dialog-username=用户名
 service-niutranspro-dialog-password=密码
 service-niutranspro-dialog-signup=注册

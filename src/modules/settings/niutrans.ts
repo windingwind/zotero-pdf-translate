@@ -10,6 +10,7 @@ export async function niutransStatusCallback(status: boolean) {
   const memoryLibListObj = JSON.parse(memoryLibList);
   const signInOrRefresh = status ? "refresh" : "signin";
   const dialogData: { [key: string | number]: any } = {
+    endpoint: getPref("niutransEndpoint"),
     username: getPref("niutransUsername"),
     password: getPref("niutransPassword"),
     dictLibList,
@@ -17,6 +18,7 @@ export async function niutransStatusCallback(status: boolean) {
     dictNo: getPref("niutransDictNo"),
     memoryNo: getPref("niutransMemoryNo"),
     beforeUnloadCallback: () => {
+      setPref("niutransEndpoint", dialog.dialogData.endpoint);
       setPref("niutransUsername", dialog.dialogData.username);
       setPref("niutransPassword", dialog.dialogData.password);
       setPref("niutransDictLibList", dialog.dialogData.dictLibList);
@@ -25,7 +27,7 @@ export async function niutransStatusCallback(status: boolean) {
       setPref("niutransMemoryNo", dialog.dialogData.memoryNo);
     },
   };
-  const dialog = new ztoolkit.Dialog(5, 3)
+  const dialog = new ztoolkit.Dialog(6, 3)
     .setDialogData(dialogData)
     .addCell(
       0,
@@ -167,7 +169,30 @@ export async function niutransStatusCallback(status: boolean) {
       },
       false,
     )
-    .addCell(4, 0, {
+    .addCell(
+      4,
+      0,
+      {
+        tag: "label",
+        namespace: "html",
+        attributes: {
+          for: "endpoint",
+        },
+        properties: {
+          innerHTML: getString("service-niutranspro-dialog-endpoint"),
+        },
+      },
+      false,
+    )
+    .addCell(4, 1, {
+      tag: "input",
+      id: "endpoint",
+      attributes: {
+        "data-bind": "endpoint",
+        "data-prop": "value",
+      },
+    })
+    .addCell(5, 0, {
       tag: "div",
       styles: {
         width: "200px",
@@ -198,8 +223,8 @@ export async function niutransStatusCallback(status: boolean) {
       getString(`service-niutranspro-dialog-${signInOrRefresh}`),
       "signin",
     )
-    .addCell(4, 1, { tag: "fragment" }, false)
-    .addCell(4, 2, { tag: "fragment" }, false);
+    .addCell(5, 1, { tag: "fragment" }, false)
+    .addCell(5, 2, { tag: "fragment" }, false);
 
   if (status) {
     dialog.addButton(

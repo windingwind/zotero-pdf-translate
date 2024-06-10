@@ -29,6 +29,7 @@ pref("__prefsPrefix__.keepWindowTop", false);
 pref("__prefsPrefix__.keepPopupSize", false);
 pref("__prefsPrefix__.popupWidth", 105);
 pref("__prefsPrefix__.popupHeight", 30);
+pref("__prefsPrefix__.niutransEndpoint", "https://niutrans.com/niuInterface");
 pref("__prefsPrefix__.niutransUsername", "");
 pref("__prefsPrefix__.niutransPassword", "");
 pref("__prefsPrefix__.niutransDictNo", "");
