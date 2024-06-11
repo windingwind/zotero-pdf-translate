@@ -137,6 +137,10 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
+**Huoshan**
+Apply [here](https://www.volcengine.com/docs/4640/65067)
+The secret format is `accessKeyId#accessKeySecret`
+
 **Aliyun Translate**
 Apply [here](https://www.aliyun.com/product/ai/base_alimt).
 The secret format is `accessKeyId#accessKeySecret`.
