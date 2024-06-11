@@ -12,8 +12,6 @@ declare const _globalThis: {
   addon: typeof addon;
 };
 
-declare module "crypto-js";
-
 declare type ZToolkit = ReturnType<
   typeof import("../src/utils/ztoolkit").createZToolkit
 >;

@@ -1,5 +1,5 @@
+import { hex, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
 import { TranslateTaskProcessor } from "../../utils/task";
-import CryptoJS from "crypto-js";
 
 export default <TranslateTaskProcessor>async function (data) {
   const params = data.secret.split("#");
@@ -10,11 +10,11 @@ export default <TranslateTaskProcessor>async function (data) {
     const now = new Date();
     return now.toISOString().replace(/[:-]|\.\d{3}/g, "");
   }
-  function getSigningKey(sk: any, metaData: any) {
-    const kDate = CryptoJS.HmacSHA256(metaData.date, sk);
-    const kRegion = CryptoJS.HmacSHA256(metaData.region, kDate);
-    const kService = CryptoJS.HmacSHA256(metaData.service, kRegion);
-    return CryptoJS.HmacSHA256("request", kService);
+  async function getSigningKey(sk: any, metaData: any) {
+    const kDate = await hmacSha256Digest(metaData.date, sk);
+    const kRegion = await hmacSha256Digest(metaData.region, kDate);
+    const kService = await hmacSha256Digest(metaData.service, kRegion);
+    return await hmacSha256Digest("request", kService);
   }
 
   function getStringHeaders(header: any) {
@@ -52,9 +52,7 @@ export default <TranslateTaskProcessor>async function (data) {
     TextList: [data.raw],
   };
 
-  const XContentSha256 = CryptoJS.SHA256(JSON.stringify(requestBody)).toString(
-    CryptoJS.enc.Hex,
-  );
+  const XContentSha256 = hex(await sha256Digest(JSON.stringify(requestBody)));
 
   const header: any = {
     "Content-Type": "application/json",
@@ -71,10 +69,7 @@ export default <TranslateTaskProcessor>async function (data) {
     header["X-Content-Sha256"],
   ].join("\n");
 
-  // console.log(canonicalRequest)
-  const hashCanonicalRequest = CryptoJS.SHA256(canonicalRequest).toString(
-    CryptoJS.enc.Hex,
-  );
+  const hashCanonicalRequest = hex(await sha256Digest(canonicalRequest));
 
   const signingStr = [
     requestObj.algorithm,
@@ -82,12 +77,9 @@ export default <TranslateTaskProcessor>async function (data) {
     `${currTime}/${requestObj.region}/${requestObj.service}/request`,
     hashCanonicalRequest,
   ].join("\n");
-  // console.log(signingStr)
 
-  const signingKey = getSigningKey(sk, requestObj);
-  const sign = CryptoJS.HmacSHA256(signingStr, signingKey).toString(
-    CryptoJS.enc.Hex,
-  );
+  const signingKey = await getSigningKey(sk, requestObj);
+  const sign = hex(await hmacSha256Digest(signingStr, signingKey));
 
   const authorization = [
     `${requestObj.algorithm} Credential=${ak}/${currTime}/${requestObj.region}/${requestObj.service}/request`,
@@ -96,8 +88,6 @@ export default <TranslateTaskProcessor>async function (data) {
   ].join(", ");
 
   header["Authorization"] = authorization;
-
-  // // let tgt = "翻译失败";
 
   const xhr = await Zotero.HTTP.request(
     "POST",
@@ -112,6 +102,5 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   const { TranslationList } = JSON.parse(xhr.response);
-  // data.result = xhr.response;
   data.result = TranslationList[0].Translation;
 };
