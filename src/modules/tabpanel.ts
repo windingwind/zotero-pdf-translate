@@ -32,7 +32,12 @@ export function registerReaderTabPanel() {
         type: "fullHeight",
         icon: `chrome://${config.addonRef}/content/icons/full-16.svg`,
         l10nID: `${config.addonRef}-itemPaneSection-fullHeight`,
-        onClick: onUpdateHeight,
+        onClick: ({ body }: { body: HTMLElement }) => {
+          const details = body.closest("item-details");
+          onUpdateHeight({ body });
+          // @ts-ignore
+          details.scrollToPane(paneKey);
+        },
       },
     ],
   });
@@ -999,6 +1004,4 @@ function onUpdateHeight({ body }: { body: HTMLElement }) {
     heightKey,
     `${details!.querySelector(".zotero-view-item")!.clientHeight - head!.clientHeight - 8}px`,
   );
-  // @ts-ignore
-  details.scrollToPane(paneKey);
 }
