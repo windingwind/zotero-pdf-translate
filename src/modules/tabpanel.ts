@@ -1,4 +1,4 @@
-import { getString } from "../utils/locale";
+import { getLocaleID, getString } from "../utils/locale";
 import { config } from "../../package.json";
 import { LANG_CODE, SERVICES } from "../utils/config";
 import { getPref, setPref } from "../utils/prefs";
@@ -16,11 +16,11 @@ export function registerReaderTabPanel() {
     paneID: "translate",
     pluginID: config.addonID,
     header: {
-      l10nID: `${config.addonRef}-itemPaneSection-header`,
+      l10nID: getLocaleID("itemPaneSection-header"),
       icon: `chrome://${config.addonRef}/content/icons/section-16.svg`,
     },
     sidenav: {
-      l10nID: `${config.addonRef}-itemPaneSection-sidenav`,
+      l10nID: getLocaleID("itemPaneSection-sidenav"),
       icon: `chrome://${config.addonRef}/content/icons/section-20.svg`,
     },
     onInit,
@@ -31,7 +31,7 @@ export function registerReaderTabPanel() {
       {
         type: "fullHeight",
         icon: `chrome://${config.addonRef}/content/icons/full-16.svg`,
-        l10nID: `${config.addonRef}-itemPaneSection-fullHeight`,
+        l10nID: getLocaleID("itemPaneSection-fullHeight"),
         onClick: ({ body }: { body: HTMLElement }) => {
           const details = body.closest("item-details");
           onUpdateHeight({ body });
