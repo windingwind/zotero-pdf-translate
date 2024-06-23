@@ -3,6 +3,7 @@ import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
 import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 
+
 export const secretStatusButtonData: {
   [key: string]: {
     labels: { [_k in "pass" | "fail"]: string };
