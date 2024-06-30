@@ -1,6 +1,7 @@
 import { getPref, setPref } from "./prefs";
 import { getString } from "./locale";
 import { updateGPTModel } from "../modules/services/gpt";
+import { authGPT } from "../modules/services/gpt";
 
 export async function gptStatusCallback(status: boolean) {
   const selectedModel = getPref("gptModel");
@@ -13,29 +14,9 @@ export async function gptStatusCallback(status: boolean) {
       const doc = dialog.window.document;
 
       try {
-        const models = await updateGPTModel();
-        // Due to an unknown bug with Zotero 7, the `<select>` element cannot be properly rendered.
-        // Toolkit uses a workaround to render the element, so please do not touch the original element and just replace its inner `<option>` elements.
-        // See https://groups.google.com/g/zotero-dev/c/iG763ZlWQ_U
-        const modelsSelect = doc.querySelector("#gptModels")!;
-        modelsSelect.innerHTML = "";
-        ztoolkit.UI.appendElement(
-          {
-            tag: "fragment",
-            children: models.map((model: string) => ({
-              tag: "option",
-              properties: {
-                value: model,
-                innerHTML: model,
-                selected: model === selectedModel,
-              },
-            })),
-          },
-          modelsSelect
-        );
-
+        await authGPT();
         doc.querySelector("#gptStatus")!.innerHTML = getString(
-          "service.gpt.dialog.status.available"
+          "service.gpt.dialog.status.valid"
         );
       } catch (error: any) {
         const HTTP = Zotero.HTTP;
