@@ -270,6 +270,24 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     },
   },
   {
+    type: "sentence",
+    id: "deepseek",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const status = secret.length === 51 && /^sk-/.test(secret);
+      const empty = secret.length === 0;
+      return {
+        secret,
+        status,
+        info: empty
+          ? "The secret is not set."
+          : status
+          ? "Click the button to check connectivity."
+          : "Ths secret key format is invalid.",
+      };
+    },
+  },
+  {
     type: "word",
     id: "bingdict",
   },

@@ -70,6 +70,9 @@ export class TranslationServices {
     import("./services/gpt").then(
       (e) => (this.gpt = new TranslateTaskRunner(e.gptTranslate))
     );
+    import("./services/deepseek").then(
+      (e) => (this.deepseek = new TranslateTaskRunner(e.deepseekTranslate))
+    );
     import("./services/youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default))
     );

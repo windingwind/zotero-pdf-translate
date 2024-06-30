@@ -89,6 +89,23 @@ export async function gptStatusCallback(status: boolean) {
               type: "string",
             },
           },
+          // {
+          //   tag: "select",
+          //   id: "gptModels",
+          //   attributes: {
+          //     "data-bind": "models",
+          //     "data-prop": "value",
+          //   },
+          //   children: [
+          //     {
+          //       tag: "option",
+          //       properties: {
+          //         value: selectedModel,
+          //         innerHTML: selectedModel,
+          //       },
+          //     },
+          //   ],
+          // },
           {
             tag: "label",
             namespace: "html",
