@@ -3,6 +3,7 @@ import { getString } from "./locale";
 import { getPref } from "./prefs";
 import { getServiceSecret } from "./secret";
 import { config } from "../../package.json";
+import Addon from "../addon";
 
 export interface TranslateTask {
   /**
@@ -94,6 +95,8 @@ export class TranslateTaskRunner {
   }
 
   public async run(data: TranslateTask) {
+    const addon = Zotero[config.addonInstance] as Addon;
+    const ztoolkit = addon.data.ztoolkit;
     if (!data.langfrom || !data.langto) {
       ztoolkit.log("try auto detect language");
       const { fromLanguage, toLanguage } = autoDetectLanguage(
@@ -133,6 +136,7 @@ export function addTranslateTask(
   if (!raw) {
     return;
   }
+  const addon = Zotero[config.addonInstance] as Addon;
   type = type || "text";
   // Filter raw string
   // eslint-disable-next-line no-control-regex
@@ -228,6 +232,8 @@ export function addTranslateTitleTask(
   itemId: number,
   skipIfExists: boolean = false,
 ) {
+  const addon = Zotero[config.addonInstance] as Addon;
+  const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
   if (
     item?.isRegularItem() &&
@@ -244,6 +250,8 @@ export function addTranslateAbstractTask(
   itemId: number,
   skipIfExists: boolean = false,
 ) {
+  const addon = Zotero[config.addonInstance] as Addon;
+  const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
   if (
     item?.isRegularItem() &&
@@ -277,6 +285,8 @@ function setDefaultService(task: TranslateTask) {
 }
 
 function cleanTasks() {
+  const addon = Zotero[config.addonInstance] as Addon;
+
   if (
     addon.data.translate.queue.length > addon.data.translate.maximumQueueLength
   ) {
@@ -288,14 +298,16 @@ function cleanTasks() {
 }
 
 export function getTranslateTasks(count: number) {
-  return addon.data.translate.queue.slice(-count);
+  return (Zotero[config.addonInstance] as Addon).data.translate.queue.slice(
+    -count,
+  );
 }
 
 export function getLastTranslateTask<
   K extends keyof TranslateTask,
   V extends TranslateTask[K],
 >(conditions?: { [key in K]: V }) {
-  const queue = addon.data.translate.queue;
+  const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
   let i = queue.length - 1;
   while (i >= 0) {
     const currentTask = queue[i];
@@ -313,7 +325,7 @@ export function getLastTranslateTask<
 }
 
 export function putTranslateTaskAtHead(taskId: string) {
-  const queue = addon.data.translate.queue;
+  const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
   const idx = queue.findIndex((task) => task.id === taskId);
   if (idx >= 0) {
     const targetTask = queue.splice(idx, 1)[0];
@@ -323,7 +335,15 @@ export function putTranslateTaskAtHead(taskId: string) {
   return false;
 }
 
-export function autoDetectLanguage(item: Zotero.Item) {
+export function autoDetectLanguage(item: Zotero.Item | null) {
+  if (!item) {
+    return {
+      fromLanguage: getPref("sourceLanguage") as string,
+      toLanguage: getPref("targetLanguage") as string,
+    };
+  }
+  const addon = Zotero[config.addonInstance] as Addon;
+  const ztoolkit = addon.data.ztoolkit;
   const topItem = Zotero.Items.getTopLevel([item])[0];
   const fromLanguage = getPref("sourceLanguage") as string;
   const toLanguage = getPref("targetLanguage") as string;

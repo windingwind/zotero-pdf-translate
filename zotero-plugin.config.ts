@@ -38,6 +38,12 @@ export default defineConfig({
         target: "firefox115",
         outfile: `build/addon/chrome/content/scripts/${pkg.config.addonRef}.js`,
       },
+      {
+        entryPoints: ["src/extras/*.*"],
+        outdir: "build/addon/chrome/content/scripts",
+        bundle: true,
+        target: "firefox115",
+      },
     ],
     // If you want to checkout update.json into the repository, uncomment the following lines:
     // makeUpdateJson: {

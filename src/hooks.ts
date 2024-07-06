@@ -71,6 +71,12 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
   ]);
+
+  Services.scriptloader.loadSubScript(
+    `chrome://${config.addonRef}/content/scripts/customElements.js`,
+    win,
+  );
+
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
 

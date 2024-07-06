@@ -1,0 +1,22 @@
+window {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+
+translator-plugin-panel {
+  width: 100%;
+}
+
+#extra-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#extra-container textarea {
+  resize: none;
+  font-family: inherit;
+  width: 100%;
+}

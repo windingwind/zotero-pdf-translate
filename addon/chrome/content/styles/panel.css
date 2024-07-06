@@ -1,0 +1,55 @@
+translator-plugin-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: var(--details-height, 450px);
+}
+
+translator-plugin-panel .separator {
+  border-top: var(--material-border);
+}
+
+translator-plugin-panel #__addonRef__-translate {
+  flex: 1;
+  min-width: auto;
+}
+
+translator-plugin-panel .lang-menulist {
+  flex: 1;
+}
+
+translator-plugin-panel editable-text {
+  flex: 1;
+  min-height: 100px;
+}
+
+translator-plugin-panel .options-container {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 8px;
+  row-gap: 2px;
+  width: inherit;
+}
+
+translator-plugin-panel .options-grid {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 2;
+}
+
+translator-plugin-panel .options-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--fill-secondary);
+}
+
+translator-plugin-panel .options-content {
+  display: flex;
+  flex-direction: row;
+}
+
+translator-plugin-panel #__addonRef__-copy-container button {
+  min-width: auto;
+  flex: 1;
+}

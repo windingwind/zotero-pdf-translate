@@ -1,19 +1,5 @@
-readerpanel-label=Translate
-readerpanel-translate-button-label=Translate
-readerpanel-auto-description-label=Auto-Trans: 
-readerpanel-auto-selection-label=Selection
-readerpanel-auto-annotation-label=Annotation
-readerpanel-concat-description-label=Selection: 
-readerpanel-concat-enable-label=Concat Mode
-readerpanel-concat-clear-label=Clear
-readerpanel-copy-description-label=Copy: 
-readerpanel-copy-raw-label=Raw
-readerpanel-copy-result-label=Result
-readerpanel-copy-both-label=Both
-readerpanel-openwindow-open-label=Open Standalone Panel
 readerpanel-extra-addservice-label=Add Result Source
 readerpanel-extra-removeservice-label=Remove
-readerpanel-extra-resize-label=Reset Width
 readerpanel-extra-pin-label=📌Pin
 readerpanel-extra-pinned-label=📍Unpin
 

@@ -1,19 +1,5 @@
-readerpanel-label=翻译
-readerpanel-translate-button-label=翻译
-readerpanel-auto-description-label=自动翻译: 
-readerpanel-auto-selection-label=选择内容
-readerpanel-auto-annotation-label=批注
-readerpanel-concat-description-label=选择内容: 
-readerpanel-concat-enable-label=拼接模式
-readerpanel-concat-clear-label=清空
-readerpanel-copy-description-label=复制: 
-readerpanel-copy-raw-label=源文本
-readerpanel-copy-result-label=结果
-readerpanel-copy-both-label=两者
-readerpanel-openwindow-open-label=打开独立窗口
 readerpanel-extra-addservice-label=添加结果来源
 readerpanel-extra-removeservice-label=移除
-readerpanel-extra-resize-label=重置宽度
 readerpanel-extra-pin-label=📌置顶
 readerpanel-extra-pinned-label=📍取消置顶
 
