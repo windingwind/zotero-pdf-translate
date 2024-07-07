@@ -206,6 +206,9 @@ export class TranslatorPanel extends PluginCEBase {
       if (task) {
         task.raw = "";
         task.result = "";
+        task.extraTasks.forEach((t) => {
+          t.result = "";
+        });
         this._addon.hooks.onReaderTabPanelRefresh();
       }
     });
