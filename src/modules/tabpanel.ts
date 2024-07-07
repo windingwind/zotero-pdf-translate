@@ -126,16 +126,16 @@ function buildExtraPanel(doc: Document) {
   ztoolkit.UI.appendElement(
     {
       tag: "vbox",
-      attributes: {
-        flex: "1",
-        align: "stretch",
+      styles: {
+        flexShrink: "1",
+        flexGrow: "1",
       },
       children: extraEngines.map((serviceId, idx) => {
         return {
           tag: "vbox",
-          attributes: {
-            flex: "1",
-            align: "stretch",
+          styles: {
+            flexShrink: "1",
+            flexGrow: "1",
           },
           children: [
             {
@@ -149,7 +149,6 @@ function buildExtraPanel(doc: Document) {
                 {
                   tag: "menulist",
                   attributes: {
-                    flex: "1",
                     value: serviceId,
                     native: "true",
                   },
@@ -198,9 +197,6 @@ function buildExtraPanel(doc: Document) {
                   attributes: {
                     "data-l10n-id": getLocaleID("remove-source"),
                   },
-                  styles: {
-                    minWidth: "0px",
-                  },
                   listeners: [
                     {
                       type: "click",
@@ -228,7 +224,6 @@ function buildExtraPanel(doc: Document) {
               tag: "editable-text",
               namespace: "xul",
               attributes: {
-                flex: "1",
                 multiline: "true",
               },
               styles: {

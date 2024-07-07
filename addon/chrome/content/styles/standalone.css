@@ -15,10 +15,6 @@ linkset {
 
 translator-plugin-panel {
   width: 100%;
-  --details-height: auto;
-}
-
-#panel-container {
   flex-grow: 1;
 }
 
@@ -39,4 +35,7 @@ translator-plugin-panel {
 
 #extra-container editable-text {
   min-height: 60px;
+  height: 100px;
+  flex-shrink: 1;
+  flex-grow: 1;
 }
