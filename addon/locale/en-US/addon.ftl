@@ -1,4 +1,4 @@
-readerpanel-extra-addservice-label=Add Result Source
+readerpanel-extra-addservice-label=Add Source
 readerpanel-extra-removeservice-label=Remove
 readerpanel-extra-pin-label=📌Pin
 readerpanel-extra-pinned-label=📍Unpin
