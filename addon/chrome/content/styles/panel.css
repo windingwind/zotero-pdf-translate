@@ -5,6 +5,10 @@ translator-plugin-panel {
   height: var(--details-height, 450px);
 }
 
+translator-plugin-panel linkset {
+  display: none;
+}
+
 translator-plugin-panel .separator {
   border-top: var(--material-border);
 }

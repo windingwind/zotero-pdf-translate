@@ -277,20 +277,16 @@ function buildExtraPanel(panel: XUL.Box) {
               ],
             },
             {
-              tag: "hbox",
+              tag: "editable-text",
+              namespace: "xul",
               attributes: {
                 flex: "1",
-                spellcheck: false,
+                multiline: "true",
               },
-              children: [
-                {
-                  tag: "textarea",
-                  styles: {
-                    fontSize: `${getPref("fontSize")}px`,
-                    lineHeight: getPref("lineHeight") as string,
-                  },
-                },
-              ],
+              styles: {
+                fontSize: `${getPref("fontSize")}px`,
+                lineHeight: getPref("lineHeight") as string,
+              },
             },
           ],
         };
@@ -329,7 +325,7 @@ function updateExtraPanel(container: HTMLElement | Document) {
   }
   extraTasks?.forEach((task) => {
     Array.from(
-      container.querySelectorAll(`.${task.service}+hbox>textarea`),
+      container.querySelectorAll(`.${task.service}+editable-text`),
     ).forEach((elem) => ((elem as HTMLTextAreaElement).value = task.result));
   });
 }

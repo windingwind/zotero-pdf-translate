@@ -5,18 +5,26 @@ window {
   padding: 20px;
 }
 
+linkset {
+  display: none;
+}
+
 translator-plugin-panel {
   width: 100%;
+  --details-height: auto;
+}
+
+#panel-container {
+  flex-grow: 1;
 }
 
 #extra-container {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 8px;
 }
 
-#extra-container textarea {
-  resize: none;
-  font-family: inherit;
-  width: 100%;
+#extra-container editable-text {
+  min-height: 60px;
 }
