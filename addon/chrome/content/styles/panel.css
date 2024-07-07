@@ -13,6 +13,15 @@ translator-plugin-panel .separator {
   border-top: var(--material-border);
 }
 
+translator-plugin-panel .icon-button {
+  width: 24px;
+  height: 24px;
+  fill: var(--fill-secondary);
+  stroke: var(--fill-secondary);
+  -moz-context-properties: fill, fill-opacity, stroke, stroke-opacity;
+  list-style-image: url(chrome://__addonRef__/content/icons/swap.svg);
+}
+
 translator-plugin-panel #__addonRef__-translate {
   flex: 1;
   min-width: auto;

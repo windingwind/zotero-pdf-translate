@@ -52,11 +52,7 @@ export class TranslatorPanel extends PluginCEBase {
       ${LANG_CODE.map((lang) => `<menuitem label="${lang.name}" value="${lang.code}" />`).join("\n")}
     </menupopup>
   </menulist>
-  <toolbarbutton
-    id="swap-language"
-    style="width: 24px; height: 24px; fill: var(--fill-secondary); stroke: var(--fill-secondary); -moz-context-properties: fill,fill-opacity,stroke,stroke-opacity; list-style-image: url(chrome://${config.addonRef}/content/icons/swap.svg)"
-    data-l10n-id="swapLanguage"
-  />
+  <toolbarbutton id="swap-language" class="icon-button" data-l10n-id="swapLanguage" />
   <menulist id="langto" class="lang-menulist" native="true">
     <menupopup>
       ${LANG_CODE.map((lang) => `<menuitem label="${lang.name}" value="${lang.code}" />`).join("\n")}
