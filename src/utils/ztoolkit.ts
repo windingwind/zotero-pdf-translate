@@ -35,7 +35,6 @@ import {
 } from "zotero-plugin-toolkit/dist/basic";
 import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
 import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
-import { ReaderTabPanelManager } from "zotero-plugin-toolkit/dist/managers/readerTabPanel";
 import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
@@ -51,7 +50,6 @@ export class MyToolkit extends BasicTool {
   Menu: MenuManager;
   ItemBox: ItemBoxManager;
   Prompt: PromptManager;
-  ReaderTabPanel: ReaderTabPanelManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   Clipboard: typeof ClipboardHelper;
@@ -63,7 +61,6 @@ export class MyToolkit extends BasicTool {
     this.Keyboard = new KeyboardManager(this);
     this.Menu = new MenuManager(this);
     this.ItemBox = new ItemBoxManager(this);
-    this.ReaderTabPanel = new ReaderTabPanelManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);
