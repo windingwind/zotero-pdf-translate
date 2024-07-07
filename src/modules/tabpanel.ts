@@ -73,7 +73,7 @@ async function openWindowPanel() {
     dialogData,
   );
   await dialogData.loadLock.promise;
-  buildExtraPanel(win.document.querySelector("#extra-container") as XUL.Box);
+  buildExtraPanel(win.document);
   updateExtraPanel(win.document);
   addon.data.panel.windowPanel = win;
 }
@@ -97,67 +97,24 @@ function onInit({
   addon.data.panel.activePanels[paneUID] = refresh;
 }
 
-function buildExtraPanel(panel: XUL.Box) {
-  ztoolkit.UI.appendElement(
-    {
-      tag: "hbox",
-      id: "extraTools",
-      attributes: {
-        align: "center",
-      },
-      ignoreIfExists: true,
-      children: [
-        {
-          tag: "button",
-          namespace: "xul",
-          attributes: {
-            label: getString("readerpanel-extra-addservice-label"),
-            flex: "1",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (ev: Event) => {
-                const extraServices = getPref("extraEngines");
-                setPref(
-                  "extraEngines",
-                  extraServices
-                    ? `${extraServices},${SERVICES[0].id}`
-                    : SERVICES[0].id,
-                );
-                openWindowPanel();
-              },
-            },
-          ],
-        },
-        {
-          tag: "button",
-          namespace: "xul",
-          attributes: {
-            label: getString(
-              `readerpanel-extra-${
-                getPref("keepWindowTop") ? "pinned" : "pin"
-              }-label`,
-            ),
-            flex: "1",
-          },
-          styles: {
-            minWidth: "0px",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (ev: Event) => {
-                setPref("keepWindowTop", !getPref("keepWindowTop"));
-                openWindowPanel();
-              },
-            },
-          ],
-        },
-      ],
-    },
-    panel,
-  );
+function buildExtraPanel(doc: Document) {
+  doc.querySelector("#add-source")?.addEventListener("click", () => {
+    const extraServices = getPref("extraEngines");
+    setPref(
+      "extraEngines",
+      extraServices ? `${extraServices},${SERVICES[0].id}` : SERVICES[0].id,
+    );
+    openWindowPanel();
+  });
+  const pinButton = doc.querySelector("#pin-window") as XUL.Button;
+  pinButton?.addEventListener("click", () => {
+    setPref("keepWindowTop", !getPref("keepWindowTop"));
+    openWindowPanel();
+  });
+  pinButton.dataset.l10nArgs = JSON.stringify({
+    mode: getPref("keepWindowTop") ? "pinned" : "unpinned",
+  });
+
   const extraEngines = (getPref("extraEngines") as string)
     .split(",")
     .filter((thisServiceId) =>
@@ -166,15 +123,6 @@ function buildExtraPanel(panel: XUL.Box) {
   if (!extraEngines.length) {
     return;
   }
-  ztoolkit.UI.appendElement(
-    {
-      tag: "div",
-      styles: {
-        borderTop: "var(--material-border)",
-      },
-    },
-    panel,
-  );
   ztoolkit.UI.appendElement(
     {
       tag: "vbox",
@@ -248,7 +196,7 @@ function buildExtraPanel(panel: XUL.Box) {
                   tag: "button",
                   namespace: "xul",
                   attributes: {
-                    label: getString("readerpanel-extra-removeservice-label"),
+                    "data-l10n-id": getLocaleID("remove-source"),
                   },
                   styles: {
                     minWidth: "0px",
@@ -292,7 +240,7 @@ function buildExtraPanel(panel: XUL.Box) {
         };
       }),
     },
-    panel,
+    doc.querySelector("#extra-container")!,
   );
 }
 

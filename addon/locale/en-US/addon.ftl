@@ -1,8 +1,3 @@
-readerpanel-extra-addservice-label=Add Source
-readerpanel-extra-removeservice-label=Remove
-readerpanel-extra-pin-label=📌Pin
-readerpanel-extra-pinned-label=📍Unpin
-
 service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google

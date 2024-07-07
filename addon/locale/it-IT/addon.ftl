@@ -1,8 +1,3 @@
-readerpanel-extra-addservice-label=Aggiungi servizio di traduzione
-readerpanel-extra-removeservice-label=Rimuovi
-readerpanel-extra-pin-label=📌Fissa
-readerpanel-extra-pinned-label=📍Sblocca
-
 service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google

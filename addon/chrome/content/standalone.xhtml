@@ -25,6 +25,7 @@
     <html:link rel="localization" href="browser/browserSets.ftl" />
     <html:link rel="localization" href="toolkit/global/textActions.ftl" />
     <html:link rel="localization" href="zotero.ftl" />
+    <html:link rel="localization" href="__addonRef__-standalone.ftl" />
   </xul:linkset>
 
   <xul:commandset id="mainCommandSet">
@@ -46,5 +47,10 @@
   <hbox id="panel-container">
     <translator-plugin-panel id="__addonRef__-panel" />
   </hbox>
+  <hbox id="extra-buttons" align="center">
+    <button id="add-source" data-l10n-id="add-source" />
+    <button id="pin-window" data-l10n-id="pin-window" />
+  </hbox>
+  <html:div class="separator"></html:div>
   <vbox id="extra-container"></vbox>
 </window>

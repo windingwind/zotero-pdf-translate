@@ -1,8 +1,3 @@
-readerpanel-extra-addservice-label=添加来源
-readerpanel-extra-removeservice-label=移除
-readerpanel-extra-pin-label=📌置顶
-readerpanel-extra-pinned-label=📍取消置顶
-
 service-huoshan=火山翻译🗝️
 service-googleapi=Google(API)
 service-google=Google
