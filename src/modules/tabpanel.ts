@@ -92,7 +92,7 @@ function onInit({
   body,
   refresh,
 }: _ZoteroTypes.ItemPaneManager.SectionInitHookArgs) {
-  const paneUID = Zotero_Tabs.selectedID;
+  const paneUID = Zotero.Utilities.randomString(8);
   body.dataset.paneUid = paneUID;
   addon.data.panel.activePanels[paneUID] = refresh;
 }
