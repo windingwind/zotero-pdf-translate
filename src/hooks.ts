@@ -51,6 +51,9 @@ async function onStartup() {
   registerShortcuts();
 
   registerNotify(["item"]);
+
+  registerPrefsWindow();
+
   await onMainWindowLoad(window);
 }
 
@@ -85,7 +88,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   );
 
   registerReaderTabPanel();
-  registerPrefsWindow();
   registerMenu();
   await registerExtraColumns();
   await registerItemBoxExtraRows();
