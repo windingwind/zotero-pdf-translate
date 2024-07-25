@@ -55,10 +55,13 @@ export default <TranslateTaskProcessor>async function (data) {
     let translatedText = '';
     for (const chunk of chunks) {
       translatedText += await processTranslation(chunk) + ' '
+      data.result = translatedText.trim();
+      addon.hooks.onReaderPopupRefresh();
+      addon.hooks.onReaderTabPanelRefresh();
       // 停顿几秒
       await new Promise(resolve => setTimeout(resolve, splitSecond*1000));
     }
-    data.result = translatedText.trim();
+    // data.result = translatedText.trim();
   } else {
     if (data.raw.length > 800) {
       progressWindow?.createLine({
