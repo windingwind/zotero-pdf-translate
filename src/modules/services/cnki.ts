@@ -5,6 +5,7 @@ import { TranslateTaskProcessor } from "../../utils/task";
 export default <TranslateTaskProcessor>async function (data) {
   let progressWindow;
   const useSplit = getPref("cnkiUseSplit") as boolean;
+  const splitSecond = getPref("cnkiSplitSecond") as number;
   if (!data.silent) {
     progressWindow = new ztoolkit.ProgressWindow("PDF Translate");
   }
@@ -51,20 +52,11 @@ export default <TranslateTaskProcessor>async function (data) {
     if (currentChunk) {
       chunks.push(currentChunk);
     }
-    if (chunks.length <= 1 && progressWindow){
-      progressWindow.createLine({
-        text: `Maximum text length is 800, ${data.raw.length} selected. Will split ${chunks.length} sections to translate.`,
-      }).show();
-    }
-
     let translatedText = '';
-    let count = 0;
     for (const chunk of chunks) {
-      translatedText += await processTranslation(chunk) + ' ';
-      count += 1
-      if (chunks.length != 1 && progressWindow) {
-        progressWindow.createLine({ text: `Translate: ${count}/${chunks.length}` }).show();
-      }
+      translatedText += await processTranslation(chunk) + ' '
+      // 停顿几秒
+      await new Promise(resolve => setTimeout(resolve, splitSecond*1000));
     }
     data.result = translatedText.trim();
   } else {
