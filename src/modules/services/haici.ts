@@ -1,4 +1,4 @@
-import { getPref, setPref } from "../../utils/prefs";
+import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
@@ -31,7 +31,7 @@ async function getAppId(forceRefresh: boolean = false) {
   // Just in case the update fails
   let doRefresh = true;
   try {
-    const appIdObj = JSON.parse(getPref("haiciAppId") as string);
+    const appIdObj = getPrefJSON("haiciAppId");
     if (
       !forceRefresh &&
       appIdObj &&

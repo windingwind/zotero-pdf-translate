@@ -11,3 +11,12 @@ export function setPref(key: string, value: string | number | boolean) {
 export function clearPref(key: string) {
   return Zotero.Prefs.clear(`${config.prefsPrefix}.${key}`, true);
 }
+
+export function getPrefJSON(key: string) {
+  try {
+    return JSON.parse(String(getPref(key) || "{}"));
+  } catch (e) {
+    setPref(key, "{}");
+  }
+  return {};
+}

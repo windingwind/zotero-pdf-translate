@@ -1,5 +1,5 @@
 import { aesEcbEncrypt, base64 } from "../../utils/crypto";
-import { getPref, setPref } from "../../utils/prefs";
+import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
@@ -69,7 +69,7 @@ async function getToken(forceRefresh: boolean = false) {
   // Just in case the update fails
   let doRefresh = true;
   try {
-    const tokenObj = JSON.parse(getPref("cnkiToken") as string);
+    const tokenObj = getPrefJSON("cnkiToken");
     if (
       !forceRefresh &&
       tokenObj?.token &&

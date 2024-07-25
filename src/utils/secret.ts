@@ -1,9 +1,9 @@
 import { SecretValidateResult, getService } from "./config";
-import { getPref, setPref } from "./prefs";
+import { getPref, getPrefJSON, setPref } from "./prefs";
 
 export function getServiceSecret(serviceId: string) {
   try {
-    return JSON.parse(getPref("secretObj") as string)[serviceId] || "";
+    return getPrefJSON("secretObj")[serviceId] || "";
   } catch (e) {
     setPref("secretObj", "{}");
     return "";
@@ -13,7 +13,7 @@ export function getServiceSecret(serviceId: string) {
 export function setServiceSecret(serviceId: string, secret: string) {
   let secrets;
   try {
-    secrets = JSON.parse(getPref("secretObj") as string) || {};
+    secrets = getPrefJSON("secretObj");
   } catch (e) {
     secrets = {};
   }
