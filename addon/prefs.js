@@ -2,7 +2,7 @@
 pref("__prefsPrefix__.enableAuto", true);
 pref("__prefsPrefix__.enableDict", true);
 pref("__prefsPrefix__.enablePopup", true);
-pref("__prefsPrefix__.enableComment", true);
+pref("__prefsPrefix__.enableComment", false);
 pref("__prefsPrefix__.annotationTranslationPosition", "comment");
 pref("__prefsPrefix__.enableNote", true);
 pref("__prefsPrefix__.enableNoteReplaceMode", false);
@@ -29,6 +29,7 @@ pref("__prefsPrefix__.keepWindowTop", false);
 pref("__prefsPrefix__.keepPopupSize", false);
 pref("__prefsPrefix__.popupWidth", 105);
 pref("__prefsPrefix__.popupHeight", 30);
+pref("__prefsPrefix__.niutransEndpoint", "https://niutrans.com/niuInterface");
 pref("__prefsPrefix__.niutransUsername", "");
 pref("__prefsPrefix__.niutransPassword", "");
 pref("__prefsPrefix__.niutransDictNo", "");
@@ -61,7 +62,7 @@ pref(
 );
 pref(
   "__prefsPrefix__.gemini.endPoint",
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest",
 );
 pref(
   "__prefsPrefix__.gemini.prompt",

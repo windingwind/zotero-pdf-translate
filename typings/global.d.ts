@@ -24,4 +24,21 @@ declare const addon: import("../src/addon").default;
 
 declare const __env__: "production" | "development";
 
-declare class Localization {}
+declare class XULElementBase extends HTMLElement {
+  get content(): DocumentFragment;
+  init(): void;
+  destroy(): void;
+  connectedCallback(): void;
+  disconnectedCallback(): void;
+  attributeChangedCallback(
+    name: string,
+    oldValue: string,
+    newValue: string,
+  ): void;
+  static get observedAttributes(): string[];
+}
+
+declare class MozXULElement {
+  static parseXULToFragment(xul: string): Fragment;
+  static insertFTLIfNeeded(ftl: string): void;
+}

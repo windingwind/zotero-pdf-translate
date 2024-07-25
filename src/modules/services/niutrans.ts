@@ -5,9 +5,11 @@ export default <TranslateTaskProcessor>async function (data) {
   const apikey = data.secret;
   const dictNo = getPref("niutransDictNo");
   const memoryNo = getPref("niutransMemoryNo");
+  const endpoint =
+    getPref("niutransEndpoint") || "https://niutrans.com/niuInterface";
   const xhr = await Zotero.HTTP.request(
     "POST",
-    `https://niutrans.com/niuInterface/textTranslation?pluginType=zotero&apikey=${apikey}`,
+    `${endpoint}/textTranslation?pluginType=zotero&apikey=${apikey}`,
     {
       headers: {
         "content-type": "application/json",

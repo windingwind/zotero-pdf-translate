@@ -51,6 +51,9 @@ async function onStartup() {
   registerShortcuts();
 
   registerNotify(["item"]);
+
+  registerPrefsWindow();
+
   await onMainWindowLoad(window);
 }
 
@@ -71,6 +74,12 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
   ]);
+
+  Services.scriptloader.loadSubScript(
+    `chrome://${config.addonRef}/content/scripts/customElements.js`,
+    win,
+  );
+
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
 
@@ -79,7 +88,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   );
 
   registerReaderTabPanel();
-  registerPrefsWindow();
   registerMenu();
   await registerExtraColumns();
   await registerItemBoxExtraRows();

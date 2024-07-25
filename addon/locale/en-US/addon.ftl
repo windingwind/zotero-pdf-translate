@@ -1,22 +1,4 @@
-readerpanel-label=Translate
-readerpanel-translate-button-label=Translate
-readerpanel-auto-description-label=Auto-Trans: 
-readerpanel-auto-selection-label=Selection
-readerpanel-auto-annotation-label=Annotation
-readerpanel-concat-description-label=Selection: 
-readerpanel-concat-enable-label=Concat Mode
-readerpanel-concat-clear-label=Clear
-readerpanel-copy-description-label=Copy: 
-readerpanel-copy-raw-label=Raw
-readerpanel-copy-result-label=Result
-readerpanel-copy-both-label=Both
-readerpanel-openwindow-open-label=Open Standalone Panel
-readerpanel-extra-addservice-label=Add Result Source
-readerpanel-extra-removeservice-label=Remove
-readerpanel-extra-resize-label=Reset Width
-readerpanel-extra-pin-label=📌Pin
-readerpanel-extra-pinned-label=📍Unpin
-
+service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
@@ -45,11 +27,17 @@ service-collinsdict=Collins Dict(en↔zh)🔊
 service-youdaodict=Haici Dict(en↔zh)
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
-service-errorPrefix=[Request Error]\n\nEngine not available, invalid secret, or request too fast.\nUse another translation engine or post the issue here: \n https://github.com/windingwind/zotero-pdf-translate/issues \n\nThe message below is not Zotero or the PDF Translate addon, but from
+service-errorPrefix=[Request Error]
+    Engine not available, invalid secret, or request too fast.
+    Use another translation engine or post the issue here: 
+    https://github.com/windingwind/zotero-pdf-translate/issues
+    
+    The message below is not Zotero or the PDF Translate addon, but from
 
 service-niutranspro-secret-pass=More...
 service-niutranspro-secret-fail=Login
 service-niutranspro-dialog-title=NiuTrans Account
+service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Username
 service-niutranspro-dialog-password=Password
 service-niutranspro-dialog-signup=Sign up

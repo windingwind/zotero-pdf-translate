@@ -1,28 +1,54 @@
 <?xml version="1.0"?>
+<!-- prettier-ignore -->
 <!DOCTYPE window>
-
-<?xml-stylesheet href="chrome://global/skin/global.css"?> <?xml-stylesheet
-href="chrome://zotero/skin/zotero.css"?> <?xml-stylesheet
-href="chrome://zotero-platform/content/overlay.css"?> <?xml-stylesheet
-href="chrome://zotero-platform-version/content/style.css"?> <?xml-stylesheet
-href="chrome://zotero-platform/content/zotero-react-client.css"?>
+<!-- prettier-ignore -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!-- prettier-ignore -->
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<!-- prettier-ignore -->
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<!-- prettier-ignore -->
+<?xml-stylesheet href="chrome://__addonRef__/content/styles/standalone.css" type="text/css"?>
 
 <window
   id="__addonRef__-standalone"
   title="Translate Panel"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   xmlns:html="http://www.w3.org/1999/xhtml"
   windowtype="__addonRef__-standalone"
   persist="screenX screenY width height"
   onload="window.arguments[0].loadLock.resolve()"
 >
-  <html:style>
-    #zoteropdftranslate-standalone-panel-openwindow { display: none; }
-  </html:style>
-  <hbox id="panel-container" flex="1"></hbox>
-  <vbox
-    id="extra-container"
-    flex="1"
-    style="padding: 0px 10px 10px 10px"
-  ></vbox>
+  <xul:linkset>
+    <html:link rel="localization" href="browser/menubar.ftl" />
+    <html:link rel="localization" href="browser/browserSets.ftl" />
+    <html:link rel="localization" href="toolkit/global/textActions.ftl" />
+    <html:link rel="localization" href="zotero.ftl" />
+    <html:link rel="localization" href="__addonRef__-standalone.ftl" />
+  </xul:linkset>
+
+  <xul:commandset id="mainCommandSet">
+    <xul:command id="cmd_close" oncommand="window.close();" />
+  </xul:commandset>
+  <xul:keyset id="mainKeyset">
+    <xul:key
+      id="key_close"
+      data-l10n-id="close-shortcut"
+      command="cmd_close"
+      modifiers="accel"
+      reserved="true"
+    />
+  </xul:keyset>
+
+  <script src="chrome://zotero/content/include.js"></script>
+  <script src="chrome://zotero/content/customElements.js"></script>
+  <script src="chrome://__addonRef__/content/scripts/customElements.js"></script>
+  <translator-plugin-panel id="__addonRef__-panel" />
+  <hbox id="extra-buttons" align="center">
+    <button id="add-source" data-l10n-id="add-source" />
+    <button id="pin-window" data-l10n-id="pin-window" />
+  </hbox>
+  <html:div class="separator"></html:div>
+  <vbox id="extra-container"></vbox>
 </window>

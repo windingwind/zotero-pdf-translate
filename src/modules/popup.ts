@@ -15,17 +15,9 @@ export function updateReaderPopup() {
   Array.from(popup.querySelectorAll(`.${config.addonRef}-readerpopup`)).forEach(
     (elem) => ((elem as HTMLElement).hidden = !enablePopup),
   );
-  if (!enablePopup) {
-    return;
-  }
-  const task = getLastTranslateTask();
-  if (!task) {
-    return;
-  }
-  popup.setAttribute("translate-task-id", task.id);
+
   const idPrefix = popup?.getAttribute(`${config.addonRef}-prefix`);
   const makeId = (type: string) => `${idPrefix}-${type}`;
-
   const audiobox = popup?.querySelector(
     `#${makeId("audiobox")}`,
   ) as HTMLDivElement;
@@ -38,8 +30,31 @@ export function updateReaderPopup() {
   const addToNoteButton = popup?.querySelector(
     `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
+
+  const updateHidden = (elem: HTMLElement, hidden: boolean) => {
+    if (hidden) {
+      elem.style.display = "none";
+    } else {
+      elem.style.removeProperty("display");
+    }
+  };
+
+  if (!enablePopup) {
+    updateHidden(audiobox, true);
+    updateHidden(translateButton, true);
+    updateHidden(textarea, true);
+    updateHidden(addToNoteButton, true);
+    return;
+  }
+  const task = getLastTranslateTask();
+  if (!task) {
+    return;
+  }
+  popup.setAttribute("translate-task-id", task.id);
+
   if (task.audio.length > 0 && getPref("showPlayBtn")) {
     audiobox.innerHTML = "";
+    updateHidden(audiobox, false);
     ztoolkit.UI.appendElement(
       {
         tag: "fragment",
@@ -63,22 +78,16 @@ export function updateReaderPopup() {
       audiobox,
     );
   }
-  if (task.status !== "waiting") {
-    translateButton.style.display = "none";
-  } else {
-    translateButton.style.removeProperty("display");
-  }
+  updateHidden(translateButton, task.status !== "waiting");
+
   textarea.hidden = hidePopupTextarea || task.status === "waiting";
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  if (!ZoteroContextPane.activeEditor) {
-    addToNoteButton.style.display = "none";
-  } else {
-    addToNoteButton.style.removeProperty("display");
-  }
+  updateHidden(addToNoteButton, !ZoteroContextPane.activeEditor);
+
   updatePopupSize(popup, textarea);
 }
 
@@ -279,7 +288,7 @@ export function buildReaderPopup(
                 } else {
                   annotation.comment = task.result;
                 }
-                // @ts-ignore
+                // @ts-ignore should be fixed in the zotero-types
                 reader._addToNote([annotation]);
               },
             },

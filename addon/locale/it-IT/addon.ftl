@@ -1,22 +1,4 @@
-readerpanel-label=Translate
-readerpanel-translate-button-label=Traduci
-readerpanel-auto-description-label=Trad. autom.: 
-readerpanel-auto-selection-label=Selezione
-readerpanel-auto-annotation-label=Annotazione
-readerpanel-concat-description-label=Selezione: 
-readerpanel-concat-enable-label=Modalità concatenazione
-readerpanel-concat-clear-label=Cancella
-readerpanel-copy-description-label=Copia: 
-readerpanel-copy-raw-label=Origine
-readerpanel-copy-result-label=Traduzione
-readerpanel-copy-both-label=Entrambi
-readerpanel-openwindow-open-label=Apri pannello indipendente
-readerpanel-extra-addservice-label=Aggiungi servizio di traduzione
-readerpanel-extra-removeservice-label=Rimuovi
-readerpanel-extra-resize-label=Ripristina larghezza
-readerpanel-extra-pin-label=📌Fissa
-readerpanel-extra-pinned-label=📍Sblocca
-
+service-huoshan=Huoshan🗝️
 service-googleapi=Google(API)
 service-google=Google
 service-cnki=CNKI
@@ -44,11 +26,17 @@ service-collinsdict=Collins Dict(en↔zh)🔊
 service-youdaodict=Haici Dict(en↔zh)
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
-service-errorPrefix=[Errore nella richiesta]\n\nMotore di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.\nSi prega di usare un altro motore di traduzione o di segnalare il problema qui: \n https://github.com/windingwind/zotero-pdf-translate/issues \n\nIl messaggio seguente non è di Zotero o dell'estensione PDF Translate ma proviene da
+service-errorPrefix=[Errore nella richiesta]
+    Motore di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
+    Si prega di usare un altro motore di traduzione o di segnalare il problema qui: 
+    https://github.com/windingwind/zotero-pdf-translate/issues
+    
+    Il messaggio seguente non è di Zotero o dell'estensione PDF Translate ma proviene da
 
 service-niutranspro-secret-pass=Ancora...
 service-niutranspro-secret-fail=Login
 service-niutranspro-dialog-title=NiuTrans Account
+service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
 service-niutranspro-dialog-password=Password
 service-niutranspro-dialog-signup=Registrati

@@ -6,7 +6,7 @@ function base64(buffer: ArrayBuffer) {
 function randomString(length: number) {
   const baseLen = Math.ceil(length / 4) * 3;
   const random = crypto.getRandomValues(new Uint8Array(baseLen));
-  return base64(random).substring(0, length);
+  return base64(random as unknown as ArrayBuffer).substring(0, length);
 }
 
 function hex(buffer: ArrayBuffer) {
@@ -14,11 +14,18 @@ function hex(buffer: ArrayBuffer) {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function hmacSha1Digest(stringToSign: string, secretKey: string) {
+async function hmacSha1Digest(
+  stringToSign: string,
+  secretKey: string | ArrayBuffer,
+) {
   const enc = new TextEncoder();
+  let keyData = secretKey;
+  if (typeof keyData === "string") {
+    keyData = enc.encode(keyData);
+  }
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secretKey),
+    keyData,
     {
       name: "HMAC",
       hash: "SHA-1",
@@ -29,11 +36,18 @@ async function hmacSha1Digest(stringToSign: string, secretKey: string) {
   return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
 }
 
-async function hmacSha256Digest(stringToSign: string, secretKey: string) {
+async function hmacSha256Digest(
+  stringToSign: string,
+  secretKey: string | ArrayBuffer,
+): Promise<ArrayBuffer> {
   const enc = new TextEncoder();
+  let keyData = secretKey;
+  if (typeof keyData === "string") {
+    keyData = enc.encode(keyData);
+  }
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secretKey),
+    keyData,
     {
       name: "HMAC",
       hash: "SHA-256",
@@ -44,7 +58,7 @@ async function hmacSha256Digest(stringToSign: string, secretKey: string) {
   return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
 }
 
-async function sha256Digest(message: string) {
+async function sha256Digest(message: string): Promise<ArrayBuffer> {
   const enc = new TextEncoder();
   return crypto.subtle.digest("SHA-256", enc.encode(message));
 }

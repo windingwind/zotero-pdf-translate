@@ -19,7 +19,7 @@ const geminiTranslate = async function (
 
   const xhr = await Zotero.HTTP.request(
     "POST",
-    apiURL + `?key=${data.secret}`,
+    apiURL + `:streamGenerateContent?alt=sse&key=${data.secret}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -41,15 +41,22 @@ const geminiTranslate = async function (
         let result = "";
         xmlhttp.onprogress = (e: any) => {
           // Only concatenate the new strings
-          const newResponse = JSON.parse(e.target.response.slice(preLength));
-          result = newResponse.candidates[0].content.parts[0].text;
+          const newResponse = e.target.response.slice(preLength);
+          const dataArray = newResponse.split("data: ");
+
+          for (const data of dataArray) {
+            if (data) {
+              result +=
+                JSON.parse(data).candidates[0].content.parts[0].text || "";
+            }
+          }
+
           // Clear timeouts caused by stream transfers
           if (e.target.timeout) {
             e.target.timeout = 0;
           }
 
-          // Remove \n\n from the beginning of the data
-          data.result = result.replace(/^\n\n/, "");
+          data.result = result;
           preLength = e.target.response.length;
 
           if (data.type === "text") {

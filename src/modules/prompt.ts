@@ -146,7 +146,8 @@ export function registerPrompt() {
                       node
                         .querySelectorAll("span")
                         .forEach((e) => (e.style.backgroundColor = ""));
-                      span.style.backgroundColor = highlightColor;
+                      (span as HTMLSpanElement).style.backgroundColor =
+                        highlightColor;
 
                       twinNode
                         ?.querySelectorAll("span")
