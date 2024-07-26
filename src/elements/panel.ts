@@ -221,7 +221,9 @@ export class TranslatorPanel extends PluginCEBase {
       if (!task) {
         return;
       }
-      new ztoolkit.Clipboard().addText(task.raw, "text/plain").copy();
+      new this._addon.data.ztoolkit.Clipboard()
+        .addText(task.raw, "text/plain")
+        .copy();
     });
 
     this._queryID("copy-result")?.addEventListener("command", () => {
@@ -231,7 +233,9 @@ export class TranslatorPanel extends PluginCEBase {
       if (!task) {
         return;
       }
-      new ztoolkit.Clipboard().addText(task.result, "text/plain").copy();
+      new this._addon.data.ztoolkit.Clipboard()
+        .addText(task.result, "text/plain")
+        .copy();
     });
 
     this._queryID("copy-both")?.addEventListener("command", () => {
@@ -241,7 +245,7 @@ export class TranslatorPanel extends PluginCEBase {
       if (!task) {
         return;
       }
-      new ztoolkit.Clipboard()
+      new this._addon.data.ztoolkit.Clipboard()
         .addText(`${task.raw}\n----\n${task.result}`, "text/plain")
         .copy();
     });
