@@ -91,6 +91,7 @@ service-cnki-dialog-regex=CNKI Addvertisements Regex
 service-cnki-dialog-save=Save
 service-cnki-dialog-close=Close
 service-cnki-dialog-title=CNKI Config
+service-cnki-dialog-split=Automatically split translation for more than 800 characters
 
 readerpopup-translate-label=Translate
 
