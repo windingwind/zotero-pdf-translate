@@ -24,7 +24,7 @@ export default <TranslateTaskProcessor>async function (data) {
           translateType: null,
         }),
         responseType: "json",
-      }
+      },
     );
 
     if (xhr.response.data?.isInputVerificationCode) {
@@ -37,12 +37,15 @@ export default <TranslateTaskProcessor>async function (data) {
   };
 
   if (useSplit) {
-    const sentences = data.raw.split(/[.?!]/).map(s => s.trim()).filter(s => s.length > 0);
+    const sentences = data.raw
+      .split(/[.?!]/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
     const chunks = [];
-    let currentChunk = '';
+    let currentChunk = "";
     sentences.forEach((sentence: string) => {
-      const sentenceWithPeriod = sentence + '. ';
-      if ((currentChunk.length + sentenceWithPeriod.length) > 800) {
+      const sentenceWithPeriod = sentence + ". ";
+      if (currentChunk.length + sentenceWithPeriod.length > 800) {
         chunks.push(currentChunk);
         currentChunk = sentenceWithPeriod;
       } else {
@@ -52,28 +55,29 @@ export default <TranslateTaskProcessor>async function (data) {
     if (currentChunk) {
       chunks.push(currentChunk);
     }
-    let translatedText = '';
+    let translatedText = "";
     for (const chunk of chunks) {
-      translatedText += await processTranslation(chunk) + ' '
+      translatedText += (await processTranslation(chunk)) + " ";
       data.result = translatedText.trim();
       addon.hooks.onReaderPopupRefresh();
       addon.hooks.onReaderTabPanelRefresh();
       // 停顿几秒
-      await new Promise(resolve => setTimeout(resolve, splitSecond*1000));
+      await new Promise((resolve) => setTimeout(resolve, splitSecond * 1000));
     }
     // data.result = translatedText.trim();
   } else {
     if (data.raw.length > 800) {
-      progressWindow?.createLine({
-        text: `Maximum text length is 800, ${data.raw.length} selected. Will only translate first 800 characters. If you want the plugin to automatically split the translation based on punctuation, you can enable the split switch in the preferences.`,
-      }).show();
+      progressWindow
+        ?.createLine({
+          text: `Maximum text length is 800, ${data.raw.length} selected. Will only translate first 800 characters. If you want the plugin to automatically split the translation based on punctuation, you can enable the split switch in the preferences.`,
+        })
+        .show();
       data.raw = data.raw.slice(0, 800);
     }
 
     data.result = await processTranslation(data.raw);
   }
 };
-
 
 export async function getToken(forceRefresh: boolean = false) {
   let token = "";

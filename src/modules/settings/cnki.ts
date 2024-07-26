@@ -27,40 +27,45 @@ export async function cnkiStatusCallback(status: boolean) {
         "data-prop": "value",
       },
     })
-    .addCell(2, 0, {
-      tag: "div",
-      namespace: "html",
-      styles: {
-        display: "grid",
-        gridTemplateColumns: "1fr 4fr",
-        rowGap: "2px",
-      },
-      children: [
-        {
-          tag: "input",
-          namespace: "html",
-          attributes: {
-            type: "checkbox",
-            id: "cnkiUseSplit",
-            "data-bind": "useSplit",
-            "data-prop": "checked",
-          },
+    .addCell(
+      2,
+      0,
+      {
+        tag: "div",
+        namespace: "html",
+        styles: {
+          display: "grid",
+          gridTemplateColumns: "1fr 4fr",
+          rowGap: "2px",
         },
-        {
-          tag: "label",
-          namespace: "html",
-          attributes: {
-            for: "cnkiUseSplit",
+        children: [
+          {
+            tag: "input",
+            namespace: "html",
+            attributes: {
+              type: "checkbox",
+              id: "cnkiUseSplit",
+              "data-bind": "useSplit",
+              "data-prop": "checked",
+            },
           },
-          properties: {
-            innerHTML: getString("service-cnki-dialog-split"),
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "cnkiUseSplit",
+            },
+            properties: {
+              innerHTML: getString("service-cnki-dialog-split"),
+            },
+            styles: {
+              textAlign: "left",
+            },
           },
-          styles:{
-            textAlign:"left"
-          }
-        }
-      ],
-    }, false)
+        ],
+      },
+      false,
+    )
     .addButton(getString("service-cnki-dialog-save"), "save")
     .addButton(getString("service-cnki-dialog-close"), "close")
     .open(getString("service-cnki-dialog-title"));
@@ -70,7 +75,7 @@ export async function cnkiStatusCallback(status: boolean) {
     case "save":
       {
         setPref("cnkiRegex", dialogData.removeRegex);
-        setPref("cnkiUseSplit", dialogData.useSplit)
+        setPref("cnkiUseSplit", dialogData.useSplit);
       }
       break;
     default:
