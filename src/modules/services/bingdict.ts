@@ -16,7 +16,9 @@ export default <TranslateTaskProcessor>async function (data) {
   const phoneticText = doc.querySelectorAll(".hd_area .b_primtxt");
   data.audio = mp3s.map((a: Element, i: number) => ({
     text: phoneticText[i].innerHTML.replace("&nbsp;", " "),
-    url: (a.getAttribute("onclick")?.match(/https?:\/\/\S+\.mp3/g) || [""])[0],
+    url: (a.getAttribute("data-mp3link")?.match(/https?:\/\/\S+\.mp3/g) || [
+      "",
+    ])[0],
   }));
 
   try {
