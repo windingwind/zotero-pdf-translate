@@ -61,7 +61,7 @@ export function updateReaderPopup() {
         children: task.audio.map((audioData) => ({
           tag: "button",
           namespace: "html",
-          classList: ["toolbarButton"],
+          classList: ["toolbar-button", "wide-button"],
           attributes: {
             tabindex: "-1",
             title: audioData.text,
