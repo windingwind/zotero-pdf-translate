@@ -209,7 +209,7 @@ export function buildReaderPopup(
                 const textarea = popup.querySelector(
                   `#${makeId("text")}`,
                 ) as HTMLTextAreaElement;
-                const outerWidth = 10;
+                const outerWidth = 18;
                 if (popup.scrollWidth > textarea.offsetWidth + outerWidth) {
                   textarea.style.width = `${popup.scrollWidth - outerWidth}px`;
                 }
