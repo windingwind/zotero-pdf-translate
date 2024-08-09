@@ -14,8 +14,6 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 ## Install
 
-> For Zotero 6, install the [latest stable version](https://github.com/windingwind/zotero-pdf-translate/releases/latest); For Zotero 7, install the [latest prerelease version](https://github.com/windingwind/zotero-pdf-translate/releases/)
-
 ### From local file
 
 - Download the latest release (.xpi file) from the [Latest Release Page](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
@@ -30,7 +28,7 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 ### From remote link
 
 - In Zotero click `Tools` in the top menu bar and then click `Addons`.
-- Drag [Latest Release](https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/zotero-pdf-translate.xpi) and drop it in the Zotero UI.
+- Drag [Latest Release](https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/translate-for-zotero.xpi) and drop it in the Zotero UI.
 - Click `install now`.
 - Restart Zotero, by clicking `restart now` in the extensions list where the
   Zotero PDF Translate plugin is now listed.
