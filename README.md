@@ -240,7 +240,6 @@ Use this code under AGPL. No warranties are provided. Keep the laws of your loca
 ## My Other Zotero Addons
 
 - [Better Notes](https://github.com/windingwind/zotero-better-notes): Everything about note management. All in Zotero.
-- [Preview](https://github.com/windingwind/zotero-tag): PDF preview for Zotero
 - [Actions & Tags](https://github.com/windingwind/zotero-tag): Automatically tag items/Batch tagging
 
 ## Sponsors
