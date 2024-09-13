@@ -15,7 +15,7 @@ export default defineConfig({
     "https://github.com/{{owner}}/{{repo}}/releases/download/v{{version}}/{{xpiName}}.xpi",
 
   server: {
-    asProxy: true,
+    asProxy: false,
   },
 
   build: {
