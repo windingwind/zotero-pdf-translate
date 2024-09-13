@@ -16,9 +16,7 @@ export default <TranslateTaskProcessor>async function (data) {
     throw "No result found error";
   }
 
-  const doc = ztoolkit
-    .getDOMParser()
-    .parseFromString(xhr.response, "text/html");
+  const doc = new DOMParser().parseFromString(xhr.response, "text/html");
   Array.prototype.forEach.call(doc.querySelectorAll("script"), (e) =>
     e.remove(),
   );

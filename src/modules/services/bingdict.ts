@@ -11,7 +11,7 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   let res = xhr.response;
-  const doc = ztoolkit.getDOMParser().parseFromString(res, "text/html");
+  const doc = new DOMParser().parseFromString(res, "text/html");
   const mp3s = Array.from(doc.querySelectorAll(".hd_area .bigaud"));
   const phoneticText = doc.querySelectorAll(".hd_area .b_primtxt");
   data.audio = mp3s.map((a: Element, i: number) => ({

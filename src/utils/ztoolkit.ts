@@ -39,16 +39,16 @@ import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
 import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
-import { ItemBoxManager } from "zotero-plugin-toolkit/dist/managers/itemBox";
 import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
 import { KeyboardManager } from "zotero-plugin-toolkit/dist/managers/keyboard";
+import { FieldHookManager } from "zotero-plugin-toolkit/dist/managers/fieldHook";
 
 export class MyToolkit extends BasicTool {
   UI: UITool;
   ExtraField: ExtraFieldTool;
+  FieldHook: FieldHookManager;
   Keyboard: KeyboardManager;
   Menu: MenuManager;
-  ItemBox: ItemBoxManager;
   Prompt: PromptManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
@@ -58,9 +58,9 @@ export class MyToolkit extends BasicTool {
     super();
     this.UI = new UITool(this);
     this.ExtraField = new ExtraFieldTool(this);
+    this.FieldHook = new FieldHookManager(this);
     this.Keyboard = new KeyboardManager(this);
     this.Menu = new MenuManager(this);
-    this.ItemBox = new ItemBoxManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);

@@ -222,7 +222,7 @@ export class TranslationServices {
                 item,
                 "abstractTranslation",
                 // A dirty workaround to make it collapsible on Zotero 6
-                ztoolkit.isZotero7() ? task.result : " " + task.result,
+                task.result,
               );
               item.saveTx();
             }

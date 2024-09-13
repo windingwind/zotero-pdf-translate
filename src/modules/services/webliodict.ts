@@ -11,9 +11,7 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   const res = xhr.response;
-  const doc: Document = ztoolkit
-    .getDOMParser()
-    .parseFromString(res, "text/html");
+  const doc: Document = new DOMParser().parseFromString(res, "text/html");
   const translations: string[][] = [];
 
   const process = (ele: Element | undefined) => {
