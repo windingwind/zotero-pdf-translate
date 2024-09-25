@@ -104,3 +104,5 @@ itemmenu-retranslateAbstract-label=Ritraduci Abstract
 
 field-titleTranslation=Traduzione del titolo
 field-abstractTranslation=Traduzione dell'Abstract
+
+status-translating=Traduzione in corso...

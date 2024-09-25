@@ -105,3 +105,5 @@ itemmenu-retranslateAbstract-label=Retranslate Abstract
 
 field-titleTranslation=Title Translation
 field-abstractTranslation=Abstract Translation
+
+status-translating=Translating...
