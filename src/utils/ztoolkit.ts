@@ -1,3 +1,17 @@
+import {
+  BasicTool,
+  UITool,
+  ExtraFieldTool,
+  FieldHookManager,
+  KeyboardManager,
+  MenuManager,
+  PromptManager,
+  DialogHelper,
+  ProgressWindowHelper,
+  ClipboardHelper,
+  makeHelperTool,
+  unregister,
+} from "zotero-plugin-toolkit";
 import { config } from "../../package.json";
 
 export { createZToolkit };
@@ -27,21 +41,6 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
     `chrome://${config.addonRef}/content/icons/favicon.png`,
   );
 }
-
-import {
-  BasicTool,
-  makeHelperTool,
-  unregister,
-} from "zotero-plugin-toolkit/dist/basic";
-import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
-import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
-import { PromptManager } from "zotero-plugin-toolkit/dist/managers/prompt";
-import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
-import { ClipboardHelper } from "zotero-plugin-toolkit/dist/helpers/clipboard";
-import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
-import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
-import { KeyboardManager } from "zotero-plugin-toolkit/dist/managers/keyboard";
-import { FieldHookManager } from "zotero-plugin-toolkit/dist/managers/fieldHook";
 
 export class MyToolkit extends BasicTool {
   UI: UITool;
