@@ -256,7 +256,11 @@ export class TranslatorPanel extends PluginCEBase {
   render() {
     const updateHidden = (type: string, pref: string) => {
       const elem = this._queryID(type) as XUL.Box;
-      elem.hidden = !getPref(pref) as boolean;
+      const hidden = !getPref(pref) as boolean;
+      elem.hidden = hidden;
+      if (elem.nextElementSibling?.classList.contains("separator")) {
+        (elem.nextElementSibling as HTMLDivElement).hidden = hidden;
+      }
     };
     const setCheckBox = (type: string, checked: boolean) => {
       const elem = this._queryID(type) as XUL.Checkbox;

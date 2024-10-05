@@ -44,7 +44,7 @@ translator-plugin-panel .options-container {
   width: inherit;
 }
 
-translator-plugin-panel .options-grid {
+translator-plugin-panel .options-grid:not([hidden]) {
   display: grid;
   grid-template-columns: subgrid;
   grid-column: span 2;
