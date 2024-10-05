@@ -1,6 +1,6 @@
 {
   "name": "zotero-pdf-translate",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Translate PDF, EPub, webpage, metadata, annotations, notes to the target language. Support 20+ translate services.",
   "config": {
     "addonName": "Translate for Zotero",
