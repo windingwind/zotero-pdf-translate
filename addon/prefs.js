@@ -51,6 +51,7 @@ pref(
   "__prefsPrefix__.chatGPT.prompt",
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
+pref("__prefsPrefix__.chatGPT.stream", true);
 pref("__prefsPrefix__.azureGPT.endPoint", "");
 pref("__prefsPrefix__.azureGPT.model", "");
 pref("__prefsPrefix__.azureGPT.apiVersion", "2023-05-15");
@@ -59,6 +60,7 @@ pref(
   "__prefsPrefix__.azureGPT.prompt",
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
+pref("__prefsPrefix__.azureGPT.stream", true);
 pref(
   "__prefsPrefix__.gemini.endPoint",
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest",

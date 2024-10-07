@@ -104,3 +104,5 @@ itemmenu-retranslateAbstract-label=重新翻译摘要
 
 field-titleTranslation=标题翻译
 field-abstractTranslation=摘要翻译
+
+status-translating=正在翻译...
