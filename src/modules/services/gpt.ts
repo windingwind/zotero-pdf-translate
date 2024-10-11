@@ -23,7 +23,6 @@ const gptTranslate = async function (
 
   const streamMode = stream ?? true;
 
-  //非流式传输模式下，可能需要等一段时间，所以在请求之前先设置文本为“正在翻译”
   //It takes some time to translate, so set the text to "Translating" before the request
   if (streamMode === false) {
     data.result = getString('status-translating');
