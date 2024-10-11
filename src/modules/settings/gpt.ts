@@ -13,6 +13,7 @@ async function gptStatusCallback(
     temperature: parseFloat(getPref(`${prefix}.temperature`) as string),
     prompt: getPref(`${prefix}.prompt`),
     apiVersion: getPref("azureGPT.apiVersion"),
+    stream: getPref(`${prefix}.stream`),
   };
 
   dialog
@@ -133,6 +134,25 @@ async function gptStatusCallback(
               "data-prop": "value",
             },
           },
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "stream",
+            },
+            properties: {
+              innerHTML: 'Stream',
+            },
+          },
+          {
+            tag: "input",
+            id: "stream",
+            attributes: {
+              type: "checkbox",
+              "data-bind": "stream",
+              "data-prop": "checked",
+            },
+          },
         ],
       },
       false,
@@ -156,6 +176,7 @@ async function gptStatusCallback(
         setPref(`${prefix}.endPoint`, dialogData.endPoint);
         setPref(`${prefix}.model`, dialogData.model);
         setPref(`${prefix}.prompt`, dialogData.prompt);
+        setPref(`${prefix}.stream`, dialogData.stream);
         setPref("azureGPT.apiVersion", dialogData.apiVersion);
       }
       break;
