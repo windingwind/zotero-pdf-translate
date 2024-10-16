@@ -8,7 +8,7 @@ const gptTranslate = async function (
   temperature: number,
   prefix: string,
   data: Required<TranslateTask>,
-  stream?: boolean
+  stream?: boolean,
 ) {
   function transformContent(
     langFrom: string,
@@ -25,14 +25,14 @@ const gptTranslate = async function (
 
   //It takes some time to translate, so set the text to "Translating" before the request
   if (streamMode === false) {
-    data.result = getString('status-translating');
+    data.result = getString("status-translating");
     addon.hooks.onReaderPopupRefresh();
     addon.hooks.onReaderTabPanelRefresh();
   }
 
   /**
    * The requestObserver callback, under streaming mode
-   * @param xmlhttp 
+   * @param xmlhttp
    */
   const streamCallback = (xmlhttp: XMLHttpRequest) => {
     let preLength = 0;
@@ -69,11 +69,11 @@ const gptTranslate = async function (
         addon.hooks.onReaderTabPanelRefresh();
       }
     };
-  }
+  };
 
   /**
    * The requestObserver callback, under non-streaming mode
-   * @param xmlhttp 
+   * @param xmlhttp
    */
   const nonStreamCallback = (xmlhttp: XMLHttpRequest) => {
     // Non-streaming logic: Handle the complete response at once
@@ -92,7 +92,7 @@ const gptTranslate = async function (
       addon.hooks.onReaderPopupRefresh();
       addon.hooks.onReaderTabPanelRefresh();
     };
-  }
+  };
 
   const xhr = await Zotero.HTTP.request("POST", apiURL, {
     headers: {
@@ -132,7 +132,14 @@ export const chatGPT = <TranslateTaskProcessor>async function (data) {
   const temperature = parseFloat(getPref("chatGPT.temperature") as string);
   const stream = getPref("chatGPT.stream") as boolean;
 
-  return await gptTranslate(apiURL, model, temperature, "chatGPT", data, stream);
+  return await gptTranslate(
+    apiURL,
+    model,
+    temperature,
+    "chatGPT",
+    data,
+    stream,
+  );
 };
 
 export const azureGPT = <TranslateTaskProcessor>async function (data) {
@@ -146,5 +153,12 @@ export const azureGPT = <TranslateTaskProcessor>async function (data) {
   apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
   apiURL.search = `api-version=${apiVersion}`;
 
-  return await gptTranslate(apiURL.href, model, temperature, "azureGPT", data, stream);
+  return await gptTranslate(
+    apiURL.href,
+    model,
+    temperature,
+    "azureGPT",
+    data,
+    stream,
+  );
 };

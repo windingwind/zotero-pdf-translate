@@ -141,7 +141,7 @@ async function gptStatusCallback(
               for: "stream",
             },
             properties: {
-              innerHTML: 'Stream',
+              innerHTML: "Stream",
             },
           },
           {
