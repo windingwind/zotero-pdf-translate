@@ -150,10 +150,18 @@ export class TranslatorPanel extends PluginCEBase {
     });
 
     // Text change
-    this._queryID("raw-text")?.addEventListener("change", (e) => {
-      const task = getLastTranslateTask({
+    this._queryID("raw-text")?.addEventListener("keydown", (e) => {
+      let task = getLastTranslateTask({
         id: this._taskID,
       });
+      if (!task) {
+        task = addTranslateTask(
+          (e.target as HTMLTextAreaElement).value,
+          this.item?.id,
+          "text",
+        );
+        if (task) this._taskID = task.id;
+      }
       if (!task) {
         return;
       }
@@ -166,10 +174,18 @@ export class TranslatorPanel extends PluginCEBase {
       putTranslateTaskAtHead(task.id);
     });
 
-    this._queryID("result-text")?.addEventListener("change", (e) => {
-      const task = getLastTranslateTask({
+    this._queryID("result-text")?.addEventListener("keydown", (e) => {
+      let task = getLastTranslateTask({
         id: this._taskID,
       });
+      if (!task) {
+        task = addTranslateTask(
+          (e.target as HTMLTextAreaElement).value,
+          this.item?.id,
+          "text",
+        );
+        if (task) this._taskID = task.id;
+      }
       if (!task) {
         return;
       }
