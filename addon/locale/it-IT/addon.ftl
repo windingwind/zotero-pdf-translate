@@ -54,6 +54,13 @@ service-niutranspro-dialog-close=Chiudi
 service-deeplcustom-secret-pass=Docs
 service-deeplcustom-secret-fail=Docs
 
+service-deeplx-secret-pass=Configura
+service-deeplx-secret-fail=Configura
+service-deeplx-dialog-title=Configura DeepLX
+service-deeplx-dialog-endPoint=API
+service-deeplx-dialog-save=Salva
+service-deeplx-dialog-close=Chiudi
+
 service-chatgpt-secret-pass=Configura
 service-chatgpt-secret-fail=Configura
 service-chatgpt-dialog-title=Configura ChatGPT

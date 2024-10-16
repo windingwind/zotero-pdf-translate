@@ -2,6 +2,7 @@ import { cnkiStatusCallback } from "./cnki";
 import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
 import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
+import { deeplxStatusCallback } from "./deeplx";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -26,6 +27,13 @@ export const secretStatusButtonData: {
         "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
       );
     },
+  },
+  deeplx: {
+    labels: {
+      pass: "service-deeplx-secret-pass",
+      fail: "service-deeplx-secret-fail",
+    },
+    callback: deeplxStatusCallback,
   },
   chatgpt: {
     labels: {

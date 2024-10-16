@@ -54,6 +54,13 @@ service-niutranspro-dialog-close=关闭
 service-deeplcustom-secret-pass=文档
 service-deeplcustom-secret-fail=文档
 
+service-deeplx-secret-pass=配置
+service-deeplx-secret-fail=配置
+service-deeplx-dialog-title=DeepLX 配置
+service-deeplx-dialog-endPoint=接口
+service-deeplx-dialog-save=保存
+service-deeplx-dialog-close=关闭
+
 service-chatgpt-secret-pass=配置
 service-chatgpt-secret-fail=配置
 service-chatgpt-dialog-title=ChatGPT 配置项

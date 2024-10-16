@@ -75,3 +75,4 @@ pref(
 );
 pref("__prefsPrefix__.cnkiSplitSecond", 1);
 pref("__prefsPrefix__.cnkiUseSplit", false);
+pref("__prefsPrefix__.deeplx.endpoint", "https://www2.deepl.com/jsonrpc");
