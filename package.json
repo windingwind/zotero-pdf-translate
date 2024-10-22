@@ -32,7 +32,7 @@
     "franc": "^6.2.0",
     "iso639-js": "^1.1.3",
     "jsencrypt": "^3.3.2",
-    "zotero-plugin-toolkit": "^4.0.4"
+    "zotero-plugin-toolkit": "^4.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
