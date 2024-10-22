@@ -90,6 +90,7 @@ service-gemini-secret-fail=Config
 service-gemini-dialog-title=Gemini Config
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
+service-gemini-dialog-stream=Stream
 service-gemini-dialog-save=Save
 service-gemini-dialog-close=Close
 
