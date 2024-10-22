@@ -7,6 +7,7 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
   const dialogData: { [key: string | number]: any } = {
     endPoint: getPref(`${prefix}.endPoint`),
     prompt: getPref(`${prefix}.prompt`),
+    stream: getPref(`${prefix}.stream`),
   };
 
   dialog
@@ -20,8 +21,11 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
         styles: {
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
+          gridTemplateRows: "auto 1fr auto",
           rowGap: "10px",
           columnGap: "5px",
+          minWidth: "400px",
+          minHeight: "200px",
         },
         children: [
           {
@@ -55,11 +59,31 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
             },
           },
           {
-            tag: "input",
+            tag: "textarea",
             id: "prompt",
             attributes: {
               "data-bind": "prompt",
               "data-prop": "value",
+            },
+          },
+
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "stream",
+            },
+            properties: {
+              innerHTML: getString(`service-${addonPrefix}-dialog-stream`),
+            },
+          },
+          {
+            tag: "input",
+            id: "stream",
+            attributes: {
+              "data-bind": "stream",
+              "data-prop": "checked",
+              type: "checkbox",
             },
           },
         ],
@@ -77,6 +101,7 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
       {
         setPref(`${prefix}.endPoint`, dialogData.endPoint);
         setPref(`${prefix}.prompt`, dialogData.prompt);
+        setPref(`${prefix}.stream`, dialogData.stream);
       }
       break;
     default:

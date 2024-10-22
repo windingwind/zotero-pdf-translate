@@ -17,9 +17,18 @@ const geminiTranslate = async function (
       .replaceAll("${sourceText}", sourceText);
   }
 
+  function getGenContentAPI(data: Required<TranslateTask>) {
+    const stream = getPref("gemini.stream") as boolean;
+    if (stream) {
+      return apiURL + `:streamGenerateContent?alt=sse&key=${data.secret}`;
+    } else {
+      return apiURL + `:generateContent?key=${data.secret}`;
+    }
+  }
+
   const xhr = await Zotero.HTTP.request(
     "POST",
-    apiURL + `:streamGenerateContent?alt=sse&key=${data.secret}`,
+    getGenContentAPI(data),
     {
       headers: {
         "Content-Type": "application/json",

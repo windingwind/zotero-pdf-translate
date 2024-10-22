@@ -89,6 +89,7 @@ service-gemini-secret-fail=配置
 service-gemini-dialog-title=Gemini 配置
 service-gemini-dialog-endPoint=接口
 service-gemini-dialog-prompt=Prompt
+service-gemini-dialog-stream=流式输出
 service-gemini-dialog-save=保存
 service-gemini-dialog-close=关闭
 
