@@ -45,7 +45,7 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.0",
+    "typescript-eslint": "^8.10.0",
     "zotero-plugin-scaffold": "^0.1.6",
     "zotero-types": "^2.2.0"
   },
