@@ -10,6 +10,7 @@ export async function gptStatusCallback(status: boolean) {
     url: getPref("gptUrl"),
     models: getPref("gptModel"),
     temperature: parseFloat(getPref("gptTemperature") as string),
+    isStream: getPref("gptIsStream"),
     loadCallback: async () => {
       const doc = dialog.window.document;
 
@@ -51,6 +52,7 @@ export async function gptStatusCallback(status: boolean) {
           columnGap: "5px",
         },
         children: [
+          // URL
           {
             tag: "label",
             namespace: "html",
@@ -70,6 +72,7 @@ export async function gptStatusCallback(status: boolean) {
               type: "string",
             },
           },
+          // Models
           {
             tag: "label",
             namespace: "html",
@@ -89,6 +92,43 @@ export async function gptStatusCallback(status: boolean) {
               type: "string",
             },
           },
+          // Stream Output
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "isStream",
+            },
+            properties: {
+              innerHTML: getString("service.gpt.dialog.isStream"),
+            },
+          },
+          {
+            tag: "select",
+            id: "gptIsStream",
+            attributes: {
+              "data-bind": "isStream",
+              "data-prop": "value",
+              type: "string",
+            },
+            children: [
+              {
+                tag: "option",
+                properties: {
+                  value: "true",
+                  innerHTML: "true",
+                },
+              },
+              {
+                tag: "option",
+                properties: {
+                  value: "false",
+                  innerHTML: "false",
+                },
+              },
+            ],
+          },
+          // temperature
           {
             tag: "label",
             namespace: "html",
@@ -179,6 +219,7 @@ export async function gptStatusCallback(status: boolean) {
 
         setPref("gptUrl", dialogData.url)
         setPref("gptModel", dialogData.models);
+        setPref("gptIsStream", dialogData.isStream);
       }
       break;
     default:
