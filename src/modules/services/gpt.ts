@@ -38,9 +38,6 @@ export const gptTranslate = <TranslateTaskProcessor>async function (data) {
             try {
               let obj = JSON.parse(data);
               let choice = obj.choices[0];
-              if (choice.finish_reason) {
-                break;
-              }
               result += choice.delta.content || "";
             } catch {
               continue;
