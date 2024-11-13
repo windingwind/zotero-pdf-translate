@@ -100,13 +100,13 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "microsoft",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = secret?.length === 32;
+      const flag = secret?.length === 32 || secret?.length === 84;
       return {
         secret,
         status: flag,
         info: flag
           ? ""
-          : `The secret is your Azure translate service KEY. The secret length must be 32, but got ${secret?.length}.`,
+          : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The secret length must be 32 or 84, but got ${secret?.length}.`,
       };
     },
   },
