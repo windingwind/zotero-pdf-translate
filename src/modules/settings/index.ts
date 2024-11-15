@@ -1,6 +1,7 @@
 import { cnkiStatusCallback } from "./cnki";
 import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
 import { geminiStatusCallback } from "./gemini";
+import { ollamaStatusCallback } from "./ollama";
 import { niutransStatusCallback } from "./niutrans";
 import { deeplxStatusCallback } from "./deeplx";
 
@@ -55,6 +56,13 @@ export const secretStatusButtonData: {
       fail: "service-gemini-secret-fail",
     },
     callback: geminiStatusCallback,
+  },
+  ollama: {
+    labels: {
+      pass: "service-ollama-secret-pass",
+      fail: "service-ollama-secret-fail",
+    },
+    callback: ollamaStatusCallback,
   },
   cnki: {
     labels: {

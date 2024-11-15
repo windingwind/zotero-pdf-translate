@@ -20,6 +20,7 @@ service-xftrans=Xftrans🗝️
 service-chatgpt=ChatGPT🗝️
 service-azuregpt=AzureGPT🗝️
 service-haici=Haici
+service-ollama=Ollama
 service-bingdict=Bing Dict(en↔zh)🔊
 service-haicidict=Haici Dict(en↔zh)🔊
 service-collinsdict=Collins Dict(en↔zh)🔊
@@ -92,6 +93,18 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
 service-gemini-dialog-save=Salva
 service-gemini-dialog-close=Chiudi
+
+service-ollama-secret-pass=Configura
+service-ollama-secret-fail=Configura
+service-ollama-dialog-title=Configura Ollama
+service-ollama-dialog-endPoint=EndPoint
+service-ollama-dialog-model=Model
+service-ollama-dialog-temperature=Temperature
+service-ollama-dialog-numCtx=Context Size
+service-ollama-dialog-prompt=Prompt
+service-ollama-dialog-stream=Stream
+service-ollama-dialog-save=Salva
+service-ollama-dialog-close=Chiudi
 
 service-cnki-settings=Impostazioni
 service-cnki-dialog-regex=Regex per gli annunci CNKI

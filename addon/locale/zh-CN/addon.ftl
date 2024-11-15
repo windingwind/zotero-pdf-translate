@@ -20,6 +20,7 @@ service-xftrans=讯飞🗝️
 service-chatgpt=ChatGPT🗝️
 service-azuregpt=AzureGPT🗝️
 service-haici=海词
+service-ollama=Ollama
 service-bingdict=必应词典(en↔zh)🔊
 service-haicidict=海词词典(en↔zh)🔊
 service-collinsdict=科林斯词典(en↔zh)🔊
@@ -92,6 +93,18 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=流式输出
 service-gemini-dialog-save=保存
 service-gemini-dialog-close=关闭
+
+service-ollama-secret-pass=配置
+service-ollama-secret-fail=配置
+service-ollama-dialog-title=Ollama 配置
+service-ollama-dialog-endPoint=接口
+service-ollama-dialog-model=模型
+service-ollama-dialog-temperature=Temperature
+service-ollama-dialog-numCtx=生成长度
+service-ollama-dialog-prompt=Prompt
+service-ollama-dialog-stream=流式输出
+service-ollama-dialog-save=保存
+service-ollama-dialog-close=关闭
 
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式

@@ -80,6 +80,9 @@ export class TranslationServices {
     import("./gemini").then((e) => {
       this.gemini = new TranslateTaskRunner(e.gemini);
     });
+    import("./ollama").then((e) => {
+      this.ollama = new TranslateTaskRunner(e.ollama);
+    });
     import("./youdao").then(
       (e) => (this.youdao = new TranslateTaskRunner(e.default)),
     );

@@ -70,6 +70,23 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.gemini.stream", true);
+
+pref(
+  "__prefsPrefix__.ollama.endPoint",
+  "http://localhost:11434/api/chat",
+);
+pref(
+  "__prefsPrefix__.ollama.model",
+  "llama3.1",
+);
+pref("__prefsPrefix__.ollama.temperature", "0.5");
+pref("__prefsPrefix__.ollama.numCtx", "4096");
+pref(
+  "__prefsPrefix__.ollama.prompt",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+);
+pref("__prefsPrefix__.ollama.stream", true);
+
 pref(
   "__prefsPrefix__.cnkiRegex",
   "(查看名企职位.+?https://dict.cnki.net[a-zA-Z./]+.html?)",

@@ -348,6 +348,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     },
   },
   {
+    type: "sentence",
+    id: "ollama",
+  },
+  {
     type: "word",
     id: "bingdict",
   },
