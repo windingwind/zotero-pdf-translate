@@ -6,3 +6,6 @@ itemPaneSection-fullHeight =
     .tooltiptext = 自适应高度
 itemPaneSection-openStandalone =
     .tooltiptext = 在独立窗口中打开
+
+field-titleTranslation = 标题翻译
+field-abstractTranslation = 摘要翻译

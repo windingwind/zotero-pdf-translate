@@ -31,7 +31,7 @@ export default <TranslateTaskProcessor>async function (data) {
     (e: Element) => translations.push(process(e)),
   );
 
-  Array.from(doc.querySelectorAll(".intrst"))
+  (Array.from(doc.querySelectorAll(".intrst")) as Element[])
     .map((e: Element) => e.querySelector("tr"))
     .forEach((e) => {
       e && translations.push(process(e));

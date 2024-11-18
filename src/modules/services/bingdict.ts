@@ -12,7 +12,9 @@ export default <TranslateTaskProcessor>async function (data) {
 
   let res = xhr.response;
   const doc = new DOMParser().parseFromString(res, "text/html");
-  const mp3s = Array.from(doc.querySelectorAll(".hd_area .bigaud"));
+  const mp3s = Array.from(
+    doc.querySelectorAll(".hd_area .bigaud"),
+  ) as Element[];
   const phoneticText = doc.querySelectorAll(".hd_area .b_primtxt");
   data.audio = mp3s.map((a: Element, i: number) => ({
     text: phoneticText[i].innerHTML.replace("&nbsp;", " "),

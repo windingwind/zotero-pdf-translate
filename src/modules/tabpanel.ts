@@ -71,7 +71,7 @@ async function openWindowPanel() {
       getPref("keepWindowTop") ? ",alwaysRaised=yes" : ""
     }`,
     dialogData,
-  );
+  )!;
   await dialogData.loadLock.promise;
   buildExtraPanel(win.document);
   updateExtraPanel(win.document);
@@ -88,10 +88,7 @@ export function updateReaderTabPanels() {
   }
 }
 
-function onInit({
-  body,
-  refresh,
-}: _ZoteroTypes.ItemPaneManager.SectionInitHookArgs) {
+function onInit({ body, refresh }: { body: HTMLElement; refresh: () => void }) {
   const paneUID = Zotero.Utilities.randomString(8);
   body.dataset.paneUid = paneUID;
   addon.data.panel.activePanels[paneUID] = refresh;
@@ -244,7 +241,12 @@ function onItemChange({
   item,
   body,
   setEnabled,
-}: _ZoteroTypes.ItemPaneManager.SectionHookArgs) {
+}: {
+  tabType: string;
+  item: Zotero.Item;
+  body: HTMLElement;
+  setEnabled: (enabled: boolean) => void;
+}) {
   if (tabType !== "reader") {
     setEnabled(false);
   }

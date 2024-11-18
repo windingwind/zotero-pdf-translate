@@ -24,9 +24,10 @@ import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
 import { registerExtraColumns } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
-import { registerItemBoxExtraRows } from "./modules/itemBox";
+import { registerItemPaneInfoRows } from "./modules/infoBox";
 import { registerPrompt } from "./modules/prompt";
 import { createZToolkit } from "./utils/ztoolkit";
+import { registerCustomFields } from "./modules/fields";
 
 async function onStartup() {
   await Promise.all([
@@ -46,6 +47,8 @@ async function onStartup() {
 
   setDefaultPrefSettings();
 
+  registerCustomFields();
+
   registerReaderInitializer();
 
   registerShortcuts();
@@ -53,6 +56,12 @@ async function onStartup() {
   registerNotify(["item"]);
 
   registerPrefsWindow();
+
+  registerExtraColumns();
+
+  registerItemPaneInfoRows();
+
+  registerReaderTabPanel();
 
   await onMainWindowLoad(window);
 }
@@ -80,17 +89,11 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     win,
   );
 
-  // Create ztoolkit for every window
-  addon.data.ztoolkit = createZToolkit();
-
   (win as any).MozXULElement.insertFTLIfNeeded(
     `${config.addonRef}-mainWindow.ftl`,
   );
 
-  registerReaderTabPanel();
   registerMenu();
-  await registerExtraColumns();
-  await registerItemBoxExtraRows();
   registerPrompt();
 
   win.document.addEventListener("focusout", () => {
@@ -99,8 +102,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
-  ztoolkit.unregisterAll();
-
   win.document
     .querySelector(`[href="${config.addonRef}-mainWindow.ftl"]`)
     ?.remove();

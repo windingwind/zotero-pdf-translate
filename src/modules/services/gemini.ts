@@ -26,56 +26,52 @@ const geminiTranslate = async function (
     }
   }
 
-  const xhr = await Zotero.HTTP.request(
-    "POST",
-    getGenContentAPI(data),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: transformContent(data.langfrom, data.langto, data.raw),
-              },
-            ],
-          },
-        ],
-      }),
-      responseType: "text",
-      requestObserver: (xmlhttp: XMLHttpRequest) => {
-        let preLength = 0;
-        let result = "";
-        xmlhttp.onprogress = (e: any) => {
-          // Only concatenate the new strings
-          const newResponse = e.target.response.slice(preLength);
-          const dataArray = newResponse.split("data: ");
-
-          for (const data of dataArray) {
-            if (data) {
-              result +=
-                JSON.parse(data).candidates[0].content.parts[0].text || "";
-            }
-          }
-
-          // Clear timeouts caused by stream transfers
-          if (e.target.timeout) {
-            e.target.timeout = 0;
-          }
-
-          data.result = result;
-          preLength = e.target.response.length;
-
-          if (data.type === "text") {
-            addon.hooks.onReaderPopupRefresh();
-            addon.hooks.onReaderTabPanelRefresh();
-          }
-        };
-      },
+  const xhr = await Zotero.HTTP.request("POST", getGenContentAPI(data), {
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: transformContent(data.langfrom, data.langto, data.raw),
+            },
+          ],
+        },
+      ],
+    }),
+    responseType: "text",
+    requestObserver: (xmlhttp: XMLHttpRequest) => {
+      let preLength = 0;
+      let result = "";
+      xmlhttp.onprogress = (e: any) => {
+        // Only concatenate the new strings
+        const newResponse = e.target.response.slice(preLength);
+        const dataArray = newResponse.split("data: ");
+
+        for (const data of dataArray) {
+          if (data) {
+            result +=
+              JSON.parse(data).candidates[0].content.parts[0].text || "";
+          }
+        }
+
+        // Clear timeouts caused by stream transfers
+        if (e.target.timeout) {
+          e.target.timeout = 0;
+        }
+
+        data.result = result;
+        preLength = e.target.response.length;
+
+        if (data.type === "text") {
+          addon.hooks.onReaderPopupRefresh();
+          addon.hooks.onReaderTabPanelRefresh();
+        }
+      };
+    },
+  });
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }

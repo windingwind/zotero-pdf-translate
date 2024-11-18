@@ -1,8 +1,8 @@
 import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 
-export async function registerExtraColumns() {
-  await Zotero.ItemTreeManager.registerColumns({
+export function registerExtraColumns() {
+  Zotero.ItemTreeManager.registerColumn({
     dataKey: "titleTranslation",
     label: getString("field-titleTranslation"),
     dataProvider: (item, dataKey) =>

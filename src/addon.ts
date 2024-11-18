@@ -3,9 +3,11 @@ import hooks from "./hooks";
 import { TranslateTask } from "./utils/task";
 import { TranslationServices } from "./modules/services";
 import { createZToolkit } from "./utils/ztoolkit";
+import { config } from "../package.json";
 
 class Addon {
   public data: {
+    config: typeof config;
     alive: boolean;
     // Env type, see build.js
     env: "development" | "production";
@@ -42,6 +44,7 @@ class Addon {
 
   constructor() {
     this.data = {
+      config,
       alive: true,
       env: __env__,
       ztoolkit: createZToolkit(),
