@@ -187,6 +187,8 @@ Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,so
 Apply [here](https://platform.openai.com/signup).  
 The secret format is `sk-#SecretKey`(split with '#').
 
+Support third-party compatible APIs.
+
 > [Chinese Document](https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b)
 
 ### User Interface
