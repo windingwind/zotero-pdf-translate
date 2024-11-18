@@ -77,7 +77,7 @@ pref(
 );
 pref(
   "__prefsPrefix__.ollama.model",
-  "llama3.1",
+  "qwen2.5",
 );
 pref("__prefsPrefix__.ollama.temperature", "0.5");
 pref("__prefsPrefix__.ollama.numCtx", "4096");
