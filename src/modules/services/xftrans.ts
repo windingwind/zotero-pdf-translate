@@ -55,7 +55,7 @@ export default <TranslateTaskProcessor>async function (data) {
         to: to,
       },
       data: {
-        text: base64(new TextEncoder().encode(text)),
+        text: base64(new TextEncoder().encode(text).buffer as ArrayBuffer),
       },
     };
     return digestObj;

@@ -19,9 +19,11 @@ async function hmacSha1Digest(
   secretKey: string | ArrayBuffer,
 ) {
   const enc = new TextEncoder();
-  let keyData = secretKey;
-  if (typeof keyData === "string") {
-    keyData = enc.encode(keyData);
+  let keyData: ArrayBuffer;
+  if (typeof secretKey === "string") {
+    keyData = enc.encode(secretKey).buffer as ArrayBuffer;
+  } else {
+    keyData = secretKey;
   }
   const key = await crypto.subtle.importKey(
     "raw",
@@ -41,9 +43,11 @@ async function hmacSha256Digest(
   secretKey: string | ArrayBuffer,
 ): Promise<ArrayBuffer> {
   const enc = new TextEncoder();
-  let keyData = secretKey;
-  if (typeof keyData === "string") {
-    keyData = enc.encode(keyData);
+  let keyData: ArrayBuffer;
+  if (typeof secretKey === "string") {
+    keyData = enc.encode(secretKey).buffer as ArrayBuffer;
+  } else {
+    keyData = secretKey;
   }
   const key = await crypto.subtle.importKey(
     "raw",

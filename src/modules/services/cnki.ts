@@ -120,6 +120,6 @@ export async function getToken(forceRefresh: boolean = false) {
 
 export async function getWord(text: string) {
   const encrypted = await aesEcbEncrypt(text, "4e87183cfd3a45fe");
-  const base64str = base64(encrypted);
+  const base64str = base64(encrypted.buffer);
   return base64str.replace(/\//g, "_").replace(/\+/g, "-");
 }
