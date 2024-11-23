@@ -58,7 +58,10 @@ async function _google(url: string, data: Required<TranslateTask>) {
     return a;
   }
 
-  const param = `sl=${data.langfrom}&tl=${data.langto}`;
+  const langfrom = LANG_MAP[data.langfrom] || data.langfrom;
+  const langto = LANG_MAP[data.langto] || data.langto;
+
+  const param = `sl=${langfrom}&tl=${langto}`;
 
   const xhr = await Zotero.HTTP.request(
     "GET",
@@ -84,3 +87,8 @@ async function _google(url: string, data: Required<TranslateTask>) {
   }
   data.result = tgt;
 }
+
+const LANG_MAP = {
+  // https://github.com/windingwind/zotero-pdf-translate/issues/997
+  "pt-BR": "pt",
+} as Record<string, string | undefined>;
