@@ -2,7 +2,11 @@ import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 
 export function registerExtraColumns() {
-  Zotero.ItemTreeManager.registerColumn({
+  // TEMP: Remove after Zotero 7.0.10
+  const registerColumn =
+    Zotero.ItemTreeManager.registerColumn ||
+    Zotero.ItemTreeManager.registerColumns;
+  registerColumn({
     dataKey: "titleTranslation",
     label: getString("field-titleTranslation"),
     dataProvider: (item, dataKey) =>
