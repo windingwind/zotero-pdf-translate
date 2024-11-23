@@ -3,10 +3,11 @@ import { getPref } from "../utils/prefs";
 export { registerItemPaneInfoRows };
 
 function registerItemPaneInfoRows() {
-  if (
-    getPref("showItemBoxTitleTranslation") !== false &&
-    Zotero.ItemPaneManager.registerInfoRow
-  ) {
+  if (!Zotero.ItemPaneManager.registerInfoRow) {
+    return;
+  }
+
+  if (getPref("showItemBoxTitleTranslation") !== false) {
     Zotero.ItemPaneManager.registerInfoRow({
       rowID: "titleTranslation",
       pluginID: addon.data.config.addonID,
