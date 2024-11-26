@@ -150,7 +150,7 @@ export class TranslatorPanel extends PluginCEBase {
     });
 
     // Text change
-    this._queryID("raw-text")?.addEventListener("keydown", (e) => {
+    this._queryID("raw-text")?.addEventListener("input", (e) => {
       let task = getLastTranslateTask({
         id: this._taskID,
       });
@@ -174,7 +174,7 @@ export class TranslatorPanel extends PluginCEBase {
       putTranslateTaskAtHead(task.id);
     });
 
-    this._queryID("result-text")?.addEventListener("keydown", (e) => {
+    this._queryID("result-text")?.addEventListener("input", (e) => {
       let task = getLastTranslateTask({
         id: this._taskID,
       });
