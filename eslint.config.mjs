@@ -44,4 +44,19 @@ export default tseslint.config(
       "@typescript-eslint/no-non-null-assertion": "off",
     },
   },
+  {
+    // allow to use the `document` global directly in CEs
+    files: ["src/elements/*.ts"],
+    rules: {
+      "no-restricted-globals": [
+        "error",
+        { message: "Use `Zotero.getMainWindow()` instead.", name: "window" },
+        {
+          message: "Use `Zotero.getActiveZoteroPane()` instead.",
+          name: "ZoteroPane",
+        },
+        "Zotero_Tabs",
+      ],
+    },
+  },
 );
