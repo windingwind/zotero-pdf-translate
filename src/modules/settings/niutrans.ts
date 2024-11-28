@@ -246,7 +246,7 @@ export async function niutransStatusCallback(status: boolean) {
           dialogData.password,
         );
         if (!loginFlag) {
-          window.alert(loginErrorMessage);
+          Zotero.getMainWindow().alert(loginErrorMessage);
         }
         await niutransStatusCallback(loginFlag);
       }

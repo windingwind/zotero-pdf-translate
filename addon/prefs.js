@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 pref("__prefsPrefix__.enableAuto", true);
 pref("__prefsPrefix__.enableDict", true);
 pref("__prefsPrefix__.enablePopup", true);

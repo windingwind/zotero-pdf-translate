@@ -9,6 +9,7 @@ function registerCustomFields() {
       unformatted: boolean,
       includeBaseMapped: boolean,
       item: Zotero.Item,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       original: Function,
     ) => {
       return ztoolkit.ExtraField.getExtraField(item, field) || "";
@@ -23,6 +24,7 @@ function registerCustomFields() {
       unformatted: boolean,
       includeBaseMapped: boolean,
       item: Zotero.Item,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       original: Function,
     ) => {
       return ztoolkit.ExtraField.getExtraField(item, field) || "";

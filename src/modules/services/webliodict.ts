@@ -31,11 +31,13 @@ export default <TranslateTaskProcessor>async function (data) {
     (e: Element) => translations.push(process(e)),
   );
 
-  (Array.from(doc.querySelectorAll(".intrst")) as Element[])
-    .map((e: Element) => e.querySelector("tr"))
-    .forEach((e) => {
-      e && translations.push(process(e));
-    });
+  for (const e of doc.querySelectorAll<Element>(".intrst")) {
+    const tableRow = e.querySelector<HTMLTableRowElement>("tr");
+    if (tableRow) {
+      translations.push(process(tableRow));
+    }
+  }
+
   data.result = translations
     .filter((t) => t)
     .map((t) => t.join(":"))

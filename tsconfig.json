@@ -4,6 +4,9 @@
     "module": "commonjs",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "target": "ES2016",
+    // esModuleInterop is required for importing CommonJS modules with native ESM
+    // used by 'src/utils/config.ts'
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true

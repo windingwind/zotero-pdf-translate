@@ -1,6 +1,6 @@
 import { franc } from "franc";
-import ISO6393_3_TO_2 = require("iso639-js/alpha3to2mapping.json");
-import ISO6393_MACRO_LANGS = require("iso639-js/reference/iso639-3-macrolanguages.json");
+import ISO6393_3_TO_2 from "iso639-js/alpha3to2mapping.json";
+import ISO6393_MACRO_LANGS from "iso639-js/reference/iso639-3-macrolanguages.json";
 
 interface TranslateService {
   type: "word" | "sentence";
@@ -1602,15 +1602,13 @@ export const LANG_CODE = <const>[
   },
 ];
 
-const MACRO_LANG_MAP = Object.keys(ISO6393_MACRO_LANGS).reduce(
-  (prev, curr) => {
-    ISO6393_MACRO_LANGS[curr as keyof typeof ISO6393_MACRO_LANGS].forEach(
-      (macroLang) => {
-        Object.keys(macroLang).forEach((macroLangCode) => {
-          prev[macroLangCode] = curr;
-        });
-      },
-    );
+const MACRO_LANG_MAP = Object.entries(ISO6393_MACRO_LANGS).reduce(
+  (prev, [curr, items]) => {
+    items.forEach((macroLang) => {
+      Object.keys(macroLang).forEach((macroLangCode) => {
+        prev[macroLangCode] = curr;
+      });
+    });
     return prev;
   },
   {} as Record<string, string>,

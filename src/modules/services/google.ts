@@ -19,6 +19,8 @@ async function _google(url: string, data: Required<TranslateTask>) {
 
     let e, f, g;
 
+    // disable the eslint, as the code is copied from google translate
+    /* eslint-disable */
     for (e = [], f = 0, g = 0; g < a.length; g++) {
       let m = a.charCodeAt(g);
       128 > m
@@ -42,6 +44,7 @@ async function _google(url: string, data: Required<TranslateTask>) {
     a ^= b1 || 0;
     0 > a && (a = (a & 2147483647) + 2147483648);
     a %= 1e6;
+    /* eslint-enable */
     return a.toString() + jd + (a ^ b);
   }
 
@@ -50,9 +53,9 @@ async function _google(url: string, data: Required<TranslateTask>) {
     const Yb = "+";
     let d;
     for (let c = 0; c < b.length - 2; c += 3) {
-      (d = b.charAt(c + 2)),
-        (d = d >= t ? d.charCodeAt(0) - 87 : Number(d)),
-        (d = b.charAt(c + 1) == Yb ? a >>> d : a << d);
+      d = b.charAt(c + 2);
+      d = d >= t ? d.charCodeAt(0) - 87 : Number(d);
+      d = b.charAt(c + 1) == Yb ? a >>> d : a << d;
       a = b.charAt(c) == Yb ? (a + d) & 4294967295 : a ^ d;
     }
     return a;

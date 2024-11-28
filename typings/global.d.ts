@@ -2,7 +2,6 @@ declare const _globalThis: {
   [key: string]: any;
   Zotero: _ZoteroTypes.Zotero;
   ZoteroPane: _ZoteroTypes.ZoteroPane;
-  Zotero_Tabs: typeof Zotero_Tabs;
   ZoteroContextPane: typeof ZoteroContextPane;
   window: Window;
   document: Document;
@@ -35,6 +34,8 @@ declare class XULElementBase extends HTMLElement {
     oldValue: string,
     newValue: string,
   ): void;
+  _handleWindowUnload(): void;
+  initialized: boolean = false;
   static get observedAttributes(): string[];
 }
 

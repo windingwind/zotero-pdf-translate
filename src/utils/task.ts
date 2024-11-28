@@ -139,6 +139,7 @@ export function addTranslateTask(
   const addon = Zotero[config.addonInstance] as Addon;
   type = type || "text";
   // Filter raw string
+
   // eslint-disable-next-line no-control-regex
   raw = raw.replace(/[\u0000-\u001F\u007F-\u009F]/gu, " ").normalize("NFKC");
 
@@ -374,7 +375,9 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
         if (inferredLanguage) {
           // Update language field so that it can be used in the future
           itemLanguage = inferredLanguage;
-          topItem.isRegularItem() && topItem.setField("language", fromLanguage);
+          if (topItem.isRegularItem()) {
+            topItem.setField("language", fromLanguage);
+          }
         }
       }
       if (itemLanguage && ![fromLanguage, toLanguage].includes(itemLanguage)) {

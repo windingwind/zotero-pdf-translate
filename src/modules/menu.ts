@@ -12,13 +12,14 @@ export function registerMenu() {
   ztoolkit.Menu.register("item", {
     tag: "menuseparator",
   });
-  getPref("showItemMenuTitleTranslation") &&
+  if (getPref("showItemMenuTitleTranslation")) {
     ztoolkit.Menu.register("item", {
       tag: "menuitem",
       label: getString("itemmenu-translateTitle-label"),
       commandListener: (ev) => {
         addon.hooks.onTranslateInBatch(
-          ZoteroPane.getSelectedItems(true)
+          Zotero.getActiveZoteroPane()
+            .getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
           { noDisplay: true },
@@ -26,14 +27,16 @@ export function registerMenu() {
       },
       icon: menuIcon,
     });
+  }
 
-  getPref("showItemMenuAbstractTranslation") &&
+  if (getPref("showItemMenuAbstractTranslation")) {
     ztoolkit.Menu.register("item", {
       tag: "menuitem",
       label: getString("itemmenu-translateAbstract-label"),
       commandListener: (ev) => {
         addon.hooks.onTranslateInBatch(
-          ZoteroPane.getSelectedItems(true)
+          Zotero.getActiveZoteroPane()
+            .getSelectedItems(true)
             .map((id) => addTranslateAbstractTask(id, true))
             .filter((task) => task) as TranslateTask[],
           { noDisplay: true },
@@ -41,4 +44,5 @@ export function registerMenu() {
       },
       icon: menuIcon,
     });
+  }
 }

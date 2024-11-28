@@ -15,20 +15,19 @@ export class PluginCEBase extends XULElementBase {
     // Following the connectedCallback from XULElementBase
     let content: Node = this.content;
     if (content) {
-      content = document.importNode(content, true);
+      content = Zotero.getMainWindow().document.importNode(content, true);
       this.shadowRoot?.append(content);
     }
 
     MozXULElement.insertFTLIfNeeded("branding/brand.ftl");
     MozXULElement.insertFTLIfNeeded("zotero.ftl");
-    if (document.l10n && this.shadowRoot) {
-      document.l10n.connectRoot(this.shadowRoot);
+    const documentL10n = Zotero.getMainWindow().document.l10n;
+    if (documentL10n && this.shadowRoot) {
+      documentL10n.connectRoot(this.shadowRoot);
     }
 
-    // @ts-ignore
-    window.addEventListener("unload", this._handleWindowUnload);
+    Zotero.getMainWindow().addEventListener("unload", this._handleWindowUnload);
 
-    // @ts-ignore
     this.initialized = true;
     this.init();
   }
