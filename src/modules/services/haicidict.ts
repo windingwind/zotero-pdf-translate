@@ -1,7 +1,7 @@
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const xhr = await Zotero.HTTP.request("GET", `http://dict.cn/${data.raw}`, {
+  const xhr = await Zotero.HTTP.request("GET", `https://dict.cn/${data.raw}`, {
     responseType: "text",
   });
   if (xhr?.status !== 200) {
@@ -9,31 +9,30 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   let res = xhr.response as string;
-  let tgt = "";
   try {
-    const audioRegex = /naudio="(\w+.mp3\?t=\w+?)"/;
-    data.audio =
-      res.match(new RegExp(audioRegex, "gi"))?.map((s: string) => ({
-        text: "",
-        url: "http://audio.dict.cn/" + s.match(new RegExp(audioRegex, "i"))![1],
-      })) || [];
-    const symbolsRegex = /<span>(.)[\n\t\s]*?<bdo lang="EN-US">(.+?)<\/bdo>/;
-    const symbols: string[] = [];
-    res.match(new RegExp(symbolsRegex, "g"))!.forEach((line) => {
-      const [_, country, sym] = line.match(symbolsRegex)!;
-      symbols.push(`${country} ${sym}`);
-    });
-    tgt += symbols.join("\n") + "\n";
-    res = res.match(/<ul class="dict-basic-ul">[\s\S]+?<\/ul>/)![0];
+    const doc = new DOMParser().parseFromString(res, "text/html");
+
+    const audioList: Array<{ text: string; url: string }> = [];
+    for (const span of doc.querySelectorAll<HTMLSpanElement>(
+      "div.phonetic > span",
+    )) {
+      const text = span.innerText.replace(/\s+/g, " ").trim();
+      for (const item of span.querySelectorAll("i")) {
+        audioList.push({
+          text: `${text} ${item.title}`,
+          url: `https://audio.dict.cn/${item.getAttribute("naudio")}`,
+        });
+      }
+    }
+    data.audio = audioList;
+    const items = Array.from(
+      doc.querySelectorAll<HTMLLIElement>("ul.dict-basic-ul > li"),
+    )
+      .filter((item) => !Boolean(item.querySelector("script")))
+      .map((item) => item.innerText.replace(/\s+/g, " ").trim())
+      .filter((item) => Boolean(item));
+    data.result = `${items.join("\n")}\n`;
   } catch (e) {
     throw "Parse error";
   }
-  for (const line of res.match(/<li>[\s\S]+?<\/li>/g) || []) {
-    tgt +=
-      line
-        .replace(/<\/?.+?>/g, "")
-        .replace(/[\n\t]+/g, " ")
-        .trim() + "\n";
-  }
-  data.result = tgt;
 };
