@@ -8,7 +8,7 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Request error: ${xhr?.status}`;
   }
 
-  let res = xhr.response as string;
+  const res = xhr.response as string;
   try {
     const doc = new DOMParser().parseFromString(res, "text/html");
 
@@ -28,7 +28,7 @@ export default <TranslateTaskProcessor>async function (data) {
     const items = Array.from(
       doc.querySelectorAll<HTMLLIElement>("ul.dict-basic-ul > li"),
     )
-      .filter((item) => !Boolean(item.querySelector("script")))
+      .filter((item) => !item.querySelector("script"))
       .map((item) => item.innerText.replace(/\s+/g, " ").trim())
       .filter((item) => Boolean(item));
     data.result = `${items.join("\n")}\n`;
