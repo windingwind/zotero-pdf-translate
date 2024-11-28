@@ -63,7 +63,9 @@ async function onStartup() {
 
   registerReaderTabPanel();
 
-  await onMainWindowLoad(Zotero.getMainWindow());
+  await Promise.all(
+    Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
+  );
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
