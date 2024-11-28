@@ -25,7 +25,7 @@ export class PluginCEBase extends XULElementBase {
       document.l10n.connectRoot(this.shadowRoot);
     }
 
-    Zotero.getMainWindow().addEventListener("unload", this._handleWindowUnload);
+    window.addEventListener("unload", this._handleWindowUnload);
 
     this.initialized = true;
     this.init();
