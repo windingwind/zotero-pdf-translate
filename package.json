@@ -63,24 +63,5 @@
         }
       }
     ]
-  },
-  "release-it": {
-    "git": {
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": false
-    },
-    "github": {
-      "release": false,
-      "assets": [
-        "build/*.xpi"
-      ]
-    },
-    "hooks": {
-      "before:init": "npm run lint",
-      "after:bump": "npm run build",
-      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
-    }
   }
 }
