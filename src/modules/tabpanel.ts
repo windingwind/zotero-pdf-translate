@@ -48,7 +48,7 @@ export function registerReaderTabPanel() {
         onClick: ({ body }) => {
           const details = body.closest("item-details");
           onUpdateHeight({ body });
-          // @ts-ignore
+          // @ts-ignore 'item-details' is a custom element on Zotero
           details.scrollToPane(paneKey);
         },
       },
@@ -255,7 +255,7 @@ function onItemChange({
 }
 
 function updateExtraPanel(container: HTMLElement | Document) {
-  let lastTask = getLastTranslateTask();
+  const lastTask = getLastTranslateTask();
   const panel = container.querySelector(
     "translator-plugin-panel",
   ) as TranslatorPanel;

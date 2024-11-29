@@ -13,7 +13,6 @@ export default <TranslateTaskProcessor>async function (data) {
     appid + data.raw + salt + key,
     false,
   );
-  `from=${data.langfrom.split("-")[0]}&to=${data.langto.split("-")[0]}`;
 
   // Request
   const xhr = await Zotero.HTTP.request(

@@ -86,7 +86,11 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  updateHidden(addToNoteButton, !ZoteroContextPane.activeEditor);
+
+  updateHidden(
+    addToNoteButton,
+    !Zotero.getMainWindow().ZoteroContextPane.activeEditor,
+  );
 
   updatePopupSize(popup, textarea);
 }
@@ -103,6 +107,8 @@ export function buildReaderPopup(
     `${config.addonRef}-prefix`,
     `${config.addonRef}-${reader._instanceID}`,
   );
+
+  const ZoteroContextPane = Zotero.getMainWindow().ZoteroContextPane;
 
   const colors = popup.querySelector(".colors") as HTMLDivElement;
   colors.style.width = "100%";

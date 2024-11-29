@@ -14,7 +14,7 @@
     "start": "zotero-plugin serve",
     "build": "tsc --noEmit && zotero-plugin build",
     "release": "zotero-plugin release",
-    "lint": "prettier --write . && eslint . --ext .ts --fix",
+    "lint": "prettier --write . && eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-deps": "npm update --save"
   },
@@ -48,55 +48,6 @@
     "typescript-eslint": "^8.16.0",
     "zotero-plugin-scaffold": "^0.1.7",
     "zotero-types": "^3.0.3"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es2021": true
-    },
-    "root": true,
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "prettier"
-    ],
-    "overrides": [],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "@typescript-eslint/ban-ts-comment": [
-        "warn",
-        {
-          "ts-expect-error": "allow-with-description",
-          "ts-ignore": "allow-with-description",
-          "ts-nocheck": "allow-with-description",
-          "ts-check": "allow-with-description"
-        }
-      ],
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-explicit-any": [
-        "off",
-        {
-          "ignoreRestArgs": true
-        }
-      ],
-      "@typescript-eslint/no-non-null-assertion": "off"
-    },
-    "ignorePatterns": [
-      "**/build/**",
-      "**/logs/**",
-      "**/dist/**",
-      "**/node_modules/**",
-      "**/scripts/**",
-      "**/*.js",
-      "**/*.bak"
-    ]
   },
   "prettier": {
     "printWidth": 80,

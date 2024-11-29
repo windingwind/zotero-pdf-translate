@@ -2,7 +2,9 @@ export function registerShortcuts() {
   ztoolkit.Keyboard.register((ev, data) => {
     if (data.type === "keyup" && data.keyboard) {
       if (data.keyboard.equals("accel,T")) {
-        addon.hooks.onShortcuts(Zotero_Tabs.selectedType);
+        addon.hooks.onShortcuts(
+          Zotero.getMainWindow().Zotero_Tabs.selectedType,
+        );
       }
     }
     if (data.type === "keydown") {

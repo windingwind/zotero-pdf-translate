@@ -10,7 +10,6 @@ export default <TranslateTaskProcessor>async function (data) {
     appid + data.raw + salt + domain + key,
     false,
   );
-  `from=${data.langfrom.split("-")[0]}&to=${data.langto.split("-")[0]}`;
   const xhr = await Zotero.HTTP.request(
     "GET",
     `http://api.fanyi.baidu.com/api/trans/vip/fieldtranslate?q=${encodeURIComponent(

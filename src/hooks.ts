@@ -63,7 +63,9 @@ async function onStartup() {
 
   registerReaderTabPanel();
 
-  await onMainWindowLoad(window);
+  await Promise.all(
+    Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
+  );
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
@@ -154,7 +156,8 @@ function onShortcuts(type: string) {
     case "library":
       {
         addon.hooks.onTranslateInBatch(
-          ZoteroPane.getSelectedItems(true)
+          Zotero.getActiveZoteroPane()
+            .getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
           { noDisplay: true },

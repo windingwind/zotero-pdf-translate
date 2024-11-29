@@ -203,12 +203,13 @@ export function registerPrompt() {
       `,
         );
         const subContainers: HTMLDivElement[] = [];
+        const doc = Zotero.getMainWindow().document;
         [
           ["raw", rawText, [".", "?", "!"]],
           ["result", resultText, ["?", "!", "！", "。", "？"]],
         ].forEach((args: any[]) => {
           const [className, text, dividers] = args;
-          const subContainer = ztoolkit.UI.createElement(document, "div", {
+          const subContainer = ztoolkit.UI.createElement(doc, "div", {
             styles: {
               padding: ".5em",
               border: "1px solid #eee",
@@ -240,7 +241,7 @@ export function registerPrompt() {
         });
 
         const size = 5;
-        const resizer = ztoolkit.UI.createElement(document, "div", {
+        const resizer = ztoolkit.UI.createElement(doc, "div", {
           styles: {
             height: direction == "row" ? "100%" : `${size}px`,
             width: direction == "column" ? "100%" : `${size}px`,
@@ -267,8 +268,8 @@ export function registerPrompt() {
           const rect = subContainers[1].getBoundingClientRect();
           h = rect.height;
           w = rect.width;
-          document.addEventListener("mousemove", mouseMoveHandler);
-          document.addEventListener("mouseup", mouseUpHandler);
+          doc.addEventListener("mousemove", mouseMoveHandler);
+          doc.addEventListener("mouseup", mouseUpHandler);
         };
         const mouseMoveHandler = function (e: MouseEvent) {
           const dy = e.clientY - y;
@@ -289,8 +290,8 @@ export function registerPrompt() {
               .querySelectorAll("span")
               .forEach((e: HTMLSpanElement) => (e.style.display = ""));
           });
-          document.removeEventListener("mousemove", mouseMoveHandler);
-          document.removeEventListener("mouseup", mouseUpHandler);
+          doc.removeEventListener("mousemove", mouseMoveHandler);
+          doc.removeEventListener("mouseup", mouseUpHandler);
         };
         resizer.addEventListener("mousedown", mouseDownHandler);
 

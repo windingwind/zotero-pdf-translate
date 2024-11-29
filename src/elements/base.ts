@@ -25,10 +25,8 @@ export class PluginCEBase extends XULElementBase {
       document.l10n.connectRoot(this.shadowRoot);
     }
 
-    // @ts-ignore
     window.addEventListener("unload", this._handleWindowUnload);
 
-    // @ts-ignore
     this.initialized = true;
     this.init();
   }
