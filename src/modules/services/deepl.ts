@@ -18,9 +18,7 @@ async function deepl(url: string, data: Required<TranslateTask>) {
   const [key, glossary_id]: string[] = data.secret.split("#");
   let reqBody = `auth_key=${key}&text=${encodeURIComponent(
     data.raw,
-  )}&source_lang=${data.langfrom
-    .split("-")[0]
-    .toUpperCase()}&target_lang=${data.langto.split("-")[0].toUpperCase()}`;
+  )}&source_lang=${mapLang(data.langfrom)}&target_lang=${mapLang(data.langto)}`;
   if (glossary_id) {
     reqBody += `&glossary_id=${glossary_id}`;
   }
@@ -33,3 +31,20 @@ async function deepl(url: string, data: Required<TranslateTask>) {
   }
   data.result = xhr.response.translations[0].text;
 }
+
+function mapLang(lang: string) {
+  if (lang in LANG_MAP) {
+    return LANG_MAP[lang];
+  }
+  return lang.split("-")[0].toUpperCase();
+}
+
+const LANG_MAP = {
+  "pt-BR": "PT-BR",
+  "pt-PT": "PT-PT",
+  "zh-CN": "ZH-HANS",
+  "zh-HK": "ZH-HANT",
+  "zh-MO": "ZH-HANT",
+  "zh-SG": "ZH-HANS",
+  "zh-TW": "ZH-HANT",
+} as Record<string, string | undefined>;

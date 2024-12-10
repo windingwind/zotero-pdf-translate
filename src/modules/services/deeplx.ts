@@ -21,8 +21,8 @@ export default <TranslateTaskProcessor>async function (data) {
       ],
       splitting: "newlines",
       lang: {
-        source_lang_user_selected: data.langfrom.split("-")[0].toUpperCase(),
-        target_lang: data.langto.split("-")[0].toUpperCase(),
+        source_lang_user_selected: mapLang(data.langfrom),
+        target_lang: mapLang(data.langto),
       },
       timestamp: ts - (ts % ICounts) + ICounts,
       commonJobParams: {
@@ -58,3 +58,21 @@ export default <TranslateTaskProcessor>async function (data) {
   }
   data.result = xhr.response.result.texts[0].text;
 };
+
+// Inherited from src/modules/services/deepl.ts
+function mapLang(lang: string) {
+  if (lang in LANG_MAP) {
+    return LANG_MAP[lang];
+  }
+  return lang.split("-")[0].toUpperCase();
+}
+
+const LANG_MAP = {
+  "pt-BR": "PT-BR",
+  "pt-PT": "PT-PT",
+  "zh-CN": "ZH-HANS",
+  "zh-HK": "ZH-HANT",
+  "zh-MO": "ZH-HANT",
+  "zh-SG": "ZH-HANS",
+  "zh-TW": "ZH-HANT",
+} as Record<string, string | undefined>;
