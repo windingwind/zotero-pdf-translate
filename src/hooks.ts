@@ -26,7 +26,6 @@ import { registerExtraColumns } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
 import { registerItemPaneInfoRows } from "./modules/infoBox";
 import { registerPrompt } from "./modules/prompt";
-import { createZToolkit } from "./utils/ztoolkit";
 import { registerCustomFields } from "./modules/fields";
 
 async function onStartup() {
