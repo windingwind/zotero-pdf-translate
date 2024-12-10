@@ -56,6 +56,10 @@ export interface TranslateTask {
    */
   langto?: string;
   /**
+   * Whether the from language is inferred.
+   */
+  langfromInferred?: boolean;
+  /**
    * Service secret.
    *
    * Generated at task runtime.
@@ -82,6 +86,10 @@ export interface TranslateTask {
    * If not provided, the call will fail.
    */
   callerID?: string;
+  /**
+   * If the task is once processed.
+   */
+  processed?: boolean;
 }
 
 export type TranslateTaskProcessor = (
@@ -99,11 +107,19 @@ export class TranslateTaskRunner {
     const ztoolkit = addon.data.ztoolkit;
     if (!data.langfrom || !data.langto) {
       ztoolkit.log("try auto detect language");
-      const { fromLanguage, toLanguage } = autoDetectLanguage(
+      const { fromLanguage, toLanguage, isInferred } = autoDetectLanguage(
         Zotero.Items.get(data.itemId || -1),
       );
       data.langfrom = data.langfrom || fromLanguage;
       data.langto = data.langto || toLanguage;
+      if (isInferred) {
+        data.langfromInferred = true;
+      }
+    }
+
+    // If the task is not new, update language settings
+    if (data.processed) {
+      updateTranslateTaskLang(data);
     }
 
     data.callerID = data.callerID || config.addonID;
@@ -118,6 +134,7 @@ export class TranslateTaskRunner {
       data.result = this.makeErrorInfo(data.service, String(e));
       data.status = "fail";
     }
+    data.processed = true;
   }
 
   protected makeErrorInfo(serviceId: string, detail: string) {
@@ -325,6 +342,16 @@ export function getLastTranslateTask<
   return undefined;
 }
 
+/**
+ * Update the task with the latest language settings.
+ */
+export function updateTranslateTaskLang(task: TranslateTask) {
+  if (!task.langfromInferred) {
+    task.langfrom = getPref("sourceLanguage") as string;
+  }
+  task.langto = getPref("targetLanguage") as string;
+}
+
 export function putTranslateTaskAtHead(taskId: string) {
   const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
   const idx = queue.findIndex((task) => task.id === taskId);
@@ -358,6 +385,7 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
       toLanguage,
     };
   }
+  let isInferred = false;
   if (getPref("enableAutoDetectLanguage")) {
     if (topItem) {
       let itemLanguage: string =
@@ -384,11 +412,13 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
         ztoolkit.log("use autoDetect", itemLanguage);
         // If the item language is not the same as the target/source language, use it
         detectedFromLanguage = itemLanguage;
+        isInferred = true;
       }
     }
   }
   return {
     fromLanguage: detectedFromLanguage,
     toLanguage,
+    isInferred,
   };
 }
