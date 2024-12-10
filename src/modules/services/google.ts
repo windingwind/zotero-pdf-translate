@@ -70,7 +70,7 @@ async function _google(url: string, data: Required<TranslateTask>) {
     "GET",
     `${
       data.secret ? data.secret : url
-    }/translate_a/single?client=gtx&${param}&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
+    }/translate_a/single?client=gtx&${param}&hl=en&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&source=bh&ssel=0&tsel=0&kc=1&tk=${TL(
       data.raw,
     )}&q=${encodeURIComponent(data.raw)}`,
     { responseType: "json" },
