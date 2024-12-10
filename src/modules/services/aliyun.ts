@@ -5,6 +5,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const params = data.secret.split("#");
   const accessKeyId = params[0];
   const accessKeySecret = params[1];
+  const endpoint = params[2] || "https://mt.aliyuncs.com/";
 
   function languageCode(str: string) {
     str = str.toLowerCase();
@@ -35,7 +36,7 @@ export default <TranslateTaskProcessor>async function (data) {
     await hmacSha1Digest(stringToSign, `${accessKeySecret}&`),
   );
 
-  const xhr = await Zotero.HTTP.request("POST", "https://mt.aliyuncs.com/", {
+  const xhr = await Zotero.HTTP.request("POST", endpoint, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },

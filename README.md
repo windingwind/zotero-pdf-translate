@@ -141,9 +141,11 @@ The secret format is `accessKeyId#accessKeySecret`
 
 **Aliyun Translate**
 Apply [here](https://www.aliyun.com/product/ai/base_alimt).
-The secret format is `accessKeyId#accessKeySecret`.
+The secret format is `accessKeyId#accessKeySecret#endpoint(optional)`.
 
-> [Chinere Document](https://help.aliyun.com/document_detail/158269.html)
+> The endpoint is the region of the service, default `https://mt.aliyuncs.com`. For `cn-hangzhou`, the endpoint is `mt.cn-hangzhou.aliyuncs.com`. See also [here](https://help.aliyun.com/zh/machine-translation/developer-reference/api-alimt-2018-10-12-endpoint?spm=a2c4g.11186623.help-menu-30396.d_4_1_0.6c702fa7WlNkX1).
+
+> [Chinese Document](https://help.aliyun.com/document_detail/158269.html)
 
 **Baidu Translate**  
 Apply [here](https://fanyi-api.baidu.com/product/11).  
