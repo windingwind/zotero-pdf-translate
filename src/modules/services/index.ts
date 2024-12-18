@@ -20,6 +20,9 @@ export class TranslationServices {
     import("./baidufield").then(
       (e) => (this.baidufield = new TranslateTaskRunner(e.default)),
     );
+    import("./bing").then(
+      (e) => (this.bing = new TranslateTaskRunner(e.default)),
+    );
     import("./bingdict").then(
       (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
     );
