@@ -21,6 +21,7 @@ service-chatgpt=ChatGPT🗝️
 service-azuregpt=AzureGPT🗝️
 service-gemini=Gemini🗝️
 service-haici=Haici
+service-bing=Bing
 service-bingdict=Bing Dict(en↔zh)🔊
 service-haicidict=Haici Dict(en↔zh)🔊
 service-collinsdict=Collins Dict(en↔zh)🔊
