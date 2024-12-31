@@ -103,6 +103,7 @@ export class TranslateTaskRunner {
   }
 
   public async run(data: TranslateTask) {
+    // @ts-ignore - Plugin instance is not typed
     const addon = Zotero[config.addonInstance] as Addon;
     const ztoolkit = addon.data.ztoolkit;
     if (!data.langfrom || !data.langto) {
@@ -153,6 +154,7 @@ export function addTranslateTask(
   if (!raw) {
     return;
   }
+  // @ts-ignore - Plugin instance is not typed
   const addon = Zotero[config.addonInstance] as Addon;
   type = type || "text";
   // Filter raw string
@@ -250,6 +252,7 @@ export function addTranslateTitleTask(
   itemId: number,
   skipIfExists: boolean = false,
 ) {
+  // @ts-ignore - Plugin instance is not typed
   const addon = Zotero[config.addonInstance] as Addon;
   const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
@@ -268,6 +271,7 @@ export function addTranslateAbstractTask(
   itemId: number,
   skipIfExists: boolean = false,
 ) {
+  // @ts-ignore - Plugin instance is not typed
   const addon = Zotero[config.addonInstance] as Addon;
   const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
@@ -303,6 +307,7 @@ function setDefaultService(task: TranslateTask) {
 }
 
 function cleanTasks() {
+  // @ts-ignore - Plugin instance is not typed
   const addon = Zotero[config.addonInstance] as Addon;
 
   if (
@@ -316,6 +321,7 @@ function cleanTasks() {
 }
 
 export function getTranslateTasks(count: number) {
+  // @ts-ignore - Plugin instance is not typed
   return (Zotero[config.addonInstance] as Addon).data.translate.queue.slice(
     -count,
   );
@@ -325,6 +331,7 @@ export function getLastTranslateTask<
   K extends keyof TranslateTask,
   V extends TranslateTask[K],
 >(conditions?: { [key in K]: V }) {
+  // @ts-ignore - Plugin instance is not typed
   const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
   let i = queue.length - 1;
   while (i >= 0) {
@@ -353,6 +360,7 @@ export function updateTranslateTaskLang(task: TranslateTask) {
 }
 
 export function putTranslateTaskAtHead(taskId: string) {
+  // @ts-ignore - Plugin instance is not typed
   const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
   const idx = queue.findIndex((task) => task.id === taskId);
   if (idx >= 0) {
@@ -370,6 +378,7 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
       toLanguage: getPref("targetLanguage") as string,
     };
   }
+  // @ts-ignore - Plugin instance is not typed
   const addon = Zotero[config.addonInstance] as Addon;
   const ztoolkit = addon.data.ztoolkit;
   const topItem = Zotero.Items.getTopLevel([item])[0];

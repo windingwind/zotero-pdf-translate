@@ -32,7 +32,9 @@ export default <TranslateTaskProcessor>async function (data) {
   );
 
   for (const e of doc.querySelectorAll<Element>(".intrst")) {
-    const tableRow = e.querySelector<HTMLTableRowElement>("tr");
+    const tableRow = (e as HTMLElement)?.querySelector<HTMLTableRowElement>(
+      "tr",
+    );
     if (tableRow) {
       translations.push(process(tableRow));
     }

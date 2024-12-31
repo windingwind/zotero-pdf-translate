@@ -112,6 +112,7 @@ function onShutdown(): void {
   ztoolkit.unregisterAll();
   // Remove addon object
   addon.data.alive = false;
+  // @ts-ignore - Plugin instance is not typed
   delete Zotero[config.addonInstance];
 }
 

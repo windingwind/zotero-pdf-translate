@@ -26,7 +26,7 @@ export function registerPrompt() {
         let task = queue.find(
           (task: any) => task.raw == selection && task.result.length > 0,
         );
-        task = null;
+        task = undefined;
         if (!task) {
           prompt.showTip("Loading...");
           task = await Zotero.PDFTranslate.api.translate(selection);

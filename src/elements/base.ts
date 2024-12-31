@@ -5,6 +5,7 @@ export class PluginCEBase extends XULElementBase {
   useShadowRoot = false;
 
   connectedCallback(): void {
+    // @ts-ignore - Plugin instance is not typed
     this._addon = Zotero[config.addonInstance];
     Zotero.UIProperties.registerRoot(this);
     if (!this.useShadowRoot) {

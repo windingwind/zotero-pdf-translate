@@ -8,7 +8,7 @@
     // used by 'src/utils/config.ts'
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "strict": true
   },
   "include": ["src", "typings", "node_modules/zotero-types"],

@@ -31,11 +31,15 @@ declare class XULElementBase extends HTMLElement {
     newValue: string,
   ): void;
   _handleWindowUnload(): void;
-  initialized: boolean = false;
+  initialized: boolean;
   static get observedAttributes(): string[];
 }
 
 declare class MozXULElement {
-  static parseXULToFragment(xul: string): Fragment;
+  static parseXULToFragment(xul: string): DocumentFragment;
   static insertFTLIfNeeded(ftl: string): void;
+}
+
+declare namespace Zotero {
+  const PDFTranslate: import("../src/addon").default;
 }
