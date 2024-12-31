@@ -183,10 +183,16 @@ export function buildReaderPopup(
               Number(getPref("lineHeight")) * Number(getPref("fontSize"))
             }px`,
             width: keepSize ? `${getPref("popupWidth")}px` : "-moz-available",
+            // Minimum width to prevent the textarea from being smaller than the popup
+            minWidth: "184px",
             height: `${Math.max(
               keepSize ? Number(getPref("popupHeight")) : 30,
             )}px`,
-            marginLeft: "2px",
+            marginInline: "2px",
+            border: "none",
+            background: "var(--color-sidepane)",
+            borderRadius: "6px",
+            padding: "5px",
           },
           properties: {
             onpointerup: (e: Event) => e.stopPropagation(),
@@ -212,13 +218,6 @@ export function buildReaderPopup(
                   "mousemove",
                   onTextAreaResize as (ev: Event) => void,
                 );
-                const textarea = popup.querySelector(
-                  `#${makeId("text")}`,
-                ) as HTMLTextAreaElement;
-                const outerWidth = 18;
-                if (popup.scrollWidth > textarea.offsetWidth + outerWidth) {
-                  textarea.style.width = `${popup.scrollWidth - outerWidth}px`;
-                }
               },
             },
             {
