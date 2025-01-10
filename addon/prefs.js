@@ -44,7 +44,7 @@ pref(
   "__prefsPrefix__.chatGPT.endPoint",
   "https://api.openai.com/v1/chat/completions",
 );
-pref("__prefsPrefix__.chatGPT.model", "gpt-3.5-turbo");
+pref("__prefsPrefix__.chatGPT.model", "gpt-4o-mini");
 pref("__prefsPrefix__.chatGPT.temperature", "1.0");
 pref(
   "__prefsPrefix__.chatGPT.prompt",
