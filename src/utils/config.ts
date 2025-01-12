@@ -312,7 +312,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "chatgpt",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const status = secret.length === 51 && /^sk-/.test(secret);
+      const status = /^sk-[A-Za-z0-9_-]{32,}$/.test(secret);
       const empty = secret.length === 0;
       return {
         secret,
@@ -321,7 +321,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           ? "The secret is not set."
           : status
             ? "Click the button to check connectivity."
-            : "Ths secret key format is invalid.",
+            : "The secret key format is invalid.",
       };
     },
   },
