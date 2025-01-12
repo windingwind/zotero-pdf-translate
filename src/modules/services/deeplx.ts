@@ -36,23 +36,33 @@ export default <TranslateTaskProcessor>async function (data) {
   } else {
     reqBody = reqBody.replace('"method":"', '"method": "');
   }
-  const xhr = await Zotero.HTTP.request("POST", url, {
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      Accept: "*/*",
-      "x-app-os-name": "iOS",
-      "x-app-os-version": "16.3.0",
-      "Accept-Language": "en-US,en;q=0.9",
-      "Accept-Encoding": "gzip, deflate, br",
-      "x-app-device": "iPhone13,2",
-      "User-Agent": "DeepL-iOS/2.6.0 iOS 16.3.0 (iPhone13,2)",
-      "x-app-build": "353933",
-      "x-app-version": "2.6",
-      Connection: "keep-alive",
+  const xhr = await Zotero.HTTP.request(
+    "POST",
+    `${url}?client=chrome-extension,1.28.0&method=LMT_handle_jobs`,
+    {
+      headers: {
+        Accept: "*/*",
+        Authorization: "None",
+        "Cache-Control": "no-cache",
+        "Accept-Language":
+          "en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6,zh;q=0.5",
+        "Content-Type": "application/json",
+        DNT: "1",
+        Origin: "chrome-extension://cofdbpoegempjloogbagkncekinflcnj",
+        Pragma: "no-cache",
+        Priority: "u=1, i",
+        Referer: "https://www.deepl.com/",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "none",
+        "Sec-GPC": "1",
+        "User-Agent":
+          "DeepLBrowserExtension/1.28.0 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
+      },
+      responseType: "json",
+      body: reqBody,
     },
-    responseType: "json",
-    body: reqBody,
-  });
+  );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
