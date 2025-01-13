@@ -21,7 +21,7 @@ export default <TranslateTaskProcessor>async function (data) {
       data.raw,
     )}&appid=${appid}&from=${data.langfrom.split("-")[0]}&to=${
       data.langto.split("-")[0]
-    }&salt=${salt}&sign=${sign}&action=${action}`,
+    }&salt=${salt}&sign=${sign}&action=${action}&needIntervene=1`,
     {
       responseType: "json",
     },
