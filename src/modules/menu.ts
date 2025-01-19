@@ -9,7 +9,10 @@ import {
 
 export function registerMenu() {
   const menuIcon = `chrome://${config.addonRef}/content/icons/favicon.png`;
-  if (getPref("showItemMenuTitleTranslation") || getPref("showItemMenuAbstractTranslation")) {
+  if (
+    getPref("showItemMenuTitleTranslation") ||
+    getPref("showItemMenuAbstractTranslation")
+  ) {
     ztoolkit.Menu.register("item", {
       tag: "menuseparator",
     });
