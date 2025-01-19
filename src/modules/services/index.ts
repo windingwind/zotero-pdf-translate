@@ -29,6 +29,9 @@ export class TranslationServices {
     import("./caiyun").then(
       (e) => (this.caiyun = new TranslateTaskRunner(e.default)),
     );
+    import("./cambridgedict").then(
+      (e) => (this.cambridgedict = new TranslateTaskRunner(e.default)),
+    );
     import("./cnki").then(
       (e) => (this.cnki = new TranslateTaskRunner(e.default)),
     );
