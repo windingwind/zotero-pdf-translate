@@ -87,10 +87,13 @@ export function updateReaderPopup() {
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
 
-  updateHidden(
-    addToNoteButton,
-    !Zotero.getMainWindow().ZoteroContextPane.activeEditor,
-  );
+  const enableAddToNote = getPref("enableNote") as boolean;
+  if (
+    !Zotero.getMainWindow().ZoteroContextPane.activeEditor ||
+    !enableAddToNote
+  ) {
+    updateHidden(addToNoteButton, true);
+  }
 
   updatePopupSize(popup, textarea);
 }
