@@ -8,81 +8,78 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 [中文文档](https://zotero.yuque.com/books/share/4443494c-c698-4e08-9d1e-ed253390346d)
 
-![](imgs/translate.gif)
+![](docs/res/translate.gif)
 
 # Quick Start Guide
 
 ## Install
 
-### From local file
+- Download the plugin (.xpi file) from below.
 
-- Download the latest release (.xpi file) from the [Latest Release Page](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
+  - [Latest Stable](https://github.com/windingwind/zotero-pdf-translate/releases/latest)
+  - [All Releases](https://github.com/windingwind/zotero-pdf-translate/releases)
+
   _Note_ If you're using Firefox as your browser, right-click the `.xpi` and select "Save As.."
-- In Zotero click `Tools` in the top menu bar and then click `Addons`
+
+- In Zotero click `Tools` in the top menu bar and then click `Plugins`
 - Go to the Extensions page and then click the gear icon in the top right.
-- Select `Install Add-on from file`.
+- Select `Install Plugin from file`.
 - Browse to where you downloaded the `.xpi` file and select it.
-- Restart Zotero, by clicking `restart now` in the extensions list where the
-  Zotero PDF Translate plugin is now listed.
-
-### From remote link
-
-- In Zotero click `Tools` in the top menu bar and then click `Addons`.
-- Drag [Latest Release](https://github.com/windingwind/zotero-pdf-translate/releases/latest/download/translate-for-zotero.xpi) and drop it in the Zotero UI.
-- Click `install now`.
-- Restart Zotero, by clicking `restart now` in the extensions list where the
-  Zotero PDF Translate plugin is now listed.
+- Finish!
 
 ## Usage
 
-Once you have the plugin installed simply, open any PDF in your collections.
+Once you have the plugin installed simply, open any PDF/EPub/webpage in your collections.
 
 - Select some text, the translations are shown on the popup and the right sidebar(v0.2.0); Hold `Alt/Option` to concat selections.
-  ![](imgs/en2zh.png)
+  ![](docs/res/en2zh.jpg)
 
-- Highlight some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
+- Highlight/Underline some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
 - Add selected text along with translation to note(v0.4.0); _Only works when a note editor is active._
-  ![](imgs/addnote.png)
+  ![](docs/res/addtonote.jpg)
+
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
 - Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
 - Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
-  ![](imgs/standalone.png)
+  ![](docs/res/standalone.jpg)
+
 - Dictionary for single word translation(v0.7.1).
 - SentenceBySentence Translation(v1.1.0). After a translation, press `shift`+`P` and select `Translate Sentences`. _Only for en2zh and en2en now_. Thanks @MuiseDestiny
 
 ### Q&A
 
 **Q** I want to translate manually.  
-**A** Go to `Edit->Preferences->PDF Translate->General`, uncheck the `Automatic Translation`. Click the `translate` button on the popup or sidebar to translate.
+**A** Go to `Edit->Settings->Translate->General`, uncheck the `Auto-Trans Selection`. Click the `Translate` button on the popup or sidebar to translate.
 
 **Q** I want a translate shortcut.  
 **A**
 Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, the titles' translation will show/hide.
 
-**Q** I want to concat different seletions and translate them together.  
-**A** Press `Alt/Option` when selecting text in PDF.
+**Q** I want to concat different selections and translate them together.  
+**A** Press `Alt/Option` when selecting text in PDF/EPub/webpage.
 
 **Q** Not the language I want.  
-**A** The default target language is the same as your Zotero language. Go to `Edit->Preferences->PDF Translate->General` and change the language settings.
+**A** The default target language is the same as your Zotero language. Go to `Edit->Settings->Translate->Service` and change the language settings.
 
 **Q** Translation not correct or report an error.  
-**A** See [Language Settings](#general-language-settings) and #6. Make sure you use the right secret.
+**A** See _Language Settings_ above and make sure you use the right secret.
 
 **Q** I want to change the font size.  
-**A** Go to `Edit->Preferences->PDF Translate->Advanced` and set the font size.
+**A** Go to `Edit->Settings->Translate->User Interface` and set the font size.
 
 ## Settings
 
 ### General
 
-- Enable Translation, default `true`
+<!-- - Enable Translation, default `true` -->
+
 - Automatic Translation, default `true`
+- Automatic Annotation Translation: Save annotation's translation to annotation comment or annotation body, default `false`
+- Enable Popup: Show results in the popup panel or only in the sidebar, default `true`
 - Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
-- Enable Popup: Show results in a right-click popup or only in the sidebar, default `true`
-- Automatic Annotation Translation: Save annotation's translation as comment, default `true`
 - Show 'Add to Note(With Translation)' in Popup: default `true`
-  > Unvisible if no active note editor opened.
-  - Replace Source Text: Use translation to replace the source text when adding to note, default `false`
+  > Invisible if no active note editor opened.
+  - Replace Raw: Use translation to replace the raw text when adding to note, default `false`
 
 ### Service
 
@@ -197,18 +194,22 @@ Support third-party compatible APIs.
 
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
+- `Item Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
 - `SideBar: Show xxx`: Show or hide sidebar elements, default `true`
 - `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the sidebar if `true`, default `false`
+- `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
+- `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
 - `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
 
 ### Advanced
 
-- Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
+- Auto Detect Item Language
+  - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
 - Split Character(between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
 
 ## Development & Contributing
 
-This addon is built based on the [Zotero Plugin Template](https://github.com/windingwind/zotero-plugin-template). See the setup and debug details there.
+This plugin is built based on the [Zotero Plugin Template](https://github.com/windingwind/zotero-plugin-template). See the setup and debug details there.
 
 To startup, run
 
