@@ -16,11 +16,10 @@ export default <TranslateTaskProcessor>async function (data) {
     doc.querySelectorAll(".hd_area .bigaud"),
   ) as Element[];
   const phoneticText = doc.querySelectorAll(".hd_area .b_primtxt");
+
   data.audio = mp3s.map((a: Element, i: number) => ({
     text: phoneticText[i].innerHTML.replace("&nbsp;", " "),
-    url: (a.getAttribute("data-mp3link")?.match(/https?:\/\/\S+\.mp3/g) || [
-      "",
-    ])[0],
+    url: "https://cn.bing.com" + (a.getAttribute("data-mp3link") ?? ""),
   }));
 
   try {
