@@ -22,6 +22,7 @@ service-azuregpt=AzureGPT🗝️
 service-haici=海词
 service-bing=必应
 service-bingdict=必应词典(en↔zh)🔊
+service-cambridgedict=剑桥词典(en↔zh)🔊
 service-haicidict=海词词典(en↔zh)🔊
 service-collinsdict=科林斯词典(en↔zh)🔊
 service-youdaodict=有道词典(en↔zh)🔊

@@ -357,6 +357,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "word",
+    id: "cambridgedict",
+  },
+  {
+    type: "word",
     id: "haicidict",
   },
   {
