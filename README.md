@@ -15,7 +15,8 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 ## Install
 
 - Download the plugin (.xpi file) from below.
-  - [Latest Stable](https://github.com/windingwind/zotero-pdf-translate/releases/latest)  
+
+  - [Latest Stable](https://github.com/windingwind/zotero-pdf-translate/releases/latest)
   - [All Releases](https://github.com/windingwind/zotero-pdf-translate/releases)
 
   _Note_ If you're using Firefox as your browser, right-click the `.xpi` and select "Save As.."
@@ -71,6 +72,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 ### General
 
 <!-- - Enable Translation, default `true` -->
+
 - Automatic Translation, default `true`
 - Automatic Annotation Translation: Save annotation's translation to annotation comment or annotation body, default `false`
 - Enable Popup: Show results in the popup panel or only in the sidebar, default `true`
