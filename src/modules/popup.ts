@@ -83,14 +83,13 @@ export function updateReaderPopup() {
   textarea.hidden = hidePopupTextarea || task.status === "waiting";
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
-  textarea.style.lineHeight = `${
-    Number(getPref("lineHeight")) * Number(getPref("fontSize"))
-  }px`;
+  textarea.style.lineHeight = `${Number(getPref("lineHeight")) * Number(getPref("fontSize"))
+    }px`;
 
-  updateHidden(
-    addToNoteButton,
-    !Zotero.getMainWindow().ZoteroContextPane.activeEditor,
-  );
+  const enableAddToNote = getPref("enableNote") as boolean;
+  if (!Zotero.getMainWindow().ZoteroContextPane.activeEditor || !enableAddToNote) {
+    updateHidden(addToNoteButton, true);
+  }
 
   updatePopupSize(popup, textarea);
 }
@@ -179,9 +178,8 @@ export function buildReaderPopup(
           styles: {
             fontSize: `${getPref("fontSize")}px`,
             fontFamily: "inherit",
-            lineHeight: `${
-              Number(getPref("lineHeight")) * Number(getPref("fontSize"))
-            }px`,
+            lineHeight: `${Number(getPref("lineHeight")) * Number(getPref("fontSize"))
+              }px`,
             width: keepSize ? `${getPref("popupWidth")}px` : "-moz-available",
             // Minimum width to prevent the textarea from being smaller than the popup
             minWidth: "184px",
