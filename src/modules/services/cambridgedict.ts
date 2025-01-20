@@ -33,19 +33,21 @@ export default <TranslateTaskProcessor>async function (data) {
   doc
     .querySelectorAll(".entry-body__el")
     .forEach((block: Element, index: number) => {
-      block.querySelectorAll(".dpron-i").forEach((value: Element) => {
-        const data = {
-          text: `${regions.get(value.querySelector(".region")?.textContent ?? "")} ${value.querySelector(".dpron")?.textContent}`,
-          url:
-            "https://dictionary.cambridge.org" +
-            (value.querySelector("source")?.getAttribute("src") ?? ""),
-        };
-        if (!urls.includes(data.url)) {
-          audioList.push(data);
-          urls.push(data.url);
-        }
-      });
-      result += block.querySelector(".posgram")?.textContent + "\n";
+      block
+        .querySelectorAll(".pos-header .dpron-i")
+        .forEach((value: Element) => {
+          const audio = {
+            text: `${regions.get(value.querySelector(".region")?.textContent ?? "")} ${value.querySelector(".dpron")?.textContent}`,
+            url:
+              "https://dictionary.cambridge.org" +
+              (value.querySelector("source")?.getAttribute("src") ?? ""),
+          };
+          if (!urls.includes(audio.url)) {
+            audioList.push(audio);
+            urls.push(audio.url);
+          }
+        });
+      result += block.querySelector(".posgram")?.textContent ?? "" + "\n";
       block.querySelectorAll(".dsense").forEach((value: Element, i: number) => {
         let guideword =
           value
