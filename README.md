@@ -62,7 +62,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 **A** The default target language is the same as your Zotero language. Go to `Edit->Settings->Translate->Service` and change the language settings.
 
 **Q** Translation not correct or report an error.  
-**A** See _Language Settings_ above and make sure you use the right secret.
+**A** See _Language Settings_ above and FAQ([#6](https://github.com/windingwind/zotero-pdf-translate/issues/6)). Make sure you use the right secret.
 
 **Q** I want to change the font size.  
 **A** Go to `Edit->Settings->Translate->User Interface` and set the font size.
@@ -104,7 +104,7 @@ The default engine is Google Translate. Currently, we support:
 
 > If the engine you want is not yet supported, please post an issue.
 
-**Google**
+**Google**  
 Google does not require a secret, but you can put your own API URL in the secret to replace the default URL (translate.google.com/translate.googleapi.com).
 
 **Microsoft Translate**  
