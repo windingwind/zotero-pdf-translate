@@ -1,7 +1,19 @@
 import { TranslateTaskProcessor } from "../../utils/task";
+import { LANG_CODE, matchLanguage } from "../../utils/config";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const base_url: string = `https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(data.raw)}`;
+  let from = matchLanguage(data.langfrom).name.toLowerCase();
+  let to = data.langto.toLowerCase();
+  if (to.includes("zh")) {
+    if (to.includes("cn")) {
+      to = "chinese-simplified";
+    } else {
+      to = "chinese-traditional";
+    }
+  } else {
+    let to = matchLanguage(data.langto).name;
+  }
+  const base_url: string = `https://dictionary.cambridge.org/dictionary/${from}-${to}/${encodeURIComponent(data.raw)}`;
   const xhr = await Zotero.HTTP.request("GET", base_url, {
     responseType: "text",
   });
