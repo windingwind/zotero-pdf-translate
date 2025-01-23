@@ -1,64 +1,157 @@
 import { TranslateTaskProcessor } from "../../utils/task";
-import { LANG_CODE, matchLanguage } from "../../utils/config";
+
+const cambridgeLangCode = <const>[
+  { name: "arabic", code: "ar", parser: parser1 },
+  { name: "bengali", code: "bn", parser: parser1 },
+  { name: "catalan", code: "ca", parser: parser1 },
+  { name: "chinese-simplified", code: "zh", parser: parser1 },
+  { name: "chinese-traditional", code: "zht", parser: parser1 },
+  { name: "english", code: "en", parser: parser1 },
+  { name: "gujarati", code: "gu", parser: parser1 },
+  { name: "hindi", code: "hi", parser: parser1 },
+  { name: "italian", code: "it", parser: parser1 },
+  { name: "japanese", code: "ja", parser: parser1 },
+  { name: "korean", code: "ko", parser: parser1 },
+  { name: "marathi", code: "mr", parser: parser1 },
+  { name: "polish", code: "pl", parser: parser1 },
+  { name: "portuguese", code: "pt", parser: parser1 },
+  { name: "russian", code: "ru", parser: parser1 },
+  { name: "spanish", code: "es", parser: parser1 },
+  { name: "tamil", code: "ta", parser: parser1 },
+  { name: "telugu", code: "te", parser: parser1 },
+  { name: "turkish", code: "tr", parser: parser1 },
+  { name: "urdu", code: "ur", parser: parser1 },
+
+  { name: "french", code: "fr", parser: parser2 },
+  { name: "german", code: "de", parser: parser2 },
+  { name: "dutch", code: "nl", parser: parser2 },
+  { name: "indonesian", code: "id", parser: parser2 },
+  { name: "norwegian", code: "no", parser: parser2 },
+  { name: "swedish", code: "sv", parser: parser2 },
+  { name: "czech", code: "cs", parser: parser2 },
+  { name: "danish", code: "da", parser: parser2 },
+  { name: "malaysian", code: "ms", parser: parser2 },
+  { name: "thai", code: "th", parser: parser2 },
+  { name: "ukrainian", code: "uk", parser: parser2 },
+  { name: "vietnamese", code: "vi", parser: parser2 },
+];
+
+let dictCode = cambridgeLangCode.reduce(
+  (acc, cur) => {
+    acc[`en-${cur.code}`] = `english-${cur.name}`;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
+
+let parsers = cambridgeLangCode.reduce(
+  (acc, cur) => {
+    acc[`en-${cur.code}`] = cur.parser;
+    return acc;
+  },
+  {} as Record<string, typeof parser1>,
+);
 
 export default <TranslateTaskProcessor>async function (data) {
-  let from = matchLanguage(data.langfrom).name.toLowerCase();
-  let to = data.langto.toLowerCase();
-  if (to.includes("zh")) {
-    if (to.includes("cn")) {
-      to = "chinese-simplified";
-    } else {
-      to = "chinese-traditional";
-    }
-  } else {
-    let to = matchLanguage(data.langto).name;
-  }
-  const base_url: string = `https://dictionary.cambridge.org/dictionary/${from}-${to}/${encodeURIComponent(data.raw)}`;
-  const xhr = await Zotero.HTTP.request("GET", base_url, {
-    responseType: "text",
-  });
+  let { dict, parser } = getDictionaryCode(data.langfrom, data.langto);
+  if (dict === "unsupported" || !parser)
+    throw `Language Error: unsupported dictionary ${dict}`;
+
+  const xhr = await Zotero.HTTP.request(
+    "GET",
+    `https://dictionary.cambridge.org/dictionary/${dict}/${encodeURIComponent(data.raw)}`,
+    {
+      responseType: "text",
+    },
+  );
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
-
   let res = xhr.response;
   const doc = new DOMParser().parseFromString(res, "text/html");
-  const audioList: Array<{ text: string; url: string }> = [];
-  const regions: Map<string, string> = new Map();
-  regions.set("uk", "英");
-  regions.set("us", "美");
-  const urls: Array<string> = [];
-  let result: string = "";
-
-  doc
-    .querySelectorAll(".entry-body__el")
-    .forEach((block: Element, index: number) => {
-      block
-        .querySelectorAll(".pos-header .dpron-i")
-        .forEach((value: Element) => {
-          const audio = {
-            text: `${regions.get(value.querySelector(".region")?.textContent ?? "")} ${value.querySelector(".dpron")?.textContent}`,
-            url:
-              "https://dictionary.cambridge.org" +
-              (value.querySelector("source")?.getAttribute("src") ?? ""),
-          };
-          if (!urls.includes(audio.url)) {
-            audioList.push(audio);
-            urls.push(audio.url);
-          }
-        });
-      result += block.querySelector(".posgram")?.textContent ?? "" + "\n";
-      block.querySelectorAll(".dsense").forEach((value: Element, i: number) => {
-        let guideword =
-          value
-            .querySelector(".guideword")
-            ?.textContent?.replace(/\s+/g, " ") ?? "";
-        let def_en = value.querySelector(".def")?.textContent;
-        let def_zh = value.querySelector(".trans")?.textContent;
-
-        result += `\t${i + 1}.${guideword} ${def_en}\n\t${def_zh}\n\n`;
-      });
-    });
+  let { result, audioList } = parser(doc);
+  if (!result) {
+    throw "Parse Error";
+  }
   data.result = result;
   data.audio = audioList;
 };
+
+function getDictionaryCode(fromCode: string, toCode: string) {
+  fromCode = fromCode.split("-")[0].toLowerCase();
+  toCode = toCode.toLowerCase();
+  if (toCode.includes("zh")) {
+    if (toCode === "zh" || toCode === "zh-cn") toCode = "zh";
+    else toCode = "zht";
+  }
+  toCode = toCode.split("-")[0];
+  let code = `${fromCode}-${toCode}`;
+  let dict = "";
+  let parser = null;
+  if (fromCode === "en") {
+    dict = dictCode[code] ?? "unsupported";
+    parser = parsers[code] ?? null;
+  } else {
+    dict = "unsupported";
+  }
+  return { dict, parser };
+}
+
+function parser1(doc: Document) {
+  const audioList: Array<{ text: string; url: string }> = [];
+  const urls: Array<string> = [];
+  let contents: Array<string> = [];
+
+  doc.querySelectorAll(".entry-body__el").forEach((block: Element) => {
+    contents.push(block.querySelector(".posgram")?.textContent ?? "");
+    let prons: string = "";
+    block
+      .querySelectorAll('.pos-header span[class*="dpron-"]')
+      .forEach((value: Element) => {
+        let pron = value.querySelector(".dpron")?.textContent ?? "";
+        let pronText = `${value.querySelector(".region")?.textContent ?? ""} ${pron}  `;
+        let url = value.querySelector("source")?.getAttribute("src");
+        if (pron) prons += pronText;
+        if (url && !urls.includes(url)) {
+          const audio = {
+            text: pronText,
+            url: "https://dictionary.cambridge.org" + url,
+          };
+          audioList.push(audio);
+          urls.push(url);
+        }
+      });
+    contents.push(prons);
+    contents.push(parseBody(block));
+  });
+  let result = contents.filter((content) => content !== "").join("\n");
+  return { result, audioList };
+}
+
+function parser2(doc: Document) {
+  const audioList: Array<{ text: string; url: string }> = [];
+  let contents: Array<string> = [];
+
+  doc.querySelectorAll(".link").forEach((block: Element) => {
+    contents.push(block.querySelector(".dpos")?.textContent ?? "");
+    contents.push(block.querySelector(".dpos-h .pron")?.textContent ?? "");
+    contents.push(parseBody(block));
+  });
+  let result = contents.filter((content) => content !== "").join("\n");
+  return { result, audioList };
+}
+
+function parseBody(block: Element): string {
+  let body: Array<string> = [];
+  block.querySelectorAll(".dsense").forEach((value: Element, i: number) => {
+    let guideword =
+      value.querySelector(".guideword")?.textContent?.replace(/\s+/g, " ") ??
+      "";
+    let defEn = value.querySelector(".def")?.textContent ?? "";
+    let def = value.querySelector(".trans[lang]")?.textContent?.trim() ?? "";
+
+    body.push(`\t${i + 1}.${guideword} ${defEn}\n\t\t${def}`);
+  });
+
+  return body.join("\n");
+}
