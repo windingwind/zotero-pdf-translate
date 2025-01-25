@@ -91,3 +91,5 @@ service-freedictionaryapi =
     .label = FreeDictionaryAPI(en↔en)
 service-webliodict =
     .label = weblio(en↔ja)
+service-deepseek =
+    .label = Deepseek🗝️

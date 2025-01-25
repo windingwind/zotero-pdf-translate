@@ -116,3 +116,14 @@ field-titleTranslation=Title Translation
 field-abstractTranslation=Abstract Translation
 
 status-translating=Translating...
+
+service-deepseek-secret-pass=Config
+service-deepseek-secret-fail=Config
+service-deepseek-dialog-title=Deepseek Config
+service-deepseek-dialog-endPoint=API
+service-deepseek-dialog-model=Model
+service-deepseek-dialog-temperature=Temp
+service-deepseek-dialog-prompt=Prompt
+service-deepseek-dialog-help=Help
+service-deepseek-dialog-save=Save
+service-deepseek-dialog-close=Close

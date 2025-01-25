@@ -76,3 +76,10 @@ pref(
 pref("__prefsPrefix__.cnkiSplitSecond", 1);
 pref("__prefsPrefix__.cnkiUseSplit", false);
 pref("__prefsPrefix__.deeplx.endpoint", "https://www2.deepl.com/jsonrpc");
+pref("__prefsPrefix__.deepseek.endPoint", "https://api.deepseek.com");
+pref("__prefsPrefix__.deepseek.model", "deepseek-chat");
+pref("__prefsPrefix__.deepseek.temperature", "1.3");
+pref(
+  "__prefsPrefix__.deepseek.prompt",
+  "Please translate the following text from ${langFrom} to ${langTo}:\n\n${sourceText}",
+);

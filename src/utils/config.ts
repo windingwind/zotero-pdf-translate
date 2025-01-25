@@ -375,6 +375,19 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     type: "word",
     id: "collinsdict",
   },
+  {
+    type: "sentence",
+    id: "deepseek",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const flag = Boolean(secret);
+      return {
+        secret,
+        status: flag,
+        info: flag ? "" : "The secret is not set.",
+      };
+    },
+  },
 ];
 
 export function getService(id: string) {

@@ -92,6 +92,9 @@ export class TranslationServices {
     import("./youdaozhiyun").then(
       (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default)),
     );
+    import("./deepseek").then(
+      (e) => (this.deepseek = new TranslateTaskRunner(e.default)),
+    );
   }
 
   public async runTranslationTask(
@@ -193,9 +196,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

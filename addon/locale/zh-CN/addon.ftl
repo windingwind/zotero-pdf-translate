@@ -27,6 +27,7 @@ service-collinsdict=科林斯词典(en↔zh)🔊
 service-youdaodict=有道词典(en↔zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=Weblio Dict(en↔ja)
+service-deepseek=DeepSeek🗝️
 service-errorPrefix=[请求错误]
     此翻译引擎不可用，可能是密钥错误，也可能是请求过快。
     可以尝试其他翻译引擎，或者来此查看相关回答：
@@ -115,3 +116,14 @@ field-titleTranslation=标题翻译
 field-abstractTranslation=摘要翻译
 
 status-translating=正在翻译...
+
+service-deepseek-secret-pass=配置
+service-deepseek-secret-fail=配置
+service-deepseek-dialog-title=Deepseek 配置
+service-deepseek-dialog-endPoint=API地址
+service-deepseek-dialog-model=模型
+service-deepseek-dialog-temperature=温度
+service-deepseek-dialog-prompt=提示词
+service-deepseek-dialog-help=帮助
+service-deepseek-dialog-save=保存
+service-deepseek-dialog-close=关闭
