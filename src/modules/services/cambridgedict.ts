@@ -92,6 +92,7 @@ function getDictionaryCode(fromCode: string, toCode: string) {
     dict = dictCode[code] ?? "unsupported";
     parser = parsers[code] ?? null;
   } else {
+    // TODO: should implement other languages
     dict = "unsupported";
   }
   return { dict, parser };
