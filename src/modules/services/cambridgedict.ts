@@ -36,7 +36,7 @@ const cambridgeLangCode = <const>[
   { name: "vietnamese", code: "vi", parser: parser2 },
 ];
 
-let dictCode = cambridgeLangCode.reduce(
+const dictCode = cambridgeLangCode.reduce(
   (acc, cur) => {
     acc[`en-${cur.code}`] = `english-${cur.name}`;
     return acc;
@@ -44,7 +44,7 @@ let dictCode = cambridgeLangCode.reduce(
   {} as Record<string, string>,
 );
 
-let parsers = cambridgeLangCode.reduce(
+const parsers = cambridgeLangCode.reduce(
   (acc, cur) => {
     acc[`en-${cur.code}`] = cur.parser;
     return acc;
@@ -53,7 +53,7 @@ let parsers = cambridgeLangCode.reduce(
 );
 
 export default <TranslateTaskProcessor>async function (data) {
-  let { dict, parser } = getDictionaryCode(data.langfrom, data.langto);
+  const { dict, parser } = getDictionaryCode(data.langfrom, data.langto);
   if (dict === "unsupported" || !parser)
     throw `Language Error: unsupported dictionary ${dict}`;
 
@@ -67,9 +67,9 @@ export default <TranslateTaskProcessor>async function (data) {
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
-  let res = xhr.response;
+  const res = xhr.response;
   const doc = new DOMParser().parseFromString(res, "text/html");
-  let { result, audioList } = parser(doc);
+  const { result, audioList } = parser(doc);
   if (!result) {
     throw "Parse Error";
   }
@@ -85,7 +85,7 @@ function getDictionaryCode(fromCode: string, toCode: string) {
     else toCode = "zht";
   }
   toCode = toCode.split("-")[0];
-  let code = `${fromCode}-${toCode}`;
+  const code = `${fromCode}-${toCode}`;
   let dict = "";
   let parser = null;
   if (fromCode === "en") {
@@ -100,7 +100,7 @@ function getDictionaryCode(fromCode: string, toCode: string) {
 function parser1(doc: Document) {
   const audioList: Array<{ text: string; url: string }> = [];
   const urls: Array<string> = [];
-  let contents: Array<string> = [];
+  const contents: Array<string> = [];
 
   doc.querySelectorAll(".entry-body__el").forEach((block: Element) => {
     contents.push(block.querySelector(".posgram")?.textContent ?? "");
@@ -108,9 +108,9 @@ function parser1(doc: Document) {
     block
       .querySelectorAll('.pos-header span[class*="dpron-"]')
       .forEach((value: Element) => {
-        let pron = value.querySelector(".dpron")?.textContent ?? "";
-        let pronText = `${value.querySelector(".region")?.textContent ?? ""} ${pron}  `;
-        let url = value.querySelector("source")?.getAttribute("src");
+        const pron = value.querySelector(".dpron")?.textContent ?? "";
+        const pronText = `${value.querySelector(".region")?.textContent ?? ""} ${pron}  `;
+        const url = value.querySelector("source")?.getAttribute("src");
         if (pron) prons += pronText;
         if (url && !urls.includes(url)) {
           const audio = {
@@ -124,31 +124,31 @@ function parser1(doc: Document) {
     contents.push(prons);
     contents.push(parseBody(block));
   });
-  let result = contents.filter((content) => content !== "").join("\n");
+  const result = contents.filter((content) => content !== "").join("\n");
   return { result, audioList };
 }
 
 function parser2(doc: Document) {
   const audioList: Array<{ text: string; url: string }> = [];
-  let contents: Array<string> = [];
+  const contents: Array<string> = [];
 
   doc.querySelectorAll(".link").forEach((block: Element) => {
     contents.push(block.querySelector(".dpos")?.textContent ?? "");
     contents.push(block.querySelector(".dpos-h .pron")?.textContent ?? "");
     contents.push(parseBody(block));
   });
-  let result = contents.filter((content) => content !== "").join("\n");
+  const result = contents.filter((content) => content !== "").join("\n");
   return { result, audioList };
 }
 
 function parseBody(block: Element): string {
-  let body: Array<string> = [];
+  const body: Array<string> = [];
   block.querySelectorAll(".dsense").forEach((value: Element, i: number) => {
-    let guideword =
+    const guideword =
       value.querySelector(".guideword")?.textContent?.replace(/\s+/g, " ") ??
       "";
-    let defEn = value.querySelector(".def")?.textContent ?? "";
-    let def = value.querySelector(".trans[lang]")?.textContent?.trim() ?? "";
+    const defEn = value.querySelector(".def")?.textContent ?? "";
+    const def = value.querySelector(".trans[lang]")?.textContent?.trim() ?? "";
 
     body.push(`\t${i + 1}.${guideword} ${defEn}\n\t\t${def}`);
   });
