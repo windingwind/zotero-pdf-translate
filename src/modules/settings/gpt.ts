@@ -2,10 +2,10 @@ import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
 async function gptStatusCallback(
-  prefix: "chatGPT" | "azureGPT",
+  prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
   status: boolean,
 ) {
-  const addonPrefix = prefix.toLocaleLowerCase();
+  const servicePrefix = prefix === "azureGPT" ? "azuregpt" : "chatgpt";
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
     endPoint: getPref(`${prefix}.endPoint`),
@@ -38,7 +38,7 @@ async function gptStatusCallback(
               for: "endPoint",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-endPoint`),
+              innerHTML: getString(`service-${servicePrefix}-dialog-endPoint`),
             },
           },
           {
@@ -57,7 +57,7 @@ async function gptStatusCallback(
               for: "model",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-model`),
+              innerHTML: getString(`service-${servicePrefix}-dialog-model`),
             },
           },
           {
@@ -76,7 +76,9 @@ async function gptStatusCallback(
               for: "temperature",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-temperature`),
+              innerHTML: getString(
+                `service-${servicePrefix}-dialog-temperature`,
+              ),
             },
           },
           {
@@ -101,7 +103,9 @@ async function gptStatusCallback(
               for: "apiVersion",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-apiVersion`),
+              innerHTML: getString(
+                `service-${servicePrefix}-dialog-apiVersion`,
+              ),
             },
           },
           {
@@ -123,7 +127,7 @@ async function gptStatusCallback(
               for: "prompt",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-prompt`),
+              innerHTML: getString(`service-${servicePrefix}-dialog-prompt`),
             },
           },
           {
@@ -157,11 +161,17 @@ async function gptStatusCallback(
       },
       false,
     )
-    .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
-    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
-    .addButton(getString(`service-${addonPrefix}-dialog-help`), "help");
+    .addButton(getString(`service-${servicePrefix}-dialog-save`), "save")
+    .addButton(getString(`service-${servicePrefix}-dialog-close`), "close")
+    .addButton(getString(`service-${servicePrefix}-dialog-help`), "help");
 
-  dialog.open(getString(`service-${addonPrefix}-dialog-title`));
+  dialog.open(
+    getString(`service-${servicePrefix}-dialog-title`, {
+      args: {
+        service: prefix,
+      },
+    }),
+  );
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
@@ -189,7 +199,9 @@ async function gptStatusCallback(
             "https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions",
         };
 
-        Zotero.launchURL(helpURL[prefix]);
+        Zotero.launchURL(
+          prefix === "azureGPT" ? helpURL.azureGPT : helpURL.chatGPT,
+        );
       }
       break;
     default:
@@ -197,12 +209,10 @@ async function gptStatusCallback(
   }
 }
 
-export async function chatGPTStatusCallback(status: boolean) {
-  const prefix = "chatGPT";
-  gptStatusCallback(prefix, status);
-}
-
-export async function azureGPTStatusCallback(status: boolean) {
-  const prefix = "azureGPT";
-  gptStatusCallback(prefix, status);
+export function getLLMStatusCallback(
+  prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
+) {
+  return async function (status: boolean) {
+    gptStatusCallback(prefix, status);
+  };
 }

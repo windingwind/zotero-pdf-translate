@@ -80,7 +80,10 @@ export class TranslationServices {
       (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
     );
     import("./gpt").then((e) => {
-      this.chatgpt = new TranslateTaskRunner(e.chatGPT);
+      this.chatgpt = new TranslateTaskRunner(e.getLLMService("chatGPT"));
+      this.customgpt1 = new TranslateTaskRunner(e.getLLMService("customGPT1"));
+      this.customgpt2 = new TranslateTaskRunner(e.getLLMService("customGPT2"));
+      this.customgpt3 = new TranslateTaskRunner(e.getLLMService("customGPT3"));
       this.azuregpt = new TranslateTaskRunner(e.azureGPT);
     });
     import("./gemini").then((e) => {

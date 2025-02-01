@@ -327,6 +327,51 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "customgpt1",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const status = secret.length > 0;
+      return {
+        secret,
+        status,
+        info: status
+          ? "Click the button to check connectivity."
+          : "The secret key format is invalid.",
+      };
+    },
+  },
+  {
+    type: "sentence",
+    id: "customgpt2",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const status = secret.length > 0;
+      return {
+        secret,
+        status,
+        info: status
+          ? "Click the button to check connectivity."
+          : "The secret key format is invalid.",
+      };
+    },
+  },
+  {
+    type: "sentence",
+    id: "customgpt3",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const status = secret.length > 0;
+      return {
+        secret,
+        status,
+        info: status
+          ? "Click the button to check connectivity."
+          : "The secret key format is invalid.",
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "azuregpt",
     defaultSecret: "",
     secretValidator(secret: string) {

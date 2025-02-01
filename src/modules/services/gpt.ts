@@ -126,21 +126,16 @@ const gptTranslate = async function (
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-export const chatGPT = <TranslateTaskProcessor>async function (data) {
-  const apiURL = getPref("chatGPT.endPoint") as string;
-  const model = getPref("chatGPT.model") as string;
-  const temperature = parseFloat(getPref("chatGPT.temperature") as string);
-  const stream = getPref("chatGPT.stream") as boolean;
+export function getLLMService(type: string): TranslateTaskProcessor {
+  return async (data) => {
+    const apiURL = getPref(`${type}.endPoint`) as string;
+    const model = getPref(`${type}.model`) as string;
+    const temperature = parseFloat(getPref(`${type}.temperature`) as string);
+    const stream = getPref(`${type}.stream`) as boolean;
 
-  return await gptTranslate(
-    apiURL,
-    model,
-    temperature,
-    "chatGPT",
-    data,
-    stream,
-  );
-};
+    return await gptTranslate(apiURL, model, temperature, type, data, stream);
+  };
+}
 
 export const azureGPT = <TranslateTaskProcessor>async function (data) {
   const endPoint = getPref("azureGPT.endPoint") as string;

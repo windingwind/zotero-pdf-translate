@@ -1,5 +1,5 @@
 import { cnkiStatusCallback } from "./cnki";
-import { chatGPTStatusCallback, azureGPTStatusCallback } from "./gpt";
+import { getLLMStatusCallback } from "./gpt";
 import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 import { deeplxStatusCallback } from "./deeplx";
@@ -40,14 +40,35 @@ export const secretStatusButtonData: {
       pass: "service-chatgpt-secret-pass",
       fail: "service-chatgpt-secret-fail",
     },
-    callback: chatGPTStatusCallback,
+    callback: getLLMStatusCallback("chatGPT"),
+  },
+  customgpt1: {
+    labels: {
+      pass: "service-chatgpt-secret-pass",
+      fail: "service-chatgpt-secret-fail",
+    },
+    callback: getLLMStatusCallback("customGPT1"),
+  },
+  customgpt2: {
+    labels: {
+      pass: "service-chatgpt-secret-pass",
+      fail: "service-chatgpt-secret-fail",
+    },
+    callback: getLLMStatusCallback("customGPT2"),
+  },
+  customgpt3: {
+    labels: {
+      pass: "service-chatgpt-secret-pass",
+      fail: "service-chatgpt-secret-fail",
+    },
+    callback: getLLMStatusCallback("customGPT3"),
   },
   azuregpt: {
     labels: {
       pass: "service-azuregpt-secret-pass",
       fail: "service-azuregpt-secret-fail",
     },
-    callback: azureGPTStatusCallback,
+    callback: getLLMStatusCallback("azureGPT"),
   },
   gemini: {
     labels: {
