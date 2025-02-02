@@ -2,9 +2,12 @@ export function registerShortcuts() {
   ztoolkit.Keyboard.register((ev, data) => {
     if (data.type === "keyup" && data.keyboard) {
       if (data.keyboard.equals("accel,T")) {
-        addon.hooks.onShortcuts(
-          Zotero.getMainWindow().Zotero_Tabs.selectedType,
-        );
+        const win = Zotero.getMainWindow();
+        if (Services.focus.activeWindow == win) {
+          addon.hooks.onShortcuts(win.Zotero_Tabs.selectedType);
+        } else {
+          addon.hooks.onShortcuts("reader");
+        }
       }
     }
     if (data.type === "keydown") {
