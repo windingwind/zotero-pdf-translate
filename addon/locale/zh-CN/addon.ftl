@@ -22,6 +22,7 @@ service-customgpt1=自定义GPT1🗝️
 service-customgpt2=自定义GPT2🗝️
 service-customgpt3=自定义GPT3🗝️
 service-azuregpt=AzureGPT🗝️
+service-NEUniutrans=小牛(东北大学)🗝️
 service-haici=海词
 service-bing=必应
 service-bingdict=必应词典(en↔zh)🔊

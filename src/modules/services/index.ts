@@ -23,6 +23,9 @@ export class TranslationServices {
     import("./bing").then(
       (e) => (this.bing = new TranslateTaskRunner(e.default)),
     );
+    import("./NEUniutrans").then(
+      (e) => (this.NEUniutrans = new TranslateTaskRunner(e.default)),
+    );
     import("./bingdict").then(
       (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
     );
@@ -199,9 +202,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

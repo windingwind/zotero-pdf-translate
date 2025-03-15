@@ -23,6 +23,7 @@ service-customgpt2=Custom GPT 2🗝️
 service-customgpt3=Custom GPT 3🗝️
 service-azuregpt=AzureGPT🗝️
 service-gemini=Gemini🗝️
+service-NEUniutrans=NiuTrans(NEU)🗝️
 service-haici=Haici
 service-bing=Bing
 service-bingdict=Bing Dict(en↔zh)🔊
