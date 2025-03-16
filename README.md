@@ -99,8 +99,9 @@ The default engine is Google Translate. Currently, we support:
 | Baidu Translate | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11) |
 | Baidu Field | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12) |
 | Tencent Translate | Yes(QPS5, free-5M) | [15](https://cloud.tencent.com/document/product/551/7372) |
-| GPT(OpenAI) | Yes(free-$18) | [Based on the gpt-3.5-turbo model](https://openai.com/pricing#chat) |
-| Gemini | Yes(free-) | [Based on the Gemini Pro model](https://ai.google.dev/available_regions#available_languages) |
+| GPT(OpenAI) | Yes(free-$18) | [LLM-based](https://openai.com/pricing#chat) |
+| Gemini | Yes(free-) | [LLM-based](https://ai.google.dev/available_regions#available_languages) |
+| Qwen-MT | Yes(free-) | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation) |
 
 > If the engine you want is not yet supported, please post an issue.
 
@@ -189,6 +190,14 @@ The secret format is `sk-#SecretKey`(split with '#').
 Support third-party compatible APIs.
 
 > [Chinese Document](https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b)
+
+**Gemini**
+Apply [here](https://ai.google.dev/gemini-api/docs).
+The secret format is `MY_APIKEY`.
+
+**Qwen-MT**
+Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).
+The secret format is `MY_APIKEY`.
 
 ### User Interface
 
