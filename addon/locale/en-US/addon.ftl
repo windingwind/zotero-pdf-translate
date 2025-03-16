@@ -23,6 +23,7 @@ service-customgpt2=Custom GPT 2🗝️
 service-customgpt3=Custom GPT 3🗝️
 service-azuregpt=AzureGPT🗝️
 service-gemini=Gemini🗝️
+service-qwenmt=Qwen-MT🗝️
 service-haici=Haici
 service-bing=Bing
 service-bingdict=Bing Dict(en↔zh)🔊
@@ -98,6 +99,16 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
 service-gemini-dialog-save=Save
 service-gemini-dialog-close=Close
+
+service-qwenmt-secret-pass=Config
+service-qwenmt-secret-fail=Config
+service-qwenmt-dialog-title=Qwen-MT Config
+service-qwenmt-dialog-endPoint=EndPoint
+service-qwenmt-dialog-model=Model
+service-qwenmt-dialog-domains=Domains
+service-qwenmt-dialog-help=Help
+service-qwenmt-dialog-save=Save
+service-qwenmt-dialog-close=Close
 
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex

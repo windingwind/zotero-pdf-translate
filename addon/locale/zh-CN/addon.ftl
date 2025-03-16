@@ -22,6 +22,7 @@ service-customgpt1=自定义GPT1🗝️
 service-customgpt2=自定义GPT2🗝️
 service-customgpt3=自定义GPT3🗝️
 service-azuregpt=AzureGPT🗝️
+service-qwenmt=Qwen-MT🗝️
 service-haici=海词
 service-bing=必应
 service-bingdict=必应词典(en↔zh)🔊
@@ -97,6 +98,16 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=流式输出
 service-gemini-dialog-save=保存
 service-gemini-dialog-close=关闭
+
+service-qwenmt-secret-pass=配置
+service-qwenmt-secret-fail=配置
+service-qwenmt-dialog-title=Qwen-MT 配置
+service-qwenmt-dialog-endPoint=API地址
+service-qwenmt-dialog-model=模型
+service-qwenmt-dialog-domains=领域提示词
+service-qwenmt-dialog-help=帮助
+service-qwenmt-dialog-save=保存
+service-qwenmt-dialog-close=关闭
 
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式

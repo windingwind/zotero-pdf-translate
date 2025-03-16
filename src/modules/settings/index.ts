@@ -3,6 +3,7 @@ import { getLLMStatusCallback } from "./gpt";
 import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 import { deeplxStatusCallback } from "./deeplx";
+import { qwenmtStatusCallback } from "./qwenmt";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -83,5 +84,12 @@ export const secretStatusButtonData: {
       fail: "service-cnki-settings",
     },
     callback: cnkiStatusCallback,
+  },
+  qwenmt: {
+    labels: {
+      pass: "service-qwenmt-secret-pass",
+      fail: "service-qwenmt-secret-fail",
+    },
+    callback: qwenmtStatusCallback,
   },
 };
