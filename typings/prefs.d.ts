@@ -67,6 +67,9 @@ declare namespace _ZoteroTypes {
       "cnkiSplitSecond": number;
       "cnkiUseSplit": boolean;
       "deeplx.endpoint": string;
+      "qwenmt.endPoint": string;
+      "qwenmt.model": string;
+      "qwenmt.domains": string;
     };
   }
 }

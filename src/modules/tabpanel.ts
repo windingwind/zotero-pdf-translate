@@ -19,6 +19,8 @@ export function registerReaderTabPanel() {
     sidenav: {
       l10nID: getLocaleID("itemPaneSection-sidenav"),
       icon: `chrome://${config.addonRef}/content/icons/section-20.svg`,
+      // @ts-ignore
+      orderable: false,
     },
     bodyXHTML: "<translator-plugin-panel />",
     onInit,

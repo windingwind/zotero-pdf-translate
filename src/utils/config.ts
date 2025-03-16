@@ -397,6 +397,19 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     },
   },
   {
+    type: "sentence",
+    id: "qwenmt",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const flag = Boolean(secret);
+      return {
+        secret,
+        status: flag,
+        info: flag ? "" : "The secret is not set.",
+      };
+    },
+  },
+  {
     type: "word",
     id: "bingdict",
   },
