@@ -4,6 +4,7 @@ import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 import { deeplxStatusCallback } from "./deeplx";
 import { qwenmtStatusCallback } from "./qwenmt";
+import { claudeStatusCallback } from "./claude";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -24,7 +25,7 @@ export const secretStatusButtonData: {
       fail: "service-deeplcustom-secret-fail",
     },
     callback: function () {
-      Zotero.launchURL(
+      _globalThis.Zotero.launchURL(
         "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
       );
     },
@@ -91,5 +92,12 @@ export const secretStatusButtonData: {
       fail: "service-qwenmt-secret-fail",
     },
     callback: qwenmtStatusCallback,
+  },
+  claude: {
+    labels: {
+      pass: "service-claude-secret-pass",
+      fail: "service-claude-secret-fail",
+    },
+    callback: claudeStatusCallback,
   },
 };

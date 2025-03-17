@@ -23,6 +23,7 @@ service-customgpt2=自定义GPT2🗝️
 service-customgpt3=自定义GPT3🗝️
 service-azuregpt=AzureGPT🗝️
 service-qwenmt=Qwen-MT🗝️
+service-claude=Claude🗝️
 service-haici=海词
 service-bing=必应
 service-bingdict=必应词典(en↔zh)🔊
@@ -108,6 +109,19 @@ service-qwenmt-dialog-domains=领域提示词
 service-qwenmt-dialog-help=帮助
 service-qwenmt-dialog-save=保存
 service-qwenmt-dialog-close=关闭
+
+service-claude-secret-pass=配置
+service-claude-secret-fail=配置
+service-claude-dialog-title=Claude 配置
+service-claude-dialog-endPoint=接口
+service-claude-dialog-model=模型
+service-claude-dialog-temperature=温度
+service-claude-dialog-prompt=提示词
+service-claude-dialog-stream=流式输出
+service-claude-dialog-maxTokens=最大输出长度
+service-claude-dialog-save=保存
+service-claude-dialog-close=关闭
+service-claude-dialog-help=帮助
 
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式
