@@ -101,6 +101,9 @@ export class TranslationServices {
     import("./qwenmt").then(
       (e) => (this.qwenmt = new TranslateTaskRunner(e.default)),
     );
+    import("./claude").then(
+      (e) => (this.claude = new TranslateTaskRunner(e.claude)),
+    );
   }
 
   public async runTranslationTask(
