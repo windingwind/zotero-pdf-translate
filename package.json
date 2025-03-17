@@ -42,12 +42,12 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.22.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.0",
-    "zotero-plugin-scaffold": "^0.3.3",
-    "zotero-types": "^3.1.7"
+    "typescript-eslint": "^8.26.1",
+    "zotero-plugin-scaffold": "^0.3.5",
+    "zotero-types": "^3.1.9"
   },
   "prettier": {
     "printWidth": 80,
