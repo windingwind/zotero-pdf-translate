@@ -130,6 +130,23 @@ async function translate(
 }
 
 /**
+ * Get a temporary refresh handler.
+ * This handler will refresh the reader popup and item pane section.
+ * This handler is temporary and will be invalid after another call.
+ * @returns A temporary refresh handler.
+ */
+function getTemporaryRefreshHandler() {
+  const newTick = `${Zotero.Utilities.randomString()}-${Date.now()}`;
+  addon.data.translate.refreshTick = newTick;
+  return () => {
+    if (addon.data.translate.refreshTick === newTick) {
+      addon.hooks.onReaderPopupRefresh();
+      addon.hooks.onReaderTabPanelRefresh();
+    }
+  };
+}
+
+/**
  * Get all available services.
  * @returns Array of services.
  */
@@ -149,4 +166,5 @@ export default {
   translate,
   getServices,
   getVersion,
+  getTemporaryRefreshHandler,
 };

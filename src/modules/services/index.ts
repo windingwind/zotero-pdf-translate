@@ -149,8 +149,7 @@ export class TranslationServices {
     task.result = "";
     // Display raw
     if (!options.noDisplay) {
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+      addon.api.getTemporaryRefreshHandler()();
     }
     // Get task runner
     const runner = this[task.service] as TranslateTaskRunner;
