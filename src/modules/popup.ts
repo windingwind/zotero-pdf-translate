@@ -155,7 +155,10 @@ export function buildReaderPopup(
             {
               type: "click",
               listener: (ev: Event) => {
-                addon.hooks.onTranslate({ noCheckZoteroItemLanguage: true });
+                addon.hooks.onTranslate({
+                  noCheckZoteroItemLanguage: true,
+                  noCache: true,
+                });
                 const button = ev.target as HTMLDivElement;
                 button.hidden = true;
                 (

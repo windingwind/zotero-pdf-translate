@@ -121,6 +121,7 @@ export class TranslatorPanel extends PluginCEBase {
       }
       this._addon.hooks.onTranslate(undefined, {
         noCheckZoteroItemLanguage: true,
+        noCache: true,
       });
     });
 

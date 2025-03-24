@@ -156,7 +156,7 @@ function onShortcuts(type: string) {
             .getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
-          { noDisplay: true },
+          { noDisplay: true, noCache: true },
         );
       }
       break;
@@ -164,6 +164,7 @@ function onShortcuts(type: string) {
       {
         addon.hooks.onTranslate(undefined, {
           noCheckZoteroItemLanguage: true,
+          noCache: true,
         });
       }
       break;
