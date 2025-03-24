@@ -14,15 +14,5 @@ export function registerShortcuts() {
         }
       }
     }
-    if (data.type === "keydown") {
-      if (ev.key === "Alt") {
-        addon.data.translate.concatKey = true;
-      }
-    }
-    if (data.type === "keyup") {
-      if (ev.key === "Alt") {
-        addon.data.translate.concatKey = false;
-      }
-    }
   });
 }
