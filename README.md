@@ -29,12 +29,12 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 ## Usage
 
-Once you have the plugin installed simply, open any PDF/EPub/webpage in your collections.
+Open any PDF/EPub/webpage in the Zotero reader.
 
-- Select some text, the translations are shown on the popup and the right sidebar(v0.2.0); Hold `Alt/Option` to concat selections.
+- Select text, the translations are shown on the popup and the item pane(v0.2.0).
   ![](docs/res/en2zh.jpg)
 
-- Highlight/Underline some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the sidebar and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
+- Highlight/Underline some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the item pane and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
 - Add selected text along with translation to note(v0.4.0); _Only works when a note editor is active._
   ![](docs/res/addtonote.jpg)
 
@@ -45,11 +45,12 @@ Once you have the plugin installed simply, open any PDF/EPub/webpage in your col
 
 - Dictionary for single word translation(v0.7.1).
 - SentenceBySentence Translation(v1.1.0). After a translation, press `shift`+`P` and select `Translate Sentences`. _Only for en2zh and en2en now_. Thanks @MuiseDestiny
+- Since v2.1.7, the concat mode shortcut is no longer supported, as Zotero 7 already supports cross-page selection.
 
 ### Q&A
 
 **Q** I want to translate manually.  
-**A** Go to `Edit->Settings->Translate->General`, uncheck the `Auto-Trans Selection`. Click the `Translate` button on the popup or sidebar to translate.
+**A** Go to `Edit->Settings->Translate->General`, uncheck the `Auto-Trans Selection`. Click the `Translate` button on the popup or item pane to translate.
 
 **Q** I want a translate shortcut.  
 **A**
@@ -75,7 +76,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 - Automatic Translation, default `true`
 - Automatic Annotation Translation: Save annotation's translation to annotation comment or annotation body, default `false`
-- Enable Popup: Show results in the popup panel or only in the sidebar, default `true`
+- Enable Popup: Show results in the popup panel or only in the item pane, default `true`
 - Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
 - Show 'Add to Note(With Translation)' in Popup: default `true`
   > Invisible if no active note editor opened.
@@ -204,8 +205,8 @@ The secret format is `MY_APIKEY`.
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
 - `Item Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
-- `SideBar: Show xxx`: Show or hide sidebar elements, default `true`
-- `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the sidebar if `true`, default `false`
+- `SideBar: Show xxx`: Show or hide item pane elements, default `true`
+- `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
 - `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
