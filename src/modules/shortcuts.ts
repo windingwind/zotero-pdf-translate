@@ -14,13 +14,14 @@ export function registerShortcuts() {
         }
       }
     }
+    const concatKey = Zotero.isMac ? "Meta" : "Control";
     if (data.type === "keydown") {
-      if (ev.key === "Alt") {
+      if (ev.key === concatKey) {
         addon.data.translate.concatKey = true;
       }
     }
     if (data.type === "keyup") {
-      if (ev.key === "Alt") {
+      if (ev.key === concatKey) {
         addon.data.translate.concatKey = false;
       }
     }
