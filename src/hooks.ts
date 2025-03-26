@@ -96,6 +96,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
 
   registerMenu();
   registerPrompt();
+
+  win.document.addEventListener("focusout", () => {
+    addon.data.translate.concatKey = false;
+  });
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
@@ -138,6 +142,8 @@ function onNotify(
         { noDisplay: true },
       );
     }
+  } else if (type === "tab" && ["select", "add", "close"].includes(event)) {
+    addon.data.translate.concatKey = false;
   } else {
     return;
   }
