@@ -18,7 +18,7 @@ selection = 选区:
 enableConcat =
     .label = 拼接模式 / { PLATFORM() ->
         [macos] ⌘
-       *[other] Alt
+       *[other] Ctrl
     }
 clearConcat =
     .label = 清空

@@ -117,7 +117,7 @@ The secret format is `MY_SECRET`.
 > See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
 
 **DeepL Translate**  
-Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).
+Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).  
 The secret format is `secretToken` or `secretToken#glossaryId` (if you want to specify some translate glossary).
 
 **Youdao Zhiyun Translate 有道智云**  
@@ -135,12 +135,12 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
-**Huoshan**
-Apply [here](https://www.volcengine.com/docs/4640/65067)
+**Huoshan**  
+Apply [here](https://www.volcengine.com/docs/4640/65067).  
 The secret format is `accessKeyId#accessKeySecret`
 
-**Aliyun Translate**
-Apply [here](https://www.aliyun.com/product/ai/base_alimt).
+**Aliyun Translate**  
+Apply [here](https://www.aliyun.com/product/ai/base_alimt).  
 The secret format is `accessKeyId#accessKeySecret#endpoint(optional)`.
 
 > The endpoint is the region of the service, default `https://mt.aliyuncs.com`. For `cn-hangzhou`, the endpoint is `mt.cn-hangzhou.aliyuncs.com`. See also [here](https://help.aliyun.com/zh/machine-translation/developer-reference/api-alimt-2018-10-12-endpoint?spm=a2c4g.11186623.help-menu-30396.d_4_1_0.6c702fa7WlNkX1).
@@ -193,12 +193,12 @@ Support third-party compatible APIs.
 
 > [Chinese Document](https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b)
 
-**Gemini**
-Apply [here](https://ai.google.dev/gemini-api/docs).
+**Gemini**  
+Apply [here](https://ai.google.dev/gemini-api/docs).  
 The secret format is `MY_APIKEY`.
 
-**Qwen-MT**
-Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).
+**Qwen-MT**  
+Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).  
 The secret format is `MY_APIKEY`.
 
 ### User Interface
