@@ -73,6 +73,8 @@ pref-interface-keepPopupSize =
     .label = Popup: Ricorda dimensione
 
 pref-advanced = Avanzate
+pref-advanced-enableAutoDetectLanguage =
+    .label = Rilevamento automatico della lingua delle elemento
 pref-advanced-disabledLanguages =
     .value = Disabilita la traduzione automatica quando la lingua del file è (dividere con ',')
 pref-advanced-disabledLanguages-alert = Riaprire i file o Zotero per applicare le modifiche.

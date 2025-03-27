@@ -18,7 +18,7 @@ selection = Selection:
 enableConcat =
     .label = Concat Mode / { PLATFORM() ->
         [macos] ⌘
-       *[other] Alt
+       *[other] Ctrl
     }
 clearConcat =
     .label = Clear
