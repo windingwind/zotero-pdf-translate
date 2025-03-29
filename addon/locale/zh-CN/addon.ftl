@@ -33,8 +33,8 @@ service-youdaodict=有道词典(en↔zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=Weblio Dict(en↔ja)
 service-errorPrefix=[请求错误]
-    此翻译引擎不可用，可能是密钥错误，也可能是请求过快。
-    可以尝试其他翻译引擎，或者来此查看相关回答：
+    此翻译服务不可用，可能是密钥错误，也可能是请求过快。
+    可以尝试其他翻译服务，或者来此查看相关回答：
     https://zotero.yuque.com/staff-gkhviy/pdf-trans/age09f
     
     请注意，这些错误与 Zotero 和本翻译插件无关，由该翻译服务引起：
