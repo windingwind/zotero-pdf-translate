@@ -11,6 +11,7 @@ declare namespace _ZoteroTypes {
       "enableDict": boolean;
       "enablePopup": boolean;
       "enableComment": boolean;
+      "enableAnnotationFromSyncTranslation": boolean;
       "annotationTranslationPosition": string;
       "enableNote": boolean;
       "enableNoteReplaceMode": boolean;

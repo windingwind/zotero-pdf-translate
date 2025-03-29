@@ -13,7 +13,7 @@
       native="true"
       preference="__prefsPrefix__.enableAuto"
     />
-    <hbox align="center">
+    <vbox>
       <checkbox
         id="__addonRef__-enableComment"
         data-l10n-id="pref-basic-enableComment"
@@ -23,6 +23,7 @@
       <radiogroup
         id="__addonRef__-annotationTranslationPosition"
         class="auto-annotation"
+        style="padding-left: 18px"
         orient="horizontal"
         native="true"
         preference="__prefsPrefix__.annotationTranslationPosition"
@@ -36,8 +37,15 @@
           value="body"
         />
       </radiogroup>
-    </hbox>
-    <hbox align="center">
+      <checkbox
+        id="__addonRef__-enableAnnotationFromSyncTranslation"
+        data-l10n-id="pref-basic-enableAnnotationFromSyncTranslation"
+        style="padding-left: 18px"
+        native="true"
+        preference="__prefsPrefix__.enableAnnotationFromSyncTranslation"
+      />
+    </vbox>
+    <vbox>
       <checkbox
         id="__addonRef__-enablePopup"
         data-l10n-id="pref-basic-enablePopup"
@@ -48,15 +56,15 @@
         id="__addonRef__-enableHidePopupTextarea"
         data-l10n-id="pref-basic-enableHidePopupTextarea"
         class="enable-popup"
+        style="padding-left: 18px"
         native="true"
         preference="__prefsPrefix__.enableHidePopupTextarea"
       />
-    </hbox>
-    <hbox align="center">
       <checkbox
         id="__addonRef__-enableAddToNote"
         data-l10n-id="pref-basic-enableNote"
         class="enable-popup"
+        style="padding-left: 18px"
         native="true"
         preference="__prefsPrefix__.enableNote"
       />
@@ -64,22 +72,24 @@
         id="__addonRef__-enableNoteReplaceMode"
         data-l10n-id="pref-basic-enableNoteReplaceMode"
         class="enable-popup enable-popup-addtonote"
+        style="padding-left: 18px"
         native="true"
         preference="__prefsPrefix__.enableNoteReplaceMode"
       />
-    </hbox>
-    <hbox align="center">
-      <checkbox
-        data-l10n-id="pref-audio-autoPlay"
-        native="true"
-        preference="__prefsPrefix__.autoPlay"
-      />
+    </vbox>
+    <vbox>
       <checkbox
         data-l10n-id="pref-audio-showPlayBtn"
         native="true"
         preference="__prefsPrefix__.showPlayBtn"
       />
-    </hbox>
+      <checkbox
+        data-l10n-id="pref-audio-autoPlay"
+        style="padding-left: 18px"
+        native="true"
+        preference="__prefsPrefix__.autoPlay"
+      />
+    </vbox>
   </groupbox>
   <groupbox>
     <label><html:h2 data-l10n-id="pref-service"></html:h2></label>
