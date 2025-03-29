@@ -410,6 +410,24 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     },
   },
   {
+    type: "sentence",
+    id: "claude",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const status = /^sk-ant-[A-Za-z0-9]{24,}$/.test(secret);
+      const empty = secret.length === 0;
+      return {
+        secret,
+        status: status || Boolean(secret),
+        info: empty
+          ? "The secret is not set."
+          : status
+            ? "Click the button to check connectivity."
+            : "The Claude API key format might be invalid. Typically starts with 'sk-ant-'.",
+      };
+    },
+  },
+  {
     type: "word",
     id: "bingdict",
   },
