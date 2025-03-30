@@ -35,18 +35,18 @@
     "zotero-plugin-toolkit": "^5.0.0-1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@types/node": "^22.13.10",
+    "@eslint/js": "^9.23.0",
+    "@types/node": "^22.13.14",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
-    "eslint": "^9.22.0",
+    "eslint": "^9.23.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.0",
-    "zotero-plugin-scaffold": "^0.4.0",
+    "typescript-eslint": "^8.28.0",
+    "zotero-plugin-scaffold": "^0.4.1",
     "zotero-types": "^4.0.0-beta.5"
   },
   "prettier": {
