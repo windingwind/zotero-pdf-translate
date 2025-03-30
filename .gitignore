@@ -3,6 +3,7 @@ logs
 node_modules
 pnpm-lock.yaml
 yarn.lock
+tsconfig.tsbuildinfo
 zotero-cmd.json
 .DS_Store
 .env
