@@ -28,6 +28,7 @@ declare namespace _ZoteroTypes {
       "showSidebarEngine": boolean;
       "showSidebarSettings": boolean;
       "showSidebarConcat": boolean;
+      "enableConcatKey": boolean;
       "showSidebarLanguage": boolean;
       "showSidebarRaw": boolean;
       "showSidebarCopy": boolean;

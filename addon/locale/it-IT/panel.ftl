@@ -16,10 +16,7 @@ autoTranslateAnnotation =
 
 selection = Selection:
 enableConcat =
-    .label = Concat Mode / { PLATFORM() ->
-        [macos] ⌘
-       *[other] Ctrl
-    }
+    .label = Concat Mode
 clearConcat =
     .label = Clear
 

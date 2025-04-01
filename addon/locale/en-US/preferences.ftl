@@ -60,9 +60,14 @@ pref-interface-showSidebarEngine =
 pref-interface-showSidebarLanguage =
     .label = Item Pane Section: Show Language Selection Menu
 pref-interface-showSidebarSettings =
-    .label = Item Pane Section: Show Settings
+    .label = Item Pane Section: Show Auto-Trans Settings
 pref-interface-showSidebarConcat =
     .label = Item Pane Section: Show Concatenated Translation Menu
+pref-interface-enableConcatKey =
+    .label = Item Pane Section: Hold down { PLATFORM() ->
+        [macos] ⌘
+       *[other] Ctrl
+    } to enable Concat Mode
 pref-interface-showSidebarRaw =
     .label = Item Pane Section: Show Raw
 pref-interface-showSidebarCopy =
