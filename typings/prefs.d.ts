@@ -71,6 +71,8 @@ declare namespace _ZoteroTypes {
       "qwenmt.endPoint": string;
       "qwenmt.model": string;
       "qwenmt.domains": string;
+      "aliyun.action": string;
+      "aliyun.scene": string;
     };
   }
 }

@@ -1,4 +1,5 @@
 import { base64, hmacSha1Digest, randomString } from "../../utils/crypto";
+import { getPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
@@ -6,6 +7,8 @@ export default <TranslateTaskProcessor>async function (data) {
   const accessKeyId = params[0];
   const accessKeySecret = params[1];
   const endpoint = params[2] || "https://mt.aliyuncs.com/";
+  const action = (getPref("aliyun.action") as string) || "TranslateGeneral";
+  const scene = (getPref("aliyun.scene") as string) || "general";
 
   function languageCode(str: string) {
     str = str.toLowerCase();
@@ -22,7 +25,7 @@ export default <TranslateTaskProcessor>async function (data) {
     );
   }
 
-  const encodedBody = `AccessKeyId=${accessKeyId}&Action=TranslateGeneral&Format=JSON&FormatType=text&SignatureMethod=HMAC-SHA1&SignatureNonce=${encodeURIComponent(
+  const encodedBody = `AccessKeyId=${accessKeyId}&Action=${action}&Format=JSON&FormatType=text&Scene=${scene}&SignatureMethod=HMAC-SHA1&SignatureNonce=${encodeURIComponent(
     randomString(12),
   )}&SignatureVersion=1.0&SourceLanguage=auto&SourceText=${encodeRFC3986URIComponent(
     data.raw,
