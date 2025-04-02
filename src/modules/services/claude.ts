@@ -23,6 +23,8 @@ export const claude = <TranslateTaskProcessor>async function (data) {
   const stream = getPref("claude.stream") as boolean;
   const maxTokens = parseInt(getPref("claude.maxTokens") as string) || 4000;
 
+  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+
   // Pass maxTokens to the request body
   const requestBody = {
     model: model,
@@ -103,8 +105,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
 
             // Refresh UI to show progress
             if (data.type === "text") {
-              addon.hooks.onReaderPopupRefresh();
-              addon.hooks.onReaderTabPanelRefresh();
+              refreshHandler();
             }
           } catch (error) {
             console.error("Error processing Claude stream:", error);
@@ -116,8 +117,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
           data.status = "success";
 
           // Refresh UI once more to ensure we display the final result
-          addon.hooks.onReaderPopupRefresh();
-          addon.hooks.onReaderTabPanelRefresh();
+          refreshHandler();
         };
       } else {
         // Non-streaming logic
@@ -133,8 +133,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
           }
 
           // Trigger UI updates after receiving the full response
-          addon.hooks.onReaderPopupRefresh();
-          addon.hooks.onReaderTabPanelRefresh();
+          refreshHandler();
         };
       }
     },
