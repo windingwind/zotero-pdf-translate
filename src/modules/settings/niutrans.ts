@@ -201,7 +201,7 @@ export async function niutransStatusCallback(status: boolean) {
         {
           tag: "span",
           properties: {
-            innerHTML: getString("service-niutranspro-dialog-tip0")+" ",
+            innerHTML: getString("service-niutranspro-dialog-tip0") + " ",
           },
         },
         {
@@ -214,7 +214,7 @@ export async function niutransStatusCallback(status: boolean) {
         {
           tag: "span",
           properties: {
-            innerHTML: " "+getString("service-niutranspro-dialog-tip2"),
+            innerHTML: " " + getString("service-niutranspro-dialog-tip2"),
           },
         },
       ],

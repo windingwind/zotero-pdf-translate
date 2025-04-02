@@ -24,6 +24,7 @@ service-customgpt3=Custom GPT 3🗝️
 service-azuregpt=AzureGPT🗝️
 service-gemini=Gemini🗝️
 service-qwenmt=Qwen-MT🗝️
+service-claude=Claude🗝️
 service-haici=Haici
 service-bing=Bing
 service-bingdict=Bing Dict(en↔zh)🔊
@@ -109,6 +110,19 @@ service-qwenmt-dialog-domains=Domains
 service-qwenmt-dialog-help=Help
 service-qwenmt-dialog-save=Save
 service-qwenmt-dialog-close=Close
+
+service-claude-secret-pass=Config
+service-claude-secret-fail=Config
+service-claude-dialog-title=Claude Config
+service-claude-dialog-endPoint=EndPoint
+service-claude-dialog-model=Model
+service-claude-dialog-temperature=Temp
+service-claude-dialog-prompt=Prompt
+service-claude-dialog-stream=Stream
+service-claude-dialog-maxTokens=Max Tokens
+service-claude-dialog-save=Save
+service-claude-dialog-close=Close
+service-claude-dialog-help=Help
 
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex
