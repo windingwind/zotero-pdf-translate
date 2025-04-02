@@ -60,9 +60,14 @@ pref-interface-showSidebarEngine =
 pref-interface-showSidebarLanguage =
     .label = Sezione del pannello dell'elemento: Mostra il menu di selezione della lingua
 pref-interface-showSidebarSettings =
-    .label = Sezione del pannello dell'elemento: Mostra le impostazioni
+    .label = Sezione del pannello dell'elemento: Mostra le Traduci automaticamente impostazioni
 pref-interface-showSidebarConcat =
     .label = Sezione del pannello dell'elemento: Mostra il menu per la traduzione concatenata
+pref-interface-enableConcatKey =
+    .label = Sezione del pannello dell'elemento: Tenere premuto il tasto { PLATFORM() ->
+        [macos] ⌘
+       *[other] Ctrl
+    } per attivare la modalità di giunzione
 pref-interface-showSidebarRaw =
     .label = Sezione del pannello dell'elemento: Mostra il testo originale
 pref-interface-showSidebarCopy =

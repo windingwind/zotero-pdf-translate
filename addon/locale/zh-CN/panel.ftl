@@ -16,10 +16,7 @@ autoTranslateAnnotation =
 
 selection = 选区: 
 enableConcat =
-    .label = 拼接模式 / { PLATFORM() ->
-        [macos] ⌘
-       *[other] Ctrl
-    }
+    .label = 拼接模式
 clearConcat =
     .label = 清空
 

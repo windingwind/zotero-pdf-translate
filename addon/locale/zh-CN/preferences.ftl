@@ -60,9 +60,14 @@ pref-interface-showSidebarEngine =
 pref-interface-showSidebarLanguage =
     .label = 条目面板区块：显示语言选择菜单
 pref-interface-showSidebarSettings =
-    .label = 条目面板区块：显示设置
+    .label = 条目面板区块：显示自动翻译设置
 pref-interface-showSidebarConcat =
     .label = 条目面板区块：显示拼接翻译菜单
+pref-interface-enableConcatKey =
+    .label = 条目面板区块：按住 { PLATFORM() ->
+        [macos] ⌘
+       *[other] Ctrl
+    } 键激活拼接模式
 pref-interface-showSidebarRaw =
     .label = 条目面板区块：显示原文
 pref-interface-showSidebarCopy =
