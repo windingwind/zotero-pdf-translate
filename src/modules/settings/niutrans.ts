@@ -195,13 +195,13 @@ export async function niutransStatusCallback(status: boolean) {
     .addCell(5, 0, {
       tag: "div",
       styles: {
-        width: "200px",
+        width: "300px",
       },
       children: [
         {
           tag: "span",
           properties: {
-            innerHTML: getString("service-niutranspro-dialog-tip0"),
+            innerHTML: getString("service-niutranspro-dialog-tip0")+" ",
           },
         },
         {
@@ -214,7 +214,7 @@ export async function niutransStatusCallback(status: boolean) {
         {
           tag: "span",
           properties: {
-            innerHTML: getString("service-niutranspro-dialog-tip2"),
+            innerHTML: " "+getString("service-niutranspro-dialog-tip2"),
           },
         },
       ],
