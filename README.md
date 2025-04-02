@@ -104,6 +104,7 @@ The default engine is Google Translate. Currently, we support:
 | GPT(OpenAI)                  | Yes(free-$18)          | [LLM-based](https://openai.com/pricing#chat)                                                                                                                                                                                                                       |
 | Gemini                       | Yes(free-)             | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                                                                                           |
 | Qwen-MT                      | Yes(free-)             | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                                                                                                |
+| Claud                        | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
 
 > If the engine you want is not yet supported, please post an issue.
 
@@ -200,6 +201,9 @@ The secret format is `MY_APIKEY`.
 **Qwen-MT**  
 Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).  
 The secret format is `MY_APIKEY`.
+
+**Claud**
+Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)
 
 ### User Interface
 
