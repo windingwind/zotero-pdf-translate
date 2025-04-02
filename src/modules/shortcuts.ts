@@ -12,6 +12,7 @@ export function registerShortcuts() {
         } else {
           addon.hooks.onShortcuts("reader");
         }
+        addon.data.translate.concatKey = false;
       }
     }
     const concatKey = Zotero.isMac ? "Meta" : "Control";
