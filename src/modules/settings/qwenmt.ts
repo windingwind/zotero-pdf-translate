@@ -5,10 +5,6 @@ export async function qwenmtStatusCallback(status: boolean) {
   const prefix = "qwenmt";
   const addonPrefix = prefix;
 
-  if (!status) {
-    return;
-  }
-
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
     endPoint:
