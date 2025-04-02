@@ -5,11 +5,6 @@ export async function qwenmtStatusCallback(status: boolean) {
   const prefix = "qwenmt";
   const addonPrefix = prefix;
 
-  // fix the configuration window can not be opened
-  // if (!status) {
-  //   return;
-  // }
-
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
     endPoint:
