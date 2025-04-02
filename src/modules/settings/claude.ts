@@ -175,7 +175,8 @@ export async function claudeStatusCallback(status: boolean) {
       break;
     case "help":
       {
-        const helpURL = "https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api";
+        const helpURL =
+          "https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api";
         _globalThis.Zotero.launchURL(helpURL);
       }
       break;

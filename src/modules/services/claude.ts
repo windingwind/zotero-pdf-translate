@@ -52,35 +52,38 @@ export const claude = <TranslateTaskProcessor>async function (data) {
         let preLength = 0;
         let result = "";
         let buffer = ""; // Buffer to handle partial JSON chunks
-        
+
         xmlhttp.onprogress = (e: any) => {
           try {
             // Get only the new data since last progress event
             const newResponse = e.target.response.slice(preLength);
             preLength = e.target.response.length;
-            
+
             // Add to our working buffer
             buffer += newResponse;
-            
+
             // Process complete data: chunks by splitting on newlines
             const lines = buffer.split("\n");
-            
+
             // Keep the last line in the buffer as it might be incomplete
             buffer = lines.pop() || "";
-            
+
             for (const line of lines) {
               if (!line.trim()) continue; // Skip empty lines
-              
+
               // Remove the "data: " prefix if present
               const dataLine = line.startsWith("data: ") ? line.slice(6) : line;
-              
+
               if (dataLine.trim() === "[DONE]") continue;
-              
+
               try {
                 const obj = JSON.parse(dataLine);
                 if (obj.type === "content_block_delta") {
                   result += obj.delta?.text || "";
-                } else if (obj.type === "content_block_start" || obj.type === "content_block_stop") {
+                } else if (
+                  obj.type === "content_block_start" ||
+                  obj.type === "content_block_stop"
+                ) {
                   // Handle other event types if needed
                   continue;
                 }
@@ -89,15 +92,15 @@ export const claude = <TranslateTaskProcessor>async function (data) {
                 continue;
               }
             }
-            
+
             // Clear timeouts caused by stream transfers
             if (e.target.timeout) {
               e.target.timeout = 0;
             }
-            
+
             // Update the result
             data.result = result.replace(/^\n\n/, "");
-            
+
             // Refresh UI to show progress
             if (data.type === "text") {
               addon.hooks.onReaderPopupRefresh();
@@ -107,11 +110,11 @@ export const claude = <TranslateTaskProcessor>async function (data) {
             console.error("Error processing Claude stream:", error);
           }
         };
-        
+
         // Also handle the load event to ensure we get the complete text
         xmlhttp.onload = () => {
           data.status = "success";
-          
+
           // Refresh UI once more to ensure we display the final result
           addon.hooks.onReaderPopupRefresh();
           addon.hooks.onReaderTabPanelRefresh();
