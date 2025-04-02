@@ -1,17 +1,18 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
-export async function qwenmtStatusCallback(status: boolean) {
-  const prefix = "qwenmt";
+export async function aliyunStatusCallback(status: boolean) {
+  const prefix = "aliyun";
   const addonPrefix = prefix;
+
+  if (!status) {
+    return;
+  }
 
   const dialog = new ztoolkit.Dialog(2, 1);
   const dialogData: { [key: string | number]: any } = {
-    endPoint:
-      getPref(`${prefix}.endPoint`) ||
-      "https://dashscope.aliyuncs.com/compatible-mode",
-    model: getPref(`${prefix}.model`) || "qwen-mt-plus",
-    domains: getPref(`${prefix}.domains`) || "",
+    action: getPref(`${prefix}.action`),
+    scene: getPref(`${prefix}.scene`),
   };
 
   dialog
@@ -33,17 +34,17 @@ export async function qwenmtStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             attributes: {
-              for: "endPoint",
+              for: "action",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-endPoint`),
+              innerHTML: getString(`service-${addonPrefix}-dialog-action`),
             },
           },
           {
             tag: "input",
-            id: "endPoint",
+            id: "action",
             attributes: {
-              "data-bind": "endPoint",
+              "data-bind": "action",
               "data-prop": "value",
               type: "string",
             },
@@ -52,36 +53,17 @@ export async function qwenmtStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             attributes: {
-              for: "model",
+              for: "scene",
             },
             properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-model`),
+              innerHTML: getString(`service-${addonPrefix}-dialog-scene`),
             },
           },
           {
             tag: "input",
-            id: "model",
+            id: "scene",
             attributes: {
-              "data-bind": "model",
-              "data-prop": "value",
-              type: "string",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "domains",
-            },
-            properties: {
-              innerHTML: getString(`service-${addonPrefix}-dialog-domains`),
-            },
-          },
-          {
-            tag: "input",
-            id: "domains",
-            attributes: {
-              "data-bind": "domains",
+              "data-bind": "scene",
               "data-prop": "value",
               type: "string",
             },
@@ -100,15 +82,14 @@ export async function qwenmtStatusCallback(status: boolean) {
   switch (dialogData._lastButtonId) {
     case "save":
       {
-        setPref(`${prefix}.endPoint`, dialogData.endPoint);
-        setPref(`${prefix}.model`, dialogData.model);
-        setPref(`${prefix}.domains`, dialogData.domains);
+        setPref(`${prefix}.action`, dialogData.action);
+        setPref(`${prefix}.scene`, dialogData.scene);
       }
       break;
     case "help":
       {
         Zotero.launchURL(
-          "https://help.aliyun.com/zh/model-studio/user-guide/machine-translation/",
+          "https://help.aliyun.com/zh/machine-translation/developer-reference/api-overview-1",
         );
       }
       break;

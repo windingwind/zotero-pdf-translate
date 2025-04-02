@@ -111,9 +111,12 @@ export class TranslationServices {
     options: {
       noCheckZoteroItemLanguage?: boolean;
       noDisplay?: boolean;
+      noCache?: boolean;
     } = {},
   ): Promise<boolean> {
     ztoolkit.log("runTranslationTask", options);
+    const { noCache, noCheckZoteroItemLanguage, noDisplay } = options;
+
     task = task || getLastTranslateTask();
     if (!task || !task.raw) {
       ztoolkit.log("skipped empty");
@@ -122,7 +125,7 @@ export class TranslationServices {
     task.status = "processing" as TranslateTask["status"];
     // Check whether item language is in disabled languages list
     let disabledByItemLanguage = false;
-    if (!options.noCheckZoteroItemLanguage && task.itemId) {
+    if (!noCheckZoteroItemLanguage && task.itemId) {
       const item = Zotero.Items.getTopLevel([Zotero.Items.get(task.itemId)])[0];
       if (item && task.type !== "custom") {
         const itemLanguage = getPref("autoDetectLanguage")
@@ -151,44 +154,71 @@ export class TranslationServices {
     task.raw = task.raw.replace(regex, "");
     task.result = "";
     // Display raw
-    if (!options.noDisplay) {
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+    if (!noDisplay) {
+      addon.api.getTemporaryRefreshHandler()();
     }
-    // Get task runner
-    const runner = this[task.service] as TranslateTaskRunner;
-    if (!runner) {
-      task.result = `${task.service} is not implemented.`;
-      task.status = "fail";
-      return false;
-    }
-    // Run task
-    await runner.run(task);
-    // Run extra tasks. Do not wait.
-    if (task.extraTasks?.length) {
-      Promise.all(
-        task.extraTasks.map((extraTask) => {
-          return this.runTranslationTask(extraTask, {
-            noCheckZoteroItemLanguage: options.noCheckZoteroItemLanguage,
-            noDisplay: true,
-          });
-        }),
-      ).then(() => {
-        addon.hooks.onReaderTabPanelRefresh();
+
+    let cacheHit = false;
+    if (!noCache) {
+      // Check cache
+      const cachedTask = addon.data.translate.queue.findLast((_t) => {
+        return (
+          _t.status === "success" &&
+          _t.raw === task!.raw &&
+          _t.service === task!.service &&
+          (!task.langfrom || _t.langfrom === task.langfrom) &&
+          (!task.langto || _t.langto === task.langto)
+        );
       });
-    }
-    // Try candidate services if current run fails
-    if (task.status === "fail" && task.candidateServices.length > 0) {
-      task.service = task.candidateServices.shift()!;
-      task.status = "waiting";
-      return await this.runTranslationTask(task, options);
-    } else {
-      // Display result
-      if (!options.noDisplay) {
-        addon.hooks.onReaderPopupRefresh();
-        addon.hooks.onReaderTabPanelRefresh();
+
+      if (cachedTask) {
+        cacheHit = true;
+        ztoolkit.log("cache hit", cachedTask);
+        task.result = cachedTask.result;
+        task.status = "success";
+
+        if (!noDisplay) {
+          addon.api.getTemporaryRefreshHandler()();
+        }
       }
     }
+
+    if (!cacheHit) {
+      // Get task runner
+      const runner = this[task.service] as TranslateTaskRunner;
+      if (!runner) {
+        task.result = `${task.service} is not implemented.`;
+        task.status = "fail";
+        return false;
+      }
+      // Run task
+      await runner.run(task);
+      // Run extra tasks. Do not wait.
+      if (task.extraTasks?.length) {
+        Promise.all(
+          task.extraTasks.map((extraTask) => {
+            return this.runTranslationTask(extraTask, {
+              noCheckZoteroItemLanguage,
+              noDisplay: true,
+            });
+          }),
+        ).then(() => {
+          addon.hooks.onReaderTabPanelRefresh();
+        });
+      }
+      // Try candidate services if current run fails
+      if (task.status === "fail" && task.candidateServices.length > 0) {
+        task.service = task.candidateServices.shift()!;
+        task.status = "waiting";
+        return await this.runTranslationTask(task, options);
+      } else {
+        // Display result
+        if (!noDisplay) {
+          addon.api.getTemporaryRefreshHandler()();
+        }
+      }
+    }
+
     const success = task.status === "success";
     const item = Zotero.Items.get(task.itemId!);
     // Data storage for corresponding types

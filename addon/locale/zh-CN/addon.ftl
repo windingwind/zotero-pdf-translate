@@ -34,8 +34,8 @@ service-youdaodict=有道词典(en↔zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=Weblio Dict(en↔ja)
 service-errorPrefix=[请求错误]
-    此翻译引擎不可用，可能是密钥错误，也可能是请求过快。
-    可以尝试其他翻译引擎，或者来此查看相关回答：
+    此翻译服务不可用，可能是密钥错误，也可能是请求过快。
+    可以尝试其他翻译服务，或者来此查看相关回答：
     https://zotero.yuque.com/staff-gkhviy/pdf-trans/age09f
     
     请注意，这些错误与 Zotero 和本翻译插件无关，由该翻译服务引起：
@@ -129,6 +129,15 @@ service-cnki-dialog-save=保存
 service-cnki-dialog-close=关闭
 service-cnki-dialog-title=CNKI 设置
 service-cnki-dialog-split=超过800字符自动拆分翻译
+
+service-aliyun-secret-pass=配置
+service-aliyun-secret-fail=配置
+service-aliyun-dialog-title=Aliyun 配置
+service-aliyun-dialog-action=版本
+service-aliyun-dialog-scene=场景
+service-aliyun-dialog-help=帮助
+service-aliyun-dialog-save=保存
+service-aliyun-dialog-close=关闭
 
 readerpopup-translate-label=翻译
 

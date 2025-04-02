@@ -165,7 +165,8 @@ export function addTranslateTask(
   // Append raw text to last task's raw if in concat mode
   const isConcatMode =
     type === "text" &&
-    (addon.data.translate.concatCheckbox || addon.data.translate.concatKey);
+    (addon.data.translate.concatCheckbox ||
+      (getPref("enableConcatKey") && addon.data.translate.concatKey));
   const lastTask = getLastTranslateTask({ type: "text" });
   if (isConcatMode && lastTask) {
     lastTask.raw += " " + raw;

@@ -26,6 +26,8 @@ const geminiTranslate = async function (
     }
   }
 
+  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+
   const xhr = await Zotero.HTTP.request("POST", getGenContentAPI(data), {
     headers: {
       "Content-Type": "application/json",
@@ -66,8 +68,7 @@ const geminiTranslate = async function (
         preLength = e.target.response.length;
 
         if (data.type === "text") {
-          addon.hooks.onReaderPopupRefresh();
-          addon.hooks.onReaderTabPanelRefresh();
+          refreshHandler();
         }
       };
     },

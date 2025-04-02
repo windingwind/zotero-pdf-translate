@@ -127,7 +127,11 @@ function onNotify(
   extraData: { [key: string]: any },
 ) {
   if (event === "add" && type === "item") {
-    if (extraData?.skipAutoSync) return;
+    if (
+      !getPref("enableAnnotationFromSyncTranslation") &&
+      extraData?.skipAutoSync
+    )
+      return;
     const annotationItems = Zotero.Items.get(ids as number[]).filter((item) =>
       item.isAnnotation(),
     );
@@ -142,6 +146,8 @@ function onNotify(
         { noDisplay: true },
       );
     }
+  } else if (type === "tab" && ["select", "add", "close"].includes(event)) {
+    addon.data.translate.concatKey = false;
   } else {
     return;
   }
@@ -160,7 +166,7 @@ function onShortcuts(type: string) {
             .getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
-          { noDisplay: true },
+          { noDisplay: true, noCache: true },
         );
       }
       break;
@@ -168,6 +174,7 @@ function onShortcuts(type: string) {
       {
         addon.hooks.onTranslate(undefined, {
           noCheckZoteroItemLanguage: true,
+          noCache: true,
         });
       }
       break;

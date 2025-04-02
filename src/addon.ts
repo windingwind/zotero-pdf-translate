@@ -35,6 +35,7 @@ class Addon {
       batchTaskDelay: number;
       services: TranslationServices;
       cachedSourceLanguage: Record<number, string>;
+      refreshTick: string;
     };
   };
   // Lifecycle hooks
@@ -61,6 +62,7 @@ class Addon {
         batchTaskDelay: 1000,
         services: new TranslationServices(),
         cachedSourceLanguage: {},
+        refreshTick: "",
       },
     };
     this.hooks = hooks;

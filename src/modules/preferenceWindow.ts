@@ -249,12 +249,6 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setAutoTranslateAnnotation":
       {
-        const elemValue = fromElement
-          ? (doc.querySelector(`#${makeId("enableComment")}`) as XUL.Checkbox)
-              .checked
-          : (getPref("enableComment") as boolean);
-        const hidden = !elemValue;
-        setDisabled("auto-annotation", hidden);
         addon.hooks.onReaderTabPanelRefresh();
       }
       break;
@@ -417,12 +411,10 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       }
       break;
     case "updateFontSize":
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+      addon.api.getTemporaryRefreshHandler()();
       break;
     case "updatelineHeight":
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+      addon.api.getTemporaryRefreshHandler()();
       break;
     default:
       return;

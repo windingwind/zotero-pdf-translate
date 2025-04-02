@@ -27,7 +27,7 @@ export function registerMenu() {
             .getSelectedItems(true)
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
-          { noDisplay: true },
+          { noDisplay: true, noCache: true },
         );
       },
       icon: menuIcon,
@@ -44,7 +44,7 @@ export function registerMenu() {
             .getSelectedItems(true)
             .map((id) => addTranslateAbstractTask(id, true))
             .filter((task) => task) as TranslateTask[],
-          { noDisplay: true },
+          { noDisplay: true, noCache: true },
         );
       },
       icon: menuIcon,

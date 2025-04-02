@@ -1,26 +1,31 @@
 pref-general = 通用
+
 pref-basic-enableAuto =
     .label = 自动翻译选择内容
 pref-basic-enableComment =
     .label = 自动翻译批注
 pref-basic-enablePopup =
-    .label = 启用弹窗
+    .label = 启用阅读器选择弹窗
 pref-basic-enableHidePopupTextarea =
-    .label = 隐藏翻译弹窗
+    .label = 隐藏弹窗文本区域
 pref-basic-annotationTranslationInComment =
-    .label = 存在笔记评论
+    .label = 保存翻译至批注评论
 pref-basic-annotationTranslationInBody =
-    .label = 存在笔记本身
+    .label = 保存翻译至批注正文
+pref-basic-enableAnnotationFromSyncTranslation =
+    .label = 自动翻译来自同步的批注
 pref-basic-enableNote =
-    .label = 在弹窗显示'添加翻译到笔记'
+    .label = 在弹窗中显示“添加翻译到笔记”
 pref-basic-enableNoteReplaceMode =
     .label = 添加到笔记时替换原始文本
-pref-audio-autoPlay = 
+
+pref-audio-autoPlay =
     .label = 自动播放发音
 pref-audio-showPlayBtn =
-    .label = 弹窗中显示播放键
+    .label = 弹窗中显示播放按钮
 
 pref-service = 服务
+
 pref-service-sentenceServices =
     .value = 翻译服务
 pref-service-sentenceServicesSecret =
@@ -36,52 +41,65 @@ pref-service-langfrom =
 pref-service-langto =
     .value = 翻译到
 pref-service-hint =
-    .value = 带🗝️翻译服务需要密钥; 请参阅GitHub
+    .value = 带🗝️的翻译服务需要密钥；详情请参阅GitHub
 
 pref-interface = 用户界面
+
 pref-interface-fontSize =
     .value = 字体大小
 pref-interface-lineHeight =
     .value = 行高
+pref-interface-showItemMenu =
+    .label = 显示条目上下文菜单
 pref-interface-showItemMenuTitleTranslation =
-    .label = 条目菜单：显示翻译标题
+    .label = 条目上下文菜单：显示标题翻译
 pref-interface-showItemMenuAbstractTranslation =
-    .label = 条目菜单：显示翻译摘要
+    .label = 条目上下文菜单：显示摘要翻译
 pref-interface-showSidebarEngine =
-    .label = 侧边栏: 显示翻译引擎选择菜单
+    .label = 条目面板区块：显示翻译引擎选择菜单
 pref-interface-showSidebarLanguage =
-    .label = 侧边栏: 显示语言选择菜单
+    .label = 条目面板区块：显示语言选择菜单
 pref-interface-showSidebarSettings =
-    .label = 侧边栏: 显示设置
+    .label = 条目面板区块：显示自动翻译设置
 pref-interface-showSidebarConcat =
-    .label = 侧边栏: 显示拼接文本菜单
+    .label = 条目面板区块：显示拼接翻译菜单
+pref-interface-enableConcatKey =
+    .label = 条目面板区块：按住 { PLATFORM() ->
+        [macos] ⌘
+       *[other] Ctrl
+    } 键激活拼接模式
 pref-interface-showSidebarRaw =
-    .label = 侧边栏: 显示源文本
+    .label = 条目面板区块：显示原文
 pref-interface-showSidebarCopy =
-    .label = 侧边栏: 显示复制按钮
+    .label = 条目面板区块：显示复制按钮
 pref-interface-rawResultOrder =
-    .label = 侧边栏: 反转源/结果显示
+    .label = 条目面板区块：反转原文与翻译文本顺序
 pref-interface-showItemBoxTitleTranslation =
-    .label = 信息栏: 显示标题翻译
+    .label = 信息栏：显示标题翻译
 pref-interface-showItemBoxAbstractTranslation =
     .label = 信息栏：显示摘要翻译
 pref-interface-keepWindowTop =
-    .label = 独立窗口: 保持最前
+    .label = 独立窗口：保持最前
 pref-interface-keepPopupSize =
-    .label = 弹窗: 记住大小
+    .label = 弹窗：记住大小
 
 pref-advanced = 高级
+
 pref-advanced-enableAutoDetectLanguage =
     .label = 自动检测条目语言
-pref-advanced-disabledLanguages = 对特定语言文件关闭自动翻译(用','分隔)
-pref-advanced-disabledLanguages-alert = 重新打开文件/重启Zotero以应用更改。
-pref-advanced-extraEngines = 独立窗口额外翻译引擎(用','分隔)
-pref-advanced-splitChar = 分隔符(原文与翻译之间)
+pref-advanced-disabledLanguages =
+    .value = 对文件语言禁用自动翻译（用逗号分隔）
+pref-advanced-disabledLanguages-alert = 重新打开文件或重启Zotero以应用更改。
+pref-advanced-extraEngines =
+    .value = 独立窗口额外翻译引擎（用逗号分隔）
+pref-advanced-splitChar =
+    .value = 分隔符（原文与翻译之间）
 
 pref-about = 关于
+
 pref-about-feedback =
     .value = GitHub
 pref-about-docs =
-    .value = 文档(中文)
+    .value = 文档 (中文)
 pref-about-version =
     .value = { $name } 版本 { $version } Build { $time }

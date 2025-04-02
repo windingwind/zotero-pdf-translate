@@ -59,9 +59,7 @@ export default <TranslateTaskProcessor>async function (data) {
     for (const chunk of chunks) {
       translatedText += (await processTranslation(chunk)) + " ";
       data.result = translatedText.trim();
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
-      // 停顿几秒
+      addon.api.getTemporaryRefreshHandler()();
       await new Promise((resolve) => setTimeout(resolve, splitSecond * 1000));
     }
     // data.result = translatedText.trim();

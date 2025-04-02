@@ -23,11 +23,12 @@ const gptTranslate = async function (
 
   const streamMode = stream ?? true;
 
+  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+
   //It takes some time to translate, so set the text to "Translating" before the request
   if (streamMode === false) {
     data.result = getString("status-translating");
-    addon.hooks.onReaderPopupRefresh();
-    addon.hooks.onReaderTabPanelRefresh();
+    refreshHandler();
   }
 
   /**
@@ -65,8 +66,7 @@ const gptTranslate = async function (
       preLength = e.target.response.length;
 
       if (data.type === "text") {
-        addon.hooks.onReaderPopupRefresh();
-        addon.hooks.onReaderTabPanelRefresh();
+        refreshHandler();
       }
     };
   };
@@ -89,8 +89,7 @@ const gptTranslate = async function (
       }
 
       // Trigger UI updates after receiving the full response
-      addon.hooks.onReaderPopupRefresh();
-      addon.hooks.onReaderTabPanelRefresh();
+      refreshHandler();
     };
   };
 

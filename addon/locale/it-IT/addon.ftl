@@ -32,11 +32,11 @@ service-youdaodict=Youdao Dict(en↔zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
 service-errorPrefix=[Errore nella richiesta]
-    Motore di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
-    Si prega di usare un altro motore di traduzione o di segnalare il problema qui: 
+    Servizio di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
+    Si prega di usare un altro servizio di traduzione o di segnalare il problema qui: 
     https://github.com/windingwind/zotero-pdf-translate/issues
     
-    Il messaggio seguente non è di Zotero o dell'estensione PDF Translate ma proviene da
+    Il messaggio seguente non è di Zotero o dell'estensione Translate ma proviene da
 
 service-niutranspro-secret-pass=Ancora...
 service-niutranspro-secret-fail=Login
@@ -104,6 +104,15 @@ service-cnki-dialog-save=Salva
 service-cnki-dialog-close=Chiudi
 service-cnki-dialog-title=Configura CNKI
 service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 caratteri
+
+service-aliyun-secret-pass=Configura
+service-aliyun-secret-fail=Configura
+service-aliyun-dialog-title=Configura Aliyun
+service-aliyun-dialog-action=Azione
+service-aliyun-dialog-scene=Scena
+service-aliyun-dialog-help=Aiuto
+service-aliyun-dialog-save=Salva
+service-aliyun-dialog-close=Chiudi
 
 readerpopup-translate-label=Traduci
 

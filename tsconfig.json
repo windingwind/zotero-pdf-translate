@@ -1,16 +1,5 @@
 {
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "module": "commonjs",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "target": "ES2016",
-    // esModuleInterop is required for importing CommonJS modules with native ESM
-    // used by 'src/utils/config.ts'
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "strict": true
-  },
+  "extends": "zotero-types/entries/sandbox",
   "include": ["src", "typings", "node_modules/zotero-types"],
   "exclude": ["build", "addon"]
 }

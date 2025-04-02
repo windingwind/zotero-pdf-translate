@@ -35,11 +35,11 @@ service-youdaodict=Youdao Dict(en↔zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en↔en)
 service-webliodict=weblio(en↔ja)
 service-errorPrefix=[Request Error]
-    Engine not available, invalid secret, or request too fast.
-    Use another translation engine or post the issue here: 
+    Service not available, invalid secret, or request too fast.
+    Use another translation service or post the issue here: 
     https://github.com/windingwind/zotero-pdf-translate/issues
     
-    The message below is not Zotero or the PDF Translate addon, but from
+    The message below is not Zotero or the Translate plugin, but from
 
 service-niutranspro-secret-pass=More...
 service-niutranspro-secret-fail=Login
@@ -130,6 +130,15 @@ service-cnki-dialog-save=Save
 service-cnki-dialog-close=Close
 service-cnki-dialog-title=CNKI Config
 service-cnki-dialog-split=Automatically split translation for more than 800 characters
+
+service-aliyun-secret-pass=Config
+service-aliyun-secret-fail=Config
+service-aliyun-dialog-title=Aliyun Config
+service-aliyun-dialog-action=Action
+service-aliyun-dialog-scene=Scene
+service-aliyun-dialog-help=Help
+service-aliyun-dialog-save=Save
+service-aliyun-dialog-close=Close
 
 readerpopup-translate-label=Translate
 
