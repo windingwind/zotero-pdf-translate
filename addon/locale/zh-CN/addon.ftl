@@ -116,6 +116,15 @@ service-cnki-dialog-close=关闭
 service-cnki-dialog-title=CNKI 设置
 service-cnki-dialog-split=超过800字符自动拆分翻译
 
+service-aliyun-secret-pass=配置
+service-aliyun-secret-fail=配置
+service-aliyun-dialog-title=Aliyun 配置
+service-aliyun-dialog-action=版本
+service-aliyun-dialog-scene=场景
+service-aliyun-dialog-help=帮助
+service-aliyun-dialog-save=保存
+service-aliyun-dialog-close=关闭
+
 readerpopup-translate-label=翻译
 
 pref-title=翻译

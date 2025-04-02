@@ -4,6 +4,7 @@ import { geminiStatusCallback } from "./gemini";
 import { niutransStatusCallback } from "./niutrans";
 import { deeplxStatusCallback } from "./deeplx";
 import { qwenmtStatusCallback } from "./qwenmt";
+import { aliyunStatusCallback } from "./aliyun";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -91,5 +92,12 @@ export const secretStatusButtonData: {
       fail: "service-qwenmt-secret-fail",
     },
     callback: qwenmtStatusCallback,
+  },
+  aliyun: {
+    labels: {
+      pass: "service-aliyun-secret-pass",
+      fail: "service-aliyun-secret-fail",
+    },
+    callback: aliyunStatusCallback,
   },
 };

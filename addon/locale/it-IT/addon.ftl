@@ -105,6 +105,15 @@ service-cnki-dialog-close=Chiudi
 service-cnki-dialog-title=Configura CNKI
 service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 caratteri
 
+service-aliyun-secret-pass=Configura
+service-aliyun-secret-fail=Configura
+service-aliyun-dialog-title=Configura Aliyun
+service-aliyun-dialog-action=Azione
+service-aliyun-dialog-scene=Scena
+service-aliyun-dialog-help=Aiuto
+service-aliyun-dialog-save=Salva
+service-aliyun-dialog-close=Chiudi
+
 readerpopup-translate-label=Traduci
 
 pref-title=Translate
