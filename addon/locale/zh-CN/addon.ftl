@@ -140,6 +140,7 @@ service-aliyun-dialog-save=保存
 service-aliyun-dialog-close=关闭
 
 readerpopup-translate-label=翻译
+readerpopup-addToNote-label=添加翻译至笔记
 
 pref-title=翻译
 
