@@ -31,7 +31,7 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 Open any PDF/EPub/webpage in the Zotero reader.
 
-- Select text, the translations are shown on the popup and the item pane(v0.2.0).
+- Select text, the translations are shown on the pop-up and the item pane(v0.2.0).
   ![](docs/res/en2zh.jpg)
 
 - Highlight/Underline some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the item pane and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
@@ -40,7 +40,7 @@ Open any PDF/EPub/webpage in the Zotero reader.
 
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
 - Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
-- Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
+- Standalone translation window available(v0.7.0). View & compare translations from multiply services in one window!
   ![](docs/res/standalone.jpg)
 
 - Dictionary for single word translation(v0.7.1).
@@ -50,14 +50,14 @@ Open any PDF/EPub/webpage in the Zotero reader.
 ### Q&A
 
 **Q** I want to translate manually.  
-**A** Go to `Edit->Settings->Translate->General`, uncheck the `Auto-Trans Selection`. Click the `Translate` button on the popup or item pane to translate.
+**A** Go to `Edit->Settings->Translate->General`, uncheck the `Automatically Translate Selection`. Click the `Translate` button on the pop-up or item pane to translate.
 
 **Q** I want a translate shortcut.  
 **A**
 Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, the titles' translation will show/hide.
 
 **Q** I want to concat different selections and translate them together.  
-**A** Press `Alt/Option` when selecting text in PDF/EPub/webpage.
+**A** Press `Ctrl/⌘` or select the `Concat Mode` check box on item pane when selecting text in PDF/EPub/webpage.
 
 **Q** Not the language I want.  
 **A** The default target language is the same as your Zotero language. Go to `Edit->Settings->Translate->Service` and change the language settings.
@@ -74,19 +74,21 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 <!-- - Enable Translation, default `true` -->
 
-- Automatic Translation, default `true`
-- Automatic Annotation Translation: Save annotation's translation to annotation comment or annotation body, default `false`
-- Enable Popup: Show results in the popup panel or only in the item pane, default `true`
-- Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
-- Show 'Add to Note(With Translation)' in Popup: default `true`
+- Automatically Translate Selection, default `true`
+- Automatically Translate Annotation: Save annotation's translation to annotation comment or annotation body, default `false`
+- Enable Reader Selection Pop-up: Show results in the pop-up panel or only in the item pane, default `true`
+- Show "Add Translation to Note" in Pop-up: default `true`
   > Invisible if no active note editor opened.
   - Replace Raw: Use translation to replace the raw text when adding to note, default `false`
+- Enable Dictionary: Single word will be translated using dictionary service instead of translate service, default `true`
+  - Show Play Buttons: Show the word pronunciation play buttons if available, default `true`
+  - Auto-play Pronunciation, default `false`
 
 ### Service
 
-The default engine is Google Translate. Currently, we support:
+The default service is Google Translate. Currently, we support:
 
-| Translate Engine             | Require Secret         | Supported Languages                                                                                                                                                                                                                                                |
+| Translate Service            | Require Secret         | Supported Languages                                                                                                                                                                                                                                                |
 | ---------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Google Translate             | No                     | [100+](https://translate.google.com/about/languages/)                                                                                                                                                                                                              |
 | Google Translate(API)        | No                     | Use `translate.googleapis.com`                                                                                                                                                                                                                                     |
@@ -106,7 +108,7 @@ The default engine is Google Translate. Currently, we support:
 | Qwen-MT                      | Yes(free-)             | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                                                                                                |
 | Claud                        | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
 
-> If the engine you want is not yet supported, please post an issue.
+> If the service you want is not yet supported, please post an issue.
 
 **Google**  
 Google does not require a secret, but you can put your own API URL in the secret to replace the default URL (translate.google.com/translate.googleapi.com).
@@ -202,25 +204,26 @@ The secret format is `MY_APIKEY`.
 Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).  
 The secret format is `MY_APIKEY`.
 
-**Claud**
-Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)
+**Claud**  
+Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api).
 
 ### User Interface
 
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
-- `Item Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
-- `SideBar: Show xxx`: Show or hide item pane elements, default `true`
-- `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
+- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Pane Section: Hold down Ctrl/⌘`: Press key to enable concat mode when selecting text in PDF/EPub/webpage if `true`, default `true`
+- `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
-- `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
+- `Pop-up: Remember Size`: Remember size of pop-up if `true`, else automatically adjust the size, default `false`
 
 ### Advanced
 
-- Auto Detect Item Language
-  - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
-- Split Character(between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
+- Automatically Detect Item Language
+  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
+- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
 
 ## Development & Contributing
 

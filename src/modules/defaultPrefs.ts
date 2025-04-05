@@ -26,7 +26,7 @@ export function setDefaultPrefSettings() {
   setPref("secretObj", JSON.stringify(secrets));
 
   if (isZhCN && !getPref("disabledLanguages")) {
-    setPref("disabledLanguages", "zh,中文,中文;");
+    setPref("disabledLanguages", "zh,zh-CN,中文;");
   }
 
   const extraServices = getPref("extraEngines") as string;

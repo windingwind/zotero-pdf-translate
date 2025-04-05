@@ -115,6 +115,7 @@ service-aliyun-dialog-save=Salva
 service-aliyun-dialog-close=Chiudi
 
 readerpopup-translate-label=Traduci
+readerpopup-addToNote-label=Aggiungi traduzione alla nota
 
 pref-title=Translate
 
