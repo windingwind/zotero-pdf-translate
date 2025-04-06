@@ -8,7 +8,6 @@ export async function niutransStatusCallback(status: boolean) {
   const memoryLibList = getPref("niutransMemoryLibList") as string;
   const dictLibListObj = JSON.parse(dictLibList);
   const memoryLibListObj = JSON.parse(memoryLibList);
-  const signInOrRefresh = status ? "refresh" : "signin";
   const dialogData: { [key: string | number]: any } = {
     endpoint: getPref("niutransEndpoint"),
     username: getPref("niutransUsername"),
@@ -27,6 +26,11 @@ export async function niutransStatusCallback(status: boolean) {
       setPref("niutransMemoryNo", dialog.dialogData.memoryNo);
     },
   };
+  const { loginFlag } = await niutransLogin(
+    dialogData.username,
+    dialogData.password,
+  );
+  const signInOrRefresh = (status && loginFlag) ? "refresh" : "signin";
   const dialog = new ztoolkit.Dialog(6, 3)
     .setDialogData(dialogData)
     .addCell(
@@ -275,7 +279,7 @@ export async function niutransStatusCallback(status: boolean) {
     .addCell(5, 1, { tag: "fragment" }, false)
     .addCell(5, 2, { tag: "fragment" }, false);
 
-  if (status) {
+  if (status && loginFlag) {
     dialog.addButton(
       getString("service-niutranspro-dialog-signout"),
       "signout",
