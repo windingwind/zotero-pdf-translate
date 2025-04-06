@@ -35,7 +35,7 @@ export async function cnkiStatusCallback(status: boolean) {
         namespace: "html",
         styles: {
           display: "grid",
-          gridTemplateColumns: "1fr 4fr",
+          gridTemplateColumns: "auto auto",
           rowGap: "2px",
         },
         children: [

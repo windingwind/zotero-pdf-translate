@@ -156,6 +156,9 @@ async function gptStatusCallback(
               "data-bind": "stream",
               "data-prop": "checked",
             },
+            styles: {
+              justifySelf: "start",
+            }
           },
         ],
       },

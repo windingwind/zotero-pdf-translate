@@ -145,6 +145,9 @@ export async function claudeStatusCallback(status: boolean) {
               "data-bind": "stream",
               "data-prop": "checked",
             },
+            styles: {
+              justifySelf: "start",
+            }
           },
         ],
       },

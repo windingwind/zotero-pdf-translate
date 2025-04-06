@@ -41,6 +41,10 @@ export async function niutransStatusCallback(status: boolean) {
         properties: {
           innerHTML: getString("service-niutranspro-dialog-username"),
         },
+        styles: {
+          width: "80px",
+          margin: "3px 0"
+        },
       },
       false,
     )
@@ -52,6 +56,10 @@ export async function niutransStatusCallback(status: boolean) {
         "data-prop": "value",
         type: "text",
       },
+      styles: {
+        width: "200px",
+        margin: "3px 0"
+      },
     })
     .addCell(
       0,
@@ -61,6 +69,10 @@ export async function niutransStatusCallback(status: boolean) {
         properties: {
           href: "https://niutrans.com/register",
           innerHTML: getString("service-niutranspro-dialog-signup"),
+        },
+        styles: {
+          width: "auto",
+          margin: "3px 0"
         },
       },
       false,
@@ -77,6 +89,10 @@ export async function niutransStatusCallback(status: boolean) {
         properties: {
           innerHTML: getString("service-niutranspro-dialog-password"),
         },
+        styles: {
+          width: "80px",
+          margin: "3px 0"
+        },
       },
       false,
     )
@@ -88,6 +104,10 @@ export async function niutransStatusCallback(status: boolean) {
         "data-prop": "value",
         type: "password",
       },
+      styles: {
+        width: "200px",
+        margin: "3px 0"
+      },
     })
     .addCell(
       1,
@@ -97,6 +117,10 @@ export async function niutransStatusCallback(status: boolean) {
         properties: {
           href: "https://niutrans.com/password_find",
           innerHTML: getString("service-niutranspro-dialog-forget"),
+        },
+        styles: {
+          width: "auto",
+          margin: "3px 0"
         },
       },
       false,
@@ -109,6 +133,10 @@ export async function niutransStatusCallback(status: boolean) {
         namespace: "html",
         properties: {
           innerHTML: getString("service-niutranspro-dialog-dictLib"),
+        },
+        styles: {
+          width: "80px",
+          margin: "3px 0"
         },
       },
       false,
@@ -132,6 +160,10 @@ export async function niutransStatusCallback(status: boolean) {
             },
           }),
         ),
+        styles: {
+          width: "200px",
+          margin: "3px 0"
+        },
       },
       false,
     )
@@ -143,6 +175,10 @@ export async function niutransStatusCallback(status: boolean) {
         namespace: "html",
         properties: {
           innerHTML: getString("service-niutranspro-dialog-memoryLib"),
+        },
+        styles: {
+          width: "80px",
+          margin: "3px 0"
         },
       },
       false,
@@ -166,6 +202,10 @@ export async function niutransStatusCallback(status: boolean) {
             },
           }),
         ),
+        styles: {
+          width: "200px",
+          margin: "3px 0"
+        },
       },
       false,
     )
@@ -181,6 +221,10 @@ export async function niutransStatusCallback(status: boolean) {
         properties: {
           innerHTML: getString("service-niutranspro-dialog-endpoint"),
         },
+        styles: {
+          width: "80px",
+          margin: "3px 0"
+        },
       },
       false,
     )
@@ -191,11 +235,16 @@ export async function niutransStatusCallback(status: boolean) {
         "data-bind": "endpoint",
         "data-prop": "value",
       },
+      styles: {
+        width: "200px",
+        margin: "3px 0"
+      },
     })
     .addCell(5, 0, {
       tag: "div",
       styles: {
         width: "300px",
+        margin: "3px 0"
       },
       children: [
         {
