@@ -147,7 +147,7 @@ export async function claudeStatusCallback(status: boolean) {
             },
             styles: {
               justifySelf: "start",
-            }
+            },
           },
         ],
       },

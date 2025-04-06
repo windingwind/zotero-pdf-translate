@@ -87,7 +87,7 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
             },
             styles: {
               justifySelf: "start",
-            }
+            },
           },
         ],
       },

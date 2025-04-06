@@ -42,7 +42,8 @@ export function registerReaderInitializer() {
             {
               type: "mouseover",
               listener: (e) => {
-                (e.target as HTMLElement).style.backgroundColor = "var(--color-sidepane)";
+                (e.target as HTMLElement).style.backgroundColor =
+                  "var(--color-sidepane)";
               },
             },
             {

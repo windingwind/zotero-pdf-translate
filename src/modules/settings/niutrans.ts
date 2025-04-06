@@ -30,7 +30,7 @@ export async function niutransStatusCallback(status: boolean) {
     dialogData.username,
     dialogData.password,
   );
-  const signInOrRefresh = (status && loginFlag) ? "refresh" : "signin";
+  const signInOrRefresh = status && loginFlag ? "refresh" : "signin";
   const dialog = new ztoolkit.Dialog(6, 3)
     .setDialogData(dialogData)
     .addCell(
@@ -47,7 +47,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "80px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -62,7 +62,7 @@ export async function niutransStatusCallback(status: boolean) {
       },
       styles: {
         width: "200px",
-        margin: "3px 0"
+        margin: "3px 0",
       },
     })
     .addCell(
@@ -76,7 +76,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "auto",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -95,7 +95,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "80px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -110,7 +110,7 @@ export async function niutransStatusCallback(status: boolean) {
       },
       styles: {
         width: "200px",
-        margin: "3px 0"
+        margin: "3px 0",
       },
     })
     .addCell(
@@ -124,7 +124,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "auto",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -140,7 +140,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "80px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -166,7 +166,7 @@ export async function niutransStatusCallback(status: boolean) {
         ),
         styles: {
           width: "200px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -182,7 +182,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "80px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -208,7 +208,7 @@ export async function niutransStatusCallback(status: boolean) {
         ),
         styles: {
           width: "200px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -227,7 +227,7 @@ export async function niutransStatusCallback(status: boolean) {
         },
         styles: {
           width: "80px",
-          margin: "3px 0"
+          margin: "3px 0",
         },
       },
       false,
@@ -241,14 +241,14 @@ export async function niutransStatusCallback(status: boolean) {
       },
       styles: {
         width: "200px",
-        margin: "3px 0"
+        margin: "3px 0",
       },
     })
     .addCell(5, 0, {
       tag: "div",
       styles: {
         width: "300px",
-        margin: "3px 0"
+        margin: "3px 0",
       },
       children: [
         {

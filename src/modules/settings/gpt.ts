@@ -158,7 +158,7 @@ async function gptStatusCallback(
             },
             styles: {
               justifySelf: "start",
-            }
+            },
           },
         ],
       },
