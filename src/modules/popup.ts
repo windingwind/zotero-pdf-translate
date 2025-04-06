@@ -263,7 +263,7 @@ export function buildReaderPopup(
             marginTop: "8px",
           },
           properties: {
-            innerHTML: `${SVGIcon}${Zotero.getString("pdfReader.addToNote")}`,
+            innerHTML: `${SVGIcon}${getString("readerpopup-addToNote-label")}`,
           },
           ignoreIfExists: true,
           listeners: [

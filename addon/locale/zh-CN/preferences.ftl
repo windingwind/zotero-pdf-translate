@@ -15,7 +15,7 @@ pref-basic-annotationTranslationInBody =
 pref-basic-enableAnnotationFromSyncTranslation =
     .label = 自动翻译来自同步的批注
 pref-basic-enableNote =
-    .label = 在弹窗中显示“添加翻译到笔记”
+    .label = 在弹窗中显示“添加翻译至笔记”
 pref-basic-enableNoteReplaceMode =
     .label = 添加到笔记时替换原始文本
 
@@ -56,7 +56,7 @@ pref-interface-showItemMenuTitleTranslation =
 pref-interface-showItemMenuAbstractTranslation =
     .label = 条目上下文菜单：显示摘要翻译
 pref-interface-showSidebarEngine =
-    .label = 条目面板区块：显示翻译引擎选择菜单
+    .label = 条目面板区块：显示翻译服务选择菜单
 pref-interface-showSidebarLanguage =
     .label = 条目面板区块：显示语言选择菜单
 pref-interface-showSidebarSettings =
@@ -91,7 +91,7 @@ pref-advanced-disabledLanguages =
     .value = 对文件语言禁用自动翻译（用逗号分隔）
 pref-advanced-disabledLanguages-alert = 重新打开文件或重启Zotero以应用更改。
 pref-advanced-extraEngines =
-    .value = 独立窗口额外翻译引擎（用逗号分隔）
+    .value = 独立窗口额外翻译服务（用逗号分隔）
 pref-advanced-splitChar =
     .value = 分隔符（原文与翻译之间）
 

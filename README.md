@@ -31,7 +31,7 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 
 Open any PDF/EPub/webpage in the Zotero reader.
 
-- Select text, the translations are shown on the popup and the item pane(v0.2.0).
+- Select text, the translations are shown on the pop-up and the item pane(v0.2.0).
   ![](docs/res/en2zh.jpg)
 
 - Highlight/Underline some text, the translations are added to the annotation comment(v0.3.0); Modify & retranslate the annotation text in the item pane and click the `Update Annotation` to modify the annotation text and translation(v0.6.6);
@@ -40,7 +40,7 @@ Open any PDF/EPub/webpage in the Zotero reader.
 
 - Translate item titles with right-click menu or shortcut `Ctrl+T`(v0.6.0).
 - Translate item abstract with right-click menu(v0.8.0). Thanks @iShareStuff
-- Standalone translation window available(v0.7.0). View & compare translations from multiply engines in one window!
+- Standalone translation window available(v0.7.0). View & compare translations from multiply services in one window!
   ![](docs/res/standalone.jpg)
 
 - Dictionary for single word translation(v0.7.1).
@@ -50,14 +50,14 @@ Open any PDF/EPub/webpage in the Zotero reader.
 ### Q&A
 
 **Q** I want to translate manually.  
-**A** Go to `Edit->Settings->Translate->General`, uncheck the `Auto-Trans Selection`. Click the `Translate` button on the popup or item pane to translate.
+**A** Go to `Edit->Settings->Translate->General`, uncheck the `Automatically Translate Selection`. Click the `Translate` button on the pop-up or item pane to translate.
 
 **Q** I want a translate shortcut.  
 **A**
 Press shortcut `Ctrl+T` after you selected some text. If you are in the collection view, the titles' translation will show/hide.
 
 **Q** I want to concat different selections and translate them together.  
-**A** Press `Alt/Option` when selecting text in PDF/EPub/webpage.
+**A** Press `Ctrl/⌘` or select the `Concat Mode` check box on item pane when selecting text in PDF/EPub/webpage.
 
 **Q** Not the language I want.  
 **A** The default target language is the same as your Zotero language. Go to `Edit->Settings->Translate->Service` and change the language settings.
@@ -74,52 +74,53 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 <!-- - Enable Translation, default `true` -->
 
-- Automatic Translation, default `true`
-- Automatic Annotation Translation: Save annotation's translation to annotation comment or annotation body, default `false`
-- Enable Popup: Show results in the popup panel or only in the item pane, default `true`
-- Enable Dictionary: single word will be translated using dictionary-engine instead of translate engine, default `true`
-- Show 'Add to Note(With Translation)' in Popup: default `true`
+- Automatically Translate Selection, default `true`
+- Automatically Translate Annotation: Save annotation's translation to annotation comment or annotation body, default `false`
+- Enable Reader Selection Pop-up: Show results in the pop-up panel or only in the item pane, default `true`
+- Show "Add Translation to Note" in Pop-up: default `true`
   > Invisible if no active note editor opened.
   - Replace Raw: Use translation to replace the raw text when adding to note, default `false`
+- Enable Dictionary: Single word will be translated using dictionary service instead of translate service, default `true`
+  - Show Play Buttons: Show the word pronunciation play buttons if available, default `true`
+  - Auto-play Pronunciation, default `false`
 
 ### Service
 
-The default engine is Google Translate. Currently, we support:
+The default service is Google Translate. Currently, we support:
 
-| Translate Engine             | Require Secret         | Supported Languages                                                                                                                                                                                                                                                |
+| Translate Service            | Require Secret         | Supported Languages                                                                                                                                                                                                                                                |
 | ---------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Google Translate             | No                     | [100+](https://translate.google.com/about/languages/)                                                                                                                                                                                                              |
 | Google Translate(API)        | No                     | Use `translate.googleapis.com`                                                                                                                                                                                                                                     |
 | CNKI                         | No                     | <https://dict.cnki.net>                                                                                                                                                                                                                                            |
+| Haici Translate              | No                     | <https://fanyi.dict.cn>                                                                                                                                                                                                                                            |
 | Youdao Translate             | No                     | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
-| NiuTrans                     | Yes                    | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                                                                                                              |
+| Bing                         | No                     | en-zh                                                                                                                                                                                                                                                          |
+| Huoshan                      | Yes                    | [50+](https://www.volcengine.com/docs/4640/127681)                                                                                                                                                                                                               |
 | Youdao Zhiyun                | Yes                    | [100+](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)  |
+| Niu Trans                    | Yes                    | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                                                                                                              |
 | Microsoft Translate          | Yes(free 2M)           | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                                                                                                      |
 | LingoCloud(Caiyun) Translate | Yes                    | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes)                                                                                                                                                                                   |
 | DeepL Translate              | Yes(free 500k)         | [100+](https://www.deepl.com/pro?cta=header-prices/#developer)                                                                                                                                                                                                     |
 | Aliyun Translate             | Yes(free-1M)           | [200+](https://help.aliyun.com/document_detail/158269.html)                                                                                                                                                                                                        |
 | Baidu Translate              | Yes(free-QPS1/free-2M) | [200+](https://fanyi-api.baidu.com/product/11)                                                                                                                                                                                                                     |
-| Baidu Field                  | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12)                                                                                                                                                                                                                    |
+| Baidu Field                  | Yes(free-QPS1/free-2M) | [en-zh](https://fanyi-api.baidu.com/product/12)                                                                                                                                                                                                                     |
+| OpenL                        | Yes                    | [11](https://docs.openl.club/#/API/format)                                                                                                                                                                                                        |
 | Tencent Translate            | Yes(QPS5, free-5M)     | [15](https://cloud.tencent.com/document/product/551/7372)                                                                                                                                                                                                          |
+| Xftrans                      | Yes                    | [70+](https://www.xfyun.cn/doc/nlp/xftrans/API.html)                                                                                                                                                                                              |
 | GPT(OpenAI)                  | Yes(free-$18)          | [LLM-based](https://openai.com/pricing#chat)                                                                                                                                                                                                                       |
 | Gemini                       | Yes(free-)             | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                                                                                           |
 | Qwen-MT                      | Yes(free-)             | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                                                                                                |
-| Claud                        | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
+| Claude                       | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
 
-> If the engine you want is not yet supported, please post an issue.
+> If the service you want is not yet supported, please post an issue.
 
 **Google**  
 Google does not require a secret, but you can put your own API URL in the secret to replace the default URL (translate.google.com/translate.googleapi.com).
 
-**Microsoft Translate**  
-Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
-The secret format is `MY_SECRET`.
-
-> See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
-
-**DeepL Translate**  
-Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).  
-The secret format is `secretToken` or `secretToken#glossaryId` (if you want to specify some translate glossary).
+**Huoshan**  
+Apply [here](https://www.volcengine.com/docs/4640/65067).  
+The secret format is `accessKeyId#accessKeySecret`
 
 **Youdao Zhiyun Translate 有道智云**  
 Apply [here](https://ai.youdao.com/login.s).  
@@ -136,9 +137,18 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E5%B0%8F%E7%89%9B)
 
-**Huoshan**  
-Apply [here](https://www.volcengine.com/docs/4640/65067).  
-The secret format is `accessKeyId#accessKeySecret`
+**Microsoft Translate**  
+Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
+The secret format is `MY_SECRET`.
+
+> See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
+
+**LingoCloud(Caiyun) Translate**  
+Apply [here](https://open.caiyunapp.com/%E4%BA%94%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%E5%BD%A9%E4%BA%91%E5%B0%8F%E8%AF%91_API).
+
+**DeepL Translate**  
+Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).  
+The secret format is `secretToken` or `secretToken#glossaryId` (if you want to specify some translate glossary).
 
 **Aliyun Translate**  
 Apply [here](https://www.aliyun.com/product/ai/base_alimt).  
@@ -172,12 +182,6 @@ The secret format is `MY_APPID#MY_KEY#DOMAIN_CODE`(split with '#').
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
-**Tencent Translate**  
-Apply [here](https://cloud.tencent.com/product/tmt).  
-The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').
-
-> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
-
 **OpenL Translate**  
 Apply [here](https://my.openl.club/).  
 The secret format is `service1,service2,...#apikey`(split with '#'; split service codes with ',').
@@ -185,6 +189,15 @@ The secret format is `service1,service2,...#apikey`(split with '#'; split servic
 Supported service codes are: `deepl,youdao,tencent,aliyun,baidu,caiyun,wechat,sogou,azure,ibm,aws,google`, See [Service Code](https://docs.openl.club/#/API/format?id=%e7%bf%bb%e8%af%91%e6%9c%8d%e5%8a%a1%e4%bb%a3%e7%a0%81%e5%90%8d)
 
 > [Chinese Document](https://docs.openl.club/#/)
+
+**Tencent Translate**  
+Apply [here](https://cloud.tencent.com/product/tmt).  
+The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#ProjectId(optional, default 0)`(split with '#').
+
+> [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
+
+**Xftrans**  
+Apply [here](https://www.xfyun.cn/doc/authentication/personal.html#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4).
 
 **GPT**  
 Apply [here](https://platform.openai.com/signup).  
@@ -202,25 +215,26 @@ The secret format is `MY_APIKEY`.
 Apply [here](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation).  
 The secret format is `MY_APIKEY`.
 
-**Claud**
-Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)
+**Claude**  
+Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api).
 
 ### User Interface
 
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
-- `Item Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
-- `SideBar: Show xxx`: Show or hide item pane elements, default `true`
-- `SideBar: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
+- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Pane Section: Hold down Ctrl/⌘`: Press key to enable concat mode when selecting text in PDF/EPub/webpage if `true`, default `true`
+- `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
-- `Popup: Remember Size`: Remember size of popup if `true`, else automatically adjust the size, default `false`
+- `Pop-up: Remember Size`: Remember size of pop-up if `true`, else automatically adjust the size, default `false`
 
 ### Advanced
 
-- Auto Detect Item Language
-  - Disable Automatic Translation when File Language is(split with ','): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
-- Split Character(between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
+- Automatically Detect Item Language
+  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
+- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
 
 ## Development & Contributing
 

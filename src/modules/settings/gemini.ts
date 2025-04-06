@@ -85,6 +85,9 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
               "data-prop": "checked",
               type: "checkbox",
             },
+            styles: {
+              justifySelf: "start",
+            }
           },
         ],
       },

@@ -15,7 +15,7 @@ pref-basic-annotationTranslationInBody =
 pref-basic-enableAnnotationFromSyncTranslation =
     .label = Auto-traduci annotazioni da Sync
 pref-basic-enableNote =
-    .label = Mostra "Aggiungi traduzione in nota" nel popup
+    .label = Mostra "Aggiungi traduzione alla nota" nel popup
 pref-basic-enableNoteReplaceMode =
     .label = Sostituisci il testo d'origine quando aggiungi alla nota
 
@@ -56,7 +56,7 @@ pref-interface-showItemMenuTitleTranslation =
 pref-interface-showItemMenuAbstractTranslation =
     .label = Menu contestuale: Mostra la traduzione dell'abstract
 pref-interface-showSidebarEngine =
-    .label = Sezione del pannello dell'elemento: Mostra il menu di selezione del motore
+    .label = Sezione del pannello dell'elemento: Mostra il menu di selezione della Servizi
 pref-interface-showSidebarLanguage =
     .label = Sezione del pannello dell'elemento: Mostra il menu di selezione della lingua
 pref-interface-showSidebarSettings =
@@ -91,7 +91,7 @@ pref-advanced-disabledLanguages =
     .value = Disabilita la traduzione automatica per i file in lingue specifiche (separare con ',')
 pref-advanced-disabledLanguages-alert = Riapri i file o riavvia Zotero per applicare le modifiche.
 pref-advanced-extraEngines =
-    .value = Motori extra nella finestra indipendente (separare con ',')
+    .value = Servizi extra nella finestra indipendente (separare con ',')
 pref-advanced-splitChar =
     .value = Carattere di divisione (tra testo e traduzione)
 
