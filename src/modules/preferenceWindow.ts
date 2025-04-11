@@ -192,6 +192,12 @@ function buildPrefsPane() {
     });
 
   doc
+    .querySelector(`#${makeId("showPlayBtn")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("setShowPlayBtn");
+    });
+
+  doc
     .querySelector(`#${makeId("useWordService")}`)
     ?.addEventListener("command", (e: Event) => {
       onPrefsEvents("setUseWordService");
@@ -225,6 +231,7 @@ function buildPrefsPane() {
 function updatePrefsPaneDefault() {
   onPrefsEvents("setAutoTranslateAnnotation", false);
   onPrefsEvents("setEnablePopup", false);
+  onPrefsEvents("setShowPlayBtn", false);
   onPrefsEvents("setUseWordService", false);
   onPrefsEvents("setSentenceSecret", false);
   onPrefsEvents("setWordSecret", false);
@@ -273,6 +280,16 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           : (getPref("enableNote") as boolean);
         const hidden = !elemValue;
         setDisabled("enable-popup-addtonote", hidden);
+      }
+      break;
+    case "setShowPlayBtn":
+      {
+        const elemValue = fromElement
+          ? (doc.querySelector(`#${makeId("showPlayBtn")}`) as XUL.Checkbox)
+              .checked
+          : (getPref("showPlayBtn") as boolean);
+        const hidden = !elemValue;
+        setDisabled("show-play-btn", hidden);
       }
       break;
     case "setUseWordService":
