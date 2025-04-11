@@ -78,6 +78,13 @@ export function updateReaderPopup() {
       audiobox,
     );
   }
+
+  if (task.audio.length > 0 && getPref("showPlayBtn") && getPref("autoPlay")) {
+    const firstAudio = task.audio[0];
+    const audio = new (ztoolkit.getGlobal("Audio"))(firstAudio.url);
+    audio.play();
+  }
+
   updateHidden(translateButton, task.status !== "waiting");
 
   textarea.hidden = hidePopupTextarea || task.status === "waiting";
