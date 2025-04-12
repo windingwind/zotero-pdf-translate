@@ -12,7 +12,7 @@ auto = 自动翻译:
 autoTranslateSelection =
     .label = 选择内容
 autoTranslateAnnotation =
-    .label = 批注
+    .label = 注释
 
 selection = 选区: 
 enableConcat =
