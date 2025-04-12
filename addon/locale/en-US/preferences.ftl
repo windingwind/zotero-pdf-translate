@@ -22,7 +22,7 @@ pref-basic-enableNoteReplaceMode =
 pref-audio-autoPlay =
     .label = Auto-play Pronunciation
 pref-audio-showPlayBtn =
-    .label = Show Play Buttons in Pop-up Panel
+    .label = Show Play Buttons🔊 in Pop-up Panel
 
 pref-service = Service
 

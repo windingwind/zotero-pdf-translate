@@ -22,7 +22,7 @@ pref-basic-enableNoteReplaceMode =
 pref-audio-autoPlay =
     .label = 自动播放发音
 pref-audio-showPlayBtn =
-    .label = 弹窗中显示播放按钮
+    .label = 弹窗中显示播放按钮🔊
 
 pref-service = 服务
 
