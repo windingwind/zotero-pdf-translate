@@ -22,7 +22,7 @@ pref-basic-enableNoteReplaceMode =
 pref-audio-autoPlay =
     .label = Riproduci automaticamente la pronuncia
 pref-audio-showPlayBtn =
-    .label = Mostra i pulsanti di riproduzione nel pannello del popup
+    .label = Mostra i pulsanti di riproduzione🔊 nel pannello del popup
 
 pref-service = Servizio
 
