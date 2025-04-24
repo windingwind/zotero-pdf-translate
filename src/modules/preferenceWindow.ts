@@ -300,6 +300,9 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           : (getPref("enableDict") as boolean);
         const hidden = !elemValue;
         setDisabled("use-word-service", hidden);
+        if (!hidden) {
+          onPrefsEvents("setShowPlayBtn", fromElement);
+        }
       }
       break;
     case "setSentenceService":
