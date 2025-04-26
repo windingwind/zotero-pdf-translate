@@ -17,7 +17,7 @@ pref-basic-enableAnnotationFromSyncTranslation =
 pref-basic-enableNote =
     .label = 在弹窗中显示“添加翻译至笔记”
 pref-basic-enableNoteReplaceMode =
-    .label = 添加到笔记时替换原始文本
+    .label = 添加翻译至笔记时替换原始文本
 
 pref-audio-autoPlay =
     .label = 自动播放发音

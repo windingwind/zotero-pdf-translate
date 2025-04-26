@@ -17,7 +17,7 @@ pref-basic-enableAnnotationFromSyncTranslation =
 pref-basic-enableNote =
     .label = Show "Add Translation to Note" in Pop-up
 pref-basic-enableNoteReplaceMode =
-    .label = Replace Raw Text When Adding to Note
+    .label = Replace Raw Text When Adding Translation to Note
 
 pref-audio-autoPlay =
     .label = Auto-play Pronunciation
