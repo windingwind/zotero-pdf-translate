@@ -103,3 +103,6 @@ pref-about-docs =
     .value = Documentation (ZH)
 pref-about-version =
     .value = { $name } Version { $version } Build { $time }
+
+pref-advanced-stripEmptyLines =
+    .label = Strip empty lines from translation results

@@ -5,6 +5,8 @@ import {
   TranslateTaskRunner,
 } from "../../utils/task";
 
+import { stripEmptyLines } from "../../utils/str";
+
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
@@ -193,6 +195,13 @@ export class TranslationServices {
       }
       // Run task
       await runner.run(task);
+
+      // Apply strip empty lines if enabled
+      const stripEnabled = getPref("stripEmptyLines") as boolean;
+      if (stripEnabled && task.result) {
+        task.result = stripEmptyLines(task.result, true);
+      }
+
       // Run extra tasks. Do not wait.
       if (task.extraTasks?.length) {
         Promise.all(
@@ -235,9 +244,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

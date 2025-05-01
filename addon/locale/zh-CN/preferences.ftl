@@ -103,3 +103,6 @@ pref-about-docs =
     .value = 文档 (中文)
 pref-about-version =
     .value = { $name } 版本 { $version } Build { $time }
+
+pref-advanced-stripEmptyLines =
+    .label = 从翻译结果中删除空行

@@ -103,3 +103,6 @@ pref-about-docs =
     .value = Documentazione (ZH)
 pref-about-version =
     .value = { $name } Versione { $version } Build { $time }
+
+pref-advanced-stripEmptyLines =
+    .label = Rimuovi le righe vuote dai risultati della traduzione
