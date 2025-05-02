@@ -1,0 +1,68 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write # allow pushing code
+  pull-requests: write # allow commenting on PRs
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint (dry-run)
+        run: npm run lint
+
+      - name: Commit & push fixes
+        id: git_push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # If lint --fix made changes...
+          if ! git diff --quiet; then
+            git add .
+            git commit -m "chore: apply lint fixes"
+            # Try to push; capture success/failure
+            if git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${{ github.head_ref }}; then
+              echo "push_succeeded=true" >> $GITHUB_OUTPUT
+            else
+              echo "push_succeeded=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            # No changes = nothing to push, treat as success
+            echo "push_succeeded=true" >> $GITHUB_OUTPUT
+          fi
+
+      # 6. If push failed (likely a fork PR), comment and tag the author
+      - name: Comment on PR if push failed
+        if: steps.git_push.outputs.push_succeeded == 'false'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            @${{ github.event.pull_request.user.login }} 
+            I automatically applied lint fixes but wasn't able to push to your branch—could you please run:
+
+            ```bash
+            npm run lint
+            ```
+
+            and push the results? Thanks!
