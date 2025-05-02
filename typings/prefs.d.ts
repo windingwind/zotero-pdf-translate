@@ -75,6 +75,13 @@ declare namespace _ZoteroTypes {
       "aliyun.action": string;
       "aliyun.scene": string;
       "libretranslate.endpoint": string;
+      "stripEmptyLines": boolean;
+      "claude.stream": boolean;
+      "claude.endPoint": string;
+      "claude.model": string;
+      "claude.temperature": string;
+      "claude.prompt": string;
+      "claude.maxTokens": string;
     };
   }
 }

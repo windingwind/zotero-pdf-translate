@@ -43,6 +43,11 @@ pref-service-langto =
 pref-service-hint =
     .value = Translation services 🗝️ requires a secret key; see GitHub for details
 
+pref-service-manageKeys =
+    .label = Manage Secret Keys
+pref-service-manageKeys-hint =
+    .value = Display saved secret keys for bulk import and export 
+
 pref-interface = User Interface
 
 pref-interface-fontSize =
@@ -103,3 +108,6 @@ pref-about-docs =
     .value = Documentation (ZH)
 pref-about-version =
     .value = { $name } Version { $version } Build { $time }
+
+pref-advanced-stripEmptyLines =
+    .label = Strip empty lines from translation results

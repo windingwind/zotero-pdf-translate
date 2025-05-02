@@ -325,50 +325,87 @@ export async function niutransStatusCallback(status: boolean) {
 async function niutransLogin(username: string, password: string) {
   let loginFlag = false;
   let loginErrorMessage = "Not login";
-  const keyxhr = await getPublicKey();
-  if (keyxhr?.status !== 200 || keyxhr.response.flag !== 1) {
+
+  // Get the public key with a proper HTTPS request
+  const keyResponse = await getPublicKey();
+
+  // Verify the response was successful and has the expected flag
+  if (keyResponse?.status !== 200 || keyResponse.response.flag !== 1) {
     return { loginFlag, loginErrorMessage };
   }
+
+  // Get the JSESSIONID from the response headers
+  let jsessionid = "";
+
+  // Extract JSESSIONID from the response header
+  const setCookie = keyResponse.getResponseHeader?.("Set-Cookie") || "";
+  if (setCookie && setCookie.includes("JSESSIONID=")) {
+    const match = setCookie.match(/JSESSIONID=([^;]+)/);
+    if (match && match[1]) {
+      jsessionid = match[1];
+    }
+  }
+
+  // Encrypt the password using the public key
   const encrypt = new JSEncrypt();
-  encrypt.setPublicKey(keyxhr.response.key);
+  encrypt.setPublicKey(keyResponse.response.key);
   let encryptionPassword = encrypt.encrypt(password);
   encryptionPassword = encodeURIComponent(encryptionPassword);
-  const userLoginXhr = await loginApi(username, encryptionPassword);
-  if (userLoginXhr?.status === 200) {
-    if (userLoginXhr.response.flag === 1) {
-      const apikey = userLoginXhr.response.apikey;
+
+  // Login with the encrypted password and session ID
+  const userLoginResponse = await loginApi(
+    username,
+    encryptionPassword,
+    jsessionid,
+  );
+
+  if (userLoginResponse?.status === 200) {
+    if (userLoginResponse.response.flag === 1) {
+      const apikey = userLoginResponse.response.apikey;
       setPref("niutransUsername", username);
       setPref("niutransPassword", password);
       setServiceSecret("niutranspro", apikey);
-      await setDictLibList(apikey);
-      await setMemoryLibList(apikey);
+
+      // Use the same JSESSIONID for subsequent requests
+      await setDictLibList(apikey, jsessionid);
+      await setMemoryLibList(apikey, jsessionid);
       loginFlag = true;
     } else {
       loginFlag = false;
-      loginErrorMessage = userLoginXhr.response.msg;
+      loginErrorMessage = userLoginResponse.response.msg;
     }
   }
   return { loginFlag, loginErrorMessage };
 }
 
-async function loginApi(username: string, password: string) {
+async function loginApi(
+  username: string,
+  password: string,
+  jsessionid: string,
+) {
   return await Zotero.HTTP.request(
     "POST",
     "https://apis.niutrans.com/NiuTransAPIServer/checkInformation",
     {
       body: `account=${username}&encryptionPassword=${password}`,
       responseType: "json",
+      headers: {
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
 }
 
-async function setDictLibList(apikey: string) {
+async function setDictLibList(apikey: string, jsessionid: string) {
   const xhr = await Zotero.HTTP.request(
     "POST",
     "https://apis.niutrans.com/NiuTransAPIServer/getDictLibList",
     {
       body: `apikey=${apikey}`,
       responseType: "json",
+      headers: {
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
   if (xhr?.status === 200 && xhr.response.flag !== 0) {
@@ -393,13 +430,16 @@ async function setDictLibList(apikey: string) {
   }
 }
 
-async function setMemoryLibList(apikey: string) {
+async function setMemoryLibList(apikey: string, jsessionid: string) {
   const xhr = await Zotero.HTTP.request(
     "POST",
     "https://apis.niutrans.com/NiuTransAPIServer/getMemoryLibList",
     {
       body: `apikey=${apikey}`,
       responseType: "json",
+      headers: {
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
 

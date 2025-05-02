@@ -88,3 +88,16 @@ pref("__prefsPrefix__.aliyun.action", "TranslateGeneral");
 pref("__prefsPrefix__.aliyun.scene", "general");
 
 pref("__prefsPrefix__.libretranslate.endpoint", "http://localhost:5000");
+pref("__prefsPrefix__.stripEmptyLines", false);
+pref("__prefsPrefix__.claude.stream", true);
+pref(
+  "__prefsPrefix__.claude.endPoint",
+  "https://api.anthropic.com/v1/messages",
+);
+pref("__prefsPrefix__.claude.model", "claude-3-7-sonnet-20250219");
+pref("__prefsPrefix__.claude.temperature", "0.3");
+pref(
+  "__prefsPrefix__.claude.prompt",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+);
+pref("__prefsPrefix__.claude.maxTokens", "4000");
