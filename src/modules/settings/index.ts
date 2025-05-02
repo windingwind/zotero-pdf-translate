@@ -6,6 +6,7 @@ import { deeplxStatusCallback } from "./deeplx";
 import { qwenmtStatusCallback } from "./qwenmt";
 import { claudeStatusCallback } from "./claude";
 import { aliyunStatusCallback } from "./aliyun";
+import { libretranslateStatusCallback } from "./libretranslate";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -13,6 +14,13 @@ export const secretStatusButtonData: {
     callback(status: boolean): void;
   };
 } = {
+  libretranslate: {
+    labels: {
+      pass: "service-libretranslate-secret-pass",
+      fail: "service-libretranslate-secret-fail",
+    },
+    callback: libretranslateStatusCallback,
+  },
   niutranspro: {
     labels: {
       pass: "service-niutranspro-secret-pass",

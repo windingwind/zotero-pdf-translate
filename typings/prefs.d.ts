@@ -74,6 +74,7 @@ declare namespace _ZoteroTypes {
       "qwenmt.domains": string;
       "aliyun.action": string;
       "aliyun.scene": string;
+      "libretranslate.endpoint": string;
     };
   }
 }

@@ -8,6 +8,9 @@ import {
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
+    import("./libretranslate").then(
+      (e) => (this.libretranslate = new TranslateTaskRunner(e.default)),
+    );
     import("./huoshan").then(
       (e) => (this.huoshan = new TranslateTaskRunner(e.default)),
     );
@@ -235,9 +238,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

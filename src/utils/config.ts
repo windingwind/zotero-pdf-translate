@@ -18,6 +18,19 @@ export interface SecretValidateResult {
 export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
+    id: "libretranslate",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      // API key is optional in LibreTranslate
+      return {
+        secret,
+        status: true,
+        info: "",
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "googleapi",
   },
   {
@@ -68,9 +81,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     secretValidator(secret: string) {
       const parts = secret?.split("#");
       const flag = [2, 3].includes(parts.length);
-      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}\nVocabID: ${
-        parts[2] ? parts[2] : ""
-      }`;
+      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}\nVocabID: ${parts[2] ? parts[2] : ""
+        }`;
       const source = getService("youdaozhiyun");
       return {
         secret,
@@ -201,9 +213,8 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     secretValidator(secret: string) {
       const parts = secret?.split("#");
       const flag = [2, 3].includes(parts.length);
-      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${
-        parts[2] ? parts[2] : "0"
-      }`;
+      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${parts[2] ? parts[2] : "0"
+        }`;
       const source = getService("baidu");
       return {
         secret,
@@ -267,11 +278,9 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     secretValidator(secret: string) {
       const parts = secret?.split("#");
       const flag = [2, 3, 4].includes(parts.length);
-      const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${
-        parts[1]
-      }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${
-        parts[3] ? parts[3] : "0"
-      }
+      const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${parts[1]
+        }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${parts[3] ? parts[3] : "0"
+        }
         `;
       const source = getService("tencent");
       return {
@@ -475,7 +484,7 @@ export function inferLanguage(str: string) {
 export function matchLanguage(str: string) {
   return (
     LANG_CODE[
-      LANG_CODE_INDEX_MAP[str.split("-")[0].split("_")[0].toLowerCase()]
+    LANG_CODE_INDEX_MAP[str.split("-")[0].split("_")[0].toLowerCase()]
     ] || {
       code: "",
       name: "Unknown",
@@ -817,9 +826,9 @@ function mapISO6393to6391(code: string) {
   return (
     ISO6393_3_TO_2[code as keyof typeof ISO6393_3_TO_2] ||
     ISO6393_3_TO_2[
-      MACRO_LANG_MAP[
-        code as keyof typeof MACRO_LANG_MAP
-      ] as keyof typeof ISO6393_3_TO_2
+    MACRO_LANG_MAP[
+    code as keyof typeof MACRO_LANG_MAP
+    ] as keyof typeof ISO6393_3_TO_2
     ] ||
     undefined
   );
