@@ -168,6 +168,12 @@ function buildPrefsPane() {
   );
 
   doc
+    .querySelector(`#${makeId("manageKeys")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("manageKeys");
+    });
+
+  doc
     .querySelector(`#${makeId("enableAuto")}`)
     ?.addEventListener("command", (e: Event) => {
       onPrefsEvents("setAutoTranslateSelection");
@@ -435,6 +441,15 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "updatelineHeight":
       addon.api.getTemporaryRefreshHandler()();
+      break;
+    case "manageKeys":
+      {
+        import("../modules/settings/manageKeys").then(
+          ({ manageKeysDialog }) => {
+            manageKeysDialog();
+          },
+        );
+      }
       break;
     default:
       return;
