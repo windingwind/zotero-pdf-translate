@@ -353,7 +353,11 @@ async function niutransLogin(username: string, password: string) {
   encryptionPassword = encodeURIComponent(encryptionPassword);
 
   // Login with the encrypted password and session ID
-  const userLoginResponse = await loginApi(username, encryptionPassword, jsessionid);
+  const userLoginResponse = await loginApi(
+    username,
+    encryptionPassword,
+    jsessionid,
+  );
 
   if (userLoginResponse?.status === 200) {
     if (userLoginResponse.response.flag === 1) {
@@ -374,7 +378,11 @@ async function niutransLogin(username: string, password: string) {
   return { loginFlag, loginErrorMessage };
 }
 
-async function loginApi(username: string, password: string, jsessionid: string) {
+async function loginApi(
+  username: string,
+  password: string,
+  jsessionid: string,
+) {
   return await Zotero.HTTP.request(
     "POST",
     "https://apis.niutrans.com/NiuTransAPIServer/checkInformation",
@@ -382,8 +390,8 @@ async function loginApi(username: string, password: string, jsessionid: string) 
       body: `account=${username}&encryptionPassword=${password}`,
       responseType: "json",
       headers: {
-        "Cookie": `JSESSIONID=${jsessionid}`
-      }
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
 }
@@ -396,8 +404,8 @@ async function setDictLibList(apikey: string, jsessionid: string) {
       body: `apikey=${apikey}`,
       responseType: "json",
       headers: {
-        "Cookie": `JSESSIONID=${jsessionid}`
-      }
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
   if (xhr?.status === 200 && xhr.response.flag !== 0) {
@@ -430,8 +438,8 @@ async function setMemoryLibList(apikey: string, jsessionid: string) {
       body: `apikey=${apikey}`,
       responseType: "json",
       headers: {
-        "Cookie": `JSESSIONID=${jsessionid}`
-      }
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
     },
   );
 
@@ -463,7 +471,7 @@ async function getPublicKey() {
     "GET",
     "https://apis.niutrans.com/NiuTransAPIServer/getpublickey",
     {
-      responseType: "json"
+      responseType: "json",
     },
   );
 }
