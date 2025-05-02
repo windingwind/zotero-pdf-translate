@@ -244,8 +244,9 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
-                }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${
+                currentText[currentText.length - 1] === "\n" ? "" : "\n"
+              }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

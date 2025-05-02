@@ -29,8 +29,8 @@ export function stripEmptyLines(text: string, enabled: boolean): string {
   if (!text || !enabled) return text;
 
   // Normalize line endings to \n
-  const normalizedText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
   // Replace multiple consecutive line breaks with a single one
-  return normalizedText.replace(/\n{2,}/g, '\n');
+  return normalizedText.replace(/\n{2,}/g, "\n");
 }
