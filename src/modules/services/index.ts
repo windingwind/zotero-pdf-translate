@@ -8,6 +8,9 @@ import {
 export class TranslationServices {
   [key: string]: TranslateTaskRunner | unknown;
   constructor() {
+    import("./libretranslate").then(
+      (e) => (this.libretranslate = new TranslateTaskRunner(e.default)),
+    );
     import("./huoshan").then(
       (e) => (this.huoshan = new TranslateTaskRunner(e.default)),
     );

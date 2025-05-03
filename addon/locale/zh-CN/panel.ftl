@@ -100,3 +100,6 @@ service-freedictionaryapi =
     .label = FreeDictionaryAPI(en↔en)
 service-webliodict =
     .label = weblio(en↔ja)
+
+service-libretranslate =
+    .label = LibreTranslate

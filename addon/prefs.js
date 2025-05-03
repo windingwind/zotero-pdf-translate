@@ -86,3 +86,5 @@ pref("__prefsPrefix__.qwenmt.model", "qwen-mt-plus");
 pref("__prefsPrefix__.qwenmt.domains", "");
 pref("__prefsPrefix__.aliyun.action", "TranslateGeneral");
 pref("__prefsPrefix__.aliyun.scene", "general");
+
+pref("__prefsPrefix__.libretranslate.endpoint", "http://localhost:5000");
