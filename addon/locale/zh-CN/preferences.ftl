@@ -103,3 +103,8 @@ pref-about-docs =
     .value = 文档 (中文)
 pref-about-version =
     .value = { $name } 版本 { $version } Build { $time }
+
+pref-service-manageKeys =
+    .label = 密钥管理
+pref-service-manageKeys-hint =
+    .value = 展示已保存的密钥以便批量导入和导出
