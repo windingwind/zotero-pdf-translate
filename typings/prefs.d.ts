@@ -74,6 +74,12 @@ declare namespace _ZoteroTypes {
       "qwenmt.domains": string;
       "aliyun.action": string;
       "aliyun.scene": string;
+      "claude.stream": boolean;
+      "claude.endPoint": string;
+      "claude.model": string;
+      "claude.temperature": string;
+      "claude.prompt": string;
+      "claude.maxTokens": string;
     };
   }
 }
