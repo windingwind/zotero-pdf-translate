@@ -106,3 +106,7 @@ pref-about-version =
 
 pref-advanced-stripEmptyLines =
     .label = 从翻译结果中删除空行
+pref-service-manageKeys =
+    .label = 密钥管理
+pref-service-manageKeys-hint =
+    .value = 展示已保存的密钥以便批量导入和导出
