@@ -18,6 +18,19 @@ export interface SecretValidateResult {
 export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
+    id: "libretranslate",
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      // API key is optional in LibreTranslate
+      return {
+        secret,
+        status: true,
+        info: "",
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "googleapi",
   },
   {

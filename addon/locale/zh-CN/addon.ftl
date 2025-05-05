@@ -154,3 +154,12 @@ field-titleTranslation=标题翻译
 field-abstractTranslation=摘要翻译
 
 status-translating=正在翻译...
+
+service-libretranslate=LibreTranslate
+service-libretranslate-secret-pass=配置
+service-libretranslate-secret-fail=配置
+service-libretranslate-dialog-title=LibreTranslate 配置
+service-libretranslate-dialog-endPoint=API 地址
+service-libretranslate-dialog-save=保存
+service-libretranslate-dialog-close=关闭
+service-libretranslate-dialog-help=帮助
