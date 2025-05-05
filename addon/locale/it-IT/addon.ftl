@@ -129,3 +129,12 @@ field-titleTranslation=Traduzione del titolo
 field-abstractTranslation=Traduzione dell'Abstract
 
 status-translating=Traduzione in corso...
+
+service-libretranslate=LibreTranslate
+service-libretranslate-secret-pass=Configura
+service-libretranslate-secret-fail=Configura
+service-libretranslate-dialog-title=Configura LibreTranslate
+service-libretranslate-dialog-endPoint=API Endpoint
+service-libretranslate-dialog-save=Salva
+service-libretranslate-dialog-close=Chiudi
+service-libretranslate-dialog-help=Aiuto
