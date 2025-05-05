@@ -1,4 +1,5 @@
 import { config } from "../../package.json";
+import { FluentMessageId } from "../../typings/i10n";
 
 export { initLocale, getString, getLocaleID };
 
@@ -39,12 +40,13 @@ function initLocale() {
  * getString("addon-dynamic-example", { args: { count: 2 } }); // I have 2 apples
  * ```
  */
-function getString(localString: string): string;
-function getString(localString: string, branch: string): string;
+function getString(localString: FluentMessageId): string;
+function getString(localString: FluentMessageId, branch: string): string;
 function getString(
-  localeString: string,
+  localeString: FluentMessageId,
   options: { branch?: string | undefined; args?: Record<string, unknown> },
 ): string;
+function getString(...inputs: any[]): string;
 function getString(...inputs: any[]) {
   if (inputs.length === 1) {
     return _getString(inputs[0]);
@@ -60,17 +62,9 @@ function getString(...inputs: any[]) {
 }
 
 function _getString(
-  localeString: string,
+  localeString: FluentMessageId,
   options: { branch?: string | undefined; args?: Record<string, unknown> } = {},
 ): string {
-  switch (localeString) {
-    case "alt":
-      return Zotero.isMac ? "⌥" : "Alt";
-    case "ctrl":
-      return Zotero.isMac ? "⌘" : "Ctrl";
-    case "shift":
-      return Zotero.isMac ? "⇧" : "Shift";
-  }
   const localStringWithPrefix = `${config.addonRef}-${localeString}`;
   const { branch, args } = options;
   const pattern = addon.data.locale?.current.formatMessagesSync([
@@ -80,12 +74,17 @@ function _getString(
     return localStringWithPrefix;
   }
   if (branch && pattern.attributes) {
+    for (const attr of pattern.attributes) {
+      if (attr.name === branch) {
+        return attr.value;
+      }
+    }
     return pattern.attributes[branch] || localStringWithPrefix;
   } else {
     return pattern.value || localStringWithPrefix;
   }
 }
 
-function getLocaleID(id: string) {
+function getLocaleID(id: FluentMessageId) {
   return `${config.addonRef}-${id}`;
 }
