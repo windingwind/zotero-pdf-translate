@@ -47,10 +47,10 @@ const gptTranslate = async function (
         try {
           const obj = JSON.parse(data);
           const choice = obj.choices[0];
+          result += choice.delta.content || "";
           if (choice.finish_reason) {
             break;
           }
-          result += choice.delta.content || "";
         } catch {
           continue;
         }
