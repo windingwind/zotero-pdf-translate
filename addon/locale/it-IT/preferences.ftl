@@ -94,6 +94,12 @@ pref-advanced-extraEngines =
     .value = Servizi extra nella finestra indipendente (separare con ',')
 pref-advanced-splitChar =
     .value = Carattere di divisione (tra testo e traduzione)
+pref-advanced-reset =
+    .value = Reimposta il campo degli elementi selezionati nella libreria:
+pref-advanced-reset-titleTranslation =
+    .label = Traduzione del titolo
+pref-advanced-reset-abstractTranslation =
+    .label = Traduzione dell'abstract
 
 pref-about = Informazioni
 

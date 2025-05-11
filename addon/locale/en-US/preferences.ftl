@@ -99,6 +99,12 @@ pref-advanced-extraEngines =
     .value = Additional services in standalone window (comma-separated)
 pref-advanced-splitChar =
     .value = Delimiter (between text and translation)
+pref-advanced-reset =
+    .value = Reset field of selected items in library:
+pref-advanced-reset-titleTranslation =
+    .label = Title Translation
+pref-advanced-reset-abstractTranslation =
+    .label = Abstract Translation
 
 pref-about = About
 

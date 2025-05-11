@@ -94,6 +94,12 @@ pref-advanced-extraEngines =
     .value = 独立窗口额外翻译服务（用逗号分隔）
 pref-advanced-splitChar =
     .value = 分隔符（原文与翻译之间）
+pref-advanced-reset =
+    .value = 重置库中选中条目的字段：
+pref-advanced-reset-titleTranslation =
+    .label = 标题翻译
+pref-advanced-reset-abstractTranslation =
+    .label = 摘要翻译
 
 pref-about = 关于
 
