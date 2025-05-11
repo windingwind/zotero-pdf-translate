@@ -97,7 +97,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   registerMenu();
   registerPrompt();
 
-  win.document.addEventListener("focusout", () => {
+  win.document.addEventListener("focusout", (ev) => {
+    if (ev.target !== win.document) {
+      return;
+    }
     addon.data.translate.concatKey = false;
   });
 }
