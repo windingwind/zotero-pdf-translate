@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.15.17",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
@@ -45,7 +45,7 @@
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.1",
+    "typescript-eslint": "^8.32.0",
     "zotero-plugin-scaffold": "^0.6.0",
     "zotero-types": "^4.0.0-beta.5"
   },
