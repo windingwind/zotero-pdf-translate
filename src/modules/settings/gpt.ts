@@ -29,6 +29,8 @@ async function gptStatusCallback(
           gridTemplateColumns: "1fr 4fr",
           rowGap: "10px",
           columnGap: "5px",
+          minWidth: "400px",
+          minHeight: "200px",
         },
         children: [
           {
@@ -131,7 +133,7 @@ async function gptStatusCallback(
             },
           },
           {
-            tag: "input",
+            tag: "textarea",
             id: "prompt",
             attributes: {
               "data-bind": "prompt",
