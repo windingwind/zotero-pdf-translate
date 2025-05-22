@@ -1,6 +1,7 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
 import { addTranslateAnnotationTask } from "../utils/task";
+import { getString } from "../utils/locale";
 
 export function registerReaderInitializer() {
   Zotero.Reader.registerEventListener(
@@ -24,6 +25,7 @@ export function registerReaderInitializer() {
           classList: ["icon"],
           properties: {
             innerHTML: SVGIcon,
+            title: getString("sideBarIcon-title"),
           },
           listeners: [
             {

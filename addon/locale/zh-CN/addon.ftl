@@ -154,6 +154,7 @@ field-titleTranslation=标题翻译
 field-abstractTranslation=摘要翻译
 
 status-translating=正在翻译...
+sideBarIcon-title=翻译注释
 
 service-libretranslate=LibreTranslate
 service-libretranslate-secret-pass=配置
