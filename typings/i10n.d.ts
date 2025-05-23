@@ -19,6 +19,7 @@ export type FluentMessageId =
   | 'itemPaneSection-header'
   | 'itemPaneSection-openStandalone'
   | 'itemPaneSection-sidenav'
+  | 'sideBarIcon-title'
   | 'itemmenu-more-label'
   | 'itemmenu-retranslateAbstract-label'
   | 'itemmenu-retranslateTitle-label'

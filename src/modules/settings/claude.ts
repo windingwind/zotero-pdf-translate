@@ -120,7 +120,7 @@ export async function claudeStatusCallback(status: boolean) {
             },
           },
           {
-            tag: "input",
+            tag: "textarea",
             id: "prompt",
             attributes: {
               "data-bind": "prompt",
