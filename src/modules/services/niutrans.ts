@@ -6,34 +6,39 @@ export default <TranslateTaskProcessor>async function (data) {
   const memoryNo = getPref("niutransMemoryNo");
   const endpoint =
     getPref("niutransEndpoint") || "https://niutrans.com/niuInterface";
-  let requesturl: string;
-  let realmCode: number;
+  let requestUrl: string;
+  let requestBody: any;
   if (endpoint.includes("trans.neu.edu.cn")) {
-    requesturl = `https://trans.neu.edu.cn/niutrans/textTranslation?apikey=${data.secret}`;
-    realmCode = 0;
+    //Neu Niutrans
+    requestUrl = `https://trans.neu.edu.cn/niutrans/textTranslation?apikey=${data.secret}`;
+    requestBody = {
+      from: data.langfrom.split("-")[0],
+      to: data.langto.split("-")[0],
+      src_text: data.raw,
+    };
   } else {
-    requesturl = `${endpoint}/textTranslation?pluginType=zotero&apikey=${apikey}`;
-    realmCode = 99;
-  }
-  const xhr = await Zotero.HTTP.request("POST", requesturl, {
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json, text/plain, */*",
-    },
-    body: JSON.stringify({
+    //Normal Niutrans
+    requestUrl = `${endpoint}/textTranslation?pluginType=zotero&apikey=${apikey}`;
+    requestBody = {
       from: data.langfrom.split("-")[0],
       to: data.langto.split("-")[0],
       termDictionaryLibraryId: dictNo,
       translationMemoryLibraryId: memoryNo,
       // TEMP: implement realmCode in settings
-      realmCode,
+      realmCode: 99,
       source: "zotero",
       src_text: data.raw,
       caller_id: data.callerID,
-    }),
+    };
+  }
+  const xhr = await Zotero.HTTP.request("POST", requestUrl, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json, text/plain, */*",
+    },
+    body: JSON.stringify(requestBody),
     responseType: "json",
-  },
-);
+  });
 
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
