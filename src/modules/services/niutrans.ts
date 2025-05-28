@@ -1,6 +1,5 @@
 import { getPref } from "../../utils/prefs";
 import { TranslateTaskProcessor } from "../../utils/task";
-
 export default <TranslateTaskProcessor>async function (data) {
   const apikey = data.secret;
   const dictNo = getPref("niutransDictNo");
