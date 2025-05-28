@@ -7,13 +7,13 @@ export default <TranslateTaskProcessor>async function (data) {
   const endpoint =
     getPref("niutransEndpoint") || "https://niutrans.com/niuInterface";
   let requesturl: string;
-  let otherParameters: any;
+  let realmCode: number;
   if (endpoint.includes("trans.neu.edu.cn")) {
     requesturl = `https://trans.neu.edu.cn/niutrans/textTranslation?apikey=${data.secret}`;
-    otherParameters = {};
+    realmCode = 0;
   } else {
     requesturl = `${endpoint}/textTranslation?pluginType=zotero&apikey=${apikey}`;
-    otherParameters = { realmCode: 99 };
+    realmCode = 99;
   }
   const xhr = await Zotero.HTTP.request("POST", requesturl, {
     headers: {
@@ -26,7 +26,7 @@ export default <TranslateTaskProcessor>async function (data) {
       termDictionaryLibraryId: dictNo,
       translationMemoryLibraryId: memoryNo,
       // TEMP: implement realmCode in settings
-      otherParameters,
+      realmCode,
       source: "zotero",
       src_text: data.raw,
       caller_id: data.callerID,
