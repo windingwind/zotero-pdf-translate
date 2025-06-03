@@ -109,7 +109,7 @@ export class TranslateTaskRunner {
     if (!data.langfrom || !data.langto) {
       ztoolkit.log("try auto detect language");
       const { fromLanguage, toLanguage, isInferred } = autoDetectLanguage(
-        Zotero.Items.get(data.itemId || -1),
+        Zotero.Items.get(data.itemId || -1), data.raw
       );
       data.langfrom = data.langfrom || fromLanguage;
       data.langto = data.langto || toLanguage;
@@ -372,7 +372,7 @@ export function putTranslateTaskAtHead(taskId: string) {
   return false;
 }
 
-export function autoDetectLanguage(item: Zotero.Item | null) {
+export function autoDetectLanguage(item: Zotero.Item | null, rawText?: string) {
   if (!item) {
     return {
       fromLanguage: getPref("sourceLanguage") as string,
@@ -401,14 +401,17 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
       let itemLanguage: string =
         // Respect language field
         matchLanguage((topItem.getField("language") as string) || "").code;
-      ztoolkit.log("try itemLanguage", itemLanguage);
       if (!itemLanguage) {
         // Respect AbstractNote or Title inferred language
-        const inferredLanguage = inferLanguage(
-          (topItem.getField("abstractNote") as string) ||
-            (topItem.getField("title") as string) ||
-            "",
-        ).code;
+        // FIXME: This is not a good way to infer language, so 
+        let inferText = (topItem.getField("abstractNote") as string) || (topItem.getField("title") as string);
+        if (topItem.itemType.startsWith("attachment") && rawText) {
+          inferText = rawText;
+        }
+        if (!inferText) {
+          inferText = rawText ?? "";
+        }
+        const inferredLanguage = inferLanguage(inferText).code;
         ztoolkit.log("try inferredLanguage", inferredLanguage);
         if (inferredLanguage) {
           // Update language field so that it can be used in the future
