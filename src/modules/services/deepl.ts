@@ -26,6 +26,7 @@ async function deepl(url: string, data: Required<TranslateTask>) {
     responseType: "json",
     body: JSON.stringify({
       text: [data.raw],
+      source_lang: mapLang(data.langfrom),
       target_lang: mapLang(data.langto),
       glossary_id: glossary_id,
     }),
