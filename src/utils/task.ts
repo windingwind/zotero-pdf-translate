@@ -403,7 +403,6 @@ export function autoDetectLanguage(item: Zotero.Item | null, rawText?: string) {
         matchLanguage((topItem.getField("language") as string) || "").code;
       if (!itemLanguage) {
         // Respect AbstractNote or Title inferred language
-        // FIXME: This is not a good way to infer language, so 
         let inferText = (topItem.getField("abstractNote") as string) || (topItem.getField("title") as string);
         if (topItem.itemType.startsWith("attachment") && rawText) {
           inferText = rawText;
