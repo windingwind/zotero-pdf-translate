@@ -7,6 +7,7 @@ service-youdaozhiyun=Youdao Zhiyun🗝️
 service-niutranspro=Niu Trans🗝️
 service-microsoft=Microsoft🗝️
 service-caiyun=Caiyun🗝️
+service-mtranserver=MTrans Server🗝️
 service-deeplfree=DeepL(Free Plan)🗝️
 service-deeplpro=DeepL(Pro Plan)🗝️
 service-deeplcustom=DeepLX(API)🗝️
@@ -165,4 +166,11 @@ service-libretranslate-dialog-endPoint=API Endpoint
 service-libretranslate-dialog-save=Save
 service-libretranslate-dialog-close=Close
 service-libretranslate-dialog-help=Help
+
+service-mtranserver-secret-pass=Config
+service-mtranserver-secret-fail=Config
+service-mtranserver-dialog-title=Mtranserver Config
+service-mtranserver-dialog-endPoint=EndPoint
+service-mtranserver-dialog-save=Save
+service-mtranserver-dialog-close=Close
 

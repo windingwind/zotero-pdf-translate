@@ -7,6 +7,7 @@ import { qwenmtStatusCallback } from "./qwenmt";
 import { claudeStatusCallback } from "./claude";
 import { aliyunStatusCallback } from "./aliyun";
 import { libretranslateStatusCallback } from "./libretranslate";
+import { mtranserverStatusCallback } from "./mtranserver";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -115,5 +116,12 @@ export const secretStatusButtonData: {
       fail: "service-aliyun-secret-fail",
     },
     callback: aliyunStatusCallback,
+  },
+  mtranserver: {
+    labels: {
+      pass: "service-mtranserver-secret-pass",
+      fail: "service-mtranserver-secret-fail",
+    },
+    callback: mtranserverStatusCallback,
   },
 };
