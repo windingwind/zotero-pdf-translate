@@ -277,25 +277,65 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "tencent",
     defaultSecret:
       "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = [2, 3, 4].includes(parts.length);
-      const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${
-        parts[1]
-      }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${
-        parts[3] ? parts[3] : "0"
-      }
-        `;
+    secretValidator(secret: string | object) {
       const source = getService("tencent");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
+
+      // Handle empty or default secret
+      if (!secret || secret === source.defaultSecret) {
+        return {
+          secret: secret as string,
+          status: false,
+          info: "The secret is not set. Click the button to configure.",
+        };
+      }
+
+      // Try to parse as JSON first (new object format)
+      try {
+        let config: any;
+        if (typeof secret === "string") {
+          config = JSON.parse(secret);
+        } else {
+          config = secret;
+        }
+
+        if (config && typeof config === "object" && config.secretId) {
+          // New object format validation
+          const hasRequiredFields = config.secretId && config.secretKey;
+          const partsInfo = `SecretId: ${config.secretId || "Not set"}
+SecretKey: ${config.secretKey ? "Set" : "Not set"}
+Region: ${config.region || "ap-shanghai"}
+ProjectId: ${config.projectId || "0"}
+Term Repo IDs: ${(config.termRepoIDList || []).join(", ") || "None"}
+Sent Repo IDs: ${(config.sentRepoIDList || []).join(", ") || "None"}`;
+
+          return {
+            secret:
+              typeof secret === "string" ? secret : JSON.stringify(secret),
+            status: hasRequiredFields,
+            info: hasRequiredFields
               ? partsInfo
-              : `The secret format of Tencent Translation is SecretId#SecretKey#Region(optional)#ProjectId(optional). The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+              : "SecretId and SecretKey are required.",
+          };
+        }
+      } catch {
+        // Not JSON, continue to legacy format
+      }
+
+      // Handle legacy string format
+      const parts = (secret as string)?.split("#");
+      const hasRequiredFields =
+        parts && parts.length >= 2 && parts[0] && parts[1];
+      const partsInfo = `SecretId: ${parts?.[0] || "Not set"}
+SecretKey: ${parts?.[1] ? "Set" : "Not set"}
+Region: ${parts?.[2] || "ap-shanghai"}
+ProjectId: ${parts?.[3] || "0"}`;
+
+      return {
+        secret: secret as string,
+        status: !!hasRequiredFields,
+        info: hasRequiredFields
+          ? partsInfo
+          : "SecretId and SecretKey are required. Use format: SecretId#SecretKey#Region(optional)#ProjectId(optional) or click button for advanced configuration.",
       };
     },
   },
