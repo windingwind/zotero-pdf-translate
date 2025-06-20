@@ -838,6 +838,40 @@ function mapISO6393to6391(code: string) {
   );
 }
 
+/**
+ * Get services sorted by priority (descending) with alphabetical sorting within each priority group
+ * @param type - The type of service to filter ("word" or "sentence")
+ * @param priorityMap - Optional map of service IDs to priority values (higher = higher priority)
+ * @returns Sorted array of services
+ */
+export function getSortedServicesWithPriorities(
+  type: "word" | "sentence",
+  priorityMap: Record<string, number> = {},
+) {
+  // Default priorities
+  const defaultPriorities: Record<string, number> = {
+    // Custom services get priority 20
+    customgpt1: 20,
+    customgpt2: 20,
+    customgpt3: 20,
+    // All other services default to 100
+  };
+
+  return SERVICES.filter((service) => service.type === type).sort((a, b) => {
+    // Get priorities (use custom priority if provided, otherwise use default)
+    const aPriority = priorityMap[a.id] ?? defaultPriorities[a.id] ?? 100;
+    const bPriority = priorityMap[b.id] ?? defaultPriorities[b.id] ?? 100;
+
+    // Sort by priority first (descending - higher priority first)
+    if (aPriority !== bPriority) {
+      return bPriority - aPriority;
+    }
+
+    // Within same priority, sort alphabetically by service ID
+    return a.id.localeCompare(b.id);
+  });
+}
+
 export const SVGIcon = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" width="16" height="16" xml:space="preserve">
 <style type="text/css">
