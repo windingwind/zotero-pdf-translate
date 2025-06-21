@@ -1,7 +1,11 @@
 import { config } from "../../package.json";
 import { PluginCEBase } from "./base";
 import { getPref, setPref } from "../utils/prefs";
-import { LANG_CODE, SERVICES } from "../utils/config";
+import {
+  LANG_CODE,
+  SERVICES,
+  getSortedServicesWithPriorities,
+} from "../utils/config";
 import {
   addTranslateTask,
   autoDetectLanguage,
@@ -35,7 +39,7 @@ export class TranslatorPanel extends PluginCEBase {
 <hbox id="engine" align="center">
   <menulist id="services" native="true">
     <menupopup>
-      ${SERVICES.filter((service) => service.type === "sentence")
+      ${getSortedServicesWithPriorities("sentence")
         .map(
           (service) => `
         <menuitem data-l10n-id="service-${service.id}" value="${service.id}" />

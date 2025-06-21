@@ -1,6 +1,6 @@
 import { getLocaleID, getString } from "../utils/locale";
 import { config } from "../../package.json";
-import { SERVICES } from "../utils/config";
+import { SERVICES, getSortedServicesWithPriorities } from "../utils/config";
 import { getPref, setPref } from "../utils/prefs";
 import { getLastTranslateTask } from "../utils/task";
 import { TranslatorPanel } from "../elements/panel";
@@ -178,15 +178,15 @@ function buildExtraPanel(doc: Document) {
                   children: [
                     {
                       tag: "menupopup",
-                      children: SERVICES.filter(
-                        (service) => service.type === "sentence",
-                      ).map((service) => ({
-                        tag: "menuitem",
-                        attributes: {
-                          label: getString(`service-${service.id}`),
-                          value: service.id,
-                        },
-                      })),
+                      children: getSortedServicesWithPriorities("sentence").map(
+                        (service) => ({
+                          tag: "menuitem",
+                          attributes: {
+                            label: getString(`service-${service.id}`),
+                            value: service.id,
+                          },
+                        }),
+                      ),
                     },
                   ],
                 },
