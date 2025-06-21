@@ -133,6 +133,9 @@ service-cnki-dialog-split=Automatically split translation for more than 800 char
 
 service-aliyun-secret-pass=Config
 service-aliyun-secret-fail=Config
+
+service-tencent-secret-pass=Config
+service-tencent-secret-fail=Config
 service-aliyun-dialog-title=Aliyun Config
 service-aliyun-dialog-action=Action
 service-aliyun-dialog-scene=Scene

@@ -107,6 +107,9 @@ service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 c
 
 service-aliyun-secret-pass=Configura
 service-aliyun-secret-fail=Configura
+
+service-tencent-secret-pass=Configura
+service-tencent-secret-fail=Configura
 service-aliyun-dialog-title=Configura Aliyun
 service-aliyun-dialog-action=Azione
 service-aliyun-dialog-scene=Scena
