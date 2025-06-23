@@ -39,7 +39,7 @@ async function _google(url: string, data: Required<TranslateTask>) {
           (e[f++] = (m & 63) | 128));
     }
     a = b;
-    for (f = 0; f < e.length; f++) (a += e[f]), (a = RL(a, $b));
+    for (f = 0; f < e.length; f++) ((a += e[f]), (a = RL(a, $b)));
     a = RL(a, Zb);
     a ^= b1 || 0;
     0 > a && (a = (a & 2147483647) + 2147483648);

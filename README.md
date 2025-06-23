@@ -15,7 +15,6 @@ Translate PDF, EPub, webpage, metadata, annotations, notes to the target languag
 ## Install
 
 - Download the plugin (.xpi file) from below.
-
   - [Latest Stable](https://github.com/windingwind/zotero-pdf-translate/releases/latest)
   - [All Releases](https://github.com/windingwind/zotero-pdf-translate/releases)
 
