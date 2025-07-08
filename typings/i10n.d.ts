@@ -19,7 +19,6 @@ export type FluentMessageId =
   | 'itemPaneSection-header'
   | 'itemPaneSection-openStandalone'
   | 'itemPaneSection-sidenav'
-  | 'sideBarIcon-title'
   | 'itemmenu-more-label'
   | 'itemmenu-retranslateAbstract-label'
   | 'itemmenu-retranslateTitle-label'
@@ -220,6 +219,7 @@ export type FluentMessageId =
   | 'service-youdao'
   | 'service-youdaodict'
   | 'service-youdaozhiyun'
+  | 'sideBarIcon-title'
   | 'status-translating'
   | 'swapLanguage'
   | 'translate';
