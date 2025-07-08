@@ -451,7 +451,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
         status: flag,
         info: flag ? "" : "The secret is not set.",
       };
-    }
+    },
   },
   {
     type: "word",
