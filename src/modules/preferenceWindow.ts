@@ -1,5 +1,9 @@
 import { config, homepage } from "../../package.json";
-import { LANG_CODE, SERVICES } from "../utils/config";
+import {
+  LANG_CODE,
+  SERVICES,
+  getSortedServicesWithPriorities,
+} from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
@@ -47,15 +51,15 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: SERVICES.filter(
-            (service) => service.type === "sentence",
-          ).map((service) => ({
-            tag: "menuitem",
-            attributes: {
-              label: getString(`service-${service.id}`),
-              value: service.id,
-            },
-          })),
+          children: getSortedServicesWithPriorities("sentence").map(
+            (service) => ({
+              tag: "menuitem",
+              attributes: {
+                label: getString(`service-${service.id}`),
+                value: service.id,
+              },
+            }),
+          ),
         },
       ],
     },
@@ -82,15 +86,13 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: SERVICES.filter((service) => service.type === "word").map(
-            (service) => ({
-              tag: "menuitem",
-              attributes: {
-                label: getString(`service-${service.id}`),
-                value: service.id,
-              },
-            }),
-          ),
+          children: getSortedServicesWithPriorities("word").map((service) => ({
+            tag: "menuitem",
+            attributes: {
+              label: getString(`service-${service.id}`),
+              value: service.id,
+            },
+          })),
         },
       ],
     },

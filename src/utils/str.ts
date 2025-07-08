@@ -31,6 +31,8 @@ export function stripEmptyLines(text: string, enabled: boolean): string {
   // Normalize line endings to \n
   const normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
-  // Replace multiple consecutive line breaks with a single one
-  return normalizedText.replace(/\n{2,}/g, "\n");
+  // Remove leading newlines, then replace all remaining newlines with spaces
+  const result = normalizedText.replace(/^\n+/, "").replace(/\n+/g, " ");
+
+  return result;
 }
