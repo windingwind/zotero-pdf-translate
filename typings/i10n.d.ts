@@ -221,6 +221,8 @@ export type FluentMessageId =
   | 'service-qwenmt-secret-fail'
   | 'service-qwenmt-secret-pass'
   | 'service-tencent'
+  | 'service-tencent-secret-fail'
+  | 'service-tencent-secret-pass'
   | 'service-webliodict'
   | 'service-xftrans'
   | 'service-youdao'
