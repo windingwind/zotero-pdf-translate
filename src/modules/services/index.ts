@@ -208,6 +208,18 @@ export class TranslationServices {
         task.result = stripEmptyLines(task.result, true);
       }
 
+      const resultRegex = getPref("resultRegex") as string;
+      if (resultRegex) {
+        try {
+          const regex = new RegExp(resultRegex, "g");
+          // Remove all matches
+          task.result = task.result.replace(regex, "");
+        } catch (e) {
+          ztoolkit.log("Invalid result regex", e);
+          task.result = `Invalid result regex: ${resultRegex}. Please check settings > Translate > Advanced > Result Regex.`;
+        }
+      }
+
       // Run extra tasks. Do not wait.
       if (task.extraTasks?.length) {
         Promise.all(

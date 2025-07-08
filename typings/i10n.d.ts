@@ -37,6 +37,7 @@ export type FluentMessageId =
   | 'pref-advanced-reset'
   | 'pref-advanced-reset-abstractTranslation'
   | 'pref-advanced-reset-titleTranslation'
+  | 'pref-advanced-resultRegex'
   | 'pref-advanced-splitChar'
   | 'pref-advanced-stripEmptyLines'
   | 'pref-audio-autoPlay'

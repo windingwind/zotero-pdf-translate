@@ -22,6 +22,7 @@ declare namespace _ZoteroTypes {
       "fontSize": string;
       "lineHeight": string;
       "splitChar": string;
+      "resultRegex": string;
       "rawResultOrder": boolean;
       "showItemMenuTitleTranslation": boolean;
       "showItemMenuAbstractTranslation": boolean;
