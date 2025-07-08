@@ -133,6 +133,9 @@ service-cnki-dialog-split=超过800字符自动拆分翻译
 
 service-aliyun-secret-pass=配置
 service-aliyun-secret-fail=配置
+
+service-tencent-secret-pass=配置
+service-tencent-secret-fail=配置
 service-aliyun-dialog-title=Aliyun 配置
 service-aliyun-dialog-action=版本
 service-aliyun-dialog-scene=场景
