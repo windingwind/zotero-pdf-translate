@@ -112,6 +112,7 @@ The default service is Google Translate. Currently, we support:
 | Gemini                       | Yes(free-)             | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                                                                                           |
 | Qwen-MT                      | Yes(free-)             | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                                                                                                |
 | Claude                       | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
+| MTranServer                  | No                     | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                                                                                                |
 
 > If the service you want is not yet supported, please post an issue.
 
@@ -217,6 +218,9 @@ The secret format is `MY_APIKEY`.
 
 **Claude**  
 Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api).
+
+**MTranServer**  
+See [MTranServer](https://github.com/xxnuo/MTranServer).
 
 ### User Interface
 
