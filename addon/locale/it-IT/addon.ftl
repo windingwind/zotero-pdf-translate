@@ -139,3 +139,10 @@ service-libretranslate-dialog-endPoint=API Endpoint
 service-libretranslate-dialog-save=Salva
 service-libretranslate-dialog-close=Chiudi
 service-libretranslate-dialog-help=Aiuto
+
+service-mtranserver-secret-pass=Config
+service-mtranserver-secret-fail=Config
+service-mtranserver-dialog-title=Mtranserver Config
+service-mtranserver-dialog-endPoint=EndPoint
+service-mtranserver-dialog-save=Save
+service-mtranserver-dialog-close=Close
