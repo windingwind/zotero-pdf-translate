@@ -7,7 +7,7 @@ service-youdaozhiyun=Youdao Zhiyun🗝️
 service-niutranspro=Niu Trans🗝️
 service-microsoft=Microsoft🗝️
 service-caiyun=Caiyun🗝️
-service-mtranserver=MTrans Server🗝️
+service-mtranserver=MTranServer🗝️
 service-deeplfree=DeepL(Free Plan)🗝️
 service-deeplpro=DeepL(Pro Plan)🗝️
 service-deeplcustom=DeepLX(API)🗝️
@@ -159,7 +159,7 @@ field-titleTranslation=Title Translation
 field-abstractTranslation=Abstract Translation
 
 status-translating=Translating...
-sideBarIcon-title=Translate Annotation
+sideBarIcon-title=Translate annotation
 
 service-libretranslate=LibreTranslate
 service-libretranslate-secret-pass=Config

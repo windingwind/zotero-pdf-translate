@@ -43,6 +43,11 @@ pref-service-langto =
 pref-service-hint =
     .value = Il motore di traduzione con l'icona 🗝️ richiede un segreto; vedi GitHub per maggiori dettagli
 
+pref-service-manageKeys =
+    .label = Gestisci segreto
+pref-service-manageKeys-hint =
+    .value = Visualizza le segreto salvate per l'importazione e l'esportazione in blocco 
+
 pref-interface = Interfaccia utente
 
 pref-interface-fontSize =
