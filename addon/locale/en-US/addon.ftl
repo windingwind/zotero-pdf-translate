@@ -159,7 +159,7 @@ field-titleTranslation=Title Translation
 field-abstractTranslation=Abstract Translation
 
 status-translating=Translating...
-sideBarIcon-title=Translate Annotation
+sideBarIcon-title=Translate annotation
 
 service-libretranslate=LibreTranslate
 service-libretranslate-secret-pass=Config
