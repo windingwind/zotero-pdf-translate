@@ -7,6 +7,7 @@ service-youdaozhiyun=Youdao Zhiyun🗝️
 service-niutranspro=Niu Trans🗝️
 service-microsoft=Microsoft🗝️
 service-caiyun=Caiyun🗝️
+service-mtranserver=MTranServer🗝️
 service-deeplfree=DeepL(Free Plan)🗝️
 service-deeplpro=DeepL(Pro Plan)🗝️
 service-deeplcustom=DeepL(Custom)🗝️
