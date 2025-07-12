@@ -111,4 +111,4 @@ pref-about-version =
     .value = { $name } Versione { $version } Build { $time }
 
 pref-advanced-stripEmptyLines =
-    .label = Rimuovi le righe vuote dai risultati della traduzione
+    .label = Rimuovi le righe vuote e pensieri dai risultati della traduzione
