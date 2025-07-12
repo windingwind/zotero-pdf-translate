@@ -118,4 +118,4 @@ pref-about-version =
     .value = { $name } Version { $version } Build { $time }
 
 pref-advanced-stripEmptyLines =
-    .label = Strip empty lines from translation results
+    .label = Strip empty lines and thinking from translation results

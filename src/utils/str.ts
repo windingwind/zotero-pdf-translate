@@ -20,7 +20,7 @@ export function fill(
 }
 
 /**
- * Strip empty lines from text
+ * Strip empty lines and thinking tags from text
  * @param text Text to process
  * @param enabled Whether stripping is enabled
  * @returns Processed text
@@ -28,8 +28,13 @@ export function fill(
 export function stripEmptyLines(text: string, enabled: boolean): string {
   if (!text || !enabled) return text;
 
+  // Strip <think>...</think> tags and their content
+  const processedText = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+
   // Normalize line endings to \n
-  const normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const normalizedText = processedText
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n");
 
   // Remove leading newlines, then replace all remaining newlines with spaces
   const result = normalizedText.replace(/^\n+/, "").replace(/\n+/g, " ");
