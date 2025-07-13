@@ -52,6 +52,10 @@ export function registerReaderTabPanel() {
           onUpdateHeight({ body });
           // @ts-ignore 'item-details' is a custom element on Zotero
           details.scrollToPane(paneKey);
+          const panel = body.querySelector(
+            "translator-plugin-panel",
+          ) as TranslatorPanel;
+          panel.initEditor();
         },
       },
     ],
