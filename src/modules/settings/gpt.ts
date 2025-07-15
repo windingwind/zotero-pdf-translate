@@ -1,6 +1,36 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
+const INPUT_STYLES = {
+  width: "100%",
+  height: "32px",
+  padding: "6px 8px",
+  boxSizing: "border-box",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+};
+
+function createParamInputCell(
+  doc: Document,
+  type: "key" | "value",
+  index: number,
+  value: string = "",
+): HTMLTableCellElement {
+  const cell = doc.createElement("td");
+  cell.style.padding = "8px";
+
+  const input = doc.createElement("input");
+  input.type = "text";
+  input.id = `${type}-${index}`;
+  input.placeholder =
+    type === "key" ? "Parameter name" : "Parameter value (JSON format)";
+  input.value = value;
+  Object.assign(input.style, INPUT_STYLES);
+
+  cell.appendChild(input);
+  return cell;
+}
+
 async function openCustomRequestDialog(
   prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
 ) {
@@ -34,71 +64,54 @@ async function openCustomRequestDialog(
 
   let paramIndex = keyValuePairs.length;
 
-  const createTableRows = () => {
-    const rows: any[] = [];
-    keyValuePairs.forEach((pair, index) => {
-      rows.push({
-        tag: "tr",
+  const createTableRow = (
+    pair: { key: string; value: string },
+    index: number,
+  ) => ({
+    tag: "tr",
+    namespace: "html",
+    children: [
+      {
+        tag: "td",
         namespace: "html",
+        styles: { padding: "8px" },
         children: [
           {
-            tag: "td",
+            tag: "input",
             namespace: "html",
-            styles: {
-              padding: "8px",
+            id: `key-${index}`,
+            attributes: {
+              type: "text",
+              placeholder: "Parameter name",
+              value: pair.key || "",
             },
-            children: [
-              {
-                tag: "input",
-                namespace: "html",
-                id: `key-${index}`,
-                attributes: {
-                  type: "text",
-                  placeholder: "Parameter name",
-                  value: pair.key || "",
-                },
-                styles: {
-                  width: "100%",
-                  height: "32px",
-                  padding: "6px 8px",
-                  boxSizing: "border-box",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                },
-              },
-            ],
-          },
-          {
-            tag: "td",
-            namespace: "html",
-            styles: {
-              padding: "8px",
-            },
-            children: [
-              {
-                tag: "input",
-                namespace: "html",
-                id: `value-${index}`,
-                attributes: {
-                  type: "text",
-                  placeholder: "Parameter value (JSON format)",
-                  value: pair.value || "",
-                },
-                styles: {
-                  width: "100%",
-                  height: "32px",
-                  padding: "6px 8px",
-                  boxSizing: "border-box",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                },
-              },
-            ],
+            styles: INPUT_STYLES,
           },
         ],
-      });
-    });
-    return rows;
+      },
+      {
+        tag: "td",
+        namespace: "html",
+        styles: { padding: "8px" },
+        children: [
+          {
+            tag: "input",
+            namespace: "html",
+            id: `value-${index}`,
+            attributes: {
+              type: "text",
+              placeholder: "Parameter value (JSON format)",
+              value: pair.value || "",
+            },
+            styles: INPUT_STYLES,
+          },
+        ],
+      },
+    ],
+  });
+
+  const createTableRows = () => {
+    return keyValuePairs.map((pair, index) => createTableRow(pair, index));
   };
 
   dialog
@@ -208,72 +221,57 @@ async function openCustomRequestDialog(
 
   // Override button behavior after dialog opens
   const setupAddButton = () => {
-    const buttons = dialog.window.document.querySelectorAll("button");
-    const addParamText = getString(
-      `service-${servicePrefix}-dialog-add-param`,
-    );
-    
-    buttons.forEach((button) => {
-      const buttonText = button.textContent?.trim();
-      if (buttonText === addParamText) {
-        // Remove existing listeners and prevent default behavior
-        const newButton = button.cloneNode(true) as HTMLButtonElement;
-        button.parentNode?.replaceChild(newButton, button);
+    // Find the "Add Parameter" button by its position (first button)
+    const buttonContainer =
+      dialog.window.document.querySelector(".dialog-button-bar");
+    if (!buttonContainer) return;
 
-        newButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+    const buttons = buttonContainer.querySelectorAll("button");
+    if (buttons.length < 1) return;
 
-          const tbody = dialog.window.document.getElementById(
-            "custom-params-tbody",
-          );
-          if (tbody) {
-            const row = dialog.window.document.createElement("tr");
+    // The first button should be "Add Parameter" based on the order we added them
+    const addButton = buttons[0] as HTMLButtonElement;
 
-            const keyCell = dialog.window.document.createElement("td");
-            keyCell.style.padding = "8px";
-            const keyInput = dialog.window.document.createElement("input");
-            keyInput.type = "text";
-            keyInput.id = `key-${paramIndex}`;
-            keyInput.placeholder = "Parameter name";
-            keyInput.style.width = "100%";
-            keyInput.style.height = "32px";
-            keyInput.style.padding = "6px 8px";
-            keyInput.style.boxSizing = "border-box";
-            keyInput.style.border = "1px solid #ccc";
-            keyInput.style.borderRadius = "4px";
-            keyCell.appendChild(keyInput);
+    // Remove existing listeners and prevent default behavior
+    const newButton = addButton.cloneNode(true) as HTMLButtonElement;
+    addButton.parentNode?.replaceChild(newButton, addButton);
 
-            const valueCell = dialog.window.document.createElement("td");
-            valueCell.style.padding = "8px";
-            const valueInput = dialog.window.document.createElement("input");
-            valueInput.type = "text";
-            valueInput.id = `value-${paramIndex}`;
-            valueInput.placeholder = "Parameter value (JSON format)";
-            valueInput.style.width = "100%";
-            valueInput.style.height = "32px";
-            valueInput.style.padding = "6px 8px";
-            valueInput.style.boxSizing = "border-box";
-            valueInput.style.border = "1px solid #ccc";
-            valueInput.style.borderRadius = "4px";
-            valueCell.appendChild(valueInput);
+    newButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-            row.appendChild(keyCell);
-            row.appendChild(valueCell);
-            tbody.appendChild(row);
-            paramIndex++;
-          }
-
-          return false;
-        });
+      const tbody = dialog.window.document.getElementById(
+        "custom-params-tbody",
+      );
+      if (tbody) {
+        const row = dialog.window.document.createElement("tr");
+        row.appendChild(
+          createParamInputCell(dialog.window.document, "key", paramIndex),
+        );
+        row.appendChild(
+          createParamInputCell(dialog.window.document, "value", paramIndex),
+        );
+        tbody.appendChild(row);
+        paramIndex++;
       }
+
+      return false;
     });
   };
 
-  // Try multiple times to ensure DOM is ready
-  setTimeout(setupAddButton, 50);
-  setTimeout(setupAddButton, 200);
-  setTimeout(setupAddButton, 500);
+  // Use a single check with MutationObserver as fallback
+  const ensureButtonSetup = () => {
+    if (dialog.window.document.readyState === "complete") {
+      setupAddButton();
+    } else {
+      // If DOM not ready, wait for it
+      dialog.window.addEventListener("DOMContentLoaded", setupAddButton);
+      // Fallback for edge cases
+      setTimeout(setupAddButton, 100);
+    }
+  };
+
+  ensureButtonSetup();
 
   await dialogData.unloadLock?.promise;
 
@@ -314,7 +312,6 @@ async function openCustomRequestDialog(
 
 async function gptStatusCallback(
   prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
-  status: boolean,
 ) {
   const servicePrefix = prefix === "azureGPT" ? "azuregpt" : "chatgpt";
   const dialog = new ztoolkit.Dialog(2, 1);
@@ -537,7 +534,7 @@ async function gptStatusCallback(
 export function getLLMStatusCallback(
   prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
 ) {
-  return async function (status: boolean) {
-    gptStatusCallback(prefix, status);
+  return async function () {
+    gptStatusCallback(prefix);
   };
 }
