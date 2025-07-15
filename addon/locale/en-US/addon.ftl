@@ -80,6 +80,10 @@ service-chatgpt-dialog-prompt=Prompt
 service-chatgpt-dialog-help=Help
 service-chatgpt-dialog-save=Save
 service-chatgpt-dialog-close=Close
+service-chatgpt-dialog-custom-request=Custom Request
+service-chatgpt-dialog-custom-request-title=Custom Request Parameters
+service-chatgpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
+service-chatgpt-dialog-add-param=Add Parameter
 
 service-azuregpt-secret-pass=Config
 service-azuregpt-secret-fail=Config
@@ -92,6 +96,10 @@ service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-help=Help
 service-azuregpt-dialog-save=Save
 service-azuregpt-dialog-close=Close
+service-azuregpt-dialog-custom-request=Custom Request
+service-azuregpt-dialog-custom-request-title=Custom Request Parameters
+service-azuregpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
+service-azuregpt-dialog-add-param=Add Parameter
 
 service-gemini-secret-pass=Config
 service-gemini-secret-fail=Config

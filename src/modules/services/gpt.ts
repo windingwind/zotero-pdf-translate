@@ -2,6 +2,19 @@ import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
+function getCustomParams(prefix: string): Record<string, any> {
+  const storedCustomParams =
+    (getPref(`${prefix}.customParams`) as string) || "{}";
+  try {
+    const customParams = JSON.parse(storedCustomParams);
+    // Filter out parameters that are already defined
+    const { model, messages, temperature, stream, ...rest } = customParams;
+    return rest;
+  } catch (e) {
+    return {};
+  }
+}
+
 const gptTranslate = async function (
   apiURL: string,
   model: string,
@@ -41,14 +54,37 @@ const gptTranslate = async function (
     xmlhttp.onprogress = (e: any) => {
       // Only concatenate the new strings
       const newResponse = e.target.response.slice(preLength);
-      const dataArray = newResponse.split("data: ");
+      
+      // Handle both OpenAI SSE format and Ollama native streaming
+      let dataArray;
+      if (newResponse.includes("data: ")) {
+        // OpenAI SSE format
+        dataArray = newResponse.split("data: ");
+      } else {
+        // Ollama native format - each line is a JSON object
+        dataArray = newResponse.split("\n").filter((line: string) => line.trim());
+      }
 
       for (const data of dataArray) {
         try {
           const obj = JSON.parse(data);
-          const choice = obj.choices[0];
-          result += choice.delta.content || "";
-          if (choice.finish_reason) {
+          let content = "";
+          let finished = false;
+          
+          // Handle OpenAI format (choices array with delta)
+          if (obj.choices && obj.choices[0]) {
+            const choice = obj.choices[0];
+            content = choice.delta?.content || "";
+            finished = choice.finish_reason !== null;
+          }
+          // Handle Ollama native format (direct message)
+          else if (obj.message) {
+            content = obj.message.content || "";
+            finished = obj.done === true;
+          }
+          
+          result += content;
+          if (finished) {
             break;
           }
         } catch {
@@ -81,7 +117,17 @@ const gptTranslate = async function (
       // console.debug("GPT response received");
       try {
         const responseObj = JSON.parse(xmlhttp.responseText);
-        const resultContent = responseObj.choices[0].message.content;
+        let resultContent = "";
+        
+        // Handle OpenAI format (choices array)
+        if (responseObj.choices && responseObj.choices[0]) {
+          resultContent = responseObj.choices[0].message.content;
+        }
+        // Handle Ollama native format (direct message)
+        else if (responseObj.message && responseObj.message.content) {
+          resultContent = responseObj.message.content;
+        }
+        
         data.result = resultContent.replace(/^\n\n/, "");
       } catch (error) {
         // throw `Failed to parse response: ${error}`;
@@ -109,6 +155,7 @@ const gptTranslate = async function (
       ],
       temperature: temperature,
       stream: streamMode,
+      ...getCustomParams(prefix),
     }),
     responseType: "text",
     requestObserver: (xmlhttp: XMLHttpRequest) => {
