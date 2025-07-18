@@ -261,7 +261,7 @@ The plugin is built to `./build/*.xpi`.
 1. Add service config to `src/utils/config.ts` > `SERVICES`;
 2. Add translation task processor under `src/modules/services/${serviceId}.ts` with the same format with other services. The export function set the translation result to `data.result` if runs successfully and throw an error if fails;
 3. Import the task processor function in `src/modules/services/index.ts`.
-4. Add locale string `service.${serviceId}` in `addon/chrome/locale/${lang}/addon.properties`.
+4. Add locale string `service.${serviceId}` in `addon/locale/${lang}/addon.ftl` and `addon/locale/${lang}/panel.ftl`.
 5. Build and test.
 
 **Extra options for translate service**
