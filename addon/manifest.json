@@ -14,7 +14,7 @@
       "id": "__addonID__",
       "update_url": "__updateURL__",
       "strict_min_version": "6.9.9",
-      "strict_max_version": "7.1.*"
+      "strict_max_version": "8.0.*"
     }
   }
 }
