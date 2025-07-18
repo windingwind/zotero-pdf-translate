@@ -2,6 +2,59 @@ import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
+function getCustomParams(prefix: string): Record<string, any> {
+  const storedCustomParams =
+    (getPref(`${prefix}.customParams`) as string) || "{}";
+  try {
+    const customParams = JSON.parse(storedCustomParams);
+    // Filter out parameters that are already defined
+    const standardParams = ["model", "messages", "temperature", "stream"];
+    return Object.fromEntries(
+      Object.entries(customParams).filter(
+        ([key]) => !standardParams.includes(key),
+      ),
+    );
+  } catch (e) {
+    return {};
+  }
+}
+
+interface ParsedResponse {
+  content: string;
+  finished: boolean;
+}
+
+function parseStreamResponse(obj: any): ParsedResponse {
+  // Handle OpenAI format (choices array with delta)
+  if (obj.choices && obj.choices[0]) {
+    const choice = obj.choices[0];
+    return {
+      content: choice.delta?.content || "",
+      finished: choice.finish_reason !== null,
+    };
+  }
+  // Handle Ollama native format (direct message)
+  else if (obj.message) {
+    return {
+      content: obj.message.content || "",
+      finished: obj.done === true,
+    };
+  }
+  return { content: "", finished: false };
+}
+
+function parseNonStreamResponse(obj: any): string {
+  // Handle OpenAI format (choices array)
+  if (obj.choices && obj.choices[0]) {
+    return obj.choices[0].message.content || "";
+  }
+  // Handle Ollama native format (direct message)
+  else if (obj.message && obj.message.content) {
+    return obj.message.content;
+  }
+  return "";
+}
+
 const gptTranslate = async function (
   apiURL: string,
   model: string,
@@ -41,14 +94,26 @@ const gptTranslate = async function (
     xmlhttp.onprogress = (e: any) => {
       // Only concatenate the new strings
       const newResponse = e.target.response.slice(preLength);
-      const dataArray = newResponse.split("data: ");
+
+      // Handle both OpenAI SSE format and Ollama native streaming
+      let dataArray;
+      if (newResponse.includes("data: ")) {
+        // OpenAI SSE format
+        dataArray = newResponse.split("data: ");
+      } else {
+        // Ollama native format - each line is a JSON object
+        dataArray = newResponse
+          .split("\n")
+          .filter((line: string) => line.trim());
+      }
 
       for (const data of dataArray) {
         try {
           const obj = JSON.parse(data);
-          const choice = obj.choices[0];
-          result += choice.delta.content || "";
-          if (choice.finish_reason) {
+          const { content, finished } = parseStreamResponse(obj);
+
+          result += content;
+          if (finished) {
             break;
           }
         } catch {
@@ -81,7 +146,7 @@ const gptTranslate = async function (
       // console.debug("GPT response received");
       try {
         const responseObj = JSON.parse(xmlhttp.responseText);
-        const resultContent = responseObj.choices[0].message.content;
+        const resultContent = parseNonStreamResponse(responseObj);
         data.result = resultContent.replace(/^\n\n/, "");
       } catch (error) {
         // throw `Failed to parse response: ${error}`;
@@ -109,6 +174,7 @@ const gptTranslate = async function (
       ],
       temperature: temperature,
       stream: streamMode,
+      ...getCustomParams(prefix),
     }),
     responseType: "text",
     requestObserver: (xmlhttp: XMLHttpRequest) => {

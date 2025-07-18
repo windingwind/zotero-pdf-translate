@@ -79,6 +79,10 @@ service-chatgpt-dialog-prompt=Prompt
 service-chatgpt-dialog-help=帮助
 service-chatgpt-dialog-save=保存
 service-chatgpt-dialog-close=关闭
+service-chatgpt-dialog-custom-request=自定义请求
+service-chatgpt-dialog-custom-request-title=自定义请求参数
+service-chatgpt-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数（model, messages, temperature, stream）合并。
+service-chatgpt-dialog-add-param=添加参数
 
 service-azuregpt-secret-pass=配置
 service-azuregpt-secret-fail=配置
@@ -91,6 +95,10 @@ service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-help=帮助
 service-azuregpt-dialog-save=保存
 service-azuregpt-dialog-close=关闭
+service-azuregpt-dialog-custom-request=自定义请求
+service-azuregpt-dialog-custom-request-title=自定义请求参数
+service-azuregpt-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数（model, messages, temperature, stream）合并。
+service-azuregpt-dialog-add-param=添加参数
 
 service-gemini-secret-pass=配置
 service-gemini-secret-fail=配置
