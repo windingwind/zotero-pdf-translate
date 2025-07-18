@@ -135,7 +135,7 @@ export function registerPrompt() {
                   {
                     type: "mousemove",
                     listener: () => {
-                      const highlightColor = "#fee972";
+                      const highlightColor = "var(--tag-yellow)";
 
                       const twinNode = [
                         ...Array.from(
@@ -212,7 +212,7 @@ export function registerPrompt() {
           const subContainer = ztoolkit.UI.createElement(doc, "div", {
             styles: {
               padding: ".5em",
-              border: "1px solid #eee",
+              border: "1px solid var(--color-border)",
               overflowY: "auto",
               minWidth: "10em",
               minHeight: "5em",
@@ -245,7 +245,7 @@ export function registerPrompt() {
           styles: {
             height: direction == "row" ? "100%" : `${size}px`,
             width: direction == "column" ? "100%" : `${size}px`,
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "var(--color-border)",
             cursor: direction == "column" ? "ns-resize" : "ew-resize",
           },
         });
