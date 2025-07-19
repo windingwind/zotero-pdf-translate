@@ -280,6 +280,10 @@ export class TranslatorPanel extends PluginCEBase {
     const resizer = this._queryID("resizer") as HTMLElement;
     const container = this._queryID("text-container") as HTMLElement;
     const rawArea = this._queryID("raw-text") as HTMLElement;
+    const resultArea = this._queryID("result-text") as HTMLElement;
+
+    rawArea.style.flex = `${getPref("customRawRatio")} 1 0%`;
+    resultArea.style.flex = `${getPref("customResultRatio")} 1 0%`;
 
     let isDragging = false;
     let containerRect: DOMRect;
@@ -294,10 +298,6 @@ export class TranslatorPanel extends PluginCEBase {
       window.document.addEventListener("mouseup", (e: MouseEvent) => {
         isDragging = false;
         window.document.removeEventListener("mousemove", doDrag);
-        const newcontainerRect = container.getBoundingClientRect();
-        if (newcontainerRect.height < containerRect.height) {
-          rawArea.style.flex = "1 1 0%";
-        }
       });
     });
 
@@ -308,9 +308,30 @@ export class TranslatorPanel extends PluginCEBase {
       const newRawHeight = e.clientY - containerRect.top;
       const maxRawHeight = containerRect.height - 100 - 13;
       if (newRawHeight >= 100 && newRawHeight <= maxRawHeight) {
-        rawArea.style.flex = `0 0 ${newRawHeight}px`;
+        const newResultHeight = containerRect.height - newRawHeight - 13;
+        const newRawRatio = (
+          newRawHeight / Math.min(newRawHeight, newResultHeight)
+        ).toFixed(3);
+        const newResultRatio = (
+          newResultHeight / Math.min(newRawHeight, newResultHeight)
+        ).toFixed(3);
+        rawArea.style.flex = `${newRawRatio} 1 0%`;
+        resultArea.style.flex = `${newResultRatio} 1 0%`;
+        setPref("customRawRatio", newRawRatio);
+        setPref("customResultRatio", newResultRatio);
       }
     }
+
+    resizer?.addEventListener("dblclick", (e: MouseEvent) => {
+      if (e.button !== 0) {
+        return;
+      }
+      e.preventDefault();
+      rawArea.style.flex = "1 1 0%";
+      resultArea.style.flex = "1 1 0%";
+      setPref("customRawRatio", "1");
+      setPref("customResultRatio", "1");
+    });
   }
 
   destroy(): void {}
@@ -389,10 +410,5 @@ export class TranslatorPanel extends PluginCEBase {
     this._taskID = lastTask.id;
     setValue("raw-text", reverseRawResult ? lastTask.result : lastTask.raw);
     setValue("result-text", reverseRawResult ? lastTask.raw : lastTask.result);
-  }
-
-  initEditor() {
-    const rawArea = this._queryID("raw-text") as HTMLElement;
-    rawArea.style.flex = "1 1 0%";
   }
 }
