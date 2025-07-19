@@ -24,6 +24,8 @@ pref("__prefsPrefix__.enableConcatKey", true);
 pref("__prefsPrefix__.showSidebarLanguage", true);
 pref("__prefsPrefix__.showSidebarRaw", true);
 pref("__prefsPrefix__.showSidebarCopy", true);
+pref("__prefsPrefix__.customRawRatio", "1");
+pref("__prefsPrefix__.customResultRatio", "1");
 pref("__prefsPrefix__.showItemBoxTitleTranslation", true);
 pref("__prefsPrefix__.showItemBoxAbstractTranslation", false);
 pref("__prefsPrefix__.keepWindowTop", false);

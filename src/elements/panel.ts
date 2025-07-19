@@ -12,6 +12,7 @@ import {
   getLastTranslateTask,
   putTranslateTaskAtHead,
 } from "../utils/task";
+import { lutimesSync } from "fs";
 
 export class TranslatorPanel extends PluginCEBase {
   _item: Zotero.Item | null = null;
@@ -64,9 +65,13 @@ export class TranslatorPanel extends PluginCEBase {
   </menulist>
 </hbox>
 <html:div class="separator"></html:div>
-<editable-text id="raw-text" multiline="true" placeholder="Select or type to translate" />
-<html:div class="separator"></html:div>
-<editable-text id="result-text" multiline="true" />
+<html:div id="text-container" class="editor-container">
+  <editable-text id="raw-text" multiline="true" placeholder="Select or type to translate" />
+  <html:div id="resizer" class="draggable-container">
+    <html:div class="separator"></html:div>
+  </html:div>
+  <editable-text id="result-text" multiline="true" />
+</html:div>
 <html:div class="separator"></html:div>
 <html:div class="options-container">
   <html:div id="auto-container" class="options-grid">
@@ -270,6 +275,63 @@ export class TranslatorPanel extends PluginCEBase {
         .addText(`${task.raw}\n----\n${task.result}`, "text/plain")
         .copy();
     });
+
+    // Draggable text area
+    const resizer = this._queryID("resizer") as HTMLElement;
+    const container = this._queryID("text-container") as HTMLElement;
+    const rawArea = this._queryID("raw-text") as HTMLElement;
+    const resultArea = this._queryID("result-text") as HTMLElement;
+
+    rawArea.style.flex = `${getPref("customRawRatio")} 1 0%`;
+    resultArea.style.flex = `${getPref("customResultRatio")} 1 0%`;
+
+    let isDragging = false;
+    let containerRect: DOMRect;
+    resizer?.addEventListener("mousedown", (e: MouseEvent) => {
+      if (e.button !== 0) {
+        return;
+      }
+      isDragging = true;
+      e.preventDefault();
+      containerRect = container.getBoundingClientRect();
+      window.document.addEventListener("mousemove", doDrag);
+      window.document.addEventListener("mouseup", (e: MouseEvent) => {
+        isDragging = false;
+        window.document.removeEventListener("mousemove", doDrag);
+      });
+    });
+
+    function doDrag(e: MouseEvent) {
+      if (!isDragging) {
+        return;
+      }
+      const newRawHeight = e.clientY - containerRect.top;
+      const maxRawHeight = containerRect.height - 100 - 13;
+      if (newRawHeight >= 100 && newRawHeight <= maxRawHeight) {
+        const newResultHeight = containerRect.height - newRawHeight - 13;
+        const newRawRatio = (
+          newRawHeight / Math.min(newRawHeight, newResultHeight)
+        ).toFixed(3);
+        const newResultRatio = (
+          newResultHeight / Math.min(newRawHeight, newResultHeight)
+        ).toFixed(3);
+        rawArea.style.flex = `${newRawRatio} 1 0%`;
+        resultArea.style.flex = `${newResultRatio} 1 0%`;
+        setPref("customRawRatio", newRawRatio);
+        setPref("customResultRatio", newResultRatio);
+      }
+    }
+
+    resizer?.addEventListener("dblclick", (e: MouseEvent) => {
+      if (e.button !== 0) {
+        return;
+      }
+      e.preventDefault();
+      rawArea.style.flex = "1 1 0%";
+      resultArea.style.flex = "1 1 0%";
+      setPref("customRawRatio", "1");
+      setPref("customResultRatio", "1");
+    });
   }
 
   destroy(): void {}
@@ -291,10 +353,23 @@ export class TranslatorPanel extends PluginCEBase {
       const elem = this._queryID(type) as XUL.Textbox;
       elem.value = value;
     };
+    const setPalceHolder = (type: string, placeholder: string) => {
+      const elem = this._queryID(type) as XUL.Textbox;
+      elem.placeholder = placeholder;
+    };
     const setTextBoxStyle = (type: string) => {
       const elem = this._queryID(type) as XUL.Textbox;
       elem.style.fontSize = `${getPref("fontSize")}px`;
       elem.style.lineHeight = getPref("lineHeight") as string;
+    };
+    const updateFlexHidden = (type: string, pref: string) => {
+      const elem = this._queryID(type) as XUL.Box;
+      const hidden = !getPref(pref) as boolean;
+      if (hidden) {
+        elem.style.display = "none";
+      } else {
+        elem.style.display = "";
+      }
     };
 
     updateHidden("engine", "showSidebarEngine");
@@ -303,6 +378,7 @@ export class TranslatorPanel extends PluginCEBase {
     updateHidden("auto-container", "showSidebarSettings");
     updateHidden("concat-container", "showSidebarConcat");
     updateHidden("copy-container", "showSidebarCopy");
+    updateFlexHidden("resizer", "showSidebarRaw");
 
     setValue("services", getPref("translateSource") as string);
 
@@ -314,16 +390,25 @@ export class TranslatorPanel extends PluginCEBase {
     setCheckBox("auto-trans-annotation", getPref("enableComment") as boolean);
     setCheckBox("concat", this._addon.data.translate.concatCheckbox);
 
+    setTextBoxStyle("raw-text");
+    setTextBoxStyle("result-text");
+    const reverseRawResult = getPref("rawResultOrder");
+    setPalceHolder(
+      "raw-text",
+      reverseRawResult ? "" : "Select or type to translate",
+    );
+    setPalceHolder(
+      "result-text",
+      reverseRawResult ? "Select or type to translate" : "",
+    );
+
     const lastTask = getLastTranslateTask();
     if (!lastTask) {
       return;
     }
     // For manually update translation task
     this._taskID = lastTask.id;
-    const reverseRawResult = getPref("rawResultOrder");
     setValue("raw-text", reverseRawResult ? lastTask.result : lastTask.raw);
     setValue("result-text", reverseRawResult ? lastTask.raw : lastTask.result);
-    setTextBoxStyle("raw-text");
-    setTextBoxStyle("result-text");
   }
 }

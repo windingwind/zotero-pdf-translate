@@ -33,6 +33,8 @@ declare namespace _ZoteroTypes {
       "showSidebarLanguage": boolean;
       "showSidebarRaw": boolean;
       "showSidebarCopy": boolean;
+      "customRawRatio": string;
+      "customResultRatio": string;
       "showItemBoxTitleTranslation": boolean;
       "showItemBoxAbstractTranslation": boolean;
       "keepWindowTop": boolean;
