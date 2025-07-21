@@ -28,6 +28,7 @@ service-qwenmt=Qwen-MT🗝️
 service-claude=Claude🗝️
 service-haici=Haici
 service-bing=Bing
+service-pot=Pot
 service-bingdict=Bing Dict(en↔zh)🔊
 service-cambridgedict=Cambridge Dict🔊
 service-haicidict=Haici Dict(en↔zh)🔊
@@ -185,3 +186,9 @@ service-mtranserver-dialog-endPoint=EndPoint
 service-mtranserver-dialog-save=Save
 service-mtranserver-dialog-close=Close
 
+service-pot-secret-pass=Config
+service-pot-secret-fail=Config
+service-pot-dialog-title=Pot Config
+service-pot-dialog-port=Port
+service-pot-dialog-save=Save
+service-pot-dialog-close=Close

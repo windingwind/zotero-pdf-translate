@@ -83,6 +83,7 @@ declare namespace _ZoteroTypes {
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
+      "pot.port": number;
     };
   }
 }
