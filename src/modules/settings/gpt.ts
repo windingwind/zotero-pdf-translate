@@ -6,7 +6,7 @@ const INPUT_STYLES = {
   height: "32px",
   padding: "6px 8px",
   boxSizing: "border-box",
-  border: "1px solid #ccc",
+  border: "1px solid var(--color-border)",
   borderRadius: "4px",
 };
 
@@ -170,8 +170,8 @@ async function openCustomRequestDialog(
                         styles: {
                           textAlign: "left",
                           padding: "10px 8px",
-                          borderBottom: "2px solid #ddd",
-                          backgroundColor: "#f5f5f5",
+                          borderBottom: "2px solid var(--color-border)",
+                          backgroundColor: "var(--color-menu)",
                           fontWeight: "bold",
                         },
                         properties: {
@@ -184,8 +184,8 @@ async function openCustomRequestDialog(
                         styles: {
                           textAlign: "left",
                           padding: "10px 8px",
-                          borderBottom: "2px solid #ddd",
-                          backgroundColor: "#f5f5f5",
+                          borderBottom: "2px solid var(--color-border)",
+                          backgroundColor: "var(--color-menu)",
                           fontWeight: "bold",
                         },
                         properties: {
