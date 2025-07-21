@@ -204,13 +204,60 @@ async function openCustomRequestDialog(
               },
             ],
           },
+          {
+            tag: "div",
+            namespace: "html",
+            styles: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "flex-start",
+            },
+            children: [
+              {
+                tag: "a",
+                namespace: "html",
+                id: "custom-add-param-btn",
+                attributes: {
+                  href: "#",
+                },
+                styles: {
+                  color: "var(--fill-primary, #2ea8e5)",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  fontSize: "13px",
+                },
+                properties: {
+                  innerHTML: getString(
+                    `service-${servicePrefix}-dialog-add-param`,
+                  ),
+                },
+                listeners: [
+                  {
+                    type: "click",
+                    listener: (e: Event) => {
+                      e.preventDefault();
+                      const doc = (e.target as HTMLElement).ownerDocument;
+                      const tbody = doc.getElementById("custom-params-tbody");
+                      if (tbody) {
+                        const row = doc.createElement("tr");
+                        row.appendChild(
+                          createParamInputCell(doc, "key", paramIndex),
+                        );
+                        row.appendChild(
+                          createParamInputCell(doc, "value", paramIndex),
+                        );
+                        tbody.appendChild(row);
+                        paramIndex++;
+                      }
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
       false,
-    )
-    .addButton(
-      getString(`service-${servicePrefix}-dialog-add-param`),
-      "addParam",
     )
     .addButton(getString(`service-${servicePrefix}-dialog-close`), "close")
     .addButton(getString(`service-${servicePrefix}-dialog-save`), "save");
@@ -218,60 +265,6 @@ async function openCustomRequestDialog(
   dialog.open(
     getString(`service-${servicePrefix}-dialog-custom-request-title`),
   );
-
-  // Override button behavior after dialog opens
-  const setupAddButton = () => {
-    // Find the "Add Parameter" button by its position (first button)
-    const buttonContainer =
-      dialog.window.document.querySelector(".dialog-button-bar");
-    if (!buttonContainer) return;
-
-    const buttons = buttonContainer.querySelectorAll("button");
-    if (buttons.length < 1) return;
-
-    // The first button should be "Add Parameter" based on the order we added them
-    const addButton = buttons[0] as HTMLButtonElement;
-
-    // Remove existing listeners and prevent default behavior
-    const newButton = addButton.cloneNode(true) as HTMLButtonElement;
-    addButton.parentNode?.replaceChild(newButton, addButton);
-
-    newButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const tbody = dialog.window.document.getElementById(
-        "custom-params-tbody",
-      );
-      if (tbody) {
-        const row = dialog.window.document.createElement("tr");
-        row.appendChild(
-          createParamInputCell(dialog.window.document, "key", paramIndex),
-        );
-        row.appendChild(
-          createParamInputCell(dialog.window.document, "value", paramIndex),
-        );
-        tbody.appendChild(row);
-        paramIndex++;
-      }
-
-      return false;
-    });
-  };
-
-  // Use a single check with MutationObserver as fallback
-  const ensureButtonSetup = () => {
-    if (dialog.window.document.readyState === "complete") {
-      setupAddButton();
-    } else {
-      // If DOM not ready, wait for it
-      dialog.window.addEventListener("DOMContentLoaded", setupAddButton);
-      // Fallback for edge cases
-      setTimeout(setupAddButton, 100);
-    }
-  };
-
-  ensureButtonSetup();
 
   await dialogData.unloadLock?.promise;
 
