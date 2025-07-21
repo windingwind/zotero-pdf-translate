@@ -30,7 +30,8 @@ function parseStreamResponse(obj: any): ParsedResponse {
     const choice = obj.choices[0];
     return {
       content: choice.delta?.content || "",
-      finished: choice.finish_reason !== null,
+      finished:
+        choice.finish_reason !== undefined && choice.finish_reason !== null,
     };
   }
   // Handle Ollama native format (direct message)
