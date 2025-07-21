@@ -48,20 +48,5 @@
     "typescript-eslint": "^8.37.0",
     "zotero-plugin-scaffold": "^0.7.2",
     "zotero-types": "^4.0.5"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "endOfLine": "lf",
-    "overrides": [
-      {
-        "files": [
-          "*.xhtml"
-        ],
-        "options": {
-          "htmlWhitespaceSensitivity": "css"
-        }
-      }
-    ]
   }
 }
