@@ -36,6 +36,23 @@ translator-plugin-panel editable-text {
   min-height: 100px;
 }
 
+translator-plugin-panel .editor-container {
+  display: flex;
+  flex: 1;
+  min-height: 213px;
+  flex-direction: column;
+  position: relative;
+}
+
+translator-plugin-panel .draggable-container {
+  height: 13px;
+  cursor: ns-resize;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+}
+
 translator-plugin-panel .options-container {
   display: grid;
   grid-template-columns: max-content 1fr;
