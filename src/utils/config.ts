@@ -913,6 +913,19 @@ export function getSortedServicesWithPriorities(
     customgpt1: 20,
     customgpt2: 20,
     customgpt3: 20,
+    // Free services get priority 120
+    google: 120,
+    googleapi: 120,
+    cnki: 120,
+    haici: 120,
+    youdao: 120,
+    bing: 120,
+    deeplx: 120,
+    // Services require custom configuration get priority 110
+    deeplcustom: 110,
+    mtranserver: 110,
+    libretranslate: 110,
+    pot: 110,
     // All other services default to 100
   };
 
