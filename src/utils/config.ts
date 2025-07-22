@@ -55,6 +55,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "pot",
+  },
+  {
+    type: "sentence",
     id: "huoshan",
     defaultSecret: "accessKeyId#accessKeySecret",
     secretValidator(secret: string) {

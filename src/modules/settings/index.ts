@@ -9,6 +9,8 @@ import { aliyunStatusCallback } from "./aliyun";
 import { libretranslateStatusCallback } from "./libretranslate";
 import tencentStatusCallback from "./tencent";
 import { mtranserverStatusCallback } from "./mtranserver";
+import pot from "../services/pot";
+import { potStatusCallback } from "./pot";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -131,5 +133,12 @@ export const secretStatusButtonData: {
       fail: "service-mtranserver-secret-fail",
     },
     callback: mtranserverStatusCallback,
+  },
+  pot: {
+    labels: {
+      pass: "service-pot-secret-pass",
+      fail: "service-pot-secret-fail",
+    },
+    callback: potStatusCallback,
   },
 };

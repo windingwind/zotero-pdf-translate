@@ -28,6 +28,9 @@ export class TranslationServices {
     import("./bing").then(
       (e) => (this.bing = new TranslateTaskRunner(e.default)),
     );
+    import("./pot").then(
+      (e) => (this.pot = new TranslateTaskRunner(e.default)),
+    );
     import("./bingdict").then(
       (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
     );

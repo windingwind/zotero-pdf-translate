@@ -112,6 +112,7 @@ The default service is Google Translate. Currently, we support:
 | Qwen-MT                      | Yes(free-)             | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                                                                                                |
 | Claude                       | Yes                    | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                                                                                            |
 | MTranServer                  | No                     | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                                                                                                |
+| Pot                          | No                     | [Pot](https://github.com/pot-app/pot-desktop)                                                                                                                                                                                                                      |
 
 > If the service you want is not yet supported, please post an issue.
 
@@ -220,6 +221,9 @@ Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-cla
 
 **MTranServer**  
 See [MTranServer](https://github.com/xxnuo/MTranServer).
+
+**Pot**  
+Apply [here](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8).
 
 ### User Interface
 
