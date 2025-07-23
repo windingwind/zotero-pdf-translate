@@ -46,7 +46,7 @@ export async function deeplxStatusCallback(status: boolean) {
       false,
     )
     .addButton(getString("service-deeplx-dialog-save"), "save")
-    .addButton(getString("service-deeplx-dialog-close"), "close")
+    .addButton(getString("service-deeplx-dialog-close"), "close");
   dialog.open(getString("service-deeplx-dialog-title"));
 
   await dialogData.unloadLock?.promise;
