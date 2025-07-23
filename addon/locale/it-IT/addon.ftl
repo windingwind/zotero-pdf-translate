@@ -115,15 +115,25 @@ service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 c
 
 service-aliyun-secret-pass=Configura
 service-aliyun-secret-fail=Configura
-
-service-tencent-secret-pass=Configura
-service-tencent-secret-fail=Configura
 service-aliyun-dialog-title=Configura Aliyun
 service-aliyun-dialog-action=Azione
 service-aliyun-dialog-scene=Scena
 service-aliyun-dialog-help=Aiuto
 service-aliyun-dialog-save=Salva
 service-aliyun-dialog-close=Chiudi
+
+service-tencent-secret-pass=Configura
+service-tencent-secret-fail=Configura
+service-tencent-dialog-title=Configura Tencent Cloud Traduzione
+service-tencent-dialog-secretid=Segreto ID
+service-tencent-dialog-secretkey=Segreto Key
+service-tencent-dialog-region=Regione
+service-tencent-dialog-projectid=Progetto ID
+service-tencent-dialog-termrepoid=Term Repo IDs (opzionale)
+service-tencent-dialog-sentrepoid=Sent Repo IDs (opzionale)
+service-tencent-dialog-help=Aiuto
+service-tencent-dialog-save=Salva
+service-tencent-dialog-close=Chiudi
 
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
@@ -142,6 +152,11 @@ field-abstractTranslation=Traduzione dell'Abstract
 status-translating=Traduzione in corso...
 sideBarIcon-title=Translate annotation
 
+service-manageKeys-title=Gestione delle chiavi dei segreto di traduzione
+service-manageKeys-head=Gestisci tutte le dei segreto di traduzione. Modifica direttamente il file JSON e clicca su Salva.
+service-manageKeys-save=Salva
+service-manageKeys-close=Chiudi
+
 service-libretranslate-secret-pass=Configura
 service-libretranslate-secret-fail=Configura
 service-libretranslate-dialog-title=Configura LibreTranslate
@@ -150,18 +165,18 @@ service-libretranslate-dialog-save=Salva
 service-libretranslate-dialog-close=Chiudi
 service-libretranslate-dialog-help=Aiuto
 
-service-mtranserver-secret-pass=Config
-service-mtranserver-secret-fail=Config
-service-mtranserver-dialog-title=Mtranserver Config
+service-mtranserver-secret-pass=Configura
+service-mtranserver-secret-fail=Configura
+service-mtranserver-dialog-title=Configura Mtranserver
 service-mtranserver-dialog-endPoint=EndPoint
-service-mtranserver-dialog-save=Save
-service-mtranserver-dialog-close=Close
-service-mtranserver-dialog-help=Help
+service-mtranserver-dialog-save=Salva
+service-mtranserver-dialog-close=Chiudi
+service-mtranserver-dialog-help=Aiuto
 
-service-pot-secret-pass=Config
-service-pot-secret-fail=Config
-service-pot-dialog-title=Pot Config
+service-pot-secret-pass=Configura
+service-pot-secret-fail=Configura
+service-pot-dialog-title=Configura Pot
 service-pot-dialog-port=Port
-service-pot-dialog-save=Save
-service-pot-dialog-close=Close
-service-pot-dialog-help=Help
+service-pot-dialog-save=Salva
+service-pot-dialog-close=Chiudi
+service-pot-dialog-help=Aiuto

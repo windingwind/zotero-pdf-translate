@@ -69,9 +69,8 @@ export async function aliyunStatusCallback(status: boolean) {
     )
     .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
     .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
-    .addButton(getString(`service-${addonPrefix}-dialog-help`), "help");
-
-  dialog.open(getString(`service-${addonPrefix}-dialog-title`));
+    .addButton(getString(`service-${addonPrefix}-dialog-help`), "help")
+    .open(getString(`service-${addonPrefix}-dialog-title`));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

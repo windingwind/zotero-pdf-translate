@@ -48,9 +48,8 @@ export async function libretranslateStatusCallback(status: boolean) {
     )
     .addButton(getString("service-libretranslate-dialog-save"), "save")
     .addButton(getString("service-libretranslate-dialog-close"), "close")
-    .addButton(getString("service-libretranslate-dialog-help"), "help");
-
-  dialog.open(getString("service-libretranslate-dialog-title"));
+    .addButton(getString("service-libretranslate-dialog-help"), "help")
+    .open(getString("service-libretranslate-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

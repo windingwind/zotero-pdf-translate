@@ -1,4 +1,5 @@
 import { getPrefJSON, setPref } from "../../utils/prefs";
+import { getString } from "../../utils/locale";
 
 export async function manageKeysDialog() {
   const dialog = new ztoolkit.Dialog(2, 1);
@@ -34,8 +35,7 @@ export async function manageKeysDialog() {
             tag: "label",
             namespace: "html",
             properties: {
-              innerHTML:
-                "Manage all translation service keys. Edit the JSON directly and click Save.",
+              innerHTML: getString("service-manageKeys-head"),
             },
             styles: {
               marginBottom: "5px",
@@ -61,10 +61,9 @@ export async function manageKeysDialog() {
       },
       false,
     )
-    .addButton("Save", "save")
-    .addButton("Cancel", "cancel");
-
-  dialog.open("Manage Translation Service Keys");
+    .addButton(getString("service-manageKeys-save"), "save")
+    .addButton(getString("service-manageKeys-close"), "close")
+    .open(getString("service-manageKeys-title"));
 
   if (dialogData.unloadLock && dialogData.unloadLock.promise) {
     try {

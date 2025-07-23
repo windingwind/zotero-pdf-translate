@@ -155,9 +155,8 @@ export async function claudeStatusCallback(status: boolean) {
     )
     .addButton(getString("service-claude-dialog-save"), "save")
     .addButton(getString("service-claude-dialog-close"), "close")
-    .addButton(getString("service-claude-dialog-help"), "help");
-
-  dialog.open(getString("service-claude-dialog-title"));
+    .addButton(getString("service-claude-dialog-help"), "help")
+    .open(getString("service-claude-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

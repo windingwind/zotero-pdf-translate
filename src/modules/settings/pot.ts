@@ -47,9 +47,8 @@ export async function potStatusCallback(status: boolean) {
     )
     .addButton(getString("service-pot-dialog-save"), "save")
     .addButton(getString("service-pot-dialog-close"), "close")
-    .addButton(getString("service-pot-dialog-help"), "help");
-
-  dialog.open(getString("service-pot-dialog-title"));
+    .addButton(getString("service-pot-dialog-help"), "help")
+    .open(getString("service-pot-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
