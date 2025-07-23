@@ -48,9 +48,8 @@ export async function deeplcustomStatusCallback(status: boolean) {
     )
     .addButton(getString("service-deeplcustom-dialog-save"), "save")
     .addButton(getString("service-deeplcustom-dialog-close"), "close")
-    .addButton(getString("service-deeplcustom-dialog-help"), "help");
-
-  dialog.open(getString("service-deeplcustom-dialog-title"));
+    .addButton(getString("service-deeplcustom-dialog-help"), "help")
+    .open(getString("service-deeplcustom-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

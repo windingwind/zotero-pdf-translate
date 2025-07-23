@@ -149,15 +149,25 @@ service-cnki-dialog-split=Automatically split translation for more than 800 char
 
 service-aliyun-secret-pass=Config
 service-aliyun-secret-fail=Config
-
-service-tencent-secret-pass=Config
-service-tencent-secret-fail=Config
 service-aliyun-dialog-title=Aliyun Config
 service-aliyun-dialog-action=Action
 service-aliyun-dialog-scene=Scene
 service-aliyun-dialog-help=Help
 service-aliyun-dialog-save=Save
 service-aliyun-dialog-close=Close
+
+service-tencent-secret-pass=Config
+service-tencent-secret-fail=Config
+service-tencent-dialog-title=Tencent Cloud Translation Config
+service-tencent-dialog-secretid=Secret ID
+service-tencent-dialog-secretkey=Secret Key
+service-tencent-dialog-region=Region
+service-tencent-dialog-projectid=Project ID
+service-tencent-dialog-termrepoid=Term Repo IDs (optional)
+service-tencent-dialog-sentrepoid=Sent Repo IDs (optional)
+service-tencent-dialog-help=Help
+service-tencent-dialog-save=Save
+service-tencent-dialog-close=Close
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
@@ -175,6 +185,11 @@ field-abstractTranslation=Abstract Translation
 
 status-translating=Translating...
 sideBarIcon-title=Translate annotation
+
+service-manageKeys-title=Manage Translation Service Keys
+service-manageKeys-head=Manage all translation service keys. Edit the JSON directly and click Save.
+service-manageKeys-save=Save
+service-manageKeys-close=Close
 
 service-libretranslate-secret-pass=Config
 service-libretranslate-secret-fail=Config

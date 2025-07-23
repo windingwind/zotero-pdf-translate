@@ -260,11 +260,8 @@ async function openCustomRequestDialog(
       false,
     )
     .addButton(getString(`service-${servicePrefix}-dialog-close`), "close")
-    .addButton(getString(`service-${servicePrefix}-dialog-save`), "save");
-
-  dialog.open(
-    getString(`service-${servicePrefix}-dialog-custom-request-title`),
-  );
+    .addButton(getString(`service-${servicePrefix}-dialog-save`), "save")
+    .open(getString(`service-${servicePrefix}-dialog-custom-request-title`));
 
   await dialogData.unloadLock?.promise;
 

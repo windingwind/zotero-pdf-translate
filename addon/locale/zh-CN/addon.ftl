@@ -148,15 +148,25 @@ service-cnki-dialog-split=超过800字符自动拆分翻译
 
 service-aliyun-secret-pass=配置
 service-aliyun-secret-fail=配置
-
-service-tencent-secret-pass=配置
-service-tencent-secret-fail=配置
-service-aliyun-dialog-title=Aliyun 配置
+service-aliyun-dialog-title=阿里云翻译配置
 service-aliyun-dialog-action=版本
 service-aliyun-dialog-scene=场景
 service-aliyun-dialog-help=帮助
 service-aliyun-dialog-save=保存
 service-aliyun-dialog-close=关闭
+
+service-tencent-secret-pass=配置
+service-tencent-secret-fail=配置
+service-tencent-dialog-title=腾讯云翻译配置
+service-tencent-dialog-secretid=密钥ID
+service-tencent-dialog-secretkey=密钥Key
+service-tencent-dialog-region=地域
+service-tencent-dialog-projectid=项目ID
+service-tencent-dialog-termrepoid=术语库IDs (可选)
+service-tencent-dialog-sentrepoid=例句库IDs (可选)
+service-tencent-dialog-help=帮助
+service-tencent-dialog-save=保存
+service-tencent-dialog-close=关闭
 
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
@@ -174,6 +184,11 @@ field-abstractTranslation=摘要翻译
 
 status-translating=正在翻译...
 sideBarIcon-title=翻译注释
+
+service-manageKeys-title=管理翻译服务密钥
+service-manageKeys-head=管理所有翻译服务密钥，直接编辑 JSON 文件并点击保存。
+service-manageKeys-save=保存
+service-manageKeys-close=关闭
 
 service-libretranslate-secret-pass=配置
 service-libretranslate-secret-fail=配置

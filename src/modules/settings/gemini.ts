@@ -94,9 +94,8 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
       false,
     )
     .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
-    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close");
-
-  dialog.open(getString(`service-${addonPrefix}-dialog-title`));
+    .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
+    .open(getString(`service-${addonPrefix}-dialog-title`));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

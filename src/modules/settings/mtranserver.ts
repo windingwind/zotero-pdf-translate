@@ -48,8 +48,8 @@ export async function mtranserverStatusCallback(status: boolean) {
     )
     .addButton(getString("service-mtranserver-dialog-save"), "save")
     .addButton(getString("service-mtranserver-dialog-close"), "close")
-    .addButton(getString("service-mtranserver-dialog-help"), "help");
-  dialog.open(getString("service-mtranserver-dialog-title"));
+    .addButton(getString("service-mtranserver-dialog-help"), "help")
+    .open(getString("service-mtranserver-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

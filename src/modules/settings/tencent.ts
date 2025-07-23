@@ -74,7 +74,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "secretId" },
             properties: {
-              innerHTML: "Secret ID:",
+              innerHTML: getString("service-tencent-dialog-secretid"),
             },
           },
           {
@@ -94,7 +94,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "secretKey" },
             properties: {
-              innerHTML: "Secret Key:",
+              innerHTML: getString("service-tencent-dialog-secretkey"),
             },
           },
           {
@@ -114,7 +114,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "region" },
             properties: {
-              innerHTML: "Region:",
+              innerHTML: getString("service-tencent-dialog-region"),
             },
           },
           {
@@ -209,7 +209,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "projectId" },
             properties: {
-              innerHTML: "Project ID:",
+              innerHTML: getString("service-tencent-dialog-projectid"),
             },
           },
           {
@@ -229,7 +229,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "termRepoIDList" },
             properties: {
-              innerHTML: "Term Repo IDs (optional):",
+              innerHTML: getString("service-tencent-dialog-termrepoid"),
             },
           },
           {
@@ -253,7 +253,7 @@ export default async function tencentStatusCallback(status: boolean) {
             namespace: "html",
             attributes: { for: "sentRepoIDList" },
             properties: {
-              innerHTML: "Sent Repo IDs (optional):",
+              innerHTML: getString("service-tencent-dialog-sentrepoid"),
             },
           },
           {
@@ -274,11 +274,10 @@ export default async function tencentStatusCallback(status: boolean) {
       },
       false,
     )
-    .addButton("Save", "save")
-    .addButton("Cancel", "cancel")
-    .addButton("Help", "help");
-
-  dialog.open("Tencent Cloud Translation Configuration");
+    .addButton(getString("service-tencent-dialog-save"), "save")
+    .addButton(getString("service-tencent-dialog-close"), "close")
+    .addButton(getString("service-tencent-dialog-help"), "help")
+    .open(getString("service-tencent-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
