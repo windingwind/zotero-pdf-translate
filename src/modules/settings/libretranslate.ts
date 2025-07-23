@@ -20,6 +20,7 @@ export async function libretranslateStatusCallback(status: boolean) {
           gridTemplateColumns: "1fr 4fr",
           rowGap: "10px",
           columnGap: "5px",
+          minWidth: "300px",
         },
         children: [
           {

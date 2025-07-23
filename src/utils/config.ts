@@ -180,11 +180,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "deeplcustom",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = Boolean(secret);
       return {
         secret,
-        status: flag,
-        info: flag ? "" : `Please enter DeepLX API.`,
+        status: true,
+        info: "",
       };
     },
   },
@@ -491,11 +490,11 @@ ProjectId: ${parts?.[3] || "0"}`;
     id: "mtranserver",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = Boolean(secret);
+      // Token is optional in MTranServer
       return {
         secret,
-        status: flag,
-        info: flag ? "" : "The secret is not set.",
+        status: true,
+        info: "",
       };
     },
   },
@@ -913,6 +912,19 @@ export function getSortedServicesWithPriorities(
     customgpt1: 20,
     customgpt2: 20,
     customgpt3: 20,
+    // Free services get priority 120
+    google: 120,
+    googleapi: 120,
+    cnki: 120,
+    haici: 120,
+    youdao: 120,
+    bing: 120,
+    deeplx: 120,
+    // Services require custom configuration get priority 110
+    deeplcustom: 110,
+    mtranserver: 110,
+    libretranslate: 110,
+    pot: 110,
     // All other services default to 100
   };
 

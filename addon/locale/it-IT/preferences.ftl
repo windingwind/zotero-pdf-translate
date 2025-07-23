@@ -41,7 +41,7 @@ pref-service-langfrom =
 pref-service-langto =
     .value = A
 pref-service-hint =
-    .value = Il motore di traduzione con l'icona 🗝️ richiede un segreto; vedi GitHub per maggiori dettagli
+    .value = Servizio📍richiede configurazione personalizzata; 🗝️richiede un segreto. Vedi GitHub per maggiori dettagli
 
 pref-service-manageKeys =
     .label = Gestisci segreto
