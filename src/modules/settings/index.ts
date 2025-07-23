@@ -9,8 +9,8 @@ import { aliyunStatusCallback } from "./aliyun";
 import { libretranslateStatusCallback } from "./libretranslate";
 import tencentStatusCallback from "./tencent";
 import { mtranserverStatusCallback } from "./mtranserver";
-import pot from "../services/pot";
 import { potStatusCallback } from "./pot";
+import { deeplcustomStatusCallback } from "./deeplcustom";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -37,11 +37,7 @@ export const secretStatusButtonData: {
       pass: "service-deeplcustom-secret-pass",
       fail: "service-deeplcustom-secret-fail",
     },
-    callback: function () {
-      _globalThis.Zotero.launchURL(
-        "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
-      );
-    },
+    callback: deeplcustomStatusCallback,
   },
   deeplx: {
     labels: {

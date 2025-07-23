@@ -72,6 +72,8 @@ declare namespace _ZoteroTypes {
       "cnkiSplitSecond": number;
       "cnkiUseSplit": boolean;
       "deeplx.endpoint": string;
+      "deeplcustom.endpoint": string;
+      "pot.port": number;
       "qwenmt.endPoint": string;
       "qwenmt.model": string;
       "qwenmt.domains": string;
@@ -79,13 +81,13 @@ declare namespace _ZoteroTypes {
       "aliyun.scene": string;
       "stripEmptyLines": boolean;
       "libretranslate.endpoint": string;
+      "mtranserver.endpoint": string;
       "claude.stream": boolean;
       "claude.endPoint": string;
       "claude.model": string;
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
-      "pot.port": number;
     };
   }
 }

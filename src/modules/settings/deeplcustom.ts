@@ -1,11 +1,11 @@
 import { getString } from "../../utils/locale";
 import { getPref, setPref } from "../../utils/prefs";
 
-export async function mtranserverStatusCallback(status: boolean) {
+export async function deeplcustomStatusCallback(status: boolean) {
   const dialog = new ztoolkit.Dialog(4, 1);
   const dialogData: { [key: string | number]: any } = {
     endpoint:
-      getPref("mtranserver.endpoint") || "http://localhost:8989/translate",
+      getPref("deeplcustom.endpoint") || "http://127.0.0.1:8080/translate",
   };
   dialog
     .setDialogData(dialogData)
@@ -30,7 +30,7 @@ export async function mtranserverStatusCallback(status: boolean) {
               for: "endpoint",
             },
             properties: {
-              innerHTML: getString("service-mtranserver-dialog-endPoint"),
+              innerHTML: getString("service-deeplcustom-dialog-endPoint"),
             },
           },
           {
@@ -46,22 +46,23 @@ export async function mtranserverStatusCallback(status: boolean) {
       },
       false,
     )
-    .addButton(getString("service-mtranserver-dialog-save"), "save")
-    .addButton(getString("service-mtranserver-dialog-close"), "close")
-    .addButton(getString("service-mtranserver-dialog-help"), "help");
-  dialog.open(getString("service-mtranserver-dialog-title"));
+    .addButton(getString("service-deeplcustom-dialog-save"), "save")
+    .addButton(getString("service-deeplcustom-dialog-close"), "close")
+    .addButton(getString("service-deeplcustom-dialog-help"), "help");
+
+  dialog.open(getString("service-deeplcustom-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {
     case "save":
       {
-        setPref("mtranserver.endpoint", dialogData.endpoint);
+        setPref("deeplcustom.endpoint", dialogData.endpoint);
       }
       break;
     case "help":
       {
         Zotero.launchURL(
-          "https://github.com/xxnuo/MTranServer?tab=readme-ov-file#api-%E4%BD%BF%E7%94%A8",
+          "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
         );
       }
       break;

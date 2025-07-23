@@ -41,7 +41,7 @@ pref-service-langfrom =
 pref-service-langto =
     .value = To
 pref-service-hint =
-    .value = Translation services 🗝️ requires a secret key; see GitHub for details
+    .value = Service📍requires custom configuration; 🗝️requires a secret key. See GitHub for details
 
 pref-service-manageKeys =
     .label = Manage Secret Keys

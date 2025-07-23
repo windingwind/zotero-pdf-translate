@@ -1,7 +1,10 @@
 import { TranslateTaskProcessor } from "../../utils/task";
+import { getPref } from "../../utils/prefs";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const url = data.secret;
+  const url =
+    (getPref("deeplcustom.endpoint") as string) ||
+    "http://127.0.0.1:8080/translate";
   const reqBody = JSON.stringify({
     text: data.raw,
     source_lang: data.langfrom.split("-")[0].toUpperCase(),

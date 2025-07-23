@@ -41,7 +41,7 @@ pref-service-langfrom =
 pref-service-langto =
     .value = 翻译到
 pref-service-hint =
-    .value = 带🗝️的翻译服务需要密钥；详情请参阅GitHub
+    .value = 服务📍需要自定义配置；🗝️需要密钥。详情请参阅GitHub
 
 pref-interface = 用户界面
 

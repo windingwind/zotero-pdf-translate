@@ -81,6 +81,7 @@ pref(
 pref("__prefsPrefix__.cnkiSplitSecond", 1);
 pref("__prefsPrefix__.cnkiUseSplit", false);
 pref("__prefsPrefix__.deeplx.endpoint", "https://www2.deepl.com/jsonrpc");
+pref("__prefsPrefix__.deeplcustom.endpoint", "http://127.0.0.1:8080/translate");
 pref("__prefsPrefix__.pot.port", 60828);
 pref(
   "__prefsPrefix__.qwenmt.endPoint",
@@ -93,6 +94,7 @@ pref("__prefsPrefix__.aliyun.scene", "general");
 
 pref("__prefsPrefix__.stripEmptyLines", false);
 pref("__prefsPrefix__.libretranslate.endpoint", "http://localhost:5000");
+pref("__prefsPrefix__.mtranserver.endpoint", "http://localhost:8989/translate");
 pref("__prefsPrefix__.claude.stream", true);
 pref(
   "__prefsPrefix__.claude.endPoint",

@@ -180,11 +180,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "deeplcustom",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = Boolean(secret);
       return {
         secret,
-        status: flag,
-        info: flag ? "" : `Please enter DeepLX API.`,
+        status: true,
+        info: "",
       };
     },
   },
@@ -491,11 +490,11 @@ ProjectId: ${parts?.[3] || "0"}`;
     id: "mtranserver",
     defaultSecret: "",
     secretValidator(secret: string) {
-      const flag = Boolean(secret);
+      // Token is optional in MTranServer
       return {
         secret,
-        status: flag,
-        info: flag ? "" : "The secret is not set.",
+        status: true,
+        info: "",
       };
     },
   },
