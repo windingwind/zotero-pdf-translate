@@ -4,10 +4,10 @@ import { TranslateTaskProcessor } from "../../utils/task";
 export default <TranslateTaskProcessor>async function (data) {
   const url =
     (getPref("mtranserver.endpoint") as string) ||
-    "http://101.132.167.46:58080/translate";
+    "http://localhost:8989/translate";
   const xhr = await Zotero.HTTP.request("POST", `${url}`, {
     headers: {
-      authorization: `Bearer ${data.secret}`,
+      authorization: `${data.secret}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({
@@ -36,9 +36,13 @@ function mapLang(lang: string) {
 }
 
 const LANG_MAP = {
-  "zh-CN": "zh",
-  "zh-HK": "zh",
-  "zh-MO": "zh",
-  "zh-SG": "zh",
-  "zh-TW": "zh",
+  "zh": "zh-Hans",
+  "zh-CN": "zh-Hans",
+  "zh-HK": "zh-Hant",
+  "zh-MO": "zh-Hant",
+  "zh-SG": "zh-Hans",
+  "zh-TW": "zh-Hant",
+  "en-GB": "en",
+  "en-US": "en",
+  "en-CA": "en",
 } as Record<string, string | undefined>;
