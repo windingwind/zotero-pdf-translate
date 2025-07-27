@@ -99,7 +99,7 @@ The default service is Google Translate. Currently, we support:
 | Youdao Translate             | No **[Free]**                 | [100+?](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html) |
 | Bing                         | No **[Free]**                 | en-zh                                                                                                                                                                                                                                                              |
 | DeepLX                       | No **[Free]**                 | Based on [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file)                                                                                                                                                                                        |
-| DeepLX(API)                  | No **[Require config]**       | [DeepL(custom)](https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md) or other [DeepLX related projects](https://github.com/OwO-Network/DeepLX/blob/6db098eb8b57af98f8341d209e565715715278a3/README.md#related-projects)                    |
+| DeepLX(API)                  | No **[Require config]**       | [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file) related projects                                                                                                                                                                                |
 | LibreTranslate               | Optional **[Require config]** | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)                                                                                                                                                                                                 |
 | MTranServer                  | Optional **[Require config]** | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                                                                                                |
 | Pot                          | No **[Require config]**       | [Pot](https://github.com/pot-app/pot-desktop) _Translate results show in Pot_                                                                                                                                                                                      |
@@ -154,7 +154,7 @@ The secret format is `MY_SECRET`.
 Apply [here](https://open.caiyunapp.com/%E4%BA%94%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%E5%BD%A9%E4%BA%91%E5%B0%8F%E8%AF%91_API).
 
 **DeepL Translate**  
-Apply [here](https://www.deepl.com/pro?cta=header-prices/#developer).  
+Apply [official API](https://www.deepl.com/pro?cta=header-prices/#developer) or [third-party API](https://deepl-pro.com/#/translate).  
 The secret format is `secretToken` or `secretToken#glossaryId` (if you want to specify some translate glossary).
 
 **Aliyun Translate**  
