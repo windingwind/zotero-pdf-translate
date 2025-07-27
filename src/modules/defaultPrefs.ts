@@ -27,7 +27,7 @@ export function setDefaultPrefSettings() {
 
   // From v2.2.22, migrate previous settings in secrets to prefs
   const deeplxApiSecret = getServiceSecret("deeplcustom");
-  if (deeplxApiSecret) {
+  if (deeplxApiSecret && !getPref("deeplcustom.endpoint")) {
     setPref("deeplcustom.endpoint", deeplxApiSecret);
   }
 
