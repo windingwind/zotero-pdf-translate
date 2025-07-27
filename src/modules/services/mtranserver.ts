@@ -36,7 +36,7 @@ function mapLang(lang: string) {
 }
 
 const LANG_MAP = {
-  "zh": "zh-Hans",
+  zh: "zh-Hans",
   "zh-CN": "zh-Hans",
   "zh-HK": "zh-Hant",
   "zh-MO": "zh-Hant",
