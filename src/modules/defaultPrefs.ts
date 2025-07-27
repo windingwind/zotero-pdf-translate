@@ -1,6 +1,6 @@
 import { getService, SERVICES } from "../utils/config";
 import { clearPref, getPref, getPrefJSON, setPref } from "../utils/prefs";
-import { setServiceSecret } from "../utils/secret";
+import { getServiceSecret, setServiceSecret } from "../utils/secret";
 
 export function setDefaultPrefSettings() {
   const isZhCN = Zotero.locale === "zh-CN";
@@ -24,6 +24,12 @@ export function setDefaultPrefSettings() {
     }
   }
   setPref("secretObj", JSON.stringify(secrets));
+
+  // From v2.2.22, migrate previous settings in secrets to prefs
+  const deeplxApiSecret = getServiceSecret("deeplcustom");
+  if (deeplxApiSecret) {
+    setPref("deeplcustom.endpoint", deeplxApiSecret);
+  }
 
   if (isZhCN && !getPref("disabledLanguages")) {
     setPref("disabledLanguages", "zh,zh-CN,中文;");

@@ -2,7 +2,7 @@ import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const url = (getPref("deeplcustom.endpoint") as string) || data.secret;
+  const url = getPref("deeplcustom.endpoint") as string;
   const reqBody = JSON.stringify({
     text: data.raw,
     source_lang: data.langfrom.split("-")[0].toUpperCase(),
