@@ -4,8 +4,7 @@ import { getPref, setPref } from "../../utils/prefs";
 export async function deeplcustomStatusCallback(status: boolean) {
   const dialog = new ztoolkit.Dialog(4, 1);
   const dialogData: { [key: string | number]: any } = {
-    endpoint:
-      getPref("deeplcustom.endpoint") || "http://127.0.0.1:8080/translate",
+    endpoint: getPref("deeplcustom.endpoint"),
   };
   dialog
     .setDialogData(dialogData)
@@ -61,7 +60,7 @@ export async function deeplcustomStatusCallback(status: boolean) {
     case "help":
       {
         Zotero.launchURL(
-          "https://github.com/KyleChoy/zotero-pdf-translate/blob/CustomDeepL/README.md",
+          "https://github.com/ramonmi/DeepLX-for-Zotero/blob/main/README_zh.md",
         );
       }
       break;
