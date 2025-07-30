@@ -1,27 +1,51 @@
 import { base64, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
 import { TranslateTaskProcessor } from "../../utils/task";
+import { getPref } from "../../utils/prefs";
 
 export default <TranslateTaskProcessor>async function (data) {
   const [appid, apiSecret, apiKey] = data.secret.split("#");
-  const config = {
-    appid,
-    apiSecret,
-    apiKey,
-    host: "itrans.xfyun.cn",
-    hostUrl: "https://itrans.xfyun.cn/v2/its",
-    uri: "/v2/its",
-  };
+  const useNiutrans = getPref("xftrans.useNiutrans") as boolean;
+  const config = useNiutrans
+    ? {
+        appid,
+        apiSecret,
+        apiKey,
+        host: "ntrans.xfyun.cn",
+        hostUrl: "https://ntrans.xfyun.cn/v2/ots",
+        uri: "/v2/ots",
+      }
+    : {
+        appid,
+        apiSecret,
+        apiKey,
+        host: "itrans.xfyun.cn",
+        hostUrl: "https://itrans.xfyun.cn/v2/its",
+        uri: "/v2/its",
+      };
 
   function transLang(inlang: string = "") {
-    const langs = [{ regex: /zh-\w+/, lang: "cn" }];
-    // default
-    let outlang = inlang.split("-")[0];
-    langs.forEach((obj) => {
-      if (obj.regex.test(inlang)) {
-        outlang = obj.lang;
+    if (useNiutrans) {
+      const simplifiedChinese = ["zh-CN", "zh-SG", "zh"];
+      const traditionalChinese = ["zh-HK", "zh-MO", "zh-TW"];
+      if (simplifiedChinese.includes(inlang)) {
+        return "cn";
       }
-    });
-    return outlang;
+      if (traditionalChinese.includes(inlang)) {
+        return "cht";
+      } else {
+        return inlang.split("-")[0];
+      }
+    } else {
+      const langs = [{ regex: /zh-\w+/, lang: "cn" }];
+      // default
+      let outlang = inlang.split("-")[0];
+      langs.forEach((obj) => {
+        if (obj.regex.test(inlang)) {
+          outlang = obj.lang;
+        }
+      });
+      return outlang;
+    }
   }
 
   const transVar = {

@@ -108,6 +108,15 @@ service-azuregpt-dialog-custom-request-title=Custom Request Parameters
 service-azuregpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
 service-azuregpt-dialog-add-param=Add Parameter
 
+service-xftrans-secret-pass=Config
+service-xftrans-secret-fail=Config
+service-xftrans-dialog-title=Xftrans Config
+service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
+service-xftrans-dialog-useniutrans=Use NiuTrans API
+service-xftrans-dialog-save=Save
+service-xftrans-dialog-close=Close
+service-xftrans-dialog-help=Help
+
 service-gemini-secret-pass=Config
 service-gemini-secret-fail=Config
 service-gemini-dialog-title=Gemini Config
