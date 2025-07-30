@@ -107,6 +107,15 @@ service-azuregpt-dialog-custom-request-title=自定义请求参数
 service-azuregpt-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数（model, messages, temperature, stream）合并。
 service-azuregpt-dialog-add-param=添加参数
 
+service-xftrans-secret-pass=配置
+service-xftrans-secret-fail=配置
+service-xftrans-dialog-title=Xftrans 配置
+service-xftrans-dialog-engine=翻译引擎 (默认讯飞)
+service-xftrans-dialog-useniutrans=使用小牛翻译API
+service-xftrans-dialog-save=保存
+service-xftrans-dialog-close=关闭
+service-xftrans-dialog-help=帮助
+
 service-gemini-secret-pass=配置
 service-gemini-secret-fail=配置
 service-gemini-dialog-title=Gemini 配置

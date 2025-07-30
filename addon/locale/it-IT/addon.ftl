@@ -97,6 +97,15 @@ service-azuregpt-dialog-help=Aiuto
 service-azuregpt-dialog-save=Salva
 service-azuregpt-dialog-close=Chiudi
 
+service-xftrans-secret-pass=Configura
+service-xftrans-secret-fail=Configura
+service-xftrans-dialog-title=Configura Xftrans
+service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
+service-xftrans-dialog-useniutrans=Use NiuTrans API
+service-xftrans-dialog-save=Salva
+service-xftrans-dialog-close=Chiudi
+service-xftrans-dialog-help=Aiuto
+
 service-gemini-secret-pass=Configura
 service-gemini-secret-fail=Configura
 service-gemini-dialog-title=Configura Gemini

@@ -11,6 +11,7 @@ import tencentStatusCallback from "./tencent";
 import { mtranserverStatusCallback } from "./mtranserver";
 import { potStatusCallback } from "./pot";
 import { deeplcustomStatusCallback } from "./deeplcustom";
+import { xftransStatusCallback } from "./xftrans";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -87,6 +88,13 @@ export const secretStatusButtonData: {
       fail: "service-gemini-secret-fail",
     },
     callback: geminiStatusCallback,
+  },
+  xftrans: {
+    labels: {
+      pass: "service-xftrans-secret-pass",
+      fail: "service-xftrans-secret-fail",
+    },
+    callback: xftransStatusCallback,
   },
   cnki: {
     labels: {
