@@ -127,78 +127,108 @@ export default async function tencentStatusCallback(status: boolean) {
             children: [
               {
                 tag: "option",
-                attributes: { value: "ap-bangkok" },
-                properties: { innerHTML: "ap-bangkok" },
+                properties: {
+                  value: "ap-bangkok",
+                  innerHTML: "ap-bangkok",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-beijing" },
-                properties: { innerHTML: "ap-beijing" },
+                properties: {
+                  value: "ap-beijing",
+                  innerHTML: "ap-beijing",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-chengdu" },
-                properties: { innerHTML: "ap-chengdu" },
+                properties: {
+                  value: "ap-chengdu",
+                  innerHTML: "ap-chengdu",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-chongqing" },
-                properties: { innerHTML: "ap-chongqing" },
+                properties: {
+                  value: "ap-chongqing",
+                  innerHTML: "ap-chongqing",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-guangzhou" },
-                properties: { innerHTML: "ap-guangzhou" },
+                properties: {
+                  value: "ap-guangzhou",
+                  innerHTML: "ap-guangzhou",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-hongkong" },
-                properties: { innerHTML: "ap-hongkong" },
+                properties: {
+                  value: "ap-hongkong",
+                  innerHTML: "ap-hongkong",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-seoul" },
-                properties: { innerHTML: "ap-seoul" },
+                properties: {
+                  value: "ap-seoul",
+                  innerHTML: "ap-seoul",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-shanghai", selected: true },
-                properties: { innerHTML: "ap-shanghai" },
+                properties: {
+                  value: "ap-shanghai",
+                  innerHTML: "ap-shanghai",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-shanghai-fsi" },
-                properties: { innerHTML: "ap-shanghai-fsi" },
+                properties: {
+                  value: "ap-shanghai-fsi",
+                  innerHTML: "ap-shanghai-fsi",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-shenzhen-fsi" },
-                properties: { innerHTML: "ap-shenzhen-fsi" },
+                properties: {
+                  value: "ap-shenzhen-fsi",
+                  innerHTML: "ap-shenzhen-fsi",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-singapore" },
-                properties: { innerHTML: "ap-singapore" },
+                properties: {
+                  value: "ap-singapore",
+                  innerHTML: "ap-singapore",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "ap-tokyo" },
-                properties: { innerHTML: "ap-tokyo" },
+                properties: {
+                  value: "ap-tokyo",
+                  innerHTML: "ap-tokyo",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "eu-frankfurt" },
-                properties: { innerHTML: "eu-frankfurt" },
+                properties: {
+                  value: "eu-frankfurt",
+                  innerHTML: "eu-frankfurt",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "na-ashburn" },
-                properties: { innerHTML: "na-ashburn" },
+                properties: {
+                  value: "na-ashburn",
+                  innerHTML: "na-ashburn",
+                },
               },
               {
                 tag: "option",
-                attributes: { value: "na-siliconvalley" },
-                properties: { innerHTML: "na-siliconvalley" },
+                properties: {
+                  value: "na-siliconvalley",
+                  innerHTML: "na-siliconvalley",
+                },
               },
             ],
           },
