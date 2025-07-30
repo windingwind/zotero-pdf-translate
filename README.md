@@ -134,9 +134,11 @@ Apply [here](https://ai.youdao.com/login.s).
 The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 
 > About `VOCABID`  
-> 登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表 id 即可。
+> 登录控制台，选择文本翻译服务，点击右侧的术语表，选择新建，填写表名称和语言方向，添加需要的术语表，然后获取对应词表 id 即可。  
+> About `Config -> Domain`  
+> 登录控制台，点击创建应用，输入应用名称，在*选择服务*一栏勾选**文本翻译**，然后勾选**领域化翻译**即可开通领域化翻译。领域化翻译仅支持中英互译。
 >
-> [Official Document](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)
+> [Official Document](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)
 
 **NiuTrans**  
 Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  
@@ -203,7 +205,7 @@ The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#P
 
 > [Chinese Document](https://doc.tern.1c7.me/zh/folder/setting/#%E8%85%BE%E8%AE%AF%E4%BA%91)
 
-**Xftrans**  
+**Xftrans 讯飞翻译**  
 Apply [here](https://www.xfyun.cn/doc/authentication/personal.html#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4).
 
 **GPT**  

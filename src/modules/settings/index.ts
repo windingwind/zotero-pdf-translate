@@ -11,6 +11,7 @@ import tencentStatusCallback from "./tencent";
 import { mtranserverStatusCallback } from "./mtranserver";
 import { potStatusCallback } from "./pot";
 import { deeplcustomStatusCallback } from "./deeplcustom";
+import { youdaozhiyunStatusCallback } from "./youdaozhiyun";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -122,6 +123,13 @@ export const secretStatusButtonData: {
       fail: "service-tencent-secret-fail",
     },
     callback: tencentStatusCallback,
+  },
+  youdaozhiyun: {
+    labels: {
+      pass: "service-youdaozhiyun-secret-pass",
+      fail: "service-youdaozhiyun-secret-fail",
+    },
+    callback: youdaozhiyunStatusCallback,
   },
   mtranserver: {
     labels: {
