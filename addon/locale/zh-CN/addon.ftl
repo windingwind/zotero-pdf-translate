@@ -168,6 +168,14 @@ service-tencent-dialog-help=帮助
 service-tencent-dialog-save=保存
 service-tencent-dialog-close=关闭
 
+service-youdaozhiyun-secret-pass=配置
+service-youdaozhiyun-secret-fail=配置
+service-youdaozhiyun-dialog-title=有道智云配置
+service-youdaozhiyun-dialog-domain=领域
+service-youdaozhiyun-dialog-help=帮助
+service-youdaozhiyun-dialog-save=保存
+service-youdaozhiyun-dialog-close=关闭
+
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
 

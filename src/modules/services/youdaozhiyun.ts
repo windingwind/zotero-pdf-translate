@@ -1,5 +1,6 @@
 import { hex, sha256Digest } from "../../utils/crypto";
 import { TranslateTaskProcessor } from "../../utils/task";
+import { getPref } from "../../utils/prefs";
 
 export default <TranslateTaskProcessor>async function (data) {
   function encodeRFC5987ValueChars(str: string) {
@@ -25,14 +26,14 @@ export default <TranslateTaskProcessor>async function (data) {
   const from = data.langfrom;
   const to = data.langto;
   const str1 = appid + truncate(query) + salt + curtime + key;
-
   const sign = hex(await sha256Digest(str1));
+  const domain = getPref("youdaozhiyun.domain") as string;
 
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://openapi.youdao.com/api?q=${encodeRFC5987ValueChars(
       query,
-    )}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&vocabId=${vocabId}`,
+    )}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&vocabId=${vocabId}&domain=${domain}`,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

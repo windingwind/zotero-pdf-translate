@@ -88,6 +88,7 @@ declare namespace _ZoteroTypes {
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
+      "youdaozhiyun.domain": string;
     };
   }
 }

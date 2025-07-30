@@ -135,6 +135,14 @@ service-tencent-dialog-help=Aiuto
 service-tencent-dialog-save=Salva
 service-tencent-dialog-close=Chiudi
 
+service-youdaozhiyun-secret-pass=Configura
+service-youdaozhiyun-secret-fail=Configura
+service-youdaozhiyun-dialog-title=Configura Youdao Zhiyun
+service-youdaozhiyun-dialog-domain=Settore
+service-youdaozhiyun-dialog-help=Aiuto
+service-youdaozhiyun-dialog-save=Salva
+service-youdaozhiyun-dialog-close=Chiudi
+
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
 
