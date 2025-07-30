@@ -108,3 +108,4 @@ pref(
 );
 pref("__prefsPrefix__.claude.maxTokens", "4000");
 pref("__prefsPrefix__.xftrans.useNiutrans", false);
+pref("__prefsPrefix__.youdaozhiyun.domain", "general");
