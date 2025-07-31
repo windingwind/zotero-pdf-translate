@@ -11,7 +11,7 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   function transLang(inlang: string = "") {
-    const langs = [{ regex: /zh-\w+/, lang: "zh-CHS" }];
+    const langs = [{ regex: /zh(?:[-_]\w+)?/, lang: "zh-CHS" }];
     // default
     let outlang = inlang.split("-")[0];
     langs.forEach((obj) => {
