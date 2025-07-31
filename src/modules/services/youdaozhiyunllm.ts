@@ -152,4 +152,9 @@ export default <TranslateTaskProcessor>async function (data) {
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
+
+  const res = xhr.response;
+  if (res.includes("errorCode") || res.includes("event:error")) {
+    throw `Service error: ${res}`;
+  }
 };
