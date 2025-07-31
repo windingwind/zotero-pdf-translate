@@ -140,7 +140,7 @@ export const secretStatusButtonData: {
     },
     callback: youdaozhiyunStatusCallback,
   },
-    youdaozhiyunllm: {
+  youdaozhiyunllm: {
     labels: {
       pass: "service-youdaozhiyunllm-secret-pass",
       fail: "service-youdaozhiyunllm-secret-fail",

@@ -47,14 +47,14 @@ export async function youdaozhiyunllmStatusCallback(status: boolean) {
                 tag: "option",
                 properties: {
                   value: "0",
-                  innerHTML:  getString("service-youdaozhiyunllm-dialog-pro"),
+                  innerHTML: getString("service-youdaozhiyunllm-dialog-pro"),
                 },
               },
               {
                 tag: "option",
                 properties: {
                   value: "1",
-                  innerHTML:  getString("service-youdaozhiyunllm-dialog-lite"),
+                  innerHTML: getString("service-youdaozhiyunllm-dialog-lite"),
                 },
               },
             ],

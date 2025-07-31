@@ -104,7 +104,8 @@ The default service is Google Translate. Currently, we support:
 | MTranServer                  | Optional **[Require config]** | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                                                                                                |
 | Pot                          | No **[Require config]**       | [Pot](https://github.com/pot-app/pot-desktop) _Translate results show in Pot_                                                                                                                                                                                      |
 | Huoshan                      | Yes                           | [50+](https://www.volcengine.com/docs/4640/127681)                                                                                                                                                                                                                 |
-| Youdao Zhiyun                | Yes                           | [100+](https://ai.youdao.com/DOCSIRMA/html/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%BF%BB%E8%AF%91/API%E6%96%87%E6%A1%A3/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1/%E6%96%87%E6%9C%AC%E7%BF%BB%E8%AF%91%E6%9C%8D%E5%8A%A1-API%E6%96%87%E6%A1%A3.html)  |
+| Youdao Zhiyun                | Yes                           | [100+](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                                                                                                              |
+| Youdao LLM                   | Yes                           | [en-zh](https://ai.youdao.com/DOCSIRMA/html/trans/api/dmxfy/index.html)                                                                                                                                                                                            |
 | Niu Trans                    | Yes                           | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                                                                                                              |
 | Microsoft Translate          | Yes(free 2M)                  | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                                                                                                      |
 | LingoCloud(Caiyun) Translate | Yes                           | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes)                                                                                                                                                                                   |
@@ -139,6 +140,14 @@ The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 > 登录控制台，点击创建应用，输入应用名称，在*选择服务*一栏勾选**文本翻译**，然后勾选**领域化翻译**即可开通领域化翻译。领域化翻译仅支持中英互译。
 >
 > [Official Document](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)
+
+**Youdao LLM Translate 有道智云子曰大模型**  
+Apply [here](https://ai.youdao.com/login.s).
+The secret format is `MY_APPID#MY_SECRET`.
+
+> 登录控制台，点击创建应用，输入应用名称，在*选择服务*一栏勾选**大模型翻译**，大模型翻译仅支持中英互译。
+>
+> [Official Document](https://ai.youdao.com/DOCSIRMA/html/trans/api/dmxfy/index.html)
 
 **NiuTrans**  
 Apply [here](https://niutrans.com/NiuTransAuthCenter/login).  

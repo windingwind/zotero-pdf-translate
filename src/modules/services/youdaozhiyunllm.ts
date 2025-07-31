@@ -59,12 +59,12 @@ export default <TranslateTaskProcessor>async function (data) {
         if (!event) continue;
         let eventData = "";
         let isMessageEvent = false;
-        
+
         const lines = event.split("\n");
         for (const line of lines) {
           if (line.startsWith("event:")) {
             currentEventType = line.replace("event:", "").trim();
-            isMessageEvent = (currentEventType === "message");
+            isMessageEvent = currentEventType === "message";
           } else if (line.startsWith("data:")) {
             eventData = line.replace("data:", "").trim();
           }
@@ -81,10 +81,10 @@ export default <TranslateTaskProcessor>async function (data) {
           }
         }
       }
-          
+
       if (e.target.timeout) {
         e.target.timeout = 0;
-      }  
+      }
 
       data.result = result;
 
@@ -96,18 +96,18 @@ export default <TranslateTaskProcessor>async function (data) {
 
   const nonStreamCallback = (xmlhttp: XMLHttpRequest) => {
     let result = "";
-    let currentEventType = '';
+    let currentEventType = "";
     xmlhttp.onload = () => {
       try {
         const responseObj = xmlhttp.responseText;
-        const lines = responseObj.split('\n');
+        const lines = responseObj.split("\n");
         let eventData = "";
         let isMessageEvent = false;
-        
-        for (const line of lines) { 
+
+        for (const line of lines) {
           if (line.startsWith("event:")) {
             currentEventType = line.replace("event:", "").trim();
-            isMessageEvent = (currentEventType === "message");
+            isMessageEvent = currentEventType === "message";
           } else if (line.startsWith("data:")) {
             eventData = line.replace("data:", "").trim();
           }
