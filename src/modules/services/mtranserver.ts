@@ -29,10 +29,11 @@ export default <TranslateTaskProcessor>async function (data) {
 };
 
 function mapLang(lang: string) {
-  if (lang in LANG_MAP) {
+  const version = getPref("mtranserver.version") as string;
+  if (version === "new" && lang in LANG_MAP) {
     return LANG_MAP[lang];
   }
-  return lang;
+  return lang.split("-")[0];
 }
 
 const LANG_MAP = {
@@ -42,7 +43,4 @@ const LANG_MAP = {
   "zh-MO": "zh-Hant",
   "zh-SG": "zh-Hans",
   "zh-TW": "zh-Hant",
-  "en-GB": "en",
-  "en-US": "en",
-  "en-CA": "en",
 } as Record<string, string | undefined>;

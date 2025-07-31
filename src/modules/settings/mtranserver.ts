@@ -6,6 +6,7 @@ export async function mtranserverStatusCallback(status: boolean) {
   const dialogData: { [key: string | number]: any } = {
     endpoint:
       getPref("mtranserver.endpoint") || "http://localhost:8989/translate",
+    version: getPref("mtranserver.version"),
   };
   dialog
     .setDialogData(dialogData)
@@ -18,6 +19,7 @@ export async function mtranserverStatusCallback(status: boolean) {
         styles: {
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
+          gridTemplateRows: "1fr 3fr",
           rowGap: "10px",
           columnGap: "5px",
           minWidth: "300px",
@@ -42,6 +44,40 @@ export async function mtranserverStatusCallback(status: boolean) {
               type: "string",
             },
           },
+          {
+            tag: "label",
+            namespace: "html",
+            attributes: {
+              for: "version",
+            },
+            properties: {
+              innerHTML: getString("service-mtranserver-dialog-version"),
+            },
+          },
+          {
+            tag: "select",
+            id: "version",
+            attributes: {
+              "data-bind": "version",
+              "data-prop": "value",
+            },
+            children: [
+              {
+                tag: "option",
+                properties: {
+                  value: "new",
+                  innerHTML: getString("service-mtranserver-dialog-newversion"),
+                },
+              },
+              {
+                tag: "option",
+                properties: {
+                  value: "old",
+                  innerHTML: getString("service-mtranserver-dialog-oldversion"),
+                },
+              },
+            ],
+          },
         ],
       },
       false,
@@ -56,6 +92,7 @@ export async function mtranserverStatusCallback(status: boolean) {
     case "save":
       {
         setPref("mtranserver.endpoint", dialogData.endpoint);
+        setPref("mtranserver.version", dialogData.version);
       }
       break;
     case "help":
