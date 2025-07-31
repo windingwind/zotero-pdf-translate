@@ -142,7 +142,7 @@ The secret format is `MY_APPID#MY_SECRET#MY_VOCABID(optional)`.
 > [Official Document](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)
 
 **Youdao LLM Translate 有道智云子曰大模型**  
-Apply [here](https://ai.youdao.com/login.s).
+Apply [here](https://ai.youdao.com/login.s).  
 The secret format is `MY_APPID#MY_SECRET`.
 
 > 登录控制台，点击创建应用，输入应用名称，在*选择服务*一栏勾选**大模型翻译**，大模型翻译仅支持中英互译。
