@@ -53,7 +53,7 @@ export async function youdaozhiyunllmStatusCallback(status: boolean) {
               {
                 tag: "option",
                 properties: {
-                  value: "1",
+                  value: "3",
                   innerHTML: getString("service-youdaozhiyunllm-dialog-lite"),
                 },
               },
