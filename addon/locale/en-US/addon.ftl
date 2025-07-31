@@ -4,6 +4,7 @@ service-google=Google
 service-cnki=CNKI
 service-youdao=Youdao
 service-youdaozhiyun=Youdao Zhiyun🗝️
+service-youdaozhiyunllm=Youdao LLM🗝️
 service-niutranspro=Niu Trans🗝️
 service-microsoft=Microsoft🗝️
 service-caiyun=Caiyun🗝️
@@ -185,6 +186,18 @@ service-youdaozhiyun-dialog-domain=Domain
 service-youdaozhiyun-dialog-help=Help
 service-youdaozhiyun-dialog-save=Save
 service-youdaozhiyun-dialog-close=Close
+
+service-youdaozhiyunllm-secret-pass=Config
+service-youdaozhiyunllm-secret-fail=Config
+service-youdaozhiyunllm-dialog-title=Youdao LLM Config
+service-youdaozhiyunllm-dialog-model=Model
+service-youdaozhiyunllm-dialog-pro=Youdao LLM Pro-14B
+service-youdaozhiyunllm-dialog-lite=Youdao LLM Lite-1.5B
+service-youdaozhiyunllm-dialog-prompt=Prompt
+service-youdaozhiyunllm-dialog-stream=Stream
+service-youdaozhiyunllm-dialog-help=Help
+service-youdaozhiyunllm-dialog-save=Save
+service-youdaozhiyunllm-dialog-close=Close
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note

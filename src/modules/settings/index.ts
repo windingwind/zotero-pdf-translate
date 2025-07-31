@@ -7,12 +7,13 @@ import { qwenmtStatusCallback } from "./qwenmt";
 import { claudeStatusCallback } from "./claude";
 import { aliyunStatusCallback } from "./aliyun";
 import { libretranslateStatusCallback } from "./libretranslate";
-import tencentStatusCallback from "./tencent";
+import { tencentStatusCallback } from "./tencent";
 import { mtranserverStatusCallback } from "./mtranserver";
 import { potStatusCallback } from "./pot";
 import { deeplcustomStatusCallback } from "./deeplcustom";
 import { xftransStatusCallback } from "./xftrans";
 import { youdaozhiyunStatusCallback } from "./youdaozhiyun";
+import { youdaozhiyunllmStatusCallback } from "./youdaozhiyunllm";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -138,6 +139,13 @@ export const secretStatusButtonData: {
       fail: "service-youdaozhiyun-secret-fail",
     },
     callback: youdaozhiyunStatusCallback,
+  },
+    youdaozhiyunllm: {
+    labels: {
+      pass: "service-youdaozhiyunllm-secret-pass",
+      fail: "service-youdaozhiyunllm-secret-fail",
+    },
+    callback: youdaozhiyunllmStatusCallback,
   },
   mtranserver: {
     labels: {

@@ -103,6 +103,28 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "youdaozhiyunllm",
+    defaultSecret: "appid#appsecret",
+    secretValidator(secret: string) {
+      const parts = secret?.split("#");
+      const flag = parts.length == 2;
+      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}
+      }`;
+      const source = getService("youdaozhiyunllm");
+      return {
+        secret,
+        status: flag && secret !== source.defaultSecret,
+        info:
+          secret === source.defaultSecret
+            ? "The secret is not set."
+            : flag
+              ? partsInfo
+              : `The secret format of YoudaoLLM is AppID#AppKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+      };
+    },
+  },
+  {
+    type: "sentence",
     id: "niutranspro",
     defaultSecret: "",
     secretValidator(secret: string) {
