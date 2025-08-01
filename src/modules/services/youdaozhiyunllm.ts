@@ -154,7 +154,15 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   const res = xhr.response;
-  if (res.includes("errorCode") || res.includes("event:error")) {
+  if (res.includes("errorCode")) {
     throw `Service error: ${res}`;
+  }
+  if (res.includes("event:error")) {
+    throw `Service error: ${grepErrorParagraphs(res)}`;
+  }
+
+  function grepErrorParagraphs(input: string): string[] {
+    const paragraphs = input.split(/\n\n+/);
+    return paragraphs.filter((paragraph) => paragraph.includes("event:error"));
   }
 };
