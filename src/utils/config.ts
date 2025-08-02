@@ -108,8 +108,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     secretValidator(secret: string) {
       const parts = secret?.split("#");
       const flag = parts.length == 2;
-      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}
-      }`;
+      const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}`;
       const source = getService("youdaozhiyunllm");
       return {
         secret,
