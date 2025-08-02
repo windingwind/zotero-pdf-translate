@@ -133,7 +133,7 @@ export default <TranslateTaskProcessor>async function (data) {
 
   const xhr = await Zotero.HTTP.request(
     "POST",
-    `https://openapi.youdao.com/llm_trans?i=${encodeURIComponent(query)}&q=${encodeURIComponent(query)}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&handleOption=${model}&prompt=${encodeURIComponent(prompt)}&streamType=${streamType}`,
+    `https://openapi.youdao.com/llm_trans?i=${encodeURIComponent(query)}&appKey=${appid}&salt=${salt}&from=${from}&to=${to}&sign=${sign}&signType=v3&curtime=${curtime}&handleOption=${model}&prompt=${encodeURIComponent(prompt)}&streamType=${streamType}`,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
