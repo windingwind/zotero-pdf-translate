@@ -220,6 +220,12 @@ service-manageKeys-head=管理所有翻译服务密钥，直接编辑 JSON 文�
 service-manageKeys-save=保存
 service-manageKeys-close=关闭
 
+service-renameServices-title=重命名自定义GPT服务
+service-renameServices-head=重命名自定义GPT服务，输入新的服务名称并点击保存。
+service-renameServices-hint=所做更改会在重启后生效
+service-renameServices-save=保存
+service-renameServices-close=关闭
+
 service-libretranslate-secret-pass=配置
 service-libretranslate-secret-fail=配置
 service-libretranslate-dialog-title=LibreTranslate 配置

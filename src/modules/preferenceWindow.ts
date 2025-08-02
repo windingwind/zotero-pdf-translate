@@ -55,7 +55,9 @@ function buildPrefsPane() {
             (service) => ({
               tag: "menuitem",
               attributes: {
-                label: getString(`service-${service.id}`),
+                label: getPref(`renameServices.${service.id}`)
+                  ? getPref(`renameServices.${service.id}`) + "🗝️"
+                  : getString(`service-${service.id}`),
                 value: service.id,
               },
             }),
@@ -173,6 +175,11 @@ function buildPrefsPane() {
     .querySelector(`#${makeId("manageKeys")}`)
     ?.addEventListener("command", (e: Event) => {
       onPrefsEvents("manageKeys");
+    });
+  doc
+    .querySelector(`#${makeId("renameServices")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("renameServices");
     });
 
   doc
@@ -471,6 +478,15 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
         import("../modules/settings/manageKeys").then(
           ({ manageKeysDialog }) => {
             manageKeysDialog();
+          },
+        );
+      }
+      break;
+    case "renameServices":
+      {
+        import("../modules/settings/renameServices").then(
+          ({ renameServicesDialog }) => {
+            renameServicesDialog();
           },
         );
       }

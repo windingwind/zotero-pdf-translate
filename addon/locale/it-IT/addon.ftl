@@ -187,6 +187,12 @@ service-manageKeys-head=Gestisci tutte le dei segreto di traduzione. Modifica di
 service-manageKeys-save=Salva
 service-manageKeys-close=Chiudi
 
+service-renameServices-title=Rinominare i servizi Custom GPT
+service-renameServices-head=Rinominare i servizi Custom GPT. Inserisci il nuovo nome e clicca su Salva.
+service-renameServices-hint=Le modifiche avranno effetto dopo il riavvio
+service-renameServices-save=Salva
+service-renameServices-close=Chiudi
+
 service-libretranslate-secret-pass=Configura
 service-libretranslate-secret-fail=Configura
 service-libretranslate-dialog-title=Configura LibreTranslate

@@ -221,6 +221,12 @@ service-manageKeys-head=Manage all translation service keys. Edit the JSON direc
 service-manageKeys-save=Save
 service-manageKeys-close=Close
 
+service-renameServices-title=Rename Custom GPT Services
+service-renameServices-head=Rename Custom GPT Services. Input the new name and click Save.
+service-renameServices-hint=Changes take effect after restart
+service-renameServices-save=Save
+service-renameServices-close=Close
+
 service-libretranslate-secret-pass=Config
 service-libretranslate-secret-fail=Config
 service-libretranslate-dialog-title=LibreTranslate Config
