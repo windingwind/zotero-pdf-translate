@@ -106,6 +106,9 @@ export class TranslationServices {
     import("./youdaozhiyun").then(
       (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default)),
     );
+    import("./youdaozhiyunllm").then(
+      (e) => (this.youdaozhiyunllm = new TranslateTaskRunner(e.default)),
+    );
     import("./qwenmt").then(
       (e) => (this.qwenmt = new TranslateTaskRunner(e.default)),
     );

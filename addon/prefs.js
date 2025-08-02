@@ -109,3 +109,5 @@ pref(
 pref("__prefsPrefix__.claude.maxTokens", "4000");
 pref("__prefsPrefix__.xftrans.useNiutrans", false);
 pref("__prefsPrefix__.youdaozhiyun.domain", "general");
+pref("__prefsPrefix__.youdaozhiyunllm.model", 0);
+pref("__prefsPrefix__.youdaozhiyunllm.stream", true);

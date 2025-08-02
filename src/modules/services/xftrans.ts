@@ -36,7 +36,7 @@ export default <TranslateTaskProcessor>async function (data) {
         return inlang.split("-")[0];
       }
     } else {
-      const langs = [{ regex: /zh-\w+/, lang: "cn" }];
+      const langs = [{ regex: /zh(?:[-_]\w+)?/, lang: "cn" }];
       // default
       let outlang = inlang.split("-")[0];
       langs.forEach((obj) => {
