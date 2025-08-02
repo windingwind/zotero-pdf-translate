@@ -1,18 +1,13 @@
 import { config } from "../../package.json";
 import { PluginCEBase } from "./base";
 import { getPref, setPref } from "../utils/prefs";
-import {
-  LANG_CODE,
-  SERVICES,
-  getSortedServicesWithPriorities,
-} from "../utils/config";
+import { LANG_CODE, getSortedServicesWithPriorities } from "../utils/config";
 import {
   addTranslateTask,
   autoDetectLanguage,
   getLastTranslateTask,
   putTranslateTaskAtHead,
 } from "../utils/task";
-import { lutimesSync } from "fs";
 
 export class TranslatorPanel extends PluginCEBase {
   _item: Zotero.Item | null = null;
@@ -41,11 +36,15 @@ export class TranslatorPanel extends PluginCEBase {
   <menulist id="services" native="true">
     <menupopup>
       ${getSortedServicesWithPriorities("sentence")
-        .map(
-          (service) => `
+        .map((service) => {
+          const customName = getPref(`renameServices.${service.id}`);
+          if (customName) {
+            return `<menuitem label="${customName}🗝️" value="${service.id}" />`;
+          }
+          return `
         <menuitem data-l10n-id="service-${service.id}" value="${service.id}" />
-      `,
-        )
+      `;
+        })
         .join("\n")}
     </menupopup>
   </menulist>
