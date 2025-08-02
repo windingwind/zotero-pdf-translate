@@ -43,6 +43,9 @@ export async function renameServicesDialog() {
             properties: {
               innerHTML: getString("service-customgpt1"),
             },
+            styles: {
+              marginRight: "8px",
+            },
           },
           {
             tag: "input",
@@ -72,6 +75,9 @@ export async function renameServicesDialog() {
             properties: {
               innerHTML: getString("service-customgpt2"),
             },
+            styles: {
+              marginRight: "8px",
+            },
           },
           {
             tag: "input",
@@ -100,6 +106,9 @@ export async function renameServicesDialog() {
             },
             properties: {
               innerHTML: getString("service-customgpt3"),
+            },
+            styles: {
+              marginRight: "8px",
             },
           },
           {
