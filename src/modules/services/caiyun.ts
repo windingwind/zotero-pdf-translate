@@ -1,7 +1,7 @@
 import { TranslateTaskProcessor } from "../../utils/task";
 
 export default <TranslateTaskProcessor>async function (data) {
-  const param = `${data.langfrom.split("-")[0]}2${data.langto.split("-")[0]}`;
+  const param = `${transLang(data.langfrom)}2${transLang(data.langto)}`;
   const xhr = await Zotero.HTTP.request(
     "POST",
     "http://api.interpreter.caiyunai.com/v1/translator",
@@ -19,6 +19,16 @@ export default <TranslateTaskProcessor>async function (data) {
       responseType: "json",
     },
   );
+
+  function transLang(inlang: string = "") {
+    const traditionalChinese = ["zh-HK", "zh-MO", "zh-TW"];
+    if (traditionalChinese.includes(inlang)) {
+      return "zh-Hant";
+    } else {
+      return inlang.split("-")[0];
+    }
+  }
+
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
