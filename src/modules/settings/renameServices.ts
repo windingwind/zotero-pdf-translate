@@ -51,8 +51,8 @@ export async function renameServicesDialog() {
               "data-bind": "customgpt1",
               "data-prop": "value",
               type: "string",
-              placeholder: "Maximum 10 characters",
-              maxlength: "10",
+              placeholder: "Maximum 15 characters",
+              maxlength: "15",
             },
           },
           {
@@ -80,8 +80,8 @@ export async function renameServicesDialog() {
               "data-bind": "customgpt2",
               "data-prop": "value",
               type: "string",
-              placeholder: "Maximum 10 characters",
-              maxlength: "10",
+              placeholder: "Maximum 15 characters",
+              maxlength: "15",
             },
           },
           {
@@ -109,8 +109,8 @@ export async function renameServicesDialog() {
               "data-bind": "customgpt3",
               "data-prop": "value",
               type: "string",
-              placeholder: "Maximum 10 characters",
-              maxlength: "10",
+              placeholder: "Maximum 15 characters",
+              maxlength: "15",
             },
           },
           {
