@@ -46,11 +46,11 @@ pref-service-hint =
 pref-service-manageKeys =
     .label = 密钥管理
 pref-service-manageKeys-hint =
-    .value = 展示已保存的密钥以便批量导入和导出
+    .value = 展示已保存的密钥以便批量导入和导出：
 pref-service-renameServices =
     .label = 重命名自定义GPT🗝️服务
 pref-service-renameServices-hint =
-    .value = 显示服务以重命名或查看映射
+    .value = 显示服务以重命名或查看映射：
 
 pref-interface = 用户界面
 

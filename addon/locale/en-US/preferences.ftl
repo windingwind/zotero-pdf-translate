@@ -46,11 +46,11 @@ pref-service-hint =
 pref-service-manageKeys =
     .label = Manage Secret Keys
 pref-service-manageKeys-hint =
-    .value = Display saved secret keys for bulk import and export
+    .value = Display saved secret keys for bulk import and export:
 pref-service-renameServices =
     .label = Rename Custom GPT🗝️ Services
 pref-service-renameServices-hint =
-    .value = Show Services to rename or view mappings
+    .value = Show Services to rename or view mappings:
 
 pref-interface = User Interface
 
