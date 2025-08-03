@@ -108,7 +108,7 @@ The default service is Google Translate. Currently, we support:
 | Youdao LLM                   | Yes                           | [LLM-based](https://ai.youdao.com/DOCSIRMA/html/trans/api/dmxfy/index.html)(en-zh)                                                                                            |
 | Niu Trans                    | Yes                           | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                         |
 | Microsoft Translate          | Yes(free 2M)                  | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                 |
-| LingoCloud(Caiyun) Translate | Yes                           | [zh, en, ja, es, fr, ru](https://open.caiyunapp.com/LingoCloud_API_in_5_minutes)                                                                                              |
+| LingoCloud(Caiyun) Translate | Yes                           | [10+](https://docs.caiyunapp.com/lingocloud-api/index.html)                                                                                                                   |
 | DeepL Translate              | Yes(free 500k)                | [100+](https://www.deepl.com/pro?cta=header-prices/#developer)                                                                                                                |
 | Aliyun Translate             | Yes(free-1M)                  | [200+](https://help.aliyun.com/document_detail/158269.html)                                                                                                                   |
 | Baidu Translate              | Yes(free-QPS1/free-2M)        | [200+](https://fanyi-api.baidu.com/product/11)                                                                                                                                |
@@ -162,7 +162,7 @@ The secret format is `MY_SECRET`.
 > See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
 
 **LingoCloud(Caiyun) Translate**  
-Apply [here](https://open.caiyunapp.com/%E4%BA%94%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%E5%BD%A9%E4%BA%91%E5%B0%8F%E8%AF%91_API).
+Apply [here](https://docs.caiyunapp.com/lingocloud-api/index.html#%E7%94%B3%E8%AF%B7%E8%AE%BF%E9%97%AE%E4%BB%A4%E7%89%8C).
 
 **DeepL Translate**  
 Apply [official API](https://www.deepl.com/pro?cta=header-prices/#developer) or [third-party API](https://deepl-pro.com/#/translate).  
