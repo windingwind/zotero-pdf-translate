@@ -12,8 +12,8 @@ export default <TranslateTaskProcessor>async function (data) {
 
   function languageCode(str: string) {
     str = str.toLowerCase();
-    if (str === "zh-tw") {
-      return str;
+    if (str === "zh-tw" || str === "zh-hk" || str === "zh-mo") {
+      return "zh-tw";
     }
     return str.split("-")[0];
   }
