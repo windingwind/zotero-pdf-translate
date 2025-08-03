@@ -95,7 +95,7 @@ pref("__prefsPrefix__.aliyun.scene", "general");
 pref("__prefsPrefix__.stripEmptyLines", false);
 pref("__prefsPrefix__.libretranslate.endpoint", "http://localhost:5000");
 pref("__prefsPrefix__.mtranserver.endpoint", "http://localhost:8989/translate");
-pref("__prefsPrefix__.mtranserver.version", "new");
+pref("__prefsPrefix__.mtranserver.usenewversion", true);
 pref("__prefsPrefix__.claude.stream", true);
 pref(
   "__prefsPrefix__.claude.endPoint",

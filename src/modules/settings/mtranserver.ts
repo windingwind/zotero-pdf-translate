@@ -6,7 +6,7 @@ export async function mtranserverStatusCallback(status: boolean) {
   const dialogData: { [key: string | number]: any } = {
     endpoint:
       getPref("mtranserver.endpoint") || "http://localhost:8989/translate",
-    version: getPref("mtranserver.version"),
+    usenewversion: getPref("mtranserver.usenewversion"),
   };
   dialog
     .setDialogData(dialogData)
@@ -19,7 +19,6 @@ export async function mtranserverStatusCallback(status: boolean) {
         styles: {
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
-          gridTemplateRows: "1fr 3fr",
           rowGap: "10px",
           columnGap: "5px",
           minWidth: "300px",
@@ -45,38 +44,26 @@ export async function mtranserverStatusCallback(status: boolean) {
             },
           },
           {
-            tag: "label",
-            namespace: "html",
+            tag: "input",
+            id: "usenewversion",
             attributes: {
-              for: "version",
+              "data-bind": "usenewversion",
+              "data-prop": "checked",
+              type: "checkbox",
             },
-            properties: {
-              innerHTML: getString("service-mtranserver-dialog-version"),
+            styles: {
+              justifySelf: "end",
             },
           },
           {
-            tag: "select",
-            id: "version",
+            tag: "label",
+            namespace: "html",
             attributes: {
-              "data-bind": "version",
-              "data-prop": "value",
+              for: "usenewversion",
             },
-            children: [
-              {
-                tag: "option",
-                properties: {
-                  value: "new",
-                  innerHTML: getString("service-mtranserver-dialog-newversion"),
-                },
-              },
-              {
-                tag: "option",
-                properties: {
-                  value: "old",
-                  innerHTML: getString("service-mtranserver-dialog-oldversion"),
-                },
-              },
-            ],
+            properties: {
+              innerHTML: getString("service-mtranserver-dialog-useNewVersion"),
+            },
           },
         ],
       },
@@ -92,7 +79,7 @@ export async function mtranserverStatusCallback(status: boolean) {
     case "save":
       {
         setPref("mtranserver.endpoint", dialogData.endpoint);
-        setPref("mtranserver.version", dialogData.version);
+        setPref("mtranserver.usenewversion", dialogData.usenewversion);
       }
       break;
     case "help":

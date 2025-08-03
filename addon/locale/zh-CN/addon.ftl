@@ -238,9 +238,7 @@ service-mtranserver-secret-pass=配置
 service-mtranserver-secret-fail=配置
 service-mtranserver-dialog-title=MtranServer 配置
 service-mtranserver-dialog-endPoint=接口
-service-mtranserver-dialog-version=版本
-service-mtranserver-dialog-oldversion=旧版本 (<=2.1.1)
-service-mtranserver-dialog-newversion=新版本 (>=3.0.0)
+service-mtranserver-dialog-useNewVersion=使用新版本 (>=3.0.0)
 service-mtranserver-dialog-save=保存
 service-mtranserver-dialog-close=关闭
 service-mtranserver-dialog-help=帮助
