@@ -1,7 +1,7 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 
-export default async function tencentStatusCallback(status: boolean) {
+export async function tencentStatusCallback(status: boolean) {
   const dialog = new ztoolkit.Dialog(2, 1);
 
   // Try to get values from individual preferences first, then fall back to parsing the main secret

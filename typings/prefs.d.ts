@@ -90,6 +90,8 @@ declare namespace _ZoteroTypes {
       "claude.maxTokens": string;
       "xftrans.useNiutrans": boolean;
       "youdaozhiyun.domain": string;
+      "youdaozhiyunllm.model": number;
+      "youdaozhiyunllm.stream": boolean;
     };
   }
 }
