@@ -18,19 +18,6 @@ export interface SecretValidateResult {
 export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
-    id: "libretranslate",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      // API key is optional in LibreTranslate
-      return {
-        secret,
-        status: true,
-        info: "",
-      };
-    },
-  },
-  {
-    type: "sentence",
     id: "googleapi",
   },
   {
@@ -52,6 +39,24 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
     id: "bing",
+  },
+  {
+    type: "sentence",
+    id: "deeplx",
+  },
+  {
+    type: "sentence",
+    id: "deeplcustom",
+  },
+  {
+    type: "sentence",
+    id: "libretranslate",
+    // API key is optional in LibreTranslate
+  },
+  {
+    type: "sentence",
+    id: "mtranserver",
+    // Token is optional in MTranServer
   },
   {
     type: "sentence",
@@ -159,10 +164,17 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     id: "caiyun",
     defaultSecret: "3975l6lr5pcbvidl6jl2",
     secretValidator(secret: string) {
+      const flag = secret.length > 0;
+      const source = getService("caiyun");
       return {
         secret,
-        status: secret !== "",
-        info: "",
+        status: flag && secret !== source.defaultSecret,
+        info:
+          secret === source.defaultSecret
+            ? "The default secret is for testing only. You should set your own custom token for production."
+            : flag
+              ? ""
+              : "The secret is not set.",
       };
     },
   },
@@ -195,22 +207,6 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
           : `The secret is your DeepL (pro plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
       };
     },
-  },
-  {
-    type: "sentence",
-    id: "deeplcustom",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      return {
-        secret,
-        status: true,
-        info: "",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "deeplx",
   },
   {
     type: "sentence",
@@ -503,19 +499,6 @@ ProjectId: ${parts?.[3] || "0"}`;
           : status
             ? "Click the button to check connectivity."
             : "The Claude API key format might be invalid. Typically starts with 'sk-ant-'.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "mtranserver",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      // Token is optional in MTranServer
-      return {
-        secret,
-        status: true,
-        info: "",
       };
     },
   },
