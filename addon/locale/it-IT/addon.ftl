@@ -205,6 +205,9 @@ service-mtranserver-secret-pass=Configura
 service-mtranserver-secret-fail=Configura
 service-mtranserver-dialog-title=Configura Mtranserver
 service-mtranserver-dialog-endPoint=EndPoint
+service-mtranserver-dialog-version=Version
+service-mtranserver-dialog-oldversion=Old Version (<=2.1.1)
+service-mtranserver-dialog-newversion=New Version (>=3.0.0)
 service-mtranserver-dialog-save=Salva
 service-mtranserver-dialog-close=Chiudi
 service-mtranserver-dialog-help=Aiuto
