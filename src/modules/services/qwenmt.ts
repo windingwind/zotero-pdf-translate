@@ -9,6 +9,23 @@ export default <TranslateTaskProcessor>async function (data) {
   const model = (getPref("qwenmt.model") as string) || "qwen-mt-plus";
   const domains_prompt = (getPref("qwenmt.domains") as string) || "";
 
+  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+  data.result = getString("status-translating");
+  refreshHandler();
+
+  const nonStreamCallback = (xmlhttp: XMLHttpRequest) => {
+    xmlhttp.onload = () => {
+      try {
+        const responseObj = xmlhttp.response;
+        const resultContent = responseObj.choices[0].message.content;
+        data.result = resultContent.replace(/^\n\n/, "");
+      } catch (error) {
+        return;
+      }
+      refreshHandler();
+    };
+  };
+
   const xhr = await Zotero.HTTP.request(
     "POST",
     `${apiURL}/v1/chat/completions`,
@@ -32,14 +49,15 @@ export default <TranslateTaskProcessor>async function (data) {
         },
       }),
       responseType: "json",
+      requestObserver: (xmlhttp: XMLHttpRequest) => {
+        nonStreamCallback(xmlhttp);
+      },
     },
   );
 
   if (xhr?.status !== 200) {
     throw `Request error: ${xhr?.status}`;
   }
-
-  data.result = xhr.response.choices[0].message.content;
 };
 
 function mapLang(lang: string) {
@@ -53,10 +71,10 @@ const LANG_MAP = {
   en: "English",
   zh: "Chinese",
   "zh-CN": "Chinese",
-  "zh-HK": "Chinese",
-  "zh-MO": "Chinese",
+  "zh-HK": "Traditional Chinese",
+  "zh-MO": "Traditional Chinese",
   "zh-SG": "Chinese",
-  "zh-TW": "Chinese",
+  "zh-TW": "Traditional Chinese",
   ja: "Japanese",
   ko: "Korean",
   fr: "French",
