@@ -223,7 +223,7 @@ service-manageKeys-close=Close
 
 service-renameServices-title=Rename Custom GPT Services
 service-renameServices-head=Input the new name and click Save.
-service-renameServices-hint=Changes take effect after restart
+service-renameServices-hint=Changes take effect after restarting the plugin or Zotero
 service-renameServices-save=Save
 service-renameServices-close=Close
 

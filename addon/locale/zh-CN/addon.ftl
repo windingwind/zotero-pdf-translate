@@ -222,7 +222,7 @@ service-manageKeys-close=关闭
 
 service-renameServices-title=重命名自定义GPT服务
 service-renameServices-head=输入新的服务名称并点击保存。
-service-renameServices-hint=所做更改会在重启后生效
+service-renameServices-hint=所做更改将在插件或Zotero重启后生效
 service-renameServices-save=保存
 service-renameServices-close=关闭
 
