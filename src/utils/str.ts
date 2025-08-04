@@ -34,7 +34,7 @@ export function stripEmptyLines(text: string, enabled: boolean): string {
   const processedText = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
 
   // Leave blank lines for error messages
-  const errorPrefix = getString("service-errorPrefix") as string;
+  const errorPrefix = getString("service-errorPrefix");
   if (processedText.includes(errorPrefix)) {
     return processedText;
   } else {
