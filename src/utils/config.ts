@@ -64,6 +64,10 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   },
   {
     type: "sentence",
+    id: "nllb",
+  },
+  {
+    type: "sentence",
     id: "huoshan",
     defaultSecret: "accessKeyId#accessKeySecret",
     secretValidator(secret: string) {
@@ -929,6 +933,7 @@ export function getSortedServicesWithPriorities(
     mtranserver: 110,
     libretranslate: 110,
     pot: 110,
+    nllb: 110,
     // All other services default to 100
   };
 
