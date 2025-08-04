@@ -203,8 +203,9 @@ service-libretranslate-dialog-help=Aiuto
 
 service-mtranserver-secret-pass=Configura
 service-mtranserver-secret-fail=Configura
-service-mtranserver-dialog-title=Configura Mtranserver
+service-mtranserver-dialog-title=Configura MTranServer
 service-mtranserver-dialog-endPoint=EndPoint
+service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
 service-mtranserver-dialog-save=Salva
 service-mtranserver-dialog-close=Chiudi
 service-mtranserver-dialog-help=Aiuto

@@ -210,6 +210,7 @@ export type FluentMessageId =
   | 'service-mtranserver-dialog-help'
   | 'service-mtranserver-dialog-save'
   | 'service-mtranserver-dialog-title'
+  | 'service-mtranserver-dialog-versionlabel'
   | 'service-mtranserver-secret-fail'
   | 'service-mtranserver-secret-pass'
   | 'service-niutranspro'

@@ -78,6 +78,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 - Automatically Translate Selection, default `true`
 - Automatically Translate Annotation: Save annotation's translation to annotation comment or annotation body, default `false`
+  - Automatically Translate Annotation from Sync: Automatically translate annotations synced from other devices if `true`, default `false`
 - Enable Reader Selection Pop-up: Show results in the pop-up panel or only in the item pane, default `true`
 - Show "Add Translation to Note" in Pop-up: default `true`
   > Invisible if no active note editor opened.
@@ -90,36 +91,36 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 The default service is Google Translate. Currently, we support:
 
-| Translate Service            | Require Secret                | Supported Languages                                                                                                                                                           |
-| ---------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Google Translate             | No **[Free]**                 | [100+](https://translate.google.com/about/languages/)                                                                                                                         |
-| Google Translate(API)        | No **[Free]**                 | Use `translate.googleapis.com`                                                                                                                                                |
-| CNKI                         | No **[Free]**                 | <https://dict.cnki.net>                                                                                                                                                       |
-| Haici Translate              | No **[Free]**                 | <https://fanyi.dict.cn>                                                                                                                                                       |
-| Youdao Translate             | No **[Free]**                 | [100+?](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                        |
-| Bing                         | No **[Free]**                 | [en-zh](https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference)                                                               |
-| DeepLX                       | No **[Free]**                 | Based on [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file)                                                                                                   |
-| DeepLX(API)                  | No **[Require config]**       | [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file) related projects                                                                                           |
-| LibreTranslate               | Optional **[Require config]** | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)                                                                                                            |
-| MTranServer                  | Optional **[Require config]** | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                           |
-| Pot                          | No **[Require config]**       | [Pot](https://github.com/pot-app/pot-desktop) _Translate results show in Pot_                                                                                                 |
-| Huoshan                      | Yes                           | [50+](https://www.volcengine.com/docs/4640/127681)                                                                                                                            |
-| Youdao Zhiyun                | Yes                           | [100+](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                         |
-| Youdao LLM                   | Yes                           | [LLM-based](https://ai.youdao.com/DOCSIRMA/html/trans/api/dmxfy/index.html)(en-zh)                                                                                            |
-| Niu Trans                    | Yes                           | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                         |
-| Microsoft Translate          | Yes(free 2M)                  | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                 |
-| LingoCloud(Caiyun) Translate | Yes                           | [10+](https://docs.caiyunapp.com/lingocloud-api/index.html)                                                                                                                   |
-| DeepL Translate              | Yes(free 500k)                | [100+](https://www.deepl.com/pro?cta=header-prices/#developer)                                                                                                                |
-| Aliyun Translate             | Yes(free-1M)                  | [200+](https://help.aliyun.com/document_detail/158269.html)                                                                                                                   |
-| Baidu Translate              | Yes(free-QPS1/free-2M)        | [200+](https://fanyi-api.baidu.com/product/11)                                                                                                                                |
-| Baidu Field                  | Yes(free-QPS1/free-2M)        | [en-zh](https://fanyi-api.baidu.com/product/12)                                                                                                                               |
-| OpenL                        | Yes                           | [11](https://docs.openl.club/#/API/format)                                                                                                                                    |
-| Tencent Translate            | Yes(QPS5, free-5M)            | [15](https://cloud.tencent.com/document/product/551/7372)                                                                                                                     |
-| Xftrans                      | Yes(free 2M)                  | [Xftrans API](https://www.xfyun.cn/doc/nlp/xftrans/API.html)(70+), [NiuTrans API](https://www.xfyun.cn/doc/nlp/niutrans/API.html)(100+)                                       |
-| GPT                          | Yes(free-$18)                 | [OpenAI](https://openai.com/pricing#chat), [AzureGPT](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference#chat-completions) or other GPT-like LLM (customGPT) |
-| Gemini                       | Yes(free-)                    | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                      |
-| Qwen-MT                      | Yes(free-)                    | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                           |
-| Claude                       | Yes                           | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                       |
+| Translate Service            | Require Secret                | Supported Languages                                                                                                                                                                        |
+| ---------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Google Translate             | No **[Free]**                 | [100+](https://translate.google.com/about/languages/)                                                                                                                                      |
+| Google Translate(API)        | No **[Free]**                 | Use `translate.googleapis.com`                                                                                                                                                             |
+| CNKI                         | No **[Free]**                 | <https://dict.cnki.net>                                                                                                                                                                    |
+| Haici Translate              | No **[Free]**                 | <https://fanyi.dict.cn>                                                                                                                                                                    |
+| Youdao Translate             | No **[Free]**                 | [100+?](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                                     |
+| Bing                         | No **[Free]**                 | [en-zh](https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/v3/reference)                                                                            |
+| DeepLX                       | No **[Free]**                 | Based on [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file)                                                                                                                |
+| DeepLX(API)                  | No **[Require config]**       | [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file) related projects                                                                                                        |
+| LibreTranslate               | Optional **[Require config]** | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)                                                                                                                         |
+| MTranServer                  | Optional **[Require config]** | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                        |
+| Pot                          | No **[Require config]**       | [Pot](https://github.com/pot-app/pot-desktop) _Translate results show in Pot_                                                                                                              |
+| Huoshan                      | Yes                           | [50+](https://www.volcengine.com/docs/4640/127681)                                                                                                                                         |
+| Youdao Zhiyun                | Yes                           | [100+](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                                      |
+| Youdao LLM                   | Yes                           | [LLM-based](https://ai.youdao.com/DOCSIRMA/html/trans/api/dmxfy/index.html)(en-zh)                                                                                                         |
+| Niu Trans                    | Yes                           | [400+](https://niutrans.com/documents/contents/trans_text#accessMode)                                                                                                                      |
+| Microsoft Translate          | Yes(free 2M)                  | [200+](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support)                                                                                              |
+| LingoCloud(Caiyun) Translate | Yes                           | [10+](https://docs.caiyunapp.com/lingocloud-api/index.html)                                                                                                                                |
+| DeepL Translate              | Yes(free 500k)                | [100+](https://www.deepl.com/pro?cta=header-prices/#developer)                                                                                                                             |
+| Aliyun Translate             | Yes(free-1M)                  | [200+](https://help.aliyun.com/document_detail/158269.html)                                                                                                                                |
+| Baidu Translate              | Yes(free-QPS1/free-2M)        | [200+](https://fanyi-api.baidu.com/product/11)                                                                                                                                             |
+| Baidu Field                  | Yes(free-QPS1/free-2M)        | [en-zh](https://fanyi-api.baidu.com/product/12)                                                                                                                                            |
+| OpenL                        | Yes                           | [11](https://docs.openl.club/#/API/format)                                                                                                                                                 |
+| Tencent Translate            | Yes(QPS5, free-5M)            | [15](https://cloud.tencent.com/document/product/551/7372)                                                                                                                                  |
+| Xftrans                      | Yes(free 2M)                  | [Xftrans API](https://www.xfyun.cn/doc/nlp/xftrans/API.html)(70+), [NiuTrans API](https://www.xfyun.cn/doc/nlp/niutrans/API.html)(100+)                                                    |
+| GPT                          | Yes(free-$18)                 | [OpenAI](https://openai.com/pricing#chat)(ChatGPT), [AzureGPT](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference#chat-completions), compatible GPT-like LLM (Custom GPT) |
+| Gemini                       | Yes(free-)                    | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                   |
+| Qwen-MT                      | Yes(free-)                    | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                        |
+| Claude                       | Yes                           | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                    |
 
 > If the service you want is not yet supported, please post an issue.
 
@@ -218,10 +219,10 @@ The secret format is `secretId#SecretKey#Region(optional, default ap-shanghai)#P
 Apply [here](https://www.xfyun.cn/doc/authentication/personal.html#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4).
 
 **GPT**  
-Apply [here](https://platform.openai.com/signup).  
-The secret format is `sk-#SecretKey`(split with '#').
+Apply [OpenAI ChatGPT API](https://auth.openai.com/create-account) or [Azure OpenAI REST API](https://azure.microsoft.com/free/cognitive-services).  
+The secret format is `sk-*` for ChatGPT, and `MY_APIKEY` for AzureGPT and Custom GPT.
 
-Support third-party compatible APIs.
+Support third-party or self-deployed compatible APIs.
 
 > [Chinese Document](https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b)
 
@@ -242,6 +243,8 @@ See [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate). API Key 
 **MTranServer**  
 See [MTranServer](https://github.com/xxnuo/MTranServer). Token is optional.
 
+> MTranServer only supports `zh`-`en` language pairs for v2.1.1 and previous versions. For MTranServer v3.0.0+, please check the checkbox in the Config panel to use `zh-Hans` or `zh-Hant` language. See [explanation of the supported languages](https://github.com/xxnuo/MTranServer/issues/59#issuecomment-3131551779).
+
 **Pot**  
 See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8). _Translate results show in Pot._
 
@@ -250,7 +253,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
 - `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
-- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Pane Section: Show xxx`: Show or hide elements in the item pane, default `true`
 - `Item Pane Section: Hold down Ctrl/⌘`: Press key to enable concat mode when selecting text in PDF/EPub/webpage if `true`, default `true`
 - `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
@@ -259,9 +262,12 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 
 ### Advanced
 
+- Strip empty lines and thinking from translation results: Automatically remove empty lines or thinking labels from translation results, especially for some LLM translation services.
 - Automatically Detect Item Language
-  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
-- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
+  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`. Default `zh,zh-CN,中文`.
+- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment/body with the new translate result.
+- Regex for removing extra text from translation results (leave empty to disable): Automatically remove text from translation results using regex. You need to understand how to use regex in advance.
+- Reset field of selected items in library: Batch reset the _Title Translation_ or _Abstract Translation_ of selected items. Please select the items in Library or Collection panel and then click the button.
 
 ## Development & Contributing
 

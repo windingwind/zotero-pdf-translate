@@ -82,6 +82,7 @@ declare namespace _ZoteroTypes {
       "stripEmptyLines": boolean;
       "libretranslate.endpoint": string;
       "mtranserver.endpoint": string;
+      "mtranserver.versionlabel": boolean;
       "claude.stream": boolean;
       "claude.endPoint": string;
       "claude.model": string;
