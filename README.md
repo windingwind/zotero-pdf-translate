@@ -242,6 +242,8 @@ See [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate). API Key 
 **MTranServer**  
 See [MTranServer](https://github.com/xxnuo/MTranServer). Token is optional.
 
+> MTranServer only supports `zh`-`en` language pairs for v2.1.1 and previous versions. For MTranServer v3.0.0+, please check the checkbox in the Config panel to use `zh-Hans` or `zh-Hant` language. See [explanation of the supported languages](https://github.com/xxnuo/MTranServer/issues/59#issuecomment-3131551779).
+
 **Pot**  
 See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8). _Translate results show in Pot._
 

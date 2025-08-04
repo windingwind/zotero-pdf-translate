@@ -6,7 +6,7 @@ export async function mtranserverStatusCallback(status: boolean) {
   const dialogData: { [key: string | number]: any } = {
     endpoint:
       getPref("mtranserver.endpoint") || "http://localhost:8989/translate",
-    usenewversion: getPref("mtranserver.usenewversion"),
+    versionlabel: getPref("mtranserver.versionlabel"),
   };
   dialog
     .setDialogData(dialogData)
@@ -45,9 +45,9 @@ export async function mtranserverStatusCallback(status: boolean) {
           },
           {
             tag: "input",
-            id: "usenewversion",
+            id: "versionlabel",
             attributes: {
-              "data-bind": "usenewversion",
+              "data-bind": "versionlabel",
               "data-prop": "checked",
               type: "checkbox",
             },
@@ -59,10 +59,10 @@ export async function mtranserverStatusCallback(status: boolean) {
             tag: "label",
             namespace: "html",
             attributes: {
-              for: "usenewversion",
+              for: "versionlabel",
             },
             properties: {
-              innerHTML: getString("service-mtranserver-dialog-useNewVersion"),
+              innerHTML: getString("service-mtranserver-dialog-versionlabel"),
             },
           },
         ],
@@ -79,7 +79,7 @@ export async function mtranserverStatusCallback(status: boolean) {
     case "save":
       {
         setPref("mtranserver.endpoint", dialogData.endpoint);
-        setPref("mtranserver.usenewversion", dialogData.usenewversion);
+        setPref("mtranserver.versionlabel", dialogData.versionlabel);
       }
       break;
     case "help":

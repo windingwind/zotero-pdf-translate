@@ -29,8 +29,8 @@ export default <TranslateTaskProcessor>async function (data) {
 };
 
 function mapLang(lang: string) {
-  const useNewVersion = getPref("mtranserver.usenewversion") as boolean;
-  if (useNewVersion && lang in LANG_MAP) {
+  const versionlabel = getPref("mtranserver.versionlabel") as boolean;
+  if (versionlabel && lang in LANG_MAP) {
     return LANG_MAP[lang];
   }
   return lang.split("-")[0];

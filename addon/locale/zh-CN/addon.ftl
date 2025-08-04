@@ -236,9 +236,9 @@ service-libretranslate-dialog-help=帮助
 
 service-mtranserver-secret-pass=配置
 service-mtranserver-secret-fail=配置
-service-mtranserver-dialog-title=MtranServer 配置
+service-mtranserver-dialog-title=MTranServer 配置
 service-mtranserver-dialog-endPoint=接口
-service-mtranserver-dialog-useNewVersion=使用新版本 (>=3.0.0)
+service-mtranserver-dialog-versionlabel=使用MTranServer v3.0.0+
 service-mtranserver-dialog-save=保存
 service-mtranserver-dialog-close=关闭
 service-mtranserver-dialog-help=帮助
