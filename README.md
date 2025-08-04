@@ -78,6 +78,7 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 - Automatically Translate Selection, default `true`
 - Automatically Translate Annotation: Save annotation's translation to annotation comment or annotation body, default `false`
+  - Automatically Translate Annotation from Sync: Automatically translate annotations synced from other devices if `true`, default `false`
 - Enable Reader Selection Pop-up: Show results in the pop-up panel or only in the item pane, default `true`
 - Show "Add Translation to Note" in Pop-up: default `true`
   > Invisible if no active note editor opened.
@@ -252,7 +253,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - `Font Size`: The font size of result text, default `12`
 - `Line Height`: The line height of result text, default `1.5`
 - `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
-- `Item Context Menu: Show xxx`: Show or hide Title/Abstract tanslation, default `true`
+- `Item Pane Section: Show xxx`: Show or hide elements in the item pane, default `true`
 - `Item Pane Section: Hold down Ctrl/⌘`: Press key to enable concat mode when selecting text in PDF/EPub/webpage if `true`, default `true`
 - `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
@@ -261,9 +262,12 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 
 ### Advanced
 
+- Strip empty lines and thinking from translation results: Automatically remove empty lines or thinking labels from translation results, especially for some LLM translation services.
 - Automatically Detect Item Language
-  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`.
-- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment with the new translate result.
+  - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`. Default `zh,zh-CN,中文`.
+- Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment/body with the new translate result.
+- Regex for removing extra text from translation results (leave empty to disable): Automatically remove text from translation results using regex. You need to understand how to use regex in advance.
+- Reset field of selected items in library: Batch reset the _Title Translation_ or _Abstract Translation_ of selected items. Please select the items in Library or Collection panel and then click the button.
 
 ## Development & Contributing
 
