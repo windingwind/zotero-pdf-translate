@@ -1,3 +1,5 @@
+import { getString } from "./locale";
+
 export function slice(str: string, len: number) {
   return str.length > len ? `${str.slice(0, len - 3)}...` : str;
 }
@@ -31,13 +33,19 @@ export function stripEmptyLines(text: string, enabled: boolean): string {
   // Strip <think>...</think> tags and their content
   const processedText = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
 
-  // Normalize line endings to \n
-  const normalizedText = processedText
-    .replace(/\r\n/g, "\n")
-    .replace(/\r/g, "\n");
+  // Leave blank lines for error messages
+  const errorPrefix = getString("service-errorPrefix");
+  if (processedText.includes(errorPrefix)) {
+    return processedText;
+  } else {
+    // Normalize line endings to \n
+    const normalizedText = processedText
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n");
 
-  // Remove leading newlines, then replace all remaining newlines with spaces
-  const result = normalizedText.replace(/^\n+/, "").replace(/\n+/g, " ");
+    // Remove leading newlines, then replace all remaining newlines with spaces
+    const result = normalizedText.replace(/^\n+/, "").replace(/\n+/g, " ");
 
-  return result;
+    return result;
+  }
 }
