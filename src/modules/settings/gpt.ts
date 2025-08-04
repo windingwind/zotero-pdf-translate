@@ -503,7 +503,7 @@ async function gptStatusCallback(
           chatGPT:
             "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
           azureGPT:
-            "https://learn.microsoft.com/en-us/azure/ai-services/openai/reference#chat-completions",
+            "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference#chat-completions",
         };
 
         Zotero.launchURL(
