@@ -14,6 +14,7 @@ import { deeplcustomStatusCallback } from "./deeplcustom";
 import { xftransStatusCallback } from "./xftrans";
 import { youdaozhiyunStatusCallback } from "./youdaozhiyun";
 import { youdaozhiyunllmStatusCallback } from "./youdaozhiyunllm";
+import { nllbStatusCallback } from "./nllb";
 
 export const secretStatusButtonData: {
   [key: string]: {
@@ -160,5 +161,12 @@ export const secretStatusButtonData: {
       fail: "service-pot-secret-fail",
     },
     callback: potStatusCallback,
+  },
+  nllb: {
+    labels: {
+      pass: "service-nllb-secret-pass",
+      fail: "service-nllb-secret-fail",
+    },
+    callback: nllbStatusCallback,
   },
 };

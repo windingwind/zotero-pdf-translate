@@ -118,6 +118,9 @@ export class TranslationServices {
     import("./mtranserver").then(
       (e) => (this.mtranserver = new TranslateTaskRunner(e.default)),
     );
+    import("./nllb").then(
+      (e) => (this.nllb = new TranslateTaskRunner(e.default)),
+    );
   }
 
   public async runTranslationTask(

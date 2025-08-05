@@ -93,6 +93,10 @@ declare namespace _ZoteroTypes {
       "youdaozhiyun.domain": string;
       "youdaozhiyunllm.model": number;
       "youdaozhiyunllm.stream": boolean;
+      "nllb.model": string;
+      "nllb.apiendpoint": string;
+      "nllb.apistream": boolean;
+      "nllb.serveendpointl": string;
     };
   }
 }

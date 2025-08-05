@@ -112,3 +112,7 @@ pref("__prefsPrefix__.xftrans.useNiutrans", false);
 pref("__prefsPrefix__.youdaozhiyun.domain", "general");
 pref("__prefsPrefix__.youdaozhiyunllm.model", 0);
 pref("__prefsPrefix__.youdaozhiyunllm.stream", true);
+pref("__prefsPrefix__.nllb.model", "nllb-api");
+pref("__prefsPrefix__.nllb.apiendpoint", "http://localhost:7860");
+pref("__prefsPrefix__.nllb.apistream", true);
+pref("__prefsPrefix__.nllb.serveendpointl", "http://localhost:6060");

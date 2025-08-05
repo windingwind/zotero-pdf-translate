@@ -103,6 +103,7 @@ The default service is Google Translate. Currently, we support:
 | DeepLX(API)                  | No **[Require config]**       | [DeepLX](https://github.com/OwO-Network/DeepLX?tab=readme-ov-file) related projects                                                                                                        |
 | LibreTranslate               | Optional **[Require config]** | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)                                                                                                                         |
 | MTranServer                  | Optional **[Require config]** | [MTranServer](https://github.com/xxnuo/MTranServer)                                                                                                                                        |
+| NLLB                         | No **[Require config]**       | [nllb-api](https://github.com/winstxnhdw/nllb-api?tab=readme-ov-file#self-hosting) or [NLLB Serve](https://github.com/thammegowda/nllb-serve?tab=readme-ov-file#setup)                     |
 | Pot                          | No **[Require config]**       | [Pot](https://github.com/pot-app/pot-desktop) _Translate results show in Pot_                                                                                                              |
 | Huoshan                      | Yes                           | [50+](https://www.volcengine.com/docs/4640/127681)                                                                                                                                         |
 | Youdao Zhiyun                | Yes                           | [100+](https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html)                                                                                                                      |
@@ -244,6 +245,9 @@ See [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate). API Key 
 See [MTranServer](https://github.com/xxnuo/MTranServer). Token is optional.
 
 > MTranServer only supports `zh`-`en` language pairs for v2.1.1 and previous versions. For MTranServer v3.0.0+, please check the checkbox in the Config panel to use `zh-Hans` or `zh-Hant` language. See [explanation of the supported languages](https://github.com/xxnuo/MTranServer/issues/59#issuecomment-3131551779).
+
+**NLLB**  
+See [nllb-api](https://github.com/winstxnhdw/nllb-api?tab=readme-ov-file#self-hosting) or [NLLB Serve](https://github.com/thammegowda/nllb-serve?tab=readme-ov-file#setup).
 
 **Pot**  
 See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8). _Translate results show in Pot._
