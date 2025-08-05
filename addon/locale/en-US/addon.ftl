@@ -127,6 +127,7 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
 service-gemini-dialog-save=Save
 service-gemini-dialog-close=Close
+service-gemini-dialog-help=Help
 
 service-qwenmt-secret-pass=Config
 service-qwenmt-secret-fail=Config

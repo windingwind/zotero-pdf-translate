@@ -126,6 +126,7 @@ service-gemini-dialog-prompt=提示词
 service-gemini-dialog-stream=流式输出
 service-gemini-dialog-save=保存
 service-gemini-dialog-close=关闭
+service-gemini-dialog-help=帮助
 
 service-qwenmt-secret-pass=配置
 service-qwenmt-secret-fail=配置

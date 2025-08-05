@@ -116,6 +116,7 @@ service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
 service-gemini-dialog-save=Salva
 service-gemini-dialog-close=Chiudi
+service-gemini-dialog-help=Aiuto
 
 service-cnki-settings=Impostazioni
 service-cnki-dialog-regex=Regex per gli annunci CNKI

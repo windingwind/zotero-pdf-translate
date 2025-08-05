@@ -71,7 +71,14 @@ export async function xftransStatusCallback(status: boolean) {
       break;
     case "help":
       {
-        Zotero.launchURL("https://console.xfyun.cn/services/its");
+        const helpURL = {
+          xftrans: "https://console.xfyun.cn/services/its",
+          niutrans: "https://console.xfyun.cn/services/ots",
+        };
+
+        Zotero.launchURL(
+          dialogData.useNiutrans ? helpURL.niutrans : helpURL.xftrans,
+        );
       }
       break;
     default:
