@@ -19,10 +19,10 @@ export async function nllbStatusCallback(status: boolean) {
         namespace: "html",
         styles: {
           display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          gridTemplateRows: "1fr auto auto auto",
+          gridTemplateColumns: "1fr 3fr",
           rowGap: "10px",
           columnGap: "5px",
+          minWidth: "300px",
         },
         children: [
           {
@@ -66,13 +66,38 @@ export async function nllbStatusCallback(status: boolean) {
             },
           },
           {
+            tag: "div",
+            styles: {
+              gridColumn: "1 / span 2",
+              fontWeight: "bold",
+            },
+            children: [
+              {
+                tag: "span",
+                properties: {
+                  innerHTML: getString("service-nllb-dialog-apilabel") + " ",
+                },
+                styles: {
+                  marginRight: "12px",
+                },
+              },
+              {
+                tag: "a",
+                properties: {
+                  href: "https://github.com/winstxnhdw/nllb-api?tab=readme-ov-file#self-hosting",
+                  innerHTML: getString("service-nllb-dialog-docs"),
+                },
+              },
+            ],
+          },
+          {
             tag: "label",
             namespace: "html",
             attributes: {
               for: "apiendpoint",
             },
             properties: {
-              innerHTML: getString("service-nllb-dialog-apiendpoint"),
+              innerHTML: getString("service-nllb-dialog-endpoint"),
             },
           },
           {
@@ -82,19 +107,6 @@ export async function nllbStatusCallback(status: boolean) {
               "data-bind": "apiendpoint",
               "data-prop": "value",
               type: "string",
-            },
-          },
-          {
-            tag: "input",
-            id: "apistream",
-            attributes: {
-              "data-bind": "apistream",
-              "data-prop": "checked",
-              type: "checkbox",
-            },
-            styles: {
-              justifySelf: "end",
-              marginBottom: "12px",
             },
           },
           {
@@ -111,13 +123,51 @@ export async function nllbStatusCallback(status: boolean) {
             },
           },
           {
+            tag: "input",
+            id: "apistream",
+            attributes: {
+              "data-bind": "apistream",
+              "data-prop": "checked",
+              type: "checkbox",
+            },
+            styles: {
+              justifySelf: "start",
+              marginBottom: "12px",
+            },
+          },
+          {
+            tag: "div",
+            styles: {
+              gridColumn: "1 / span 2",
+              fontWeight: "bold",
+            },
+            children: [
+              {
+                tag: "span",
+                properties: {
+                  innerHTML: getString("service-nllb-dialog-servelabel"),
+                },
+                styles: {
+                  marginRight: "12px",
+                },
+              },
+              {
+                tag: "a",
+                properties: {
+                  href: "https://github.com/thammegowda/nllb-serve?tab=readme-ov-file#nllb-serve",
+                  innerHTML: getString("service-nllb-dialog-docs"),
+                },
+              },
+            ],
+          },
+          {
             tag: "label",
             namespace: "html",
             attributes: {
               for: "serveendpoint",
             },
             properties: {
-              innerHTML: getString("service-nllb-dialog-serveendpoint"),
+              innerHTML: getString("service-nllb-dialog-endpoint"),
             },
           },
           {
@@ -135,8 +185,6 @@ export async function nllbStatusCallback(status: boolean) {
     )
     .addButton(getString("service-nllb-dialog-save"), "save")
     .addButton(getString("service-nllb-dialog-close"), "close")
-    .addButton("nllb-api Docs", "api")
-    .addButton("nllb-serve Docs", "serve")
     .open(getString("service-nllb-dialog-title"));
 
   await dialogData.unloadLock?.promise;
@@ -147,20 +195,6 @@ export async function nllbStatusCallback(status: boolean) {
         setPref("nllb.apiendpoint", dialogData.apiendpoint);
         setPref("nllb.apistream", dialogData.apistream);
         setPref("nllb.serveendpoint", dialogData.serveendpoint);
-      }
-      break;
-    case "api":
-      {
-        Zotero.launchURL(
-          "https://github.com/winstxnhdw/nllb-api?tab=readme-ov-file#self-hosting",
-        );
-      }
-      break;
-    case "serve":
-      {
-        Zotero.launchURL(
-          "https://github.com/thammegowda/nllb-serve?tab=readme-ov-file#nllb-serve",
-        );
       }
       break;
     default:
