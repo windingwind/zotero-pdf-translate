@@ -96,7 +96,7 @@ declare namespace _ZoteroTypes {
       "nllb.model": string;
       "nllb.apiendpoint": string;
       "nllb.apistream": boolean;
-      "nllb.serveendpointl": string;
+      "nllb.serveendpoint": string;
     };
   }
 }
