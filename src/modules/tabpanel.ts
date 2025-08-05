@@ -182,7 +182,9 @@ function buildExtraPanel(doc: Document) {
                         (service) => ({
                           tag: "menuitem",
                           attributes: {
-                            label: getString(`service-${service.id}`),
+                            label: getPref(`renameServices.${service.id}`)
+                              ? getPref(`renameServices.${service.id}`) + "🗝️"
+                              : getString(`service-${service.id}`),
                             value: service.id,
                           },
                         }),
