@@ -1,9 +1,5 @@
 import { config, homepage } from "../../package.json";
-import {
-  LANG_CODE,
-  SERVICES,
-  getSortedServicesWithPriorities,
-} from "../utils/config";
+import { LANG_CODE, getSortedServicesWithPriorities } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
