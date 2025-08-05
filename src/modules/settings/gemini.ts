@@ -95,6 +95,7 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
     )
     .addButton(getString(`service-${addonPrefix}-dialog-save`), "save")
     .addButton(getString(`service-${addonPrefix}-dialog-close`), "close")
+    .addButton(getString(`service-${addonPrefix}-dialog-help`), "help")
     .open(getString(`service-${addonPrefix}-dialog-title`));
 
   await dialogData.unloadLock?.promise;
@@ -104,6 +105,11 @@ async function gptStatusCallback(prefix: "gemini", status: boolean) {
         setPref(`${prefix}.endPoint`, dialogData.endPoint);
         setPref(`${prefix}.prompt`, dialogData.prompt);
         setPref(`${prefix}.stream`, dialogData.stream);
+      }
+      break;
+    case "help":
+      {
+        Zotero.launchURL("https://ai.google.dev/gemini-api/docs");
       }
       break;
     default:

@@ -180,6 +180,7 @@ export type FluentMessageId =
   | 'service-gemini'
   | 'service-gemini-dialog-close'
   | 'service-gemini-dialog-endPoint'
+  | 'service-gemini-dialog-help'
   | 'service-gemini-dialog-prompt'
   | 'service-gemini-dialog-save'
   | 'service-gemini-dialog-stream'
