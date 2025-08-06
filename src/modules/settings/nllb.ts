@@ -75,7 +75,7 @@ export async function nllbStatusCallback(status: boolean) {
               {
                 tag: "span",
                 properties: {
-                  innerHTML: getString("service-nllb-dialog-apilabel") + " ",
+                  innerHTML: getString("service-nllb-dialog-apilabel"),
                 },
                 styles: {
                   marginRight: "12px",
