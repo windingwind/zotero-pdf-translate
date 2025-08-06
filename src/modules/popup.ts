@@ -50,6 +50,9 @@ export function updateReaderPopup() {
   if (!task) {
     return;
   }
+  if (task.type !== "text") {
+    task.result = "";
+  }
   popup.setAttribute("translate-task-id", task.id);
 
   if (task.audio.length > 0 && getPref("showPlayBtn")) {
