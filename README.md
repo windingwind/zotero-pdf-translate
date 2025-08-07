@@ -316,7 +316,8 @@ Use this code under AGPL. No warranties are provided. Keep the laws of your loca
 ## Sponsors
 
 Thanks
-[peachgirl100](https://github.com/peachgirl100)
+[peachgirl100](https://github.com/peachgirl100),
+[youngfish42](https://github.com/youngfish42),
 and other anonymous sponsors!
 
 If you want to leave your name here, please email me or leave a message with the donation.
