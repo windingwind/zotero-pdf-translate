@@ -1,10 +1,10 @@
-import { getService, SERVICES } from "../utils/config";
 import { clearPref, getPref, getPrefJSON, setPref } from "../utils/prefs";
 import { getServiceSecret, setServiceSecret } from "../utils/secret";
+import { services } from "./services";
 
 export function setDefaultPrefSettings() {
   const isZhCN = Zotero.locale === "zh-CN";
-  const servicesIds = SERVICES.map((service) => service.id);
+  const servicesIds = services.getAllServices().map((service) => service.id);
   if (!servicesIds.includes((getPref("translateSource") as string) || "")) {
     // Google Translate is not accessible in China mainland
     setPref("translateSource", isZhCN ? "haici" : "googleapi");
@@ -20,7 +20,8 @@ export function setDefaultPrefSettings() {
   const secrets = getPrefJSON("secretObj");
   for (const serviceId of servicesIds) {
     if (typeof secrets[serviceId] === "undefined") {
-      secrets[serviceId] = getService(serviceId).defaultSecret || "";
+      secrets[serviceId] =
+        services.getServiceById(serviceId)!.defaultSecret || "";
     }
   }
   setPref("secretObj", JSON.stringify(secrets));

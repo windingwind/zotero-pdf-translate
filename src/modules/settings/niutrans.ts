@@ -35,38 +35,6 @@ export async function niutransStatusCallback(status: boolean) {
     .setDialogData(dialogData)
     .addCell(
       0,
-      0,
-      {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "username",
-        },
-        properties: {
-          innerHTML: getString("service-niutranspro-dialog-username"),
-        },
-        styles: {
-          width: "80px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(0, 1, {
-      tag: "input",
-      id: "username",
-      attributes: {
-        "data-bind": "username",
-        "data-prop": "value",
-        type: "text",
-      },
-      styles: {
-        width: "200px",
-        margin: "3px 0",
-      },
-    })
-    .addCell(
-      0,
       2,
       {
         tag: "a",
@@ -81,38 +49,7 @@ export async function niutransStatusCallback(status: boolean) {
       },
       false,
     )
-    .addCell(
-      1,
-      0,
-      {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "password",
-        },
-        properties: {
-          innerHTML: getString("service-niutranspro-dialog-password"),
-        },
-        styles: {
-          width: "80px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(1, 1, {
-      tag: "input",
-      id: "password",
-      attributes: {
-        "data-bind": "password",
-        "data-prop": "value",
-        type: "password",
-      },
-      styles: {
-        width: "200px",
-        margin: "3px 0",
-      },
-    })
+
     .addCell(
       1,
       2,
@@ -129,155 +66,12 @@ export async function niutransStatusCallback(status: boolean) {
       },
       false,
     )
-    .addCell(
-      2,
-      0,
-      {
-        tag: "label",
-        namespace: "html",
-        properties: {
-          innerHTML: getString("service-niutranspro-dialog-dictLib"),
-        },
-        styles: {
-          width: "80px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(
-      2,
-      1,
-      {
-        tag: "select",
-        id: "dictLib",
-        attributes: {
-          "data-bind": "dictNo",
-          "data-prop": "value",
-        },
-        children: dictLibListObj.map(
-          (dict: { dictName: string; dictNo: string }) => ({
-            tag: "option",
-            properties: {
-              value: dict.dictNo,
-              innerHTML: dict.dictName,
-            },
-          }),
-        ),
-        styles: {
-          width: "200px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(
-      3,
-      0,
-      {
-        tag: "label",
-        namespace: "html",
-        properties: {
-          innerHTML: getString("service-niutranspro-dialog-memoryLib"),
-        },
-        styles: {
-          width: "80px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(
-      3,
-      1,
-      {
-        tag: "select",
-        id: "memoryLib",
-        attributes: {
-          "data-bind": "memoryNo",
-          "data-prop": "value",
-        },
-        children: memoryLibListObj.map(
-          (memory: { memoryName: string; memoryNo: string }) => ({
-            tag: "option",
-            properties: {
-              value: memory.memoryNo,
-              innerHTML: memory.memoryName,
-            },
-          }),
-        ),
-        styles: {
-          width: "200px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(
-      4,
-      0,
-      {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "endpoint",
-        },
-        properties: {
-          innerHTML: getString("service-niutranspro-dialog-endpoint"),
-        },
-        styles: {
-          width: "80px",
-          margin: "3px 0",
-        },
-      },
-      false,
-    )
-    .addCell(4, 1, {
-      tag: "input",
-      id: "endpoint",
-      attributes: {
-        "data-bind": "endpoint",
-        "data-prop": "value",
-      },
-      styles: {
-        width: "200px",
-        margin: "3px 0",
-      },
-    })
-    .addCell(5, 0, {
-      tag: "div",
-      styles: {
-        width: "300px",
-        margin: "3px 0",
-      },
-      children: [
-        {
-          tag: "span",
-          properties: {
-            innerHTML: getString("service-niutranspro-dialog-tip0") + " ",
-          },
-        },
-        {
-          tag: "a",
-          properties: {
-            href: "https://niutrans.com/cloud/resource/index",
-            innerHTML: getString("service-niutranspro-dialog-tip1"),
-          },
-        },
-        {
-          tag: "span",
-          properties: {
-            innerHTML: " " + getString("service-niutranspro-dialog-tip2"),
-          },
-        },
-      ],
-    })
     .addButton(
       getString(`service-niutranspro-dialog-${signInOrRefresh}`),
       "signin",
-    )
-    .addCell(5, 1, { tag: "fragment" }, false)
-    .addCell(5, 2, { tag: "fragment" }, false);
+    );
+  // .addCell(5, 1, { tag: "fragment" }, false)
+  // .addCell(5, 2, { tag: "fragment" }, false);
 
   if (status && loginFlag) {
     dialog.addButton(
@@ -286,9 +80,9 @@ export async function niutransStatusCallback(status: boolean) {
     );
   }
 
-  dialog
-    .addButton(getString("service-niutranspro-dialog-close"), "close")
-    .open(getString("service-niutranspro-dialog-title"));
+  // dialog
+  //   .addButton(getString("service-niutranspro-dialog-close"), "close")
+  //   .open(getString("service-niutranspro-dialog-title"));
 
   await dialogData.unloadLock?.promise;
   switch (dialogData._lastButtonId) {

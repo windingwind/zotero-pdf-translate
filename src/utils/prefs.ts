@@ -9,7 +9,23 @@ export {
   unregisterPrefObserver,
 };
 
+type KeysWithStringValue<T> = {
+  [K in keyof T]: T[K] extends string ? K : never;
+}[keyof T];
+
+type KeysWithNumberValue<T> = {
+  [K in keyof T]: T[K] extends number ? K : never;
+}[keyof T];
+
+type KeysWithBooleanValue<T> = {
+  [K in keyof T]: T[K] extends boolean ? K : never;
+}[keyof T];
+
 type _PluginPrefsMap = _ZoteroTypes.Prefs["PluginPrefsMap"];
+export type PrefKeys = keyof _PluginPrefsMap;
+export type PrefKeysWithStringValue = KeysWithStringValue<_PluginPrefsMap>;
+export type PrefKeysWithNumberValue = KeysWithNumberValue<_PluginPrefsMap>;
+export type PrefKeysWithBooleanValue = KeysWithBooleanValue<_PluginPrefsMap>;
 
 function getPref<K extends keyof _PluginPrefsMap>(key: K): _PluginPrefsMap[K];
 function getPref(key: string): string | number | boolean;

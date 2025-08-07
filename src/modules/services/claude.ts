@@ -1,6 +1,6 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
+import { TranslateService } from "./base";
 
 // Helper function to transform content using prompt template
 function transformContent(
@@ -16,7 +16,7 @@ function transformContent(
 
 // Removed duplicate implementation in favor of the main claude function
 
-export const claude = <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const apiURL = getPref("claude.endPoint") as string;
   const model = getPref("claude.model") as string;
   const temperature = parseFloat(getPref("claude.temperature") as string);
@@ -145,4 +145,71 @@ export const claude = <TranslateTaskProcessor>async function (data) {
 
   data.status = "success";
   return;
+};
+
+export const Claude: TranslateService = {
+  id: "claude",
+  type: "sentence",
+  helpUrl:
+    "https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api",
+
+  defaultSecret: "",
+  secretValidator(secret: string) {
+    const status = /^sk-ant-[A-Za-z0-9]{24,}$/.test(secret);
+    const empty = secret.length === 0;
+    return {
+      secret,
+      status: status || Boolean(secret),
+      info: empty
+        ? "The secret is not set."
+        : status
+          ? "Click the button to check connectivity."
+          : "The Claude API key format might be invalid. Typically starts with 'sk-ant-'.",
+    };
+  },
+
+  translate,
+
+  getConfig() {
+    return [
+      {
+        type: "input",
+        prefKey: "claude.endPoint",
+        nameKey: "service-claude-dialog-endPoint",
+      },
+      {
+        type: "input",
+        prefKey: "claude.model",
+        nameKey: "service-claude-dialog-model",
+      },
+      {
+        type: "input",
+        prefKey: "claude.temperature",
+        nameKey: "service-claude-dialog-temperature",
+        inputType: "number",
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+      {
+        type: "input",
+        prefKey: "claude.maxTokens",
+        nameKey: "service-claude-dialog-maxTokens",
+        inputType: "number",
+        min: 100,
+        max: 10000,
+        step: 100,
+      },
+      {
+        type: "input",
+        prefKey: "claude.prompt",
+        nameKey: "service-claude-dialog-prompt",
+      },
+      {
+        type: "checkbox",
+        prefKey: "claude.stream",
+        nameKey: "service-claude-dialog-stream",
+      },
+    ];
+  },
 };

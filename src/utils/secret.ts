@@ -1,4 +1,5 @@
-import { SecretValidateResult, getService } from "./config";
+import { services } from "../modules/services";
+import { SecretValidateResult } from "./config";
 import { getPref, getPrefJSON, setPref } from "./prefs";
 
 export function getServiceSecret(serviceId: string) {
@@ -26,7 +27,7 @@ export function validateServiceSecret(
   validateCallback?: (result: SecretValidateResult) => void,
 ): SecretValidateResult {
   const secret = getServiceSecret(serviceId);
-  const validator = getService(serviceId).secretValidator;
+  const validator = services.getServiceById(serviceId)!.secretValidator;
   if (!validator) {
     return { secret, status: true, info: "" };
   }

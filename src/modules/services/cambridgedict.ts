@@ -1,4 +1,4 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
 const cambridgeLangCode = <const>[
   { name: "arabic", code: "ar", parser: parser1 },
@@ -52,7 +52,7 @@ const parsers = cambridgeLangCode.reduce(
   {} as Record<string, typeof parser1>,
 );
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const { dict, parser } = getDictionaryCode(data.langfrom, data.langto);
   if (dict === "unsupported" || !parser)
     throw `Language Error: unsupported dictionary ${dict}`;
@@ -155,3 +155,14 @@ function parseBody(block: Element): string {
 
   return body.join("\n");
 }
+
+export const CambridgeDict: TranslateService = {
+  id: "cambridgedict",
+  type: "word",
+
+  translate,
+
+  getConfig() {
+    return [];
+  },
+};

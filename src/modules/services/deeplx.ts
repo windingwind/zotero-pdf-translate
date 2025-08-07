@@ -1,6 +1,7 @@
 import { getPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
-export default <TranslateTaskProcessor>async function (data) {
+import { TranslateService } from "./base";
+
+const translate = <TranslateService["translate"]>async function (data) {
   const id = 1000 * (Math.floor(Math.random() * 99999) + 8300000) + 1;
   const url =
     (getPref("deeplx.endpoint") as string) || "https://www2.deepl.com/jsonrpc";
@@ -86,3 +87,20 @@ const LANG_MAP = {
   "zh-SG": "ZH-HANS",
   "zh-TW": "ZH-HANT",
 } as Record<string, string | undefined>;
+
+export const DeepLX: TranslateService = {
+  id: "deeplx",
+  type: "sentence",
+
+  translate,
+
+  getConfig() {
+    return [
+      {
+        type: "input",
+        prefKey: "deeplx.endpoint",
+        nameKey: "service-deeplx-dialog-endPoint",
+      },
+    ];
+  },
+};

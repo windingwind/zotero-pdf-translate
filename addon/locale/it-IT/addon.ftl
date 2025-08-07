@@ -43,9 +43,6 @@ service-errorPrefix=[Errore nella richiesta]
     
     Il messaggio seguente non è di Zotero o dell'estensione Translate ma proviene da
 
-service-niutranspro-secret-pass=Ancora...
-service-niutranspro-secret-fail=Login
-service-niutranspro-dialog-title=NiuTrans Account
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
 service-niutranspro-dialog-password=Password
@@ -59,114 +56,41 @@ service-niutranspro-dialog-tip2=per aggiungere il vocabolo alla libreria dei diz
 service-niutranspro-dialog-signin=Autenticati
 service-niutranspro-dialog-refresh=Aggiorna
 service-niutranspro-dialog-signout=Esci
-service-niutranspro-dialog-close=Chiudi
-
-service-deeplcustom-secret-pass=Configura
-service-deeplcustom-secret-fail=Configura
-service-deeplcustom-dialog-title=Configura DeepLX(API)
 service-deeplcustom-dialog-endPoint=EndPoint
-service-deeplcustom-dialog-save=Salva
-service-deeplcustom-dialog-close=Chiudi
-service-deeplcustom-dialog-help=Aiuto
-
-service-deeplx-secret-pass=Configura
-service-deeplx-secret-fail=Configura
-service-deeplx-dialog-title=Configura DeepLX
 service-deeplx-dialog-endPoint=API
-service-deeplx-dialog-save=Salva
-service-deeplx-dialog-close=Chiudi
 
-service-chatgpt-secret-pass=Configura
-service-chatgpt-secret-fail=Configura
-service-chatgpt-dialog-title=Configura { $service }
 service-chatgpt-dialog-endPoint=API
 service-chatgpt-dialog-model=Modello
 service-chatgpt-dialog-temperature=Temperatura
 service-chatgpt-dialog-prompt=Prompt
-service-chatgpt-dialog-help=Aiuto
-service-chatgpt-dialog-save=Salva
-service-chatgpt-dialog-close=Chiudi
-
-service-azuregpt-secret-pass=Configura
-service-azuregpt-secret-fail=Configura
-service-azuregpt-dialog-title=Configura AzureGPT
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Nome
 service-azuregpt-dialog-temperature=Temperatura
 service-azuregpt-dialog-apiVersion=Versione
 service-azuregpt-dialog-prompt=Prompt
-service-azuregpt-dialog-help=Aiuto
-service-azuregpt-dialog-save=Salva
-service-azuregpt-dialog-close=Chiudi
-
-service-xftrans-secret-pass=Configura
-service-xftrans-secret-fail=Configura
-service-xftrans-dialog-title=Configura Xftrans
 service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
 service-xftrans-dialog-useniutrans=Use NiuTrans API
-service-xftrans-dialog-save=Salva
-service-xftrans-dialog-close=Chiudi
-service-xftrans-dialog-help=Aiuto
-
-service-gemini-secret-pass=Configura
-service-gemini-secret-fail=Configura
-service-gemini-dialog-title=Configura Gemini
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
-service-gemini-dialog-save=Salva
-service-gemini-dialog-close=Chiudi
-service-gemini-dialog-help=Aiuto
-
 service-cnki-settings=Impostazioni
 service-cnki-dialog-regex=Regex per gli annunci CNKI
-service-cnki-dialog-save=Salva
-service-cnki-dialog-close=Chiudi
-service-cnki-dialog-title=Configura CNKI
 service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 caratteri
 
-service-aliyun-secret-pass=Configura
-service-aliyun-secret-fail=Configura
-service-aliyun-dialog-title=Configura Aliyun
 service-aliyun-dialog-action=Azione
 service-aliyun-dialog-scene=Scena
-service-aliyun-dialog-help=Aiuto
-service-aliyun-dialog-save=Salva
-service-aliyun-dialog-close=Chiudi
-
-service-tencent-secret-pass=Configura
-service-tencent-secret-fail=Configura
-service-tencent-dialog-title=Configura Tencent Cloud Traduzione
 service-tencent-dialog-secretid=Segreto ID
 service-tencent-dialog-secretkey=Segreto Key
 service-tencent-dialog-region=Regione
 service-tencent-dialog-projectid=Progetto ID
 service-tencent-dialog-termrepoid=Term Repo IDs (opzionale)
 service-tencent-dialog-sentrepoid=Sent Repo IDs (opzionale)
-service-tencent-dialog-help=Aiuto
-service-tencent-dialog-save=Salva
-service-tencent-dialog-close=Chiudi
-
-service-youdaozhiyun-secret-pass=Configura
-service-youdaozhiyun-secret-fail=Configura
-service-youdaozhiyun-dialog-title=Configura Youdao Zhiyun
 service-youdaozhiyun-dialog-domain=Settore
-service-youdaozhiyun-dialog-help=Aiuto
-service-youdaozhiyun-dialog-save=Salva
-service-youdaozhiyun-dialog-close=Chiudi
-
-service-youdaozhiyunllm-secret-pass=Configura
-service-youdaozhiyunllm-secret-fail=Configura
-service-youdaozhiyunllm-dialog-title=Configura Youdao LLM
 service-youdaozhiyunllm-dialog-model=Modello
 service-youdaozhiyunllm-dialog-pro=Youdao LLM Pro-14B
 service-youdaozhiyunllm-dialog-lite=Youdao LLM Lite-1.5B
 service-youdaozhiyunllm-dialog-prompt=Prompt
 service-youdaozhiyunllm-dialog-stream=Stream
-service-youdaozhiyunllm-dialog-help=Aiuto
-service-youdaozhiyunllm-dialog-save=Salva
-service-youdaozhiyunllm-dialog-close=Chiudi
-
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
 
@@ -195,39 +119,14 @@ service-renameServices-hint=Le modifiche avranno effetto dopo il riavvio del plu
 service-renameServices-save=Salva
 service-renameServices-close=Chiudi
 
-service-libretranslate-secret-pass=Configura
-service-libretranslate-secret-fail=Configura
-service-libretranslate-dialog-title=Configura LibreTranslate
 service-libretranslate-dialog-endPoint=API Endpoint
-service-libretranslate-dialog-save=Salva
-service-libretranslate-dialog-close=Chiudi
-service-libretranslate-dialog-help=Aiuto
-
-service-mtranserver-secret-pass=Configura
-service-mtranserver-secret-fail=Configura
-service-mtranserver-dialog-title=Configura MTranServer
 service-mtranserver-dialog-endPoint=EndPoint
 service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
-service-mtranserver-dialog-save=Salva
-service-mtranserver-dialog-close=Chiudi
-service-mtranserver-dialog-help=Aiuto
-
-service-pot-secret-pass=Configura
-service-pot-secret-fail=Configura
-service-pot-dialog-title=Configura Pot
 service-pot-dialog-port=Port
-service-pot-dialog-save=Salva
-service-pot-dialog-close=Chiudi
-service-pot-dialog-help=Aiuto
-
-service-nllb-secret-pass=Configura
-service-nllb-secret-fail=Configura
-service-nllb-dialog-title=Configura NLLB
 service-nllb-dialog-model=Modello
 service-nllb-dialog-endpoint=EndPoint
 service-nllb-dialog-docs=Docs
 service-nllb-dialog-apilabel=nllb-api Settings
 service-nllb-dialog-apistream=Stream
 service-nllb-dialog-servelabel=nllb-serve Settings
-service-nllb-dialog-save=Salva
-service-nllb-dialog-close=Chiudi
+
