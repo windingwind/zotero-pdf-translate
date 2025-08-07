@@ -1,9 +1,14 @@
 import { config, homepage } from "../../package.json";
-import { LANG_CODE, getSortedServicesWithPriorities } from "../utils/config";
+import { createServiceDialog } from "../utils";
+import {
+  LANG_CODE,
+  SecretValidateResult,
+  getSortedServicesWithPriorities,
+} from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
-import { secretStatusButtonData } from "./settings";
+// import { secretStatusButtonData } from "./settings";
 
 export function registerPrefsWindow() {
   Zotero.PreferencePanes.register({
@@ -365,36 +370,40 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     case "setSentenceSecret":
       {
         const serviceId = getPref("translateSource") as string;
-        const secretCheckResult = validateServiceSecret(
-          serviceId,
-          (validateResult) => {
-            if (fromElement && !validateResult.status) {
-              addon.data.prefs.window?.alert(
-                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`,
-              );
-            }
-          },
-        );
-        (
-          doc.querySelector(
-            `#${makeId("sentenceServicesSecret")}`,
-          ) as HTMLInputElement
-        ).value = secretCheckResult.secret;
+        ztoolkit.log(`id: ${serviceId}`);
+        const service =
+          addon.data.translate.services.getServiceById(serviceId)!;
+        const name = getString(service.name);
+        const helpUrl = service.helpUrl;
+
+        if (service.secretValidator) {
+          const currentSecret = (
+            doc.querySelector(
+              `#${makeId("sentenceServicesSecret")}`,
+            ) as HTMLInputElement
+          ).value;
+
+          const secretCheckResult = service.secretValidator(currentSecret);
+          if (!secretCheckResult.status) {
+            addon.data.prefs.window?.alert(
+              `You see this because the translation service ${name} requires SECRET, which is NOT correctly set.\n\nDetails:\n${secretCheckResult.info}`,
+            );
+          }
+        }
+
         // Update secret status button
-        const statusButtonData = secretStatusButtonData[serviceId];
-        const statusButton = doc.querySelector(
-          `#${makeId("sentenceServicesStatus")}`,
-        ) as XUL.Button;
-        if (statusButtonData) {
-          statusButton.hidden = false;
-          statusButton.label = getString(
-            statusButtonData.labels[secretCheckResult.status ? "pass" : "fail"],
-          );
+        const fields = service.getConfig();
+        if (fields.length !== 0) {
+          // const statusButtonData = secretStatusButtonData[serviceId];
+          const statusButton = doc.querySelector(
+            `#${makeId("sentenceServicesStatus")}`,
+          ) as XUL.Button;
+
           statusButton.onclick = (ev) => {
-            statusButtonData.callback(secretCheckResult.status);
+            createServiceDialog(name, fields, helpUrl);
           };
-        } else {
-          statusButton.hidden = true;
+          statusButton.hidden = false;
+          statusButton.label = getString("config");
         }
       }
       break;
