@@ -36,7 +36,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const stream = getPref("youdaozhiyunllm.stream") as boolean;
   const streamType = stream ? "increment" : "full";
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler(data);
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   if (!stream) {
     data.result = getString("status-translating");

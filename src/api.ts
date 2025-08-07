@@ -135,7 +135,8 @@ async function translate(
  * This handler is temporary and will be invalid after another call.
  * @returns A temporary refresh handler.
  */
-function getTemporaryRefreshHandler(translateTask?: TranslateTask) {
+function getTemporaryRefreshHandler(options?: { task?: TranslateTask }) {
+  const translateTask = options?.task;
   if (translateTask && translateTask.type !== "text") {
     return () => {};
   }

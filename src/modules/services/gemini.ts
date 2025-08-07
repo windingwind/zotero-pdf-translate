@@ -26,7 +26,7 @@ const geminiTranslate = async function (
     }
   }
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler(data);
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   const xhr = await Zotero.HTTP.request("POST", getGenContentAPI(data), {
     headers: {

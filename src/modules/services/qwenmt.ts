@@ -9,7 +9,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const model = (getPref("qwenmt.model") as string) || "qwen-mt-plus";
   const domains_prompt = (getPref("qwenmt.domains") as string) || "";
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler(data);
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
   data.result = getString("status-translating");
   refreshHandler();
 

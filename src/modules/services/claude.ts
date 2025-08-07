@@ -23,7 +23,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
   const stream = getPref("claude.stream") as boolean;
   const maxTokens = parseInt(getPref("claude.maxTokens") as string) || 4000;
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler(data);
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   // Pass maxTokens to the request body
   const requestBody = {
