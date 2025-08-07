@@ -8,7 +8,7 @@ export default <TranslateTaskProcessor>async function (data) {
   const apiurl =
     (getPref("nllb.apiendpoint") as string) || "http://localhost:7860";
   const model = getPref("nllb.model") as string;
-  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   if (model === "nllb-serve") {
     data.result = getString("status-translating");
@@ -70,9 +70,7 @@ export default <TranslateTaskProcessor>async function (data) {
         data.result = result;
         preLength = e.target.response.length;
 
-        if (data.type === "text") {
-          refreshHandler();
-        }
+        refreshHandler();
       };
     };
 

@@ -23,7 +23,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
   const stream = getPref("claude.stream") as boolean;
   const maxTokens = parseInt(getPref("claude.maxTokens") as string) || 4000;
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   // Pass maxTokens to the request body
   const requestBody = {
@@ -104,9 +104,7 @@ export const claude = <TranslateTaskProcessor>async function (data) {
             data.result = result.replace(/^\n\n/, "");
 
             // Refresh UI to show progress
-            if (data.type === "text") {
-              refreshHandler();
-            }
+            refreshHandler();
           } catch (error) {
             console.error("Error processing Claude stream:", error);
           }

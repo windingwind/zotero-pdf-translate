@@ -135,7 +135,11 @@ async function translate(
  * This handler is temporary and will be invalid after another call.
  * @returns A temporary refresh handler.
  */
-function getTemporaryRefreshHandler() {
+function getTemporaryRefreshHandler(options?: { task?: TranslateTask }) {
+  const translateTask = options?.task;
+  if (translateTask && translateTask.type !== "text") {
+    return () => {};
+  }
   const newTick = `${Zotero.Utilities.randomString()}-${Date.now()}`;
   addon.data.translate.refreshTick = newTick;
   return () => {

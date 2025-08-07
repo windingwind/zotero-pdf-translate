@@ -77,7 +77,7 @@ const gptTranslate = async function (
 
   const streamMode = stream ?? true;
 
-  const refreshHandler = addon.api.getTemporaryRefreshHandler();
+  const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
   //It takes some time to translate, so set the text to "Translating" before the request
   if (streamMode === false) {
@@ -131,9 +131,7 @@ const gptTranslate = async function (
       data.result = result.replace(/^\n\n/, "");
       preLength = e.target.response.length;
 
-      if (data.type === "text") {
-        refreshHandler();
-      }
+      refreshHandler();
     };
   };
 

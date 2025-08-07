@@ -37,6 +37,7 @@ export function registerReaderInitializer() {
                 );
                 addon.hooks.onTranslate(task, {
                   noCheckZoteroItemLanguage: true,
+                  noDisplay: true,
                 });
                 e.preventDefault();
               },
