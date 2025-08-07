@@ -304,201 +304,114 @@ async function gptStatusCallback(
   prefix: "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT",
 ) {
   const servicePrefix = prefix === "azureGPT" ? "azuregpt" : "chatgpt";
-  const dialog = new ztoolkit.Dialog(2, 1);
-  const dialogData: { [key: string | number]: any } = {
-    endPoint: getPref(`${prefix}.endPoint`),
-    model: getPref(`${prefix}.model`),
-    temperature: parseFloat(getPref(`${prefix}.temperature`) as string),
-    prompt: getPref(`${prefix}.prompt`),
-    apiVersion: getPref("azureGPT.apiVersion"),
-    stream: getPref(`${prefix}.stream`),
+
+  // Settings handlers
+  const getSetting = (key: string) => {
+    if (key === "apiVersion" && prefix === "azureGPT") {
+      return getPref("azureGPT.apiVersion");
+    }
+    return getPref(`${prefix}.${key}`);
   };
 
-  dialog
-    .setDialogData(dialogData)
-    .addCell(
-      0,
-      0,
+  const setSetting = (key: string, value: any) => {
+    if (key === "apiVersion" && prefix === "azureGPT") {
+      setPref("azureGPT.apiVersion", value);
+    } else {
+      setPref(`${prefix}.${key}`, value);
+    }
+  };
+
+  const settingsDialog = new ztoolkit.SettingsDialog()
+    .setSettingHandlers(getSetting, setSetting)
+    // Add settings for the main GPT configuration
+    .addSetting(
+      getString(`service-${servicePrefix}-dialog-endPoint`),
+      "endPoint",
       {
-        tag: "div",
-        namespace: "html",
-        styles: {
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr",
-          rowGap: "10px",
-          columnGap: "5px",
-          minWidth: "400px",
-          minHeight: "200px",
+        tag: "input",
+        attributes: {
+          type: "text",
+          placeholder: "https://api.openai.com/v1",
         },
-        children: [
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "endPoint",
-            },
-            properties: {
-              innerHTML: getString(`service-${servicePrefix}-dialog-endPoint`),
-            },
-          },
-          {
-            tag: "input",
-            id: "endPoint",
-            attributes: {
-              "data-bind": "endPoint",
-              "data-prop": "value",
-              type: "string",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "model",
-            },
-            properties: {
-              innerHTML: getString(`service-${servicePrefix}-dialog-model`),
-            },
-          },
-          {
-            tag: "input",
-            id: "gptModel",
-            attributes: {
-              "data-bind": "model",
-              "data-prop": "value",
-              type: "string",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "temperature",
-            },
-            properties: {
-              innerHTML: getString(
-                `service-${servicePrefix}-dialog-temperature`,
-              ),
-            },
-          },
-          {
-            tag: "input",
-            id: "temperature",
-            attributes: {
-              "data-bind": "temperature",
-              "data-prop": "value",
-              type: "number",
-              min: 0,
-              max: 2,
-              step: 0.1,
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            styles: {
-              display: prefix === "azureGPT" ? "" : "none",
-            },
-            attributes: {
-              for: "apiVersion",
-            },
-            properties: {
-              innerHTML: getString(
-                `service-${servicePrefix}-dialog-apiVersion`,
-              ),
-            },
-          },
-          {
-            tag: "input",
-            id: "apiVersion",
-            styles: {
-              display: prefix === "azureGPT" ? "" : "none",
-            },
-            attributes: {
-              "data-bind": "apiVersion",
-              "data-prop": "value",
-              type: "string",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "prompt",
-            },
-            properties: {
-              innerHTML: getString(`service-${servicePrefix}-dialog-prompt`),
-            },
-          },
-          {
-            tag: "textarea",
-            id: "prompt",
-            attributes: {
-              "data-bind": "prompt",
-              "data-prop": "value",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
-            attributes: {
-              for: "stream",
-            },
-            properties: {
-              innerHTML: "Stream",
-            },
-          },
-          {
-            tag: "input",
-            id: "stream",
-            attributes: {
-              type: "checkbox",
-              "data-bind": "stream",
-              "data-prop": "checked",
-            },
-            styles: {
-              justifySelf: "start",
-            },
-          },
-        ],
       },
-      false,
     )
-    .addButton(getString(`service-${servicePrefix}-dialog-close`), "close")
-    .addButton(getString(`service-${servicePrefix}-dialog-help`), "help")
-    .addButton(
-      getString(`service-${servicePrefix}-dialog-custom-request`),
-      "customRequest",
-    )
-    .addButton(getString(`service-${servicePrefix}-dialog-save`), "save");
-
-  dialog.open(
-    getString(`service-${servicePrefix}-dialog-title`, {
-      args: {
-        service: prefix,
+    .addSetting(getString(`service-${servicePrefix}-dialog-model`), "model", {
+      tag: "input",
+      attributes: {
+        type: "text",
+        placeholder: "gpt-3.5-turbo",
       },
-    }),
-  );
-
-  await dialogData.unloadLock?.promise;
-  switch (dialogData._lastButtonId) {
-    case "save":
+    })
+    .addSetting(
+      getString(`service-${servicePrefix}-dialog-temperature`),
+      "temperature",
       {
-        const temperature = dialogData.temperature;
-
-        if (temperature && temperature >= 0 && temperature <= 2) {
-          setPref(`${prefix}.temperature`, dialogData.temperature.toString());
-        }
-
-        setPref(`${prefix}.endPoint`, dialogData.endPoint);
-        setPref(`${prefix}.model`, dialogData.model);
-        setPref(`${prefix}.prompt`, dialogData.prompt);
-        setPref(`${prefix}.stream`, dialogData.stream);
-        setPref("azureGPT.apiVersion", dialogData.apiVersion);
-      }
-      break;
-    case "help":
+        tag: "input",
+        attributes: {
+          type: "number",
+          min: "0",
+          max: "2",
+          step: "0.1",
+        },
+      },
+      { valueType: "number" },
+    )
+    .addSetting(
+      getString(`service-${servicePrefix}-dialog-apiVersion`),
+      "apiVersion",
       {
+        tag: "input",
+        attributes: {
+          type: "text",
+          placeholder: "2024-02-15-preview",
+        },
+      },
+      {
+        // Add API Version field only for Azure GPT
+        condition: () => prefix === "azureGPT",
+      },
+    )
+    .addSetting(getString(`service-${servicePrefix}-dialog-prompt`), "prompt", {
+      tag: "textarea",
+      attributes: {
+        rows: "5",
+        placeholder: "Enter your system prompt...",
+      },
+    })
+    .addSetting(
+      "Stream",
+      "stream",
+      {
+        tag: "input",
+        attributes: {
+          type: "checkbox",
+        },
+      },
+      { valueType: "boolean" },
+    )
+    // Add control buttons
+    .addAutoSaveButton(
+      getString(`service-${servicePrefix}-dialog-save`),
+      "save",
+      {
+        validate: () => {
+          // Validation for temperature
+          const temperature = getSetting("temperature");
+          const tempNum =
+            typeof temperature === "string"
+              ? parseFloat(temperature)
+              : Number(temperature);
+          if (!isNaN(tempNum) && (tempNum < 0 || tempNum > 2)) {
+            return "Temperature must be between 0 and 2";
+          }
+          return true;
+        },
+        callback: () => {},
+      },
+    )
+    .addButton(getString(`service-${servicePrefix}-dialog-help`), "help", {
+      noClose: true,
+      callback: () => {
         const helpURL = {
           chatGPT:
             "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
@@ -509,16 +422,32 @@ async function gptStatusCallback(
         Zotero.launchURL(
           prefix === "azureGPT" ? helpURL.azureGPT : helpURL.chatGPT,
         );
-      }
-      break;
-    case "customRequest":
+      },
+    })
+    .addButton(
+      getString(`service-${servicePrefix}-dialog-custom-request`),
+      "customRequest",
       {
-        await openCustomRequestDialog(prefix);
-      }
-      break;
-    default:
-      break;
-  }
+        noClose: true,
+        callback: () => {
+          openCustomRequestDialog(prefix);
+        },
+      },
+    )
+    .addButton(getString(`service-${servicePrefix}-dialog-close`), "close");
+
+  settingsDialog.open(
+    getString(`service-${servicePrefix}-dialog-title`, {
+      args: {
+        service: prefix,
+      },
+    }),
+    {
+      centerscreen: true,
+      resizable: true,
+      fitContent: true,
+    },
+  );
 }
 
 export function getLLMStatusCallback(
