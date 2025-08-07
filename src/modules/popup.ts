@@ -50,9 +50,6 @@ export function updateReaderPopup() {
   if (!task) {
     return;
   }
-  if (task.type !== "text") {
-    task.result = "";
-  }
   popup.setAttribute("translate-task-id", task.id);
 
   if (task.audio.length > 0 && getPref("showPlayBtn")) {
@@ -88,9 +85,14 @@ export function updateReaderPopup() {
     audio.play();
   }
 
-  updateHidden(translateButton, task.status !== "waiting");
+  const selection = addon.data.translate.selectedText;
+  updateHidden(
+    translateButton,
+    task.status !== "waiting" && task.raw === selection,
+  );
 
-  textarea.hidden = hidePopupTextarea || task.status === "waiting";
+  textarea.hidden =
+    hidePopupTextarea || task.status === "waiting" || task.raw !== selection;
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
