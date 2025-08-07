@@ -194,7 +194,6 @@ export class TranslationServices {
         task.result = cachedTask.result;
         task.status = "success";
 
-        //
         if (!noDisplay) {
           addon.api.getTemporaryRefreshHandler()();
         }
