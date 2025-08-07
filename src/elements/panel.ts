@@ -407,7 +407,13 @@ export class TranslatorPanel extends PluginCEBase {
     }
     // For manually update translation task
     this._taskID = lastTask.id;
-    setValue("raw-text", reverseRawResult ? lastTask.result : lastTask.raw);
-    setValue("result-text", reverseRawResult ? lastTask.raw : lastTask.result);
+
+    if (lastTask.type === "text") {
+      setValue("raw-text", reverseRawResult ? lastTask.result : lastTask.raw);
+      setValue(
+        "result-text",
+        reverseRawResult ? lastTask.raw : lastTask.result,
+      );
+    }
   }
 }
