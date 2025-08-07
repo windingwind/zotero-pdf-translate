@@ -408,7 +408,10 @@ export class TranslatorPanel extends PluginCEBase {
     // For manually update translation task
     this._taskID = lastTask.id;
 
-    if (lastTask.type === "text") {
+    if (
+      lastTask.type === "text" ||
+      (lastTask.raw === "" && lastTask.result === "")
+    ) {
       setValue("raw-text", reverseRawResult ? lastTask.result : lastTask.raw);
       setValue(
         "result-text",
