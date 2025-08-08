@@ -1,6 +1,7 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
-import { getPref } from "../../utils/prefs";
-import { getString } from "../../utils/locale";
+import { ConfigField, getPref, getString } from "../../utils";
+import { TranslationService } from "./base";
+
+type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
 
 function getCustomParams(prefix: string): Record<string, any> {
   const storedCustomParams =
@@ -61,7 +62,7 @@ const gptTranslate = async function (
   model: string,
   temperature: number,
   prefix: string,
-  data: Required<TranslateTask>,
+  data: Parameters<TranslationService["translate"]>[0],
   stream?: boolean,
 ) {
   function transformContent(
@@ -192,34 +193,149 @@ const gptTranslate = async function (
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-export function getLLMService(type: string): TranslateTaskProcessor {
-  return async (data) => {
-    const apiURL = getPref(`${type}.endPoint`) as string;
-    const model = getPref(`${type}.model`) as string;
-    const temperature = parseFloat(getPref(`${type}.temperature`) as string);
-    const stream = getPref(`${type}.stream`) as boolean;
+function createGPTService(id: ID): TranslationService {
+  return {
+    id,
+    type: "sentence",
+    helpUrl:
+      id === "azuregpt"
+        ? "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference#chat-completions"
+        : "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
 
-    return await gptTranslate(apiURL, model, temperature, type, data, stream);
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      if (id === "chatgpt") {
+        const status = /^sk-[A-Za-z0-9_-]{32,}$/.test(secret);
+        const empty = secret.length === 0;
+        return {
+          secret,
+          status,
+          info: empty
+            ? "The secret is not set."
+            : status
+              ? "Click the button to check connectivity."
+              : "The secret key format is invalid.",
+        };
+      }
+
+      if (id === "azuregpt") {
+        const flag = Boolean(secret);
+        return {
+          secret,
+          status: flag,
+          info: flag ? "" : "The secret is not set.",
+        };
+      }
+
+      const status = secret.length > 0;
+      return {
+        secret,
+        status,
+        info: status
+          ? "Click the button to check connectivity."
+          : "The secret key format is invalid.",
+      };
+    },
+
+    async translate(data) {
+      switch (id) {
+        case "azuregpt": {
+          const endPoint = getPref("azureGPT.endPoint") as string;
+          const apiVersion = getPref("azureGPT.apiVersion");
+          const model = getPref("azureGPT.model") as string;
+          const temperature = parseFloat(
+            getPref("azureGPT.temperature") as string,
+          );
+          const stream = getPref("azureGPT.stream") as boolean;
+
+          const apiURL = new URL(endPoint);
+          apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
+          apiURL.search = `api-version=${apiVersion}`;
+
+          return await gptTranslate(
+            apiURL.href,
+            model,
+            temperature,
+            "azureGPT",
+            data,
+            stream,
+          );
+        }
+
+        case "chatgpt":
+        case "customgpt1":
+        case "customgpt2":
+        case "customgpt3": {
+          const apiURL = getPref(`${id}.endPoint`) as string;
+          const model = getPref(`${id}.model`) as string;
+          const temperature = parseFloat(
+            getPref(`${id}.temperature`) as string,
+          );
+          const stream = getPref(`${id}.stream`) as boolean;
+
+          return await gptTranslate(
+            apiURL,
+            model,
+            temperature,
+            id,
+            data,
+            stream,
+          );
+        }
+
+        default:
+          break;
+      }
+    },
+
+    getConfig(): ConfigField[] {
+      const servicePrefix = id === "azuregpt" ? "azuregpt" : "chatgpt";
+
+      return [
+        {
+          type: "input",
+          prefKey: `${id}.endPoint`,
+          nameKey: `service-${servicePrefix}-dialog-endPoint`,
+        },
+        {
+          type: "input",
+          prefKey: `${id}.model`,
+          nameKey: `service-${servicePrefix}-dialog-model`,
+        },
+        {
+          type: "input",
+          prefKey: `${id}.temperature`,
+          nameKey: `service-${servicePrefix}-dialog-temperature`,
+        },
+        {
+          type: "input",
+          prefKey: `${id}.apiVersion`,
+          nameKey: `service-${servicePrefix}-dialog-apiVersion`,
+          hidden: id !== "azuregpt",
+        },
+        {
+          type: "textarea",
+          prefKey: `${id}.prompt`,
+          nameKey: `service-${servicePrefix}-dialog-prompt`,
+          placeholder: getString(`service-${servicePrefix}-dialog-prompt`),
+        },
+        {
+          type: "checkbox",
+          prefKey: `${id}.stream`,
+          nameKey: `service-${servicePrefix}-dialog-stream`,
+        },
+        {
+          type: "params",
+          prefKey: `${id}.customParams`,
+          nameKey: `service-${servicePrefix}-dialog-custom-request`,
+        },
+      ];
+    },
   };
 }
 
-export const azureGPT = <TranslateTaskProcessor>async function (data) {
-  const endPoint = getPref("azureGPT.endPoint") as string;
-  const apiVersion = getPref("azureGPT.apiVersion");
-  const model = getPref("azureGPT.model") as string;
-  const temperature = parseFloat(getPref("azureGPT.temperature") as string);
-  const stream = getPref("azureGPT.stream") as boolean;
-
-  const apiURL = new URL(endPoint);
-  apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
-  apiURL.search = `api-version=${apiVersion}`;
-
-  return await gptTranslate(
-    apiURL.href,
-    model,
-    temperature,
-    "azureGPT",
-    data,
-    stream,
-  );
-};
+export const ChatGPT = createGPTService("chatgpt");
+export const customGPT1 = createGPTService("customgpt1");
+export const customGPT2 = createGPTService("customgpt2");
+export const customGPT3 = createGPTService("customgpt3");
+export const azureGPT = createGPTService("azuregpt");

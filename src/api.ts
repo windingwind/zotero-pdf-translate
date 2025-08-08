@@ -1,4 +1,3 @@
-import { SERVICES } from "./utils/config";
 import { getPref } from "./utils/prefs";
 import { TranslateTask } from "./utils/task";
 import { version } from "../package.json";
@@ -151,7 +150,9 @@ function getTemporaryRefreshHandler() {
  * @returns Array of services.
  */
 function getServices() {
-  return SERVICES.map((service) => Object.assign({}, service));
+  return addon.data.translate.services
+    .getAllServices()
+    .map((service) => Object.assign({}, service));
 }
 
 /**

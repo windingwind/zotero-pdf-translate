@@ -15,7 +15,7 @@ export interface SecretValidateResult {
   info: string;
 }
 
-export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
+const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
     id: "googleapi",
@@ -36,10 +36,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     type: "sentence",
     id: "youdao",
   },
-  {
-    type: "sentence",
-    id: "bing",
-  },
+
   {
     type: "sentence",
     id: "deeplx",
@@ -233,50 +230,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
       };
     },
   },
-  {
-    type: "sentence",
-    id: "baidu",
-    defaultSecret: "appid#key",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = [2, 3].includes(parts.length);
-      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nAction: ${
-        parts[2] ? parts[2] : "0"
-      }`;
-      const source = getService("baidu");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-              ? partsInfo
-              : `The secret format of Baidu Text Translation is AppID#Key#Action(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "baidufield",
-    defaultSecret: "appid#key#field",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 3;
-      const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
-      const source = getService("baidufield");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-              ? partsInfo
-              : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
+
   {
     type: "sentence",
     id: "openl",
@@ -298,73 +252,7 @@ export const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
       };
     },
   },
-  {
-    type: "sentence",
-    id: "tencent",
-    defaultSecret:
-      "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
-    secretValidator(secret: string | object) {
-      const source = getService("tencent");
 
-      // Handle empty or default secret
-      if (!secret || secret === source.defaultSecret) {
-        return {
-          secret: secret as string,
-          status: false,
-          info: "The secret is not set. Click the button to configure.",
-        };
-      }
-
-      // Try to parse as JSON first (new object format)
-      try {
-        let config: any;
-        if (typeof secret === "string") {
-          config = JSON.parse(secret);
-        } else {
-          config = secret;
-        }
-
-        if (config && typeof config === "object" && config.secretId) {
-          // New object format validation
-          const hasRequiredFields = config.secretId && config.secretKey;
-          const partsInfo = `SecretId: ${config.secretId || "Not set"}
-SecretKey: ${config.secretKey ? "Set" : "Not set"}
-Region: ${config.region || "ap-shanghai"}
-ProjectId: ${config.projectId || "0"}
-Term Repo IDs: ${(config.termRepoIDList || []).join(", ") || "None"}
-Sent Repo IDs: ${(config.sentRepoIDList || []).join(", ") || "None"}`;
-
-          return {
-            secret:
-              typeof secret === "string" ? secret : JSON.stringify(secret),
-            status: hasRequiredFields,
-            info: hasRequiredFields
-              ? partsInfo
-              : "SecretId and SecretKey are required.",
-          };
-        }
-      } catch {
-        // Not JSON, continue to legacy format
-      }
-
-      // Handle legacy string format
-      const parts = (secret as string)?.split("#");
-      const hasRequiredFields =
-        parts && parts.length >= 2 && parts[0] && parts[1];
-      const partsInfo = `SecretId: ${parts?.[0] || "Not set"}
-SecretKey: ${parts?.[1] ? "Set" : "Not set"}
-Region: ${parts?.[2] || "ap-shanghai"}
-ProjectId: ${parts?.[3] || "0"}`;
-
-      return {
-        secret: secret as string,
-        status: !!hasRequiredFields,
-        info: hasRequiredFields
-          ? partsInfo
-          : "SecretId and SecretKey are required. Use format: SecretId#SecretKey#Region(optional)#ProjectId(optional) or click button for advanced configuration.",
-      };
-    },
-  },
   {
     type: "sentence",
     id: "xftrans",
@@ -386,82 +274,7 @@ ProjectId: ${parts?.[3] || "0"}`;
       };
     },
   },
-  {
-    type: "sentence",
-    id: "chatgpt",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const status = /^sk-[A-Za-z0-9_-]{32,}$/.test(secret);
-      const empty = secret.length === 0;
-      return {
-        secret,
-        status,
-        info: empty
-          ? "The secret is not set."
-          : status
-            ? "Click the button to check connectivity."
-            : "The secret key format is invalid.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "customgpt1",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const status = secret.length > 0;
-      return {
-        secret,
-        status,
-        info: status
-          ? "Click the button to check connectivity."
-          : "The secret key format is invalid.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "customgpt2",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const status = secret.length > 0;
-      return {
-        secret,
-        status,
-        info: status
-          ? "Click the button to check connectivity."
-          : "The secret key format is invalid.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "customgpt3",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const status = secret.length > 0;
-      return {
-        secret,
-        status,
-        info: status
-          ? "Click the button to check connectivity."
-          : "The secret key format is invalid.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "azuregpt",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = Boolean(secret);
-      return {
-        secret,
-        status: flag,
-        info: flag ? "" : "The secret is not set.",
-      };
-    },
-  },
+
   {
     type: "sentence",
     id: "gemini",
@@ -910,47 +723,47 @@ function mapISO6393to6391(code: string) {
  * @param priorityMap - Optional map of service IDs to priority values (higher = higher priority)
  * @returns Sorted array of services
  */
-export function getSortedServicesWithPriorities(
-  type: "word" | "sentence",
-  priorityMap: Record<string, number> = {},
-) {
-  // Default priorities
-  const defaultPriorities: Record<string, number> = {
-    // Custom services get priority 20
-    customgpt1: 20,
-    customgpt2: 20,
-    customgpt3: 20,
-    // Free services get priority 120
-    google: 120,
-    googleapi: 120,
-    cnki: 120,
-    haici: 120,
-    youdao: 120,
-    bing: 120,
-    deeplx: 120,
-    // Services require custom configuration get priority 110
-    deeplcustom: 110,
-    mtranserver: 110,
-    libretranslate: 110,
-    pot: 110,
-    nllb: 110,
-    // All other services default to 100
-  };
+// function getSortedServicesWithPriorities(
+//   type: "word" | "sentence",
+//   priorityMap: Record<string, number> = {},
+// ) {
+//   // Default priorities
+//   const defaultPriorities: Record<string, number> = {
+//     // Custom services get priority 20
+//     customgpt1: 20,
+//     customgpt2: 20,
+//     customgpt3: 20,
+//     // Free services get priority 120
+//     google: 120,
+//     googleapi: 120,
+//     cnki: 120,
+//     haici: 120,
+//     youdao: 120,
+//     bing: 120,
+//     deeplx: 120,
+//     // Services require custom configuration get priority 110
+//     deeplcustom: 110,
+//     mtranserver: 110,
+//     libretranslate: 110,
+//     pot: 110,
+//     nllb: 110,
+//     // All other services default to 100
+//   };
 
-  return SERVICES.filter((service) => service.type === type).sort((a, b) => {
-    // Get priorities (use custom priority if provided, otherwise use default)
-    const aPriority = priorityMap[a.id] ?? defaultPriorities[a.id] ?? 100;
-    const bPriority = priorityMap[b.id] ?? defaultPriorities[b.id] ?? 100;
+//   return SERVICES.filter((service) => service.type === type).sort((a, b) => {
+//     // Get priorities (use custom priority if provided, otherwise use default)
+//     const aPriority = priorityMap[a.id] ?? defaultPriorities[a.id] ?? 100;
+//     const bPriority = priorityMap[b.id] ?? defaultPriorities[b.id] ?? 100;
 
-    // Sort by priority first (descending - higher priority first)
-    if (aPriority !== bPriority) {
-      return bPriority - aPriority;
-    }
+//     // Sort by priority first (descending - higher priority first)
+//     if (aPriority !== bPriority) {
+//       return bPriority - aPriority;
+//     }
 
-    // Within same priority, sort alphabetically by service ID
-    return a.id.localeCompare(b.id);
-  });
-}
+//     // Within same priority, sort alphabetically by service ID
+//     return a.id.localeCompare(b.id);
+//   });
+// }
 
 export const SVGIcon = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" width="16" height="16" xml:space="preserve">

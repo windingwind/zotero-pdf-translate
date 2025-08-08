@@ -1,14 +1,10 @@
 import { config, homepage } from "../../package.json";
 import { createServiceDialog } from "../utils";
-import {
-  LANG_CODE,
-  SecretValidateResult,
-  getSortedServicesWithPriorities,
-} from "../utils/config";
+import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
-// import { secretStatusButtonData } from "./settings";
+import { services } from "./services";
 
 export function registerPrefsWindow() {
   Zotero.PreferencePanes.register({
@@ -32,6 +28,7 @@ function buildPrefsPane() {
   if (!doc) {
     return;
   }
+
   // menus
   ztoolkit.UI.replaceElement(
     {
@@ -52,17 +49,13 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("sentence").map(
-            (service) => ({
-              tag: "menuitem",
-              attributes: {
-                label: getPref(`renameServices.${service.id}`)
-                  ? getPref(`renameServices.${service.id}`) + "🗝️"
-                  : getString(`service-${service.id}`),
-                value: service.id,
-              },
-            }),
-          ),
+          children: services.getAllServicesWithType("sentence").map((s) => ({
+            tag: "menuitem",
+            attributes: {
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
+            },
+          })),
         },
       ],
     },
@@ -89,11 +82,11 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("word").map((service) => ({
+          children: services.getAllServicesWithType("word").map((s) => ({
             tag: "menuitem",
             attributes: {
-              label: getString(`service-${service.id}`),
-              value: service.id,
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
             },
           })),
         },
@@ -373,7 +366,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
         ztoolkit.log(`id: ${serviceId}`);
         const service =
           addon.data.translate.services.getServiceById(serviceId)!;
-        const name = getString(service.name);
+        const serviceName = getString(`service-${service.id}`);
         const helpUrl = service.helpUrl;
 
         if (service.secretValidator) {
@@ -386,7 +379,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           const secretCheckResult = service.secretValidator(currentSecret);
           if (!secretCheckResult.status) {
             addon.data.prefs.window?.alert(
-              `You see this because the translation service ${name} requires SECRET, which is NOT correctly set.\n\nDetails:\n${secretCheckResult.info}`,
+              `You see this because the translation service ${serviceName} requires SECRET, which is NOT correctly set.\n\nDetails:\n${secretCheckResult.info}`,
             );
           }
         }
@@ -400,10 +393,10 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
           ) as XUL.Button;
 
           statusButton.onclick = (ev) => {
-            createServiceDialog(name, fields, helpUrl);
+            createServiceDialog(serviceName, fields, helpUrl);
           };
           statusButton.hidden = false;
-          statusButton.label = getString("config");
+          statusButton.label = getString("service-dialog-config");
         }
       }
       break;

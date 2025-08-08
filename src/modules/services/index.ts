@@ -5,18 +5,23 @@ import {
   TranslateTaskRunner,
 } from "../../utils/task";
 import { stripEmptyLines } from "../../utils/str";
-
-// import { AliyunTranslationService } from "./aliyun";
-import { TencentTranslationService } from "./tencent";
-// import { YoudaoZhiyunLLMService } from "./youdaozhiyunllm";
-import { gpt, customGPT1, customGPT2, customGPT3, azureGPT } from "./gpt-2";
 import { TranslationService } from "./base";
 
-export const services: TranslationService[] = [
-  // AliyunTranslationService,
-  // YoudaoZhiyunLLMService,
-  TencentTranslationService,
-  gpt,
+import { Aliyun } from "./aliyun";
+import { Tencent } from "./tencent";
+import { ChatGPT, customGPT1, customGPT2, customGPT3, azureGPT } from "./gpt";
+import { getString } from "../../utils";
+import { Baidu } from "./baidu";
+import { BaiduField } from "./baidufield";
+import { Bing } from "./bing";
+
+const register: TranslationService[] = [
+  Aliyun,
+  Baidu,
+  BaiduField,
+  Bing,
+  Tencent,
+  ChatGPT,
   customGPT1,
   customGPT2,
   customGPT3,
@@ -24,8 +29,41 @@ export const services: TranslationService[] = [
 ];
 
 export class TranslationServices {
-  public getServiceById(id: string) {
-    return services.find((service) => service.id === id);
+  public getServiceById(id: string): TranslationService | undefined {
+    return register.find((service) => service.id === id);
+  }
+
+  public getServiceNameByID(id: string) {
+    return id;
+
+    //TODO addressing addon is not defined
+    return getPref(`renameServices.${id}`)
+      ? getPref(`renameServices.${id}`) + "🗝️"
+      : getString(`service-${id}`);
+  }
+
+  public getAllServices(): TranslationService[] {
+    return register;
+  }
+
+  public getAllServiceNames(): string[] {
+    return this.getAllServices().map((service) =>
+      this.getServiceNameByID(service.id),
+    );
+  }
+
+  public getAllServicesWithType(type: string): TranslationService[] {
+    return register.filter((service) => service.type === type);
+  }
+
+  public getAllServiceNamesWithType(type: string): string[] {
+    return this.getAllServicesWithType(type).map((service) =>
+      this.getServiceNameByID(service.id),
+    );
+  }
+
+  public getSortedServicesByName() {
+    //
   }
 
   public async runTranslationTask(
@@ -107,7 +145,7 @@ export class TranslationServices {
 
     if (!cacheHit) {
       // Get task service
-      const service = services.find((s) => s.id == task.service);
+      const service = register.find((s) => s.id == task.service);
       if (!service) {
         task.result = `${task.service} is not implemented.`;
         task.status = "fail";
@@ -223,3 +261,5 @@ export class TranslationServices {
     return success;
   }
 }
+
+export const services = new TranslationServices();

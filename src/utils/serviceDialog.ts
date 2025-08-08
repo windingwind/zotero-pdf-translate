@@ -1,5 +1,6 @@
 import { getPref, setPref } from "./prefs";
 import { getString } from "./locale";
+import { TagElementProps } from "zotero-plugin-toolkit";
 
 export type ConfigField =
   | InputField
@@ -7,9 +8,10 @@ export type ConfigField =
   | CheckboxField
   | SelectField
   | LabelField
-  | ButtonField;
+  | ButtonField
+  | ParamsField;
 
-export type DialogFieldBase = {
+type DialogFieldBase = {
   /**
    * 用于获取本地化字符串的键名前缀
    *
@@ -30,23 +32,22 @@ export type DialogFieldBase = {
   hidden?: boolean;
 };
 
-export type InputField = DialogFieldBase & {
+type InputField = DialogFieldBase & {
   type: "input";
   inputType?: string;
   placeholder?: string;
 };
 
-export type TextareaField = DialogFieldBase & {
+type TextareaField = DialogFieldBase & {
   type: "textarea";
   placeholder?: string;
-  maxLength?: number;
 };
 
-export type CheckboxField = DialogFieldBase & {
+type CheckboxField = DialogFieldBase & {
   type: "checkbox";
 };
 
-export type SelectField = DialogFieldBase & {
+type SelectField = DialogFieldBase & {
   type: "select";
   options: Array<{
     value: string;
@@ -54,21 +55,66 @@ export type SelectField = DialogFieldBase & {
   }>;
 };
 
-export type LabelField = DialogFieldBase & {
+type LabelField = DialogFieldBase & {
   type: "label";
 };
 
-export type ButtonField = DialogFieldBase & {
+type ButtonField = DialogFieldBase & {
   type: "button";
   callback?: () => void;
 };
 
+type ParamsField = DialogFieldBase & {
+  type: "params";
+};
+
+// TODO: Custom Params Field
+function createParamsField(field: ParamsField) {
+  const root: TagElementProps = {
+    tag: "div",
+    namespace: "html",
+    id: "custom-params-field",
+    styles: {
+      display: "grid",
+      gridTemplateColumns: "auto auto",
+    },
+    children: [],
+  };
+
+  const row = (index: number): TagElementProps[] => [
+    {
+      tag: "input",
+      attributes: {
+        "data-bind": `custom-params-key-${index}`,
+        "data-prop": "value",
+        type: "text",
+        placeholder: "Parameter name",
+      },
+      styles: {
+        maxWidth: "300px",
+      },
+    },
+    {
+      tag: "input",
+      attributes: {
+        "data-bind": `custom-params-value-${index}`,
+        "data-prop": "value",
+        type: "text",
+        placeholder: "Parameter value (JSON format)",
+      },
+      styles: {
+        maxWidth: "300px",
+      },
+    },
+  ];
+}
+
 export async function createServiceDialog(
-  title: string,
+  serviceName: string,
   fields: ConfigField[],
   helpURL?: string,
 ): Promise<void> {
-  const dialog = new ztoolkit.Dialog(fields.length + 1, 2);
+  const dialog = new ztoolkit.Dialog(1, 1);
 
   // Sync preferences to dialog
   const dialogData: (typeof dialog)["dialogData"] = {};
@@ -80,6 +126,7 @@ export async function createServiceDialog(
   dialog.setDialogData(dialogData);
 
   // Build fields
+  const childrens: TagElementProps[] = [];
   fields.forEach((field, index) => {
     if (field.hidden) {
       return;
@@ -88,21 +135,25 @@ export async function createServiceDialog(
     const id = field.prefKey || field.nameKey;
 
     // Left: label of setting
-    dialog.addCell(index, 0, {
+    childrens.push({
       tag: "label",
       namespace: "html",
       attributes: {
         for: id,
       },
       properties: {
-        innerHTML: getString(field.nameKey),
+        textContent: getString(field.nameKey),
+      },
+      styles: {
+        fontWeight: "500",
+        textAlign: "right",
       },
     });
 
     // Right: value of setting
     switch (field.type) {
       case "label":
-        dialog.addCell(index, 1, {
+        childrens.push({
           tag: "label",
           namespace: "html",
           attributes: {
@@ -115,7 +166,7 @@ export async function createServiceDialog(
         break;
 
       case "input":
-        dialog.addCell(index, 1, {
+        childrens.push({
           tag: "input",
           id,
           attributes: {
@@ -124,24 +175,32 @@ export async function createServiceDialog(
             type: field.inputType || "text",
             placeholder: field.placeholder || "",
           },
+          styles: {
+            minWidth: "400px",
+          },
         });
         break;
 
+      case "params":
       case "textarea":
-        dialog.addCell(index, 1, {
+        childrens.push({
           tag: "textarea",
           id,
           attributes: {
             "data-bind": id,
             "data-prop": "value",
-            placeholder: field.placeholder || "",
-            maxlength: field.maxLength?.toString() || "",
+            placeholder:
+              field.type === "textarea" ? field.placeholder || "" : "",
+            rows: 5,
+          },
+          styles: {
+            minWidth: "400px",
           },
         });
         break;
 
       case "checkbox":
-        dialog.addCell(index, 1, {
+        childrens.push({
           tag: "input",
           id,
           attributes: {
@@ -156,7 +215,7 @@ export async function createServiceDialog(
         break;
 
       case "select":
-        dialog.addCell(index, 1, {
+        childrens.push({
           tag: "select",
           id,
           attributes: {
@@ -179,8 +238,21 @@ export async function createServiceDialog(
     }
   });
 
+  dialog.addCell(0, 0, {
+    tag: "div",
+    classList: ["settings-grid"],
+    styles: {
+      display: "grid",
+      gridTemplateColumns: "auto 1fr",
+      gap: "15px 20px",
+      alignItems: "center",
+      marginBottom: "20px",
+    },
+    children: childrens,
+  });
+
   if (helpURL) {
-    dialog.addButton(getString(`dialog-help`), "help", {
+    dialog.addButton(getString(`service-dialog-help`), "help", {
       noClose: true,
       callback: async () => {
         await Zotero.launchURL(helpURL);
@@ -189,10 +261,14 @@ export async function createServiceDialog(
   }
 
   dialog
-    .addButton(getString(`dialog-close`), "close")
-    .addButton(getString(`dialog-save`), "save")
+    .addButton(getString(`service-dialog-close`), "close")
+    .addButton(getString(`service-dialog-save`), "save")
 
-    .open(getString(title));
+    .open(
+      getString(`service-dialog-title`, {
+        args: { service: serviceName },
+      }),
+    );
 
   await dialogData.unloadLock?.promise;
 

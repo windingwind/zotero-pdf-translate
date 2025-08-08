@@ -17,9 +17,9 @@ function encodeRFC3986URIComponent(str: string) {
   );
 }
 
-export const AliyunTranslationService: TranslationService = {
+export const Aliyun: TranslationService = {
   id: "aliyun",
-  name: "Aliyun",
+  type: "sentence",
   helpUrl:
     "https://help.aliyun.com/zh/machine-translation/developer-reference/api-overview-1",
   defaultSecret: "accessKeyId#accessKeySecret",

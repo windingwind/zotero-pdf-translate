@@ -3,21 +3,69 @@ import { TranslateTask } from "../../utils/task";
 import { TranslationService } from "./base";
 import { getPref, setPref } from "../../utils/prefs";
 
-export const TencentTranslationService: TranslationService = {
+export const Tencent: TranslationService = {
   id: "tencent",
-  name: "Tencent",
   type: "sentence",
   helpUrl: "https://cloud.tencent.com/document/product/551/15619",
-  defaultSecret: "",
 
-  secretValidator(secret: string) {
-    const flag = secret?.length === 32 || secret?.length === 84;
+  defaultSecret:
+    "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
+  secretValidator(secret: string | object) {
+    // Handle empty or default secret
+    if (!secret || secret === this.defaultSecret) {
+      return {
+        secret: secret as string,
+        status: false,
+        info: "The secret is not set. Click the button to configure.",
+      };
+    }
+
+    // Try to parse as JSON first (new object format)
+    try {
+      let config: any;
+      if (typeof secret === "string") {
+        config = JSON.parse(secret);
+      } else {
+        config = secret;
+      }
+
+      if (config && typeof config === "object" && config.secretId) {
+        // New object format validation
+        const hasRequiredFields = config.secretId && config.secretKey;
+        const partsInfo = `SecretId: ${config.secretId || "Not set"}
+SecretKey: ${config.secretKey ? "Set" : "Not set"}
+Region: ${config.region || "ap-shanghai"}
+ProjectId: ${config.projectId || "0"}
+Term Repo IDs: ${(config.termRepoIDList || []).join(", ") || "None"}
+Sent Repo IDs: ${(config.sentRepoIDList || []).join(", ") || "None"}`;
+
+        return {
+          secret: typeof secret === "string" ? secret : JSON.stringify(secret),
+          status: hasRequiredFields,
+          info: hasRequiredFields
+            ? partsInfo
+            : "SecretId and SecretKey are required.",
+        };
+      }
+    } catch {
+      // Not JSON, continue to legacy format
+    }
+
+    // Handle legacy string format
+    const parts = (secret as string)?.split("#");
+    const hasRequiredFields =
+      parts && parts.length >= 2 && parts[0] && parts[1];
+    const partsInfo = `SecretId: ${parts?.[0] || "Not set"}
+SecretKey: ${parts?.[1] ? "Set" : "Not set"}
+Region: ${parts?.[2] || "ap-shanghai"}
+ProjectId: ${parts?.[3] || "0"}`;
+
     return {
-      secret,
-      status: flag,
-      info: flag
-        ? ""
-        : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The secretKEY length must be 32 or 84, but got ${secret?.length}.`,
+      secret: secret as string,
+      status: !!hasRequiredFields,
+      info: hasRequiredFields
+        ? partsInfo
+        : "SecretId and SecretKey are required. Use format: SecretId#SecretKey#Region(optional)#ProjectId(optional) or click button for advanced configuration.",
     };
   },
 
