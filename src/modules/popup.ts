@@ -46,7 +46,7 @@ export function updateReaderPopup() {
     updateHidden(addToNoteButton, true);
     return;
   }
-  const task = getLastTranslateTask();
+  const task = getLastTranslateTask({ type: "text" });
   if (!task) {
     return;
   }

@@ -172,6 +172,7 @@ export function addTranslateTask(
     lastTask.raw += " " + raw;
     lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
     lastTask.status = "waiting";
+    putTranslateTaskAtHead(lastTask.id);
     return;
   }
   // Create a new task
