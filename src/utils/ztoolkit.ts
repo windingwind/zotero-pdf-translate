@@ -7,6 +7,7 @@ import {
   MenuManager,
   PromptManager,
   DialogHelper,
+  SettingsDialogHelper,
   ProgressWindowHelper,
   ClipboardHelper,
   makeHelperTool,
@@ -50,6 +51,7 @@ export class MyToolkit extends BasicTool {
   Menu: MenuManager;
   Prompt: PromptManager;
   Dialog: typeof DialogHelper;
+  SettingsDialog: typeof SettingsDialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   Clipboard: typeof ClipboardHelper;
 
@@ -62,6 +64,7 @@ export class MyToolkit extends BasicTool {
     this.Menu = new MenuManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
+    this.SettingsDialog = makeHelperTool(SettingsDialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);
     this.Clipboard = makeHelperTool(ClipboardHelper, this);
   }
