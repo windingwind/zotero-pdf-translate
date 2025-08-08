@@ -469,6 +469,12 @@ async function gptStatusCallback(
     .addButton(
       getString(`service-${servicePrefix}-dialog-custom-request`),
       "customRequest",
+      {
+        noClose: true,
+        callback: async () => {
+          await openCustomRequestDialog(prefix);
+        },
+      },
     )
     .addButton(getString(`service-${servicePrefix}-dialog-save`), "save");
 
@@ -509,11 +515,6 @@ async function gptStatusCallback(
         Zotero.launchURL(
           prefix === "azureGPT" ? helpURL.azureGPT : helpURL.chatGPT,
         );
-      }
-      break;
-    case "customRequest":
-      {
-        await openCustomRequestDialog(prefix);
       }
       break;
     default:
