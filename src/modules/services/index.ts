@@ -34,9 +34,6 @@ export class TranslationServices {
   }
 
   public getServiceNameByID(id: string) {
-    return id;
-
-    //TODO addressing addon is not defined
     return getPref(`renameServices.${id}`)
       ? getPref(`renameServices.${id}`) + "🗝️"
       : getString(`service-${id}`);

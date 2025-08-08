@@ -8,7 +8,11 @@ import {
   getLastTranslateTask,
   putTranslateTaskAtHead,
 } from "../utils/task";
-import { services } from "../modules/services";
+import { TranslationServices } from "../modules/services";
+
+//@ts-expect-error addon instance not typed
+const services = Zotero[config.addonInstance].data.translate
+  .services as TranslationServices;
 
 export class TranslatorPanel extends PluginCEBase {
   _item: Zotero.Item | null = null;
@@ -40,7 +44,7 @@ export class TranslatorPanel extends PluginCEBase {
         .getAllServicesWithType("sentence")
         .map((service) => {
           const customName = services.getServiceNameByID(service.id);
-          return `<menuitem label="${customName}11" value="${service.id}" />`;
+          return `<menuitem label="${customName}" value="${service.id}" />`;
         })
         .join("\n")}
     </menupopup>
