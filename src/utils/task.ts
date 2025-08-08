@@ -171,6 +171,7 @@ export function addTranslateTask(
   if (isConcatMode && lastTask) {
     lastTask.raw += " " + raw;
     lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
+    lastTask.status = "waiting";
     return;
   }
   // Create a new task

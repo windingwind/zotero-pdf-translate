@@ -85,10 +85,7 @@ export function updateReaderPopup() {
     audio.play();
   }
 
-  const selection = addon.data.translate.selectedText;
-  const hideTranslateButton =
-    task.status !== "waiting" && task.raw === selection;
-
+  const hideTranslateButton = task.status !== "waiting";
   updateHidden(translateButton, hideTranslateButton);
 
   textarea.hidden = hidePopupTextarea || !hideTranslateButton;
