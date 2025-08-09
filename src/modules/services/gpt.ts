@@ -1,5 +1,5 @@
 import { ConfigField, getPref, getString } from "../../utils";
-import { TranslationService } from "./base";
+import { TranslateService } from "./base";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
 
@@ -62,7 +62,7 @@ const gptTranslate = async function (
   model: string,
   temperature: number,
   prefix: string,
-  data: Parameters<TranslationService["translate"]>[0],
+  data: Parameters<TranslateService["translate"]>[0],
   stream?: boolean,
 ) {
   function transformContent(
@@ -193,7 +193,9 @@ const gptTranslate = async function (
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-function createGPTService(id: ID): TranslationService {
+function createGPTService(id: ID): TranslateService {
+  const checkSecret = id === "azuregpt" || id === "chatgpt";
+
   return {
     id,
     type: "sentence",
@@ -202,40 +204,42 @@ function createGPTService(id: ID): TranslationService {
         ? "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/reference#chat-completions"
         : "https://gist.github.com/GrayXu/f1b72353b4b0493d51d47f0f7498b67b",
 
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      if (id === "chatgpt") {
-        const status = /^sk-[A-Za-z0-9_-]{32,}$/.test(secret);
-        const empty = secret.length === 0;
+    ...(checkSecret && {
+      defaultSecret: "",
+      secretValidator(secret: string) {
+        if (id === "chatgpt") {
+          const status = /^sk-[A-Za-z0-9_-]{32,}$/.test(secret);
+          const empty = secret.length === 0;
+          return {
+            secret,
+            status,
+            info: empty
+              ? "The secret is not set."
+              : status
+                ? "Click the button to check connectivity."
+                : "The secret key format is invalid.",
+          };
+        }
+
+        if (id === "azuregpt") {
+          const flag = Boolean(secret);
+          return {
+            secret,
+            status: flag,
+            info: flag ? "" : "The secret is not set.",
+          };
+        }
+
+        const status = secret.length > 0;
         return {
           secret,
           status,
-          info: empty
-            ? "The secret is not set."
-            : status
-              ? "Click the button to check connectivity."
-              : "The secret key format is invalid.",
+          info: status
+            ? "Click the button to check connectivity."
+            : "The secret key format is invalid.",
         };
-      }
-
-      if (id === "azuregpt") {
-        const flag = Boolean(secret);
-        return {
-          secret,
-          status: flag,
-          info: flag ? "" : "The secret is not set.",
-        };
-      }
-
-      const status = secret.length > 0;
-      return {
-        secret,
-        status,
-        info: status
-          ? "Click the button to check connectivity."
-          : "The secret key format is invalid.",
-      };
-    },
+      },
+    }),
 
     async translate(data) {
       switch (id) {
@@ -291,43 +295,55 @@ function createGPTService(id: ID): TranslationService {
     getConfig(): ConfigField[] {
       const servicePrefix = id === "azuregpt" ? "azuregpt" : "chatgpt";
 
+      // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
+      // Additionally, customGPT was not initialized in prefs.js.
+      const prefPrefix = id.replace("gpt", "GPT") as
+        | "chatGPT"
+        // | "customGPT1"
+        // | "customGPT2"
+        // | "customGPT3"
+        | "azureGPT";
+
       return [
         {
           type: "input",
-          prefKey: `${id}.endPoint`,
+          prefKey: `${prefPrefix}.endPoint`,
           nameKey: `service-${servicePrefix}-dialog-endPoint`,
         },
         {
           type: "input",
-          prefKey: `${id}.model`,
+          prefKey: `${prefPrefix}.model`,
           nameKey: `service-${servicePrefix}-dialog-model`,
         },
         {
           type: "input",
-          prefKey: `${id}.temperature`,
+          prefKey: `${prefPrefix}.temperature`,
           nameKey: `service-${servicePrefix}-dialog-temperature`,
         },
         {
           type: "input",
-          prefKey: `${id}.apiVersion`,
+          // @ts-expect-error hidden for non azureGPT
+          prefKey: `${prefPrefix}.apiVersion`,
+          // @ts-expect-error hidden for non azureGPT
           nameKey: `service-${servicePrefix}-dialog-apiVersion`,
           hidden: id !== "azuregpt",
         },
         {
           type: "textarea",
-          prefKey: `${id}.prompt`,
+          prefKey: `${prefPrefix}.prompt`,
           nameKey: `service-${servicePrefix}-dialog-prompt`,
           placeholder: getString(`service-${servicePrefix}-dialog-prompt`),
         },
         {
           type: "checkbox",
-          prefKey: `${id}.stream`,
+          prefKey: `${prefPrefix}.stream`,
           nameKey: `service-${servicePrefix}-dialog-stream`,
         },
         {
           type: "params",
-          prefKey: `${id}.customParams`,
+          prefKey: `${prefPrefix}.customParams`,
           nameKey: `service-${servicePrefix}-dialog-custom-request`,
+          desc: `service-${servicePrefix}-dialog-custom-request-description`,
         },
       ];
     },

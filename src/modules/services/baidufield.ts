@@ -1,7 +1,7 @@
 import { getPref } from "../../utils";
-import { TranslationService } from "./base";
+import { TranslateService } from "./base";
 
-export const BaiduField: TranslationService = {
+export const BaiduField: TranslateService = {
   id: "baidufield",
   type: "sentence",
 

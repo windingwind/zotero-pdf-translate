@@ -2,7 +2,7 @@ import { franc } from "franc";
 import ISO6393_3_TO_2 from "iso639-js/alpha3to2mapping.json";
 import ISO6393_MACRO_LANGS from "iso639-js/reference/iso639-3-macrolanguages.json";
 
-export interface TranslateService {
+interface TranslateService {
   type: "word" | "sentence";
   id: string;
   defaultSecret?: string;
@@ -18,43 +18,9 @@ export interface SecretValidateResult {
 const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
   {
     type: "sentence",
-    id: "googleapi",
-  },
-  {
-    type: "sentence",
-    id: "google",
-  },
-  {
-    type: "sentence",
-    id: "cnki",
-  },
-  {
-    type: "sentence",
-    id: "haici",
-  },
-  {
-    type: "sentence",
     id: "youdao",
   },
 
-  {
-    type: "sentence",
-    id: "deeplx",
-  },
-  {
-    type: "sentence",
-    id: "deeplcustom",
-  },
-  {
-    type: "sentence",
-    id: "libretranslate",
-    // API key is optional in LibreTranslate
-  },
-  {
-    type: "sentence",
-    id: "mtranserver",
-    // Token is optional in MTranServer
-  },
   {
     type: "sentence",
     id: "pot",
@@ -63,27 +29,7 @@ const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
     type: "sentence",
     id: "nllb",
   },
-  {
-    type: "sentence",
-    id: "huoshan",
-    defaultSecret: "accessKeyId#accessKeySecret",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 2;
-      const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
-      const source = getService("huoshan");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-              ? partsInfo
-              : `The secret format of Huoshan Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
+
   {
     type: "sentence",
     id: "youdaozhiyun",
@@ -125,108 +71,6 @@ const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
             : flag
               ? partsInfo
               : `The secret format of YoudaoLLM is AppID#AppKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "niutranspro",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = secret?.length === 32;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your NiuTrans API-KEY. The secret length must be 32, but got ${secret?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "microsoft",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const params = secret.split("#");
-      const secretKey = params[0];
-      const flag = secretKey?.length === 32 || secretKey?.length === 84;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The secretKEY length must be 32 or 84, but got ${secretKey?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "caiyun",
-    defaultSecret: "3975l6lr5pcbvidl6jl2",
-    secretValidator(secret: string) {
-      const flag = secret.length > 0;
-      const source = getService("caiyun");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The default secret is for testing only. You should set your own custom token for production."
-            : flag
-              ? ""
-              : "The secret is not set.",
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "deeplfree",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = secret?.length >= 36;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your DeepL (free plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "deeplpro",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = secret?.length >= 36;
-      return {
-        secret,
-        status: flag,
-        info: flag
-          ? ""
-          : `The secret is your DeepL (pro plan) KEY. The secret length must >= 36, but got ${secret?.length}.`,
-      };
-    },
-  },
-  {
-    type: "sentence",
-    id: "aliyun",
-    defaultSecret: "accessKeyId#accessKeySecret",
-    secretValidator(secret: string) {
-      const parts = secret?.split("#");
-      const flag = parts.length === 2;
-      const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
-      const source = getService("aliyun");
-      return {
-        secret,
-        status: flag && secret !== source.defaultSecret,
-        info:
-          secret === source.defaultSecret
-            ? "The secret is not set."
-            : flag
-              ? partsInfo
-              : `The secret format of Aliyun Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
       };
     },
   },
@@ -277,19 +121,6 @@ const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
 
   {
     type: "sentence",
-    id: "gemini",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const flag = Boolean(secret);
-      return {
-        secret,
-        status: flag,
-        info: flag ? "" : "The secret is not set.",
-      };
-    },
-  },
-  {
-    type: "sentence",
     id: "qwenmt",
     defaultSecret: "",
     secretValidator(secret: string) {
@@ -301,55 +132,19 @@ const SERVICES: Readonly<Readonly<TranslateService>[]> = <const>[
       };
     },
   },
-  {
-    type: "sentence",
-    id: "claude",
-    defaultSecret: "",
-    secretValidator(secret: string) {
-      const status = /^sk-ant-[A-Za-z0-9]{24,}$/.test(secret);
-      const empty = secret.length === 0;
-      return {
-        secret,
-        status: status || Boolean(secret),
-        info: empty
-          ? "The secret is not set."
-          : status
-            ? "Click the button to check connectivity."
-            : "The Claude API key format might be invalid. Typically starts with 'sk-ant-'.",
-      };
-    },
-  },
-  {
-    type: "word",
-    id: "bingdict",
-  },
-  {
-    type: "word",
-    id: "cambridgedict",
-  },
-  {
-    type: "word",
-    id: "haicidict",
-  },
+
   {
     type: "word",
     id: "youdaodict",
   },
-  {
-    type: "word",
-    id: "freedictionaryapi",
-  },
+
   {
     type: "word",
     id: "webliodict",
   },
-  {
-    type: "word",
-    id: "collinsdict",
-  },
 ];
 
-export function getService(id: string) {
+function getService(id: string) {
   return SERVICES[SERVICES.findIndex((service) => service.id === id)];
 }
 

@@ -1,8 +1,8 @@
 import { aesEcbEncrypt, base64 } from "../../utils/crypto";
 import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   let progressWindow;
   const useSplit = getPref("cnkiUseSplit") as boolean;
   const splitSecond = getPref("cnkiSplitSecond") as number;
@@ -121,3 +121,25 @@ export async function getWord(text: string) {
   const base64str = base64(encrypted.buffer);
   return base64str.replace(/\//g, "_").replace(/\+/g, "-");
 }
+
+export const Cnki: TranslateService = {
+  id: "cnki",
+  type: "sentence",
+
+  translate,
+
+  getConfig() {
+    return [
+      {
+        type: "input",
+        prefKey: "cnkiRegex",
+        nameKey: "service-cnki-dialog-regex",
+      },
+      {
+        type: "checkbox",
+        prefKey: "cnkiUseSplit",
+        nameKey: "service-cnki-dialog-split",
+      },
+    ];
+  },
+};

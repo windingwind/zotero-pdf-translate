@@ -1,9 +1,9 @@
 import { base64, hmacSha1Digest } from "../../utils/crypto";
 import { TranslateTask } from "../../utils/task";
-import { TranslationService } from "./base";
+import { TranslateService } from "./base";
 import { getPref, setPref } from "../../utils/prefs";
 
-export const Tencent: TranslationService = {
+export const Tencent: TranslateService = {
   id: "tencent",
   type: "sentence",
   helpUrl: "https://cloud.tencent.com/document/product/551/15619",

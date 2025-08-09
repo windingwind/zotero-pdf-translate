@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     "https://www.collinsdictionary.com/zh/dictionary/english-chinese/" +
@@ -36,4 +36,15 @@ export default <TranslateTaskProcessor>async function (data) {
     .join("");
 
   data.result = explanationText;
+};
+
+export const CollinsDict: TranslateService = {
+  id: "collinsdict",
+  type: "word",
+
+  translate,
+
+  getConfig() {
+    return [];
+  },
 };

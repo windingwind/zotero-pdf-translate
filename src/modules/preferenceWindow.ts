@@ -386,17 +386,17 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
 
         // Update secret status button
         const fields = service.getConfig();
+        const statusButton = doc.querySelector(
+          `#${makeId("sentenceServicesStatus")}`,
+        ) as XUL.Button;
+        statusButton.onclick = (ev) => {
+          createServiceDialog(serviceName, fields, helpUrl);
+        };
         if (fields.length !== 0) {
-          // const statusButtonData = secretStatusButtonData[serviceId];
-          const statusButton = doc.querySelector(
-            `#${makeId("sentenceServicesStatus")}`,
-          ) as XUL.Button;
-
-          statusButton.onclick = (ev) => {
-            createServiceDialog(serviceName, fields, helpUrl);
-          };
           statusButton.hidden = false;
           statusButton.label = getString("service-dialog-config");
+        } else {
+          statusButton.hidden = true;
         }
       }
       break;

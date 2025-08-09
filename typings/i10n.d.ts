@@ -100,6 +100,7 @@ export type FluentMessageId =
   | 'service-azuregpt-dialog-endPoint'
   | 'service-azuregpt-dialog-model'
   | 'service-azuregpt-dialog-prompt'
+  | 'service-azuregpt-dialog-stream'
   | 'service-azuregpt-dialog-temperature'
   | 'service-baidu'
   | 'service-baidufield'

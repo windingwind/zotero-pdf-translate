@@ -1,7 +1,7 @@
 import { ConfigField, SecretValidateResult } from "../../utils";
 import { TranslateTask } from "../../utils/task";
 
-export interface TranslationService {
+export interface TranslateService {
   /**
    * The ID of translation service.
    *
@@ -11,7 +11,7 @@ export interface TranslationService {
   /**
    * The name of translation service.
    *
-   * @default getString(`service${id}`)
+   * @default getString(`service-${id}`)
    */
   name?: string;
   /**

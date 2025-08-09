@@ -59,12 +59,14 @@ declare namespace _ZoteroTypes {
       "chatGPT.temperature": string;
       "chatGPT.prompt": string;
       "chatGPT.stream": boolean;
+      "chatGPT.customParams": string;
       "azureGPT.endPoint": string;
       "azureGPT.model": string;
       "azureGPT.apiVersion": string;
       "azureGPT.temperature": string;
       "azureGPT.prompt": string;
       "azureGPT.stream": boolean;
+      "azureGPT.customParams": string;
       "gemini.endPoint": string;
       "gemini.prompt": string;
       "gemini.stream": boolean;

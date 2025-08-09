@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const xhr = await Zotero.HTTP.request("GET", `https://dict.cn/${data.raw}`, {
     responseType: "text",
   });
@@ -39,4 +39,14 @@ export default <TranslateTaskProcessor>async function (data) {
   } catch (e) {
     throw "Parse error";
   }
+};
+
+export const HaiciDict: TranslateService = {
+  id: "haicidict",
+  type: "word",
+  translate,
+
+  getConfig() {
+    return [];
+  },
 };

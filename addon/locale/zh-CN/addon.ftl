@@ -82,6 +82,7 @@ service-chatgpt-dialog-add-param=添加参数
 service-azuregpt-dialog-endPoint=接口
 service-azuregpt-dialog-model=部署名
 service-azuregpt-dialog-temperature=温度
+service-azuregpt-dialog-stream=流式输出
 service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
 

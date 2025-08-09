@@ -1,56 +1,95 @@
-import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 import {
+  getString,
+  getPref,
   getLastTranslateTask,
   TranslateTask,
   TranslateTaskRunner,
-} from "../../utils/task";
-import { stripEmptyLines } from "../../utils/str";
-import { TranslationService } from "./base";
+  stripEmptyLines,
+} from "../../utils";
 
 import { Aliyun } from "./aliyun";
 import { Tencent } from "./tencent";
 import { ChatGPT, customGPT1, customGPT2, customGPT3, azureGPT } from "./gpt";
-import { getString } from "../../utils";
 import { Baidu } from "./baidu";
 import { BaiduField } from "./baidufield";
 import { Bing } from "./bing";
+import { BingDict } from "./bingdict";
+import { Caiyun } from "./caiyun";
+import { CambridgeDict } from "./cambridgedict";
+import { Claude } from "./claude";
+import { Cnki } from "./cnki";
+import { CollinsDict } from "./collinsdict";
+import { DeeplFree, DeeplPro } from "./deepl";
+import { FreeDictionaryAPI } from "./freedictionaryapi";
+import { Gemini } from "./gemini";
+import { Google, GoogleAPI } from "./google";
+import { Haici } from "./haici";
+import { HaiciDict } from "./haicidict";
+import { Huoshan } from "./huoshan";
+import { LibreTranslate } from "./libretranslate";
+import { Microsoft } from "./microsoft";
+import { Mtranserver } from "./mtranserver";
+import { Niutrans } from "./niutrans";
 
-const register: TranslationService[] = [
+const register: TranslateService[] = [
   Aliyun,
   Baidu,
   BaiduField,
   Bing,
-  Tencent,
+  BingDict,
+  Caiyun,
+  CambridgeDict,
+  Claude,
+  Cnki,
+  CollinsDict,
+  DeeplFree,
+  DeeplPro,
+  FreeDictionaryAPI,
+  Gemini,
+  Google,
+  GoogleAPI,
+  Haici,
+  HaiciDict,
+  Huoshan,
+  LibreTranslate,
+  Microsoft,
+  Mtranserver,
+  Niutrans,
+
   ChatGPT,
   customGPT1,
   customGPT2,
   customGPT3,
   azureGPT,
+  Tencent,
 ];
 
 export class TranslationServices {
-  public getServiceById(id: string): TranslationService | undefined {
-    return register.find((service) => service.id === id);
+  #services: readonly TranslateService[] = Object.freeze(register);
+
+  public getServiceById(id: string): TranslateService | undefined {
+    return this.#services.find((service) => service.id === id);
   }
 
-  public getServiceNameByID(id: string) {
+  public getAllServices(): TranslateService[] {
+    return [...this.#services];
+  }
+
+  public getAllServicesWithType(type: string): TranslateService[] {
+    return this.getAllServices().filter((service) => service.type === type);
+  }
+
+  public getServiceNameByID(id: string): string {
     return getPref(`renameServices.${id}`)
       ? getPref(`renameServices.${id}`) + "🗝️"
       : getString(`service-${id}`);
-  }
-
-  public getAllServices(): TranslationService[] {
-    return register;
   }
 
   public getAllServiceNames(): string[] {
     return this.getAllServices().map((service) =>
       this.getServiceNameByID(service.id),
     );
-  }
-
-  public getAllServicesWithType(type: string): TranslationService[] {
-    return register.filter((service) => service.type === type);
   }
 
   public getAllServiceNamesWithType(type: string): string[] {
@@ -142,7 +181,7 @@ export class TranslationServices {
 
     if (!cacheHit) {
       // Get task service
-      const service = register.find((s) => s.id == task.service);
+      const service = this.getServiceById(task.service);
       if (!service) {
         task.result = `${task.service} is not implemented.`;
         task.status = "fail";

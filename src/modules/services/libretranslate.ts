@@ -1,7 +1,7 @@
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const endpoint =
     (getPref("libretranslate.endpoint") as string) || "http://localhost:5000";
   const apiKey = data.secret; // Use the secret as the API key
@@ -36,4 +36,23 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   data.result = xhr.response.translatedText;
+};
+
+export const LibreTranslate: TranslateService = {
+  id: "libretranslate",
+  type: "sentence",
+  helpUrl: "https://github.com/LibreTranslate/LibreTranslate",
+
+  translate,
+
+  getConfig() {
+    return [
+      {
+        type: "input",
+        prefKey: "libretranslate.endpoint",
+        nameKey: "service-libretranslate-dialog-endPoint",
+        placeholder: "http://localhost:5000",
+      },
+    ];
+  },
 };

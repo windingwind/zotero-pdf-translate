@@ -1,62 +1,89 @@
-import { getPref, setPref } from "./prefs";
+import {
+  getPref,
+  PrefKeys,
+  PrefKeysWithBooleanValue,
+  PrefKeysWithNumberValue,
+  PrefKeysWithStringValue,
+  setPref,
+} from "./prefs";
 import { getString } from "./locale";
 import { TagElementProps } from "zotero-plugin-toolkit";
+import { FluentMessageId } from "../../typings/i10n";
 
 export type ConfigField =
   | InputField
   | TextareaField
   | CheckboxField
   | SelectField
-  | LabelField
   | ButtonField
   | ParamsField;
 
 type DialogFieldBase = {
   /**
-   * 用于获取本地化字符串的键名前缀
+   * The fluent key of field name
    *
-   * @todo type to FluentMessageId
    */
-  nameKey?: string;
+  nameKey?: FluentMessageId;
+
   /**
-   * 对应的pref键名，用于读取和保存值
+   * The description of this field
    *
-   * @todo type to keyof _ZoteroTypes.Prefs["PluginPrefsMap"]
    */
-  prefKey?: string;
+  desc?: string;
+
   /**
-   * 是否显示该字段
+   * The pref key of field value
+   *
+   */
+  prefKey?: PrefKeys;
+
+  /**
+   * is hidden this field
    *
    * @default true
    */
   hidden?: boolean;
 };
 
-type InputField = DialogFieldBase & {
+type InputField = InputFieldBase | InputFieldText | InputFieldNumber;
+
+type InputFieldBase = DialogFieldBase & {
   type: "input";
   inputType?: string;
   placeholder?: string;
 };
 
+type InputFieldText = InputFieldBase & {
+  inputType: "text" | "password";
+  prefKey: PrefKeysWithStringValue;
+};
+
+type InputFieldNumber = InputFieldBase & {
+  inputType: "number";
+  prefKey: PrefKeysWithNumberValue;
+  min?: number;
+  max?: number;
+  step?: number;
+};
+
 type TextareaField = DialogFieldBase & {
   type: "textarea";
+  prefKey: PrefKeysWithStringValue;
   placeholder?: string;
 };
 
 type CheckboxField = DialogFieldBase & {
   type: "checkbox";
+  prefKey: PrefKeysWithBooleanValue;
 };
 
 type SelectField = DialogFieldBase & {
   type: "select";
+  prefKey: PrefKeysWithStringValue;
   options: Array<{
     value: string;
     label: string;
   }>;
-};
-
-type LabelField = DialogFieldBase & {
-  type: "label";
 };
 
 type ButtonField = DialogFieldBase & {
@@ -66,10 +93,11 @@ type ButtonField = DialogFieldBase & {
 
 type ParamsField = DialogFieldBase & {
   type: "params";
+  prefKey: PrefKeysWithStringValue;
 };
 
-// TODO: Custom Params Field
-function createParamsField(field: ParamsField) {
+function createParamsField(field: ParamsField, id: string) {
+  // TODO: Implemented Custom Params Field
   const root: TagElementProps = {
     tag: "div",
     namespace: "html",
@@ -132,7 +160,7 @@ export async function createServiceDialog(
       return;
     }
 
-    const id = field.prefKey || field.nameKey;
+    const id = field.prefKey || field.nameKey || String(index);
 
     // Left: label of setting
     childrens.push({
@@ -151,22 +179,10 @@ export async function createServiceDialog(
     });
 
     // Right: value of setting
+    const control: TagElementProps[] = [];
     switch (field.type) {
-      case "label":
-        childrens.push({
-          tag: "label",
-          namespace: "html",
-          attributes: {
-            for: id,
-          },
-          properties: {
-            innerHTML: getString(field.nameKey),
-          },
-        });
-        break;
-
       case "input":
-        childrens.push({
+        control.push({
           tag: "input",
           id,
           attributes: {
@@ -181,16 +197,14 @@ export async function createServiceDialog(
         });
         break;
 
-      case "params":
       case "textarea":
-        childrens.push({
+        control.push({
           tag: "textarea",
           id,
           attributes: {
             "data-bind": id,
             "data-prop": "value",
-            placeholder:
-              field.type === "textarea" ? field.placeholder || "" : "",
+            placeholder: field.type === field.placeholder || "",
             rows: 5,
           },
           styles: {
@@ -199,8 +213,23 @@ export async function createServiceDialog(
         });
         break;
 
+      case "params":
+        control.push({
+          tag: "textarea",
+          id,
+          attributes: {
+            "data-bind": id,
+            "data-prop": "value",
+            rows: 10,
+          },
+          styles: {
+            minWidth: "400px",
+          },
+        });
+        break;
+
       case "checkbox":
-        childrens.push({
+        control.push({
           tag: "input",
           id,
           attributes: {
@@ -215,7 +244,7 @@ export async function createServiceDialog(
         break;
 
       case "select":
-        childrens.push({
+        control.push({
           tag: "select",
           id,
           attributes: {
@@ -229,6 +258,10 @@ export async function createServiceDialog(
               innerHTML: option.label,
             },
           })),
+          styles: {
+            minWidth: "400px",
+            width: "100%",
+          },
         });
         break;
 
@@ -236,6 +269,25 @@ export async function createServiceDialog(
         // todo
         break;
     }
+
+    childrens.push({
+      tag: "div",
+      styles: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "5px",
+      },
+      children: [
+        ...control,
+        {
+          tag: "span",
+          namespace: "html",
+          properties: {
+            innerHTML: field.desc,
+          },
+        },
+      ],
+    });
   });
 
   dialog.addCell(0, 0, {
@@ -245,7 +297,7 @@ export async function createServiceDialog(
       display: "grid",
       gridTemplateColumns: "auto 1fr",
       gap: "15px 20px",
-      alignItems: "center",
+      // alignItems: "center",
       marginBottom: "20px",
     },
     children: childrens,
@@ -272,18 +324,19 @@ export async function createServiceDialog(
 
   await dialogData.unloadLock?.promise;
 
-  switch (dialogData._lastButtonId) {
-    // Sync dialogData to Preference
-    case "save":
-      fields.forEach((field) => {
-        if (field.prefKey && field.type !== "button") {
-          const fullPrefKey = `${field.prefKey}`;
-          setPref(fullPrefKey, dialogData[field.prefKey]);
-        }
-      });
-      break;
+  // Sync dialogData to Preference
+  if (dialogData._lastButtonId === "save") {
+    fields.forEach((field) => {
+      if (!field.prefKey) return;
 
-    default:
-      break;
+      if (field.type === "button") {
+        return;
+      } else if (field.type === "checkbox") {
+        setPref(field.prefKey, Boolean(dialogData[field.prefKey]));
+        return;
+      } else {
+        setPref(field.prefKey, dialogData[field.prefKey]);
+      }
+    });
   }
 }

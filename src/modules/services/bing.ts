@@ -1,7 +1,7 @@
 import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
-import { TranslationService } from "./base";
+import { TranslateService } from "./base";
 
-export const Bing: TranslationService = {
+export const Bing: TranslateService = {
   id: "bing",
   type: "sentence",
 

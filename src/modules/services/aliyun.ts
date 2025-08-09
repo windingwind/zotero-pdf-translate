@@ -1,4 +1,4 @@
-import { TranslationService } from "./base";
+import { TranslateService } from "./base";
 import { getPref } from "../../utils/prefs";
 import { base64, hmacSha1Digest, randomString } from "../../utils/crypto";
 
@@ -17,7 +17,7 @@ function encodeRFC3986URIComponent(str: string) {
   );
 }
 
-export const Aliyun: TranslationService = {
+export const Aliyun: TranslateService = {
   id: "aliyun",
   type: "sentence",
   helpUrl:
@@ -83,14 +83,12 @@ export const Aliyun: TranslationService = {
     return [
       {
         type: "input",
-        prefKey: "action",
-        inputType: "string",
+        prefKey: "aliyun.action",
         nameKey: "service-aliyun-dialog-action",
       },
       {
         type: "input",
-        prefKey: "scene",
-        inputType: "string",
+        prefKey: "aliyun.scene",
         nameKey: "service-aliyun-dialog-scene",
       },
     ];

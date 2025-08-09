@@ -1,6 +1,7 @@
 import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const reqBody = JSON.stringify([{ Text: data.raw }]);
   const params = data.secret.split("#");
   const secretKey = params[0];
@@ -32,4 +33,28 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Parse error: ${JSON.stringify(xhr.response)}`;
   }
   data.result = result;
+};
+
+export const Microsoft: TranslateService = {
+  id: "microsoft",
+  type: "sentence",
+
+  defaultSecret: "",
+  secretValidator(secret: string) {
+    const params = secret.split("#");
+    const secretKey = params[0];
+    const flag = secretKey?.length === 32 || secretKey?.length === 84;
+    return {
+      secret,
+      status: flag,
+      info: flag
+        ? ""
+        : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The secretKEY length must be 32 or 84, but got ${secretKey?.length}.`,
+    };
+  },
+  translate,
+
+  getConfig() {
+    return [];
+  },
 };

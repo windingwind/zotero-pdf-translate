@@ -85,6 +85,7 @@ service-azuregpt-dialog-model=Name
 service-azuregpt-dialog-temperature=Temp
 service-azuregpt-dialog-apiVersion=Version
 service-azuregpt-dialog-prompt=Prompt
+service-azuregpt-dialog-stream=Stream
 service-azuregpt-dialog-custom-request=Custom Request
 service-azuregpt-dialog-custom-request-title=Custom Request Parameters
 service-azuregpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
