@@ -1,5 +1,6 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
+import { getService } from "../../utils/config";
 
 export async function tencentStatusCallback(status: boolean) {
   const dialog = new ztoolkit.Dialog(2, 1);
@@ -321,11 +322,27 @@ export async function tencentStatusCallback(status: boolean) {
           return;
         }
 
+        // Set default values in defaultSecret to Prefs when clicking Save button
+        const tencentDefaultSecret = getService("tencent").defaultSecret;
+        const regionPlaceHolder = tencentDefaultSecret?.split("#")[2];
+        const projectIdPlaceHolder = tencentDefaultSecret?.split("#")[3];
+        const regionValue = dialogData.region
+          ? regionPlaceHolder && regionPlaceHolder === dialogData.region
+            ? "ap-shanghai"
+            : dialogData.region
+          : "ap-shanghai";
+        const projectIdValue = dialogData.projectId
+          ? projectIdPlaceHolder &&
+            projectIdPlaceHolder === dialogData.projectId
+            ? "0"
+            : dialogData.projectId
+          : "0";
+
         // Save individual preferences
         setPref("tencent.secretId", dialogData.secretId);
         setPref("tencent.secretKey", dialogData.secretKey);
-        setPref("tencent.region", dialogData.region || "ap-shanghai");
-        setPref("tencent.projectId", dialogData.projectId || "0");
+        setPref("tencent.region", regionValue);
+        setPref("tencent.projectId", projectIdValue);
         setPref("tencent.termRepoIDList", dialogData.termRepoIDList || "");
         setPref("tencent.sentRepoIDList", dialogData.sentRepoIDList || "");
 
@@ -343,8 +360,8 @@ export async function tencentStatusCallback(status: boolean) {
         const secretConfig = {
           secretId: dialogData.secretId,
           secretKey: dialogData.secretKey,
-          region: dialogData.region || "ap-shanghai",
-          projectId: dialogData.projectId || "0",
+          region: regionValue,
+          projectId: projectIdValue,
           termRepoIDList: termRepoList,
           sentRepoIDList: sentRepoList,
         };
