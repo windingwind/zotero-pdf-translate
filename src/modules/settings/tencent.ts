@@ -1,6 +1,7 @@
 import { getPref, setPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 import { getService } from "../../utils/config";
+import { getServiceSecret, setServiceSecret } from "../../utils/secret";
 
 export async function tencentStatusCallback(status: boolean) {
   const dialog = new ztoolkit.Dialog(2, 1);
@@ -16,8 +17,7 @@ export async function tencentStatusCallback(status: boolean) {
   // If individual preferences are not set, try to parse from the main secret
   if (!secretId || !secretKey) {
     try {
-      const secrets = JSON.parse((getPref("secretObj") as string) || "{}");
-      const tencentSecret = secrets.tencent;
+      const tencentSecret = getServiceSecret("tencent");
 
       if (typeof tencentSecret === "string") {
         // Legacy format - parse it
@@ -366,10 +366,8 @@ export async function tencentStatusCallback(status: boolean) {
           sentRepoIDList: sentRepoList,
         };
 
-        // Update the main secret storage
-        const secrets = JSON.parse(getPref("secretObj") as string);
-        secrets.tencent = secretConfig;
-        setPref("secretObj", JSON.stringify(secrets));
+        // Update the tencent secret storage
+        setServiceSecret("tencent", JSON.stringify(secretConfig));
       }
       break;
     case "help":
