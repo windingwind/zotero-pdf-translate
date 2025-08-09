@@ -1,9 +1,10 @@
 import { config, homepage } from "../../package.json";
-import { LANG_CODE, getSortedServicesWithPriorities } from "../utils/config";
+import { createServiceDialog } from "../utils";
+import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
-import { secretStatusButtonData } from "./settings";
+import { services } from "./services";
 
 export function registerPrefsWindow() {
   Zotero.PreferencePanes.register({
@@ -27,6 +28,7 @@ function buildPrefsPane() {
   if (!doc) {
     return;
   }
+
   // menus
   ztoolkit.UI.replaceElement(
     {
@@ -47,17 +49,13 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("sentence").map(
-            (service) => ({
-              tag: "menuitem",
-              attributes: {
-                label: getPref(`renameServices.${service.id}`)
-                  ? getPref(`renameServices.${service.id}`) + "🗝️"
-                  : getString(`service-${service.id}`),
-                value: service.id,
-              },
-            }),
-          ),
+          children: services.getAllServicesWithType("sentence").map((s) => ({
+            tag: "menuitem",
+            attributes: {
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
+            },
+          })),
         },
       ],
     },
@@ -84,11 +82,11 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("word").map((service) => ({
+          children: services.getAllServicesWithType("word").map((s) => ({
             tag: "menuitem",
             attributes: {
-              label: getString(`service-${service.id}`),
-              value: service.id,
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
             },
           })),
         },
@@ -365,34 +363,38 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     case "setSentenceSecret":
       {
         const serviceId = getPref("translateSource") as string;
-        const secretCheckResult = validateServiceSecret(
-          serviceId,
-          (validateResult) => {
-            if (fromElement && !validateResult.status) {
-              addon.data.prefs.window?.alert(
-                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`,
-              );
-            }
-          },
-        );
-        (
-          doc.querySelector(
-            `#${makeId("sentenceServicesSecret")}`,
-          ) as HTMLInputElement
-        ).value = secretCheckResult.secret;
+        ztoolkit.log(`id: ${serviceId}`);
+        const service =
+          addon.data.translate.services.getServiceById(serviceId)!;
+        const serviceName = getString(`service-${service.id}`);
+        const helpUrl = service.helpUrl;
+
+        if (service.secretValidator) {
+          const currentSecret = (
+            doc.querySelector(
+              `#${makeId("sentenceServicesSecret")}`,
+            ) as HTMLInputElement
+          ).value;
+
+          const secretCheckResult = service.secretValidator(currentSecret);
+          if (!secretCheckResult.status) {
+            addon.data.prefs.window?.alert(
+              `You see this because the translation service ${serviceName} requires SECRET, which is NOT correctly set.\n\nDetails:\n${secretCheckResult.info}`,
+            );
+          }
+        }
+
         // Update secret status button
-        const statusButtonData = secretStatusButtonData[serviceId];
+        const fields = service.getConfig();
         const statusButton = doc.querySelector(
           `#${makeId("sentenceServicesStatus")}`,
         ) as XUL.Button;
-        if (statusButtonData) {
+        statusButton.onclick = (ev) => {
+          createServiceDialog(serviceName, fields, helpUrl);
+        };
+        if (fields.length !== 0) {
           statusButton.hidden = false;
-          statusButton.label = getString(
-            statusButtonData.labels[secretCheckResult.status ? "pass" : "fail"],
-          );
-          statusButton.onclick = (ev) => {
-            statusButtonData.callback(secretCheckResult.status);
-          };
+          statusButton.label = getString("service-dialog-config");
         } else {
           statusButton.hidden = true;
         }

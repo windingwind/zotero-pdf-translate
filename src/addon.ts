@@ -1,7 +1,7 @@
 import api from "./api";
 import hooks from "./hooks";
 import { TranslateTask } from "./utils/task";
-import { TranslationServices } from "./modules/services";
+import { services, TranslationServices } from "./modules/services";
 import { createZToolkit } from "./utils/ztoolkit";
 import { config } from "../package.json";
 
@@ -60,7 +60,7 @@ class Addon {
         queue: [],
         maximumQueueLength: 100,
         batchTaskDelay: 1000,
-        services: new TranslationServices(),
+        services,
         cachedSourceLanguage: {},
         refreshTick: "",
       },

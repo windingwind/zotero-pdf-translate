@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://api.dictionaryapi.dev/api/v2/entries/en/${data.raw}`,
@@ -37,4 +37,15 @@ export default <TranslateTaskProcessor>async function (data) {
       .join("----\n");
   }
   data.result = tgt;
+};
+
+export const FreeDictionaryAPI: TranslateService = {
+  id: "freedictionaryapi",
+  type: "word",
+
+  translate,
+
+  getConfig() {
+    return [];
+  },
 };
