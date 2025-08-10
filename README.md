@@ -308,10 +308,11 @@ If there are complex options, please bind a callback in `src/modules/settings/in
 
 Use this code under AGPL. No warranties are provided. Keep the laws of your locality in mind!
 
-## My Other Zotero Addons
+## My Zotero Plugins
 
-- [Better Notes](https://github.com/windingwind/zotero-better-notes): Everything about note management. All in Zotero.
-- [Actions & Tags](https://github.com/windingwind/zotero-tag): Automatically tag items/Batch tagging
+- [Better Notes for Zotero](https://github.com/windingwind/zotero-better-notes): Everything about note management. All in Zotero.
+- [Actions & Tags for Zotero](https://github.com/windingwind/zotero-tag): Customize your Zotero workflow.
+- [Bionic for Zotero](https://github.com/windingwind/bionic-for-zotero): Bionic reading experience with Zotero.
 
 ## Sponsors
 
