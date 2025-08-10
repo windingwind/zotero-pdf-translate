@@ -81,8 +81,7 @@ function getDictionaryCode(fromCode: string, toCode: string) {
   fromCode = fromCode.split("-")[0].toLowerCase();
   toCode = toCode.toLowerCase();
   if (toCode.includes("zh")) {
-    if (toCode === "zh" || toCode === "zh-cn") toCode = "zh";
-    else toCode = "zht";
+    toCode = ["zh", "zh-cn", "zh-sg"].includes(toCode) ? "zh" : "zht";
   }
   toCode = toCode.split("-")[0];
   const code = `${fromCode}-${toCode}`;
