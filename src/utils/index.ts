@@ -8,4 +8,4 @@ export * from "./task";
 export * from "./wait";
 export * from "./window";
 export * from "./ztoolkit";
-export * from "./serviceDialog";
+export * from "./settingsDialog";

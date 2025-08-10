@@ -77,7 +77,7 @@ const translate = <TranslateService["translate"]>async function (data) {
 };
 
 export const Gemini: TranslateService = {
-  id: "demini",
+  id: "gemini",
   type: "sentence",
   helpUrl: "https://ai.google.dev/gemini-api/docs",
 
@@ -93,23 +93,19 @@ export const Gemini: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
+  config(settings) {
+    settings
+      .addTextSetting({
         prefKey: "gemini.endPoint",
         nameKey: "service-gemini-dialog-endPoint",
-      },
-      {
-        type: "input",
+      })
+      .addTextAreaSetting({
         prefKey: "gemini.prompt",
         nameKey: "service-gemini-dialog-prompt",
-      },
-      {
-        type: "input",
+      })
+      .addCheckboxSetting({
         prefKey: "gemini.stream",
         nameKey: "service-gemini-dialog-stream",
-      },
-    ];
+      });
   },
 };

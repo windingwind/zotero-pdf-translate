@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://ejje.weblio.jp/content/${encodeURIComponent(data.raw)}/`,
@@ -44,4 +44,11 @@ export default <TranslateTaskProcessor>async function (data) {
     .filter((t) => t)
     .map((t) => t.join(":"))
     .join("\n");
+};
+
+export const WeblioDict: TranslateService = {
+  id: "webliodict",
+  type: "word",
+
+  translate,
 };

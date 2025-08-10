@@ -161,8 +161,4 @@ export const CambridgeDict: TranslateService = {
   type: "word",
 
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

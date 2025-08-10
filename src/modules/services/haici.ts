@@ -73,7 +73,4 @@ export const Haici: TranslateService = {
   id: "haici",
   type: "sentence",
   translate,
-  getConfig() {
-    return [];
-  },
 };

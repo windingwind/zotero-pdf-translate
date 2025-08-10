@@ -29,13 +29,10 @@ export const DeepLCustom: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
-        prefKey: "deeplcustom.endpoint",
-        nameKey: "service-deeplcustom-dialog-endPoint",
-      },
-    ];
+  config(settings) {
+    settings.addTextSetting({
+      prefKey: "deeplcustom.endpoint",
+      nameKey: "service-deeplcustom-dialog-endPoint",
+    });
   },
 };

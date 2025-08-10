@@ -2,6 +2,7 @@ import JSEncrypt from "jsencrypt";
 import { getString, setServiceSecret } from "../../utils";
 import { getPref, setPref } from "../../utils/prefs";
 import { TranslateService } from "./base";
+import { get } from "http";
 
 const translate = <TranslateService["translate"]>async function (data) {
   const apikey = data.secret;
@@ -79,7 +80,7 @@ export const Niutrans: TranslateService = {
 
   translate,
 
-  getConfig() {
+  config(settings) {
     async function niutransLogin(username: string, password: string) {
       let loginFlag = false;
       let loginErrorMessage = "Not login";
@@ -238,25 +239,21 @@ export const Niutrans: TranslateService = {
     const memoryLibList = getPref("niutransMemoryLibList") as string;
     const dictLibListObj = JSON.parse(dictLibList);
     const memoryLibListObj = JSON.parse(memoryLibList);
-    return [
-      {
-        type: "input",
+
+    settings
+      .addTextSetting({
         prefKey: "niutransUsername",
         nameKey: "service-niutranspro-dialog-username",
         // register link
         // desc: `<a is="link" href="https://niutrans.com/register">${getString("service-niutranspro-dialog-signup")}</a>`,
-      },
-
-      {
-        type: "input",
+      })
+      .addPasswordSetting({
         prefKey: "niutransPassword",
         nameKey: "service-niutranspro-dialog-password",
         inputType: "password",
         // desc: `<a is="link" href="https://niutrans.com/password_find">${getString("service-niutranspro-dialog-forget")}</a>`,
-      },
-
-      {
-        type: "select",
+      })
+      .addSelectSetting({
         prefKey: "niutransMemoryNo",
         nameKey: "service-niutranspro-dialog-memoryLib",
         options: memoryLibListObj.map(
@@ -265,10 +262,8 @@ export const Niutrans: TranslateService = {
             label: memory.memoryName,
           }),
         ),
-      },
-
-      {
-        type: "select",
+      })
+      .addSelectSetting({
         prefKey: "niutransDictNo",
         nameKey: "service-niutranspro-dialog-dictLib",
         options: dictLibListObj.map(
@@ -278,29 +273,33 @@ export const Niutrans: TranslateService = {
           }),
         ),
         desc: `${getString("service-niutranspro-dialog-tip0")} <a href="https://niutrans.com/cloud/resource/index"> ${getString("service-niutranspro-dialog-tip1")}</a> ${getString("service-niutranspro-dialog-tip2")}`,
-      },
-
-      {
-        type: "input",
+      })
+      .addTextSetting({
         prefKey: "niutransEndpoint",
         nameKey: "service-niutranspro-dialog-endpoint",
-      },
-
-      {
-        type: "button",
-        nameKey: "service-niutranspro-dialog-signin",
-        callback() {
-          // TODO
+      })
+      .onSave(async (data) => {
+        const { loginFlag, loginErrorMessage } = await niutransLogin(
+          data["niutransUsername"],
+          data["niutransPassword"],
+        );
+        if (!loginFlag) {
+          return loginErrorMessage;
+        } else {
+          return true;
+        }
+      })
+      .addButton(getString("service-niutranspro-dialog-signin"), "signin", {
+        noClose: true,
+        callback: () => {
+          setPref("niutransUsername", "");
+          setPref("niutransPassword", "");
+          setPref("niutransDictLibList", "[]");
+          setPref("niutransMemoryLibList", "[]");
+          setPref("niutransDictNo", "");
+          setPref("niutransMemoryNo", "");
+          setServiceSecret("niutranspro", "");
         },
-      },
-
-      {
-        type: "button",
-        nameKey: "service-niutranspro-dialog-signout",
-        callback() {
-          // TODO
-        },
-      },
-    ];
+      });
   },
 };

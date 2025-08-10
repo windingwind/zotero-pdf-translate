@@ -52,10 +52,6 @@ function createDeepl(id: ID): TranslateService {
       }
       data.result = xhr.response.translations[0].text;
     },
-
-    getConfig() {
-      return [];
-    },
   };
 }
 

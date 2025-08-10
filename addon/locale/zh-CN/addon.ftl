@@ -50,6 +50,9 @@ service-dialog-title={ $service } 配置
 service-dialog-save=保存
 service-dialog-close=关闭
 service-dialog-help=帮助
+service-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数合并。
+service-dialog-custom-request-title=自定义请求参数
+service-dialog-custom-request-add-param=添加参数
 
 service-niutranspro-dialog-endpoint=接口
 service-niutranspro-dialog-username=用户名
@@ -75,9 +78,6 @@ service-chatgpt-dialog-temperature=温度
 service-chatgpt-dialog-prompt=提示词
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-custom-request=自定义请求
-service-chatgpt-dialog-custom-request-title=自定义请求参数
-service-chatgpt-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数（model, messages, temperature, stream）合并。
-service-chatgpt-dialog-add-param=添加参数
 
 service-azuregpt-dialog-endPoint=接口
 service-azuregpt-dialog-model=部署名
@@ -85,11 +85,8 @@ service-azuregpt-dialog-temperature=温度
 service-azuregpt-dialog-stream=流式输出
 service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
-
 service-azuregpt-dialog-custom-request=自定义请求
-service-azuregpt-dialog-custom-request-title=自定义请求参数
-service-azuregpt-dialog-custom-request-description=参考服务提供商的API文档，添加自定义参数。这些参数将与标准参数（model, messages, temperature, stream）合并。
-service-azuregpt-dialog-add-param=添加参数
+
 
 service-xftrans-dialog-engine=翻译引擎 (默认讯飞)
 service-xftrans-dialog-useniutrans=使用小牛翻译API

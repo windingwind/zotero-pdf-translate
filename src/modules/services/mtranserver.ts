@@ -53,18 +53,15 @@ export const Mtranserver: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
+  config(settings) {
+    settings
+      .addTextSetting({
         prefKey: "mtranserver.endpoint",
         nameKey: "service-mtranserver-dialog-endPoint",
-      },
-      {
-        type: "input",
+      })
+      .addCheckboxSetting({
         prefKey: "mtranserver.versionlabel",
         nameKey: "service-mtranserver-dialog-versionlabel",
-      },
-    ];
+      });
   },
 };

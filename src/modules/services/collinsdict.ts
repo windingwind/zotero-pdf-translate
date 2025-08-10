@@ -43,8 +43,4 @@ export const CollinsDict: TranslateService = {
   type: "word",
 
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

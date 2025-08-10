@@ -44,8 +44,4 @@ export const FreeDictionaryAPI: TranslateService = {
   type: "word",
 
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

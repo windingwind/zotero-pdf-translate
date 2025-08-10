@@ -45,8 +45,4 @@ export const HaiciDict: TranslateService = {
   id: "haicidict",
   type: "word",
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

@@ -93,7 +93,7 @@ declare namespace _ZoteroTypes {
       "claude.maxTokens": string;
       "xftrans.useNiutrans": boolean;
       "youdaozhiyun.domain": string;
-      "youdaozhiyunllm.model": number;
+      "youdaozhiyunllm.model": string;
       "youdaozhiyunllm.stream": boolean;
       "nllb.model": string;
       "nllb.apiendpoint": string;

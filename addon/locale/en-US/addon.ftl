@@ -51,6 +51,9 @@ service-dialog-title={ $service } Config
 service-dialog-save=Save
 service-dialog-close=Close
 service-dialog-help=Help
+service-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
+service-dialog-custom-request-title=Custom Request Parameters
+service-dialog-custom-request-add-param=Add Parameter
 
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Username
@@ -76,9 +79,6 @@ service-chatgpt-dialog-temperature=Temp
 service-chatgpt-dialog-prompt=Prompt
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-custom-request=Custom Request
-service-chatgpt-dialog-custom-request-title=Custom Request Parameters
-service-chatgpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
-service-chatgpt-dialog-add-param=Add Parameter
 
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Name
@@ -87,9 +87,6 @@ service-azuregpt-dialog-apiVersion=Version
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
 service-azuregpt-dialog-custom-request=Custom Request
-service-azuregpt-dialog-custom-request-title=Custom Request Parameters
-service-azuregpt-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
-service-azuregpt-dialog-add-param=Add Parameter
 
 service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
 service-xftrans-dialog-useniutrans=Use NiuTrans API

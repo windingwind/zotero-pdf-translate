@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://www.youdao.com/w/${encodeURIComponent(data.raw)}/`,
@@ -49,4 +49,10 @@ export default <TranslateTaskProcessor>async function (data) {
   } catch (e) {
     throw "Parse Error";
   }
+};
+
+export const YoudaoDict: TranslateService = {
+  id: "youdaodict",
+  type: "word",
+  translate,
 };

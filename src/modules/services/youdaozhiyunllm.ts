@@ -1,9 +1,9 @@
 import { hex, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   function truncate(q: string) {
     const len = q.length;
     if (len <= 20) return q;
@@ -162,4 +162,58 @@ export default <TranslateTaskProcessor>async function (data) {
     const paragraphs = input.split(/\n\n+/);
     return paragraphs.filter((paragraph) => paragraph.includes("event:error"));
   }
+};
+
+export const YoudaoZhiyunLLM: TranslateService = {
+  id: "youdaozhiyunllm",
+  type: "sentence",
+  helpUrl: "https://ai.youdao.com/console/#/service-singleton/llm_translate",
+
+  defaultSecret: "appid#appsecret",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = parts.length == 2;
+    const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of YoudaoLLM is AppID#AppKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
+
+  config(settings) {
+    settings
+      .addSelectSetting({
+        nameKey: "service-youdaozhiyunllm-dialog-model",
+        prefKey: "youdaozhiyunllm.model",
+        options: [
+          {
+            value: "0",
+            label: getString("service-youdaozhiyunllm-dialog-pro"),
+          },
+          {
+            value: "3",
+            label: getString("service-youdaozhiyunllm-dialog-lite"),
+          },
+        ],
+      })
+      .addTextAreaSetting({
+        nameKey: "service-youdaozhiyunllm-dialog-prompt",
+        // @ts-expect-error this pref is not inited in prefs.js
+        prefKey: "youdaozhiyunllm.prompt",
+        placeholder: "Maximum 1200 characters or 400 words",
+        maxlength: "1200",
+      })
+      .addCheckboxSetting({
+        prefKey: "youdaozhiyunllm.stream",
+        nameKey: "service-youdaozhiyunllm-dialog-stream",
+      });
+  },
 };

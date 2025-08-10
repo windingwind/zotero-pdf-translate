@@ -1,4 +1,3 @@
-import { TranslateTaskProcessor } from "../../utils/task";
 import { TranslateService } from "./base";
 
 const translate = <TranslateService["translate"]>async function (data) {
@@ -53,8 +52,4 @@ export const Microsoft: TranslateService = {
     };
   },
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

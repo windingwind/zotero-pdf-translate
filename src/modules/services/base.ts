@@ -1,37 +1,52 @@
-import { ConfigField, SecretValidateResult } from "../../utils";
+import { SecretValidateResult } from "../../utils";
+import { AllowedSettingsMethods } from "../../utils/settingsDialog";
 import { TranslateTask } from "../../utils/task";
 
 export interface TranslateService {
   /**
-   * The ID of translation service.
+   * The unique service ID.
    *
-   * Use lowcase letters and `-` only.
+   * Use lowercase letters + hyphens only.
    */
   id: string;
+
   /**
-   * The name of translation service.
+   * The display name of the service.
    *
    * @default getString(`service-${id}`)
    */
   name?: string;
+
   /**
    * The type of translation service.
    *
    */
   type: "word" | "sentence";
+
   /**
-   * The documentation link of translation service.
+   * Documentation or help page URL.
    *
-   * Will be displayed as a 'Help' button in preference window.
+   * If provided, a "Help" button will appear in the settings dialog.
    */
   helpUrl?: string;
 
-  // needSecret: boolean;
   defaultSecret?: string;
   secretValidator?: (secret: string) => SecretValidateResult;
 
-  translate: (task: Required<TranslateTask>) => Promise<void>;
+  /**
+   * Main translation function.
+   *
+   * - Must set `data.result` before returning.
+   * - Should throw an error if the request fails.
+   */
+  translate: (data: Required<TranslateTask>) => Promise<void>;
 
-  // needConfig: boolean;
-  getConfig: () => ConfigField[];
+  /**
+   * Optional configuration UI builder.
+   *
+   * - Receives an {@link AllowedSettingsMethods}` instance with safe UI-building methods.
+   * - Use to add extra settings like endpoint, model selection, checkboxes, etc.
+   * - Omit if no extra configuration is needed.
+   */
+  config?: (settings: AllowedSettingsMethods) => void;
 }

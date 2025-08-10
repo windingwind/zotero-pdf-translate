@@ -1,8 +1,9 @@
+import { getString } from "../../utils";
 import { base64, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const [appid, apiSecret, apiKey] = data.secret.split("#");
   const useNiutrans = getPref("xftrans.useNiutrans") as boolean;
   const config = useNiutrans
@@ -108,4 +109,51 @@ export default <TranslateTaskProcessor>async function (data) {
   }
 
   data.result = xhr.response.data.result.trans_result.dst;
+};
+
+export const XFfrans: TranslateService = {
+  id: "xftrans",
+  type: "sentence",
+  helpUrl: "https://console.xfyun.cn/services",
+
+  defaultSecret: "AppID#ApiSecret#ApiKey",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = parts.length === 3;
+    const partsInfo = `AppID: ${parts[0]}\nApiSecret: ${parts[1]}\nApiKey: ${parts[2]}`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of Xftrans Domain Text Translation is AppID#ApiSecret#ApiKey. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
+
+  config(settings) {
+    // TODO: switch to select field: xf/niutrans
+    settings
+      .addSetting("", "", {
+        tag: "label",
+        namespace: "html",
+        attributes: {
+          for: "translate-engine",
+        },
+        properties: {
+          innerHTML: getString("service-xftrans-dialog-engine"),
+        },
+        styles: {
+          gridColumn: "1 / span 2",
+        },
+      })
+      .addCheckboxSetting({
+        prefKey: "xftrans.useNiutrans",
+        nameKey: "service-xftrans-dialog-useniutrans",
+      });
+  },
 };

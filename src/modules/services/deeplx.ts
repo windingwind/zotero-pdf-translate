@@ -94,13 +94,10 @@ export const DeepLX: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
-        prefKey: "deeplx.endpoint",
-        nameKey: "service-deeplx-dialog-endPoint",
-      },
-    ];
+  config(setting) {
+    setting.addTextSetting({
+      prefKey: "deeplx.endpoint",
+      nameKey: "service-deeplx-dialog-endPoint",
+    });
   },
 };

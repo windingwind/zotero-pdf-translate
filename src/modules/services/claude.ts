@@ -170,46 +170,38 @@ export const Claude: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
+  config(settings) {
+    settings
+      .addTextSetting({
         prefKey: "claude.endPoint",
         nameKey: "service-claude-dialog-endPoint",
-      },
-      {
-        type: "input",
+      })
+      .addTextSetting({
         prefKey: "claude.model",
         nameKey: "service-claude-dialog-model",
-      },
-      {
-        type: "input",
+      })
+      .addNumberSetting({
         prefKey: "claude.temperature",
         nameKey: "service-claude-dialog-temperature",
-        inputType: "number",
         min: 0,
         max: 1,
         step: 0.1,
-      },
-      {
-        type: "input",
+      })
+      .addNumberSetting({
         prefKey: "claude.maxTokens",
         nameKey: "service-claude-dialog-maxTokens",
         inputType: "number",
         min: 100,
         max: 10000,
         step: 100,
-      },
-      {
-        type: "input",
+      })
+      .addTextAreaSetting({
         prefKey: "claude.prompt",
         nameKey: "service-claude-dialog-prompt",
-      },
-      {
-        type: "checkbox",
+      })
+      .addCheckboxSetting({
         prefKey: "claude.stream",
         nameKey: "service-claude-dialog-stream",
-      },
-    ];
+      });
   },
 };

@@ -127,8 +127,4 @@ export const Huoshan: TranslateService = {
   },
 
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

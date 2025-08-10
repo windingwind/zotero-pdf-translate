@@ -1,9 +1,9 @@
 import { config, homepage } from "../../package.json";
-import { createServiceDialog } from "../utils";
 import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
+import { createServiceSettingsDialog } from "../utils";
 import { services } from "./services";
 
 export function registerPrefsWindow() {
@@ -363,7 +363,6 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     case "setSentenceSecret":
       {
         const serviceId = getPref("translateSource") as string;
-        ztoolkit.log(`id: ${serviceId}`);
         const service =
           addon.data.translate.services.getServiceById(serviceId)!;
         const serviceName = getString(`service-${service.id}`);
@@ -385,14 +384,13 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
         }
 
         // Update secret status button
-        const fields = service.getConfig();
         const statusButton = doc.querySelector(
           `#${makeId("sentenceServicesStatus")}`,
         ) as XUL.Button;
         statusButton.onclick = (ev) => {
-          createServiceDialog(serviceName, fields, helpUrl);
+          createServiceSettingsDialog(service);
         };
-        if (fields.length !== 0) {
+        if (service.config) {
           statusButton.hidden = false;
           statusButton.label = getString("service-dialog-config");
         } else {

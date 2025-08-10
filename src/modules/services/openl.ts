@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async (data) => {
   const [services, apikey] = data.secret.split("#");
   const serviceList = services.split(",");
 
@@ -51,4 +51,27 @@ export default <TranslateTaskProcessor>async function (data) {
     }
   }
   data.result = tgt;
+};
+
+export const Openl: TranslateService = {
+  id: "openl",
+  type: "sentence",
+  defaultSecret: "service1,service2,...#apikey",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = parts.length === 2;
+    const partsInfo = `Services: ${parts[0]}\nAPIKey: ${parts[1]}`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of OpenL is service1,service2,...#APIKey. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
 };

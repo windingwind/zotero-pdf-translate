@@ -45,14 +45,11 @@ export const LibreTranslate: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
-        prefKey: "libretranslate.endpoint",
-        nameKey: "service-libretranslate-dialog-endPoint",
-        placeholder: "http://localhost:5000",
-      },
-    ];
+  config(settings) {
+    settings.addTextSetting({
+      prefKey: "libretranslate.endpoint",
+      nameKey: "service-libretranslate-dialog-endPoint",
+      placeholder: "http://localhost:5000",
+    });
   },
 };

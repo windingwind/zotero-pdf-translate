@@ -55,8 +55,4 @@ export const Caiyun: TranslateService = {
   },
 
   translate,
-
-  getConfig() {
-    return [];
-  },
 };

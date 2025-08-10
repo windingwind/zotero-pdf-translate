@@ -104,9 +104,6 @@ export function createGoogle(id: ID): TranslateService {
         return await _google("https://translate.googleapis.com", data);
       }
     },
-    getConfig() {
-      return [];
-    },
   };
 }
 

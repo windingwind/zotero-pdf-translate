@@ -290,7 +290,7 @@ function createGPTService(id: ID): TranslateService {
       }
     },
 
-    getConfig(): ConfigField[] {
+    config(settings) {
       const servicePrefix = id === "azuregpt" ? "azuregpt" : "chatgpt";
 
       // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
@@ -302,48 +302,49 @@ function createGPTService(id: ID): TranslateService {
         // | "customGPT3"
         | "azureGPT";
 
-      return [
-        {
-          type: "input",
+      settings
+        .addTextSetting({
           prefKey: `${prefPrefix}.endPoint`,
           nameKey: `service-${servicePrefix}-dialog-endPoint`,
-        },
-        {
-          type: "input",
+        })
+        .addTextSetting({
           prefKey: `${prefPrefix}.model`,
           nameKey: `service-${servicePrefix}-dialog-model`,
-        },
-        {
-          type: "input",
+        })
+        .addNumberSetting({
           prefKey: `${prefPrefix}.temperature`,
           nameKey: `service-${servicePrefix}-dialog-temperature`,
-        },
-        {
-          type: "input",
-          // @ts-expect-error hidden for non azureGPT
+        });
+
+      if (
+        id === "azuregpt" &&
+        prefPrefix === "azureGPT" &&
+        servicePrefix === "azuregpt"
+      ) {
+        settings.addTextSetting({
           prefKey: `${prefPrefix}.apiVersion`,
-          // @ts-expect-error hidden for non azureGPT
           nameKey: `service-${servicePrefix}-dialog-apiVersion`,
           hidden: id !== "azuregpt",
-        },
-        {
-          type: "textarea",
+        });
+      }
+
+      settings
+        .addTextAreaSetting({
           prefKey: `${prefPrefix}.prompt`,
           nameKey: `service-${servicePrefix}-dialog-prompt`,
           placeholder: getString(`service-${servicePrefix}-dialog-prompt`),
-        },
-        {
-          type: "checkbox",
+        })
+        .addCheckboxSetting({
           prefKey: `${prefPrefix}.stream`,
           nameKey: `service-${servicePrefix}-dialog-stream`,
-        },
-        {
-          type: "params",
+        })
+        .addCustomParamsSetting({
           prefKey: `${prefPrefix}.customParams`,
           nameKey: `service-${servicePrefix}-dialog-custom-request`,
-          desc: `service-${servicePrefix}-dialog-custom-request-description`,
-        },
-      ];
+          desc: getString(
+            `service-${servicePrefix}-dialog-custom-request-description`,
+          ),
+        });
     },
   };
 }

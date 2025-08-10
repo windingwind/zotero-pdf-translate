@@ -128,18 +128,15 @@ export const Cnki: TranslateService = {
 
   translate,
 
-  getConfig() {
-    return [
-      {
-        type: "input",
+  config(settings) {
+    settings
+      .addTextSetting({
         prefKey: "cnkiRegex",
         nameKey: "service-cnki-dialog-regex",
-      },
-      {
-        type: "checkbox",
+      })
+      .addCheckboxSetting({
         prefKey: "cnkiUseSplit",
         nameKey: "service-cnki-dialog-split",
-      },
-    ];
+      });
   },
 };

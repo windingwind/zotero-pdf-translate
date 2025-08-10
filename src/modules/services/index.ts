@@ -31,6 +31,16 @@ import { LibreTranslate } from "./libretranslate";
 import { Microsoft } from "./microsoft";
 import { Mtranserver } from "./mtranserver";
 import { Niutrans } from "./niutrans";
+import { Nllb } from "./nllb";
+import { Openl } from "./openl";
+import { Pot } from "./pot";
+import { QwenMT } from "./qwenmt";
+import { WeblioDict } from "./webliodict";
+import { XFfrans } from "./xftrans";
+import { Youdao } from "./youdao";
+import { YoudaoDict } from "./youdaodict";
+import { YoudaoZhiyun } from "./youdaozhiyun";
+import { YoudaoZhiyunLLM } from "./youdaozhiyunllm";
 
 const register: TranslateService[] = [
   Aliyun,
@@ -56,17 +66,65 @@ const register: TranslateService[] = [
   Microsoft,
   Mtranserver,
   Niutrans,
-
+  Nllb,
+  Openl,
+  Pot,
+  QwenMT,
+  Tencent,
+  WeblioDict,
+  XFfrans,
+  Youdao,
+  YoudaoDict,
+  YoudaoZhiyun,
+  YoudaoZhiyunLLM,
   ChatGPT,
   customGPT1,
   customGPT2,
   customGPT3,
   azureGPT,
-  Tencent,
 ];
 
 export class TranslationServices {
-  #services: readonly TranslateService[] = Object.freeze(register);
+  #services: readonly TranslateService[] = Object.freeze(
+    this.sortServices(register),
+  );
+
+  /**
+   * Sort the TranslateService list by the following rules:
+   * 1. Free and no-config services (no secret, no config) come first.
+   * 2. All other services are sorted by `id` in ascending order (case-insensitive).
+   * 3. Services whose `id` starts with "custom" are placed last
+   *    (sorted by `id` in ascending order within this group).
+   */
+  private sortServices<T extends TranslateService>(services: T[]) {
+    return services.sort((a, b) => {
+      const rank = (s: T) => {
+        const needsSecret = !!s.defaultSecret || !!s.secretValidator;
+        const hasConfig = !!s.config;
+
+        // Group 4: "custom" at the start → last
+        if (s.id.startsWith("custom")) return 3;
+
+        // Group 1: Free (no secret, no config)
+        if (!needsSecret && !hasConfig) return 0;
+
+        // Group 2: No-secret but has config
+        if (!needsSecret && hasConfig) return 1;
+
+        // Group 3: Needs secret but no config
+        if (needsSecret && !hasConfig) return 2;
+
+        // Default (needs secret and has config) — also rank 2
+        return 2;
+      };
+
+      const ra = rank(a);
+      const rb = rank(b);
+
+      if (ra !== rb) return ra - rb;
+      return a.id.localeCompare(b.id);
+    });
+  }
 
   public getServiceById(id: string): TranslateService | undefined {
     return this.#services.find((service) => service.id === id);
@@ -96,10 +154,6 @@ export class TranslationServices {
     return this.getAllServicesWithType(type).map((service) =>
       this.getServiceNameByID(service.id),
     );
-  }
-
-  public getSortedServicesByName() {
-    //
   }
 
   public async runTranslationTask(
@@ -142,7 +196,7 @@ export class TranslationServices {
     }
     // Remove possible translation results (for annotations).
     const splitChar = (getPref("splitChar") as string).trim();
-    // /簠[^簠]*簠/g
+    // /🔤[^🔤]*🔤/g
     const regex =
       splitChar === ""
         ? ""
