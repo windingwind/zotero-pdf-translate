@@ -29,13 +29,13 @@ service-haici=Haici
 service-bing=Bing
 service-pot=Pot📍
 service-nllb=NLLB📍
-service-bingdict=Bing Dict(en↔zh)🔊
-service-cambridgedict=Cambridge Dict🔊
-service-haicidict=Haici Dict(en↔zh)🔊
-service-collinsdict=Collins Dict(en↔zh)🔊
-service-youdaodict=Youdao Dict(en↔zh)🔊
-service-freedictionaryapi=FreeDictionaryAPI(en↔en)
-service-webliodict=weblio(en↔ja)
+service-bingdict=Bing Dict(en→zh)🔊
+service-cambridgedict=Cambridge Dict(en→other)🔊
+service-haicidict=Haici Dict(en→zh)🔊
+service-collinsdict=Collins Dict(en→zh)🔊
+service-youdaodict=Youdao Dict(en→zh)🔊
+service-freedictionaryapi=FreeDictionaryAPI(en→en)
+service-webliodict=Weblio Dict(en→ja)
 service-errorPrefix=[Errore nella richiesta]
     Servizio di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
     Si prega di usare un altro servizio di traduzione o di segnalare il problema qui: 

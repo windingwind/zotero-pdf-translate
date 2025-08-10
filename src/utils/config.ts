@@ -916,6 +916,16 @@ export function getSortedServicesWithPriorities(
 ) {
   // Default priorities
   const defaultPriorities: Record<string, number> = {
+    // Word Services
+    // en2ja get priority 20
+    webliodict: 20,
+    // en2other get priority 120
+    cambridgedict: 120,
+    // en2en get priority 110
+    freedictionaryapi: 110,
+    // All other services default to 100
+
+    // Sentence Services
     // Custom services get priority 20
     customgpt1: 20,
     customgpt2: 20,

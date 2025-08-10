@@ -32,13 +32,13 @@ service-haici=Haici
 service-bing=Bing
 service-pot=Pot📍
 service-nllb=NLLB📍
-service-bingdict=Bing Dict(en↔zh)🔊
-service-cambridgedict=Cambridge Dict🔊
-service-haicidict=Haici Dict(en↔zh)🔊
-service-collinsdict=Collins Dict(en↔zh)🔊
-service-youdaodict=Youdao Dict(en↔zh)🔊
-service-freedictionaryapi=FreeDictionaryAPI(en↔en)
-service-webliodict=weblio(en↔ja)
+service-bingdict=Bing Dict(en→zh)🔊
+service-cambridgedict=Cambridge Dict(en→other)🔊
+service-haicidict=Haici Dict(en→zh)🔊
+service-collinsdict=Collins Dict(en→zh)🔊
+service-youdaodict=Youdao Dict(en→zh)🔊
+service-freedictionaryapi=FreeDictionaryAPI(en→en)
+service-webliodict=Weblio Dict(en→ja)
 service-errorPrefix=[Request Error]
     Service not available, invalid secret, or request too fast.
     Use another translation service or post the issue here: 
