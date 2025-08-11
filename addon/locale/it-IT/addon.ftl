@@ -25,6 +25,9 @@ service-customgpt1=Custom GPT 1🗝️
 service-customgpt2=Custom GPT 2🗝️
 service-customgpt3=Custom GPT 3🗝️
 service-azuregpt=AzureGPT🗝️
+service-gemini=Gemini🗝️
+service-qwenmt=Qwen-MT🗝️
+service-claude=Claude🗝️
 service-haici=Haici
 service-bing=Bing
 service-pot=Pot📍
@@ -43,6 +46,15 @@ service-errorPrefix=[Errore nella richiesta]
     
     Il messaggio seguente non è di Zotero o dell'estensione Translate ma proviene da
 
+service-dialog-config=Config
+service-dialog-title={ $service } Config
+service-dialog-save=Save
+service-dialog-close=Close
+service-dialog-help=Help
+service-dialog-custom-request-description=Refer to API documentation of service provider, add custom parameters. These will be merged with the standard parameters (model, messages, temperature, stream).
+service-dialog-custom-request-title=Custom Request Parameters
+service-dialog-custom-request-add-param=Add Parameter
+
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
 service-niutranspro-dialog-password=Password
@@ -56,6 +68,7 @@ service-niutranspro-dialog-tip2=per aggiungere il vocabolo alla libreria dei diz
 service-niutranspro-dialog-signin=Autenticati
 service-niutranspro-dialog-refresh=Aggiorna
 service-niutranspro-dialog-signout=Esci
+
 service-deeplcustom-dialog-endPoint=EndPoint
 service-deeplx-dialog-endPoint=API
 
@@ -63,34 +76,56 @@ service-chatgpt-dialog-endPoint=API
 service-chatgpt-dialog-model=Modello
 service-chatgpt-dialog-temperature=Temperatura
 service-chatgpt-dialog-prompt=Prompt
+service-chatgpt-dialog-stream=Stream
+service-chatgpt-dialog-custom-request=Custom Request
+
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Nome
 service-azuregpt-dialog-temperature=Temperatura
 service-azuregpt-dialog-apiVersion=Versione
 service-azuregpt-dialog-prompt=Prompt
+service-azuregpt-dialog-stream=Stream
+service-azuregpt-dialog-custom-request=Custom Request
+
 service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
 service-xftrans-dialog-useniutrans=Use NiuTrans API
+
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
+
+service-qwenmt-dialog-endPoint=EndPoint
+service-qwenmt-dialog-model=Model
+service-qwenmt-dialog-domains=Domains
+
+service-claude-dialog-endPoint=EndPoint
+service-claude-dialog-model=Model
+service-claude-dialog-temperature=Temp
+service-claude-dialog-prompt=Prompt
+service-claude-dialog-stream=Stream
+service-claude-dialog-maxTokens=Max Tokens
+
 service-cnki-settings=Impostazioni
 service-cnki-dialog-regex=Regex per gli annunci CNKI
 service-cnki-dialog-split=Dividi automaticamente la traduzione per più di 800 caratteri
 
 service-aliyun-dialog-action=Azione
 service-aliyun-dialog-scene=Scena
+
 service-tencent-dialog-secretid=Segreto ID
 service-tencent-dialog-secretkey=Segreto Key
 service-tencent-dialog-region=Regione
 service-tencent-dialog-projectid=Progetto ID
 service-tencent-dialog-termrepoid=Term Repo IDs (opzionale)
 service-tencent-dialog-sentrepoid=Sent Repo IDs (opzionale)
+
 service-youdaozhiyun-dialog-domain=Settore
 service-youdaozhiyunllm-dialog-model=Modello
 service-youdaozhiyunllm-dialog-pro=Youdao LLM Pro-14B
 service-youdaozhiyunllm-dialog-lite=Youdao LLM Lite-1.5B
 service-youdaozhiyunllm-dialog-prompt=Prompt
 service-youdaozhiyunllm-dialog-stream=Stream
+
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
 
@@ -120,9 +155,12 @@ service-renameServices-save=Salva
 service-renameServices-close=Chiudi
 
 service-libretranslate-dialog-endPoint=API Endpoint
+
 service-mtranserver-dialog-endPoint=EndPoint
 service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
+
 service-pot-dialog-port=Port
+
 service-nllb-dialog-model=Modello
 service-nllb-dialog-endpoint=EndPoint
 service-nllb-dialog-docs=Docs

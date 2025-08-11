@@ -1,4 +1,4 @@
-import { getLocaleID, getString } from "../utils/locale";
+import { getLocaleID } from "../utils/locale";
 import { config } from "../../package.json";
 import { getPref, setPref } from "../utils/prefs";
 import { getLastTranslateTask } from "../utils/task";

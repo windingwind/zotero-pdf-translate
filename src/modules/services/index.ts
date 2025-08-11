@@ -41,6 +41,8 @@ import { Youdao } from "./youdao";
 import { YoudaoDict } from "./youdaodict";
 import { YoudaoZhiyun } from "./youdaozhiyun";
 import { YoudaoZhiyunLLM } from "./youdaozhiyunllm";
+import { DeepLCustom } from "./deeplcustom";
+import { DeepLX } from "./deeplx";
 
 const register: TranslateService[] = [
   Aliyun,
@@ -55,10 +57,17 @@ const register: TranslateService[] = [
   CollinsDict,
   DeeplFree,
   DeeplPro,
+  DeepLCustom,
+  DeepLX,
   FreeDictionaryAPI,
   Gemini,
   Google,
   GoogleAPI,
+  ChatGPT,
+  customGPT1,
+  customGPT2,
+  customGPT3,
+  azureGPT,
   Haici,
   HaiciDict,
   Huoshan,
@@ -77,11 +86,6 @@ const register: TranslateService[] = [
   YoudaoDict,
   YoudaoZhiyun,
   YoudaoZhiyunLLM,
-  ChatGPT,
-  customGPT1,
-  customGPT2,
-  customGPT3,
-  azureGPT,
 ];
 
 export class TranslationServices {

@@ -363,36 +363,34 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
     case "setSentenceSecret":
       {
         const serviceId = getPref("translateSource") as string;
-        const service =
-          addon.data.translate.services.getServiceById(serviceId)!;
-        const serviceName = getString(`service-${service.id}`);
-        const helpUrl = service.helpUrl;
-
-        if (service.secretValidator) {
-          const currentSecret = (
-            doc.querySelector(
-              `#${makeId("sentenceServicesSecret")}`,
-            ) as HTMLInputElement
-          ).value;
-
-          const secretCheckResult = service.secretValidator(currentSecret);
-          if (!secretCheckResult.status) {
-            addon.data.prefs.window?.alert(
-              `You see this because the translation service ${serviceName} requires SECRET, which is NOT correctly set.\n\nDetails:\n${secretCheckResult.info}`,
-            );
-          }
-        }
+        const secretCheckResult = validateServiceSecret(
+          serviceId,
+          (validateResult) => {
+            if (fromElement && !validateResult.status) {
+              addon.data.prefs.window?.alert(
+                `You see this because the translation service ${serviceId} requires SECRET, which is NOT correctly set.\n\nDetails:\n${validateResult.info}`,
+              );
+            }
+          },
+        );
+        (
+          doc.querySelector(
+            `#${makeId("sentenceServicesSecret")}`,
+          ) as HTMLInputElement
+        ).value = secretCheckResult.secret;
 
         // Update secret status button
         const statusButton = doc.querySelector(
           `#${makeId("sentenceServicesStatus")}`,
         ) as XUL.Button;
-        statusButton.onclick = (ev) => {
-          createServiceSettingsDialog(service);
-        };
+        const service =
+          addon.data.translate.services.getServiceById(serviceId)!;
         if (service.config) {
           statusButton.hidden = false;
           statusButton.label = getString("service-dialog-config");
+          statusButton.onclick = (ev) => {
+            createServiceSettingsDialog(service);
+          };
         } else {
           statusButton.hidden = true;
         }

@@ -1,4 +1,4 @@
-import { ConfigField, getPref, getString } from "../../utils";
+import { getPref, getString } from "../../utils";
 import { TranslateService } from "./base";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";

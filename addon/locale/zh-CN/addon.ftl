@@ -25,6 +25,7 @@ service-customgpt1=自定义GPT1🗝️
 service-customgpt2=自定义GPT2🗝️
 service-customgpt3=自定义GPT3🗝️
 service-azuregpt=AzureGPT🗝️
+service-gemini=Gemini🗝️
 service-qwenmt=Qwen-MT🗝️
 service-claude=Claude🗝️
 service-haici=海词
@@ -68,7 +69,6 @@ service-niutranspro-dialog-signin=登录
 service-niutranspro-dialog-refresh=刷新
 service-niutranspro-dialog-signout=退出登录
 
-
 service-deeplcustom-dialog-endPoint=接口
 service-deeplx-dialog-endPoint=接口
 
@@ -87,20 +87,16 @@ service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
 service-azuregpt-dialog-custom-request=自定义请求
 
-
 service-xftrans-dialog-engine=翻译引擎 (默认讯飞)
 service-xftrans-dialog-useniutrans=使用小牛翻译API
-
 
 service-gemini-dialog-endPoint=接口
 service-gemini-dialog-prompt=提示词
 service-gemini-dialog-stream=流式输出
 
-
 service-qwenmt-dialog-endPoint=API地址
 service-qwenmt-dialog-model=模型
 service-qwenmt-dialog-domains=领域提示词
-
 
 service-claude-dialog-endPoint=接口
 service-claude-dialog-model=模型
@@ -109,14 +105,12 @@ service-claude-dialog-prompt=提示词
 service-claude-dialog-stream=流式输出
 service-claude-dialog-maxTokens=最大输出长度
 
-
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式
 service-cnki-dialog-split=超过800字符自动拆分翻译
 
 service-aliyun-dialog-action=版本
 service-aliyun-dialog-scene=场景
-
 
 service-tencent-dialog-secretid=密钥ID
 service-tencent-dialog-secretkey=密钥Key
@@ -125,13 +119,13 @@ service-tencent-dialog-projectid=项目ID
 service-tencent-dialog-termrepoid=术语库IDs (可选)
 service-tencent-dialog-sentrepoid=例句库IDs (可选)
 
-
 service-youdaozhiyun-dialog-domain=领域
 service-youdaozhiyunllm-dialog-model=模型
 service-youdaozhiyunllm-dialog-pro=有道智云子曰大模型Pro-14B
 service-youdaozhiyunllm-dialog-lite=有道智云子曰大模型Lite-1.5B
 service-youdaozhiyunllm-dialog-prompt=提示词
 service-youdaozhiyunllm-dialog-stream=流式输出
+
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
 
@@ -162,13 +156,10 @@ service-renameServices-close=关闭
 
 service-libretranslate-dialog-endPoint=API 地址
 
-
 service-mtranserver-dialog-endPoint=接口
 service-mtranserver-dialog-versionlabel=使用MTranServer v3.0.0+
 
-
 service-pot-dialog-port=端口
-
 
 service-nllb-dialog-model=模型
 service-nllb-dialog-endpoint=接口

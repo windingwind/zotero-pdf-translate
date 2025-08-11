@@ -2,12 +2,6 @@ import { franc } from "franc";
 import ISO6393_3_TO_2 from "iso639-js/alpha3to2mapping.json";
 import ISO6393_MACRO_LANGS from "iso639-js/reference/iso639-3-macrolanguages.json";
 
-export interface SecretValidateResult {
-  secret: string;
-  status: boolean;
-  info: string;
-}
-
 export function inferLanguage(str: string) {
   const langCode = mapISO6393to6391(franc(str, { minLength: 3 }));
   if (!langCode) {

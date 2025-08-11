@@ -69,7 +69,6 @@ service-niutranspro-dialog-signin=Sign In
 service-niutranspro-dialog-refresh=Refresh
 service-niutranspro-dialog-signout=Sign Out
 
-
 service-deeplcustom-dialog-endPoint=EndPoint
 service-deeplx-dialog-endPoint=EndPoint
 
@@ -90,25 +89,28 @@ service-azuregpt-dialog-custom-request=Custom Request
 
 service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
 service-xftrans-dialog-useniutrans=Use NiuTrans API
+
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
+
 service-qwenmt-dialog-endPoint=EndPoint
 service-qwenmt-dialog-model=Model
 service-qwenmt-dialog-domains=Domains
+
 service-claude-dialog-endPoint=EndPoint
 service-claude-dialog-model=Model
 service-claude-dialog-temperature=Temp
 service-claude-dialog-prompt=Prompt
 service-claude-dialog-stream=Stream
 service-claude-dialog-maxTokens=Max Tokens
+
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex
 service-cnki-dialog-split=Automatically split translation for more than 800 characters
 
 service-aliyun-dialog-action=Action
 service-aliyun-dialog-scene=Scene
-
 
 service-tencent-dialog-secretid=Secret ID
 service-tencent-dialog-secretkey=Secret Key
@@ -117,14 +119,12 @@ service-tencent-dialog-projectid=Project ID
 service-tencent-dialog-termrepoid=Term Repo IDs (optional)
 service-tencent-dialog-sentrepoid=Sent Repo IDs (optional)
 
-
 service-youdaozhiyun-dialog-domain=Domain
 service-youdaozhiyunllm-dialog-model=Model
 service-youdaozhiyunllm-dialog-pro=Youdao LLM Pro-14B
 service-youdaozhiyunllm-dialog-lite=Youdao LLM Lite-1.5B
 service-youdaozhiyunllm-dialog-prompt=Prompt
 service-youdaozhiyunllm-dialog-stream=Stream
-
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
@@ -156,10 +156,8 @@ service-renameServices-close=Close
 
 service-libretranslate-dialog-endPoint=API Endpoint
 
-
 service-mtranserver-dialog-endPoint=EndPoint
 service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
-
 
 service-pot-dialog-port=Port
 

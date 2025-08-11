@@ -1,6 +1,8 @@
-import { SecretValidateResult } from "../../utils";
-import { AllowedSettingsMethods } from "../../utils/settingsDialog";
-import { TranslateTask } from "../../utils/task";
+import {
+  SecretValidateResult,
+  AllowedSettingsMethods,
+  TranslateTaskProcessor,
+} from "../../utils";
 
 export interface TranslateService {
   /**
@@ -39,7 +41,7 @@ export interface TranslateService {
    * - Must set `data.result` before returning.
    * - Should throw an error if the request fails.
    */
-  translate: (data: Required<TranslateTask>) => Promise<void>;
+  translate: TranslateTaskProcessor;
 
   /**
    * Optional configuration UI builder.

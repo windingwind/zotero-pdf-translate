@@ -1,4 +1,4 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
+import { TranslateTask } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { TranslateService } from "./base";
 

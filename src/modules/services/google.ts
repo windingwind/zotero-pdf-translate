@@ -1,4 +1,4 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
+import { TranslateTask } from "../../utils/task";
 import { TranslateService } from "./base";
 
 async function _google(url: string, data: Required<TranslateTask>) {

@@ -1,6 +1,11 @@
 import { services } from "../modules/services";
-import { SecretValidateResult } from "./config";
-import { getPref, getPrefJSON, setPref } from "./prefs";
+import { getPrefJSON, setPref } from "./prefs";
+
+export interface SecretValidateResult {
+  secret: string;
+  status: boolean;
+  info: string;
+}
 
 export function getServiceSecret(serviceId: string) {
   try {

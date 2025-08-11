@@ -7,7 +7,7 @@ import {
   setPref,
 } from "./prefs";
 import { getString } from "./locale";
-import { SettingsDialogHelper, TagElementProps } from "zotero-plugin-toolkit";
+import { SettingsDialogHelper } from "zotero-plugin-toolkit";
 import { FluentMessageId } from "../../typings/i10n";
 import { TranslateService } from "../modules/services/base";
 

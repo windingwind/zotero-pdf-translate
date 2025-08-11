@@ -2,7 +2,6 @@ import JSEncrypt from "jsencrypt";
 import { getString, setServiceSecret } from "../../utils";
 import { getPref, setPref } from "../../utils/prefs";
 import { TranslateService } from "./base";
-import { get } from "http";
 
 const translate = <TranslateService["translate"]>async function (data) {
   const apikey = data.secret;
