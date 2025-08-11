@@ -31,13 +31,13 @@ service-haici=海词
 service-bing=必应
 service-pot=Pot📍
 service-nllb=NLLB📍
-service-bingdict=必应词典(en↔zh)🔊
-service-cambridgedict=剑桥词典🔊
-service-haicidict=海词词典(en↔zh)🔊
-service-collinsdict=科林斯词典(en↔zh)🔊
-service-youdaodict=有道词典(en↔zh)🔊
-service-freedictionaryapi=FreeDictionaryAPI(en↔en)
-service-webliodict=Weblio Dict(en↔ja)
+service-bingdict=必应词典(en→zh)🔊
+service-cambridgedict=剑桥词典(en→other)🔊
+service-haicidict=海词词典(en→zh)🔊
+service-collinsdict=科林斯词典(en→zh)🔊
+service-youdaodict=有道词典(en→zh)🔊
+service-freedictionaryapi=FreeDictionaryAPI(en→en)
+service-webliodict=Weblio Dict(en→ja)
 service-errorPrefix=[请求错误]
     此翻译服务不可用，可能是密钥错误，也可能是请求过快。
     可以尝试其他翻译服务，或者来此查看相关回答：

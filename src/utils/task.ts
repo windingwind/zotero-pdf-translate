@@ -297,7 +297,7 @@ function setDefaultService(task: TranslateTask) {
   // Use wordService(dictSource) for single word translation
   if (
     getPref("enableDict") &&
-    task.raw.trim().split(/[^a-z,A-Z]+/).length == 1
+    task.raw.trim().split(/[^a-zA-Z]+/).length == 1
   ) {
     task.service = getPref("dictSource") as string;
     task.candidateServices.push(getPref("translateSource") as string);
