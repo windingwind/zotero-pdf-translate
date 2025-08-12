@@ -159,7 +159,7 @@ The secret format is `MY_APIKEY#dictNo(optional)#memoryNo(optional)`.
 
 **Microsoft Translate**  
 Apply [here](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-translator?tabs=csharp). Copy your secret and paste it into the settings.  
-The secret format is `MY_SECRET`.
+The secret format is `serviceKEY#region(required if the region is not global)`.
 
 > See [this issue](https://github.com/windingwind/zotero-pdf-translate/issues/3#issuecomment-1064688597) for detailed steps to set up the Microsoft Translate.
 

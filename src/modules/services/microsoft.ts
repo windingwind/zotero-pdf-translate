@@ -41,14 +41,14 @@ export const Microsoft: TranslateService = {
   defaultSecret: "",
   secretValidator(secret: string) {
     const params = secret.split("#");
-    const secretKey = params[0];
-    const flag = secretKey?.length === 32 || secretKey?.length === 84;
+    const serviceKey = params[0];
+    const flag = serviceKey?.length === 32 || serviceKey?.length === 84;
     return {
       secret,
       status: flag,
       info: flag
         ? ""
-        : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The secretKEY length must be 32 or 84, but got ${secretKey?.length}.`,
+        : `The secret is your Azure translate serviceKEY#region(required if the region is not global). The serviceKEY length must be 32 or 84, but got ${serviceKey?.length}.`,
     };
   },
   translate,
