@@ -7,7 +7,7 @@ export function setDefaultPrefSettings() {
   const servicesIds = services.getAllServices().map((service) => service.id);
   if (!servicesIds.includes((getPref("translateSource") as string) || "")) {
     // Google Translate is not accessible in China mainland
-    setPref("translateSource", isZhCN ? "haici" : "googleapi");
+    setPref("translateSource", isZhCN ? "cnki" : "googleapi");
   }
   if (!servicesIds.includes((getPref("dictSource") as string) || "")) {
     setPref("dictSource", isZhCN ? "bingdict" : "freedictionaryapi");
