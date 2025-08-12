@@ -67,9 +67,9 @@ export const YoudaoZhiyun: TranslateService = {
     }`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== YoudaoZhiyun.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === YoudaoZhiyun.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

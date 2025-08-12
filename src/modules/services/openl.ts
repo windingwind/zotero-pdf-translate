@@ -63,9 +63,9 @@ export const Openl: TranslateService = {
     const partsInfo = `Services: ${parts[0]}\nAPIKey: ${parts[1]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== Openl.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === Openl.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

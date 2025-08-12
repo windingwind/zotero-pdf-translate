@@ -116,9 +116,9 @@ export const Huoshan: TranslateService = {
     const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== Huoshan.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === Huoshan.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo
