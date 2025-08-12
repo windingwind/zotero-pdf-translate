@@ -179,7 +179,7 @@ export const Nllb: TranslateService = {
 
       // api
       .addTextSetting({
-        nameKey: "service-nllb-dialog-endpoint",
+        nameKey: "service-nllb-dialog-apiendpoint",
         prefKey: "nllb.apiendpoint",
       })
       .addCheckboxSetting({
@@ -189,7 +189,7 @@ export const Nllb: TranslateService = {
 
       // serve
       .addTextSetting({
-        nameKey: "service-nllb-dialog-endpoint",
+        nameKey: "service-nllb-dialog-serveendpoint",
         prefKey: "nllb.serveendpoint",
       })
 
