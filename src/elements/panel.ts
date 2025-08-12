@@ -8,7 +8,7 @@ import {
   getLastTranslateTask,
   putTranslateTaskAtHead,
 } from "../utils/task";
-import { TranslationServices } from "../modules/services";
+import type { TranslationServices } from "../modules/services";
 
 //@ts-expect-error addon instance not typed
 const services = Zotero[config.addonInstance].data.translate

@@ -30,19 +30,16 @@ export default defineConfig({
     },
     esbuildOptions: [
       {
-        entryPoints: ["src/index.ts"],
+        entryPoints: [
+          { in: "src/index.ts", out: pkg.config.addonRef },
+          { in: "src/extras/*.*", out: "" },
+        ],
         define: {
           __env__: `"${process.env.NODE_ENV}"`,
         },
         bundle: true,
         target: "firefox115",
-        outfile: `build/addon/chrome/content/scripts/${pkg.config.addonRef}.js`,
-      },
-      {
-        entryPoints: ["src/extras/*.*"],
         outdir: "build/addon/chrome/content/scripts",
-        bundle: true,
-        target: "firefox115",
       },
     ],
     // If you want to checkout update.json into the repository, uncomment the following lines:
