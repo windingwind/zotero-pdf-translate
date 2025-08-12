@@ -26,6 +26,14 @@ export interface TranslateService {
   type: "word" | "sentence";
 
   /**
+   * The supported language of word-type translation service.
+   *
+   * Use language code abbr, e.g.: en2other, en2zh, etc.
+   * Be consistent with locale string in `addon/locale/${lang}/addon.ftl`.
+   */
+  supportLang?: string;
+
+  /**
    * Documentation or help page URL.
    *
    * If provided, a "Help" button will appear in the settings dialog.

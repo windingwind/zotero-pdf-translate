@@ -42,6 +42,7 @@ const translate: TranslateService["translate"] = async function (data) {
 export const BingDict: TranslateService = {
   id: "bingdict",
   type: "word",
+  supportLang: "en2zh",
 
   translate,
 };

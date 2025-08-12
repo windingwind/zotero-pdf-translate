@@ -42,6 +42,7 @@ const translate = <TranslateService["translate"]>async function (data) {
 export const FreeDictionaryAPI: TranslateService = {
   id: "freedictionaryapi",
   type: "word",
+  supportLang: "en2en",
 
   translate,
 };

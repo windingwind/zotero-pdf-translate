@@ -106,20 +106,45 @@ export class TranslationServices {
         const needsSecret = !!s.defaultSecret || !!s.secretValidator;
         const hasConfig = !!s.config;
 
-        // Group 4: "custom" at the start → last
-        if (s.id.startsWith("custom")) return 3;
+        // Rank for sentence services
+        if (s.type === "sentence") {
+          // Special case: No-secret but has setting
+          const specialGroup = ["cnki", "deeplx"];
+          if (specialGroup.includes(s.id)) return 0;
 
-        // Group 1: Free (no secret, no config)
-        if (!needsSecret && !hasConfig) return 0;
+          // Group 4: "custom" at the start → last
+          if (s.id.startsWith("custom")) return 3;
 
-        // Group 2: No-secret but has config
-        if (!needsSecret && hasConfig) return 1;
+          // Group 1: Free sentence services (no secret, no config)
+          if (!needsSecret && !hasConfig) return 0;
 
-        // Group 3: Needs secret but no config
-        if (needsSecret && !hasConfig) return 2;
+          // Group 2: No-secret but has config
+          if (!needsSecret && hasConfig && !specialGroup.includes(s.id))
+            return 1;
 
-        // Default (needs secret and has config) — also rank 2
-        return 2;
+          // Group 3: Needs secret but no config
+          if (needsSecret && !hasConfig) return 2;
+
+          // Default (Sentence service needs secret and has config) — also rank 2
+          return 2;
+        }
+        // Rank for word services
+        else {
+          // Group 1: en2other
+          if (s.supportLang == "en2other") return 0;
+
+          // Group 2: en2en
+          if (s.supportLang == "en2en") return 1;
+
+          // Group 3: en2zh
+          if (s.supportLang == "en2zh") return 2;
+
+          // Group 4: en2ja
+          if (s.supportLang == "en2ja") return 3;
+
+          // Default (other word services) - rank 4
+          return 4;
+        }
       };
 
       const ra = rank(a);

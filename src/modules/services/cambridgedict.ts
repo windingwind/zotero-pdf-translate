@@ -159,6 +159,7 @@ function parseBody(block: Element): string {
 export const CambridgeDict: TranslateService = {
   id: "cambridgedict",
   type: "word",
+  supportLang: "en2other",
 
   translate,
 };

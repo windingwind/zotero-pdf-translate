@@ -14,6 +14,8 @@
  *      Use lowercase letters and `-` only (e.g. `"google-translate"`).
  *    - `type` (required): `"word"` or `"sentence"`.
  *      Choose `"word"` for dictionary-like results, `"sentence"` for full-text translations.
+ *    - `supportLang` (required for word service): `"en2other"`, `"en2en"`, `"en2zh"`, `"en2ja"`, etc.
+ *      Should be consistent with locale string in `addon/locale/${lang}/addon.ftl`.
  *    - `translate` (required): The function that sends the request to your translation API
  *      and writes the result into `data.result`.
  *

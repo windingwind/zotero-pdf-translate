@@ -41,6 +41,7 @@ const translate: TranslateService["translate"] = async function (data) {
 export const CollinsDict: TranslateService = {
   id: "collinsdict",
   type: "word",
+  supportLang: "en2zh",
 
   translate,
 };

@@ -49,6 +49,7 @@ const translate: TranslateService["translate"] = async function (data) {
 export const WeblioDict: TranslateService = {
   id: "webliodict",
   type: "word",
+  supportLang: "en2ja",
 
   translate,
 };
