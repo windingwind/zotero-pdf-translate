@@ -70,10 +70,13 @@ const gptTranslate = async function (
     langTo: string,
     sourceText: string,
   ) {
-    return (getPref(`${prefix}.prompt`) as string)
-      .replaceAll("${langFrom}", langFrom)
-      .replaceAll("${langTo}", langTo)
-      .replaceAll("${sourceText}", sourceText);
+    return (
+      getPref(`${prefix}.prompt`) ||
+      ""
+        .replaceAll("${langFrom}", langFrom)
+        .replaceAll("${langTo}", langTo)
+        .replaceAll("${sourceText}", sourceText)
+    );
   }
 
   const streamMode = stream ?? true;
@@ -194,6 +197,15 @@ const gptTranslate = async function (
 function createGPTService(id: ID): TranslateService {
   const checkSecret = id === "azuregpt" || id === "chatgpt";
 
+  // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
+  // Additionally, customGPT was not initialized in prefs.js.
+  const prefPrefix = id.replace("gpt", "GPT") as
+    | "chatGPT"
+    // | "customGPT1"
+    // | "customGPT2"
+    // | "customGPT3"
+    | "azureGPT";
+
   return {
     id,
     type: "sentence",
@@ -268,18 +280,18 @@ function createGPTService(id: ID): TranslateService {
         case "customgpt1":
         case "customgpt2":
         case "customgpt3": {
-          const apiURL = getPref(`${id}.endPoint`) as string;
-          const model = getPref(`${id}.model`) as string;
+          const apiURL = getPref(`${prefPrefix}.endPoint`) as string;
+          const model = getPref(`${prefPrefix}.model`) as string;
           const temperature = parseFloat(
-            getPref(`${id}.temperature`) as string,
+            getPref(`${prefPrefix}.temperature`) as string,
           );
-          const stream = getPref(`${id}.stream`) as boolean;
+          const stream = getPref(`${prefPrefix}.stream`) as boolean;
 
           return await gptTranslate(
             apiURL,
             model,
             temperature,
-            id,
+            prefPrefix,
             data,
             stream,
           );
@@ -292,15 +304,6 @@ function createGPTService(id: ID): TranslateService {
 
     config(settings) {
       const servicePrefix = id === "azuregpt" ? "azuregpt" : "chatgpt";
-
-      // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
-      // Additionally, customGPT was not initialized in prefs.js.
-      const prefPrefix = id.replace("gpt", "GPT") as
-        | "chatGPT"
-        // | "customGPT1"
-        // | "customGPT2"
-        // | "customGPT3"
-        | "azureGPT";
 
       settings
         .addTextSetting({
