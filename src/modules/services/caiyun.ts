@@ -44,9 +44,9 @@ export const Caiyun: TranslateService = {
     const flag = secret.length > 0;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== Caiyun.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === Caiyun.defaultSecret
           ? "The default secret is for testing only. You should set your own custom token for production."
           : flag
             ? ""

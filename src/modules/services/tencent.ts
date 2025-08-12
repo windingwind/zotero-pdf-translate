@@ -166,7 +166,7 @@ export const Tencent: TranslateService = {
     "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
   secretValidator(secret: string | object) {
     // Handle empty or default secret
-    if (!secret || secret === this.defaultSecret) {
+    if (!secret || secret === Tencent.defaultSecret) {
       return {
         secret: secret as string,
         status: false,

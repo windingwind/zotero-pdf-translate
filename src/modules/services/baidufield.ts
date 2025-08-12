@@ -46,9 +46,9 @@ export const BaiduField: TranslateService = {
     const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== BaiduField.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === BaiduField.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

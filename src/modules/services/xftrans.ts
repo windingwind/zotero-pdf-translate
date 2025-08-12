@@ -123,9 +123,9 @@ export const XFfrans: TranslateService = {
     const partsInfo = `AppID: ${parts[0]}\nApiSecret: ${parts[1]}\nApiKey: ${parts[2]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== XFfrans.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === XFfrans.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

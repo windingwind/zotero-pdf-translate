@@ -81,9 +81,9 @@ export const ExampleTranslationService: TranslateService = {
     const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== ExampleTranslationService.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === ExampleTranslationService.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

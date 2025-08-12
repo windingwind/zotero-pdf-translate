@@ -176,9 +176,9 @@ export const YoudaoZhiyunLLM: TranslateService = {
     const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== YoudaoZhiyunLLM.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === YoudaoZhiyunLLM.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

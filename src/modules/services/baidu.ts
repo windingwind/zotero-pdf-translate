@@ -54,9 +54,9 @@ export const Baidu: TranslateService = {
 
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== Baidu.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === Baidu.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo

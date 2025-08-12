@@ -61,17 +61,17 @@ export const Aliyun: TranslateService = {
   type: "sentence",
   helpUrl:
     "https://help.aliyun.com/zh/machine-translation/developer-reference/api-overview-1",
-  defaultSecret: "accessKeyId#accessKeySecret",
 
+  defaultSecret: "accessKeyId#accessKeySecret",
   secretValidator(secret) {
     const parts = secret?.split("#");
     const flag = parts.length === 2;
     const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
     return {
       secret,
-      status: flag && secret !== this.defaultSecret,
+      status: flag && secret !== Aliyun.defaultSecret,
       info:
-        secret === this.defaultSecret
+        secret === Aliyun.defaultSecret
           ? "The secret is not set."
           : flag
             ? partsInfo
