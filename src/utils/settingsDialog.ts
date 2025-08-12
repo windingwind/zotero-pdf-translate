@@ -241,7 +241,6 @@ export async function createServiceSettingsDialog(
   dialog
     .addButton(getString(`service-dialog-close`), "close")
     .addAutoSaveButton(getString(`service-dialog-save`), "save", {
-      // @ts-expect-error wait toolkit SettingsDialogHelper support promise method
       // https://github.com/windingwind/zotero-plugin-toolkit/issues/87
       validate: dialog.validater,
     })

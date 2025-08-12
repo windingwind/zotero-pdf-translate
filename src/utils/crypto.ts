@@ -35,7 +35,8 @@ async function hmacSha1Digest(
     false,
     ["sign"],
   );
-  return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
+  const data = enc.encode(stringToSign).buffer as ArrayBuffer;
+  return crypto.subtle.sign("HMAC", key, data);
 }
 
 async function hmacSha256Digest(
@@ -59,12 +60,14 @@ async function hmacSha256Digest(
     false,
     ["sign"],
   );
-  return crypto.subtle.sign("HMAC", key, enc.encode(stringToSign));
+  const data = enc.encode(stringToSign).buffer as ArrayBuffer;
+  return crypto.subtle.sign("HMAC", key, data);
 }
 
 async function sha256Digest(message: string): Promise<ArrayBuffer> {
   const enc = new TextEncoder();
-  return crypto.subtle.digest("SHA-256", enc.encode(message));
+  const data = enc.encode(message).buffer as ArrayBuffer;
+  return crypto.subtle.digest("SHA-256", data);
 }
 
 function pkcs7Pad(block: Uint8Array | Array<number>) {
@@ -88,7 +91,7 @@ async function aesEcbEncrypt(message: string, secret: string) {
 
   const encodeStr = new TextEncoder().encode(message);
   // split encoded string to 16 byte blocks
-  const blocks = [];
+  const blocks = [] as Uint8Array[];
   for (let i = 0; i < encodeStr.length; i += 16) {
     const block = encodeStr.subarray(i, i + 16);
     blocks.push(block);
@@ -107,10 +110,10 @@ async function aesEcbEncrypt(message: string, secret: string) {
       crypto.subtle.encrypt(
         {
           name: "AES-CBC",
-          iv: block,
+          iv: block.buffer as ArrayBuffer,
         },
         key,
-        zeros,
+        zeros.buffer as ArrayBuffer,
       ),
     ),
   );
