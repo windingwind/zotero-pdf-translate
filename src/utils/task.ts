@@ -1,4 +1,4 @@
-import { SERVICES, inferLanguage, matchLanguage } from "./config";
+import { inferLanguage, matchLanguage } from "./config";
 import { getString } from "./locale";
 import { getPref } from "./prefs";
 import { getServiceSecret } from "./secret";
@@ -306,7 +306,8 @@ function setDefaultService(task: TranslateTask) {
   }
 
   // In case service is still empty
-  task.service = task.service || SERVICES[0].id;
+  task.service =
+    task.service || addon.data.translate.services.getAllServices()[0].id;
 }
 
 function cleanTasks() {

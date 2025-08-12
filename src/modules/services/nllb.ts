@@ -1,8 +1,8 @@
 import { getPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getString } from "../../utils/locale";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async (data) => {
   const serveurl =
     (getPref("nllb.serveendpoint") as string) || "http://localhost:6060";
   const apiurl =
@@ -154,3 +154,61 @@ const LANG_MAP = {
   uk: "ukr_Cyrl",
   km: "khm_Khmr",
 } as Record<string, string | undefined>;
+
+export const Nllb: TranslateService = {
+  id: "nllb",
+  type: "sentence",
+  translate,
+
+  config(settings) {
+    settings
+      .addSelectSetting({
+        prefKey: "nllb.model",
+        nameKey: "service-nllb-dialog-model",
+        options: [
+          {
+            value: "nllb-api",
+            label: "nllb-api API",
+          },
+          {
+            value: "nllb-serve",
+            label: "nllb-serve REST API",
+          },
+        ],
+      })
+
+      // api
+      .addTextSetting({
+        nameKey: "service-nllb-dialog-endpoint",
+        prefKey: "nllb.apiendpoint",
+      })
+      .addCheckboxSetting({
+        nameKey: "service-nllb-dialog-apistream",
+        prefKey: "nllb.apistream",
+      })
+
+      // serve
+      .addTextSetting({
+        nameKey: "service-nllb-dialog-endpoint",
+        prefKey: "nllb.serveendpoint",
+      })
+
+      // documentation
+      .addButton(getString("service-nllb-dialog-apilabel"), "", {
+        noClose: true,
+        callback: () => {
+          Zotero.launchURL(
+            "https://github.com/winstxnhdw/nllb-api?tab=readme-ov-file#self-hosting",
+          );
+        },
+      })
+      .addButton(getString("service-nllb-dialog-servelabel"), "", {
+        noClose: true,
+        callback: () => {
+          Zotero.launchURL(
+            "https://github.com/thammegowda/nllb-serve?tab=readme-ov-file#nllb-serve",
+          );
+        },
+      });
+  },
+};

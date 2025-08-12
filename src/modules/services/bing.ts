@@ -1,7 +1,7 @@
-import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { getPrefJSON, setPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async (data) => {
   const xhr = await Zotero.HTTP.request(
     "POST",
     `https://api-edge.cognitive.microsofttranslator.com/translate?from=${data.langfrom}&to=${data.langto}&api-version=3.0&includeSentenceLength=true`,
@@ -87,3 +87,10 @@ async function getToken(forceRefresh: boolean = false) {
   }
   return token;
 }
+
+export const Bing: TranslateService = {
+  id: "bing",
+  type: "sentence",
+
+  translate,
+};

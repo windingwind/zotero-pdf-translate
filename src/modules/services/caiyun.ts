@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const param = `${transLang(data.langfrom)}2${transLang(data.langto)}`;
   const xhr = await Zotero.HTTP.request(
     "POST",
@@ -33,4 +33,26 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Request error: ${xhr?.status}`;
   }
   data.result = xhr.response.target[0];
+};
+
+export const Caiyun: TranslateService = {
+  id: "caiyun",
+  type: "sentence",
+
+  defaultSecret: "3975l6lr5pcbvidl6jl2",
+  secretValidator(secret: string) {
+    const flag = secret.length > 0;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The default secret is for testing only. You should set your own custom token for production."
+          : flag
+            ? ""
+            : "The secret is not set.",
+    };
+  },
+
+  translate,
 };

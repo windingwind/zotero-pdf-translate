@@ -1,7 +1,7 @@
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const url = getPref("deeplcustom.endpoint") as string;
   const reqBody = JSON.stringify({
     text: data.raw,
@@ -19,4 +19,20 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Request error: ${xhr?.status}`;
   }
   data.result = xhr.response.data;
+};
+
+export const DeepLCustom: TranslateService = {
+  id: "deeplcustom",
+  type: "sentence",
+  helpUrl:
+    "https://github.com/ramonmi/DeepLX-for-Zotero/blob/main/README_zh.md",
+
+  translate,
+
+  config(settings) {
+    settings.addTextSetting({
+      prefKey: "deeplcustom.endpoint",
+      nameKey: "service-deeplcustom-dialog-endPoint",
+    });
+  },
 };

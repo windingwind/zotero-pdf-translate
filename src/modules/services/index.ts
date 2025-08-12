@@ -1,125 +1,162 @@
-import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 import {
+  getString,
+  getPref,
   getLastTranslateTask,
   TranslateTask,
   TranslateTaskRunner,
-} from "../../utils/task";
+  stripEmptyLines,
+} from "../../utils";
 
-import { stripEmptyLines } from "../../utils/str";
+import { Aliyun } from "./aliyun";
+import { Tencent } from "./tencent";
+import { ChatGPT, customGPT1, customGPT2, customGPT3, azureGPT } from "./gpt";
+import { Baidu } from "./baidu";
+import { BaiduField } from "./baidufield";
+import { Bing } from "./bing";
+import { BingDict } from "./bingdict";
+import { Caiyun } from "./caiyun";
+import { CambridgeDict } from "./cambridgedict";
+import { Claude } from "./claude";
+import { Cnki } from "./cnki";
+import { CollinsDict } from "./collinsdict";
+import { DeeplFree, DeeplPro } from "./deepl";
+import { FreeDictionaryAPI } from "./freedictionaryapi";
+import { Gemini } from "./gemini";
+import { Google, GoogleAPI } from "./google";
+import { Haici } from "./haici";
+import { HaiciDict } from "./haicidict";
+import { Huoshan } from "./huoshan";
+import { LibreTranslate } from "./libretranslate";
+import { Microsoft } from "./microsoft";
+import { Mtranserver } from "./mtranserver";
+import { Niutrans } from "./niutrans";
+import { Nllb } from "./nllb";
+import { Openl } from "./openl";
+import { Pot } from "./pot";
+import { QwenMT } from "./qwenmt";
+import { WeblioDict } from "./webliodict";
+import { XFfrans } from "./xftrans";
+import { Youdao } from "./youdao";
+import { YoudaoDict } from "./youdaodict";
+import { YoudaoZhiyun } from "./youdaozhiyun";
+import { YoudaoZhiyunLLM } from "./youdaozhiyunllm";
+import { DeepLCustom } from "./deeplcustom";
+import { DeepLX } from "./deeplx";
+
+const register: TranslateService[] = [
+  Aliyun,
+  Baidu,
+  BaiduField,
+  Bing,
+  BingDict,
+  Caiyun,
+  CambridgeDict,
+  Claude,
+  Cnki,
+  CollinsDict,
+  DeeplFree,
+  DeeplPro,
+  DeepLCustom,
+  DeepLX,
+  FreeDictionaryAPI,
+  Gemini,
+  Google,
+  GoogleAPI,
+  ChatGPT,
+  customGPT1,
+  customGPT2,
+  customGPT3,
+  azureGPT,
+  Haici,
+  HaiciDict,
+  Huoshan,
+  LibreTranslate,
+  Microsoft,
+  Mtranserver,
+  Niutrans,
+  Nllb,
+  Openl,
+  Pot,
+  QwenMT,
+  Tencent,
+  WeblioDict,
+  XFfrans,
+  Youdao,
+  YoudaoDict,
+  YoudaoZhiyun,
+  YoudaoZhiyunLLM,
+];
 
 export class TranslationServices {
-  [key: string]: TranslateTaskRunner | unknown;
-  constructor() {
-    import("./libretranslate").then(
-      (e) => (this.libretranslate = new TranslateTaskRunner(e.default)),
-    );
-    import("./huoshan").then(
-      (e) => (this.huoshan = new TranslateTaskRunner(e.default)),
-    );
-    import("./aliyun").then(
-      (e) => (this.aliyun = new TranslateTaskRunner(e.default)),
-    );
-    import("./baidu").then(
-      (e) => (this.baidu = new TranslateTaskRunner(e.default)),
-    );
-    import("./baidufield").then(
-      (e) => (this.baidufield = new TranslateTaskRunner(e.default)),
-    );
-    import("./bing").then(
-      (e) => (this.bing = new TranslateTaskRunner(e.default)),
-    );
-    import("./pot").then(
-      (e) => (this.pot = new TranslateTaskRunner(e.default)),
-    );
-    import("./bingdict").then(
-      (e) => (this.bingdict = new TranslateTaskRunner(e.default)),
-    );
-    import("./caiyun").then(
-      (e) => (this.caiyun = new TranslateTaskRunner(e.default)),
-    );
-    import("./cambridgedict").then(
-      (e) => (this.cambridgedict = new TranslateTaskRunner(e.default)),
-    );
-    import("./cnki").then(
-      (e) => (this.cnki = new TranslateTaskRunner(e.default)),
-    );
-    import("./collinsdict").then(
-      (e) => (this.collinsdict = new TranslateTaskRunner(e.default)),
-    );
-    import("./deepl").then((e) => {
-      this.deeplfree = new TranslateTaskRunner(e.deeplfree);
-      this.deeplpro = new TranslateTaskRunner(e.deeplpro);
+  #services: readonly TranslateService[] = Object.freeze(
+    this.sortServices(register),
+  );
+
+  /**
+   * Sort the TranslateService list by the following rules:
+   * 1. Free and no-config services (no secret, no config) come first.
+   * 2. All other services are sorted by `id` in ascending order (case-insensitive).
+   * 3. Services whose `id` starts with "custom" are placed last
+   *    (sorted by `id` in ascending order within this group).
+   */
+  private sortServices<T extends TranslateService>(services: T[]) {
+    return services.sort((a, b) => {
+      const rank = (s: T) => {
+        const needsSecret = !!s.defaultSecret || !!s.secretValidator;
+        const hasConfig = !!s.config;
+
+        // Group 4: "custom" at the start → last
+        if (s.id.startsWith("custom")) return 3;
+
+        // Group 1: Free (no secret, no config)
+        if (!needsSecret && !hasConfig) return 0;
+
+        // Group 2: No-secret but has config
+        if (!needsSecret && hasConfig) return 1;
+
+        // Group 3: Needs secret but no config
+        if (needsSecret && !hasConfig) return 2;
+
+        // Default (needs secret and has config) — also rank 2
+        return 2;
+      };
+
+      const ra = rank(a);
+      const rb = rank(b);
+
+      if (ra !== rb) return ra - rb;
+      return a.id.localeCompare(b.id);
     });
-    import("./deeplx").then((e) => {
-      this.deeplx = new TranslateTaskRunner(e.default);
-    });
-    import("./deeplcustom").then(
-      (e) => (this.deeplcustom = new TranslateTaskRunner(e.default)),
+  }
+
+  public getServiceById(id: string): TranslateService | undefined {
+    return this.#services.find((service) => service.id === id);
+  }
+
+  public getAllServices(): TranslateService[] {
+    return [...this.#services];
+  }
+
+  public getAllServicesWithType(type: string): TranslateService[] {
+    return this.getAllServices().filter((service) => service.type === type);
+  }
+
+  public getServiceNameByID(id: string): string {
+    return getPref(`renameServices.${id}`)
+      ? getPref(`renameServices.${id}`) + "🗝️"
+      : getString(`service-${id}`);
+  }
+
+  public getAllServiceNames(): string[] {
+    return this.getAllServices().map((service) =>
+      this.getServiceNameByID(service.id),
     );
-    import("./freedictionaryapi").then(
-      (e) => (this.freedictionaryapi = new TranslateTaskRunner(e.default)),
-    );
-    import("./google").then((e) => {
-      this.googleapi = new TranslateTaskRunner(e.googleapi);
-      this.google = new TranslateTaskRunner(e.google);
-    });
-    import("./haici").then(
-      (e) => (this.haici = new TranslateTaskRunner(e.default)),
-    );
-    import("./haicidict").then(
-      (e) => (this.haicidict = new TranslateTaskRunner(e.default)),
-    );
-    import("./microsoft").then(
-      (e) => (this.microsoft = new TranslateTaskRunner(e.default)),
-    );
-    import("./niutrans").then(
-      (e) => (this.niutranspro = new TranslateTaskRunner(e.default)),
-    );
-    import("./openl").then(
-      (e) => (this.openl = new TranslateTaskRunner(e.default)),
-    );
-    import("./tencent").then(
-      (e) => (this.tencent = new TranslateTaskRunner(e.default)),
-    );
-    import("./webliodict").then(
-      (e) => (this.webliodict = new TranslateTaskRunner(e.default)),
-    );
-    import("./xftrans").then(
-      (e) => (this.xftrans = new TranslateTaskRunner(e.default)),
-    );
-    import("./gpt").then((e) => {
-      this.chatgpt = new TranslateTaskRunner(e.getLLMService("chatGPT"));
-      this.customgpt1 = new TranslateTaskRunner(e.getLLMService("customGPT1"));
-      this.customgpt2 = new TranslateTaskRunner(e.getLLMService("customGPT2"));
-      this.customgpt3 = new TranslateTaskRunner(e.getLLMService("customGPT3"));
-      this.azuregpt = new TranslateTaskRunner(e.azureGPT);
-    });
-    import("./gemini").then((e) => {
-      this.gemini = new TranslateTaskRunner(e.gemini);
-    });
-    import("./youdao").then(
-      (e) => (this.youdao = new TranslateTaskRunner(e.default)),
-    );
-    import("./youdaodict").then(
-      (e) => (this.youdaodict = new TranslateTaskRunner(e.default)),
-    );
-    import("./youdaozhiyun").then(
-      (e) => (this.youdaozhiyun = new TranslateTaskRunner(e.default)),
-    );
-    import("./youdaozhiyunllm").then(
-      (e) => (this.youdaozhiyunllm = new TranslateTaskRunner(e.default)),
-    );
-    import("./qwenmt").then(
-      (e) => (this.qwenmt = new TranslateTaskRunner(e.default)),
-    );
-    import("./claude").then(
-      (e) => (this.claude = new TranslateTaskRunner(e.claude)),
-    );
-    import("./mtranserver").then(
-      (e) => (this.mtranserver = new TranslateTaskRunner(e.default)),
-    );
-    import("./nllb").then(
-      (e) => (this.nllb = new TranslateTaskRunner(e.default)),
+  }
+
+  public getAllServiceNamesWithType(type: string): string[] {
+    return this.getAllServicesWithType(type).map((service) =>
+      this.getServiceNameByID(service.id),
     );
   }
 
@@ -201,14 +238,16 @@ export class TranslationServices {
     }
 
     if (!cacheHit) {
-      // Get task runner
-      const runner = this[task.service] as TranslateTaskRunner;
-      if (!runner) {
+      // Get task service
+      const service = this.getServiceById(task.service);
+      if (!service) {
         task.result = `${task.service} is not implemented.`;
         task.status = "fail";
         return false;
       }
+
       // Run task
+      const runner = new TranslateTaskRunner(service.translate);
       await runner.run(task);
 
       // Apply strip empty lines if enabled
@@ -316,3 +355,5 @@ export class TranslationServices {
     return success;
   }
 }
+
+export const services = new TranslationServices();

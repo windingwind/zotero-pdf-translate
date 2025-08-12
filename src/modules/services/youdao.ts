@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const param = `${data.langfrom.toUpperCase().replace("-", "_")}2${data.langto
     .toUpperCase()
     .replace("-", "_")}`;
@@ -24,4 +24,11 @@ export default <TranslateTaskProcessor>async function (data) {
     }
   }
   data.result = tgt;
+};
+
+export const Youdao: TranslateService = {
+  id: "youdao",
+  type: "sentence",
+
+  translate,
 };

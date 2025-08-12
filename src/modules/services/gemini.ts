@@ -1,11 +1,10 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
+import { TranslateTask } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-const geminiTranslate = async function (
-  apiURL: string,
+const translate = <TranslateService["translate"]>async function (data) {
+  const apiURL = getPref("gemini.endPoint") as string;
 
-  data: Required<TranslateTask>,
-) {
   function transformContent(
     langFrom: string,
     langTo: string,
@@ -77,8 +76,36 @@ const geminiTranslate = async function (
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
-export const gemini = <TranslateTaskProcessor>async function (data) {
-  const apiURL = getPref("gemini.endPoint") as string;
+export const Gemini: TranslateService = {
+  id: "gemini",
+  type: "sentence",
+  helpUrl: "https://ai.google.dev/gemini-api/docs",
 
-  return await geminiTranslate(apiURL, data);
+  defaultSecret: "",
+  secretValidator(secret: string) {
+    const flag = Boolean(secret);
+    return {
+      secret,
+      status: flag,
+      info: flag ? "" : "The secret is not set.",
+    };
+  },
+
+  translate,
+
+  config(settings) {
+    settings
+      .addTextSetting({
+        prefKey: "gemini.endPoint",
+        nameKey: "service-gemini-dialog-endPoint",
+      })
+      .addTextAreaSetting({
+        prefKey: "gemini.prompt",
+        nameKey: "service-gemini-dialog-prompt",
+      })
+      .addCheckboxSetting({
+        prefKey: "gemini.stream",
+        nameKey: "service-gemini-dialog-stream",
+      });
+  },
 };

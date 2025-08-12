@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `https://cn.bing.com/dict/search?q=${encodeURIComponent(data.raw)}/`,
@@ -37,4 +37,11 @@ export default <TranslateTaskProcessor>async function (data) {
   }
   tgt = tgt.replace(/" \/>/g, "");
   data.result = tgt;
+};
+
+export const BingDict: TranslateService = {
+  id: "bingdict",
+  type: "word",
+
+  translate,
 };

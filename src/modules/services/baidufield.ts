@@ -1,6 +1,6 @@
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async (data) => {
   const params = data.secret.split("#");
   const appid = params[0];
   const key = params[1];
@@ -33,4 +33,28 @@ export default <TranslateTaskProcessor>async function (data) {
     tgt += xhr.response.trans_result[i].dst;
   }
   data.result = tgt;
+};
+
+export const BaiduField: TranslateService = {
+  id: "baidufield",
+  type: "sentence",
+
+  defaultSecret: "appid#key#field",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = parts.length === 3;
+    const partsInfo = `AppID: ${parts[0]}\nKey: ${parts[1]}\nDomainCode: ${parts[2]}`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of Baidu Domain Text Translation is AppID#Key#DomainCode. The secret must have 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
 };

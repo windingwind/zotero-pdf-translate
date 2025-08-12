@@ -1,7 +1,7 @@
 import { getPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const url =
     (getPref("mtranserver.endpoint") as string) ||
     "http://localhost:8989/translate";
@@ -44,3 +44,24 @@ const LANG_MAP = {
   "zh-SG": "zh-Hans",
   "zh-TW": "zh-Hant",
 } as Record<string, string | undefined>;
+
+export const Mtranserver: TranslateService = {
+  id: "mtranserver",
+  type: "sentence",
+  helpUrl:
+    "https://github.com/xxnuo/MTranServer?tab=readme-ov-file#api-%E4%BD%BF%E7%94%A8",
+
+  translate,
+
+  config(settings) {
+    settings
+      .addTextSetting({
+        prefKey: "mtranserver.endpoint",
+        nameKey: "service-mtranserver-dialog-endPoint",
+      })
+      .addCheckboxSetting({
+        prefKey: "mtranserver.versionlabel",
+        nameKey: "service-mtranserver-dialog-versionlabel",
+      });
+  },
+};

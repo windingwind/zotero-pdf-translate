@@ -1,7 +1,7 @@
-import { getPref, getPrefJSON, setPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { getPrefJSON, setPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const xhr = await Zotero.HTTP.request(
     "GET",
     `http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?appId=${await getAppId()}&from=${
@@ -68,3 +68,9 @@ async function getAppId(forceRefresh: boolean = false) {
   }
   return appId;
 }
+
+export const Haici: TranslateService = {
+  id: "haici",
+  type: "sentence",
+  translate,
+};

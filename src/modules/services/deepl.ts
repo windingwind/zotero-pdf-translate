@@ -1,40 +1,58 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { version } from "../../../package.json";
+import { TranslateService } from "./base";
 
-export const deeplfree = <TranslateTaskProcessor>async function (data) {
-  return await deepl("https://api-free.deepl.com/v2/translate", data);
-};
+type ID = "deeplfree" | "deeplpro";
 
-export const deeplpro = <TranslateTaskProcessor>async function (data) {
-  // See https://github.com/windingwind/zotero-pdf-translate/issues/579
-  return await deepl(
-    data.secret.endsWith("dp")
-      ? "https://api.deepl-pro.com/v2/translate"
-      : "https://api.deepl.com/v2/translate",
-    data,
-  );
-};
+function createDeepl(id: ID): TranslateService {
+  return {
+    id,
+    type: "sentence",
 
-async function deepl(url: string, data: Required<TranslateTask>) {
-  const [key, glossary_id]: string[] = data.secret.split("#");
-  const xhr = await Zotero.HTTP.request("POST", url, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `DeepL-Auth-Key ${key}`,
-      "User-Agent": `Translate for Zotero/${Zotero.version}-${Zotero.platform}-${version}`,
+    defaultSecret: "",
+    secretValidator(secret: string) {
+      const flag = secret?.length >= 36;
+      return {
+        secret,
+        status: flag,
+        info: flag
+          ? ""
+          : `The secret is your DeepL KEY. The secret length must >= 36, but got ${secret?.length}.`,
+      };
     },
-    responseType: "json",
-    body: JSON.stringify({
-      text: [data.raw],
-      source_lang: mapLang(data.langfrom),
-      target_lang: mapLang(data.langto),
-      glossary_id: glossary_id,
-    }),
-  });
-  if (xhr?.status !== 200) {
-    throw `Request error: ${xhr?.status}`;
-  }
-  data.result = xhr.response.translations[0].text;
+
+    async translate(data) {
+      let url: string;
+      if (id === "deeplfree") {
+        url = "https://api-free.deepl.com/v2/translate";
+      } else {
+        // See https://github.com/windingwind/zotero-pdf-translate/issues/579
+
+        url = data.secret.endsWith("dp")
+          ? "https://api.deepl-pro.com/v2/translate"
+          : "https://api.deepl.com/v2/translate";
+      }
+
+      const [key, glossary_id]: string[] = data.secret.split("#");
+      const xhr = await Zotero.HTTP.request("POST", url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `DeepL-Auth-Key ${key}`,
+          "User-Agent": `Translate for Zotero/${Zotero.version}-${Zotero.platform}-${version}`,
+        },
+        responseType: "json",
+        body: JSON.stringify({
+          text: [data.raw],
+          source_lang: mapLang(data.langfrom),
+          target_lang: mapLang(data.langto),
+          glossary_id: glossary_id,
+        }),
+      });
+      if (xhr?.status !== 200) {
+        throw `Request error: ${xhr?.status}`;
+      }
+      data.result = xhr.response.translations[0].text;
+    },
+  };
 }
 
 function mapLang(lang: string) {
@@ -53,3 +71,6 @@ const LANG_MAP = {
   "zh-SG": "ZH-HANS",
   "zh-TW": "ZH-HANT",
 } as Record<string, string | undefined>;
+
+export const DeeplFree = createDeepl("deeplfree");
+export const DeeplPro = createDeepl("deeplpro");

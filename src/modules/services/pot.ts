@@ -1,7 +1,7 @@
 import { getPref } from "../../utils/prefs";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async (data) => {
   const port = getPref("pot.port");
   const xhr = await Zotero.HTTP.request(
     "POST",
@@ -20,4 +20,18 @@ export default <TranslateTaskProcessor>async function (data) {
 
   // pot will show result in the popup, so we don't need to show it again
   data.result = "";
+};
+export const Pot: TranslateService = {
+  id: "pot",
+  type: "sentence",
+  helpUrl: "https://github.com/pot-app/pot-desktop",
+
+  translate,
+
+  config(settings) {
+    settings.addNumberSetting({
+      prefKey: "pot.port",
+      nameKey: "service-pot-dialog-port",
+    });
+  },
 };

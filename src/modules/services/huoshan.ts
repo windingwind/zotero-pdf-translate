@@ -1,7 +1,7 @@
 import { hex, hmacSha256Digest, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/task";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate = <TranslateService["translate"]>async function (data) {
   const params = data.secret.split("#");
   const id: string = params[0];
   const key: string = params[1];
@@ -103,4 +103,28 @@ export default <TranslateTaskProcessor>async function (data) {
 
   const { TranslationList } = JSON.parse(xhr.response);
   data.result = TranslationList[0].Translation;
+};
+
+export const Huoshan: TranslateService = {
+  id: "huoshan",
+  type: "sentence",
+
+  defaultSecret: "accessKeyId#accessKeySecret",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = parts.length === 2;
+    const partsInfo = `AccessKeyId: ${parts[0]}\nAccessKeySecret: ${parts[1]}`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of Huoshan Text Translation is AccessKeyId#AccessKeySecret. The secret must have 2 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
 };

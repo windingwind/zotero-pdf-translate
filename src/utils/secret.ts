@@ -1,5 +1,10 @@
-import { SecretValidateResult, getService } from "./config";
-import { getPref, getPrefJSON, setPref } from "./prefs";
+import { getPrefJSON, setPref } from "./prefs";
+
+export interface SecretValidateResult {
+  secret: string;
+  status: boolean;
+  info: string;
+}
 
 export function getServiceSecret(serviceId: string) {
   try {
@@ -26,7 +31,10 @@ export function validateServiceSecret(
   validateCallback?: (result: SecretValidateResult) => void,
 ): SecretValidateResult {
   const secret = getServiceSecret(serviceId);
-  const validator = getService(serviceId).secretValidator;
+  // We should get service from addon.data.translate.services here,
+  // Otherwise, `services` will be bundled into customElement.js.
+  const service = addon.data.translate.services.getServiceById(serviceId);
+  const validator = service?.secretValidator;
   if (!validator) {
     return { secret, status: true, info: "" };
   }

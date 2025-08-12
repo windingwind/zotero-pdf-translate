@@ -56,6 +56,7 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.chatGPT.stream", true);
+pref("__prefsPrefix__.chatGPT.customParams", "");
 pref("__prefsPrefix__.azureGPT.endPoint", "");
 pref("__prefsPrefix__.azureGPT.model", "");
 pref("__prefsPrefix__.azureGPT.apiVersion", "2023-05-15");
@@ -65,6 +66,7 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.azureGPT.stream", true);
+pref("__prefsPrefix__.azureGPT.customParams", "");
 pref(
   "__prefsPrefix__.gemini.endPoint",
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest",
@@ -110,7 +112,7 @@ pref(
 pref("__prefsPrefix__.claude.maxTokens", "4000");
 pref("__prefsPrefix__.xftrans.useNiutrans", false);
 pref("__prefsPrefix__.youdaozhiyun.domain", "general");
-pref("__prefsPrefix__.youdaozhiyunllm.model", 0);
+pref("__prefsPrefix__.youdaozhiyunllm.model", "0");
 pref("__prefsPrefix__.youdaozhiyunllm.stream", true);
 pref("__prefsPrefix__.nllb.model", "nllb-api");
 pref("__prefsPrefix__.nllb.apiendpoint", "http://localhost:7860");

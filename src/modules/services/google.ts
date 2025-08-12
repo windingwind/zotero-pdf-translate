@@ -1,11 +1,5 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
-
-export const googleapi = <TranslateTaskProcessor>async function (data) {
-  return await _google("https://translate.googleapis.com", data);
-};
-export const google = <TranslateTaskProcessor>async function (data) {
-  return await _google("https://translate.google.com", data);
-};
+import { TranslateTask } from "../../utils/task";
+import { TranslateService } from "./base";
 
 async function _google(url: string, data: Required<TranslateTask>) {
   function TL(a: any) {
@@ -95,3 +89,23 @@ const LANG_MAP = {
   // https://github.com/windingwind/zotero-pdf-translate/issues/997
   "pt-BR": "pt",
 } as Record<string, string | undefined>;
+
+type ID = "google" | "googleapi";
+
+export function createGoogle(id: ID): TranslateService {
+  return {
+    id,
+    type: "sentence",
+    async translate(data) {
+      if (id === "google") {
+        return await _google("https://translate.google.com", data);
+      }
+      if (id === "googleapi") {
+        return await _google("https://translate.googleapis.com", data);
+      }
+    },
+  };
+}
+
+export const Google = createGoogle("google");
+export const GoogleAPI = createGoogle("googleapi");

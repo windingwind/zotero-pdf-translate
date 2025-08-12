@@ -1,8 +1,8 @@
-import { TranslateTask, TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   const apiURL =
     (getPref("qwenmt.endPoint") as string) ||
     "https://dashscope.aliyuncs.com/compatible-mode";
@@ -107,3 +107,36 @@ const LANG_MAP = {
   uk: "Ukrainian",
   km: "Khmer",
 } as Record<string, string | undefined>;
+
+export const QwenMT: TranslateService = {
+  id: "qwenmt",
+  type: "sentence",
+  helpUrl:
+    "https://help.aliyun.com/zh/model-studio/user-guide/machine-translation/",
+  defaultSecret: "",
+  secretValidator(secret: string) {
+    const flag = Boolean(secret);
+    return {
+      secret,
+      status: flag,
+      info: flag ? "" : "The secret is not set.",
+    };
+  },
+  translate,
+
+  config(settings) {
+    settings
+      .addTextSetting({
+        prefKey: "qwenmt.endPoint",
+        nameKey: "service-qwenmt-dialog-endPoint",
+      })
+      .addTextSetting({
+        prefKey: "qwenmt.model",
+        nameKey: "service-qwenmt-dialog-model",
+      })
+      .addTextSetting({
+        prefKey: "qwenmt.domains",
+        nameKey: "service-qwenmt-dialog-domains",
+      });
+  },
+};

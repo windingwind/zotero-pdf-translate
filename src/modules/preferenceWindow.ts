@@ -1,9 +1,10 @@
 import { config, homepage } from "../../package.json";
-import { LANG_CODE, getSortedServicesWithPriorities } from "../utils/config";
+import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { setServiceSecret, validateServiceSecret } from "../utils/secret";
-import { secretStatusButtonData } from "./settings";
+import { createServiceSettingsDialog } from "../utils";
+import { services } from "./services";
 
 export function registerPrefsWindow() {
   Zotero.PreferencePanes.register({
@@ -27,6 +28,7 @@ function buildPrefsPane() {
   if (!doc) {
     return;
   }
+
   // menus
   ztoolkit.UI.replaceElement(
     {
@@ -47,17 +49,13 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("sentence").map(
-            (service) => ({
-              tag: "menuitem",
-              attributes: {
-                label: getPref(`renameServices.${service.id}`)
-                  ? getPref(`renameServices.${service.id}`) + "🗝️"
-                  : getString(`service-${service.id}`),
-                value: service.id,
-              },
-            }),
-          ),
+          children: services.getAllServicesWithType("sentence").map((s) => ({
+            tag: "menuitem",
+            attributes: {
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
+            },
+          })),
         },
       ],
     },
@@ -84,11 +82,11 @@ function buildPrefsPane() {
       children: [
         {
           tag: "menupopup",
-          children: getSortedServicesWithPriorities("word").map((service) => ({
+          children: services.getAllServicesWithType("word").map((s) => ({
             tag: "menuitem",
             attributes: {
-              label: getString(`service-${service.id}`),
-              value: service.id,
+              label: services.getServiceNameByID(s.id),
+              value: s.id,
             },
           })),
         },
@@ -380,18 +378,18 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
             `#${makeId("sentenceServicesSecret")}`,
           ) as HTMLInputElement
         ).value = secretCheckResult.secret;
+
         // Update secret status button
-        const statusButtonData = secretStatusButtonData[serviceId];
         const statusButton = doc.querySelector(
           `#${makeId("sentenceServicesStatus")}`,
         ) as XUL.Button;
-        if (statusButtonData) {
+        const service =
+          addon.data.translate.services.getServiceById(serviceId)!;
+        if (service.config) {
           statusButton.hidden = false;
-          statusButton.label = getString(
-            statusButtonData.labels[secretCheckResult.status ? "pass" : "fail"],
-          );
+          statusButton.label = getString("service-dialog-config");
           statusButton.onclick = (ev) => {
-            statusButtonData.callback(secretCheckResult.status);
+            createServiceSettingsDialog(service);
           };
         } else {
           statusButton.hidden = true;

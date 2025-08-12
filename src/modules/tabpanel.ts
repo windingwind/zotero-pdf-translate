@@ -1,10 +1,10 @@
-import { getLocaleID, getString } from "../utils/locale";
+import { getLocaleID } from "../utils/locale";
 import { config } from "../../package.json";
-import { SERVICES, getSortedServicesWithPriorities } from "../utils/config";
 import { getPref, setPref } from "../utils/prefs";
 import { getLastTranslateTask } from "../utils/task";
 import { TranslatorPanel } from "../elements/panel";
 import { isWindowAlive } from "../utils/window";
+import { services } from "./services";
 
 let paneKey = "";
 
@@ -99,9 +99,12 @@ function onInit({ body, refresh }: { body: HTMLElement; refresh: () => void }) {
 function buildExtraPanel(doc: Document) {
   doc.querySelector("#add-source")?.addEventListener("click", () => {
     const extraServices = getPref("extraEngines");
+    const allServices = services.getAllServices();
     setPref(
       "extraEngines",
-      extraServices ? `${extraServices},${SERVICES[0].id}` : SERVICES[0].id,
+      extraServices
+        ? `${extraServices},${allServices[0].id}`
+        : allServices[0].id,
     );
     openWindowPanel();
   });
@@ -116,9 +119,7 @@ function buildExtraPanel(doc: Document) {
 
   const extraEngines = (getPref("extraEngines") as string)
     .split(",")
-    .filter((thisServiceId) =>
-      SERVICES.find((service) => service.id === thisServiceId),
-    );
+    .filter((thisServiceId) => services.getServiceById(thisServiceId));
   if (!extraEngines.length) {
     return;
   }
@@ -178,17 +179,15 @@ function buildExtraPanel(doc: Document) {
                   children: [
                     {
                       tag: "menupopup",
-                      children: getSortedServicesWithPriorities("sentence").map(
-                        (service) => ({
+                      children: services
+                        .getAllServicesWithType("sentence")
+                        .map((s) => ({
                           tag: "menuitem",
                           attributes: {
-                            label: getPref(`renameServices.${service.id}`)
-                              ? getPref(`renameServices.${service.id}`) + "🗝️"
-                              : getString(`service-${service.id}`),
-                            value: service.id,
+                            label: services.getServiceNameByID(s.id),
+                            value: s.id,
                           },
-                        }),
-                      ),
+                        })),
                     },
                   ],
                 },

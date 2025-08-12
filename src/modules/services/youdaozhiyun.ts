@@ -1,8 +1,8 @@
 import { hex, sha256Digest } from "../../utils/crypto";
-import { TranslateTaskProcessor } from "../../utils/task";
 import { getPref } from "../../utils/prefs";
+import { TranslateService } from "./base";
 
-export default <TranslateTaskProcessor>async function (data) {
+const translate: TranslateService["translate"] = async function (data) {
   function encodeRFC5987ValueChars(str: string) {
     return encodeURIComponent(str)
       .replace(
@@ -51,4 +51,60 @@ export default <TranslateTaskProcessor>async function (data) {
     throw `Service error: ${res.errorCode}`;
   }
   data.result = res.translation.join("");
+};
+
+export const YoudaoZhiyun: TranslateService = {
+  id: "youdaozhiyun",
+  type: "sentence",
+  helpUrl: "https://ai.youdao.com/console/#/service-singleton/text-translation",
+
+  defaultSecret: "appid#appsecret#vocabid(optional)",
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = [2, 3].includes(parts.length);
+    const partsInfo = `AppID: ${parts[0]}\nAppKey: ${parts[1]}\nVocabID: ${
+      parts[2] ? parts[2] : ""
+    }`;
+    return {
+      secret,
+      status: flag && secret !== this.defaultSecret,
+      info:
+        secret === this.defaultSecret
+          ? "The secret is not set."
+          : flag
+            ? partsInfo
+            : `The secret format of YoudaoZhiyun is AppID#AppKey#VocabID(optional). The secret must have 2 or 3 parts joined by '#', but got ${parts?.length}.\n${partsInfo}`,
+    };
+  },
+
+  translate,
+
+  config(settings) {
+    settings.addSelectSetting({
+      prefKey: "youdaozhiyun.domain",
+      nameKey: "service-youdaozhiyun-dialog-domain",
+      options: [
+        {
+          value: "general",
+          label: "general",
+        },
+        {
+          value: "computers",
+          label: "computers",
+        },
+        {
+          value: "medicine",
+          label: "medicine",
+        },
+        {
+          value: "finance",
+          label: "finance",
+        },
+        {
+          value: "game",
+          label: "game",
+        },
+      ],
+    });
+  },
 };
