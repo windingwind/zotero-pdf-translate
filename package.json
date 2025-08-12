@@ -47,6 +47,6 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.37.0",
     "zotero-plugin-scaffold": "^0.7.2",
-    "zotero-types": "^4.0.5"
+    "zotero-types": "^4.1.0-beta.2"
   }
 }
