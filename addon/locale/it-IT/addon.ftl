@@ -161,10 +161,10 @@ service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
 
 service-pot-dialog-port=Port
 
-service-nllb-dialog-model=Modello
-service-nllb-dialog-endpoint=EndPoint
-service-nllb-dialog-docs=Docs
-service-nllb-dialog-apilabel=nllb-api Settings
-service-nllb-dialog-apistream=Stream
-service-nllb-dialog-servelabel=nllb-serve Settings
+service-nllb-dialog-model=nllb Modello
+service-nllb-dialog-apiendpoint=nllb-api EndPoint
+service-nllb-dialog-apistream=nllb-api Stream
+service-nllb-dialog-serveendpoint=nllb-serve EndPoint
+service-nllb-dialog-apilabel=nllb-api Docs
+service-nllb-dialog-servelabel=nllb-serve Docs
 

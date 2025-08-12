@@ -161,10 +161,10 @@ service-mtranserver-dialog-versionlabel=使用MTranServer v3.0.0+
 
 service-pot-dialog-port=端口
 
-service-nllb-dialog-model=模型
-service-nllb-dialog-endpoint=接口
-service-nllb-dialog-docs=配置文档
-service-nllb-dialog-apilabel=nllb-api 相关设置
-service-nllb-dialog-apistream=流式输出
-service-nllb-dialog-servelabel=nllb-serve 相关设置
+service-nllb-dialog-model=nllb 模型
+service-nllb-dialog-apiendpoint=nllb-api 接口
+service-nllb-dialog-apistream=nllb-api 流式输出
+service-nllb-dialog-serveendpoint=nllb-serve 接口
+service-nllb-dialog-apilabel=nllb-api 文档
+service-nllb-dialog-servelabel=nllb-serve 文档
 
