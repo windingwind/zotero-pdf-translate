@@ -226,43 +226,49 @@ ProjectId: ${parts?.[3] || "0"}`;
   translate,
 
   config(settings) {
-    // TODO: those code seems useless?
     // Try to get values from individual preferences first, then fall back to parsing the main secret
-    // let secretId = (getPref("tencent.secretId") as string) || "";
-    // let secretKey = (getPref("tencent.secretKey") as string) || "";
-    // let region = (getPref("tencent.region") as string) || "ap-shanghai";
-    // let projectId = (getPref("tencent.projectId") as string) || "0";
-    // let termRepoIDList = (getPref("tencent.termRepoIDList") as string) || "";
-    // let sentRepoIDList = (getPref("tencent.sentRepoIDList") as string) || "";
+    let secretId = (getPref("tencent.secretId") as string) || "";
+    let secretKey = (getPref("tencent.secretKey") as string) || "";
+    let region = (getPref("tencent.region") as string) || "ap-shanghai";
+    let projectId = (getPref("tencent.projectId") as string) || "0";
+    let termRepoIDList = (getPref("tencent.termRepoIDList") as string) || "";
+    let sentRepoIDList = (getPref("tencent.sentRepoIDList") as string) || "";
 
-    // // If individual preferences are not set, try to parse from the main secret
-    // if (!secretId || !secretKey) {
-    //   try {
-    //     const secrets = JSON.parse((getPref("secretObj") as string) || "{}");
-    //     const tencentSecret = secrets.tencent;
+    // If individual preferences are not set, try to parse from the main secret
+    if (!secretId || !secretKey) {
+      try {
+        const secrets = JSON.parse((getPref("secretObj") as string) || "{}");
+        const tencentSecret = secrets.tencent;
 
-    //     if (typeof tencentSecret === "string") {
-    //       // Legacy format - parse it
-    //       const params = tencentSecret.split("#");
-    //       if (params.length >= 2) {
-    //         secretId = params[0] || "";
-    //         secretKey = params[1] || "";
-    //         region = params[2] || "ap-shanghai";
-    //         projectId = params[3] || "0";
-    //       }
-    //     } else if (tencentSecret && typeof tencentSecret === "object") {
-    //       // New object format
-    //       secretId = tencentSecret.secretId || "";
-    //       secretKey = tencentSecret.secretKey || "";
-    //       region = tencentSecret.region || "ap-shanghai";
-    //       projectId = tencentSecret.projectId || "0";
-    //       termRepoIDList = (tencentSecret.termRepoIDList || []).join(", ");
-    //       sentRepoIDList = (tencentSecret.sentRepoIDList || []).join(", ");
-    //     }
-    //   } catch (error) {
-    //     console.warn("Failed to parse Tencent secret:", error);
-    //   }
-    // }
+        if (typeof tencentSecret === "string") {
+          // Legacy format - parse it
+          const params = tencentSecret.split("#");
+          if (params.length >= 2) {
+            secretId = params[0] || "";
+            secretKey = params[1] || "";
+            region = params[2] || "ap-shanghai";
+            projectId = params[3] || "0";
+          }
+        } else if (tencentSecret && typeof tencentSecret === "object") {
+          // New object format
+          secretId = tencentSecret.secretId || "";
+          secretKey = tencentSecret.secretKey || "";
+          region = tencentSecret.region || "ap-shanghai";
+          projectId = tencentSecret.projectId || "0";
+          termRepoIDList = (tencentSecret.termRepoIDList || []).join(", ");
+          sentRepoIDList = (tencentSecret.sentRepoIDList || []).join(", ");
+        }
+
+        setPref("tencent.secretId", secretId);
+        setPref("tencent.secretKey", secretKey);
+        setPref("tencent.region", region);
+        setPref("tencent.projectId", projectId);
+        setPref("tencent.termRepoIDList", termRepoIDList);
+        setPref("tencent.sentRepoIDList", sentRepoIDList);
+      } catch (error) {
+        console.warn("Failed to parse Tencent secret:", error);
+      }
+    }
 
     settings
       .addTextSetting({
@@ -309,55 +315,61 @@ ProjectId: ${parts?.[3] || "0"}`;
         placeholder: "144aed**fc7321d4, 256bef**ac8432e5",
         nameKey: `service-tencent-dialog-termrepoid`,
       })
-      .addSelectSetting({
+      .addTextSetting({
         // @ts-expect-error this pref is not inited in prefs.js
         prefKey: "tencent.sentRepoIDList",
         inputType: "text",
         placeholder: "345cde**bd9543f6, 456def**ce0654g7",
         nameKey: `service-tencent-dialog-sentrepoid`,
+      })
+      .onSave((dialogData) => {
+        // Validate required fields
+        if (
+          // @ts-expect-error those pref key not inited in pref.js
+          !dialogData["tencent.secretId"] ||
+          // @ts-expect-error those pref key not inited in pref.js
+          !dialogData["tencent.secretKey"]
+        ) {
+          return "Secret ID and Secret Key are required!";
+        }
+
+        // Helper function to parse comma-separated values
+        const parseCommaList = (input: string): string[] =>
+          input
+            .split(",")
+            .map((id) => id.trim())
+            .filter((id) => id.length > 0);
+
+        // Build the combined secret object for the service
+        const termRepoList = parseCommaList(
+          // @ts-expect-error those pref key not inited in pref.js
+          dialogData["tencent.termRepoIDList"],
+        );
+        const sentRepoList = parseCommaList(
+          // @ts-expect-error those pref key not inited in pref.js
+          dialogData["tencent.sentRepoIDList"],
+        );
+
+        const secretConfig = {
+          // @ts-expect-error those pref key not inited in pref.js
+          secretId: dialogData["tencent.secretId"],
+          // @ts-expect-error those pref key not inited in pref.js
+          secretKey: dialogData["tencent.secretKey"],
+          // @ts-expect-error those pref key not inited in pref.js
+          region: dialogData["tencent.region"],
+          // @ts-expect-error those pref key not inited in pref.js
+          projectId: dialogData["tencent.projectId"],
+          termRepoIDList: termRepoList,
+          sentRepoIDList: sentRepoList,
+        };
+
+        // Update the main secret storage
+        const secrets = JSON.parse(getPref("secretObj") as string);
+        secrets.tencent = secretConfig;
+        setPref("secretObj", JSON.stringify(secrets));
+
+        return true;
       });
-
-    // TODO: also same with top, check it:
-    // // Validate required fields
-    // if (!dialogData.secretId || !dialogData.secretKey) {
-    //   Zotero.getMainWindow().alert(
-    //     "Secret ID and Secret Key are required!",
-    //   );
-    //   return;
-    // }
-
-    // // Save individual preferences
-    // setPref("tencent.secretId", dialogData.secretId);
-    // setPref("tencent.secretKey", dialogData.secretKey);
-    // setPref("tencent.region", dialogData.region || "ap-shanghai");
-    // setPref("tencent.projectId", dialogData.projectId || "0");
-    // setPref("tencent.termRepoIDList", dialogData.termRepoIDList || "");
-    // setPref("tencent.sentRepoIDList", dialogData.sentRepoIDList || "");
-
-    // // Helper function to parse comma-separated values
-    // const parseCommaList = (input: string): string[] =>
-    //   input
-    //     .split(",")
-    //     .map((id) => id.trim())
-    //     .filter((id) => id.length > 0);
-
-    // // Build the combined secret object for the service
-    // const termRepoList = parseCommaList(dialogData.termRepoIDList);
-    // const sentRepoList = parseCommaList(dialogData.sentRepoIDList);
-
-    // const secretConfig = {
-    //   secretId: dialogData.secretId,
-    //   secretKey: dialogData.secretKey,
-    //   region: dialogData.region || "ap-shanghai",
-    //   projectId: dialogData.projectId || "0",
-    //   termRepoIDList: termRepoList,
-    //   sentRepoIDList: sentRepoList,
-    // };
-
-    // // Update the main secret storage
-    // const secrets = JSON.parse(getPref("secretObj") as string);
-    // secrets.tencent = secretConfig;
-    // setPref("secretObj", JSON.stringify(secrets));
   },
 };
 
