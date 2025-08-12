@@ -70,13 +70,10 @@ const gptTranslate = async function (
     langTo: string,
     sourceText: string,
   ) {
-    return (
-      getPref(`${prefix}.prompt`) ||
-      ""
-        .replaceAll("${langFrom}", langFrom)
-        .replaceAll("${langTo}", langTo)
-        .replaceAll("${sourceText}", sourceText)
-    );
+    return ((getPref(`${prefix}.prompt`) as string) || "")
+      .replaceAll("${langFrom}", langFrom)
+      .replaceAll("${langTo}", langTo)
+      .replaceAll("${sourceText}", sourceText);
   }
 
   const streamMode = stream ?? true;
