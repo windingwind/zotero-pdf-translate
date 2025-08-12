@@ -146,30 +146,44 @@ class ServiceSettingsDialog extends SettingsDialogHelper {
   }
 
   addNumberSetting(field: InputFieldNumber): AllowedSettingsMethods {
-    return this.addSetting(getString(field.nameKey), field.prefKey, {
-      tag: "input",
-      attributes: {
-        type: "number",
-        min: field.min || 0,
-        max: field.max || 100,
-        step: field.step || 1,
+    return this.addSetting(
+      getString(field.nameKey),
+      field.prefKey,
+      {
+        tag: "input",
+        attributes: {
+          type: "number",
+          min: field.min || 0,
+          max: field.max || 100,
+          step: field.step || 1,
+        },
+        styles: {
+          minWidth: "400px",
+        },
       },
-      styles: {
-        minWidth: "400px",
+      {
+        valueType: "number",
       },
-    });
+    );
   }
 
   addCheckboxSetting(field: CheckboxField): AllowedSettingsMethods {
-    return this.addSetting(getString(field.nameKey), field.prefKey, {
-      tag: "input",
-      attributes: {
-        type: "checkbox",
+    return this.addSetting(
+      getString(field.nameKey),
+      field.prefKey,
+      {
+        tag: "input",
+        attributes: {
+          type: "checkbox",
+        },
+        styles: {
+          justifySelf: "start",
+        },
       },
-      styles: {
-        justifySelf: "start",
+      {
+        valueType: "boolean",
       },
-    });
+    );
   }
 
   addSelectSetting(field: SelectField): AllowedSettingsMethods {
