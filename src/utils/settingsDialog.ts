@@ -206,7 +206,7 @@ class ServiceSettingsDialog extends SettingsDialogHelper {
     return this.addSetting(getString(field.nameKey), field.prefKey, {
       tag: "textarea",
       attributes: {
-        placeholder: field.desc,
+        placeholder: field.placeholder,
         rows: 5,
       },
       styles: {
