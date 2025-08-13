@@ -292,17 +292,11 @@ The plugin is built to `./build/*.xpi`.
 
 **Add new translate service**
 
-1. Add service config to `src/utils/config.ts` > `SERVICES`;
-2. Add translation task processor under `src/modules/services/${serviceId}.ts` with the same format with other services. The export function set the translation result to `data.result` if runs successfully and throw an error if fails;
-3. Import the task processor function in `src/modules/services/index.ts`.
-4. Add locale string `service.${serviceId}` in `addon/locale/${lang}/addon.ftl` and `addon/locale/${lang}/panel.ftl`.
+1. Copy `src/modules/services/_template.ts` > `src/services/<your-service-id>.ts`;
+2. Fill in the required fields (id, type, and translate) and optional fields (name, helpUrl, defaultSecret, secretValidator(secret), and config(settings)) following the introduction. The translation function sets the translation result to `data.result` if runs successfully and throws an error if fails;
+3. Import the new service object in `src/modules/services/index.ts`.
+4. Add locale string `service.${serviceId}` and `service-<your-service-id>-dialog-xxx`(if necessary) in `addon/locale/${lang}/addon.ftl`.
 5. Build and test.
-
-**Extra options for translate service**
-
-If the service requires extra options, the minimal implement would be putting them in the `secret` input in the prefs window, like the existing services does.
-
-If there are complex options, please bind a callback in `src/modules/settings/index.ts > secretStatusButtonData` which create a highly customizable dialog window with `ztoolkit.Dialog`. See the example of Aliyun Config (https://github.com/windingwind/zotero-pdf-translate/blob/main/src/modules/settings/aliyun.ts) or NiuTrans login (<https://github.com/windingwind/zotero-pdf-translate/blob/main/src/modules/settings/niutrans.ts>).
 
 ## Disclaimer
 
