@@ -92,6 +92,8 @@ declare namespace _ZoteroTypes {
       "claude.prompt": string;
       "claude.maxTokens": string;
       "xftrans.engine": string;
+      "tencent.region": string;
+      "tencent.projectId": string;
       "youdaozhiyun.domain": string;
       "youdaozhiyunllm.model": string;
       "youdaozhiyunllm.stream": boolean;

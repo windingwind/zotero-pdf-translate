@@ -1,89 +1,49 @@
 import { base64, hmacSha1Digest } from "../../utils/crypto";
 import { TranslateService } from "./base";
 import { getPref, setPref } from "../../utils/prefs";
+import { setServiceSecret } from "../../utils/secret";
 
 const translate: TranslateService["translate"] = async (data) => {
-  let secretId: string;
-  let secretKey: string;
-  let region = "ap-shanghai";
-  let projectId = "0";
-  let termRepoIDList: string[] = [];
-  let sentRepoIDList: string[] = [];
-  let needsMigration = false;
+  let secretId = (getPref("tencent.secretId") as string) || "";
+  let secretKey = (getPref("tencent.secretKey") as string) || "";
+  let region = getPref("tencent.region") as string;
+  let projectId = getPref("tencent.projectId") as string;
+  const termRepoIDList = getPref("tencent.termRepoIDList") as string;
+  const sentRepoIDList = getPref("tencent.sentRepoIDList") as string;
 
-  // Handle both old format (string) and new format (object)
-  if (typeof data.secret === "string") {
-    // Try to parse as JSON first (new object format stored as string)
-    try {
-      const config = JSON.parse(data.secret);
-      if (config && typeof config === "object" && config.secretId) {
-        // New object format
-        secretId = config.secretId;
-        secretKey = config.secretKey;
-        region = config.region || "ap-shanghai";
-        projectId = config.projectId || "0";
-        termRepoIDList = config.termRepoIDList || [];
-        sentRepoIDList = config.sentRepoIDList || [];
-      } else {
-        throw new Error("Not a valid config object");
-      }
-    } catch {
-      // Legacy string format - needs migration
-      const params = data.secret.split("#");
-      secretId = params[0];
-      secretKey = params[1];
-      if (params.length >= 3 && params[2]) {
-        region = params[2];
-      }
-      if (params.length >= 4 && params[3]) {
-        projectId = params[3];
-      }
-      needsMigration = true;
+  // Migrate the modified secret to Prefs
+  if (data.secret !== Tencent.defaultSecret) {
+    const params = data.secret.split("#");
+    const parsedSecretId = params[0];
+    secretId = MigrateSecret(parsedSecretId, secretId, "secretId");
+    const parsedSecretKey = params[1];
+    secretKey = MigrateSecret(parsedSecretKey, secretKey, "secretKey");
+    if (params.length >= 3 && params[2]) {
+      const parsedRegion = params[2];
+      region = MigrateSecret(parsedRegion, region, "region");
     }
-  } else {
-    // Direct object format (shouldn't happen in current implementation)
-    const config = data.secret as any;
-    secretId = config.secretId;
-    secretKey = config.secretKey;
-    region = config.region || "ap-shanghai";
-    projectId = config.projectId || "0";
-    termRepoIDList = config.termRepoIDList || [];
-    sentRepoIDList = config.sentRepoIDList || [];
-  }
-
-  // Migrate old format to new format
-  if (needsMigration && secretId && secretKey) {
-    const newConfig = {
-      secretId,
-      secretKey,
-      region,
-      projectId,
-      termRepoIDList: [],
-      sentRepoIDList: [],
-    };
-
-    // Save individual preferences for the dialog
-    setPref("tencent.secretId", secretId);
-    setPref("tencent.secretKey", secretKey);
-    setPref("tencent.region", region);
-    setPref("tencent.projectId", projectId);
-    setPref("tencent.termRepoIDList", "");
-    setPref("tencent.sentRepoIDList", "");
-
-    // Update the main secret storage with new format
-    try {
-      const secrets = JSON.parse((getPref("secretObj") as string) || "{}");
-      secrets.tencent = newConfig;
-      setPref("secretObj", JSON.stringify(secrets));
-
-      // Log migration for debugging
-      console.log(
-        "Migrated Tencent configuration from old format to new format",
-      );
-    } catch (error) {
-      console.warn("Failed to migrate Tencent configuration:", error);
+    if (params.length >= 4 && params[3]) {
+      const parsedProjectId = params[3];
+      projectId = MigrateSecret(parsedProjectId, projectId, "projectId");
     }
   }
+
+  function MigrateSecret(parsedStr: string, str: string, prefKey: string) {
+    if (parsedStr && parsedStr !== str) {
+      setPref(`tencent.${prefKey}`, parsedStr);
+      return parsedStr;
+    }
+    return str;
+  }
+
+  const parseCommaList = (input: string): string[] =>
+    input
+      .split(",")
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0);
+
+  const termRepoList = parseCommaList(termRepoIDList);
+  const sentRepoList = parseCommaList(sentRepoIDList);
 
   function encodeRFC5987ValueChars(str: string) {
     return encodeURIComponent(str)
@@ -110,10 +70,10 @@ const translate: TranslateService["translate"] = async (data) => {
   };
 
   // Add repository lists with compact syntax
-  termRepoIDList.forEach(
+  termRepoList.forEach(
     (repoId, index) => (paramsObj[`TermRepoIDList.${index}`] = repoId),
   );
-  sentRepoIDList.forEach(
+  sentRepoList.forEach(
     (repoId, index) => (paramsObj[`SentRepoIDList.${index}`] = repoId),
   );
 
@@ -164,112 +124,29 @@ export const Tencent: TranslateService = {
 
   defaultSecret:
     "secretId#SecretKey#Region(default ap-shanghai)#ProjectId(default 0)",
-  secretValidator(secret: string | object) {
-    // Handle empty or default secret
-    if (!secret || secret === Tencent.defaultSecret) {
-      return {
-        secret: secret as string,
-        status: false,
-        info: "The secret is not set. Click the button to configure.",
-      };
-    }
-
-    // Try to parse as JSON first (new object format)
-    try {
-      let config: any;
-      if (typeof secret === "string") {
-        config = JSON.parse(secret);
-      } else {
-        config = secret;
-      }
-
-      if (config && typeof config === "object" && config.secretId) {
-        // New object format validation
-        const hasRequiredFields = config.secretId && config.secretKey;
-        const partsInfo = `SecretId: ${config.secretId || "Not set"}
-SecretKey: ${config.secretKey ? "Set" : "Not set"}
-Region: ${config.region || "ap-shanghai"}
-ProjectId: ${config.projectId || "0"}
-Term Repo IDs: ${(config.termRepoIDList || []).join(", ") || "None"}
-Sent Repo IDs: ${(config.sentRepoIDList || []).join(", ") || "None"}`;
-
-        return {
-          secret: typeof secret === "string" ? secret : JSON.stringify(secret),
-          status: hasRequiredFields,
-          info: hasRequiredFields
-            ? partsInfo
-            : "SecretId and SecretKey are required.",
-        };
-      }
-    } catch {
-      // Not JSON, continue to legacy format
-    }
-
-    // Handle legacy string format
-    const parts = (secret as string)?.split("#");
-    const hasRequiredFields =
-      parts && parts.length >= 2 && parts[0] && parts[1];
-    const partsInfo = `SecretId: ${parts?.[0] || "Not set"}
-SecretKey: ${parts?.[1] ? "Set" : "Not set"}
-Region: ${parts?.[2] || "ap-shanghai"}
-ProjectId: ${parts?.[3] || "0"}`;
-
+  secretValidator(secret: string) {
+    const parts = secret?.split("#");
+    const flag = [2, 3, 4].includes(parts.length);
+    const partsInfo = `SecretId: ${parts[0]}\nSecretKey: ${
+      parts[1]
+    }\nRegion: ${parts[2] ? parts[2] : "ap-shanghai"}\nProjectId: ${
+      parts[3] ? parts[3] : "0"
+    }`;
     return {
       secret: secret as string,
-      status: !!hasRequiredFields,
-      info: hasRequiredFields
-        ? partsInfo
-        : "SecretId and SecretKey are required. Use format: SecretId#SecretKey#Region(optional)#ProjectId(optional) or click button for advanced configuration.",
+      status: flag && secret !== Tencent.defaultSecret,
+      info:
+        secret === Tencent.defaultSecret
+          ? "The secret is not set. Click the button to configure."
+          : flag
+            ? partsInfo
+            : `The secret must have 2, 3 or 4 parts joined by '#', but got ${parts?.length}.\n${partsInfo}\nUse format: SecretId#SecretKey#Region(optional)#ProjectId(optional) or click Config button for advanced configuration.`,
     };
   },
 
   translate,
 
   config(settings) {
-    // Try to get values from individual preferences first, then fall back to parsing the main secret
-    let secretId = (getPref("tencent.secretId") as string) || "";
-    let secretKey = (getPref("tencent.secretKey") as string) || "";
-    let region = (getPref("tencent.region") as string) || "ap-shanghai";
-    let projectId = (getPref("tencent.projectId") as string) || "0";
-    let termRepoIDList = (getPref("tencent.termRepoIDList") as string) || "";
-    let sentRepoIDList = (getPref("tencent.sentRepoIDList") as string) || "";
-
-    // If individual preferences are not set, try to parse from the main secret
-    if (!secretId || !secretKey) {
-      try {
-        const secrets = JSON.parse((getPref("secretObj") as string) || "{}");
-        const tencentSecret = secrets.tencent;
-
-        if (typeof tencentSecret === "string") {
-          // Legacy format - parse it
-          const params = tencentSecret.split("#");
-          if (params.length >= 2) {
-            secretId = params[0] || "";
-            secretKey = params[1] || "";
-            region = params[2] || "ap-shanghai";
-            projectId = params[3] || "0";
-          }
-        } else if (tencentSecret && typeof tencentSecret === "object") {
-          // New object format
-          secretId = tencentSecret.secretId || "";
-          secretKey = tencentSecret.secretKey || "";
-          region = tencentSecret.region || "ap-shanghai";
-          projectId = tencentSecret.projectId || "0";
-          termRepoIDList = (tencentSecret.termRepoIDList || []).join(", ");
-          sentRepoIDList = (tencentSecret.sentRepoIDList || []).join(", ");
-        }
-
-        setPref("tencent.secretId", secretId);
-        setPref("tencent.secretKey", secretKey);
-        setPref("tencent.region", region);
-        setPref("tencent.projectId", projectId);
-        setPref("tencent.termRepoIDList", termRepoIDList);
-        setPref("tencent.sentRepoIDList", sentRepoIDList);
-      } catch (error) {
-        console.warn("Failed to parse Tencent secret:", error);
-      }
-    }
-
     settings
       .addTextSetting({
         // @ts-expect-error this pref is not inited in prefs.js
@@ -282,7 +159,6 @@ ProjectId: ${parts?.[3] || "0"}`;
         nameKey: `service-tencent-dialog-secretkey`,
       })
       .addSelectSetting({
-        // @ts-expect-error this pref is not inited in prefs.js
         prefKey: "tencent.region",
         nameKey: `service-tencent-dialog-region`,
         options: [
@@ -304,7 +180,6 @@ ProjectId: ${parts?.[3] || "0"}`;
         ],
       })
       .addTextSetting({
-        // @ts-expect-error this pref is not inited in prefs.js
         prefKey: "tencent.projectId",
         placeholder: "0",
         nameKey: `service-tencent-dialog-projectid`,
@@ -318,7 +193,6 @@ ProjectId: ${parts?.[3] || "0"}`;
       .addTextSetting({
         // @ts-expect-error this pref is not inited in prefs.js
         prefKey: "tencent.sentRepoIDList",
-        inputType: "text",
         placeholder: "345cde**bd9543f6, 456def**ce0654g7",
         nameKey: `service-tencent-dialog-sentrepoid`,
       })
@@ -333,40 +207,28 @@ ProjectId: ${parts?.[3] || "0"}`;
           return "Secret ID and Secret Key are required!";
         }
 
-        // Helper function to parse comma-separated values
-        const parseCommaList = (input: string): string[] =>
-          input
-            .split(",")
-            .map((id) => id.trim())
-            .filter((id) => id.length > 0);
+        // @ts-expect-error those pref key not inited in pref.js
+        const secretId = dialogData["tencent.secretId"];
+        // @ts-expect-error those pref key not inited in pref.js
+        const secretKey = dialogData["tencent.secretKey"];
+        const region = dialogData["tencent.region"];
+        const projectId = dialogData["tencent.projectId"];
 
-        // Build the combined secret object for the service
-        const termRepoList = parseCommaList(
-          // @ts-expect-error those pref key not inited in pref.js
-          dialogData["tencent.termRepoIDList"],
-        );
-        const sentRepoList = parseCommaList(
-          // @ts-expect-error those pref key not inited in pref.js
-          dialogData["tencent.sentRepoIDList"],
-        );
+        // Update the tencent secret storage
+        const combinedSecret = (() => {
+          const parts = [];
+          const items = [secretId, secretKey, region, projectId];
 
-        const secretConfig = {
-          // @ts-expect-error those pref key not inited in pref.js
-          secretId: dialogData["tencent.secretId"],
-          // @ts-expect-error those pref key not inited in pref.js
-          secretKey: dialogData["tencent.secretKey"],
-          // @ts-expect-error those pref key not inited in pref.js
-          region: dialogData["tencent.region"],
-          // @ts-expect-error those pref key not inited in pref.js
-          projectId: dialogData["tencent.projectId"],
-          termRepoIDList: termRepoList,
-          sentRepoIDList: sentRepoList,
-        };
+          for (const item of items) {
+            if (item == null || item === "") {
+              break;
+            }
+            parts.push(String(item));
+          }
 
-        // Update the main secret storage
-        const secrets = JSON.parse(getPref("secretObj") as string);
-        secrets.tencent = secretConfig;
-        setPref("secretObj", JSON.stringify(secrets));
+          return parts.join("#");
+        })();
+        setServiceSecret("tencent", combinedSecret);
 
         return true;
       });
