@@ -44,7 +44,6 @@ const translate = <TranslateService["translate"]>async function (data) {
 export const HaiciDict: TranslateService = {
   id: "haicidict",
   type: "word",
-  supportLang: "en2zh",
 
   translate,
 };

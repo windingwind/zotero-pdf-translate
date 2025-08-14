@@ -108,7 +108,7 @@ export class TranslationServices {
 
         // Rank for sentence services
         if (s.type === "sentence") {
-          // Special case: No-secret but has setting
+          // Special case: No-secret but has setting — rank 0
           const specialGroup = ["cnki", "deeplx"];
           if (specialGroup.includes(s.id)) return 0;
 
@@ -130,16 +130,7 @@ export class TranslationServices {
         }
         // Rank for word services
         else {
-          // Group 1: en2en
-          if (s.supportLang == "en2en") return 1;
-
-          // Group 2: en2zh
-          if (s.supportLang == "en2zh") return 2;
-
-          // Group 3: en2ja
-          if (s.supportLang == "en2ja") return 3;
-
-          // Default (en2other word services) - rank 0
+          // Default //TODO Modify it if necessary in the future
           return 0;
         }
       };
