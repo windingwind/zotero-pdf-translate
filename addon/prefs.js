@@ -111,6 +111,8 @@ pref(
 );
 pref("__prefsPrefix__.claude.maxTokens", "4000");
 pref("__prefsPrefix__.xftrans.engine", "xftrans");
+pref("__prefsPrefix__.tencent.region", "ap-shanghai");
+pref("__prefsPrefix__.tencent.projectId", "0");
 pref("__prefsPrefix__.youdaozhiyun.domain", "general");
 pref("__prefsPrefix__.youdaozhiyunllm.model", "0");
 pref("__prefsPrefix__.youdaozhiyunllm.stream", true);
