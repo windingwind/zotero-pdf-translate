@@ -87,8 +87,7 @@ service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
 service-azuregpt-dialog-custom-request=自定义请求
 
-service-xftrans-dialog-engine=翻译引擎 (默认讯飞)
-service-xftrans-dialog-useniutrans=使用小牛翻译API
+service-xftrans-dialog-engine=翻译引擎
 
 service-gemini-dialog-endPoint=接口
 service-gemini-dialog-prompt=提示词

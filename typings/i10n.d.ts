@@ -205,7 +205,6 @@ export type FluentMessageId =
   | 'service-webliodict'
   | 'service-xftrans'
   | 'service-xftrans-dialog-engine'
-  | 'service-xftrans-dialog-useniutrans'
   | 'service-youdao'
   | 'service-youdaodict'
   | 'service-youdaozhiyun'
