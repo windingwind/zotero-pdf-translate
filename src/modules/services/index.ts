@@ -130,20 +130,17 @@ export class TranslationServices {
         }
         // Rank for word services
         else {
-          // Group 1: en2other
-          if (s.supportLang == "en2other") return 0;
-
-          // Group 2: en2en
+          // Group 1: en2en
           if (s.supportLang == "en2en") return 1;
 
-          // Group 3: en2zh
+          // Group 2: en2zh
           if (s.supportLang == "en2zh") return 2;
 
-          // Group 4: en2ja
+          // Group 3: en2ja
           if (s.supportLang == "en2ja") return 3;
 
-          // Default (other word services) - rank 4
-          return 4;
+          // Default (en2other word services) - rank 0
+          return 0;
         }
       };
 
