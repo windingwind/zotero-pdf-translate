@@ -71,4 +71,11 @@ export function setDefaultPrefSettings() {
     setPref("niutransDictLibList", "[]");
     setPref("niutransMemoryLibList", "[]");
   }
+
+  // For xftrans, xftrans.useNiutrans Pref is deprecated.
+  const useNiutrans = getPref("xftrans.useNiutrans") as boolean;
+  if (useNiutrans) {
+    setPref("xftrans.engine", "niutrans");
+  }
+  clearPref("xftrans.useNiutrans");
 }

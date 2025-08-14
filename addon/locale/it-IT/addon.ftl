@@ -87,8 +87,7 @@ service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
 service-azuregpt-dialog-custom-request=Custom Request
 
-service-xftrans-dialog-engine=Translate Engine (Default Xftrans)
-service-xftrans-dialog-useniutrans=Use NiuTrans API
+service-xftrans-dialog-engine=API Engine
 
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt

@@ -91,7 +91,7 @@ declare namespace _ZoteroTypes {
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
-      "xftrans.useNiutrans": boolean;
+      "xftrans.engine": string;
       "youdaozhiyun.domain": string;
       "youdaozhiyunllm.model": string;
       "youdaozhiyunllm.stream": boolean;

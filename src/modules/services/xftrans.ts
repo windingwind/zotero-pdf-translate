@@ -5,7 +5,7 @@ import { TranslateService } from "./base";
 
 const translate: TranslateService["translate"] = async function (data) {
   const [appid, apiSecret, apiKey] = data.secret.split("#");
-  const useNiutrans = getPref("xftrans.useNiutrans") as boolean;
+  const useNiutrans = getPref("xftrans.engine") === "niutrans";
   const config = useNiutrans
     ? {
         appid,
@@ -114,7 +114,7 @@ const translate: TranslateService["translate"] = async function (data) {
 export const XFfrans: TranslateService = {
   id: "xftrans",
   type: "sentence",
-  helpUrl: "https://console.xfyun.cn/services",
+  helpUrl: "https://console.xfyun.cn/services/its",
 
   defaultSecret: "AppID#ApiSecret#ApiKey",
   secretValidator(secret: string) {
@@ -136,24 +136,19 @@ export const XFfrans: TranslateService = {
   translate,
 
   config(settings) {
-    // TODO: switch to select field: xf/niutrans
-    settings
-      .addSetting("", "", {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "translate-engine",
+    settings.addSelectSetting({
+      prefKey: "xftrans.engine",
+      nameKey: "service-xftrans-dialog-engine",
+      options: [
+        {
+          value: "xftrans",
+          label: "xftrans",
         },
-        properties: {
-          innerHTML: getString("service-xftrans-dialog-engine"),
+        {
+          value: "niutrans",
+          label: "niutrans",
         },
-        styles: {
-          gridColumn: "1 / span 2",
-        },
-      })
-      .addCheckboxSetting({
-        prefKey: "xftrans.useNiutrans",
-        nameKey: "service-xftrans-dialog-useniutrans",
-      });
+      ],
+    });
   },
 };
