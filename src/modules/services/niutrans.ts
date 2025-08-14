@@ -1,5 +1,10 @@
 import JSEncrypt from "jsencrypt";
-import { getString, setServiceSecret } from "../../utils";
+import {
+  createServiceSettingsDialog,
+  getString,
+  ServiceSettingsDialog,
+  setServiceSecret,
+} from "../../utils";
 import { getPref, setPref } from "../../utils/prefs";
 import { TranslateService } from "./base";
 
@@ -62,8 +67,7 @@ const translate = <TranslateService["translate"]>async function (data) {
 export const Niutrans: TranslateService = {
   id: "niutranspro",
   type: "sentence",
-  helpUrl:
-    "https://github.com/ramonmi/DeepLX-for-Zotero/blob/main/README_zh.md",
+  helpUrl: "https://niutrans.com/cloud/resource/index",
 
   defaultSecret: "",
   secretValidator(secret: string) {
@@ -239,19 +243,143 @@ export const Niutrans: TranslateService = {
     const dictLibListObj = JSON.parse(dictLibList);
     const memoryLibListObj = JSON.parse(memoryLibList);
 
-    settings
+    (settings as ServiceSettingsDialog)
+      .addTextSetting({
+        prefKey: "niutransEndpoint",
+        nameKey: "service-niutranspro-dialog-endpoint",
+      })
+
+      // Add a space line
+      .addSetting("", "", { tag: "div" })
+
+      // For official niutrans service
       .addTextSetting({
         prefKey: "niutransUsername",
         nameKey: "service-niutranspro-dialog-username",
-        // register link
-        // desc: `<a is="link" href="https://niutrans.com/register">${getString("service-niutranspro-dialog-signup")}</a>`,
       })
       .addPasswordSetting({
         prefKey: "niutransPassword",
         nameKey: "service-niutranspro-dialog-password",
         inputType: "password",
-        // desc: `<a is="link" href="https://niutrans.com/password_find">${getString("service-niutranspro-dialog-forget")}</a>`,
       })
+      .addSetting("", "actions", {
+        tag: "div",
+        namespace: "html",
+        styles: {
+          display: "flex",
+          justifyContent: "space-between",
+        },
+        children: [
+          // Register
+          {
+            tag: "button",
+            namespace: "html",
+            attributes: {
+              type: "button",
+            },
+            properties: {
+              innerHTML: getString("service-niutranspro-dialog-signup"),
+            },
+            listeners: [
+              {
+                type: "click",
+                listener: (e: Event) => {
+                  Zotero.launchURL("https://niutrans.com/register");
+                },
+              },
+            ],
+          },
+
+          // Forget password
+          {
+            tag: "button",
+            namespace: "html",
+            attributes: {
+              type: "button",
+            },
+            properties: {
+              innerHTML: getString("service-niutranspro-dialog-forget"),
+            },
+            listeners: [
+              {
+                type: "click",
+                listener: (e: Event) => {
+                  Zotero.launchURL("https://niutrans.com/password_find");
+                },
+              },
+            ],
+          },
+
+          // Sing out
+          {
+            tag: "button",
+            namespace: "html",
+            attributes: {
+              type: "button",
+            },
+            properties: {
+              innerHTML: getString("service-niutranspro-dialog-signout"),
+            },
+            listeners: [
+              {
+                type: "click",
+                listener: async (e: Event) => {
+                  setPref("niutransUsername", "");
+                  setPref("niutransPassword", "");
+                  setPref("niutransDictLibList", "[]");
+                  setPref("niutransMemoryLibList", "[]");
+                  setPref("niutransDictNo", "");
+                  setPref("niutransMemoryNo", "");
+                  setServiceSecret("niutranspro", "");
+
+                  const _dialog = settings as ServiceSettingsDialog;
+                  _dialog.window.close();
+                  await createServiceSettingsDialog(Niutrans);
+                },
+              },
+            ],
+          },
+
+          // Sing in
+          {
+            tag: "button",
+            namespace: "html",
+            attributes: {
+              type: "button",
+            },
+            properties: {
+              innerHTML: getString("service-niutranspro-dialog-signin"),
+            },
+            listeners: [
+              {
+                type: "click",
+                listener: async (e: Event) => {
+                  const _dialog = settings as ServiceSettingsDialog;
+
+                  // login
+                  const data = _dialog.getAllSettingsData();
+                  const { loginFlag, loginErrorMessage } = await niutransLogin(
+                    data["niutransUsername"],
+                    data["niutransPassword"],
+                  );
+
+                  // If login failed, show error message
+                  if (!loginFlag) {
+                    Zotero.alert(_dialog.window, "Error", loginErrorMessage);
+                    return loginErrorMessage;
+                  }
+
+                  // else save settings and reopen dialog
+                  _dialog.saveAllSettings();
+                  _dialog.window.close();
+                  await createServiceSettingsDialog(Niutrans);
+                },
+              },
+            ],
+          },
+        ],
+      })
+
       .addSelectSetting({
         prefKey: "niutransMemoryNo",
         nameKey: "service-niutranspro-dialog-memoryLib",
@@ -271,34 +399,31 @@ export const Niutrans: TranslateService = {
             label: dict.dictName,
           }),
         ),
-        desc: `${getString("service-niutranspro-dialog-tip0")} <a href="https://niutrans.com/cloud/resource/index"> ${getString("service-niutranspro-dialog-tip1")}</a> ${getString("service-niutranspro-dialog-tip2")}`,
       })
-      .addTextSetting({
-        prefKey: "niutransEndpoint",
-        nameKey: "service-niutranspro-dialog-endpoint",
-      })
-      .onSave(async (data) => {
-        const { loginFlag, loginErrorMessage } = await niutransLogin(
-          data["niutransUsername"],
-          data["niutransPassword"],
-        );
-        if (!loginFlag) {
-          return loginErrorMessage;
-        } else {
-          return true;
-        }
-      })
-      .addButton(getString("service-niutranspro-dialog-signin"), "signin", {
-        noClose: true,
-        callback: () => {
-          setPref("niutransUsername", "");
-          setPref("niutransPassword", "");
-          setPref("niutransDictLibList", "[]");
-          setPref("niutransMemoryLibList", "[]");
-          setPref("niutransDictNo", "");
-          setPref("niutransMemoryNo", "");
-          setServiceSecret("niutranspro", "");
-        },
+      .addSetting("", "", {
+        tag: "label",
+        children: [
+          {
+            tag: "label",
+            properties: {
+              innerHTML: `${getString("service-niutranspro-dialog-tip0")} `,
+            },
+          },
+          {
+            tag: "a",
+            properties: {
+              href: "https://niutrans.com/cloud/resource/index",
+              target: "_blank",
+              innerHTML: getString("service-niutranspro-dialog-tip1"),
+            },
+          },
+          {
+            tag: "label",
+            properties: {
+              innerHTML: ` ${getString("service-niutranspro-dialog-tip2")}`,
+            },
+          },
+        ],
       });
   },
 };

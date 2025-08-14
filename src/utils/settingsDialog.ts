@@ -114,7 +114,7 @@ export type AllowedSettingsMethods = Pick<
   | "onSave"
 >;
 
-class ServiceSettingsDialog extends SettingsDialogHelper {
+export class ServiceSettingsDialog extends SettingsDialogHelper {
   constructor() {
     super();
     this.setSettingHandlers(getPref, setPref);
@@ -198,6 +198,8 @@ class ServiceSettingsDialog extends SettingsDialogHelper {
       })),
       styles: {
         minWidth: "400px",
+        // auto resize to window width
+        width: "-moz-available",
       },
     });
   }
