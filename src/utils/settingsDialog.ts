@@ -111,6 +111,7 @@ export type AllowedSettingsMethods = Pick<
   | "addCustomParamsSetting"
   | "addButton"
   | "addSetting"
+  | "addStaticRow"
   | "onSave"
 >;
 

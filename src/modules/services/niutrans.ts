@@ -262,7 +262,7 @@ export const Niutrans: TranslateService = {
         nameKey: "service-niutranspro-dialog-password",
         inputType: "password",
       })
-      .addSetting("", "actions", {
+      .addStaticRow("", {
         tag: "div",
         namespace: "html",
         styles: {
@@ -400,7 +400,7 @@ export const Niutrans: TranslateService = {
           }),
         ),
       })
-      .addSetting("", "", {
+      .addStaticRow("", {
         tag: "label",
         children: [
           {
