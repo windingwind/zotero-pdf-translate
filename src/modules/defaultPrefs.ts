@@ -78,4 +78,8 @@ export function setDefaultPrefSettings() {
     setPref("xftrans.engine", "niutrans");
   }
   clearPref("xftrans.useNiutrans");
+
+  // In v2.3.5, niutrans's setting dialog errors set this pref,
+  // here, we clear it.
+  clearPref("actions");
 }
