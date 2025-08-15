@@ -51,4 +51,13 @@ export interface TranslateService {
    * - Omit if no extra configuration is needed.
    */
   config?: (settings: AllowedSettingsMethods) => void;
+
+  /**
+   * Set true if the service requires external configuration (e.g. Pull Docker images or install softwares).
+   *
+   * - The services will be grouped as `Require Config`📍.
+   * - The label📍will be automatically added to the service name in `addon/locale/${lang}/addon.ftl`.
+   * - Omit if no external configuration is required.
+   */
+  requireExternalConfig?: boolean;
 }

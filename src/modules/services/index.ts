@@ -105,22 +105,18 @@ export class TranslationServices {
       const rank = (s: T) => {
         const needsSecret = !!s.defaultSecret || !!s.secretValidator;
         const hasConfig = !!s.config;
+        const needExternalConfig = s.requireExternalConfig;
 
         // Rank for sentence services
         if (s.type === "sentence") {
-          // Special case: No-secret but has setting — rank 0
-          const specialGroup = ["cnki", "deeplx"];
-          if (specialGroup.includes(s.id)) return 0;
-
           // Group 4: "custom" at the start → last
           if (s.id.startsWith("custom")) return 3;
 
-          // Group 1: Free sentence services (no secret, no config)
-          if (!needsSecret && !hasConfig) return 0;
+          // Group 1: Free sentence services (no secret, no external config)
+          if (!needsSecret && !needExternalConfig) return 0;
 
-          // Group 2: No-secret but has config
-          if (!needsSecret && hasConfig && !specialGroup.includes(s.id))
-            return 1;
+          // Group 2: No-secret but requires external config
+          if (!needsSecret && needExternalConfig) return 1;
 
           // Group 3: Needs secret but no config
           if (needsSecret && !hasConfig) return 2;
@@ -156,9 +152,14 @@ export class TranslationServices {
   }
 
   public getServiceNameByID(id: string): string {
-    return getPref(`renameServices.${id}`)
+    const baseName = getPref(`renameServices.${id}`)
       ? getPref(`renameServices.${id}`) + "🗝️"
       : getString(`service-${id}`);
+    const service = this.getServiceById(id);
+    if (service?.requireExternalConfig) {
+      return baseName + "📍";
+    }
+    return baseName;
   }
 
   public getAllServiceNames(): string[] {

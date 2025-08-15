@@ -35,4 +35,6 @@ export const DeepLCustom: TranslateService = {
       nameKey: "service-deeplcustom-dialog-endPoint",
     });
   },
+
+  requireExternalConfig: true,
 };

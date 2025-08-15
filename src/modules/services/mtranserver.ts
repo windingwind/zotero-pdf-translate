@@ -64,4 +64,6 @@ export const Mtranserver: TranslateService = {
         nameKey: "service-mtranserver-dialog-versionlabel",
       });
   },
+
+  requireExternalConfig: true,
 };

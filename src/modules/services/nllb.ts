@@ -211,4 +211,6 @@ export const Nllb: TranslateService = {
         },
       });
   },
+
+  requireExternalConfig: true,
 };
