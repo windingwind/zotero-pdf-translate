@@ -84,6 +84,11 @@ export const Niutrans: TranslateService = {
   translate,
 
   config(settings) {
+    // For compatibility:
+    // In previous versions, setting dialog errors set this pref,
+    // Here, we clear it.
+    Zotero.Prefs.clear("extensions.zotero.ZoteroPDFTranslate.actions");
+
     async function niutransLogin(username: string, password: string) {
       let loginFlag = false;
       let loginErrorMessage = "Not login";
