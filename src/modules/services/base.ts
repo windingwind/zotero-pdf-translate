@@ -53,7 +53,7 @@ export interface TranslateService {
   config?: (settings: AllowedSettingsMethods) => void;
 
   /**
-   * Set true if the service requires external configuration (e.g. Pull Docker images or install softwares).
+   * Set this to true if the service requires external configuration (e.g. Pull Docker images or install softwares).
    *
    * - The services will be grouped as `Require Config`📍.
    * - The label📍will be automatically added to the service name in `addon/locale/${lang}/addon.ftl`.
