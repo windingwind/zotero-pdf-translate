@@ -153,7 +153,7 @@ export class TranslationServices {
 
   public getServiceNameByID(id: string): string {
     const baseName =
-      getPref(`renameServices.${id}`) || getString(`service-${id}`);
+      (getPref(`renameServices.${id}`) as string) || getString(`service-${id}`);
     const service = this.getServiceById(id);
     if (
       !!service?.defaultSecret ||
