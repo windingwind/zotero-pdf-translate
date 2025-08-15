@@ -262,7 +262,10 @@ export const Niutrans: TranslateService = {
         nameKey: "service-niutranspro-dialog-password",
         inputType: "password",
       })
-      .addSetting("", "actions", {
+
+      // Custom btn for resigter, login, logout, etc
+      // Should not fill settingKey, as it not a pref
+      .addSetting("", "", {
         tag: "div",
         namespace: "html",
         styles: {
