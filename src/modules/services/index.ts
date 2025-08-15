@@ -105,21 +105,30 @@ export class TranslationServices {
       const rank = (s: T) => {
         const needsSecret = !!s.defaultSecret || !!s.secretValidator;
         const hasConfig = !!s.config;
+        const needExternalConfig = s.requireExternalConfig;
 
-        // Group 4: "custom" at the start → last
-        if (s.id.startsWith("custom")) return 3;
+        // Rank for sentence services
+        if (s.type === "sentence") {
+          // Group 4: "custom" at the start → last
+          if (s.id.startsWith("custom")) return 3;
 
-        // Group 1: Free (no secret, no config)
-        if (!needsSecret && !hasConfig) return 0;
+          // Group 1: Free sentence services (no secret, no external config)
+          if (!needsSecret && !needExternalConfig) return 0;
 
-        // Group 2: No-secret but has config
-        if (!needsSecret && hasConfig) return 1;
+          // Group 2: No-secret but requires external config
+          if (!needsSecret && needExternalConfig) return 1;
 
-        // Group 3: Needs secret but no config
-        if (needsSecret && !hasConfig) return 2;
+          // Group 3: Needs secret but no config
+          if (needsSecret && !hasConfig) return 2;
 
-        // Default (needs secret and has config) — also rank 2
-        return 2;
+          // Default (Sentence service needs secret and has config) — also rank 2
+          return 2;
+        }
+        // Rank for word services
+        else {
+          // Default //TODO Modify it if necessary in the future
+          return 0;
+        }
       };
 
       const ra = rank(a);
@@ -143,9 +152,20 @@ export class TranslationServices {
   }
 
   public getServiceNameByID(id: string): string {
-    return getPref(`renameServices.${id}`)
-      ? getPref(`renameServices.${id}`) + "🗝️"
-      : getString(`service-${id}`);
+    const baseName =
+      (getPref(`renameServices.${id}`) as string) || getString(`service-${id}`);
+    const service = this.getServiceById(id);
+    if (
+      !!service?.defaultSecret ||
+      !!service?.secretValidator ||
+      id.startsWith("custom")
+    ) {
+      return baseName + "🗝️";
+    }
+    if (service?.requireExternalConfig) {
+      return baseName + "📍";
+    }
+    return baseName;
   }
 
   public getAllServiceNames(): string[] {

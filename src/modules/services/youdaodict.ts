@@ -54,5 +54,6 @@ const translate: TranslateService["translate"] = async function (data) {
 export const YoudaoDict: TranslateService = {
   id: "youdaodict",
   type: "word",
+
   translate,
 };

@@ -52,4 +52,6 @@ export const LibreTranslate: TranslateService = {
       placeholder: "http://localhost:5000",
     });
   },
+
+  requireExternalConfig: true,
 };

@@ -27,6 +27,8 @@
  *    - `secretValidator(secret)`: Function to validate the secret format and provide hints.
  *    - `config(settings)`: Function to add extra user-configurable settings (e.g. endpoint, model).
  *      Omit if no additional settings are required.
+ *    - `requireExternalConfig`: Indicate whether the service requires external configuration (e.g. Pull Docker images or install softwares) and whether a 📍 label is added after the service name.
+ *      Omit if no external configuration is required.
  *
  * 4. **If your service requires an API key (secret):**
  *    - Uncomment `defaultSecret` and `secretValidator` in the example below.
@@ -54,10 +56,13 @@
  *      }
  *      ```
  *
- * 6. **Register your service:**
+ * 6. **If your service requires external configuration:**
+ *    - Uncomment `requireExternalConfig` in the example below.
+ *
+ * 7. **Register your service:**
  *    - Open `services/index.ts` and add your new service object to the `register` array.
  *
- * 7. **Test your service** in the UI to ensure:
+ * 8. **Test your service** in the UI to ensure:
  *    - The settings panel works as expected
  *    - Secrets are validated correctly
  *    - Translation requests succeed and results are displayed
@@ -121,7 +126,7 @@ export const ExampleTranslationService: TranslateService = {
   },
 
   // === Optional: custom settings in preferences ===
-  // Uncomment if your service requires a secret
+  // Uncomment if your service requires extra settings
   /*
   config(settings) {
     settings.addTextSetting({
@@ -130,4 +135,10 @@ export const ExampleTranslationService: TranslateService = {
     });
   }, 
   */
+
+  // === Optional: 📍 label in service name ===
+  // Uncomment if your service requires external configuration
+  /*
+   * requireExternalConfig: true;
+   */
 };

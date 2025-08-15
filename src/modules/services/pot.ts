@@ -34,4 +34,6 @@ export const Pot: TranslateService = {
       nameKey: "service-pot-dialog-port",
     });
   },
+
+  requireExternalConfig: true,
 };
