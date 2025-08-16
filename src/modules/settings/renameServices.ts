@@ -18,9 +18,10 @@ export async function renameServicesDialog() {
         namespace: "html",
         styles: {
           display: "grid",
-          gridTemplateColumns: "auto auto 1fr",
-          rowGap: "10px",
-          columnGap: "5px",
+          gridTemplateColumns: "auto 1fr",
+          gap: "15px 20px",
+          alignItems: "center",
+          padding: "20px",
         },
         children: [
           {
@@ -30,7 +31,7 @@ export async function renameServicesDialog() {
               innerHTML: getString("service-renameServices-head"),
             },
             styles: {
-              gridColumn: "1 / span 3",
+              gridColumn: "1 / span 2",
               marginBottom: "5px",
             },
           },
@@ -42,9 +43,6 @@ export async function renameServicesDialog() {
             },
             properties: {
               innerHTML: getString("service-customgpt1"),
-            },
-            styles: {
-              marginRight: "8px",
             },
           },
           {
@@ -61,22 +59,11 @@ export async function renameServicesDialog() {
           {
             tag: "label",
             namespace: "html",
-            properties: { innerHTML: "🗝️" },
-            styles: {
-              justifySelf: "start",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
             attributes: {
               for: "customgpt2",
             },
             properties: {
               innerHTML: getString("service-customgpt2"),
-            },
-            styles: {
-              marginRight: "8px",
             },
           },
           {
@@ -93,22 +80,11 @@ export async function renameServicesDialog() {
           {
             tag: "label",
             namespace: "html",
-            properties: { innerHTML: "🗝️" },
-            styles: {
-              justifySelf: "start",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
             attributes: {
               for: "customgpt3",
             },
             properties: {
               innerHTML: getString("service-customgpt3"),
-            },
-            styles: {
-              marginRight: "8px",
             },
           },
           {
@@ -125,29 +101,20 @@ export async function renameServicesDialog() {
           {
             tag: "label",
             namespace: "html",
-            properties: { innerHTML: "🗝️" },
-            styles: {
-              justifySelf: "start",
-            },
-          },
-          {
-            tag: "label",
-            namespace: "html",
             properties: {
               innerHTML: getString("service-renameServices-hint"),
             },
             styles: {
-              gridColumn: "1 / span 3",
-              marginBottom: "5px",
-              fontSize: "12px",
+              gridColumn: "1 / span 2",
+              fontSize: "0.9rem",
             },
           },
         ],
       },
       false,
     )
-    .addButton(getString("service-renameServices-save"), "save")
     .addButton(getString("service-renameServices-close"), "close")
+    .addButton(getString("service-renameServices-save"), "save")
     .open(getString("service-renameServices-title"));
 
   await dialogData.unloadLock?.promise;
