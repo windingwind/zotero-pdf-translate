@@ -279,6 +279,7 @@ const CUSTOM_PARAMS_INPUT_STYLES = {
   boxSizing: "border-box",
   border: "1px solid var(--color-border)",
   borderRadius: "4px",
+  fontSize: "1rem",
 };
 
 function createParamInputCell(

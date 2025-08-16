@@ -26,9 +26,8 @@ export async function manageKeysDialog() {
         styles: {
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
-          width: "100%",
-          height: "100%",
+          gap: "15px",
+          padding: "20px",
         },
         children: [
           {
@@ -61,8 +60,8 @@ export async function manageKeysDialog() {
       },
       false,
     )
-    .addButton(getString("service-manageKeys-save"), "save")
     .addButton(getString("service-manageKeys-close"), "close")
+    .addButton(getString("service-manageKeys-save"), "save")
     .open(getString("service-manageKeys-title"));
 
   if (dialogData.unloadLock && dialogData.unloadLock.promise) {
