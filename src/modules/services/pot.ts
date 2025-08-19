@@ -32,6 +32,9 @@ export const Pot: TranslateService = {
     settings.addNumberSetting({
       prefKey: "pot.port",
       nameKey: "service-pot-dialog-port",
+      min: 1,
+      max: 65535,
+      step: 1,
     });
   },
 
