@@ -314,6 +314,9 @@ function createGPTService(id: ID): TranslateService {
         .addNumberSetting({
           prefKey: `${prefPrefix}.temperature`,
           nameKey: `service-${servicePrefix}-dialog-temperature`,
+          min: 0,
+          max: 2,
+          step: 0.1,
         });
 
       if (
