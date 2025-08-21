@@ -58,7 +58,7 @@ type InputFieldText = InputFieldBase & {
 };
 
 type InputFieldNumber = InputFieldBase & {
-  // TODO: should not include string here, for compatibility, keep it
+  // For compatibility, includes number and string here
   prefKey: PrefKeysWithNumberValue | PrefKeysWithStringValue;
   min?: number;
   max?: number;
@@ -147,25 +147,18 @@ export class ServiceSettingsDialog extends SettingsDialogHelper {
   }
 
   addNumberSetting(field: InputFieldNumber): AllowedSettingsMethods {
-    return this.addSetting(
-      getString(field.nameKey),
-      field.prefKey,
-      {
-        tag: "input",
-        attributes: {
-          type: "number",
-          min: field.min || 0,
-          max: field.max || 100,
-          step: field.step || 1,
-        },
-        styles: {
-          minWidth: "400px",
-        },
+    return this.addSetting(getString(field.nameKey), field.prefKey, {
+      tag: "input",
+      attributes: {
+        type: "number",
+        min: field.min || 0,
+        max: field.max || 100,
+        step: field.step || 1,
       },
-      {
-        valueType: "number",
+      styles: {
+        minWidth: "400px",
       },
-    );
+    });
   }
 
   addCheckboxSetting(field: CheckboxField): AllowedSettingsMethods {
