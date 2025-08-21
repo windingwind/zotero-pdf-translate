@@ -78,4 +78,18 @@ export function setDefaultPrefSettings() {
     setPref("xftrans.engine", "niutrans");
   }
   clearPref("xftrans.useNiutrans");
+
+  // From v2.3.1 to v2.3.7, Pref customGPTx.temperature has been set as number type
+  // Change the type from number to string to be compatible with floating-point values
+  const gptKeys = ["customGPT1", "customGPT2", "customGPT3"];
+
+  gptKeys.forEach((key) => {
+    const prefKey = `${key}.temperature`;
+    const value = getPref(prefKey);
+
+    if (value !== undefined && typeof value === "number") {
+      clearPref(prefKey);
+      setPref(prefKey, String(value));
+    }
+  });
 }
