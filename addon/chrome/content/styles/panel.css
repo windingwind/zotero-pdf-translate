@@ -53,6 +53,10 @@ translator-plugin-panel .draggable-container {
   justify-content: center;
 }
 
+translator-plugin-panel .draggable-container[hidden] {
+  display: none;
+}
+
 translator-plugin-panel .options-container {
   display: grid;
   grid-template-columns: max-content 1fr;

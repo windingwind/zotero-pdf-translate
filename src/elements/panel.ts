@@ -341,7 +341,10 @@ export class TranslatorPanel extends PluginCEBase {
       const elem = this._queryID(type) as XUL.Box;
       const hidden = !getPref(pref) as boolean;
       elem.hidden = hidden;
-      if (elem.nextElementSibling?.classList.contains("separator")) {
+      if (
+        elem.nextElementSibling?.classList.contains("separator") ||
+        elem.nextElementSibling?.classList.contains("draggable-container")
+      ) {
         (elem.nextElementSibling as HTMLDivElement).hidden = hidden;
       }
     };
@@ -362,15 +365,6 @@ export class TranslatorPanel extends PluginCEBase {
       elem.style.fontSize = `${getPref("fontSize")}px`;
       elem.style.lineHeight = getPref("lineHeight") as string;
     };
-    const updateFlexHidden = (type: string, pref: string) => {
-      const elem = this._queryID(type) as XUL.Box;
-      const hidden = !getPref(pref) as boolean;
-      if (hidden) {
-        elem.style.display = "none";
-      } else {
-        elem.style.display = "";
-      }
-    };
 
     updateHidden("engine", "showSidebarEngine");
     updateHidden("language", "showSidebarLanguage");
@@ -378,7 +372,6 @@ export class TranslatorPanel extends PluginCEBase {
     updateHidden("auto-container", "showSidebarSettings");
     updateHidden("concat-container", "showSidebarConcat");
     updateHidden("copy-container", "showSidebarCopy");
-    updateFlexHidden("resizer", "showSidebarRaw");
 
     setValue("services", getPref("translateSource") as string);
 
