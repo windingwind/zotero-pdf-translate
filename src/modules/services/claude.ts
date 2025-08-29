@@ -1,6 +1,7 @@
 import { getPref } from "../../utils/prefs";
 import { getString } from "../../utils/locale";
 import { TranslateService } from "./base";
+import type { TranslateTask } from "../../utils/task";
 
 // Helper function to transform content using prompt template
 function transformContent(
