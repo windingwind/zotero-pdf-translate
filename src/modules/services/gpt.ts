@@ -70,7 +70,37 @@ const gptTranslate = async function (
     langTo: string,
     sourceText: string,
   ) {
-    return ((getPref(`${prefix}.prompt`) as string) || "")
+    let prompt = getPref(`${prefix}.prompt`) as string;
+
+    // Add paper context if enabled and itemId is available
+    if (getPref("attachPaperContext") && data.itemId) {
+      const item = Zotero.Items.get(data.itemId);
+      const topItem = item ? Zotero.Items.getTopLevel([item])[0] : null;
+      if (topItem) {
+        let contextInfo = "";
+        const title = topItem.getField("title") as string;
+        const abstract = topItem.getField("abstractNote") as string;
+
+        if (title) {
+          contextInfo += `Paper Title: ${title}`;
+        }
+        if (abstract) {
+          contextInfo += title
+            ? `\n\nPaper Abstract: ${abstract}`
+            : `Paper Abstract: ${abstract}`;
+        }
+
+        if (contextInfo) {
+          // Insert context before the source text
+          prompt = prompt.replace(
+            "${sourceText}",
+            `Context from the academic paper:\n${contextInfo}\n\nText to translate: ${sourceText}`,
+          );
+        }
+      }
+    }
+
+    return prompt
       .replaceAll("${langFrom}", langFrom)
       .replaceAll("${langTo}", langTo)
       .replaceAll("${sourceText}", sourceText);
