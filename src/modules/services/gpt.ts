@@ -70,7 +70,13 @@ const gptTranslate = async function (
     langTo: string,
     sourceText: string,
   ) {
-    return transformPromptWithContext(`${prefix}.prompt`, langFrom, langTo, sourceText, data);
+    return transformPromptWithContext(
+      `${prefix}.prompt`,
+      langFrom,
+      langTo,
+      sourceText,
+      data,
+    );
   }
 
   const streamMode = stream ?? true;

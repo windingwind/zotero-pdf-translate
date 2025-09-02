@@ -10,7 +10,13 @@ const translate = <TranslateService["translate"]>async function (data) {
     langTo: string,
     sourceText: string,
   ) {
-    return transformPromptWithContext("gemini.prompt", langFrom, langTo, sourceText, data);
+    return transformPromptWithContext(
+      "gemini.prompt",
+      langFrom,
+      langTo,
+      sourceText,
+      data,
+    );
   }
 
   function getGenContentAPI(data: Required<TranslateTask>) {

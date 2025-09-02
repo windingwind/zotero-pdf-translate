@@ -380,7 +380,7 @@ export function transformPromptWithContext(
   langFrom: string,
   langTo: string,
   sourceText: string,
-  data: Required<TranslateTask>
+  data: Required<TranslateTask>,
 ): string {
   let prompt = getPref(prefKey) as string;
 

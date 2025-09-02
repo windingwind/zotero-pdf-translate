@@ -8,7 +8,13 @@ function transformContent(
   sourceText: string,
   data: Required<TranslateTask>,
 ) {
-  return transformPromptWithContext("claude.prompt", langFrom, langTo, sourceText, data);
+  return transformPromptWithContext(
+    "claude.prompt",
+    langFrom,
+    langTo,
+    sourceText,
+    data,
+  );
 }
 
 // Removed duplicate implementation in favor of the main claude function
