@@ -1,49 +1,14 @@
-import { getPref } from "../../utils/prefs";
-import { getString } from "../../utils/locale";
+import { getPref, getString, transformPromptWithContext } from "../../utils";
 import { TranslateService } from "./base";
 import type { TranslateTask } from "../../utils/task";
 
-// Helper function to transform content using prompt template
 function transformContent(
   langFrom: string,
   langTo: string,
   sourceText: string,
   data: Required<TranslateTask>,
 ) {
-  let prompt = getPref("claude.prompt") as string;
-
-  // Add paper context if enabled and itemId is available
-  if (getPref("attachPaperContext") && data.itemId) {
-    const item = Zotero.Items.get(data.itemId);
-    const topItem = item ? Zotero.Items.getTopLevel([item])[0] : null;
-    if (topItem) {
-      let contextInfo = "";
-      const title = topItem.getField("title") as string;
-      const abstract = topItem.getField("abstractNote") as string;
-
-      if (title) {
-        contextInfo += `Paper Title: ${title}`;
-      }
-      if (abstract) {
-        contextInfo += title
-          ? `\n\nPaper Abstract: ${abstract}`
-          : `Paper Abstract: ${abstract}`;
-      }
-
-      if (contextInfo) {
-        // Insert context before the source text
-        prompt = prompt.replace(
-          "${sourceText}",
-          `Context from the academic paper:\n${contextInfo}\n\nText to translate: ${sourceText}`,
-        );
-      }
-    }
-  }
-
-  return prompt
-    .replaceAll("${langFrom}", langFrom)
-    .replaceAll("${langTo}", langTo)
-    .replaceAll("${sourceText}", sourceText);
+  return transformPromptWithContext("claude.prompt", langFrom, langTo, sourceText, data);
 }
 
 // Removed duplicate implementation in favor of the main claude function
