@@ -421,7 +421,13 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
           }
         }
       }
-      if (itemLanguage && ![fromLanguage, toLanguage].includes(itemLanguage)) {
+      const itemLanguageMajor = itemLanguage.split("-")[0];
+      if (
+        itemLanguage &&
+        ![fromLanguage, toLanguage].find(
+          (lang) => lang.split("-")[0] === itemLanguageMajor,
+        )
+      ) {
         ztoolkit.log("use autoDetect", itemLanguage);
         // If the item language is not the same as the target/source language, use it
         detectedFromLanguage = itemLanguage;
