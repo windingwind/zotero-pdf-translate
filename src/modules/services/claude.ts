@@ -1,17 +1,20 @@
-import { getPref } from "../../utils/prefs";
-import { getString } from "../../utils/locale";
+import { getPref, getString, transformPromptWithContext } from "../../utils";
 import { TranslateService } from "./base";
+import type { TranslateTask } from "../../utils/task";
 
-// Helper function to transform content using prompt template
 function transformContent(
   langFrom: string,
   langTo: string,
   sourceText: string,
+  data: Required<TranslateTask>,
 ) {
-  return (getPref("claude.prompt") as string)
-    .replaceAll("${langFrom}", langFrom)
-    .replaceAll("${langTo}", langTo)
-    .replaceAll("${sourceText}", sourceText);
+  return transformPromptWithContext(
+    "claude.prompt",
+    langFrom,
+    langTo,
+    sourceText,
+    data,
+  );
 }
 
 // Removed duplicate implementation in favor of the main claude function
@@ -31,7 +34,7 @@ const translate = <TranslateService["translate"]>async function (data) {
     messages: [
       {
         role: "user",
-        content: transformContent(data.langfrom, data.langto, data.raw),
+        content: transformContent(data.langfrom, data.langto, data.raw, data),
       },
     ],
     temperature: temperature,

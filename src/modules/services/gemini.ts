@@ -1,6 +1,6 @@
-import { TranslateTask } from "../../utils/task";
-import { getPref } from "../../utils/prefs";
+import { getPref, transformPromptWithContext } from "../../utils";
 import { TranslateService } from "./base";
+import type { TranslateTask } from "../../utils/task";
 
 const translate = <TranslateService["translate"]>async function (data) {
   const apiURL = getPref("gemini.endPoint") as string;
@@ -10,10 +10,13 @@ const translate = <TranslateService["translate"]>async function (data) {
     langTo: string,
     sourceText: string,
   ) {
-    return (getPref("gemini.prompt") as string)
-      .replaceAll("${langFrom}", langFrom)
-      .replaceAll("${langTo}", langTo)
-      .replaceAll("${sourceText}", sourceText);
+    return transformPromptWithContext(
+      "gemini.prompt",
+      langFrom,
+      langTo,
+      sourceText,
+      data,
+    );
   }
 
   function getGenContentAPI(data: Required<TranslateTask>) {

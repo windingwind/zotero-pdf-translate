@@ -1,5 +1,6 @@
 pref("__prefsPrefix__.enableAuto", true);
 pref("__prefsPrefix__.enableDict", true);
+pref("__prefsPrefix__.attachPaperContext", false);
 pref("__prefsPrefix__.enablePopup", true);
 pref("__prefsPrefix__.enableComment", false);
 pref("__prefsPrefix__.enableAnnotationFromSyncTranslation", false);

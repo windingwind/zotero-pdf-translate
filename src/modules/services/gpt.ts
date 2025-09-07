@@ -1,4 +1,4 @@
-import { getPref, getString } from "../../utils";
+import { getPref, getString, transformPromptWithContext } from "../../utils";
 import { TranslateService } from "./base";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
@@ -70,10 +70,13 @@ const gptTranslate = async function (
     langTo: string,
     sourceText: string,
   ) {
-    return ((getPref(`${prefix}.prompt`) as string) || "")
-      .replaceAll("${langFrom}", langFrom)
-      .replaceAll("${langTo}", langTo)
-      .replaceAll("${sourceText}", sourceText);
+    return transformPromptWithContext(
+      `${prefix}.prompt`,
+      langFrom,
+      langTo,
+      sourceText,
+      data,
+    );
   }
 
   const streamMode = stream ?? true;

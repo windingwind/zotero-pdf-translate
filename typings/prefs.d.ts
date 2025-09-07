@@ -9,6 +9,7 @@ declare namespace _ZoteroTypes {
     PluginPrefsMap: {
       "enableAuto": boolean;
       "enableDict": boolean;
+      "attachPaperContext": boolean;
       "enablePopup": boolean;
       "enableComment": boolean;
       "enableAnnotationFromSyncTranslation": boolean;
