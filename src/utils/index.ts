@@ -1,5 +1,6 @@
 export * from "./config";
 export * from "./crypto";
+export * from "./llmPrompt";
 export * from "./locale";
 export * from "./prefs";
 export * from "./secret";
