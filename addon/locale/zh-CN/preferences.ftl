@@ -95,6 +95,8 @@ pref-interface-keepPopupSize =
     .label = 弹窗：记住大小
 
 pref-advanced = 高级
+pref-advanced-enableMathRendering =
+    .label = 启动数学公式渲染（需要LLM）
 
 pref-advanced-enableAutoDetectLanguage =
     .label = 自动检测条目语言

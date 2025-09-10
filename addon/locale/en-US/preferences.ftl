@@ -95,6 +95,8 @@ pref-interface-keepPopupSize =
     .label = Pop-up: Remember Size
 
 pref-advanced = Advanced
+pref-advanced-enableMathRendering =
+    .label = Enable math formula rendering (requires LLM)
 
 pref-advanced-enableAutoDetectLanguage =
     .label = Automatically Detect Item Language

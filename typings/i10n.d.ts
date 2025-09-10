@@ -33,6 +33,7 @@ export type FluentMessageId =
   | 'pref-advanced-disabledLanguages'
   | 'pref-advanced-disabledLanguages-alert'
   | 'pref-advanced-enableAutoDetectLanguage'
+  | 'pref-advanced-enableMathRendering'
   | 'pref-advanced-extraEngines'
   | 'pref-advanced-reset'
   | 'pref-advanced-reset-abstractTranslation'
