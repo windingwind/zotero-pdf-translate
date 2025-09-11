@@ -81,6 +81,8 @@ pref-interface-enableConcatKey =
     } 键激活拼接模式
 pref-interface-showSidebarRaw =
     .label = 条目面板区块：显示原文
+pref-interface-enableMathRendering =
+    .label = 条目面板区块：在翻译中渲染 LaTeX 公式
 pref-interface-showSidebarCopy =
     .label = 条目面板区块：显示复制按钮
 pref-interface-rawResultOrder =
@@ -95,8 +97,6 @@ pref-interface-keepPopupSize =
     .label = 弹窗：记住大小
 
 pref-advanced = 高级
-pref-advanced-enableMathRendering =
-    .label = 启动数学公式渲染（需要LLM）
 
 pref-advanced-enableAutoDetectLanguage =
     .label = 自动检测条目语言

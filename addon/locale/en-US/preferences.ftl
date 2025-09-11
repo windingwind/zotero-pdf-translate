@@ -81,6 +81,8 @@ pref-interface-enableConcatKey =
     } to enable Concat Mode
 pref-interface-showSidebarRaw =
     .label = Item Pane Section: Show Raw
+pref-interface-enableMathRendering =
+    .label = Item Pane Section: Render LaTeX math in translation
 pref-interface-showSidebarCopy =
     .label = Item Pane Section: Show Copy Buttons
 pref-interface-rawResultOrder =
@@ -95,8 +97,6 @@ pref-interface-keepPopupSize =
     .label = Pop-up: Remember Size
 
 pref-advanced = Advanced
-pref-advanced-enableMathRendering =
-    .label = Enable math formula rendering (requires LLM)
 
 pref-advanced-enableAutoDetectLanguage =
     .label = Automatically Detect Item Language

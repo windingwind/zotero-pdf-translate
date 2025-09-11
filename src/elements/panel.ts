@@ -70,11 +70,19 @@ export class TranslatorPanel extends PluginCEBase {
 </hbox>
 <html:div class="separator"></html:div>
 <html:div id="text-container" class="editor-container">
-  <editable-text id="raw-text" multiline="true" placeholder="Select or type to translate" />
+  ${
+    (getPref("enableMathRendering") as boolean)
+      ? `<math-textbox id="raw-text"></math-textbox>`
+      : `<editable-text id="raw-text" multiline="true" />`
+  }
   <html:div id="resizer" class="draggable-container">
     <html:div class="separator"></html:div>
   </html:div>
-  <math-textbox id="result-text"></math-textbox>
+  ${
+    (getPref("enableMathRendering") as boolean)
+      ? `<math-textbox id="result-text"></math-textbox>`
+      : `<editable-text id="result-text" multiline="true" />`
+  }
 </html:div>
 <html:div class="separator"></html:div>
 <html:div class="options-container">

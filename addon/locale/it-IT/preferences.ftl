@@ -81,6 +81,8 @@ pref-interface-enableConcatKey =
     } per attivare la modalità di giunzione
 pref-interface-showSidebarRaw =
     .label = Sezione del pannello dell'elemento: Mostra il testo originale
+pref-interface-enableMathRendering =
+    .label = Sezione del pannello: Render LaTeX nella traduzione
 pref-interface-showSidebarCopy =
     .label = Sezione del pannello dell'elemento: Mostra i pulsanti di copia
 pref-interface-rawResultOrder =
@@ -95,8 +97,6 @@ pref-interface-keepPopupSize =
     .label = Popup: Ricorda la dimensione
 
 pref-advanced = Avanzate
-pref-advanced-enableMathRendering =
-    .label = Abilita rendering formule matematiche (richiede LLM)
 
 pref-advanced-enableAutoDetectLanguage =
     .label = Rilevamento automatico della lingua dell'elemento
