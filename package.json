@@ -32,6 +32,7 @@
     "franc": "^6.2.0",
     "iso639-js": "^1.1.3",
     "jsencrypt": "^3.5.0",
+    "katex": "^0.16.22",
     "zotero-plugin-toolkit": "^5.1.0-beta.8"
   },
   "devDependencies": {
