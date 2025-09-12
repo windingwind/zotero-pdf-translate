@@ -107,6 +107,7 @@ translator-plugin-panel .options-label {
 translator-plugin-panel .options-content {
   display: flex;
   flex-direction: row;
+  gap: 4px;
 }
 
 translator-plugin-panel #__addonRef__-copy-container button {
