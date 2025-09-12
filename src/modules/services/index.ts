@@ -27,6 +27,7 @@ import { Google, GoogleAPI } from "./google";
 import { Haici } from "./haici";
 import { HaiciDict } from "./haicidict";
 import { Huoshan } from "./huoshan";
+import { HuoshanWeb } from "./huoshanweb";
 import { LibreTranslate } from "./libretranslate";
 import { Microsoft } from "./microsoft";
 import { Mtranserver } from "./mtranserver";
@@ -72,6 +73,7 @@ const register: TranslateService[] = [
   Haici,
   HaiciDict,
   Huoshan,
+  HuoshanWeb,
   LibreTranslate,
   Microsoft,
   Mtranserver,

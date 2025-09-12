@@ -1,3 +1,4 @@
+service-huoshanweb=Volcengine Web
 service-tencenttransmart=Tencent Transmart
 service-huoshan=Huoshan
 service-googleapi=Google(API)

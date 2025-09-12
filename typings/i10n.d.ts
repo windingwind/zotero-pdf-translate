@@ -154,6 +154,7 @@ export type FluentMessageId =
   | 'service-haici'
   | 'service-haicidict'
   | 'service-huoshan'
+  | 'service-huoshanweb'
   | 'service-libretranslate'
   | 'service-libretranslate-dialog-endPoint'
   | 'service-manageKeys-close'
