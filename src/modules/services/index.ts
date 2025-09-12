@@ -37,6 +37,7 @@ import { Pot } from "./pot";
 import { QwenMT } from "./qwenmt";
 import { WeblioDict } from "./webliodict";
 import { XFfrans } from "./xftrans";
+import { TencentTransmart } from "./tencenttransmart";
 import { Youdao } from "./youdao";
 import { YoudaoDict } from "./youdaodict";
 import { YoudaoZhiyun } from "./youdaozhiyun";
@@ -80,6 +81,7 @@ const register: TranslateService[] = [
   Pot,
   QwenMT,
   Tencent,
+  TencentTransmart,
   WeblioDict,
   XFfrans,
   Youdao,

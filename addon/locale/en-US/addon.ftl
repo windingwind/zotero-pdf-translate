@@ -1,3 +1,4 @@
+service-tencenttransmart=Tencent Transmart
 service-huoshan=Huoshan
 service-googleapi=Google(API)
 service-google=Google

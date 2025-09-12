@@ -204,6 +204,7 @@ export type FluentMessageId =
   | 'service-tencent-dialog-secretkey'
   | 'service-tencent-dialog-sentrepoid'
   | 'service-tencent-dialog-termrepoid'
+  | 'service-tencenttransmart'
   | 'service-webliodict'
   | 'service-xftrans'
   | 'service-xftrans-dialog-engine'

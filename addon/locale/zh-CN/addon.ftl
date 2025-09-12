@@ -1,3 +1,4 @@
+service-tencenttransmart=腾讯TranSmart
 service-huoshan=火山翻译
 service-googleapi=Google(API)
 service-google=Google
