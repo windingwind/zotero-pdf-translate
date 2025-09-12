@@ -36,6 +36,10 @@ export class TranslatorPanel extends PluginCEBase {
     rel="stylesheet"
     href="chrome://${config.addonRef}/content/styles/panel.css"
   ></html:link>
+  <html:link
+    rel="stylesheet"
+    href="chrome://${config.addonRef}/content/styles/katex.min.css"
+  ></html:link>
 </linkset>
 <hbox id="engine" align="center">
   <menulist id="services" native="true">
@@ -66,11 +70,19 @@ export class TranslatorPanel extends PluginCEBase {
 </hbox>
 <html:div class="separator"></html:div>
 <html:div id="text-container" class="editor-container">
-  <editable-text id="raw-text" multiline="true" placeholder="Select or type to translate" />
+  ${
+    (getPref("enableMathRendering") as boolean)
+      ? `<math-textbox id="raw-text"></math-textbox>`
+      : `<editable-text id="raw-text" multiline="true" />`
+  }
   <html:div id="resizer" class="draggable-container">
     <html:div class="separator"></html:div>
   </html:div>
-  <editable-text id="result-text" multiline="true" />
+  ${
+    (getPref("enableMathRendering") as boolean)
+      ? `<math-textbox id="result-text"></math-textbox>`
+      : `<editable-text id="result-text" multiline="true" />`
+  }
 </html:div>
 <html:div class="separator"></html:div>
 <html:div class="options-container">

@@ -54,6 +54,7 @@ export type FluentMessageId =
   | 'pref-general'
   | 'pref-interface'
   | 'pref-interface-enableConcatKey'
+  | 'pref-interface-enableMathRendering'
   | 'pref-interface-fontSize'
   | 'pref-interface-keepPopupSize'
   | 'pref-interface-keepWindowTop'

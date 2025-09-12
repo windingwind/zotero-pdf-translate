@@ -36,6 +36,32 @@ translator-plugin-panel editable-text {
   min-height: 100px;
 }
 
+/* Minimal styles for math-textbox to match editable-text without intruding */
+translator-plugin-panel math-textbox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100px;
+  flex: 1;
+  position: relative;
+}
+
+translator-plugin-panel math-textbox editable-text {
+  flex: 1;
+  min-height: 100px;
+}
+
+translator-plugin-panel math-textbox[overlay-visible] editable-text {
+  visibility: hidden;
+}
+
+translator-plugin-panel math-textbox .math-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  display: block; /* ensure layout box for HTML namespace */
+}
+
 translator-plugin-panel .editor-container {
   display: flex;
   flex: 1;
