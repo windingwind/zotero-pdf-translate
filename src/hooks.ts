@@ -113,6 +113,9 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 
 function onShutdown(): void {
   ztoolkit.unregisterAll();
+  Zotero.getMainWindows().forEach((win) => {
+    onMainWindowUnload(win);
+  });
   // Remove addon object
   addon.data.alive = false;
   // @ts-ignore - Plugin instance is not typed
