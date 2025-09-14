@@ -1,5 +1,4 @@
 import { config } from "../../package.json";
-import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 import {
   addTranslateAbstractTask,
@@ -9,45 +8,58 @@ import {
 
 export function registerMenu() {
   const menuIcon = `chrome://${config.addonRef}/content/icons/favicon.png`;
-  if (
-    getPref("showItemMenuTitleTranslation") ||
-    getPref("showItemMenuAbstractTranslation")
-  ) {
-    ztoolkit.Menu.register("item", {
-      tag: "menuseparator",
-    });
-  }
-  if (getPref("showItemMenuTitleTranslation")) {
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      label: getString("itemmenu-translateTitle-label"),
-      commandListener: (ev) => {
-        addon.hooks.onTranslateInBatch(
-          Zotero.getActiveZoteroPane()
-            .getSelectedItems(true)
-            .map((id) => addTranslateTitleTask(id, true))
-            .filter((task) => task) as TranslateTask[],
-          { noDisplay: true, noCache: true },
-        );
-      },
-      icon: menuIcon,
-    });
-  }
 
-  if (getPref("showItemMenuAbstractTranslation")) {
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      label: getString("itemmenu-translateAbstract-label"),
-      commandListener: (ev) => {
-        addon.hooks.onTranslateInBatch(
-          Zotero.getActiveZoteroPane()
-            .getSelectedItems(true)
-            .map((id) => addTranslateAbstractTask(id, true))
-            .filter((task) => task) as TranslateTask[],
-          { noDisplay: true, noCache: true },
-        );
+  Zotero.MenuManager.registerMenu({
+    menuID: `${config.addonRef}-translate-title`,
+    pluginID: config.addonID,
+    target: "main/library/item",
+    menus: [
+      {
+        menuType: "menuitem",
+        l10nID: `${config.addonRef}-itemmenu-translateTitle`,
+        icon: menuIcon,
+        onCommand: (event, context) => {
+          addon.hooks.onTranslateInBatch(
+            (
+              context.menuElem.ownerGlobal
+                ?.ZoteroPane as _ZoteroTypes.ZoteroPane
+            )
+              ?.getSelectedItems(true)
+              .map((id) => addTranslateTitleTask(id, true))
+              .filter((task) => task) as TranslateTask[],
+            { noDisplay: true, noCache: true },
+          );
+        },
+        onShowing: (event, context) => {
+          const enabled =
+            getPref("showItemMenuTitleTranslation") &&
+            context.items?.every((item) => item.isRegularItem());
+          context.menuElem.hidden = !enabled;
+        },
       },
-      icon: menuIcon,
-    });
-  }
+      {
+        menuType: "menuitem",
+        l10nID: `${config.addonRef}-itemmenu-translateAbstract`,
+        icon: menuIcon,
+        onCommand: (event, context) => {
+          addon.hooks.onTranslateInBatch(
+            (
+              context.menuElem.ownerGlobal
+                ?.ZoteroPane as _ZoteroTypes.ZoteroPane
+            )
+              ?.getSelectedItems(true)
+              .map((id) => addTranslateAbstractTask(id, true))
+              .filter((task) => task) as TranslateTask[],
+            { noDisplay: true, noCache: true },
+          );
+        },
+        onShowing: (event, context) => {
+          const enabled =
+            getPref("showItemMenuTitleTranslation") &&
+            context.items?.every((item) => item.isRegularItem());
+          context.menuElem.hidden = !enabled;
+        },
+      },
+    ],
+  });
 }

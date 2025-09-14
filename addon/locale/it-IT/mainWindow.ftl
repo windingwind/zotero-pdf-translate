@@ -9,3 +9,8 @@ itemPaneSection-openStandalone =
 
 field-titleTranslation = Title Translation
 field-abstractTranslation = Abstract Translation
+
+itemmenu-translateTitle =
+    .label = Traduci Titolo
+itemmenu-translateAbstract =
+    .label = Traduci Abstract

@@ -9,3 +9,8 @@ itemPaneSection-openStandalone =
 
 field-titleTranslation = 标题翻译
 field-abstractTranslation = 摘要翻译
+
+itemmenu-translateTitle =
+    .label = 翻译标题
+itemmenu-translateAbstract =
+    .label = 翻译摘要

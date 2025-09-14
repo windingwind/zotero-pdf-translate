@@ -132,12 +132,6 @@ readerpopup-addToNote-label=Add Translation to Note
 
 pref-title=Translate
 
-itemmenu-translateTitle-label=Translate Title
-itemmenu-translateAbstract-label=Translate Abstract
-itemmenu-more-label=More Translation Options...
-itemmenu-retranslateTitle-label=Retranslate Title
-itemmenu-retranslateAbstract-label=Retranslate Abstract
-
 field-titleTranslation=Title Translation
 field-abstractTranslation=Abstract Translation
 

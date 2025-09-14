@@ -132,12 +132,6 @@ readerpopup-addToNote-label=添加翻译至笔记
 
 pref-title=翻译
 
-itemmenu-translateTitle-label=翻译标题
-itemmenu-translateAbstract-label=翻译摘要
-itemmenu-more-label=更多翻译选项...
-itemmenu-retranslateTitle-label=重新翻译标题
-itemmenu-retranslateAbstract-label=重新翻译摘要
-
 field-titleTranslation=标题翻译
 field-abstractTranslation=摘要翻译
 
