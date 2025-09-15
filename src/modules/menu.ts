@@ -19,13 +19,12 @@ export function registerMenu() {
         l10nID: `${config.addonRef}-itemmenu-translateTitle`,
         icon: menuIcon,
         onCommand: (event, context) => {
+          if (!context.items?.length) {
+            return;
+          }
           addon.hooks.onTranslateInBatch(
-            (
-              context.menuElem.ownerGlobal
-                ?.ZoteroPane as _ZoteroTypes.ZoteroPane
-            )
-              ?.getSelectedItems(true)
-              .map((id) => addTranslateTitleTask(id, true))
+            context.items
+              .map((item) => addTranslateTitleTask(item.id, true))
               .filter((task) => task) as TranslateTask[],
             { noDisplay: true, noCache: true },
           );
@@ -44,13 +43,12 @@ export function registerMenu() {
         l10nID: `${config.addonRef}-itemmenu-translateAbstract`,
         icon: menuIcon,
         onCommand: (event, context) => {
+          if (!context.items?.length) {
+            return;
+          }
           addon.hooks.onTranslateInBatch(
-            (
-              context.menuElem.ownerGlobal
-                ?.ZoteroPane as _ZoteroTypes.ZoteroPane
-            )
-              ?.getSelectedItems(true)
-              .map((id) => addTranslateAbstractTask(id, true))
+            context.items
+              .map((item) => addTranslateAbstractTask(item.id, true))
               .filter((task) => task) as TranslateTask[],
             { noDisplay: true, noCache: true },
           );
