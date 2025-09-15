@@ -31,10 +31,12 @@ export function registerMenu() {
           );
         },
         onShowing: (event, context) => {
-          const enabled =
-            getPref("showItemMenuTitleTranslation") &&
-            context.items?.every((item) => item.isRegularItem());
-          context.menuElem.hidden = !enabled;
+          context.setVisible(
+            !!(
+              getPref("showItemMenuTitleTranslation") &&
+              context.items?.every((item) => item.isRegularItem())
+            ),
+          );
         },
       },
       {
@@ -54,10 +56,12 @@ export function registerMenu() {
           );
         },
         onShowing: (event, context) => {
-          const enabled =
-            getPref("showItemMenuTitleTranslation") &&
-            context.items?.every((item) => item.isRegularItem());
-          context.menuElem.hidden = !enabled;
+          context.setVisible(
+            !!(
+              getPref("showItemMenuTitleTranslation") &&
+              context.items?.every((item) => item.isRegularItem())
+            ),
+          );
         },
       },
     ],
