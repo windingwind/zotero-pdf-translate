@@ -18,15 +18,15 @@ export function containsMath(text: string): boolean {
   return TEST_REGEX.test(text);
 }
 
-export function escapeHtml(text: string): string {
-  const div = Zotero.getMainWindow().document.createElement("div");
+export function escapeHtml(doc: Document, text: string): string {
+  const div = doc.createElement("div");
   div.textContent = text;
-  return div.innerHTML;
+  return div.innerHTML.replace(/\n/g, "<br>");
 }
 
-export function renderMathInText(text: string): string {
+export function renderMathInText(doc: Document, text: string): string {
   if (!text) return "";
-  if (!containsMath(text)) return escapeHtml(text);
+  if (!containsMath(text)) return escapeHtml(doc, text);
 
   let result = "";
   let lastIndex = 0;
@@ -46,7 +46,7 @@ export function renderMathInText(text: string): string {
     const prefixLen = dispPrefix || inlinePrefix ? 1 : 0;
     const plainEnd = match.index + prefixLen;
     if (plainEnd > lastIndex) {
-      result += escapeHtml(text.slice(lastIndex, plainEnd));
+      result += escapeHtml(doc, text.slice(lastIndex, plainEnd));
     }
 
     let displayMode = false;
@@ -72,14 +72,14 @@ export function renderMathInText(text: string): string {
       });
       result += rendered;
     } catch (e) {
-      result += escapeHtml(full.slice(prefixLen));
+      result += escapeHtml(doc, full.slice(prefixLen));
     }
 
     lastIndex = match.index + full.length;
   }
 
   if (lastIndex < text.length) {
-    result += escapeHtml(text.slice(lastIndex));
+    result += escapeHtml(doc, text.slice(lastIndex));
   }
 
   return result;
@@ -87,5 +87,5 @@ export function renderMathInText(text: string): string {
 
 export function renderMathInElement(element: HTMLElement, text: string): void {
   if (!element) return;
-  element.innerHTML = renderMathInText(text);
+  element.innerHTML = renderMathInText(element.ownerDocument, text);
 }
