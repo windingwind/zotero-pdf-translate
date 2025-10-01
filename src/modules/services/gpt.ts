@@ -96,6 +96,7 @@ const gptTranslate = async function (
   const streamCallback = (xmlhttp: XMLHttpRequest) => {
     let preLength = 0;
     let result = "";
+    let buffer = ""; // Buffer to store incomplete JSON fragments
     xmlhttp.onprogress = (e: any) => {
       // Only concatenate the new strings
       const newResponse = e.target.response.slice(preLength);
@@ -104,15 +105,23 @@ const gptTranslate = async function (
       let dataArray;
       if (newResponse.includes("data: ")) {
         // OpenAI SSE format
-        dataArray = newResponse.split("data: ");
+        // Prepend buffer from previous incomplete chunk
+        const fullResponse = buffer + newResponse;
+        dataArray = fullResponse.split("data: ");
+        buffer = ""; // Reset buffer
       } else {
         // Ollama native format - each line is a JSON object
-        dataArray = newResponse
+        const fullResponse = buffer + newResponse;
+        dataArray = fullResponse
           .split("\n")
           .filter((line: string) => line.trim());
+        buffer = ""; // Reset buffer
       }
 
-      for (const data of dataArray) {
+      for (let i = 0; i < dataArray.length; i++) {
+        const data = dataArray[i];
+        if (!data.trim()) continue;
+
         try {
           const obj = JSON.parse(data);
           const { content, finished } = parseStreamResponse(obj);
@@ -122,6 +131,12 @@ const gptTranslate = async function (
             break;
           }
         } catch {
+          // If parsing fails and this is the last item, it might be incomplete
+          // Save it to buffer for next iteration
+          // https://github.com/windingwind/zotero-pdf-translate/issues/1304
+          if (i === dataArray.length - 1) {
+            buffer = newResponse.includes("data: ") ? "data: " + data : data;
+          }
           continue;
         }
       }
