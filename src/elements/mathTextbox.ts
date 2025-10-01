@@ -69,12 +69,12 @@ export class MathTextboxElement extends XULElementBase {
   private _showOverlay(): void {
     if (this._overlay) this._overlay.remove();
     const HTML_NS = "http://www.w3.org/1999/xhtml";
-    const overlay = Zotero.getMainWindow().document.createElementNS(
+    const overlay = document.createElementNS(
       HTML_NS,
       "div",
     ) as unknown as HTMLElement;
     overlay.className = "math-overlay";
-    overlay.innerHTML = renderMathInText(this._value);
+    overlay.innerHTML = renderMathInText(document, this._value);
     overlay.addEventListener("click", () => {
       this._hideOverlay();
       this._textbox?.focus();
