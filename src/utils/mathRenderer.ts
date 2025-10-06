@@ -21,7 +21,7 @@ export function containsMath(text: string): boolean {
 export function escapeHtml(doc: Document, text: string): string {
   const div = doc.createElement("div");
   div.textContent = text;
-  return div.innerHTML.replace(/\n/g, "<br>");
+  return div.innerHTML.replace(/\n/g, "<br></br>");
 }
 
 export function renderMathInText(doc: Document, text: string): string {
