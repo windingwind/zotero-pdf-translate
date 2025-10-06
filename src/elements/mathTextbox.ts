@@ -1,3 +1,4 @@
+import { config } from "../../package.json";
 import { renderMathInText, containsMath } from "../utils/mathRenderer";
 import { getPref } from "../utils/prefs";
 
@@ -9,6 +10,16 @@ export class MathTextboxElement extends XULElementBase {
   get content() {
     return MozXULElement.parseXULToFragment(`
       <editable-text id="inner-textbox" multiline="true" />
+      <linkset>
+        <html:link
+          rel="stylesheet"
+          href="chrome://${config.addonRef}/content/styles/mathTextbox.css"
+        ></html:link>
+        <html:link
+          rel="stylesheet"
+          href="chrome://${config.addonRef}/content/styles/katex.min.css"
+        ></html:link>
+      </linkset>
     `);
   }
 

@@ -36,10 +36,6 @@ export class TranslatorPanel extends PluginCEBase {
     rel="stylesheet"
     href="chrome://${config.addonRef}/content/styles/panel.css"
   ></html:link>
-  <html:link
-    rel="stylesheet"
-    href="chrome://${config.addonRef}/content/styles/katex.min.css"
-  ></html:link>
 </linkset>
 <hbox id="engine" align="center">
   <menulist id="services" native="true">
