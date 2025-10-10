@@ -18,7 +18,10 @@ pref-basic-enableNote =
     .label = Show "Add Translation to Note" in Pop-up
 pref-basic-enableNoteReplaceMode =
     .label = Replace Raw Text When Adding Translation to Note
-
+pref-basic-enableAutoTagAnnotation =
+    .label = Automatically Add Tag After Translating Annotation
+pref-basic-annotationTagContent =
+    .value = Annotation Tag Content
 pref-audio-autoPlay =
     .label = Auto-play Pronunciation
 pref-audio-showPlayBtn =
