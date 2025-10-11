@@ -92,4 +92,12 @@ export function setDefaultPrefSettings() {
       setPref(prefKey, String(value));
     }
   });
+
+  // Set default value for annotation auto-tag
+  if (getPref("enableAutoTagAnnotation") === undefined) {
+    setPref("enableAutoTagAnnotation", false);
+  }
+  if (!getPref("annotationTagContent")) {
+    setPref("annotationTagContent", isZhCN ? "翻译" : "Translation");
+  }
 }

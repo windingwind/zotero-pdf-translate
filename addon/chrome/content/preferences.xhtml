@@ -76,6 +76,21 @@
         native="true"
         preference="__prefsPrefix__.enableNoteReplaceMode"
       />
+        <checkbox
+          id="__addonRef__-enableAutoTagAnnotation"
+          data-l10n-id="pref-basic-enableAutoTagAnnotation"
+          native="true"
+          preference="__prefsPrefix__.enableAutoTagAnnotation"
+        />
+        <hbox align="center" style="padding-left: 18px">
+          <label data-l10n-id="pref-basic-annotationTagContent"></label>
+          <html:input
+            id="__addonRef__-annotationTagContent"
+            type="text"
+            class="enable-auto-tag-annotation"
+            preference="__prefsPrefix__.annotationTagContent"
+          ></html:input>
+        </hbox>
     </vbox>
     <vbox>
       <checkbox
