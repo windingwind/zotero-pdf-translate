@@ -342,7 +342,6 @@ export class TranslationServices {
                   ? "annotationComment"
                   : "annotationText"
               ] = text;
-              item.saveTx();
 
               // Auto tag
               const enableAutoTag = getPref("enableAutoTagAnnotation") as boolean;
@@ -358,10 +357,10 @@ export class TranslationServices {
 
                   if (!tagExists) {
                     item.addTag(tag);
-                    item.saveTx();
                   }
                 }
               }
+              item.saveTx();
             }
           }
           break;
