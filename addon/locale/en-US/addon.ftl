@@ -27,6 +27,7 @@ service-customgpt1=Custom GPT 1
 service-customgpt2=Custom GPT 2
 service-customgpt3=Custom GPT 3
 service-azuregpt=AzureGPT
+service-deepseek=DeepSeek
 service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
@@ -80,6 +81,14 @@ service-chatgpt-dialog-temperature=Temp
 service-chatgpt-dialog-prompt=Prompt
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-custom-request=Custom Request
+
+service-deepseek-dialog-endPoint=API
+service-deepseek-dialog-model=Model
+service-deepseek-dialog-model-type-chat=Non-Thinking Mode(deepseek-chat)
+service-deepseek-dialog-model-type-reasoner=Thinking Mode(deepseek-reasoner)
+service-deepseek-dialog-system-prompt=System Prompt(leave blank to use the default system prompt)
+service-deepseek-dialog-prompt=Prompt
+service-deepseek-dialog-stream=Stream
 
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Name

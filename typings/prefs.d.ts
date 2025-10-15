@@ -93,6 +93,11 @@ declare namespace _ZoteroTypes {
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
+      "deepSeek.stream": boolean;
+      "deepSeek.endPoint": string;
+      "deepSeek.model": string;
+      "deepSeek.systemPrompt": string;
+      "deepSeek.prompt": string;
       "xftrans.engine": string;
       "tencent.region": string;
       "tencent.projectId": string;
