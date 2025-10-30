@@ -70,7 +70,7 @@ pref("__prefsPrefix__.azureGPT.stream", true);
 pref("__prefsPrefix__.azureGPT.customParams", "");
 pref(
   "__prefsPrefix__.gemini.endPoint",
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest",
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite",
 );
 pref(
   "__prefsPrefix__.gemini.prompt",
