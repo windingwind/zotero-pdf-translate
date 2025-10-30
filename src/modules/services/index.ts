@@ -334,15 +334,32 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"
                   ? "annotationComment"
                   : "annotationText"
               ] = text;
+
+              // Auto tag
+              const enableAutoTag = getPref("enableAutoTagAnnotation") as boolean;
+              if (enableAutoTag) {
+                const tagContent = getPref("annotationTagContent") as string;
+                if (tagContent && tagContent.trim()) {
+                  const tag = tagContent.trim();
+                  // Check if the tag already exists
+                  const existingTags = item.getTags();
+                  const tagExists = existingTags.some(existingTag =>
+                    existingTag.tag === tag
+                  );
+
+                  if (!tagExists) {
+                    item.addTag(tag);
+                  }
+                }
+              }
               item.saveTx();
             }
           }

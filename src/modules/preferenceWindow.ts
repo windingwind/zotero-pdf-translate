@@ -257,6 +257,12 @@ function buildPrefsPane() {
           ztoolkit.ExtraField.setExtraField(item, "abstractTranslation", "");
         });
     });
+
+  doc
+    .querySelector(`#${makeId("enableAutoTagAnnotation")}`)
+    ?.addEventListener("command", (e: Event) => {
+      onPrefsEvents("setEnableAutoTagAnnotation");
+    });
 }
 
 function updatePrefsPaneDefault() {
@@ -266,6 +272,7 @@ function updatePrefsPaneDefault() {
   onPrefsEvents("setUseWordService", false);
   onPrefsEvents("setSentenceSecret", false);
   onPrefsEvents("setWordSecret", false);
+  onPrefsEvents("setEnableAutoTagAnnotation", false);
 }
 
 function onPrefsEvents(type: string, fromElement: boolean = true) {
@@ -294,7 +301,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       {
         const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("enablePopup")}`) as XUL.Checkbox)
-              .checked
+            .checked
           : (getPref("enablePopup") as boolean);
         const hidden = !elemValue;
         setDisabled("enable-popup", hidden);
@@ -307,7 +314,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       {
         const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("enableAddToNote")}`) as XUL.Checkbox)
-              .checked
+            .checked
           : (getPref("enableNote") as boolean);
         const hidden = !elemValue;
         setDisabled("enable-popup-addtonote", hidden);
@@ -317,7 +324,7 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       {
         const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("showPlayBtn")}`) as XUL.Checkbox)
-              .checked
+            .checked
           : (getPref("showPlayBtn") as boolean);
         const hidden = !elemValue;
         setDisabled("show-play-btn", hidden);
@@ -327,13 +334,23 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       {
         const elemValue = fromElement
           ? (doc.querySelector(`#${makeId("useWordService")}`) as XUL.Checkbox)
-              .checked
+            .checked
           : (getPref("enableDict") as boolean);
         const hidden = !elemValue;
         setDisabled("use-word-service", hidden);
         if (!hidden) {
           onPrefsEvents("setShowPlayBtn", fromElement);
         }
+      }
+      break;
+    case "setEnableAutoTagAnnotation":
+      {
+        const elemValue = fromElement
+          ? (doc.querySelector(`#${makeId("enableAutoTagAnnotation")}`) as XUL.Checkbox)
+            .checked
+          : (getPref("enableAutoTagAnnotation") as boolean);
+        const hidden = !elemValue;
+        setDisabled("enable-auto-tag-annotation", hidden);
       }
       break;
     case "setSentenceService":
