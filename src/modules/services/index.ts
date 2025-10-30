@@ -11,6 +11,7 @@ import {
 import { Aliyun } from "./aliyun";
 import { Tencent } from "./tencent";
 import { ChatGPT, customGPT1, customGPT2, customGPT3, azureGPT } from "./gpt";
+import { DeepSeek } from "./deepseek";
 import { Baidu } from "./baidu";
 import { BaiduField } from "./baidufield";
 import { Bing } from "./bing";
@@ -70,6 +71,7 @@ const register: TranslateService[] = [
   customGPT2,
   customGPT3,
   azureGPT,
+  DeepSeek,
   Haici,
   HaiciDict,
   Huoshan,
@@ -334,9 +336,8 @@ export class TranslationServices {
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
-              let text = `${
-                currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
+              let text = `${currentText[currentText.length - 1] === "\n" ? "" : "\n"
+                }${splitChar}${task.result}${splitChar}\n`;
               text = splitChar === "" ? text : `${currentText}${text}`;
               item[
                 savePosition === "comment"

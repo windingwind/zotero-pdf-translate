@@ -27,6 +27,7 @@ service-customgpt1=自定义GPT1
 service-customgpt2=自定义GPT2
 service-customgpt3=自定义GPT3
 service-azuregpt=AzureGPT
+service-deepseek=DeepSeek
 service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
@@ -80,6 +81,14 @@ service-chatgpt-dialog-temperature=温度
 service-chatgpt-dialog-prompt=提示词
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-custom-request=自定义请求
+
+service-deepseek-dialog-endPoint=接口
+service-deepseek-dialog-model=模型
+service-deepseek-dialog-model-type-chat=非思考模式（deepseek-chat）
+service-deepseek-dialog-model-type-reasoner=思考模式（deepseek-reasoner）
+service-deepseek-dialog-system-prompt=系统提示词（留空使用默认系统提示词）
+service-deepseek-dialog-prompt=提示词
+service-deepseek-dialog-stream=流式输出
 
 service-azuregpt-dialog-endPoint=接口
 service-azuregpt-dialog-model=部署名
