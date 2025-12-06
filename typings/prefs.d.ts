@@ -13,6 +13,8 @@ declare namespace _ZoteroTypes {
       "enablePopup": boolean;
       "enableComment": boolean;
       "enableAnnotationFromSyncTranslation": boolean;
+      "enableAutoTagAnnotation": boolean;
+      "annotationTagContent": string;
       "annotationTranslationPosition": string;
       "enableNote": boolean;
       "enableNoteReplaceMode": boolean;

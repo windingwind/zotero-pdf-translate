@@ -4,6 +4,8 @@ pref("__prefsPrefix__.attachPaperContext", false);
 pref("__prefsPrefix__.enablePopup", true);
 pref("__prefsPrefix__.enableComment", false);
 pref("__prefsPrefix__.enableAnnotationFromSyncTranslation", false);
+pref("__prefsPrefix__.enableAutoTagAnnotation", false);
+pref("__prefsPrefix__.annotationTagContent", "");
 pref("__prefsPrefix__.annotationTranslationPosition", "comment");
 pref("__prefsPrefix__.enableNote", true);
 pref("__prefsPrefix__.enableNoteReplaceMode", false);
