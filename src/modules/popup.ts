@@ -88,6 +88,16 @@ export function updateReaderPopup() {
   const hideTranslateButton = task.status !== "waiting";
   updateHidden(translateButton, hideTranslateButton);
 
+  switch (task.langto?.split("-")[0]) {
+    case "ar":
+    case "fa":
+    case "he":
+      textarea.style.direction = "rtl";
+      break;
+    default:
+      textarea.style.direction = "ltr";
+  }
+
   textarea.hidden = hidePopupTextarea || !hideTranslateButton;
   textarea.value = task.result || task.raw;
   textarea.style.fontSize = `${getPref("fontSize")}px`;
