@@ -32,21 +32,21 @@
     "franc": "^6.2.0",
     "iso639-js": "^1.1.3",
     "jsencrypt": "^3.5.0",
-    "katex": "^0.16.25",
+    "katex": "^0.16.28",
     "zotero-plugin-toolkit": "^5.1.0-beta.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@types/node": "^22.16.5",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.2.0",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1",
+    "typescript-eslint": "^8.54.0",
     "zotero-plugin-scaffold": "^0.8.2",
     "zotero-types": "^4.1.0-beta.3"
   }
