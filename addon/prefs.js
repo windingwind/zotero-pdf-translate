@@ -7,6 +7,7 @@ pref("__prefsPrefix__.enableAnnotationFromSyncTranslation", false);
 pref("__prefsPrefix__.enableAutoTagAnnotation", false);
 pref("__prefsPrefix__.annotationTagContent", "");
 pref("__prefsPrefix__.annotationTranslationPosition", "comment");
+pref("__prefsPrefix__.annotationTranslationPositionInBody", "after");
 pref("__prefsPrefix__.enableNote", true);
 pref("__prefsPrefix__.enableNoteReplaceMode", false);
 pref("__prefsPrefix__.translateSource", "");

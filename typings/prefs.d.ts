@@ -16,6 +16,7 @@ declare namespace _ZoteroTypes {
       "enableAutoTagAnnotation": boolean;
       "annotationTagContent": string;
       "annotationTranslationPosition": string;
+      "annotationTranslationPositionInBody": string;
       "enableNote": boolean;
       "enableNoteReplaceMode": boolean;
       "translateSource": string;

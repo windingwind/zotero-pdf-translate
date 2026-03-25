@@ -372,15 +372,24 @@ export class TranslationServices {
               const savePosition = getPref("annotationTranslationPosition") as
                 | "comment"
                 | "body";
+              const savePositionInBody = getPref(
+                "annotationTranslationPositionInBody",
+              ) as "before" | "after";
               const currentText = (
                 (savePosition === "comment"
                   ? item.annotationComment
                   : item.annotationText) || ""
               ).replace(regex, "");
+              const translationText = `${splitChar}${task.result}${splitChar}\n`;
               let text = `${
                 currentText[currentText.length - 1] === "\n" ? "" : "\n"
-              }${splitChar}${task.result}${splitChar}\n`;
-              text = splitChar === "" ? text : `${currentText}${text}`;
+              }${translationText}`;
+              if (splitChar !== "") {
+                text =
+                  savePosition === "body" && savePositionInBody === "before"
+                    ? `${translationText}${currentText}`
+                    : `${currentText}${text}`;
+              }
               item[
                 savePosition === "comment"
                   ? "annotationComment"

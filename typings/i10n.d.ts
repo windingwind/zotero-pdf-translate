@@ -41,6 +41,8 @@ export type FluentMessageId =
   | 'pref-audio-showPlayBtn'
   | 'pref-basic-annotationTagContent'
   | 'pref-basic-annotationTranslationInBody'
+  | 'pref-basic-annotationTranslationInBodyAfterText'
+  | 'pref-basic-annotationTranslationInBodyBeforeText'
   | 'pref-basic-annotationTranslationInComment'
   | 'pref-basic-enableAnnotationFromSyncTranslation'
   | 'pref-basic-enableAuto'
