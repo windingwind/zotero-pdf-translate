@@ -2,7 +2,7 @@ import { config, homepage } from "../../package.json";
 import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
-import { setServiceSecret, validateServiceSecret } from "../utils/secret";
+import { getServiceSecret, setServiceSecret, validateServiceSecret } from "../utils/secret";
 import { createServiceSettingsDialog } from "../utils";
 import { services } from "./services";
 
@@ -220,13 +220,13 @@ function buildPrefsPane() {
 
   doc
     .querySelector(`#${makeId("sentenceServicesSecret")}`)
-    ?.addEventListener("input", (e: Event) => {
+    ?.addEventListener("blur", (e: Event) => {
       onPrefsEvents("updateSentenceSecret");
     });
 
   doc
     .querySelector(`#${makeId("wordServicesSecret")}`)
-    ?.addEventListener("input", (e: Event) => {
+    ?.addEventListener("blur", (e: Event) => {
       onPrefsEvents("updateWordSecret");
     });
 
@@ -376,14 +376,15 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "updateSentenceSecret":
       {
-        setServiceSecret(
-          getPref("translateSource") as string,
-          (
-            doc.querySelector(
-              `#${makeId("sentenceServicesSecret")}`,
-            ) as HTMLInputElement
-          ).value,
-        );
+        const serviceId = getPref("translateSource") as string;
+        const inputElem = doc.querySelector(
+          `#${makeId("sentenceServicesSecret")}`,
+        ) as HTMLInputElement;
+        const trimmedValue = inputElem.value.trim();
+        if (trimmedValue !== inputElem.value) {
+          setServiceSecret(serviceId, trimmedValue);
+          inputElem.value = trimmedValue;
+        }
       }
       break;
     case "setSentenceSecret":
@@ -435,14 +436,15 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "updateWordSecret":
       {
-        setServiceSecret(
-          getPref("dictSource") as string,
-          (
-            doc.querySelector(
-              `#${makeId("wordServicesSecret")}`,
-            ) as HTMLInputElement
-          ).value,
-        );
+        const serviceId = getPref("dictSource") as string;
+        const inputElem = doc.querySelector(
+          `#${makeId("wordServicesSecret")}`,
+        ) as HTMLInputElement;
+        const trimmedValue = inputElem.value.trim();
+        if (trimmedValue !== inputElem.value) {
+          setServiceSecret(serviceId, trimmedValue);
+          inputElem.value = trimmedValue;
+        }
       }
       break;
     case "setWordSecret":
