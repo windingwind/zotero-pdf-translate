@@ -2,7 +2,11 @@ import { config, homepage } from "../../package.json";
 import { LANG_CODE } from "../utils/config";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
-import { getServiceSecret, setServiceSecret, validateServiceSecret } from "../utils/secret";
+import {
+  getServiceSecret,
+  setServiceSecret,
+  validateServiceSecret,
+} from "../utils/secret";
 import { createServiceSettingsDialog } from "../utils";
 import { services } from "./services";
 
