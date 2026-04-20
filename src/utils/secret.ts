@@ -22,7 +22,7 @@ export function setServiceSecret(serviceId: string, secret: string) {
   } catch (e) {
     secrets = {};
   }
-  secrets[serviceId] = secret;
+  secrets[serviceId] = secret.trim();
   setPref("secretObj", JSON.stringify(secrets));
 }
 
