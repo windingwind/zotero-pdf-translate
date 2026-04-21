@@ -1,5 +1,5 @@
-import { getPref } from "../../utils/prefs";
-import { getString } from "../../utils/locale";
+import { getPref } from "../../utils";
+import { getString } from "../../utils";
 import { TranslateService } from "./base";
 
 const translate: TranslateService["translate"] = async function (data) {

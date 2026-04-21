@@ -45,6 +45,9 @@ import { YoudaoZhiyun } from "./youdaozhiyun";
 import { YoudaoZhiyunLLM } from "./youdaozhiyunllm";
 import { DeepLCustom } from "./deeplcustom";
 import { DeepLX } from "./deeplx";
+import { SiliconFlow } from "./siliconflow";
+import { SiliconFlowGlobal } from "./siliconflowGlobal";
+import { Ollama } from "./ollama";
 
 const register: TranslateService[] = [
   Aliyun,
@@ -90,6 +93,9 @@ const register: TranslateService[] = [
   YoudaoDict,
   YoudaoZhiyun,
   YoudaoZhiyunLLM,
+  SiliconFlow,
+  SiliconFlowGlobal,
+  Ollama,
 ];
 
 export class TranslationServices {
@@ -192,7 +198,7 @@ export class TranslationServices {
   public getUnconfiguredServiceIds(): Set<string> {
     const unconfigured = new Set<string>();
 
-    let secrets: Record<string, string> = {};
+    let secrets: Record<string, string>;
     try {
       secrets = JSON.parse((getPref("secretObj") as string) || "{}");
     } catch {

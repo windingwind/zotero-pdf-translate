@@ -41,6 +41,9 @@ service-collinsdict=Collins Dict(en→zh)🔊
 service-youdaodict=Youdao Dict(en→zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en→en)
 service-webliodict=Weblio Dict(en→ja)
+service-siliconflow=SiliconFlow
+service-siliconflowGlobal=SiliconFlow(Global)
+service-ollama=Ollama
 service-errorPrefix=[Request Error]
     Service not available, invalid secret, or request too fast.
     Use another translation service or post the issue here: 
@@ -157,9 +160,60 @@ service-mtranserver-dialog-versionlabel=Use MTranServer v3.0.0+
 service-pot-dialog-port=Port
 
 service-nllb-dialog-model=nllb Model
+
 service-nllb-dialog-apiendpoint=nllb-api EndPoint
+
 service-nllb-dialog-apistream=nllb-api Stream
+
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
+
 service-nllb-dialog-apilabel=nllb-api Docs
+
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+
+
+service-siliconflow-dialog-endPoint=EndPoint
+
+service-siliconflow-dialog-model=Model
+
+service-siliconflow-dialog-temperature=Temp
+
+service-siliconflow-dialog-prompt=Prompt
+
+service-siliconflow-dialog-stream=Stream
+
+service-siliconflowGlobal-dialog-endPoint=EndPoint
+
+service-siliconflowGlobal-dialog-model=Model
+
+service-siliconflowGlobal-dialog-temperature=Temp
+
+service-siliconflowGlobal-dialog-prompt=Prompt
+
+service-siliconflowGlobal-dialog-stream=Stream
+
+
+
+service-ollama-dialog-endPoint=EndPoint
+
+
+
+service-ollama-dialog-model=Model
+
+
+
+service-ollama-dialog-temperature=Temp
+
+
+
+service-ollama-dialog-prompt=Prompt
+
+
+
+service-ollama-dialog-stream=Stream
+
+
+
+
 

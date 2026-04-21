@@ -1,5 +1,5 @@
-import { getPref } from "./utils/prefs";
-import { TranslateTask } from "./utils/task";
+import { getPref } from "./utils";
+import { TranslateTask } from "./utils";
 import { version } from "../package.json";
 
 /**

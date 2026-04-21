@@ -125,3 +125,14 @@ pref("__prefsPrefix__.nllb.model", "nllb-api");
 pref("__prefsPrefix__.nllb.apiendpoint", "http://localhost:7860");
 pref("__prefsPrefix__.nllb.apistream", true);
 pref("__prefsPrefix__.nllb.serveendpoint", "http://localhost:6060");
+pref(
+  "__prefsPrefix__.siliconflow.endPoint",
+  "https://api.siliconflow.cn/v1/chat/completions",
+);
+pref("__prefsPrefix__.siliconflow.model", "tencent/Hunyuan-MT-7B");
+pref("__prefsPrefix__.siliconflow.temperature", "0.7");
+pref(
+  "__prefsPrefix__.siliconflow.prompt",
+  "You are a professional translator. Please translate the following text from ${langFrom} to ${langTo}. Only output the translation result without any explanation: ${sourceText}",
+);
+pref("__prefsPrefix__.siliconflow.stream", true);

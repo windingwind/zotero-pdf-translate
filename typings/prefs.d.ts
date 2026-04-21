@@ -106,6 +106,11 @@ declare namespace _ZoteroTypes {
       "nllb.apiendpoint": string;
       "nllb.apistream": boolean;
       "nllb.serveendpoint": string;
+      "siliconflow.endPoint": string;
+      "siliconflow.model": string;
+      "siliconflow.temperature": string;
+      "siliconflow.prompt": string;
+      "siliconflow.stream": boolean;
     };
   }
 }
