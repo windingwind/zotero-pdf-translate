@@ -75,6 +75,7 @@ export type FluentMessageId =
   | 'pref-interface-showSidebarSettings'
   | 'pref-service'
   | 'pref-service-attachPaperContext'
+  | 'pref-service-enableParagraphContext'
   | 'pref-service-hint'
   | 'pref-service-langfrom'
   | 'pref-service-langto'

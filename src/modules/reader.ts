@@ -1,7 +1,9 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
-import { addTranslateAnnotationTask } from "../utils/task";
+import { addTranslateAnnotationTask, getLastTranslateTask } from "../utils/task";
 import { getString } from "../utils/locale";
+import { getPref } from "../utils/prefs";
+import { extractParagraphContext } from "../utils/paragraphExtractor";
 
 export function registerReaderInitializer() {
   Zotero.Reader.registerEventListener(
@@ -9,7 +11,36 @@ export function registerReaderInitializer() {
     (event) => {
       const { reader, doc, params, append } = event;
       addon.data.translate.selectedText = params.annotation.text.trim();
+      addon.data.translate.paragraphContext = "";
+
+      // Synchronous: build popup and create task
       addon.hooks.onReaderPopupShow(event);
+
+      // Async: extract paragraph context and update the task
+      if (getPref("enableParagraphContext")) {
+        const selectedText = addon.data.translate.selectedText;
+        extractParagraphContext(reader, params.annotation, selectedText)
+          .then((context) => {
+            const ctx = context || "";
+            addon.data.translate.paragraphContext = ctx;
+            const task = getLastTranslateTask({ type: "text" });
+            if (task && ctx) {
+              task.contextText = ctx;
+            }
+            // Trigger auto-translate now that context is ready
+            if (getPref("enableAuto") && task?.status === "waiting") {
+              addon.hooks.onTranslate();
+            }
+          })
+          .catch(() => {
+            // Extraction failed, trigger auto-translate without context
+            if (getPref("enableAuto")) {
+              addon.hooks.onTranslate();
+            }
+          });
+      } else if (getPref("enableAuto")) {
+        addon.hooks.onTranslate();
+      }
     },
     config.addonID,
   );

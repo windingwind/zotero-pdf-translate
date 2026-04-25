@@ -10,6 +10,17 @@ export function transformPromptWithContext(
 ): string {
   let prompt = getPref(prefKey) as string;
 
+  // Pre-process sourceText with paragraph context if available
+  let processedSource = sourceText;
+  if (
+    getPref("enableParagraphContext") &&
+    data.contextText &&
+    data.contextText.trim() !== sourceText.trim()
+  ) {
+    processedSource =
+      `[Surrounding paragraph for context]:\n${data.contextText}\n\n[Text to translate]: ${sourceText}`;
+  }
+
   if (getPref("attachPaperContext") && data.itemId) {
     const item = Zotero.Items.get(data.itemId);
     const topItem = item ? Zotero.Items.getTopLevel([item])[0] : null;
@@ -30,7 +41,7 @@ export function transformPromptWithContext(
       if (contextInfo) {
         prompt = prompt.replace(
           "${sourceText}",
-          `Context from the academic paper:\n${contextInfo}\n\nText to translate: ${sourceText}`,
+          `Context from the academic paper:\n${contextInfo}\n\nText to translate: ${processedSource}`,
         );
       }
     }
@@ -39,5 +50,5 @@ export function transformPromptWithContext(
   return prompt
     .replaceAll("${langFrom}", langFrom)
     .replaceAll("${langTo}", langTo)
-    .replaceAll("${sourceText}", sourceText);
+    .replaceAll("${sourceText}", processedSource);
 }

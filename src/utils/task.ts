@@ -90,6 +90,10 @@ export interface TranslateTask {
    * If the task is once processed.
    */
   processed?: boolean;
+  /**
+   * Paragraph context text surrounding the selected text.
+   */
+  contextText?: string;
 }
 
 export type TranslateTaskProcessor = (
@@ -200,6 +204,9 @@ export function addTranslateTask(
     lastTask.raw += " " + raw;
     lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
     lastTask.status = "waiting";
+    if (addon.data.translate.paragraphContext) {
+      lastTask.contextText = addon.data.translate.paragraphContext;
+    }
     putTranslateTaskAtHead(lastTask.id);
     return;
   }
@@ -245,6 +252,7 @@ export function addTranslateTask(
           extraTasks: [],
           itemId,
           status: "waiting",
+          contextText: addon.data.translate.paragraphContext || undefined,
         }),
       );
   }

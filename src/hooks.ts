@@ -235,14 +235,23 @@ function onReaderPopupShow(
   const selection = addon.data.translate.selectedText;
   const task = getLastTranslateTask();
   if (task?.raw === selection) {
+    if (addon.data.translate.paragraphContext) {
+      task.contextText = addon.data.translate.paragraphContext;
+    }
     buildReaderPopup(event);
     addon.hooks.onReaderPopupRefresh();
     return;
   }
-  addTranslateTask(selection, event.reader.itemID);
+  const newTask = addTranslateTask(selection, event.reader.itemID);
+  if (newTask && addon.data.translate.paragraphContext) {
+    newTask.contextText = addon.data.translate.paragraphContext;
+  }
   buildReaderPopup(event);
   addon.hooks.onReaderPopupRefresh();
-  if (getPref("enableAuto")) {
+  // When paragraph context is enabled, auto-translate is deferred until
+  // the async extraction completes (see reader.ts). Trigger immediately
+  // only when paragraph context is disabled.
+  if (getPref("enableAuto") && !getPref("enableParagraphContext")) {
     addon.hooks.onTranslate();
   }
 }
