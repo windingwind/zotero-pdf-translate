@@ -1,6 +1,6 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
-import { addTranslateAnnotationTask, getLastTranslateTask } from "../utils/task";
+import { addTranslateAnnotationTask, getLastTranslateTask, isSingleWord, TranslateTask } from "../utils/task";
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 import { extractParagraphContext } from "../utils/paragraphExtractor";
@@ -27,6 +27,8 @@ export function registerReaderInitializer() {
             if (task && ctx) {
               task.contextText = ctx;
             }
+            // Add LLM extra task for dual-service mode (dict + LLM for single words)
+            addDualServiceExtraTask(task, selectedText, ctx);
             // Trigger auto-translate now that context is ready
             if (getPref("enableAuto") && task?.status === "waiting") {
               addon.hooks.onTranslate();
@@ -34,6 +36,8 @@ export function registerReaderInitializer() {
           })
           .catch(() => {
             // Extraction failed, trigger auto-translate without context
+            const task = getLastTranslateTask({ type: "text" });
+            addDualServiceExtraTask(task, selectedText, "");
             if (getPref("enableAuto")) {
               addon.hooks.onTranslate();
             }
@@ -137,5 +141,29 @@ function createTranslateAnnotationButton(
     ],
     enableElementRecord: false,
     ignoreIfExists: true,
+  });
+}
+
+function addDualServiceExtraTask(
+  task: TranslateTask | undefined,
+  raw: string,
+  contextText: string,
+) {
+  if (!task) return;
+  if (!getPref("enableDict") || !getPref("enableParagraphContext")) return;
+  if (!isSingleWord(raw)) return;
+
+  task.extraTasks.push({
+    id: `${Zotero.Utilities.randomString()}-${new Date().getTime()}`,
+    type: "text",
+    raw,
+    result: "",
+    audio: [],
+    service: getPref("translateSource") as string,
+    candidateServices: [],
+    extraTasks: [],
+    itemId: task.itemId,
+    status: "waiting",
+    contextText: contextText || undefined,
   });
 }

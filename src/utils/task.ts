@@ -329,14 +329,19 @@ export function addTranslateAbstractTask(
   }
 }
 
+export function isSingleWord(text: string): boolean {
+  return text.trim().split(/[^a-zA-Z]+/).length === 1;
+}
+
 function setDefaultService(task: TranslateTask) {
   // Use wordService(dictSource) for single word translation
-  if (
-    getPref("enableDict") &&
-    task.raw.trim().split(/[^a-zA-Z]+/).length == 1
-  ) {
+  if (getPref("enableDict") && isSingleWord(task.raw)) {
     task.service = getPref("dictSource") as string;
-    task.candidateServices.push(getPref("translateSource") as string);
+    // When enableParagraphContext is on, LLM runs as extraTask (added in reader.ts)
+    // instead of candidateService fallback
+    if (!getPref("enableParagraphContext")) {
+      task.candidateServices.push(getPref("translateSource") as string);
+    }
   } else {
     task.service = getPref("translateSource") as string;
   }
