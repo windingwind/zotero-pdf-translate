@@ -1,6 +1,11 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
-import { addTranslateAnnotationTask, getLastTranslateTask, isSingleWord, TranslateTask } from "../utils/task";
+import {
+  addTranslateAnnotationTask,
+  getLastTranslateTask,
+  isSingleWord,
+  TranslateTask,
+} from "../utils/task";
 import { getString } from "../utils/locale";
 import { getPref } from "../utils/prefs";
 import { extractParagraphContext } from "../utils/paragraphExtractor";

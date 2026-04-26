@@ -17,8 +17,7 @@ export function transformPromptWithContext(
     data.contextText &&
     data.contextText.trim() !== sourceText.trim()
   ) {
-    processedSource =
-      `[Surrounding paragraph for context]:\n${data.contextText}\n\n[Text to translate]: ${sourceText}`;
+    processedSource = `[Surrounding paragraph for context]:\n${data.contextText}\n\n[Text to translate]: ${sourceText}`;
   }
 
   if (getPref("attachPaperContext") && data.itemId) {

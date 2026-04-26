@@ -23,7 +23,10 @@ export async function extractParagraphContext(
     if (matchIndex === -1) return undefined;
 
     const paragraphStart = findParagraphStart(normalizedPage, matchIndex);
-    const paragraphEnd = findParagraphEnd(normalizedPage, matchIndex + normalizedSelection.length);
+    const paragraphEnd = findParagraphEnd(
+      normalizedPage,
+      matchIndex + normalizedSelection.length,
+    );
 
     let paragraph = normalizedPage.slice(paragraphStart, paragraphEnd).trim();
 
@@ -71,7 +74,9 @@ function getPageTextFromReader(
         const result = extractTextFromDocument(win.document, annotation);
         if (result) return result;
       }
-    } catch {}
+    } catch {
+      // Try next path
+    }
   }
 
   return undefined;
@@ -159,7 +164,8 @@ function findParagraphStart(text: string, pos: number): number {
 function findParagraphEnd(text: string, pos: number): number {
   let i = pos;
   while (i < text.length) {
-    if (text[i] === "\n" && i + 1 < text.length && text[i + 1] === "\n") return i;
+    if (text[i] === "\n" && i + 1 < text.length && text[i + 1] === "\n")
+      return i;
     i++;
   }
   return text.length;
