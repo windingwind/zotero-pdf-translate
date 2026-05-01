@@ -118,9 +118,9 @@ export function sanitizeTaskForLog(task: TranslateTask): TranslateTask {
   return {
     ...task,
     ...(task.secret ? { secret: maskAccessToken(task.secret) } : {}),
-    extraTasks: ((task.extraTasks ?? []).map((extraTask) =>
+    extraTasks: (task.extraTasks ?? []).map((extraTask) =>
       sanitizeTaskForLog(extraTask),
-    ) as TranslateTask["extraTasks"]),
+    ) as TranslateTask["extraTasks"],
   };
 }
 
