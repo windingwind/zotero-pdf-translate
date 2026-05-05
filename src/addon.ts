@@ -28,6 +28,7 @@ class Addon {
     };
     translate: {
       selectedText: string;
+      paragraphContext: string;
       concatKey: boolean;
       concatCheckbox: boolean;
       queue: TranslateTask[];
@@ -55,6 +56,7 @@ class Addon {
       popup: { currentPopup: null },
       translate: {
         selectedText: "",
+        paragraphContext: "",
         concatKey: false,
         concatCheckbox: false,
         queue: [],

@@ -1,7 +1,14 @@
 import { config } from "../../package.json";
 import { SVGIcon } from "../utils/config";
-import { addTranslateAnnotationTask } from "../utils/task";
+import {
+  addTranslateAnnotationTask,
+  getLastTranslateTask,
+  isSingleWord,
+  TranslateTask,
+} from "../utils/task";
 import { getString } from "../utils/locale";
+import { getPref } from "../utils/prefs";
+import { extractParagraphContext } from "../utils/paragraphExtractor";
 
 export function registerReaderInitializer() {
   Zotero.Reader.registerEventListener(
@@ -9,7 +16,40 @@ export function registerReaderInitializer() {
     (event) => {
       const { reader, doc, params, append } = event;
       addon.data.translate.selectedText = params.annotation.text.trim();
+      addon.data.translate.paragraphContext = "";
+
+      // Synchronous: build popup and create task
       addon.hooks.onReaderPopupShow(event);
+
+      // Async: extract paragraph context and update the task
+      if (getPref("enableParagraphContext")) {
+        const selectedText = addon.data.translate.selectedText;
+        extractParagraphContext(reader, params.annotation, selectedText)
+          .then((context) => {
+            const ctx = context || "";
+            addon.data.translate.paragraphContext = ctx;
+            const task = getLastTranslateTask({ type: "text" });
+            if (task && ctx) {
+              task.contextText = ctx;
+            }
+            // Add LLM extra task for dual-service mode (dict + LLM for single words)
+            addDualServiceExtraTask(task, selectedText, ctx);
+            // Trigger auto-translate now that context is ready
+            if (getPref("enableAuto") && task?.status === "waiting") {
+              addon.hooks.onTranslate();
+            }
+          })
+          .catch(() => {
+            // Extraction failed, trigger auto-translate without context
+            const task = getLastTranslateTask({ type: "text" });
+            addDualServiceExtraTask(task, selectedText, "");
+            if (getPref("enableAuto")) {
+              addon.hooks.onTranslate();
+            }
+          });
+      } else if (getPref("enableAuto")) {
+        addon.hooks.onTranslate();
+      }
     },
     config.addonID,
   );
@@ -106,5 +146,29 @@ function createTranslateAnnotationButton(
     ],
     enableElementRecord: false,
     ignoreIfExists: true,
+  });
+}
+
+function addDualServiceExtraTask(
+  task: TranslateTask | undefined,
+  raw: string,
+  contextText: string,
+) {
+  if (!task) return;
+  if (!getPref("enableDict") || !getPref("enableParagraphContext")) return;
+  if (!isSingleWord(raw)) return;
+
+  task.extraTasks.push({
+    id: `${Zotero.Utilities.randomString()}-${new Date().getTime()}`,
+    type: "text",
+    raw,
+    result: "",
+    audio: [],
+    service: getPref("translateSource") as string,
+    candidateServices: [],
+    extraTasks: [],
+    itemId: task.itemId,
+    status: "waiting",
+    contextText: contextText || undefined,
   });
 }

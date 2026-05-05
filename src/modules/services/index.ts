@@ -7,6 +7,7 @@ import {
   TranslateTask,
   TranslateTaskRunner,
   stripEmptyLines,
+  isSingleWord,
 } from "../../utils";
 
 import { Aliyun } from "./aliyun";
@@ -346,6 +347,28 @@ export class TranslationServices {
             });
           }),
         ).then(() => {
+          // Combine dict + LLM results for dual-service mode
+          if (
+            getPref("enableDict") &&
+            getPref("enableParagraphContext") &&
+            isSingleWord(task.raw)
+          ) {
+            const llmResult = task.extraTasks.find(
+              (t) => t.status === "success",
+            )?.result;
+            if (task.status === "success" && llmResult) {
+              task.result = `${task.result}\n\n---\n\n${llmResult}`;
+              if (!noDisplay) {
+                addon.api.getTemporaryRefreshHandler()();
+              }
+            } else if (task.status !== "success" && llmResult) {
+              task.result = llmResult;
+              task.status = "success";
+              if (!noDisplay) {
+                addon.api.getTemporaryRefreshHandler()();
+              }
+            }
+          }
           addon.hooks.onReaderTabPanelRefresh();
         });
       }

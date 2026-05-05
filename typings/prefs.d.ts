@@ -10,6 +10,7 @@ declare namespace _ZoteroTypes {
       "enableAuto": boolean;
       "enableDict": boolean;
       "attachPaperContext": boolean;
+      "enableParagraphContext": boolean;
       "enablePopup": boolean;
       "enableComment": boolean;
       "enableAnnotationFromSyncTranslation": boolean;

@@ -90,6 +90,10 @@ export interface TranslateTask {
    * If the task is once processed.
    */
   processed?: boolean;
+  /**
+   * Paragraph context text surrounding the selected text.
+   */
+  contextText?: string;
 }
 
 export type TranslateTaskProcessor = (
@@ -118,9 +122,9 @@ export function sanitizeTaskForLog(task: TranslateTask): TranslateTask {
   return {
     ...task,
     ...(task.secret ? { secret: maskAccessToken(task.secret) } : {}),
-    extraTasks: ((task.extraTasks ?? []).map((extraTask) =>
+    extraTasks: (task.extraTasks ?? []).map((extraTask) =>
       sanitizeTaskForLog(extraTask),
-    ) as TranslateTask["extraTasks"]),
+    ) as TranslateTask["extraTasks"],
   };
 }
 
@@ -200,6 +204,9 @@ export function addTranslateTask(
     lastTask.raw += " " + raw;
     lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
     lastTask.status = "waiting";
+    if (addon.data.translate.paragraphContext) {
+      lastTask.contextText = addon.data.translate.paragraphContext;
+    }
     putTranslateTaskAtHead(lastTask.id);
     return;
   }
@@ -245,6 +252,7 @@ export function addTranslateTask(
           extraTasks: [],
           itemId,
           status: "waiting",
+          contextText: addon.data.translate.paragraphContext || undefined,
         }),
       );
   }
@@ -321,14 +329,19 @@ export function addTranslateAbstractTask(
   }
 }
 
+export function isSingleWord(text: string): boolean {
+  return text.trim().split(/[^a-zA-Z]+/).length === 1;
+}
+
 function setDefaultService(task: TranslateTask) {
   // Use wordService(dictSource) for single word translation
-  if (
-    getPref("enableDict") &&
-    task.raw.trim().split(/[^a-zA-Z]+/).length == 1
-  ) {
+  if (getPref("enableDict") && isSingleWord(task.raw)) {
     task.service = getPref("dictSource") as string;
-    task.candidateServices.push(getPref("translateSource") as string);
+    // When enableParagraphContext is on, LLM runs as extraTask (added in reader.ts)
+    // instead of candidateService fallback
+    if (!getPref("enableParagraphContext")) {
+      task.candidateServices.push(getPref("translateSource") as string);
+    }
   } else {
     task.service = getPref("translateSource") as string;
   }
