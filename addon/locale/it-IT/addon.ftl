@@ -177,3 +177,22 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+pluginData-dialog-title=Translate for Zotero
+pluginData-export-title=Esporta dati plugin
+pluginData-import-title=Importa dati plugin
+pluginData-backup-saved=Backup dei dati plugin salvato in:
+    { $path }
+pluginData-backup-failed=Backup dati plugin non riuscito:
+    { $reason }
+pluginData-restore-success=Dati plugin ripristinati correttamente da:
+    { $path }
+pluginData-restore-failed=Ripristino dati plugin non riuscito:
+    { $reason }
+pluginData-file-empty=Il file di backup è vuoto.
+pluginData-addon-mismatch=Questo backup appartiene a "{ $addonID }". Ripristinare comunque?
+pluginData-restore-confirm=Ripristinare ora i dati plugin da questo backup?
+pluginData-restore-overwrite-check=Sovrascrivi anche i campi Traduzione del titolo e Traduzione dell'abstract dal backup (può sostituire valori esistenti)
+pluginData-reset-confirm=Ripristinare tutte le impostazioni del plugin ai valori predefiniti? Operazione irreversibile.
+pluginData-reset-clearTranslations-check=Cancella anche tutti i campi Traduzione del titolo e Traduzione dell'abstract
+pluginData-reset-success=I dati del plugin sono stati ripristinati ai valori predefiniti.

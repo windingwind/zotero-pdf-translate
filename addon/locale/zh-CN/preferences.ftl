@@ -124,6 +124,14 @@ pref-advanced-reset-titleTranslation =
     .label = 标题翻译
 pref-advanced-reset-abstractTranslation =
     .label = 摘要翻译
+pref-advanced-pluginData =
+    .value = 插件数据：
+pref-advanced-pluginData-backup =
+    .label = 备份
+pref-advanced-pluginData-restore =
+    .label = 还原
+pref-advanced-pluginData-reset =
+    .label = 恢复默认
 
 pref-about = 关于
 
@@ -136,4 +144,3 @@ pref-about-version =
 
 pref-advanced-stripEmptyLines =
     .label = 从翻译结果中删除空行和思考内容
-

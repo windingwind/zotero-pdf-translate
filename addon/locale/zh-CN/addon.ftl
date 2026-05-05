@@ -177,3 +177,22 @@ service-nllb-dialog-apistream=nllb-api 流式输出
 service-nllb-dialog-serveendpoint=nllb-serve 接口
 service-nllb-dialog-apilabel=nllb-api 文档
 service-nllb-dialog-servelabel=nllb-serve 文档
+
+pluginData-dialog-title=Zotero 翻译插件
+pluginData-export-title=导出插件数据
+pluginData-import-title=导入插件数据
+pluginData-backup-saved=插件数据已备份到：
+    { $path }
+pluginData-backup-failed=备份插件数据失败：
+    { $reason }
+pluginData-restore-success=插件数据已从以下文件恢复：
+    { $path }
+pluginData-restore-failed=恢复插件数据失败：
+    { $reason }
+pluginData-file-empty=备份文件为空。
+pluginData-addon-mismatch=该备份来自“{ $addonID }”。是否继续还原？
+pluginData-restore-confirm=是否从该备份恢复插件数据？
+pluginData-restore-overwrite-check=同时覆盖写回“标题翻译”和“摘要翻译”（可能覆盖现有值）
+pluginData-reset-confirm=确定要将插件全部设置恢复为默认值吗？此操作无法撤销。
+pluginData-reset-clearTranslations-check=同时清理全部条目的“标题翻译”和“摘要翻译”
+pluginData-reset-success=插件数据已恢复默认值。
