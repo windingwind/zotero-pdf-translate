@@ -1,5 +1,5 @@
 import { config } from "../../package.json";
-import { renderMathInText, containsMath } from "../utils/mathRenderer";
+import { renderMathInText, shouldRenderMath } from "../utils/mathRenderer";
 import { getPref } from "../utils/prefs";
 
 export class MathTextboxElement extends XULElementBase {
@@ -70,7 +70,7 @@ export class MathTextboxElement extends XULElementBase {
   private _updateOverlay(): void {
     // Respect user preference gate
     const enabled = (getPref("enableMathRendering") as boolean) === true;
-    if (!enabled || !this._value || !containsMath(this._value)) {
+    if (!shouldRenderMath(this._value, enabled)) {
       this._hideOverlay();
       return;
     }
@@ -80,12 +80,13 @@ export class MathTextboxElement extends XULElementBase {
   private _showOverlay(): void {
     if (this._overlay) this._overlay.remove();
     const HTML_NS = "http://www.w3.org/1999/xhtml";
-    const overlay = document.createElementNS(
+    const doc = this.ownerDocument;
+    const overlay = doc.createElementNS(
       HTML_NS,
       "div",
     ) as unknown as HTMLElement;
     overlay.className = "math-overlay";
-    overlay.innerHTML = renderMathInText(document, this._value);
+    overlay.innerHTML = renderMathInText(doc, this._value);
     overlay.addEventListener("click", () => {
       this._hideOverlay();
       this._textbox?.focus();
