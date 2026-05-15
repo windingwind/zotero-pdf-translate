@@ -18,6 +18,25 @@ export function containsMath(text: string): boolean {
   return TEST_REGEX.test(text);
 }
 
+export function shouldRenderMath(text: string, enabled: boolean): boolean {
+  return enabled && containsMath(text);
+}
+
+export function getMathOverlayState(options: {
+  text: string;
+  enabled: boolean;
+  hiddenByPreference: boolean;
+}): {
+  overlayDisplay: "block" | "none";
+  textareaVisibility: "hidden" | "";
+} {
+  const visible = shouldRenderMath(options.text, options.enabled);
+  return {
+    overlayDisplay: visible && !options.hiddenByPreference ? "block" : "none",
+    textareaVisibility: visible && !options.hiddenByPreference ? "hidden" : "",
+  };
+}
+
 export function escapeHtml(doc: Document, text: string): string {
   const div = doc.createElement("div");
   div.textContent = text;

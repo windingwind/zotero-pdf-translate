@@ -4,6 +4,10 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
+import {
+  getMathOverlayState,
+  renderMathInText,
+} from "../utils/mathRenderer";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -24,9 +28,15 @@ export function updateReaderPopup() {
   const translateButton = popup?.querySelector(
     `#${makeId("translate")}`,
   ) as HTMLDivElement;
+  const textContainer = popup?.querySelector(
+    `#${makeId("text-container")}`,
+  ) as HTMLDivElement;
   const textarea = popup?.querySelector(
     `#${makeId("text")}`,
   ) as HTMLTextAreaElement;
+  const mathOverlay = popup?.querySelector(
+    `#${makeId("math-overlay")}`,
+  ) as HTMLDivElement;
   const addToNoteButton = popup?.querySelector(
     `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
@@ -42,7 +52,9 @@ export function updateReaderPopup() {
   if (!enablePopup) {
     updateHidden(audiobox, true);
     updateHidden(translateButton, true);
+    updateHidden(textContainer, true);
     updateHidden(textarea, true);
+    updateHidden(mathOverlay, true);
     updateHidden(addToNoteButton, true);
     return;
   }
@@ -104,6 +116,9 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
+  updatePopupSize(popup, textarea);
+  syncPopupTextContainer(textContainer, textarea);
+  updatePopupMathOverlay(mathOverlay, textContainer, textarea);
 
   const enableAddToNote = getPref("enableNote") as boolean;
   if (
@@ -112,8 +127,6 @@ export function updateReaderPopup() {
   ) {
     updateHidden(addToNoteButton, true);
   }
-
-  updatePopupSize(popup, textarea);
 }
 
 export function buildReaderPopup(
@@ -122,6 +135,7 @@ export function buildReaderPopup(
   const { reader, doc, append } = event;
   const annotation = event.params.annotation;
   const popup = doc.querySelector(".selection-popup") as HTMLDivElement;
+  ensurePopupMathStyles(doc);
   addon.data.popup.currentPopup = popup;
   popup.style.maxWidth = "none";
   popup.setAttribute(
@@ -191,87 +205,151 @@ export function buildReaderPopup(
           ignoreIfExists: true,
         },
         {
-          tag: "textarea",
-          id: makeId("text"),
-          attributes: {
-            rows: "3",
-            columns: "10",
-          },
+          tag: "div",
+          namespace: "html",
+          id: makeId("text-container"),
           classList: [
-            `${config.addonRef}-popup-textarea`,
+            `${config.addonRef}-popup-text-container`,
             `${config.addonRef}-readerpopup`,
           ],
           styles: {
-            fontSize: `${getPref("fontSize")}px`,
-            fontFamily: "inherit",
-            lineHeight: `${
-              Number(getPref("lineHeight")) * Number(getPref("fontSize"))
-            }px`,
+            position: "relative",
             width: keepSize ? `${getPref("popupWidth")}px` : "-moz-available",
-            // Minimum width to prevent the textarea from being smaller than the popup
             minWidth: "184px",
             height: `${Math.max(
               keepSize ? Number(getPref("popupHeight")) : 30,
             )}px`,
             marginInline: "2px",
-            border: "none",
-            background: "var(--color-sidepane)",
-            borderRadius: "6px",
-            padding: "5px",
           },
-          properties: {
-            onpointerup: (e: Event) => e.stopPropagation(),
-            ondragstart: (e: Event) => e.stopPropagation(),
-            spellcheck: false,
-            value: addon.data.translate.selectedText,
-          },
-          ignoreIfExists: true,
-          listeners: [
+          children: [
             {
-              type: "mousedown",
-              listener: (_ev) => {
-                _ev.target?.addEventListener(
-                  "mousemove",
-                  onTextAreaResize as (ev: Event) => void,
-                );
+              tag: "textarea",
+              id: makeId("text"),
+              attributes: {
+                rows: "3",
+                columns: "10",
               },
+              classList: [`${config.addonRef}-popup-textarea`],
+              styles: {
+                fontSize: `${getPref("fontSize")}px`,
+                fontFamily: "inherit",
+                lineHeight: `${
+                  Number(getPref("lineHeight")) * Number(getPref("fontSize"))
+                }px`,
+                width: keepSize
+                  ? `${getPref("popupWidth")}px`
+                  : "-moz-available",
+                // Minimum width to prevent the textarea from being smaller than the popup
+                minWidth: "184px",
+                height: `${Math.max(
+                  keepSize ? Number(getPref("popupHeight")) : 30,
+                )}px`,
+                border: "none",
+                background: "var(--color-sidepane)",
+                borderRadius: "6px",
+                padding: "5px",
+              },
+              properties: {
+                onpointerup: (e: Event) => e.stopPropagation(),
+                ondragstart: (e: Event) => e.stopPropagation(),
+                spellcheck: false,
+                value: addon.data.translate.selectedText,
+              },
+              ignoreIfExists: true,
+              listeners: [
+                {
+                  type: "mousedown",
+                  listener: (_ev) => {
+                    _ev.target?.addEventListener(
+                      "mousemove",
+                      onTextAreaResize as (ev: Event) => void,
+                    );
+                  },
+                },
+                {
+                  type: "mouseup",
+                  listener: (_ev) => {
+                    _ev.target?.removeEventListener(
+                      "mousemove",
+                      onTextAreaResize as (ev: Event) => void,
+                    );
+                  },
+                },
+                {
+                  type: "keydown",
+                  listener: onTextAreaCopy as (ev: Event) => void,
+                },
+                {
+                  type: "dblclick",
+                  listener: (_ev) => {
+                    const textarea = popup.querySelector(
+                      `#${makeId("text")}`,
+                    ) as HTMLTextAreaElement;
+                    textarea.selectionStart = 0;
+                    textarea.selectionEnd = textarea.value.length;
+                    const text = textarea.value.slice(
+                      textarea.selectionStart,
+                      textarea.selectionEnd,
+                    );
+                    new ztoolkit.Clipboard().addText(text, "text/plain").copy();
+                    new ztoolkit.ProgressWindow("Copied to Clipboard")
+                      .createLine({
+                        text: slice(text, 50),
+                        progress: 100,
+                        type: "default",
+                      })
+                      .show();
+                  },
+                },
+              ],
             },
             {
-              type: "mouseup",
-              listener: (_ev) => {
-                _ev.target?.removeEventListener(
-                  "mousemove",
-                  onTextAreaResize as (ev: Event) => void,
-                );
+              tag: "div",
+              namespace: "html",
+              id: makeId("math-overlay"),
+              classList: [`${config.addonRef}-popup-math-overlay`],
+              styles: {
+                display: "none",
+                position: "absolute",
+                inset: "0",
+                boxSizing: "border-box",
+                fontSize: `${getPref("fontSize")}px`,
+                fontFamily: "inherit",
+                lineHeight: `${
+                  Number(getPref("lineHeight")) * Number(getPref("fontSize"))
+                }px`,
+                maxHeight: "260px",
+                border: "none",
+                background: "var(--color-sidepane)",
+                borderRadius: "6px",
+                padding: "5px",
+                overflow: "auto",
+                textAlign: "start",
               },
-            },
-            {
-              type: "keydown",
-              listener: onTextAreaCopy as (ev: Event) => void,
-            },
-            {
-              type: "dblclick",
-              listener: (_ev) => {
-                const textarea = popup.querySelector(
-                  `#${makeId("text")}`,
-                ) as HTMLTextAreaElement;
-                textarea.selectionStart = 0;
-                textarea.selectionEnd = textarea.value.length;
-                const text = textarea.value.slice(
-                  textarea.selectionStart,
-                  textarea.selectionEnd,
-                );
-                new ztoolkit.Clipboard().addText(text, "text/plain").copy();
-                new ztoolkit.ProgressWindow("Copied to Clipboard")
-                  .createLine({
-                    text: slice(text, 50),
-                    progress: 100,
-                    type: "default",
-                  })
-                  .show();
+              properties: {
+                onpointerup: (e: Event) => e.stopPropagation(),
+                ondragstart: (e: Event) => e.stopPropagation(),
               },
+              listeners: [
+                {
+                  type: "click",
+                  listener: () => {
+                    const overlay = popup.querySelector(
+                      `#${makeId("math-overlay")}`,
+                    ) as HTMLDivElement;
+                    const textarea = popup.querySelector(
+                      `#${makeId("text")}`,
+                    ) as HTMLTextAreaElement;
+                    overlay.style.display = "none";
+                    textarea.style.removeProperty("visibility");
+                    textarea.focus();
+                  },
+                },
+              ],
+              ignoreIfExists: true,
             },
           ],
+          ignoreIfExists: true,
         },
         {
           tag: "button",
@@ -411,4 +489,51 @@ function updatePopupSize(
   }
   // Update height
   textarea.style.height = `${textHeight + 3}px`;
+}
+
+function syncPopupTextContainer(
+  container: HTMLDivElement,
+  textarea: HTMLTextAreaElement,
+): void {
+  container.hidden = textarea.hidden;
+  container.style.width = textarea.style.width;
+  container.style.height = textarea.style.height;
+}
+
+function ensurePopupMathStyles(doc: Document): void {
+  const id = `${config.addonRef}-popup-math-styles`;
+  if (doc.getElementById(id)) {
+    return;
+  }
+  const link = doc.createElement("link");
+  link.id = id;
+  link.rel = "stylesheet";
+  link.href = `chrome://${config.addonRef}/content/styles/katex.min.css`;
+  doc.head?.append(link);
+}
+
+function updatePopupMathOverlay(
+  overlay: HTMLDivElement,
+  container: HTMLDivElement,
+  textarea: HTMLTextAreaElement,
+): void {
+  const enabled = (getPref("enableMathRendering") as boolean) === true;
+  const state = getMathOverlayState({
+    text: textarea.value,
+    enabled,
+    hiddenByPreference: container.hidden,
+  });
+  if (state.overlayDisplay === "none") {
+    overlay.innerHTML = "";
+    overlay.style.display = state.overlayDisplay;
+    textarea.style.removeProperty("visibility");
+    return;
+  }
+
+  overlay.innerHTML = renderMathInText(overlay.ownerDocument, textarea.value);
+  overlay.style.fontSize = textarea.style.fontSize;
+  overlay.style.lineHeight = textarea.style.lineHeight;
+  overlay.style.direction = textarea.style.direction;
+  overlay.style.display = state.overlayDisplay;
+  textarea.style.visibility = state.textareaVisibility;
 }
