@@ -5,6 +5,7 @@ import { getPref } from "../utils/prefs";
 export class MathTextboxElement extends XULElementBase {
   private _textbox: XULTextBoxElement | null = null;
   private _overlay: HTMLElement | null = null;
+  private _overlayFrame: number | null = null;
   private _value: string = "";
 
   get content() {
@@ -78,7 +79,25 @@ export class MathTextboxElement extends XULElementBase {
   }
 
   private _showOverlay(): void {
-    if (this._overlay) this._overlay.remove();
+    const overlay = this._ensureOverlay();
+    overlay.style.display = "block";
+    this.toggleAttribute("overlay-visible", true);
+    this._scheduleOverlayRender();
+  }
+
+  private _hideOverlay(): void {
+    if (this._overlay) {
+      this._cancelOverlayRender();
+      this._overlay.innerHTML = "";
+      this._overlay.style.display = "none";
+    }
+    this.toggleAttribute("overlay-visible", false);
+  }
+
+  private _ensureOverlay(): HTMLElement {
+    if (this._overlay) {
+      return this._overlay;
+    }
     const HTML_NS = "http://www.w3.org/1999/xhtml";
     const doc = this.ownerDocument;
     const overlay = doc.createElementNS(
@@ -86,26 +105,53 @@ export class MathTextboxElement extends XULElementBase {
       "div",
     ) as unknown as HTMLElement;
     overlay.className = "math-overlay";
-    overlay.innerHTML = renderMathInText(doc, this._value);
+    overlay.style.display = "none";
     overlay.addEventListener("click", () => {
       this._hideOverlay();
       this._textbox?.focus();
     });
     this._overlay = overlay;
     this.appendChild(overlay);
-    this.toggleAttribute("overlay-visible", true);
+    return overlay;
   }
 
-  private _hideOverlay(): void {
+  private _scheduleOverlayRender(): void {
+    if (this._overlayFrame !== null) {
+      return;
+    }
+    const win = this.ownerDocument.defaultView;
+    const render = () => {
+      this._overlayFrame = null;
+      if (!this._overlay) {
+        return;
+      }
+      this._overlay.innerHTML = renderMathInText(
+        this.ownerDocument,
+        this._value,
+      );
+    };
+    if (win?.requestAnimationFrame) {
+      this._overlayFrame = win.requestAnimationFrame(render);
+      return;
+    }
+    render();
+  }
+
+  private _cancelOverlayRender(): void {
+    if (this._overlayFrame === null) {
+      return;
+    }
+    this.ownerDocument.defaultView?.cancelAnimationFrame?.(this._overlayFrame);
+    this._overlayFrame = null;
+  }
+
+  destroy(): void {
+    this._cancelOverlayRender();
     if (this._overlay) {
       this._overlay.remove();
       this._overlay = null;
     }
     this.toggleAttribute("overlay-visible", false);
-  }
-
-  destroy(): void {
-    this._hideOverlay();
     if (this._textbox) {
       this._textbox.removeEventListener("input", this._onInput);
       this._textbox.removeEventListener("focus", this._onFocus);

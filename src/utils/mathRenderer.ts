@@ -1,12 +1,12 @@
 import katex from "katex";
 
-// Unified, robust math rendering helpers
-// Avoid lookbehind for broader engine compatibility by capturing a non-escape prefix
-// Order: display (“$$ … $$”, "\\[ … \"] first), then inline “$ … $” (no newline), then "\\( … \")
+// Unified, stream-safe math rendering helpers.
+// Avoid lookbehind for broader engine compatibility by capturing a non-escape prefix.
+// Only closed delimiters are rendered; unmatched stream fragments remain escaped text.
 const MATH_REGEX =
   /(^|[^\\])\$\$([\s\S]*?)\$\$|\\\[([\s\S]*?)\\\]|(^|[^\\])\$(?!\$)([^\n]*?)\$(?!\$)|\\\(([\s\S]*?)\\\)/g;
 const DEFAULT_KATEX_OPTIONS = {
-  throwOnError: false,
+  throwOnError: true,
   errorColor: "#cc0000",
   strict: false,
 } as const;

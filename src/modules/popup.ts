@@ -9,6 +9,8 @@ import {
   renderMathInText,
 } from "../utils/mathRenderer";
 
+const popupMathOverlayFrames = new WeakMap<HTMLDivElement, number>();
+
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
   if (!popup) {
@@ -50,6 +52,8 @@ export function updateReaderPopup() {
   };
 
   if (!enablePopup) {
+    cancelPopupMathOverlayRender(mathOverlay);
+    mathOverlay.innerHTML = "";
     updateHidden(audiobox, true);
     updateHidden(translateButton, true);
     updateHidden(textContainer, true);
@@ -340,6 +344,7 @@ export function buildReaderPopup(
                     const textarea = popup.querySelector(
                       `#${makeId("text")}`,
                     ) as HTMLTextAreaElement;
+                    cancelPopupMathOverlayRender(overlay);
                     overlay.style.display = "none";
                     textarea.style.removeProperty("visibility");
                     textarea.focus();
@@ -524,16 +529,45 @@ function updatePopupMathOverlay(
     hiddenByPreference: container.hidden,
   });
   if (state.overlayDisplay === "none") {
+    cancelPopupMathOverlayRender(overlay);
     overlay.innerHTML = "";
     overlay.style.display = state.overlayDisplay;
     textarea.style.removeProperty("visibility");
     return;
   }
 
-  overlay.innerHTML = renderMathInText(overlay.ownerDocument, textarea.value);
   overlay.style.fontSize = textarea.style.fontSize;
   overlay.style.lineHeight = textarea.style.lineHeight;
   overlay.style.direction = textarea.style.direction;
   overlay.style.display = state.overlayDisplay;
   textarea.style.visibility = state.textareaVisibility;
+  schedulePopupMathOverlayRender(overlay, textarea);
+}
+
+function schedulePopupMathOverlayRender(
+  overlay: HTMLDivElement,
+  textarea: HTMLTextAreaElement,
+): void {
+  if (popupMathOverlayFrames.has(overlay)) {
+    return;
+  }
+  const render = () => {
+    popupMathOverlayFrames.delete(overlay);
+    overlay.innerHTML = renderMathInText(overlay.ownerDocument, textarea.value);
+  };
+  const win = overlay.ownerDocument.defaultView;
+  if (win?.requestAnimationFrame) {
+    popupMathOverlayFrames.set(overlay, win.requestAnimationFrame(render));
+    return;
+  }
+  render();
+}
+
+function cancelPopupMathOverlayRender(overlay: HTMLDivElement): void {
+  const frame = popupMathOverlayFrames.get(overlay);
+  if (typeof frame === "undefined") {
+    return;
+  }
+  overlay.ownerDocument.defaultView?.cancelAnimationFrame?.(frame);
+  popupMathOverlayFrames.delete(overlay);
 }
