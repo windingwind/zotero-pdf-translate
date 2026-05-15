@@ -4,12 +4,10 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
-import {
-  getMathOverlayState,
-  renderMathInText,
-} from "../utils/mathRenderer";
+import { getMathOverlayState, renderMathInText } from "../utils/mathRenderer";
 
 const popupMathOverlayFrames = new WeakMap<HTMLDivElement, number>();
+const popupTaskMaxWidths = new Map<string, number>();
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -120,7 +118,11 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
-  updatePopupSize(popup, textarea);
+  updatePopupSize(
+    popup,
+    textarea,
+    getPopupWidthTrackingTaskId(task.id, task.result),
+  );
   syncPopupTextContainer(textContainer, textarea);
   updatePopupMathOverlay(mathOverlay, textContainer, textarea);
 
@@ -467,6 +469,7 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
 function updatePopupSize(
   selectionMenu: HTMLDivElement,
   textarea: HTMLTextAreaElement,
+  taskId?: string,
   resetSize: boolean = true,
 ): void {
   const keepSize = getPref("keepPopupSize") as boolean;
@@ -489,11 +492,35 @@ function updatePopupSize(
   ) {
     // Update width
     textarea.style.width = `${newWidth}px`;
-    updatePopupSize(selectionMenu, textarea, false);
+    updatePopupSize(selectionMenu, textarea, taskId, false);
     return;
+  }
+  if (taskId) {
+    textarea.style.width = `${getTaskScopedPopupWidth(
+      taskId,
+      textarea.offsetWidth,
+    )}px`;
   }
   // Update height
   textarea.style.height = `${textHeight + 3}px`;
+}
+
+function getTaskScopedPopupWidth(taskId: string, width: number): number {
+  const previousWidth = popupTaskMaxWidths.get(taskId) ?? 0;
+  const nextWidth = Math.max(previousWidth, width);
+  popupTaskMaxWidths.set(taskId, nextWidth);
+  return nextWidth;
+}
+
+function getPopupWidthTrackingTaskId(
+  taskId: string,
+  result: string,
+): string | undefined {
+  const trimmedResult = result.trim();
+  if (!trimmedResult || trimmedResult === getString("status-translating")) {
+    return undefined;
+  }
+  return taskId;
 }
 
 function syncPopupTextContainer(
