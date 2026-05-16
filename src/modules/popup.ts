@@ -330,7 +330,6 @@ export function buildReaderPopup(
                 lineHeight: `${
                   Number(getPref("lineHeight")) * Number(getPref("fontSize"))
                 }px`,
-                maxHeight: "260px",
                 border: "none",
                 background: "var(--color-sidepane)",
                 borderRadius: "6px",
