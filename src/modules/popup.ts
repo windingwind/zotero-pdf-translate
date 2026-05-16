@@ -573,11 +573,12 @@ function updatePopupMathOverlay(
   overlay.style.direction = textarea.style.direction;
   overlay.style.display = state.overlayDisplay;
   textarea.style.visibility = state.textareaVisibility;
-  schedulePopupMathOverlayRender(overlay, textarea);
+  schedulePopupMathOverlayRender(overlay, container, textarea);
 }
 
 function schedulePopupMathOverlayRender(
   overlay: HTMLDivElement,
+  container: HTMLDivElement,
   textarea: HTMLTextAreaElement,
 ): void {
   if (popupMathOverlayFrames.has(overlay)) {
@@ -586,6 +587,7 @@ function schedulePopupMathOverlayRender(
   const render = () => {
     popupMathOverlayFrames.delete(overlay);
     overlay.innerHTML = renderMathInText(overlay.ownerDocument, textarea.value);
+    syncPopupRenderedTextContainer(container, textarea, overlay);
   };
   const win = overlay.ownerDocument.defaultView;
   if (win?.requestAnimationFrame) {
@@ -593,6 +595,48 @@ function schedulePopupMathOverlayRender(
     return;
   }
   render();
+}
+
+function syncPopupRenderedTextContainer(
+  container: HTMLDivElement,
+  textarea: HTMLTextAreaElement,
+  overlay: HTMLDivElement,
+): void {
+  if (getPref("keepPopupSize")) {
+    return;
+  }
+  const width = container.clientWidth || textarea.offsetWidth;
+  if (!width) {
+    return;
+  }
+
+  const measurement = overlay.cloneNode(false) as HTMLDivElement;
+  measurement.removeAttribute("id");
+  measurement.innerHTML = overlay.innerHTML;
+  measurement.style.position = "absolute";
+  measurement.style.inset = "auto";
+  measurement.style.left = "-100000px";
+  measurement.style.top = "0";
+  measurement.style.visibility = "hidden";
+  measurement.style.pointerEvents = "none";
+  measurement.style.display = "block";
+  measurement.style.boxSizing = overlay.style.boxSizing;
+  measurement.style.width = `${width}px`;
+  measurement.style.height = "auto";
+  measurement.style.maxHeight = "none";
+  measurement.style.overflow = "visible";
+
+  overlay.ownerDocument.body.appendChild(measurement);
+  const renderedHeight = Math.max(
+    30,
+    Math.ceil(measurement.scrollHeight),
+    Math.ceil(measurement.offsetHeight),
+  );
+  measurement.remove();
+
+  const height = `${renderedHeight}px`;
+  container.style.height = height;
+  textarea.style.height = height;
 }
 
 function cancelPopupMathOverlayRender(overlay: HTMLDivElement): void {
