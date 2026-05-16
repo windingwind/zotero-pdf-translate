@@ -60,6 +60,12 @@ export function updateReaderPopup() {
     updateHidden(addToNoteButton, true);
     return;
   }
+  updateHidden(audiobox, false);
+  updateHidden(translateButton, false);
+  updateHidden(textContainer, false);
+  updateHidden(textarea, false);
+  updateHidden(mathOverlay, false);
+  updateHidden(addToNoteButton, false);
   const task = getLastTranslateTask({ type: "text" });
   if (!task) {
     return;
