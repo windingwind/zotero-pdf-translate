@@ -41,6 +41,7 @@ service-collinsdict=Collins Dict(en→zh)🔊
 service-youdaodict=Youdao Dict(en→zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en→en)
 service-webliodict=Weblio Dict(en→ja)
+service-gramotadict=Gramota.ru(ru)
 service-errorPrefix=[Request Error]
     Service not available, invalid secret, or request too fast.
     Use another translation service or post the issue here: 

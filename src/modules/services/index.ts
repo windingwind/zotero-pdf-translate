@@ -27,6 +27,7 @@ import { Gemini } from "./gemini";
 import { Google, GoogleAPI } from "./google";
 import { Haici } from "./haici";
 import { HaiciDict } from "./haicidict";
+import { GramotaDict } from "./gramotadict";
 import { Huoshan } from "./huoshan";
 import { HuoshanWeb } from "./huoshanweb";
 import { LibreTranslate } from "./libretranslate";
@@ -64,6 +65,7 @@ const register: TranslateService[] = [
   DeepLX,
   FreeDictionaryAPI,
   Gemini,
+  GramotaDict,
   Google,
   GoogleAPI,
   ChatGPT,

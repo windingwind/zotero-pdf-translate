@@ -168,6 +168,7 @@ export type FluentMessageId =
   | 'service-gemini-dialog-stream'
   | 'service-google'
   | 'service-googleapi'
+  | 'service-gramotadict'
   | 'service-haici'
   | 'service-haicidict'
   | 'service-huoshan'

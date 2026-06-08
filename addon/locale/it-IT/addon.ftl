@@ -41,6 +41,7 @@ service-collinsdict=Collins Dict(en→zh)🔊
 service-youdaodict=Youdao Dict(en→zh)🔊
 service-freedictionaryapi=FreeDictionaryAPI(en→en)
 service-webliodict=Weblio Dict(en→ja)
+service-gramotadict=Gramota.ru(ru)
 service-errorPrefix=[Errore nella richiesta]
     Servizio di traduzione non disponibile, segreto non valido, o richiesta troppo rapida.
     Si prega di usare un altro servizio di traduzione o di segnalare il problema qui: 
