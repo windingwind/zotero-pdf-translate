@@ -321,19 +321,30 @@ export function addTranslateAbstractTask(
   }
 }
 
+const segmenter = new Intl.Segmenter(undefined, { granularity: "word" });
+
 function setDefaultService(task: TranslateTask) {
-  // Use wordService(dictSource) for single word translation
-  if (
-    getPref("enableDict") &&
-    task.raw.trim().split(/[^a-zA-Z]+/).length == 1
-  ) {
-    task.service = getPref("dictSource") as string;
-    task.candidateServices.push(getPref("translateSource") as string);
+  if (getPref("enableDict")) {
+    let wordCount = 0;
+    for (const s of segmenter.segment(task.raw.trim())) {
+      if (s.isWordLike) {
+        if (wordCount >= 1) {
+          wordCount = 2;
+          break;
+        }
+        wordCount = 1;
+      }
+    }
+    if (wordCount === 1) {
+      task.service = getPref("dictSource") as string;
+      task.candidateServices.push(getPref("translateSource") as string);
+    } else {
+      task.service = getPref("translateSource") as string;
+    }
   } else {
     task.service = getPref("translateSource") as string;
   }
 
-  // In case service is still empty
   task.service =
     task.service || addon.data.translate.services.getAllServices()[0].id;
 }
