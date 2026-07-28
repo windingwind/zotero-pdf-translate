@@ -116,6 +116,20 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.claude.maxTokens", "4000");
+pref("__prefsPrefix__.codexCLI.command", "codex");
+pref("__prefsPrefix__.codexCLI.model", "");
+pref("__prefsPrefix__.codexCLI.timeoutSeconds", 300);
+pref(
+  "__prefsPrefix__.codexCLI.prompt",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintain the original meaning and ensure accuracy while using appropriate terminology. The text is as follows: 🔤 ${sourceText} 🔤 Please provide only the translated result without any additional explanation and remove 🔤. Do not use any tools.",
+);
+pref("__prefsPrefix__.claudeCodeCLI.command", "claude");
+pref("__prefsPrefix__.claudeCodeCLI.model", "");
+pref("__prefsPrefix__.claudeCodeCLI.timeoutSeconds", 300);
+pref(
+  "__prefsPrefix__.claudeCodeCLI.prompt",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintain the original meaning and ensure accuracy while using appropriate terminology. The text is as follows: 🔤 ${sourceText} 🔤 Please provide only the translated result without any additional explanation and remove 🔤. Do not use any tools.",
+);
 pref("__prefsPrefix__.xftrans.engine", "xftrans");
 pref("__prefsPrefix__.tencent.region", "ap-shanghai");
 pref("__prefsPrefix__.tencent.projectId", "0");
