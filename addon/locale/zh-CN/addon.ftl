@@ -49,6 +49,14 @@ service-errorPrefix=[请求错误]
     
     请注意，这些错误与 Zotero 和本翻译插件无关，由该翻译服务引起：
 
+service-niutranspro-error-insufficient-balance=
+    当前小牛翻译积分不足，无法完成翻译请求。
+    请前往小牛翻译充值中心购买积分后重试。
+
+    小牛翻译充值中心：https://niutrans.com/price
+
+    错误代码：{ $code } { $message }
+
 service-dialog-config=配置
 service-dialog-title={ $service } 配置
 service-dialog-save=保存

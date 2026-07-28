@@ -49,6 +49,14 @@ service-errorPrefix=[Request Error]
     
     The message below is not Zotero or the Translate plugin, but from
 
+service-niutranspro-error-insufficient-balance=
+    The current NiuTrans points balance is insufficient, so the translation request cannot be completed.
+    Please purchase points from the NiuTrans recharge center and try again.
+
+    NiuTrans recharge center: https://niutrans.com/price
+
+    Error code: { $code } { $message }
+
 service-dialog-config=Config
 service-dialog-title={ $service } Config
 service-dialog-save=Save

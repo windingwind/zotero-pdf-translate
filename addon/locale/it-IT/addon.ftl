@@ -49,6 +49,14 @@ service-errorPrefix=[Errore nella richiesta]
     
     Il messaggio seguente non è di Zotero o dell'estensione Translate ma proviene da
 
+service-niutranspro-error-insufficient-balance=
+    Il saldo punti NiuTrans non è sufficiente per completare la richiesta di traduzione.
+    Acquista punti nel centro ricariche NiuTrans e riprova.
+
+    Centro ricariche NiuTrans: https://niutrans.com/price
+
+    Codice errore: { $code } { $message }
+
 service-dialog-config=Config
 service-dialog-title={ $service } Config
 service-dialog-save=Save
