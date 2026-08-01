@@ -37,6 +37,7 @@ function createDeepl(id: ID): TranslateService {
         headers: {
           "Content-Type": "application/json",
           Authorization: `DeepL-Auth-Key ${key}`,
+          // @ts-ignore not typed
           "User-Agent": `Translate for Zotero/${Zotero.version}-${Zotero.platform}-${version}`,
         },
         responseType: "json",

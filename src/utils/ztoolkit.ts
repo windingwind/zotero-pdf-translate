@@ -4,7 +4,6 @@ import {
   ExtraFieldTool,
   FieldHookManager,
   KeyboardManager,
-  MenuManager,
   PromptManager,
   DialogHelper,
   SettingsDialogHelper,
@@ -48,7 +47,6 @@ export class MyToolkit extends BasicTool {
   ExtraField: ExtraFieldTool;
   FieldHook: FieldHookManager;
   Keyboard: KeyboardManager;
-  Menu: MenuManager;
   Prompt: PromptManager;
   Dialog: typeof DialogHelper;
   SettingsDialog: typeof SettingsDialogHelper;
@@ -61,7 +59,6 @@ export class MyToolkit extends BasicTool {
     this.ExtraField = new ExtraFieldTool(this);
     this.FieldHook = new FieldHookManager(this);
     this.Keyboard = new KeyboardManager(this);
-    this.Menu = new MenuManager(this);
     this.Prompt = new PromptManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.SettingsDialog = makeHelperTool(SettingsDialogHelper, this);
