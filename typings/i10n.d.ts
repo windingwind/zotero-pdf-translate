@@ -197,6 +197,7 @@ export type FluentMessageId =
   | 'service-niutranspro-dialog-tip1'
   | 'service-niutranspro-dialog-tip2'
   | 'service-niutranspro-dialog-username'
+  | 'service-niutranspro-error-insufficient-balance'
   | 'service-nllb'
   | 'service-nllb-dialog-apiendpoint'
   | 'service-nllb-dialog-apilabel'

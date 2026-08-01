@@ -96,6 +96,8 @@ export type TranslateTaskProcessor = (
   data: Required<TranslateTask>,
 ) => Promise<void> | void;
 
+export class TranslateError extends Error {}
+
 function maskAccessToken(token: string): string {
   if (!token) return token;
 
@@ -160,7 +162,11 @@ export class TranslateTaskRunner {
       await this.processor(data as Required<TranslateTask>);
       data.status = "success";
     } catch (e) {
-      data.result = this.makeErrorInfo(data.service, String(e));
+      if (e instanceof TranslateError) {
+        data.result = e.message;
+      } else {
+        data.result = this.makeErrorInfo(data.service, String(e));
+      }
       data.status = "fail";
     }
     data.processed = true;

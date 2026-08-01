@@ -4,6 +4,7 @@ import {
   getString,
   ServiceSettingsDialog,
   setServiceSecret,
+  TranslateError,
 } from "../../utils";
 import { getPref, setPref } from "../../utils/prefs";
 import { TranslateService } from "./base";
@@ -53,6 +54,16 @@ const translate = <TranslateService["translate"]>async function (data) {
   }
 
   if (xhr.response.code !== 200) {
+    if (xhr.response.code === 13001) {
+      throw new TranslateError(
+        getString("service-niutranspro-error-insufficient-balance", {
+          args: {
+            code: xhr.response.code,
+            message: xhr.response.msg,
+          },
+        }),
+      );
+    }
     throw `Service error: ${xhr.response.code}:${xhr.response.msg}`;
   }
   if (endpoint.includes("neu.edu.cn")) {
