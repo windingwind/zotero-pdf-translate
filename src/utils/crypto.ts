@@ -74,6 +74,19 @@ function pkcs7Pad(block: Uint8Array | Array<number>) {
   return new Uint8Array([...block, ...pad]);
 }
 
+function pkcs7Unpad(block: Uint8Array) {
+  const padding = block[block.length - 1];
+  if (padding < 1 || padding > 16) {
+    throw new Error(`Invalid PKCS7 padding: ${padding}`);
+  }
+  for (let i = block.length - padding; i < block.length; i++) {
+    if (block[i] !== padding) {
+      throw new Error("Invalid PKCS7 padding");
+    }
+  }
+  return block.subarray(0, block.length - padding);
+}
+
 // AES ECB encrypt, use CBC mode to simulate ECB mode
 async function aesEcbEncrypt(message: string, secret: string) {
   const key = await crypto.subtle.importKey(
@@ -124,7 +137,67 @@ async function aesEcbEncrypt(message: string, secret: string) {
   return encrypted;
 }
 
+async function aesEcbDecrypt(message: string, secret: string) {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    {
+      name: "AES-CBC",
+    },
+    false,
+    ["encrypt", "decrypt"],
+  );
+
+  const bytes = Uint8Array.from(ztoolkit.getGlobal("atob")(message), (c) =>
+    c.charCodeAt(0),
+  );
+  const blocks = [];
+  for (let i = 0; i < bytes.length; i += 16) {
+    blocks.push(bytes.subarray(i, i + 16));
+  }
+
+  const zeros = new Uint8Array(16);
+  const decryptedBlocks = await Promise.all(
+    blocks.map(async (block) => {
+      const paddingBlock = new Uint8Array(16);
+      paddingBlock.fill(16);
+      const paddingIv = new Uint8Array(16);
+      for (let i = 0; i < 16; i++) {
+        paddingIv[i] = block[i] ^ paddingBlock[i];
+      }
+      const paddingCipher = new Uint8Array(
+        await crypto.subtle.encrypt(
+          {
+            name: "AES-CBC",
+            iv: paddingIv,
+          },
+          key,
+          zeros,
+        ),
+      ).subarray(0, 16);
+      const cipherText = new Uint8Array([...block, ...paddingCipher]);
+      return crypto.subtle.decrypt(
+        {
+          name: "AES-CBC",
+          iv: zeros,
+        },
+        key,
+        cipherText,
+      );
+    }),
+  );
+  const decrypted = new Uint8Array(decryptedBlocks.length * 16);
+  let offset = 0;
+  for (const block of decryptedBlocks) {
+    decrypted.set(new Uint8Array(block), offset);
+    offset += 16;
+  }
+
+  return new TextDecoder().decode(pkcs7Unpad(decrypted));
+}
+
 export {
+  aesEcbDecrypt,
   aesEcbEncrypt,
   base64,
   randomString,

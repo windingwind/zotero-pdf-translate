@@ -173,6 +173,7 @@ export type FluentMessageId =
   | 'service-haicidict'
   | 'service-huoshan'
   | 'service-huoshanweb'
+  | 'service-iciba'
   | 'service-libretranslate'
   | 'service-libretranslate-dialog-endPoint'
   | 'service-manageKeys-close'

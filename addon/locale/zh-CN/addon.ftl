@@ -31,6 +31,7 @@ service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
 service-haici=海词
+service-iciba=金山词霸
 service-bing=必应
 service-pot=Pot
 service-nllb=NLLB

@@ -31,6 +31,7 @@ service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
 service-haici=Haici
+service-iciba=iCIBA
 service-bing=Bing
 service-pot=Pot
 service-nllb=NLLB

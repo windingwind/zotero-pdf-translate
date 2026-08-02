@@ -30,6 +30,7 @@ import { HaiciDict } from "./haicidict";
 import { GramotaDict } from "./gramotadict";
 import { Huoshan } from "./huoshan";
 import { HuoshanWeb } from "./huoshanweb";
+import { Iciba } from "./iciba";
 import { LibreTranslate } from "./libretranslate";
 import { Microsoft } from "./microsoft";
 import { Mtranserver } from "./mtranserver";
@@ -77,6 +78,7 @@ const register: TranslateService[] = [
   HaiciDict,
   Huoshan,
   HuoshanWeb,
+  Iciba,
   LibreTranslate,
   Microsoft,
   Mtranserver,
