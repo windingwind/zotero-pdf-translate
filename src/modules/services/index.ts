@@ -19,6 +19,7 @@ import { BingDict } from "./bingdict";
 import { Caiyun } from "./caiyun";
 import { CambridgeDict } from "./cambridgedict";
 import { Claude } from "./claude";
+import { ClaudeCodeCLI, CodexCLI } from "./cli";
 import { Cnki } from "./cnki";
 import { CollinsDict } from "./collinsdict";
 import { DeeplFree, DeeplPro } from "./deepl";
@@ -58,8 +59,10 @@ const register: TranslateService[] = [
   Caiyun,
   CambridgeDict,
   Claude,
+  ClaudeCodeCLI,
   Cnki,
   CollinsDict,
+  CodexCLI,
   DeeplFree,
   DeeplPro,
   DeepLCustom,

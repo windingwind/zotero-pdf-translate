@@ -187,3 +187,10 @@ service-nllb-dialog-apistream=nllb-api 流式输出
 service-nllb-dialog-serveendpoint=nllb-serve 接口
 service-nllb-dialog-apilabel=nllb-api 文档
 service-nllb-dialog-servelabel=nllb-serve 文档
+
+service-codex-cli=Codex CLI
+service-claude-code-cli=Claude Code CLI
+service-cli-dialog-command=可执行文件路径或名称
+service-cli-dialog-model=模型（可选）
+service-cli-dialog-timeoutSeconds=超时时间（秒）
+service-cli-dialog-prompt=提示词
