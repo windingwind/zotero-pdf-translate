@@ -35,6 +35,7 @@ service-iciba=金山词霸
 service-bing=必应
 service-pot=Pot
 service-nllb=NLLB
+service-mymemory=MyMemory
 service-bingdict=必应词典(en→zh)🔊
 service-cambridgedict=剑桥词典(en→other)🔊
 service-haicidict=海词词典(en→zh)🔊
@@ -134,6 +135,8 @@ service-claude-dialog-maxTokens=最大输出长度
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式
 service-cnki-dialog-split=超过800字符自动拆分翻译
+
+service-mymemory-dialog-userEmail=输入邮箱每IP每天可享5000字符
 
 service-aliyun-dialog-action=版本
 service-aliyun-dialog-scene=场景

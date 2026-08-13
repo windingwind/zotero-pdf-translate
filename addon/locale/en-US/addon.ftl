@@ -35,6 +35,7 @@ service-iciba=iCIBA
 service-bing=Bing
 service-pot=Pot
 service-nllb=NLLB
+service-mymemory=MyMemory
 service-bingdict=Bing Dict(en→zh)🔊
 service-cambridgedict=Cambridge Dict(en→other)🔊
 service-haicidict=Haici Dict(en→zh)🔊
@@ -134,6 +135,8 @@ service-claude-dialog-maxTokens=Max Tokens
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex
 service-cnki-dialog-split=Automatically split translation for more than 800 characters
+
+service-mymemory-dialog-userEmail=Free upgrade: enter email for 5K chars/day per IP
 
 service-aliyun-dialog-action=Action
 service-aliyun-dialog-scene=Scene

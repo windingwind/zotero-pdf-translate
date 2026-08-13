@@ -34,6 +34,7 @@ import { Iciba } from "./iciba";
 import { LibreTranslate } from "./libretranslate";
 import { Microsoft } from "./microsoft";
 import { Mtranserver } from "./mtranserver";
+import { MyMemory } from "./mymemory";
 import { Niutrans } from "./niutrans";
 import { Nllb } from "./nllb";
 import { Openl } from "./openl";
@@ -82,6 +83,7 @@ const register: TranslateService[] = [
   LibreTranslate,
   Microsoft,
   Mtranserver,
+  MyMemory,
   Niutrans,
   Nllb,
   Openl,

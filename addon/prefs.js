@@ -104,6 +104,7 @@ pref("__prefsPrefix__.stripEmptyLines", false);
 pref("__prefsPrefix__.libretranslate.endpoint", "http://localhost:5000");
 pref("__prefsPrefix__.mtranserver.endpoint", "http://localhost:8989/translate");
 pref("__prefsPrefix__.mtranserver.versionlabel", false);
+pref("__prefsPrefix__.mymemory.userEmail", "");
 pref("__prefsPrefix__.claude.stream", true);
 pref(
   "__prefsPrefix__.claude.endPoint",
