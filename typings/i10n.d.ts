@@ -184,6 +184,8 @@ export type FluentMessageId =
   | 'service-mtranserver'
   | 'service-mtranserver-dialog-endPoint'
   | 'service-mtranserver-dialog-versionlabel'
+  | 'service-mymemory'
+  | 'service-mymemory-dialog-userEmail'
   | 'service-niutranspro'
   | 'service-niutranspro-dialog-dictLib'
   | 'service-niutranspro-dialog-endpoint'
