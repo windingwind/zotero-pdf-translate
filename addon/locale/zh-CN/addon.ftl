@@ -103,6 +103,8 @@ service-chatgpt-dialog-endPoint=接口
 service-chatgpt-dialog-model=模型
 service-chatgpt-dialog-temperature=温度
 service-chatgpt-dialog-prompt=提示词
+service-gpt-dialog-prompt-hint=可用变量：{ $variables }。翻译正文必须使用 { $required }。
+service-gpt-dialog-prompt-required=请加入 { $placeholder }，否则选中的文字不会发送给翻译服务。
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-custom-request=自定义请求
 

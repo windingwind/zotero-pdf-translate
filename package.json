@@ -15,7 +15,7 @@
     "build": "tsc --noEmit && zotero-plugin build",
     "release": "zotero-plugin release",
     "lint": "prettier --write . && eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test test/gptPrompt.test.mjs",
     "update-deps": "npm update --save"
   },
   "repository": {

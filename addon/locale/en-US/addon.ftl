@@ -103,6 +103,8 @@ service-chatgpt-dialog-endPoint=API
 service-chatgpt-dialog-model=Model
 service-chatgpt-dialog-temperature=Temp
 service-chatgpt-dialog-prompt=Prompt
+service-gpt-dialog-prompt-hint=Available variables: { $variables }. { $required } is required.
+service-gpt-dialog-prompt-required=Please add { $placeholder } so the selected text can be sent for translation.
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-custom-request=Custom Request
 
