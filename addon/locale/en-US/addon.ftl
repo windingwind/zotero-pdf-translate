@@ -154,6 +154,7 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
+readerpopup-dragHandle-label=Drag to move the translation popup
 
 pref-title=Translate
 
