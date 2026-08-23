@@ -1,5 +1,3 @@
-import { assert } from "chai";
-
 import { hasSourceTextPlaceholder } from "../src/modules/services/gptPrompt";
 
 describe("GPT prompt validation", function () {
