@@ -137,7 +137,7 @@ export async function getToken(forceRefresh: boolean = false) {
       300,
     );
     if (xhr && xhr.response && xhr.response.code === 200) {
-      token = xhr.response.token;
+      token = xhr.response.data;
       setPref(
         "cnkiToken",
         JSON.stringify({
