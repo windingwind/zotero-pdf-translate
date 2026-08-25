@@ -38,7 +38,8 @@ const cambridgeLangCode = <const>[
 
 const dictCode = cambridgeLangCode.reduce(
   (acc, cur) => {
-    acc[`en-${cur.code}`] = `english-${cur.name}`;
+    acc[`en-${cur.code}`] =
+      cur.code !== "en" ? `english-${cur.name}` : "english";
     return acc;
   },
   {} as Record<string, string>,
