@@ -1,5 +1,6 @@
 import { getPref, getString, transformPromptWithContext } from "../../utils";
 import { TranslateService } from "./base";
+import { hasSourceTextPlaceholder } from "./gptPrompt";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
 
@@ -448,6 +449,23 @@ function createGPTService(id: ID): TranslateService {
           nameKey: `service-${servicePrefix}-dialog-prompt`,
           placeholder: getString(`service-${servicePrefix}-dialog-prompt`),
         })
+        .addStaticRow("", {
+          tag: "div",
+          namespace: "html",
+          styles: {
+            color: "var(--fill-secondary)",
+            fontSize: "0.9em",
+            maxWidth: "400px",
+          },
+          properties: {
+            textContent: getString("service-gpt-dialog-prompt-hint", {
+              args: {
+                variables: "${langFrom}, ${langTo}, ${sourceText}",
+                required: "${sourceText}",
+              },
+            }),
+          },
+        })
         .addCheckboxSetting({
           prefKey: `${prefPrefix}.stream`,
           nameKey: `service-${servicePrefix}-dialog-stream`,
@@ -458,6 +476,14 @@ function createGPTService(id: ID): TranslateService {
           desc: getString(
             `service-${servicePrefix}-dialog-custom-request-description`,
           ),
+        })
+        .onSave((data) => {
+          const prompt = String(data[`${prefPrefix}.prompt`] || "");
+          return hasSourceTextPlaceholder(prompt)
+            ? true
+            : getString("service-gpt-dialog-prompt-required", {
+                args: { placeholder: "${sourceText}" },
+              });
         });
     },
   };
