@@ -9,7 +9,7 @@ export const HuoshanWeb: TranslateService = {
     const { raw: text } = data;
     const from = (data.langfrom || "").split("-")[0];
     const to = (data.langto || "").split("-")[0];
-    const URL = "https://translate.volcengine.com/crx/translate/v1";
+    const URL = "https://translate.volcengine.com/crx/translate/v1/";
     const body = {
       source_language: from,
       target_language: to,
