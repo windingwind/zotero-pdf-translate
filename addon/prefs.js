@@ -61,6 +61,7 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.chatGPT.stream", true);
+pref("__prefsPrefix__.chatGPT.thinkingLevel", "default");
 pref("__prefsPrefix__.chatGPT.customParams", "");
 pref("__prefsPrefix__.azureGPT.endPoint", "");
 pref("__prefsPrefix__.azureGPT.model", "");
@@ -71,6 +72,7 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.azureGPT.stream", true);
+pref("__prefsPrefix__.azureGPT.thinkingLevel", "default");
 pref("__prefsPrefix__.azureGPT.customParams", "");
 pref(
   "__prefsPrefix__.gemini.endPoint",
@@ -81,6 +83,7 @@ pref(
   "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
 );
 pref("__prefsPrefix__.gemini.stream", true);
+pref("__prefsPrefix__.gemini.thinkingLevel", "default");
 pref(
   "__prefsPrefix__.cnkiRegex",
   "(查看名企职位.+?https://dict.cnki.net[a-zA-Z./]+.html?)",
@@ -106,6 +109,7 @@ pref("__prefsPrefix__.mtranserver.endpoint", "http://localhost:8989/translate");
 pref("__prefsPrefix__.mtranserver.versionlabel", false);
 pref("__prefsPrefix__.mymemory.userEmail", "");
 pref("__prefsPrefix__.claude.stream", true);
+pref("__prefsPrefix__.claude.thinkingLevel", "default");
 pref(
   "__prefsPrefix__.claude.endPoint",
   "https://api.anthropic.com/v1/messages",
@@ -128,5 +132,8 @@ pref("__prefsPrefix__.nllb.apiendpoint", "http://localhost:7860");
 pref("__prefsPrefix__.nllb.apistream", true);
 pref("__prefsPrefix__.nllb.serveendpoint", "http://localhost:6060");
 pref("__prefsPrefix__.customGPT1.temperature", "1.0");
+pref("__prefsPrefix__.customGPT1.thinkingLevel", "default");
 pref("__prefsPrefix__.customGPT2.temperature", "1.0");
+pref("__prefsPrefix__.customGPT2.thinkingLevel", "default");
 pref("__prefsPrefix__.customGPT3.temperature", "1.0");
+pref("__prefsPrefix__.customGPT3.thinkingLevel", "default");

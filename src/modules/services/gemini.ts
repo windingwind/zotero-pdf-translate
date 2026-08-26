@@ -1,9 +1,43 @@
-import { getPref, transformPromptWithContext } from "../../utils";
+import {
+  getPref,
+  getThinkingLevelOptions,
+  stripThinkingTags,
+  transformPromptWithContext,
+} from "../../utils";
 import { TranslateService } from "./base";
 import type { TranslateTask } from "../../utils/task";
 
 const translate = <TranslateService["translate"]>async function (data) {
   const apiURL = getPref("gemini.endPoint") as string;
+  const thinkingLevel = getPref("gemini.thinkingLevel") as string;
+
+  function getGenerationConfig() {
+    // Gemini 3 replaces thinkingBudget with the thinkingLevel field; it
+    // cannot be fully disabled there, so "off" maps to "minimal"
+    // https://ai.google.dev/gemini-api/docs/thinking
+    const modelMatch = /models\/([^/?#]+)/.exec(apiURL);
+    const isGemini3 = /^gemini-3/.test(modelMatch?.[1] || "");
+    if (thinkingLevel === "off") {
+      return {
+        thinkingConfig: isGemini3
+          ? { thinkingLevel: "minimal" }
+          : { thinkingBudget: 0 },
+      };
+    }
+    if (
+      thinkingLevel === "low" ||
+      thinkingLevel === "medium" ||
+      thinkingLevel === "high"
+    ) {
+      const budgets = { low: 1024, medium: 8192, high: 24576 };
+      return {
+        thinkingConfig: isGemini3
+          ? { thinkingLevel: thinkingLevel }
+          : { thinkingBudget: budgets[thinkingLevel] },
+      };
+    }
+    return undefined;
+  }
 
   function transformContent(
     langFrom: string,
@@ -44,6 +78,9 @@ const translate = <TranslateService["translate"]>async function (data) {
           ],
         },
       ],
+      ...(getGenerationConfig()
+        ? { generationConfig: getGenerationConfig() }
+        : {}),
     }),
     responseType: "text",
     requestObserver: (xmlhttp: XMLHttpRequest) => {
@@ -56,8 +93,18 @@ const translate = <TranslateService["translate"]>async function (data) {
 
         for (const data of dataArray) {
           if (data) {
-            result +=
-              JSON.parse(data).candidates[0].content.parts[0].text || "";
+            try {
+              // Thought parts (part.thought === true) must not leak into
+              // the translation result
+              const parts =
+                JSON.parse(data).candidates?.[0]?.content?.parts || [];
+              result += parts
+                .filter((part: any) => !part.thought && part.text)
+                .map((part: any) => part.text)
+                .join("");
+            } catch {
+              // Skip invalid JSON - might be a partial chunk
+            }
           }
         }
 
@@ -66,7 +113,7 @@ const translate = <TranslateService["translate"]>async function (data) {
           e.target.timeout = 0;
         }
 
-        data.result = result;
+        data.result = stripThinkingTags(result);
         preLength = e.target.response.length;
 
         refreshHandler();
@@ -109,6 +156,11 @@ export const Gemini: TranslateService = {
       .addCheckboxSetting({
         prefKey: "gemini.stream",
         nameKey: "service-gemini-dialog-stream",
+      })
+      .addSelectSetting({
+        prefKey: "gemini.thinkingLevel",
+        nameKey: "service-gemini-dialog-thinkingLevel",
+        options: getThinkingLevelOptions(),
       });
   },
 };
