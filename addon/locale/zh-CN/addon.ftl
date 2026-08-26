@@ -82,6 +82,12 @@ service-dialog-custom-request-validation-example-boolean=- 布尔值：false
 service-dialog-custom-request-validation-example-number=- 数字：123
 service-dialog-custom-request-validation-example-string=- 文本："text"
 service-dialog-custom-request-validation-example-object=- 对象：{ $example }
+service-gpt-dialog-thinkingLevel-hint=思考参数格式按接口地址自动识别（OpenAI/Azure、OpenRouter、智谱GLM、DeepSeek、Kimi、豆包、通义）。无法识别的接口（如中转站）不会发送任何思考参数，请通过“自定义请求”手动指定。
+service-dialog-thinking-default=默认
+service-dialog-thinking-off=关闭
+service-dialog-thinking-low=低
+service-dialog-thinking-medium=中
+service-dialog-thinking-high=高
 
 service-niutranspro-dialog-endpoint=接口
 service-niutranspro-dialog-username=用户名
@@ -107,12 +113,14 @@ service-chatgpt-dialog-prompt=提示词
 service-gpt-dialog-prompt-hint=可用变量：{ $variables }。翻译正文必须使用 { $required }。
 service-gpt-dialog-prompt-required=请加入 { $placeholder }，否则选中的文字不会发送给翻译服务。
 service-chatgpt-dialog-stream=流式输出
+service-chatgpt-dialog-thinkingLevel=思考等级
 service-chatgpt-dialog-custom-request=自定义请求
 
 service-azuregpt-dialog-endPoint=接口
 service-azuregpt-dialog-model=部署名
 service-azuregpt-dialog-temperature=温度
 service-azuregpt-dialog-stream=流式输出
+service-azuregpt-dialog-thinkingLevel=思考等级
 service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
 service-azuregpt-dialog-custom-request=自定义请求
@@ -122,6 +130,7 @@ service-xftrans-dialog-engine=翻译引擎
 service-gemini-dialog-endPoint=接口
 service-gemini-dialog-prompt=提示词
 service-gemini-dialog-stream=流式输出
+service-gemini-dialog-thinkingLevel=思考等级
 
 service-qwenmt-dialog-endPoint=API地址
 service-qwenmt-dialog-model=模型
@@ -132,6 +141,7 @@ service-claude-dialog-model=模型
 service-claude-dialog-temperature=温度
 service-claude-dialog-prompt=提示词
 service-claude-dialog-stream=流式输出
+service-claude-dialog-thinkingLevel=思考等级
 service-claude-dialog-maxTokens=最大输出长度
 
 service-cnki-settings=设置
