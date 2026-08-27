@@ -6,6 +6,7 @@ export * from "./prefs";
 export * from "./secret";
 export * from "./str";
 export * from "./task";
+export * from "./thinkingParams";
 export * from "./wait";
 export * from "./window";
 export * from "./ztoolkit";

@@ -64,6 +64,7 @@ declare namespace _ZoteroTypes {
       "chatGPT.temperature": string;
       "chatGPT.prompt": string;
       "chatGPT.stream": boolean;
+      "chatGPT.thinkingLevel": string;
       "chatGPT.customParams": string;
       "azureGPT.endPoint": string;
       "azureGPT.model": string;
@@ -71,10 +72,12 @@ declare namespace _ZoteroTypes {
       "azureGPT.temperature": string;
       "azureGPT.prompt": string;
       "azureGPT.stream": boolean;
+      "azureGPT.thinkingLevel": string;
       "azureGPT.customParams": string;
       "gemini.endPoint": string;
       "gemini.prompt": string;
       "gemini.stream": boolean;
+      "gemini.thinkingLevel": string;
       "cnkiRegex": string;
       "cnkiSplitSecond": number;
       "cnkiUseSplit": boolean;
@@ -93,6 +96,7 @@ declare namespace _ZoteroTypes {
       "mtranserver.versionlabel": boolean;
       "mymemory.userEmail": string;
       "claude.stream": boolean;
+      "claude.thinkingLevel": string;
       "claude.endPoint": string;
       "claude.model": string;
       "claude.temperature": string;
@@ -109,8 +113,11 @@ declare namespace _ZoteroTypes {
       "nllb.apistream": boolean;
       "nllb.serveendpoint": string;
       "customGPT1.temperature": string;
+      "customGPT1.thinkingLevel": string;
       "customGPT2.temperature": string;
+      "customGPT2.thinkingLevel": string;
       "customGPT3.temperature": string;
+      "customGPT3.thinkingLevel": string;
     };
   }
 }

@@ -1,10 +1,21 @@
-import { getPref, getString, transformPromptWithContext } from "../../utils";
+import {
+  buildThinkingParams,
+  getPref,
+  getString,
+  getThinkingLevelOptions,
+  isResponsesApiEndpoint,
+  stripThinkingTags,
+  transformPromptWithContext,
+} from "../../utils";
 import { TranslateService } from "./base";
 import { hasSourceTextPlaceholder } from "./gptPrompt";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
 
-function getCustomParams(prefix: string): Record<string, any> {
+function getCustomParams(
+  prefix: string,
+  extraFilterKeys: string[] = [],
+): Record<string, any> {
   const storedCustomParams =
     (getPref(`${prefix}.customParams`) as string) || "{}";
   try {
@@ -16,6 +27,7 @@ function getCustomParams(prefix: string): Record<string, any> {
       "input",
       "temperature",
       "stream",
+      ...extraFilterKeys,
     ];
     return Object.fromEntries(
       Object.entries(customParams).filter(
@@ -30,13 +42,6 @@ function getCustomParams(prefix: string): Record<string, any> {
 interface ParsedResponse {
   content: string;
   finished: boolean;
-}
-
-/**
- * Detect if the endpoint URL is for OpenAI Responses API
- */
-function isResponsesApiEndpoint(url: string): boolean {
-  return url.endsWith("/responses") || url.includes("/responses?");
 }
 
 /**
@@ -132,6 +137,7 @@ const gptTranslate = async function (
   prefix: string,
   data: Parameters<TranslateService["translate"]>[0],
   stream?: boolean,
+  thinkingLevel?: string,
 ) {
   function transformContent(
     langFrom: string,
@@ -228,7 +234,7 @@ const gptTranslate = async function (
       }
 
       // Remove \n\n from the beginning of the data
-      data.result = result.replace(/^\n\n/, "");
+      data.result = stripThinkingTags(result.replace(/^\n\n/, ""));
       preLength = e.target.response.length;
 
       refreshHandler();
@@ -248,7 +254,7 @@ const gptTranslate = async function (
         const resultContent = useResponsesApi
           ? parseResponsesApiNonStreamResponse(responseObj)
           : parseNonStreamResponse(responseObj);
-        data.result = resultContent.replace(/^\n\n/, "");
+        data.result = stripThinkingTags(resultContent.replace(/^\n\n/, ""));
       } catch (error) {
         // throw `Failed to parse response: ${error}`;
         return;
@@ -259,6 +265,15 @@ const gptTranslate = async function (
     };
   };
 
+  // Thinking parameters are dialect-specific; custom params are filtered
+  // against them so Custom Request stays usable as an escape hatch on
+  // endpoints whose provider is not detected
+  const thinkingParams = buildThinkingParams(
+    apiURL,
+    model,
+    thinkingLevel ?? "default",
+  );
+
   // Build request body based on API type
   const requestBody = useResponsesApi
     ? {
@@ -266,7 +281,8 @@ const gptTranslate = async function (
         input: transformContent(data.langfrom, data.langto, data.raw),
         temperature: temperature,
         stream: streamMode,
-        ...getCustomParams(prefix),
+        ...thinkingParams,
+        ...getCustomParams(prefix, Object.keys(thinkingParams)),
       }
     : {
         model: model,
@@ -278,7 +294,8 @@ const gptTranslate = async function (
         ],
         temperature: temperature,
         stream: streamMode,
-        ...getCustomParams(prefix),
+        ...thinkingParams,
+        ...getCustomParams(prefix, Object.keys(thinkingParams)),
       };
 
   const xhr = await Zotero.HTTP.request("POST", apiURL, {
@@ -370,6 +387,7 @@ function createGPTService(id: ID): TranslateService {
             getPref("azureGPT.temperature") as string,
           );
           const stream = getPref("azureGPT.stream") as boolean;
+          const thinkingLevel = getPref("azureGPT.thinkingLevel") as string;
 
           const apiURL = new URL(endPoint);
           apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
@@ -382,6 +400,7 @@ function createGPTService(id: ID): TranslateService {
             "azureGPT",
             data,
             stream,
+            thinkingLevel,
           );
         }
 
@@ -395,6 +414,9 @@ function createGPTService(id: ID): TranslateService {
             getPref(`${prefPrefix}.temperature`) as string,
           );
           const stream = getPref(`${prefPrefix}.stream`) as boolean;
+          const thinkingLevel = getPref(
+            `${prefPrefix}.thinkingLevel`,
+          ) as string;
 
           return await gptTranslate(
             apiURL,
@@ -403,6 +425,7 @@ function createGPTService(id: ID): TranslateService {
             prefPrefix,
             data,
             stream,
+            thinkingLevel,
           );
         }
 
@@ -469,6 +492,23 @@ function createGPTService(id: ID): TranslateService {
         .addCheckboxSetting({
           prefKey: `${prefPrefix}.stream`,
           nameKey: `service-${servicePrefix}-dialog-stream`,
+        })
+        .addSelectSetting({
+          prefKey: `${prefPrefix}.thinkingLevel`,
+          nameKey: `service-${servicePrefix}-dialog-thinkingLevel`,
+          options: getThinkingLevelOptions(),
+        })
+        .addStaticRow("", {
+          tag: "div",
+          namespace: "html",
+          styles: {
+            color: "var(--fill-secondary)",
+            fontSize: "0.9em",
+            maxWidth: "400px",
+          },
+          properties: {
+            textContent: getString("service-gpt-dialog-thinkingLevel-hint"),
+          },
         })
         .addCustomParamsSetting({
           prefKey: `${prefPrefix}.customParams`,
