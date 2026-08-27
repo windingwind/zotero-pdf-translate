@@ -1,15 +1,17 @@
 import katex from "katex";
 
-// Unified, robust math rendering helpers
-// Avoid lookbehind for broader engine compatibility by capturing a non-escape prefix
-// Order: display (“$$ … $$”, "\\[ … \"] first), then inline “$ … $” (no newline), then "\\( … \")
+// Unified, stream-safe math rendering helpers.
+// Avoid lookbehind for broader engine compatibility by capturing a non-escape prefix.
+// Only closed delimiters are rendered; unmatched stream fragments remain escaped text.
 const MATH_REGEX =
   /(^|[^\\])\$\$([\s\S]*?)\$\$|\\\[([\s\S]*?)\\\]|(^|[^\\])\$(?!\$)([^\n]*?)\$(?!\$)|\\\(([\s\S]*?)\\\)/g;
 const DEFAULT_KATEX_OPTIONS = {
-  throwOnError: false,
+  throwOnError: true,
   errorColor: "#cc0000",
   strict: false,
 } as const;
+const CONSECUTIVE_BR_REGEX = /(?:<br\s*\/?><\/br>|<br\s*\/?>\s*){2,}/gi;
+const HTML_BREAK = "<br />";
 
 export function containsMath(text: string): boolean {
   if (!text) return false;
@@ -18,10 +20,33 @@ export function containsMath(text: string): boolean {
   return TEST_REGEX.test(text);
 }
 
+export function shouldRenderMath(text: string, enabled: boolean): boolean {
+  return enabled && containsMath(text);
+}
+
+export function getMathOverlayState(options: {
+  text: string;
+  enabled: boolean;
+  hiddenByPreference: boolean;
+}): {
+  overlayDisplay: "block" | "none";
+  textareaVisibility: "hidden" | "";
+} {
+  const visible = shouldRenderMath(options.text, options.enabled);
+  return {
+    overlayDisplay: visible && !options.hiddenByPreference ? "block" : "none",
+    textareaVisibility: visible && !options.hiddenByPreference ? "hidden" : "",
+  };
+}
+
 export function escapeHtml(doc: Document, text: string): string {
   const div = doc.createElement("div");
   div.textContent = text;
-  return div.innerHTML.replace(/\n/g, "<br></br>");
+  return div.innerHTML.replace(/\n+/g, HTML_BREAK);
+}
+
+function collapseConsecutiveBreaks(html: string): string {
+  return html.replace(CONSECUTIVE_BR_REGEX, HTML_BREAK);
 }
 
 export function renderMathInText(doc: Document, text: string): string {
@@ -43,12 +68,6 @@ export function renderMathInText(doc: Document, text: string): string {
       inlineParen,
     ] = match;
 
-    const prefixLen = dispPrefix || inlinePrefix ? 1 : 0;
-    const plainEnd = match.index + prefixLen;
-    if (plainEnd > lastIndex) {
-      result += escapeHtml(doc, text.slice(lastIndex, plainEnd));
-    }
-
     let displayMode = false;
     let latex = "";
     if (typeof dispDollar !== "undefined") {
@@ -65,6 +84,16 @@ export function renderMathInText(doc: Document, text: string): string {
       latex = String(inlineParen).trim();
     }
 
+    const prefixLen = dispPrefix || inlinePrefix ? 1 : 0;
+    const plainEnd = match.index + prefixLen;
+    if (plainEnd > lastIndex) {
+      const plainText = text.slice(lastIndex, plainEnd);
+      result += escapeHtml(
+        doc,
+        displayMode ? plainText.replace(/\n$/, "") : plainText,
+      );
+    }
+
     try {
       const rendered = katex.renderToString(latex, {
         ...DEFAULT_KATEX_OPTIONS,
@@ -76,13 +105,18 @@ export function renderMathInText(doc: Document, text: string): string {
     }
 
     lastIndex = match.index + full.length;
+    if (displayMode) {
+      while (text[lastIndex] === "\n") {
+        lastIndex += 1;
+      }
+    }
   }
 
   if (lastIndex < text.length) {
     result += escapeHtml(doc, text.slice(lastIndex));
   }
 
-  return result;
+  return collapseConsecutiveBreaks(result);
 }
 
 export function renderMathInElement(element: HTMLElement, text: string): void {
