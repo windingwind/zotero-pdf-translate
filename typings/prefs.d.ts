@@ -98,6 +98,14 @@ declare namespace _ZoteroTypes {
       "claude.temperature": string;
       "claude.prompt": string;
       "claude.maxTokens": string;
+      "codexCLI.command": string;
+      "codexCLI.model": string;
+      "codexCLI.timeoutSeconds": number;
+      "codexCLI.prompt": string;
+      "claudeCodeCLI.command": string;
+      "claudeCodeCLI.model": string;
+      "claudeCodeCLI.timeoutSeconds": number;
+      "claudeCodeCLI.prompt": string;
       "xftrans.engine": string;
       "tencent.region": string;
       "tencent.projectId": string;

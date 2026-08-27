@@ -126,6 +126,8 @@ The default service is Google Translate. Currently, we support:
 | Gemini                       | Yes(free-)                    | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                   |
 | Qwen-MT                      | Yes(free-)                    | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                        |
 | Claude                       | Yes                           | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                    |
+| Codex CLI                    | No **[Require config]**       | [LLM-based](https://developers.openai.com/codex/cli/), using local CLI authentication                                                                                                      |
+| Claude Code CLI              | No **[Require config]**       | [LLM-based](https://code.claude.com/docs/en/cli-reference), using local CLI authentication                                                                                                 |
 
 > If the service you want is not yet supported, please post an issue.
 
@@ -241,6 +243,11 @@ The secret format is `MY_APIKEY`.
 
 **Claude**  
 Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api).
+
+**Codex CLI / Claude Code CLI**
+Install and sign in to the CLI first (`codex login` or `claude auth login`). These services launch the local CLI directly and do not require an API key in Zotero.
+
+If Zotero cannot find the command, run `command -v codex` or `command -v claude` in a terminal and paste the absolute path into the service configuration. You can optionally set a model and adjust the timeout. Each translation uses an ephemeral/non-persistent session; Codex ignores local configuration and rules and runs read-only without approvals, while Claude Code runs in safe mode with tools disabled.
 
 **LibreTranslate**  
 See [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate). API Key is optional.

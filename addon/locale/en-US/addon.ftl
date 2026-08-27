@@ -192,3 +192,10 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+service-codex-cli=Codex CLI
+service-claude-code-cli=Claude Code CLI
+service-cli-dialog-command=Executable path or name
+service-cli-dialog-model=Model (optional)
+service-cli-dialog-timeoutSeconds=Timeout (seconds)
+service-cli-dialog-prompt=Prompt
