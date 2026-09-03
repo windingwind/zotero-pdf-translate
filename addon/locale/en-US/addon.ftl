@@ -30,6 +30,7 @@ service-azuregpt=AzureGPT
 service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
+service-deepseek=DeepSeek
 service-haici=Haici
 service-iciba=iCIBA
 service-bing=Bing
@@ -133,6 +134,17 @@ service-claude-dialog-temperature=Temp
 service-claude-dialog-prompt=Prompt
 service-claude-dialog-stream=Stream
 service-claude-dialog-maxTokens=Max Tokens
+
+service-deepseek-dialog-endPoint=EndPoint
+service-deepseek-dialog-model=Model
+service-deepseek-dialog-fetch-models=Fetch Models
+service-deepseek-dialog-fetch-models-failed=Failed to fetch models
+service-deepseek-dialog-temperature=Temp
+service-deepseek-dialog-thinking=Thinking
+service-deepseek-dialog-reasoningEffort=Reasoning Effort
+service-deepseek-dialog-stream=Stream
+service-deepseek-dialog-prompt=Prompt
+service-deepseek-dialog-custom-request=Custom Request
 
 service-cnki-settings=Settings
 service-cnki-dialog-regex=CNKI Addvertisements Regex

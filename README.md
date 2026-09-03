@@ -126,6 +126,7 @@ The default service is Google Translate. Currently, we support:
 | Gemini                       | Yes(free-)                    | [LLM-based](https://ai.google.dev/available_regions#available_languages)                                                                                                                   |
 | Qwen-MT                      | Yes(free-)                    | [LLM-based](https://help.aliyun.com/zh/model-studio/user-guide/machine-translation)                                                                                                        |
 | Claude                       | Yes                           | [LLM-based](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api)                                                                                                    |
+| DeepSeek                     | Yes                           | [LLM-based](https://api-docs.deepseek.com/quick_start/pricing)                                                                                                                             |
 
 > If the service you want is not yet supported, please post an issue.
 
@@ -241,6 +242,12 @@ The secret format is `MY_APIKEY`.
 
 **Claude**  
 Apply [here](https://docs.anthropic.com/claude/docs/getting-started-with-the-claude-api).
+
+**DeepSeek**  
+Apply [here](https://platform.deepseek.com/).  
+The secret format is `sk-*`.
+
+Supports both OpenAI-compatible endpoints. Enable `Thinking` for reasoning models to send the `thinking` and `reasoning_effort` parameters. Use `Fetch Models` in the config dialog to list available models from the API.
 
 **LibreTranslate**  
 See [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate). API Key is optional.
