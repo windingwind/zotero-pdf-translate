@@ -194,6 +194,16 @@ export class ServiceSettingsDialog extends SettingsDialogHelper {
         minWidth: "400px",
         // auto resize to window width
         width: "-moz-available",
+        // Match the text inputs around it instead of the system
+        // combobox pill style
+        appearance: "none",
+        backgroundColor: "-moz-field",
+        border: "1px solid color-mix(in srgb, currentColor 30%, transparent)",
+        borderRadius: "5px",
+        padding: "3px 26px 3px 8px",
+        backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5l3.5 3.5 3.5-3.5' fill='none' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>")`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "right 9px center",
       },
     });
   }
