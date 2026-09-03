@@ -20,6 +20,7 @@ import { Caiyun } from "./caiyun";
 import { CambridgeDict } from "./cambridgedict";
 import { Claude } from "./claude";
 import { Cnki } from "./cnki";
+import { DeepSeek } from "./deepseek";
 import { CollinsDict } from "./collinsdict";
 import { DeeplFree, DeeplPro } from "./deepl";
 import { FreeDictionaryAPI } from "./freedictionaryapi";
@@ -61,6 +62,7 @@ const register: TranslateService[] = [
   Claude,
   Cnki,
   CollinsDict,
+  DeepSeek,
   DeeplFree,
   DeeplPro,
   DeepLCustom,

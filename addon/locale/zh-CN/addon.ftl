@@ -30,6 +30,7 @@ service-azuregpt=AzureGPT
 service-gemini=Gemini
 service-qwenmt=Qwen-MT
 service-claude=Claude
+service-deepseek=DeepSeek
 service-haici=海词
 service-iciba=金山词霸
 service-bing=必应
@@ -133,6 +134,17 @@ service-claude-dialog-temperature=温度
 service-claude-dialog-prompt=提示词
 service-claude-dialog-stream=流式输出
 service-claude-dialog-maxTokens=最大输出长度
+
+service-deepseek-dialog-endPoint=接口
+service-deepseek-dialog-model=模型
+service-deepseek-dialog-fetch-models=获取模型列表
+service-deepseek-dialog-fetch-models-failed=获取模型列表失败
+service-deepseek-dialog-temperature=温度
+service-deepseek-dialog-thinking=深度思考
+service-deepseek-dialog-reasoningEffort=思考力度
+service-deepseek-dialog-stream=流式输出
+service-deepseek-dialog-prompt=提示词
+service-deepseek-dialog-custom-request=自定义请求
 
 service-cnki-settings=设置
 service-cnki-dialog-regex=CNKI广告移除正则表达式
