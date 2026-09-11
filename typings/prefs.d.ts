@@ -19,6 +19,10 @@ declare namespace _ZoteroTypes {
       "annotationTranslationPositionInBody": string;
       "enableNote": boolean;
       "enableNoteReplaceMode": boolean;
+      "enableChat": boolean;
+      "chatService": string;
+      "chatMaxTurns": number;
+      "chatPrompt": string;
       "translateSource": string;
       "dictSource": string;
       "sourceLanguage": string;

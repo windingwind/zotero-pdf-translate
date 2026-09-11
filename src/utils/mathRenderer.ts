@@ -11,6 +11,27 @@ const DEFAULT_KATEX_OPTIONS = {
   strict: false,
 } as const;
 
+/**
+ * Render a single LaTeX chunk.
+ *
+ * Kept separate so that other renderers (e.g. the markdown renderer used for
+ * chat answers) can reuse exactly the same KaTeX configuration.
+ * Returns null when the chunk is not valid LaTeX.
+ */
+export function renderKatex(
+  latex: string,
+  displayMode: boolean,
+): string | null {
+  try {
+    return katex.renderToString(latex.trim(), {
+      ...DEFAULT_KATEX_OPTIONS,
+      displayMode,
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
 export function containsMath(text: string): boolean {
   if (!text) return false;
   const TEST_REGEX =
@@ -65,15 +86,8 @@ export function renderMathInText(doc: Document, text: string): string {
       latex = String(inlineParen).trim();
     }
 
-    try {
-      const rendered = katex.renderToString(latex, {
-        ...DEFAULT_KATEX_OPTIONS,
-        displayMode,
-      });
-      result += rendered;
-    } catch (e) {
-      result += escapeHtml(doc, full.slice(prefixLen));
-    }
+    const rendered = renderKatex(latex, displayMode);
+    result += rendered ?? escapeHtml(doc, full.slice(prefixLen));
 
     lastIndex = match.index + full.length;
   }

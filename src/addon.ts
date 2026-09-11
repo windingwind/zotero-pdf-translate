@@ -3,6 +3,7 @@ import hooks from "./hooks";
 import { TranslateTask } from "./utils/task";
 import { services, TranslationServices } from "./modules/services";
 import { createZToolkit } from "./utils/ztoolkit";
+import { chatStore } from "./utils/chat";
 import { config } from "../package.json";
 
 class Addon {
@@ -37,6 +38,17 @@ class Addon {
       cachedSourceLanguage: Record<number, string>;
       refreshTick: string;
     };
+    chat: {
+      store: typeof chatStore;
+      /**
+       * Service id used for follow-up Q&A.
+       */
+      service: string;
+      /**
+       * Key returned by the item pane section registration, if any.
+       */
+      paneKey: string;
+    };
   };
   // Lifecycle hooks
   public hooks: typeof hooks;
@@ -63,6 +75,11 @@ class Addon {
         services,
         cachedSourceLanguage: {},
         refreshTick: "",
+      },
+      chat: {
+        store: chatStore,
+        service: "",
+        paneKey: "",
       },
     };
     this.hooks = hooks;

@@ -159,6 +159,7 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
+readerpopup-ask-label=Ask Follow-up
 
 pref-title=Translate
 
@@ -192,3 +193,25 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+# Follow-up Q&A (chat)
+chat-empty=Select a sentence in the reader and click "Ask Follow-up", or press Ctrl/⌘+Enter. This needs an LLM service (ChatGPT, Custom GPT, AzureGPT, Claude or Gemini) to be configured in the settings.
+chat-context=Context
+chat-context-expand=Show full text
+chat-context-collapse=Collapse
+chat-draft=
+    .placeholder = Ask a follow-up question…
+chat-send=Send
+chat-stop=Stop
+chat-clear=Clear
+chat-copy=Copy
+chat-insert-note=Insert into note
+chat-save-note=Save as note
+chat-hint=Enter to send · Shift+Enter for a new line · Ctrl/⌘+Enter to ask about a selection
+chat-copied=Copied
+chat-inserted=Inserted into the open note
+chat-no-note=No note is open, so the answer was copied to the clipboard (you can also use "Save as note")
+chat-note-saved=Saved as a new note
+chat-note-save-failed=Failed to save the note
+chat-error-no-service=No LLM service is available. Please configure ChatGPT / Custom GPT / Claude / Gemini in the settings.
+service-errorNotConfigured=This service is not configured. Please set the endpoint and secret in the settings.

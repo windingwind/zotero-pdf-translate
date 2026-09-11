@@ -20,6 +20,8 @@ pref-basic-enableAnnotationFromSyncTranslation =
     .label = Auto-traduci annotazioni da Sync
 pref-basic-enableNote =
     .label = Mostra "Aggiungi traduzione alla nota" nel popup
+pref-basic-enableChat =
+    .label = Mostra "Approfondisci" (domande AI) nel popup
 pref-basic-enableNoteReplaceMode =
     .label = Sostituisci il testo d'origine quando aggiungi traduzione alla nota
 pref-basic-enableAutoTagAnnotation =
@@ -109,6 +111,8 @@ pref-advanced = Avanzate
 
 pref-advanced-enableAutoDetectLanguage =
     .label = Rilevamento automatico della lingua dell'elemento
+pref-advanced-chatPrompt =
+    .label = Prompt di sistema dell'assistente Q&A
 pref-advanced-disabledLanguages =
     .value = Disabilita la traduzione automatica per i file in lingue specifiche (separare con ',')
 pref-advanced-disabledLanguages-alert = Riapri i file o riavvia Zotero per applicare le modifiche.

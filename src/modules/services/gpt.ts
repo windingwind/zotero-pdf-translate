@@ -1,4 +1,11 @@
-import { getPref, getString, transformPromptWithContext } from "../../utils";
+import {
+  getPref,
+  getServiceSecret,
+  getString,
+  transformPromptWithContext,
+} from "../../utils";
+import { requestLlm } from "../../utils/llmStream";
+import type { ChatRequest } from "../../utils/llmStream";
 import { TranslateService } from "./base";
 import { hasSourceTextPlaceholder } from "./gptPrompt";
 
@@ -30,6 +37,51 @@ function getCustomParams(prefix: string): Record<string, any> {
 interface ParsedResponse {
   content: string;
   finished: boolean;
+}
+
+interface GptApiConfig {
+  apiURL: string;
+  model: string;
+  temperature: number;
+  stream: boolean;
+}
+
+/**
+ * Resolve the request parameters of a GPT-style service from preferences.
+ */
+function getGptApiConfig(id: ID, prefPrefix: string): GptApiConfig {
+  if (id === "azuregpt") {
+    const endPoint = getPref("azureGPT.endPoint") as string;
+    const apiVersion = getPref("azureGPT.apiVersion");
+    const model = getPref("azureGPT.model") as string;
+    const temperature = parseFloat(getPref("azureGPT.temperature") as string);
+    const stream = getPref("azureGPT.stream") as boolean;
+    if (!endPoint) {
+      // Not configured: callers check for an empty URL. Never throw here, this
+      // is also called to tell whether follow-up Q&A can be offered.
+      return { apiURL: "", model, temperature, stream };
+    }
+    let apiURL: URL;
+    try {
+      apiURL = new URL(endPoint);
+    } catch (e) {
+      return { apiURL: "", model, temperature, stream };
+    }
+    apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
+    apiURL.search = `api-version=${apiVersion}`;
+    return {
+      apiURL: apiURL.href,
+      model,
+      temperature,
+      stream,
+    };
+  }
+  return {
+    apiURL: getPref(`${prefPrefix}.endPoint`) as string,
+    model: getPref(`${prefPrefix}.model`) as string,
+    temperature: parseFloat(getPref(`${prefPrefix}.temperature`) as string),
+    stream: getPref(`${prefPrefix}.stream`) as boolean,
+  };
 }
 
 /**
@@ -303,6 +355,59 @@ const gptTranslate = async function (
   // data.result = xhr.response.choices[0].message.content.substr(2);
 };
 
+/**
+ * Follow-up chat on a GPT-style endpoint.
+ *
+ * Reuses the same endpoint, model, secret and custom parameters as
+ * translation, but sends a full message list instead of a single prompt.
+ */
+const gptChat = async function (
+  apiURL: string,
+  model: string,
+  temperature: number,
+  prefix: string,
+  secret: string,
+  request: ChatRequest,
+  stream: boolean,
+): Promise<string> {
+  const useResponsesApi = isResponsesApiEndpoint(apiURL);
+  const messages = request.messages.map((message) => ({
+    role: message.role,
+    content: message.content,
+  }));
+
+  const requestBody = useResponsesApi
+    ? {
+        model,
+        input: messages,
+        temperature,
+        stream,
+        ...getCustomParams(prefix),
+      }
+    : {
+        model,
+        messages,
+        temperature,
+        stream,
+        ...getCustomParams(prefix),
+      };
+
+  return await requestLlm({
+    url: apiURL,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${secret}`,
+      "api-key": secret,
+    },
+    body: requestBody,
+    stream,
+    format: useResponsesApi ? "openai-responses" : "openai",
+    onDelta: request.onDelta,
+    isAborted: request.isAborted,
+    abortRef: request.abortRef,
+  });
+};
+
 function createGPTService(id: ID): TranslateService {
   const checkSecret = id === "azuregpt" || id === "chatgpt";
 
@@ -361,54 +466,50 @@ function createGPTService(id: ID): TranslateService {
     }),
 
     async translate(data) {
-      switch (id) {
-        case "azuregpt": {
-          const endPoint = getPref("azureGPT.endPoint") as string;
-          const apiVersion = getPref("azureGPT.apiVersion");
-          const model = getPref("azureGPT.model") as string;
-          const temperature = parseFloat(
-            getPref("azureGPT.temperature") as string,
-          );
-          const stream = getPref("azureGPT.stream") as boolean;
-
-          const apiURL = new URL(endPoint);
-          apiURL.pathname = `/openai/deployments/${model}/chat/completions`;
-          apiURL.search = `api-version=${apiVersion}`;
-
-          return await gptTranslate(
-            apiURL.href,
-            model,
-            temperature,
-            "azureGPT",
-            data,
-            stream,
-          );
-        }
-
-        case "chatgpt":
-        case "customgpt1":
-        case "customgpt2":
-        case "customgpt3": {
-          const apiURL = getPref(`${prefPrefix}.endPoint`) as string;
-          const model = getPref(`${prefPrefix}.model`) as string;
-          const temperature = parseFloat(
-            getPref(`${prefPrefix}.temperature`) as string,
-          );
-          const stream = getPref(`${prefPrefix}.stream`) as boolean;
-
-          return await gptTranslate(
-            apiURL,
-            model,
-            temperature,
-            prefPrefix,
-            data,
-            stream,
-          );
-        }
-
-        default:
-          break;
+      const { apiURL, model, temperature, stream } = getGptApiConfig(
+        id,
+        prefPrefix,
+      );
+      if (!apiURL) {
+        throw getString("service-errorNotConfigured");
       }
+      return await gptTranslate(
+        apiURL,
+        model,
+        temperature,
+        prefPrefix,
+        data,
+        stream,
+      );
+    },
+
+    async chat(request) {
+      const { apiURL, model, temperature, stream } = getGptApiConfig(
+        id,
+        prefPrefix,
+      );
+      if (!apiURL || !model) {
+        throw getString("service-errorNotConfigured");
+      }
+      return await gptChat(
+        apiURL,
+        model,
+        temperature,
+        prefPrefix,
+        getServiceSecret(id),
+        request,
+        stream,
+      );
+    },
+
+    isConfigured() {
+      const { apiURL, model } = getGptApiConfig(id, prefPrefix);
+      if (!apiURL || !model) {
+        return false;
+      }
+      // OpenAI / Azure always need an API key. Custom endpoints may be a local
+      // server without authentication, so the endpoint is enough.
+      return checkSecret ? !!getServiceSecret(id) : true;
     },
 
     config(settings) {

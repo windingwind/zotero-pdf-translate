@@ -20,6 +20,8 @@ pref-basic-enableAnnotationFromSyncTranslation =
     .label = Automatically Translate Annotation from Sync
 pref-basic-enableNote =
     .label = Show "Add Translation to Note" in Pop-up
+pref-basic-enableChat =
+    .label = Show "Ask Follow-up" (AI Q&A) in Pop-up
 pref-basic-enableNoteReplaceMode =
     .label = Replace Raw Text When Adding Translation to Note
 pref-basic-enableAutoTagAnnotation =
@@ -109,6 +111,8 @@ pref-advanced = Advanced
 
 pref-advanced-enableAutoDetectLanguage =
     .label = Automatically Detect Item Language
+pref-advanced-chatPrompt =
+    .label = System prompt of the follow-up Q&A assistant
 pref-advanced-disabledLanguages =
     .value = Disable automatic translation for file languages (comma-separated)
 pref-advanced-disabledLanguages-alert = Reopen files or restart Zotero to apply changes.

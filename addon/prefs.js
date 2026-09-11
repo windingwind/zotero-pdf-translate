@@ -10,6 +10,13 @@ pref("__prefsPrefix__.annotationTranslationPosition", "comment");
 pref("__prefsPrefix__.annotationTranslationPositionInBody", "after");
 pref("__prefsPrefix__.enableNote", true);
 pref("__prefsPrefix__.enableNoteReplaceMode", false);
+pref("__prefsPrefix__.enableChat", true);
+pref("__prefsPrefix__.chatService", "");
+pref("__prefsPrefix__.chatMaxTurns", 10);
+pref(
+  "__prefsPrefix__.chatPrompt",
+  "You are a research assistant helping the user read an academic paper. The user selected a passage, and the context of the conversation contains the selection, its translation and the paper metadata. Answer follow-up questions about the passage precisely and concisely, in the language the user asks in. Explain terminology, grammar and background when asked. Do not repeat the full translation unless the user asks for it. When you are not sure about something, say so instead of guessing.",
+);
 pref("__prefsPrefix__.translateSource", "");
 pref("__prefsPrefix__.dictSource", "");
 pref("__prefsPrefix__.sourceLanguage", "en-US");

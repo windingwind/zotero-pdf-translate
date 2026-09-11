@@ -4,6 +4,7 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
+import { syncChatService } from "./chat";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -30,11 +31,15 @@ export function updateReaderPopup() {
   const addToNoteButton = popup?.querySelector(
     `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
+  const askButton = popup?.querySelector(`#${makeId("ask")}`) as HTMLDivElement;
 
   const updateHidden = (elem: HTMLElement, hidden: boolean) => {
     if (hidden) {
       elem.style.display = "none";
     } else {
+      // Some buttons are created with the `hidden` property set, which would
+      // keep them hidden even after the inline style is removed.
+      elem.hidden = false;
       elem.style.removeProperty("display");
     }
   };
@@ -44,6 +49,7 @@ export function updateReaderPopup() {
     updateHidden(translateButton, true);
     updateHidden(textarea, true);
     updateHidden(addToNoteButton, true);
+    updateHidden(askButton, true);
     return;
   }
   const task = getLastTranslateTask({ type: "text" });
@@ -111,6 +117,17 @@ export function updateReaderPopup() {
     !enableAddToNote
   ) {
     updateHidden(addToNoteButton, true);
+  }
+
+  // Follow-up Q&A entry: only when the feature is enabled and an LLM service
+  // that supports chat is available.
+  // Re-resolve the service here: the user may have configured an LLM (or
+  // switched the translation engine) after startup.
+  syncChatService();
+  if (!getPref("enableChat") || !addon.data.chat.service) {
+    updateHidden(askButton, true);
+  } else {
+    updateHidden(askButton, false);
   }
 
   updatePopupSize(popup, textarea);
@@ -189,6 +206,48 @@ export function buildReaderPopup(
             },
           ],
           ignoreIfExists: true,
+        },
+        {
+          /*
+           * Follow-up Q&A entry.
+           *
+           * Deliberately placed *above* the result textarea: the textarea
+           * grows while the translation streams in, and a button below it
+           * would be pushed around (and out from under the pointer) on every
+           * update.
+           */
+          tag: "button",
+          namespace: "html",
+          id: makeId("ask"),
+          classList: [
+            "toolbar-button",
+            "wide-button",
+            `${config.addonRef}-readerpopup`,
+          ],
+          styles: {
+            marginBottom: "5px",
+            cursor: "pointer",
+          },
+          properties: {
+            innerHTML: `${SVGIcon}${getString("readerpopup-ask-label")}`,
+          },
+          ignoreIfExists: true,
+          listeners: [
+            {
+              type: "click",
+              listener: () => {
+                const task = getLastTranslateTask({ type: "text" });
+                if (!task) {
+                  return;
+                }
+                addon.hooks.onChatAsk({
+                  raw: task.raw,
+                  result: task.result,
+                  itemId: task.itemId,
+                });
+              },
+            },
+          ],
         },
         {
           tag: "textarea",

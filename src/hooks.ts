@@ -27,6 +27,18 @@ import { registerShortcuts } from "./modules/shortcuts";
 import { registerItemPaneInfoRows } from "./modules/infoBox";
 import { registerPrompt } from "./modules/prompt";
 import { registerCustomFields } from "./modules/fields";
+import {
+  askFollowUp,
+  askFollowUpFromLastTask,
+  changeChatService,
+  clearChat,
+  handleChatMessageAction,
+  registerChatPane,
+  sendChatMessage,
+  stopChatMessage,
+  syncChatService,
+} from "./modules/chat";
+import type { ChatContext } from "./utils/chat";
 
 async function onStartup() {
   await Promise.all([
@@ -61,6 +73,10 @@ async function onStartup() {
   registerItemPaneInfoRows();
 
   registerReaderTabPanel();
+
+  registerChatPane();
+
+  syncChatService();
 
   await Promise.all(
     Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
@@ -255,6 +271,38 @@ function onReaderTabPanelRefresh() {
   updateReaderTabPanels();
 }
 
+function onChatAsk(context: ChatContext) {
+  askFollowUp(context);
+}
+
+function onChatAskLastTask() {
+  return askFollowUpFromLastTask();
+}
+
+function onChatSend(itemId?: number) {
+  return sendChatMessage(itemId);
+}
+
+function onChatStop() {
+  stopChatMessage();
+}
+
+function onChatClear(itemId?: number) {
+  clearChat(itemId);
+}
+
+function onChatServiceChange(serviceId: string) {
+  changeChatService(serviceId);
+}
+
+function onChatMessageAction(
+  action: string,
+  threadId: string,
+  turnIndex: number,
+) {
+  return handleChatMessageAction(action, threadId, turnIndex);
+}
+
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
 // Otherwise the code would be hard to read and maintain.
@@ -272,4 +320,11 @@ export default {
   onReaderPopupShow,
   onReaderPopupRefresh,
   onReaderTabPanelRefresh,
+  onChatAsk,
+  onChatAskLastTask,
+  onChatSend,
+  onChatStop,
+  onChatClear,
+  onChatServiceChange,
+  onChatMessageAction,
 };

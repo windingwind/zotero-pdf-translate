@@ -1,0 +1,308 @@
+/* Follow-up Q&A (chat) panel */
+
+translator-chat-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+translator-chat-panel linkset {
+  display: none;
+}
+
+translator-chat-panel .chat-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  color: var(--fill-primary, currentColor);
+}
+
+/* ---------- toolbar ---------- */
+
+translator-chat-panel .chat-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+translator-chat-panel .chat-toolbar[hidden] {
+  display: none;
+}
+
+translator-chat-panel .chat-toolbar menulist {
+  flex: 1;
+  min-width: 0;
+}
+
+translator-chat-panel .chat-grow {
+  flex: 1;
+}
+
+/* ---------- messages ---------- */
+
+translator-chat-panel .chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 90px;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 2px 2px 4px;
+  scrollbar-width: thin;
+}
+
+translator-chat-panel .chat-empty {
+  color: var(--fill-secondary, #666);
+  border: 1px dashed var(--material-border, rgba(0, 0, 0, 0.2));
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+translator-chat-panel .chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+translator-chat-panel .chat-bubble {
+  border-radius: 8px;
+  padding: 6px 8px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+translator-chat-panel .chat-bubble-user {
+  align-self: flex-end;
+  max-width: 92%;
+  background: var(--material-button, rgba(0, 0, 0, 0.08));
+}
+
+translator-chat-panel .chat-bubble-assistant {
+  align-self: stretch;
+  background: var(--color-sidepane, rgba(0, 0, 0, 0.05));
+}
+
+translator-chat-panel .chat-bubble-error {
+  color: var(--fill-warning, #b3261e);
+}
+
+/* ---------- markdown answer ---------- */
+
+translator-chat-panel .chat-content-md {
+  /* Rendered elements bring their own line breaks */
+  white-space: normal;
+}
+
+translator-chat-panel .chat-content-md > :first-child {
+  margin-top: 0;
+}
+
+translator-chat-panel .chat-content-md > :last-child {
+  margin-bottom: 0;
+}
+
+translator-chat-panel .chat-content-md h1,
+translator-chat-panel .chat-content-md h2,
+translator-chat-panel .chat-content-md h3,
+translator-chat-panel .chat-content-md h4,
+translator-chat-panel .chat-content-md h5,
+translator-chat-panel .chat-content-md h6 {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin: 0.7em 0 0.3em;
+}
+
+translator-chat-panel .chat-content-md p {
+  margin: 0 0 0.5em;
+}
+
+translator-chat-panel .chat-content-md ul,
+translator-chat-panel .chat-content-md ol {
+  margin: 0.3em 0 0.6em;
+  padding-inline-start: 1.5em;
+}
+
+translator-chat-panel .chat-content-md li {
+  margin: 0.15em 0;
+}
+
+translator-chat-panel .chat-content-md blockquote {
+  margin: 0.4em 0;
+  padding-inline-start: 8px;
+  border-inline-start: 3px solid var(--material-border, rgba(0, 0, 0, 0.25));
+  color: var(--fill-secondary, #666);
+}
+
+translator-chat-panel .chat-content-md hr {
+  border: 0;
+  border-top: 1px solid var(--material-border, rgba(0, 0, 0, 0.25));
+  margin: 0.6em 0;
+}
+
+translator-chat-panel .chat-content-md a {
+  color: var(--color-link, #2f6fd0);
+}
+
+translator-chat-panel .chat-content code {
+  font-family: var(--font-mono, monospace);
+  background: var(--material-button, rgba(0, 0, 0, 0.08));
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+translator-chat-panel .chat-content-md pre {
+  margin: 0.4em 0;
+  padding: 6px 8px;
+  background: var(--material-button, rgba(0, 0, 0, 0.08));
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+translator-chat-panel .chat-content-md pre code {
+  background: transparent;
+  padding: 0;
+  white-space: pre;
+}
+
+/* KaTeX output inside an answer */
+translator-chat-panel .chat-content-md .katex-display {
+  margin: 0.4em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+translator-chat-panel .chat-caret {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  margin-inline-start: 2px;
+  vertical-align: -1px;
+  background: var(--fill-secondary, #666);
+  animation: chat-caret-blink 1s steps(2, start) infinite;
+}
+
+@keyframes chat-caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- context card ---------- */
+
+translator-chat-panel .chat-context-card {
+  border: 1px solid var(--material-border, rgba(0, 0, 0, 0.2));
+  border-inline-start: 3px solid var(--fill-secondary, #666);
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 0.9em;
+}
+
+translator-chat-panel .chat-context-title {
+  color: var(--fill-secondary, #666);
+  margin-bottom: 3px;
+}
+
+translator-chat-panel .chat-context-quote {
+  max-height: 3.2em;
+  overflow: hidden;
+}
+
+translator-chat-panel .chat-context-expanded .chat-context-quote {
+  max-height: none;
+}
+
+/* ---------- actions ---------- */
+
+translator-chat-panel .chat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+translator-chat-panel .chat-link-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--fill-secondary, #666);
+  cursor: pointer;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
+translator-chat-panel .chat-link-button:hover {
+  text-decoration: underline;
+}
+
+/* ---------- pending context ---------- */
+
+translator-chat-panel .chat-pending {
+  border-top: 1px solid var(--material-border, rgba(0, 0, 0, 0.2));
+  padding-top: 6px;
+}
+
+translator-chat-panel .chat-pending[hidden] {
+  display: none;
+}
+
+translator-chat-panel .chat-pending-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fill-secondary, #666);
+  font-size: 0.9em;
+  margin-bottom: 4px;
+}
+
+translator-chat-panel .chat-quote {
+  margin-top: 4px;
+  color: var(--fill-secondary, #666);
+  font-size: 0.85em;
+  max-height: 2.4em;
+  overflow: hidden;
+}
+
+/* ---------- composer ---------- */
+
+translator-chat-panel .chat-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  border-top: 1px solid var(--material-border, rgba(0, 0, 0, 0.2));
+  padding-top: 6px;
+}
+
+translator-chat-panel .chat-draft {
+  flex: 1;
+  min-width: 0;
+  min-height: 26px;
+  max-height: 160px;
+  resize: none;
+  field-sizing: content;
+}
+
+translator-chat-panel .chat-send,
+translator-chat-panel .chat-stop {
+  min-width: auto;
+  flex-shrink: 0;
+}
+
+translator-chat-panel .chat-stop[hidden] {
+  display: none;
+}
+
+translator-chat-panel .chat-composer-hint {
+  color: var(--fill-secondary, #666);
+  font-size: 0.8em;
+  opacity: 0.9;
+}

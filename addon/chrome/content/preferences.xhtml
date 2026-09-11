@@ -103,6 +103,14 @@
         preference="__prefsPrefix__.enableNote"
       />
       <checkbox
+        id="__addonRef__-enableChat"
+        data-l10n-id="pref-basic-enableChat"
+        class="enable-popup"
+        style="padding-left: 18px"
+        native="true"
+        preference="__prefsPrefix__.enableChat"
+      />
+      <checkbox
         id="__addonRef__-enableNoteReplaceMode"
         data-l10n-id="pref-basic-enableNoteReplaceMode"
         class="enable-popup enable-popup-addtonote"
@@ -293,6 +301,14 @@
         native="true"
         preference="__prefsPrefix__.enableAutoDetectLanguage"
       />
+    </hbox>
+    <hbox align="flex-start">
+      <label data-l10n-id="pref-advanced-chatPrompt"></label>
+      <html:textarea
+        preference="__prefsPrefix__.chatPrompt"
+        rows="4"
+        style="min-width: 220px; flex: 1"
+      ></html:textarea>
     </hbox>
     <hbox align="center">
       <label data-l10n-id="pref-advanced-disabledLanguages"></label>

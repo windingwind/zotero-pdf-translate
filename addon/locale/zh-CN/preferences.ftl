@@ -20,6 +20,8 @@ pref-basic-enableAnnotationFromSyncTranslation =
     .label = 自动翻译来自同步的注释
 pref-basic-enableNote =
     .label = 在弹窗中显示“添加翻译至笔记”
+pref-basic-enableChat =
+    .label = 在弹窗中显示“追问”（AI 问答）
 pref-basic-enableNoteReplaceMode =
     .label = 添加翻译至笔记时替换原始文本
 pref-basic-enableAutoTagAnnotation =
@@ -109,6 +111,8 @@ pref-advanced = 高级
 
 pref-advanced-enableAutoDetectLanguage =
     .label = 自动检测条目语言
+pref-advanced-chatPrompt =
+    .label = 追问助手（AI 问答）的系统提示词
 pref-advanced-disabledLanguages =
     .value = 对文件语言禁用自动翻译（用逗号分隔）
 pref-advanced-disabledLanguages-alert = 重新打开文件或重启Zotero以应用更改。
@@ -136,4 +140,3 @@ pref-about-version =
 
 pref-advanced-stripEmptyLines =
     .label = 从翻译结果中删除空行和思考内容
-

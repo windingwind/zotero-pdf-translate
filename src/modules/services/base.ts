@@ -3,6 +3,7 @@ import {
   AllowedSettingsMethods,
   TranslateTaskProcessor,
 } from "../../utils";
+import type { ChatProcessor } from "../../utils/llmStream";
 
 export interface TranslateService {
   /**
@@ -51,6 +52,26 @@ export interface TranslateService {
    * - Omit if no extra configuration is needed.
    */
   config?: (settings: AllowedSettingsMethods) => void;
+
+  /**
+   * Optional chat processor.
+   *
+   * Services implementing this can be used for follow-up Q&A ("追问") on top
+   * of a translation. Only LLM based services are expected to implement it.
+   *
+   * - Should resolve with the full reply text.
+   * - Should call `request.onDelta` while streaming, if supported.
+   */
+  chat?: ChatProcessor;
+
+  /**
+   * Optional check for whether the service is configured well enough to be
+   * used (endpoint / model / secret set).
+   *
+   * Used to decide whether follow-up Q&A can be offered. Services that do not
+   * implement it are assumed to be configured.
+   */
+  isConfigured?: () => boolean;
 
   /**
    * Set this to true if the service requires external configuration (e.g. Pull Docker images or install softwares).

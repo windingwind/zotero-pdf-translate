@@ -45,6 +45,7 @@ Open any PDF/EPub/webpage in the Zotero reader.
 - Dictionary for single word translation(v0.7.1).
 - SentenceBySentence Translation(v1.1.0). After a translation, press `shift`+`P` and select `Translate Sentences`. _Only for en2zh and en2en now_. Thanks @MuiseDestiny
 - Since v2.2.0, the concat mode shortcut is ctrl (on Windows/Linux) or ⌘ (on macOS).
+- Ask follow-up questions about a selection with an LLM service. After a translation, click `Ask Follow-up` on the pop-up or press `Ctrl`/`⌘`+`Enter` in the reader, then ask in the `AI Q&A` section of the item pane. The conversation is grounded in the selection, its translation and the title/abstract of the paper.
 
 ### Q&A
 
@@ -69,6 +70,9 @@ Press shortcut `Ctrl+T` after you selected some text. If you are in the collecti
 
 **Q** I want to resize the raw and result text area in the translate panel.  
 **A** Drag the separator up and down to adjust the size. Double-click the separator to reset the size.
+
+**Q** Can I ask questions about the text I selected?  
+**A** Yes, if you use an LLM service (ChatGPT, Custom GPT, AzureGPT, Claude or Gemini). Translate the selection, click `Ask Follow-up` on the pop-up (or press `Ctrl`/`⌘`+`Enter` in the reader), and ask in the `AI Q&A` section of the item pane. You can switch the engine with the dropdown at the top of that section, and toggle which parts of the context (selection / translation / title & abstract / quoted passage) are sent to the model.
 
 ## Settings
 
@@ -267,6 +271,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
 - `Pop-up: Remember Size`: Remember size of pop-up if `true`, else automatically adjust the size, default `false`
+- `Pop-up: Show "Ask Follow-up" (AI Q&A)`: Show the follow-up entry on the reader pop-up, default `true`. _Only shows up when an LLM service that supports chat is configured (ChatGPT, Custom GPT, AzureGPT, Claude or Gemini)._
 
 ### Advanced
 
@@ -276,6 +281,10 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment/body with the new translate result.
 - Regex for removing extra text from translation results (leave empty to disable): Automatically remove text from translation results using regex. You need to understand how to use regex in advance.
 - Reset field of selected items in library: Batch reset the _Title Translation_ or _Abstract Translation_ of selected items. Please select the items in Library or Collection panel and then click the button.
+- Follow-up Q&A (AI)
+  - System prompt of the follow-up Q&A assistant (`chatPrompt`): Sent as the system prompt of every follow-up question.
+  - `chatService`: Service used for follow-up questions. Leave it empty to use the current translation service when it supports chat, otherwise the first chat-capable service is used. _Only configured services are offered._ Can also be switched with the dropdown at the top of the `AI Q&A` section.
+  - `chatMaxTurns`: Maximum number of turns sent to the model, default `10`. Old turns are dropped first; the first turn, which carries the context of the selection, is always kept.
 
 ## Development & Contributing
 

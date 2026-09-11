@@ -159,6 +159,7 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
+readerpopup-ask-label=Approfondisci
 
 pref-title=Translate
 
@@ -192,3 +193,25 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+# Follow-up Q&A (chat)
+chat-empty=Seleziona una frase nel lettore e clicca «Approfondisci», oppure premi Ctrl/⌘+Invio. Serve un servizio LLM configurato nelle impostazioni (ChatGPT, Custom GPT, AzureGPT, Claude o Gemini).
+chat-context=Contesto
+chat-context-expand=Mostra tutto
+chat-context-collapse=Riduci
+chat-draft=
+    .placeholder = Fai una domanda di approfondimento…
+chat-send=Invia
+chat-stop=Interrompi
+chat-clear=Cancella
+chat-copy=Copia
+chat-insert-note=Inserisci nella nota
+chat-save-note=Salva come nota
+chat-hint=Invio per inviare · Maiusc+Invio per andare a capo · Ctrl/⌘+Invio per approfondire una selezione
+chat-copied=Copiato
+chat-inserted=Inserito nella nota aperta
+chat-no-note=Nessuna nota aperta: risposta copiata negli appunti (puoi anche usare «Salva come nota»)
+chat-note-saved=Salvato come nuova nota
+chat-note-save-failed=Impossibile salvare la nota
+chat-error-no-service=Nessun servizio LLM disponibile. Configura ChatGPT / Custom GPT / Claude / Gemini nelle impostazioni.
+service-errorNotConfigured=Servizio non configurato. Imposta endpoint e chiave nelle impostazioni.

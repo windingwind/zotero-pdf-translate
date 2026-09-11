@@ -1,4 +1,11 @@
-import { getPref, transformPromptWithContext } from "../../utils";
+import {
+  getPref,
+  getServiceSecret,
+  getString,
+  transformPromptWithContext,
+} from "../../utils";
+import { requestLlm } from "../../utils/llmStream";
+import type { ChatRequest } from "../../utils/llmStream";
 import { TranslateService } from "./base";
 import type { TranslateTask } from "../../utils/task";
 
@@ -95,6 +102,52 @@ export const Gemini: TranslateService = {
   },
 
   translate,
+
+  /**
+   * Follow-up chat, reusing the Gemini endpoint/secret of translation.
+   */
+  async chat(request: ChatRequest) {
+    const apiURL = getPref("gemini.endPoint") as string;
+    const stream = getPref("gemini.stream") as boolean;
+    if (!apiURL) {
+      throw getString("service-errorNotConfigured");
+    }
+    const secret = getServiceSecret("gemini");
+    const url = stream
+      ? `${apiURL}:streamGenerateContent?alt=sse&key=${secret}`
+      : `${apiURL}:generateContent?key=${secret}`;
+
+    const system = request.messages
+      .filter((message) => message.role === "system")
+      .map((message) => message.content)
+      .join("\n\n");
+    const contents = request.messages
+      .filter((message) => message.role !== "system")
+      .map((message) => ({
+        role: message.role === "assistant" ? "model" : "user",
+        parts: [{ text: message.content }],
+      }));
+
+    return await requestLlm({
+      url,
+      headers: { "Content-Type": "application/json" },
+      body: {
+        ...(system ? { systemInstruction: { parts: [{ text: system }] } } : {}),
+        contents,
+      },
+      stream,
+      format: "gemini",
+      onDelta: request.onDelta,
+      isAborted: request.isAborted,
+      abortRef: request.abortRef,
+    });
+  },
+
+  isConfigured() {
+    return (
+      !!(getPref("gemini.endPoint") as string) && !!getServiceSecret("gemini")
+    );
+  },
 
   config(settings) {
     settings

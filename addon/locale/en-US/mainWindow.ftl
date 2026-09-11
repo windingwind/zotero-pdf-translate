@@ -14,3 +14,8 @@ itemmenu-translateTitle =
     .label = Translate Title
 itemmenu-translateAbstract =
     .label = Translate Abstract
+
+chat-header =
+    .label = AI Q&A
+chat-sidenav =
+    .tooltiptext = AI Q&A

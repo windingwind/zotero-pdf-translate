@@ -1,4 +1,11 @@
-import { getPref, getString, transformPromptWithContext } from "../../utils";
+import {
+  getPref,
+  getServiceSecret,
+  getString,
+  transformPromptWithContext,
+} from "../../utils";
+import { requestLlm } from "../../utils/llmStream";
+import type { ChatRequest } from "../../utils/llmStream";
 import { TranslateService } from "./base";
 import type { TranslateTask } from "../../utils/task";
 
@@ -172,6 +179,60 @@ export const Claude: TranslateService = {
   },
 
   translate,
+
+  /**
+   * Follow-up chat, reusing the Claude endpoint/model/secret of translation.
+   */
+  async chat(request: ChatRequest) {
+    const apiURL = getPref("claude.endPoint") as string;
+    const model = getPref("claude.model") as string;
+    const stream = getPref("claude.stream") as boolean;
+    const maxTokens = parseInt(getPref("claude.maxTokens") as string) || 4000;
+    if (!apiURL || !model) {
+      throw getString("service-errorNotConfigured");
+    }
+
+    const system = request.messages
+      .filter((message) => message.role === "system")
+      .map((message) => message.content)
+      .join("\n\n");
+    const messages = request.messages
+      .filter((message) => message.role !== "system")
+      .map((message) => ({
+        role: message.role,
+        content: message.content,
+      }));
+
+    return await requestLlm({
+      url: apiURL,
+      headers: {
+        "Content-Type": "application/json",
+        "anthropic-version": "2023-06-01",
+        "x-api-key": getServiceSecret("claude"),
+      },
+      body: {
+        model,
+        ...(system ? { system } : {}),
+        messages,
+        temperature: parseFloat(getPref("claude.temperature") as string),
+        stream,
+        max_tokens: maxTokens,
+      },
+      stream,
+      format: "claude",
+      onDelta: request.onDelta,
+      isAborted: request.isAborted,
+      abortRef: request.abortRef,
+    });
+  },
+
+  isConfigured() {
+    return !!(
+      (getPref("claude.endPoint") as string) &&
+      (getPref("claude.model") as string) &&
+      getServiceSecret("claude")
+    );
+  },
 
   config(settings) {
     settings

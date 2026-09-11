@@ -14,3 +14,8 @@ itemmenu-translateTitle =
     .label = 翻译标题
 itemmenu-translateAbstract =
     .label = 翻译摘要
+
+chat-header =
+    .label = AI 问答
+chat-sidenav =
+    .tooltiptext = AI 问答

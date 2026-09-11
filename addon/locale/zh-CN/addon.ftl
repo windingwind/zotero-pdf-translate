@@ -159,6 +159,7 @@ service-youdaozhiyunllm-dialog-stream=流式输出
 
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
+readerpopup-ask-label=追问
 
 pref-title=翻译
 
@@ -192,3 +193,25 @@ service-nllb-dialog-apistream=nllb-api 流式输出
 service-nllb-dialog-serveendpoint=nllb-serve 接口
 service-nllb-dialog-apilabel=nllb-api 文档
 service-nllb-dialog-servelabel=nllb-serve 文档
+
+# Follow-up Q&A (chat)
+chat-empty=在正文里选中一句话，点弹窗里的「追问」，或按 Ctrl/⌘+Enter。使用前需要在设置里配置一个 LLM 引擎（ChatGPT / 自定义 GPT / AzureGPT / Claude / Gemini）。
+chat-context=本轮上下文
+chat-context-expand=展开原文
+chat-context-collapse=收起原文
+chat-draft=
+    .placeholder = 针对这段内容继续追问…
+chat-send=发送
+chat-stop=停止
+chat-clear=清空
+chat-copy=复制
+chat-insert-note=插入笔记
+chat-save-note=存为新笔记
+chat-hint=Enter 发送 · Shift+Enter 换行 · Ctrl/⌘+Enter 划词追问
+chat-copied=已复制
+chat-inserted=已插入当前笔记
+chat-no-note=没有打开的笔记，回答已复制到剪贴板（也可以用「存为新笔记」）
+chat-note-saved=已保存为新笔记
+chat-note-save-failed=保存笔记失败
+chat-error-no-service=没有可用的 LLM 引擎，请在设置中配置 ChatGPT / 自定义 GPT / Claude / Gemini
+service-errorNotConfigured=该服务尚未配置，请在设置中填写接口地址与密钥
