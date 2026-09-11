@@ -46,6 +46,8 @@ Open any PDF/EPub/webpage in the Zotero reader.
 - SentenceBySentence Translation(v1.1.0). After a translation, press `shift`+`P` and select `Translate Sentences`. _Only for en2zh and en2en now_. Thanks @MuiseDestiny
 - Since v2.2.0, the concat mode shortcut is ctrl (on Windows/Linux) or ⌘ (on macOS).
 - Ask follow-up questions about a selection with an LLM service. After a translation, click `Ask Follow-up` on the pop-up or press `Ctrl`/`⌘`+`Enter` in the reader, then ask in the `AI Q&A` section of the item pane. The conversation is grounded in the selection, its translation and the title/abstract of the paper.
+  ![](docs/res/chat.jpg)
+  [Watch the follow-up flow](docs/res/chat.gif)
 
 ### Q&A
 
