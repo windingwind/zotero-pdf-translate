@@ -27,6 +27,7 @@ export type FluentMessageId =
   | 'pref-about-feedback'
   | 'pref-about-version'
   | 'pref-advanced'
+  | 'pref-advanced-batchConcurrency'
   | 'pref-advanced-disabledLanguages'
   | 'pref-advanced-disabledLanguages-alert'
   | 'pref-advanced-enableAutoDetectLanguage'
