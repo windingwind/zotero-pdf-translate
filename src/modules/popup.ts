@@ -5,6 +5,56 @@ import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
 
+const POPUP_FONT_SIZE_DEFAULT = 12;
+const POPUP_FONT_SIZE_MIN = 8;
+const POPUP_FONT_SIZE_MAX = 48;
+
+function getPopupFontSize(): number {
+  const value = Number(getPref("fontSize"));
+  return Number.isFinite(value) && value > 0 ? value : POPUP_FONT_SIZE_DEFAULT;
+}
+
+/**
+ * Persist the `fontSize` preference (shared by the reader popup, the sidebar
+ * panel and the standalone window) and repaint.
+ *
+ * `live` is used while the slider is being dragged: only the open reader popup
+ * is touched so the drag stays smooth; releasing the slider refreshes the
+ * other displays as well.
+ */
+function setPopupFontSize(next: number, live: boolean = false): void {
+  const value = Math.min(
+    POPUP_FONT_SIZE_MAX,
+    Math.max(POPUP_FONT_SIZE_MIN, Math.round(next)),
+  );
+  if (value !== Number(getPref("fontSize"))) {
+    setPref("fontSize", value);
+  }
+  if (!live) {
+    addon.api.getTemporaryRefreshHandler()();
+    return;
+  }
+  const popup = addon.data.popup.currentPopup;
+  const idPrefix = popup?.getAttribute(`${config.addonRef}-prefix`);
+  if (!popup || !idPrefix) {
+    return;
+  }
+  const label = popup.querySelector(
+    `#${idPrefix}-fontsizelabel`,
+  ) as HTMLSpanElement;
+  if (label) {
+    label.textContent = `${value}px`;
+  }
+  const textarea = popup.querySelector(
+    `#${idPrefix}-text`,
+  ) as HTMLTextAreaElement;
+  if (textarea) {
+    textarea.style.fontSize = `${value}px`;
+    textarea.style.lineHeight = `${Number(getPref("lineHeight")) * value}px`;
+    updatePopupSize(popup, textarea);
+  }
+}
+
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
   if (!popup) {
@@ -30,6 +80,9 @@ export function updateReaderPopup() {
   const addToNoteButton = popup?.querySelector(
     `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
+  const fontSizeBox = popup?.querySelector(
+    `#${makeId("fontsize")}`,
+  ) as HTMLDivElement;
 
   const updateHidden = (elem: HTMLElement, hidden: boolean) => {
     if (hidden) {
@@ -44,7 +97,13 @@ export function updateReaderPopup() {
     updateHidden(translateButton, true);
     updateHidden(textarea, true);
     updateHidden(addToNoteButton, true);
+    if (fontSizeBox) {
+      updateHidden(fontSizeBox, true);
+    }
     return;
+  }
+  if (fontSizeBox) {
+    updateHidden(fontSizeBox, false);
   }
   const task = getLastTranslateTask({ type: "text" });
   if (!task) {
@@ -104,6 +163,18 @@ export function updateReaderPopup() {
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
   }px`;
+  const fontSizeLabel = popup.querySelector(
+    `#${makeId("fontsizelabel")}`,
+  ) as HTMLSpanElement;
+  if (fontSizeLabel) {
+    fontSizeLabel.textContent = `${getPopupFontSize()}px`;
+  }
+  const fontSizeSlider = popup.querySelector(
+    `#${makeId("fontsizeslider")}`,
+  ) as HTMLInputElement;
+  if (fontSizeSlider) {
+    fontSizeSlider.value = String(getPopupFontSize());
+  }
 
   const enableAddToNote = getPref("enableNote") as boolean;
   if (
@@ -272,6 +343,103 @@ export function buildReaderPopup(
               },
             },
           ],
+        },
+        {
+          tag: "div",
+          namespace: "html",
+          id: makeId("fontsize"),
+          classList: [`${config.addonRef}-readerpopup`],
+          styles: {
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            marginTop: "6px",
+            width: "calc(100% - 4px)",
+            lineHeight: "normal",
+          },
+          children: [
+            {
+              tag: "input",
+              namespace: "html",
+              id: makeId("fontsizeslider"),
+              attributes: {
+                type: "range",
+                min: String(POPUP_FONT_SIZE_MIN),
+                max: String(POPUP_FONT_SIZE_MAX),
+                step: "1",
+                value: String(getPopupFontSize()),
+                title: getString("readerpopup-fontsize-slider"),
+              },
+              styles: {
+                flex: "1 1 auto",
+                minWidth: "60px",
+                height: "16px",
+                margin: "0",
+              },
+              properties: {
+                // Keep the popup from treating the drag as its own gesture
+                onpointerdown: (ev: Event) => ev.stopPropagation(),
+                onpointerup: (ev: Event) => ev.stopPropagation(),
+                ondragstart: (ev: Event) => ev.stopPropagation(),
+                // Repaint this popup while dragging, everything on release
+                oninput: (ev: Event) =>
+                  setPopupFontSize(
+                    Number((ev.target as HTMLInputElement).value),
+                    true,
+                  ),
+                onchange: () => setPopupFontSize(getPopupFontSize()),
+              },
+            },
+            {
+              tag: "span",
+              id: makeId("fontsizelabel"),
+              styles: {
+                fontSize: "0.8em",
+                opacity: "0.7",
+                minWidth: "32px",
+                textAlign: "right",
+                verticalAlign: "middle",
+              },
+              properties: { textContent: `${getPopupFontSize()}px` },
+            },
+            {
+              tag: "button",
+              namespace: "html",
+              classList: ["toolbar-button"],
+              attributes: {
+                title: getString("readerpopup-fontsize-smaller"),
+              },
+              properties: {
+                textContent: "A-",
+                onclick: () => setPopupFontSize(getPopupFontSize() - 1),
+              },
+              styles: {
+                width: "auto",
+                minWidth: "28px",
+                marginTop: "0",
+                padding: "2px 6px",
+              },
+            },
+            {
+              tag: "button",
+              namespace: "html",
+              classList: ["toolbar-button"],
+              attributes: {
+                title: getString("readerpopup-fontsize-larger"),
+              },
+              properties: {
+                textContent: "A+",
+                onclick: () => setPopupFontSize(getPopupFontSize() + 1),
+              },
+              styles: {
+                width: "auto",
+                minWidth: "28px",
+                marginTop: "0",
+                padding: "2px 6px",
+              },
+            },
+          ],
+          ignoreIfExists: true,
         },
         {
           tag: "button",
