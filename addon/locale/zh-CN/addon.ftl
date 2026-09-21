@@ -169,6 +169,9 @@ service-youdaozhiyunllm-dialog-stream=流式输出
 
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
+readerpopup-fontsize-smaller=减小字号
+readerpopup-fontsize-larger=增大字号
+readerpopup-fontsize-slider=字号（拖动调整）
 
 pref-title=翻译
 

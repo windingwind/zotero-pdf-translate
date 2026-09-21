@@ -169,6 +169,9 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
+readerpopup-fontsize-smaller=Smaller Font
+readerpopup-fontsize-larger=Larger Font
+readerpopup-fontsize-slider=Font size (drag to adjust)
 
 pref-title=Translate
 
