@@ -82,6 +82,8 @@ service-dialog-custom-request-validation-example-boolean=- 布尔值：false
 service-dialog-custom-request-validation-example-number=- 数字：123
 service-dialog-custom-request-validation-example-string=- 文本："text"
 service-dialog-custom-request-validation-example-object=- 对象：{ $example }
+service-dialog-api-format-openai=OpenAI（chat/completions）
+service-dialog-api-format-anthropic=Anthropic（messages）
 
 service-niutranspro-dialog-endpoint=接口
 service-niutranspro-dialog-username=用户名
@@ -103,9 +105,11 @@ service-deeplx-dialog-endPoint=接口
 service-chatgpt-dialog-endPoint=接口
 service-chatgpt-dialog-model=模型
 service-chatgpt-dialog-temperature=温度
+service-chatgpt-dialog-apiFormat=接口格式
 service-chatgpt-dialog-prompt=提示词
 service-gpt-dialog-prompt-hint=可用变量：{ $variables }。翻译正文必须使用 { $required }。
 service-gpt-dialog-prompt-required=请加入 { $placeholder }，否则选中的文字不会发送给翻译服务。
+service-gpt-dialog-apiFormat-hint=OpenAI 格式：接口需填写完整的 chat/completions 地址，如 https://api.openai.com/v1/chat/completions；Anthropic 格式：接口需填写 messages 地址，如 https://api.anthropic.com/v1/messages，密钥将以 x-api-key 方式发送。
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-custom-request=自定义请求
 

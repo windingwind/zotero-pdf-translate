@@ -82,6 +82,8 @@ service-dialog-custom-request-validation-example-boolean=- Boolean: false
 service-dialog-custom-request-validation-example-number=- Number: 123
 service-dialog-custom-request-validation-example-string=- Text: "text"
 service-dialog-custom-request-validation-example-object=- Object: { $example }
+service-dialog-api-format-openai=OpenAI (chat/completions)
+service-dialog-api-format-anthropic=Anthropic (messages)
 
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
@@ -103,9 +105,11 @@ service-deeplx-dialog-endPoint=API
 service-chatgpt-dialog-endPoint=API
 service-chatgpt-dialog-model=Modello
 service-chatgpt-dialog-temperature=Temperatura
+service-chatgpt-dialog-apiFormat=Formato API
 service-chatgpt-dialog-prompt=Prompt
 service-gpt-dialog-prompt-hint=Variabili disponibili: { $variables }. { $required } è obbligatorio.
 service-gpt-dialog-prompt-required=Aggiungi { $placeholder } per inviare il testo selezionato al servizio di traduzione.
+service-gpt-dialog-apiFormat-hint=Formato OpenAI: l'endpoint deve essere l'URL completo di chat/completions, ad es. https://api.openai.com/v1/chat/completions. Formato Anthropic: l'endpoint deve essere l'URL messages, ad es. https://api.anthropic.com/v1/messages; la chiave viene inviata come x-api-key.
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-custom-request=Custom Request
 

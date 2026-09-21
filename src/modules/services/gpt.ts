@@ -4,7 +4,10 @@ import { hasSourceTextPlaceholder } from "./gptPrompt";
 
 type ID = "chatgpt" | "customgpt1" | "customgpt2" | "customgpt3" | "azuregpt";
 
-function getCustomParams(prefix: string): Record<string, any> {
+function getCustomParams(
+  prefix: string,
+  extraFilterKeys: string[] = [],
+): Record<string, any> {
   const storedCustomParams =
     (getPref(`${prefix}.customParams`) as string) || "{}";
   try {
@@ -16,6 +19,7 @@ function getCustomParams(prefix: string): Record<string, any> {
       "input",
       "temperature",
       "stream",
+      ...extraFilterKeys,
     ];
     return Object.fromEntries(
       Object.entries(customParams).filter(
@@ -94,6 +98,20 @@ function parseResponsesApiNonStreamResponse(obj: any): string {
 }
 
 function parseStreamResponse(obj: any): ParsedResponse {
+  // Handle Anthropic format (stream events carry a type field)
+  if (typeof obj.type === "string") {
+    if (obj.type === "content_block_delta") {
+      return {
+        content: obj.delta?.text || "",
+        finished: false,
+      };
+    }
+    if (obj.type === "message_stop") {
+      return { content: "", finished: true };
+    }
+    // message_start, content_block_start/stop, ping, etc.
+    return { content: "", finished: false };
+  }
   // Handle OpenAI format (choices array with delta)
   if (obj.choices && obj.choices[0]) {
     const choice = obj.choices[0];
@@ -114,6 +132,13 @@ function parseStreamResponse(obj: any): ParsedResponse {
 }
 
 function parseNonStreamResponse(obj: any): string {
+  // Handle Anthropic format (content blocks; thinking blocks are skipped)
+  if (Array.isArray(obj.content)) {
+    const textBlock = obj.content.find(
+      (block: { type?: string; text?: string }) => block.type === "text",
+    );
+    return textBlock?.text || "";
+  }
   // Handle OpenAI format (choices array)
   if (obj.choices && obj.choices[0]) {
     return obj.choices[0].message.content || "";
@@ -132,6 +157,7 @@ const gptTranslate = async function (
   prefix: string,
   data: Parameters<TranslateService["translate"]>[0],
   stream?: boolean,
+  apiFormat?: string,
 ) {
   function transformContent(
     langFrom: string,
@@ -148,7 +174,11 @@ const gptTranslate = async function (
   }
 
   const streamMode = stream ?? true;
-  const useResponsesApi = isResponsesApiEndpoint(apiURL);
+  const useAnthropicApi = apiFormat === "anthropic";
+  const useResponsesApi = !useAnthropicApi && isResponsesApiEndpoint(apiURL);
+  // Both the Responses API and the Anthropic API interleave "event:" lines
+  // with "data:" lines, so both need line-based SSE parsing
+  const lineBasedSse = useResponsesApi || useAnthropicApi;
 
   const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
@@ -177,8 +207,9 @@ const gptTranslate = async function (
         // OpenAI SSE format
         // Prepend buffer from previous incomplete chunk
         const fullResponse = buffer + newResponse;
-        if (useResponsesApi) {
-          // Responses API has "event:" lines, need line-by-line parsing
+        if (lineBasedSse) {
+          // Responses/Anthropic APIs have "event:" lines, need line-by-line
+          // parsing
           dataArray = fullResponse
             .split("\n")
             .filter((line: string) => line.startsWith("data:"))
@@ -259,7 +290,7 @@ const gptTranslate = async function (
     };
   };
 
-  // Build request body based on API type
+  // Build request body based on API format
   const { system, user } = transformContent(
     data.langfrom,
     data.langto,
@@ -270,28 +301,46 @@ const gptTranslate = async function (
     { role: "user", content: user },
   ];
 
-  const requestBody = useResponsesApi
+  const requestBody = useAnthropicApi
     ? {
         model: model,
-        input: messages,
+        max_tokens: 4000,
+        system: system,
+        messages: [{ role: "user", content: user }],
         temperature: temperature,
         stream: streamMode,
-        ...getCustomParams(prefix),
+        ...getCustomParams(prefix, ["max_tokens"]),
+      }
+    : useResponsesApi
+      ? {
+          model: model,
+          input: messages,
+          temperature: temperature,
+          stream: streamMode,
+          ...getCustomParams(prefix),
+        }
+      : {
+          model: model,
+          messages: messages,
+          temperature: temperature,
+          stream: streamMode,
+          ...getCustomParams(prefix),
+        };
+
+  const requestHeaders = useAnthropicApi
+    ? {
+        "Content-Type": "application/json",
+        "anthropic-version": "2023-06-01",
+        "x-api-key": data.secret,
       }
     : {
-        model: model,
-        messages: messages,
-        temperature: temperature,
-        stream: streamMode,
-        ...getCustomParams(prefix),
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${data.secret}`,
+        "api-key": data.secret,
       };
 
   const xhr = await Zotero.HTTP.request("POST", apiURL, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${data.secret}`,
-      "api-key": data.secret,
-    },
+    headers: requestHeaders,
     body: JSON.stringify(requestBody),
     responseType: "text",
     requestObserver: (xmlhttp: XMLHttpRequest) => {
@@ -315,9 +364,9 @@ function createGPTService(id: ID): TranslateService {
   // Additionally, customGPT was not initialized in prefs.js.
   const prefPrefix = id.replace("gpt", "GPT") as
     | "chatGPT"
-    // | "customGPT1"
-    // | "customGPT2"
-    // | "customGPT3"
+    | "customGPT1"
+    | "customGPT2"
+    | "customGPT3"
     | "azureGPT";
 
   return {
@@ -400,6 +449,12 @@ function createGPTService(id: ID): TranslateService {
             getPref(`${prefPrefix}.temperature`) as string,
           );
           const stream = getPref(`${prefPrefix}.stream`) as boolean;
+          const apiFormat =
+            prefPrefix === "customGPT1" ||
+            prefPrefix === "customGPT2" ||
+            prefPrefix === "customGPT3"
+              ? (getPref(`${prefPrefix}.apiFormat`) as string)
+              : undefined;
 
           return await gptTranslate(
             apiURL,
@@ -408,6 +463,7 @@ function createGPTService(id: ID): TranslateService {
             prefPrefix,
             data,
             stream,
+            apiFormat,
           );
         }
 
@@ -446,6 +502,39 @@ function createGPTService(id: ID): TranslateService {
           nameKey: `service-${servicePrefix}-dialog-apiVersion`,
           hidden: id !== "azuregpt",
         });
+      }
+      if (
+        prefPrefix === "customGPT1" ||
+        prefPrefix === "customGPT2" ||
+        prefPrefix === "customGPT3"
+      ) {
+        settings
+          .addSelectSetting({
+            prefKey: `${prefPrefix}.apiFormat`,
+            nameKey: "service-chatgpt-dialog-apiFormat",
+            options: [
+              {
+                value: "openai",
+                label: getString("service-dialog-api-format-openai"),
+              },
+              {
+                value: "anthropic",
+                label: getString("service-dialog-api-format-anthropic"),
+              },
+            ],
+          })
+          .addStaticRow("", {
+            tag: "div",
+            namespace: "html",
+            styles: {
+              color: "var(--fill-secondary)",
+              fontSize: "0.9em",
+              maxWidth: "400px",
+            },
+            properties: {
+              textContent: getString("service-gpt-dialog-apiFormat-hint"),
+            },
+          });
       }
 
       settings
