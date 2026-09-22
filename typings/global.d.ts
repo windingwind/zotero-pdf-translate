@@ -19,6 +19,10 @@ declare const addon: import("../src/addon").default;
 
 declare const __env__: "production" | "development";
 
+declare const ChromeUtils: {
+  importESModule: (uri: string) => unknown;
+};
+
 declare class XULElementBase extends HTMLElement {
   get content(): DocumentFragment;
   init(): void;
