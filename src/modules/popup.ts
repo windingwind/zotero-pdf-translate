@@ -84,11 +84,17 @@ export function updateReaderPopup() {
     `#${makeId("fontsize")}`,
   ) as HTMLDivElement;
 
+  // Hiding swaps the inline `display` for `none`, so remember what it was and
+  // restore it when showing again: flex containers (font size row, audio box)
+  // would otherwise drop to block flow and stack their children vertically.
   const updateHidden = (elem: HTMLElement, hidden: boolean) => {
     if (hidden) {
+      if (elem.style.display && elem.style.display !== "none") {
+        elem.dataset.hiddenDisplay = elem.style.display;
+      }
       elem.style.display = "none";
-    } else {
-      elem.style.removeProperty("display");
+    } else if (elem.style.display === "none") {
+      elem.style.display = elem.dataset.hiddenDisplay || "";
     }
   };
 
@@ -371,6 +377,9 @@ export function buildReaderPopup(
                 title: getString("readerpopup-fontsize-slider"),
               },
               styles: {
+                // Definite zero keeps the range input's intrinsic width from
+                // sizing the whole popup; flex-grow fills the row instead.
+                width: "0",
                 flex: "1 1 auto",
                 minWidth: "60px",
                 height: "16px",
