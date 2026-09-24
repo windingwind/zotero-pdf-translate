@@ -72,6 +72,14 @@ declare namespace _ZoteroTypes {
       "azureGPT.prompt": string;
       "azureGPT.stream": boolean;
       "azureGPT.customParams": string;
+      "deepSeek.endPoint": string;
+      "deepSeek.model": string;
+      "deepSeek.temperature": string;
+      "deepSeek.prompt": string;
+      "deepSeek.stream": boolean;
+      "deepSeek.thinking": boolean;
+      "deepSeek.reasoningEffort": string;
+      "deepSeek.customParams": string;
       "gemini.endPoint": string;
       "gemini.prompt": string;
       "gemini.stream": boolean;

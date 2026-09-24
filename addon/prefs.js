@@ -73,6 +73,20 @@ pref(
 pref("__prefsPrefix__.azureGPT.stream", true);
 pref("__prefsPrefix__.azureGPT.customParams", "");
 pref(
+  "__prefsPrefix__.deepSeek.endPoint",
+  "https://api.deepseek.com/chat/completions",
+);
+pref("__prefsPrefix__.deepSeek.model", "deepseek-v4-flash");
+pref("__prefsPrefix__.deepSeek.temperature", "1.0");
+pref(
+  "__prefsPrefix__.deepSeek.prompt",
+  "As an academic expert with specialized knowledge in various fields, please provide a proficient and precise translation from ${langFrom} to ${langTo} of the academic text enclosed in 🔤. It is crucial to maintaining the original phrase or sentence and ensure accuracy while utilizing the appropriate language. The text is as follows:  🔤 ${sourceText} 🔤  Please provide the translated result without any additional explanation and remove 🔤.",
+);
+pref("__prefsPrefix__.deepSeek.stream", true);
+pref("__prefsPrefix__.deepSeek.thinking", false);
+pref("__prefsPrefix__.deepSeek.reasoningEffort", "low");
+pref("__prefsPrefix__.deepSeek.customParams", "");
+pref(
   "__prefsPrefix__.gemini.endPoint",
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite",
 );
