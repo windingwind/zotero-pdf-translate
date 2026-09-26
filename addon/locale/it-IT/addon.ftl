@@ -109,7 +109,7 @@ service-chatgpt-dialog-apiFormat=Formato API
 service-chatgpt-dialog-prompt=Prompt
 service-gpt-dialog-prompt-hint=Variabili disponibili: { $variables }. { $required } è obbligatorio.
 service-gpt-dialog-prompt-required=Aggiungi { $placeholder } per inviare il testo selezionato al servizio di traduzione.
-service-gpt-dialog-apiFormat-hint=Formato OpenAI: l'endpoint deve essere l'URL completo di chat/completions, ad es. https://api.openai.com/v1/chat/completions. Formato Anthropic: l'endpoint deve essere l'URL messages, ad es. https://api.anthropic.com/v1/messages; la chiave viene inviata come x-api-key.
+service-gpt-dialog-apiFormat-hint=L'endpoint accetta l'URL di base della documentazione del provider: https://api.deepseek.com diventa https://api.deepseek.com/v1/chat/completions (formato Anthropic: https://api.anthropic.com/v1/messages). Un URL già completo, ad es. https://api.openai.com/v1/chat/completions o https://api.openai.com/v1/responses, viene usato così com'è. Nel formato Anthropic la chiave viene inviata come x-api-key.
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-custom-request=Custom Request
 

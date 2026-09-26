@@ -115,4 +115,32 @@ describe("Custom GPT API format", function () {
     assert.include(task.result, "auth=true");
     assert.include(task.result, "userText=HELLO OPENAI");
   });
+
+  it("expands a bare base URL for the OpenAI format", async function () {
+    setPref("customGPT2.endPoint", MOCK);
+    setPref("customGPT2.stream", false);
+    const task = buildTask("HELLO BASE URL", "customgpt2");
+    await customGPT2.translate(task);
+    assert.include(task.result, "path=/v1/chat/completions");
+    assert.include(task.result, "userText=HELLO BASE URL");
+  });
+
+  it("expands a versioned base URL for the Anthropic format", async function () {
+    setPref("customGPT3.endPoint", `${MOCK}/v1`);
+    setPref("customGPT3.stream", false);
+    const task = buildTask("HELLO BASE URL", "customgpt3");
+    await customGPT3.translate(task);
+    assert.include(task.result, "path=/v1/messages");
+    assert.include(task.result, "xapikey=true");
+    assert.include(task.result, "userText=HELLO BASE URL");
+  });
+
+  it("keeps a non-standard endpoint path untouched", async function () {
+    setPref("customGPT2.endPoint", `${MOCK}/api/chat`);
+    setPref("customGPT2.stream", false);
+    const task = buildTask("HELLO OLLAMA", "customgpt2");
+    await customGPT2.translate(task);
+    assert.include(task.result, "path=/api/chat");
+    assert.include(task.result, "userText=HELLO OLLAMA");
+  });
 });

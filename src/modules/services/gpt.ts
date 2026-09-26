@@ -1,4 +1,9 @@
-import { buildPromptParts, getPref, getString } from "../../utils";
+import {
+  buildPromptParts,
+  getPref,
+  getString,
+  normalizeLLMEndpoint,
+} from "../../utils";
 import { TranslateService } from "./base";
 import { hasSourceTextPlaceholder } from "./gptPrompt";
 
@@ -443,7 +448,6 @@ function createGPTService(id: ID): TranslateService {
         case "customgpt1":
         case "customgpt2":
         case "customgpt3": {
-          const apiURL = getPref(`${prefPrefix}.endPoint`) as string;
           const model = getPref(`${prefPrefix}.model`) as string;
           const temperature = parseFloat(
             getPref(`${prefPrefix}.temperature`) as string,
@@ -455,6 +459,12 @@ function createGPTService(id: ID): TranslateService {
             prefPrefix === "customGPT3"
               ? (getPref(`${prefPrefix}.apiFormat`) as string)
               : undefined;
+          // Users paste the base URL from the provider docs, expand it to the
+          // resource path the selected API format needs.
+          const apiURL = normalizeLLMEndpoint(
+            getPref(`${prefPrefix}.endPoint`) as string,
+            apiFormat,
+          );
 
           return await gptTranslate(
             apiURL,

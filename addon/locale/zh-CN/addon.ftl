@@ -109,7 +109,7 @@ service-chatgpt-dialog-apiFormat=接口格式
 service-chatgpt-dialog-prompt=提示词
 service-gpt-dialog-prompt-hint=可用变量：{ $variables }。翻译正文必须使用 { $required }。
 service-gpt-dialog-prompt-required=请加入 { $placeholder }，否则选中的文字不会发送给翻译服务。
-service-gpt-dialog-apiFormat-hint=OpenAI 格式：接口需填写完整的 chat/completions 地址，如 https://api.openai.com/v1/chat/completions；Anthropic 格式：接口需填写 messages 地址，如 https://api.anthropic.com/v1/messages，密钥将以 x-api-key 方式发送。
+service-gpt-dialog-apiFormat-hint=接口可直接填服务商文档中的基础地址：https://api.deepseek.com 会自动补全为 https://api.deepseek.com/v1/chat/completions（Anthropic 格式补全为 /v1/messages）；已经填写完整地址（如 https://api.openai.com/v1/chat/completions、https://api.openai.com/v1/responses）时按原样使用。Anthropic 格式下密钥以 x-api-key 方式发送。
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-custom-request=自定义请求
 
