@@ -1,4 +1,4 @@
-import { FluentMessageId } from "../../typings/i10n";
+import type { FluentMessageId } from "../../typings/i10n";
 import { getString } from "./locale";
 
 /**
