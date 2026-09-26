@@ -33,7 +33,7 @@ const server = http.createServer(async (req, res) => {
   for await (const chunk of req) chunks.push(chunk);
   const body = JSON.parse(Buffer.concat(chunks).toString() || "{}");
   const summary = summarize(req, body);
-  const isAnthropic = req.url.startsWith("/v1/messages");
+  const isAnthropic = req.url.includes("/v1/messages");
   console.log(`[mock] ${req.method} ${req.url} stream=${body.stream}`);
 
   if (!body.stream) {

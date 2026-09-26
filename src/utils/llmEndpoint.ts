@@ -21,16 +21,27 @@ export function normalizeLLMEndpoint(
   }
   const base = raw.replace(/\/+$/, "");
   const path = base.replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]*/i, "");
-  const resource =
-    apiFormat === "anthropic" ? "/messages" : "/chat/completions";
+  const useAnthropic = apiFormat === "anthropic";
+  const resource = useAnthropic ? "/messages" : "/chat/completions";
 
   // `https://api.deepseek.com` -> `https://api.deepseek.com/v1/chat/completions`
   if (!path) {
     return `${base}/v1${resource}`;
   }
+  const lastSegment = path.split("/").pop() as string;
+
+  // Compatibility mounts that already carry their version segment:
+  // Gemini's `.../v1beta/openai`, DeepSeek's `.../anthropic`.
+  if (lastSegment === "openai" && !useAnthropic) {
+    return `${base}${resource}`;
+  }
+  if (lastSegment === "anthropic" && useAnthropic) {
+    return `${base}/v1${resource}`;
+  }
+
   // `https://api.deepseek.com/v1`, `https://host/proxy/v1beta` -> append only
   // the resource path, the version segment is already there.
-  if (/^v\d+[a-z0-9]*$/i.test(path.split("/").pop() as string)) {
+  if (/^v\d+[a-z0-9]*$/i.test(lastSegment)) {
     return `${base}${resource}`;
   }
   // Already a full endpoint (`.../chat/completions`, `.../messages`,

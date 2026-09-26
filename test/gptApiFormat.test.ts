@@ -143,4 +143,23 @@ describe("Custom GPT API format", function () {
     assert.include(task.result, "path=/api/chat");
     assert.include(task.result, "userText=HELLO OLLAMA");
   });
+
+  it("expands the Gemini OpenAI-compatible base URL", async function () {
+    setPref("customGPT2.endPoint", `${MOCK}/v1beta/openai/`);
+    setPref("customGPT2.stream", false);
+    const task = buildTask("HELLO GEMINI", "customgpt2");
+    await customGPT2.translate(task);
+    assert.include(task.result, "path=/v1beta/openai/chat/completions");
+    assert.include(task.result, "userText=HELLO GEMINI");
+  });
+
+  it("expands an Anthropic mount base URL", async function () {
+    setPref("customGPT3.endPoint", `${MOCK}/anthropic`);
+    setPref("customGPT3.stream", false);
+    const task = buildTask("HELLO DEEPSEEK ANTHROPIC", "customgpt3");
+    await customGPT3.translate(task);
+    assert.include(task.result, "path=/anthropic/v1/messages");
+    assert.include(task.result, "xapikey=true");
+    assert.include(task.result, "userText=HELLO DEEPSEEK ANTHROPIC");
+  });
 });
