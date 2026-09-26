@@ -1,12 +1,10 @@
-// Mock LLM server for `test/gptApiFormat.test.ts`.
-//
-// Run before the tests:
-//   node test/mock-llm-server.mjs & npm test
-//
-// Both the Anthropic Messages API and the OpenAI Chat Completions API are
-// emulated. Instead of translating, every response echoes the request it
-// received (path, headers, body fields) so tests can assert exactly what the
-// plugin sent.
+/*
+ * Mock LLM server for `test/gptApiFormat.test.ts`. Run before the tests:
+ *   node test/mock-llm-server.mjs & npm test
+ * Emulates both the Anthropic Messages and OpenAI Chat Completions APIs.
+ * Instead of translating, every response echoes the request it received
+ * (path, headers, body fields) so tests can assert exactly what was sent.
+ */
 import http from "node:http";
 
 const PORT = 23190;

@@ -1,20 +1,20 @@
-// Regression tests for the custom GPT API format switch.
-//
-// Requires the local mock server: `node test/mock-llm-server.mjs & npm test`.
-//
-// The mock echoes every request it receives (path, headers, body fields) back
-// as the "translation", so each assertion verifies both what the plugin sent
-// and what it parsed from the response.
+/*
+ * Regression tests for the custom GPT API format switch.
+ * Requires the mock server: `node test/mock-llm-server.mjs & npm test`.
+ * The mock echoes each request (path, headers, body) back as the
+ * "translation", so assertions verify both the request and the parsing.
+ */
 import { customGPT2, customGPT3 } from "../src/modules/services/gpt";
 import type { TranslateTask } from "../src/utils/task";
 import { setPref, clearPref } from "../src/utils/prefs";
 
 import type Addon from "../src/addon";
 
-// The service code reads the plugin instance from the bare `addon` global,
-// which lives in the plugin's own scope. Bridge the running instance
-// (registered by src/index.ts as Zotero.PDFTranslate) into this context;
-// fall back to a stub because a "title" task never touches the refresh API.
+/*
+ * The service reads the plugin instance from the bare `addon` global in the
+ * plugin's own scope. Bridge the running instance (Zotero.PDFTranslate) into
+ * this context; fall back to a stub since a "title" task never uses refresh.
+ */
 if (!(globalThis as { addon?: unknown }).addon) {
   const running = (Zotero as unknown as { PDFTranslate?: Addon }).PDFTranslate;
   (globalThis as unknown as { addon: unknown }).addon = running ?? {
