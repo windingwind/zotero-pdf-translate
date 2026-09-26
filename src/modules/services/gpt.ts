@@ -361,7 +361,7 @@ function createGPTService(id: ID): TranslateService {
   const checkSecret = id === "azuregpt" || id === "chatgpt";
 
   // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
-  // Additionally, customGPT was not initialized in prefs.js.
+  // customGPT1-3 use the same keys as chatGPT, with empty endpoints by default.
   const prefPrefix = id.replace("gpt", "GPT") as
     | "chatGPT"
     | "customGPT1"

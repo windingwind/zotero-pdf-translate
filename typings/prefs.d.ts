@@ -109,10 +109,25 @@ declare namespace _ZoteroTypes {
       "nllb.apistream": boolean;
       "nllb.serveendpoint": string;
       "customGPT1.apiFormat": string;
+      "customGPT1.endPoint": string;
+      "customGPT1.model": string;
+      "customGPT1.prompt": string;
+      "customGPT1.stream": boolean;
+      "customGPT1.customParams": string;
       "customGPT1.temperature": string;
       "customGPT2.apiFormat": string;
+      "customGPT2.endPoint": string;
+      "customGPT2.model": string;
+      "customGPT2.prompt": string;
+      "customGPT2.stream": boolean;
+      "customGPT2.customParams": string;
       "customGPT2.temperature": string;
       "customGPT3.apiFormat": string;
+      "customGPT3.endPoint": string;
+      "customGPT3.model": string;
+      "customGPT3.prompt": string;
+      "customGPT3.stream": boolean;
+      "customGPT3.customParams": string;
       "customGPT3.temperature": string;
     };
   }
