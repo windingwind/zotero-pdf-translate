@@ -82,6 +82,12 @@ service-dialog-custom-request-validation-example-boolean=- Boolean: false
 service-dialog-custom-request-validation-example-number=- Number: 123
 service-dialog-custom-request-validation-example-string=- Text: "text"
 service-dialog-custom-request-validation-example-object=- Object: { $example }
+service-gpt-dialog-thinkingLevel-hint=Il formato del parametro di ragionamento viene rilevato automaticamente dall'endpoint (OpenAI/Azure, OpenRouter, GLM, DeepSeek, Kimi, Doubao, Qwen). Per endpoint non riconosciuti (es. relay) non viene inviato alcun parametro: usa Custom Request per impostarlo manualmente.
+service-dialog-thinking-default=Predefinito
+service-dialog-thinking-off=Disattivato
+service-dialog-thinking-low=Basso
+service-dialog-thinking-medium=Medio
+service-dialog-thinking-high=Alto
 
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
@@ -107,6 +113,7 @@ service-chatgpt-dialog-prompt=Prompt
 service-gpt-dialog-prompt-hint=Variabili disponibili: { $variables }. { $required } è obbligatorio.
 service-gpt-dialog-prompt-required=Aggiungi { $placeholder } per inviare il testo selezionato al servizio di traduzione.
 service-chatgpt-dialog-stream=Stream
+service-chatgpt-dialog-thinkingLevel=Ragionamento
 service-chatgpt-dialog-custom-request=Custom Request
 
 service-azuregpt-dialog-endPoint=EndPoint
@@ -115,6 +122,7 @@ service-azuregpt-dialog-temperature=Temperatura
 service-azuregpt-dialog-apiVersion=Versione
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
+service-azuregpt-dialog-thinkingLevel=Ragionamento
 service-azuregpt-dialog-custom-request=Custom Request
 
 service-xftrans-dialog-engine=API Engine
@@ -122,6 +130,7 @@ service-xftrans-dialog-engine=API Engine
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
+service-gemini-dialog-thinkingLevel=Ragionamento
 
 service-qwenmt-dialog-endPoint=EndPoint
 service-qwenmt-dialog-model=Model
@@ -132,6 +141,7 @@ service-claude-dialog-model=Model
 service-claude-dialog-temperature=Temp
 service-claude-dialog-prompt=Prompt
 service-claude-dialog-stream=Stream
+service-claude-dialog-thinkingLevel=Ragionamento
 service-claude-dialog-maxTokens=Max Tokens
 
 service-cnki-settings=Impostazioni
