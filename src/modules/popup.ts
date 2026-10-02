@@ -5,6 +5,11 @@ import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
 
+type PopupDragOffset = { x: number; y: number };
+
+const popupDragOffsets = new WeakMap<HTMLDivElement, PopupDragOffset>();
+const initializedDragHandles = new WeakSet<HTMLElement>();
+
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
   if (!popup) {
@@ -114,6 +119,7 @@ export function updateReaderPopup() {
   }
 
   updatePopupSize(popup, textarea);
+  clampPopupToViewport(popup);
 }
 
 export function buildReaderPopup(
@@ -123,6 +129,11 @@ export function buildReaderPopup(
   const annotation = event.params.annotation;
   const popup = doc.querySelector(".selection-popup") as HTMLDivElement;
   addon.data.popup.currentPopup = popup;
+  // Each new selection starts at Zotero's native anchored position. The
+  // `translate` property is only used by this plugin, so resetting it does not
+  // interfere with Zotero's own top/bottom placement or transform styles.
+  popup.style.removeProperty("translate");
+  popupDragOffsets.set(popup, { x: 0, y: 0 });
   popup.style.maxWidth = "none";
   popup.setAttribute(
     `${config.addonRef}-prefix`,
@@ -145,6 +156,33 @@ export function buildReaderPopup(
   append(
     ztoolkit.UI.createElement(doc, "fragment", {
       children: [
+        {
+          tag: "div",
+          namespace: "html",
+          id: makeId("drag-handle"),
+          classList: [`${config.addonRef}-readerpopup`],
+          attributes: {
+            title: getString("readerpopup-dragHandle-label"),
+          },
+          properties: {
+            textContent: "•••",
+          },
+          styles: {
+            boxSizing: "border-box",
+            width: "calc(100% - 4px)",
+            height: "16px",
+            margin: "2px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--fill-secondary)",
+            cursor: "grab",
+            userSelect: "none",
+            touchAction: "none",
+            borderRadius: "4px",
+          },
+          ignoreIfExists: true,
+        },
         {
           tag: "div",
           id: makeId("audiobox"),
@@ -332,6 +370,143 @@ export function buildReaderPopup(
       ],
     }),
   );
+
+  const dragHandle = popup.querySelector(
+    `#${makeId("drag-handle")}`,
+  ) as HTMLElement;
+  initializePopupDragging(popup, dragHandle);
+}
+
+function initializePopupDragging(
+  popup: HTMLDivElement,
+  handle: HTMLElement,
+): void {
+  if (!handle || initializedDragHandles.has(handle)) {
+    return;
+  }
+  initializedDragHandles.add(handle);
+
+  let dragState:
+    | {
+        pointerId: number;
+        startX: number;
+        startY: number;
+        startRect: DOMRect;
+        baseOffset: PopupDragOffset;
+      }
+    | undefined;
+
+  const finishDrag = (ev: PointerEvent) => {
+    if (!dragState || ev.pointerId !== dragState.pointerId) {
+      return;
+    }
+    if (handle.hasPointerCapture(ev.pointerId)) {
+      handle.releasePointerCapture(ev.pointerId);
+    }
+    dragState = undefined;
+    handle.style.cursor = "grab";
+    ev.stopPropagation();
+  };
+
+  handle.addEventListener("pointerdown", (ev: PointerEvent) => {
+    if (ev.button !== 0 || !ev.isPrimary) {
+      return;
+    }
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    const baseOffset = popupDragOffsets.get(popup) || { x: 0, y: 0 };
+    dragState = {
+      pointerId: ev.pointerId,
+      startX: ev.clientX,
+      startY: ev.clientY,
+      startRect: popup.getBoundingClientRect(),
+      baseOffset,
+    };
+    handle.setPointerCapture(ev.pointerId);
+    handle.style.cursor = "grabbing";
+  });
+
+  handle.addEventListener("pointermove", (ev: PointerEvent) => {
+    if (!dragState || ev.pointerId !== dragState.pointerId) {
+      return;
+    }
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    const rawDeltaX = ev.clientX - dragState.startX;
+    const rawDeltaY = ev.clientY - dragState.startY;
+    const deltaX = clampDragDelta(
+      rawDeltaX,
+      dragState.startRect.left,
+      dragState.startRect.right,
+      popup.ownerDocument.documentElement.clientWidth,
+    );
+    const deltaY = clampDragDelta(
+      rawDeltaY,
+      dragState.startRect.top,
+      dragState.startRect.bottom,
+      popup.ownerDocument.documentElement.clientHeight,
+    );
+    const nextOffset = {
+      x: dragState.baseOffset.x + deltaX,
+      y: dragState.baseOffset.y + deltaY,
+    };
+    popup.style.translate = `${nextOffset.x}px ${nextOffset.y}px`;
+    popupDragOffsets.set(popup, nextOffset);
+  });
+
+  handle.addEventListener("pointerup", finishDrag);
+  handle.addEventListener("pointercancel", finishDrag);
+  handle.addEventListener("lostpointercapture", finishDrag);
+}
+
+function clampDragDelta(
+  delta: number,
+  leadingEdge: number,
+  trailingEdge: number,
+  viewportSize: number,
+): number {
+  const margin = 4;
+  const minDelta = margin - leadingEdge;
+  const maxDelta = viewportSize - margin - trailingEdge;
+  // If the popup is larger than the viewport, keep its leading edge reachable
+  // and allow the trailing edge to overflow instead of producing an invalid
+  // clamp range.
+  if (minDelta > maxDelta) {
+    return minDelta;
+  }
+  return Math.min(maxDelta, Math.max(minDelta, delta));
+}
+
+function clampPopupToViewport(popup: HTMLDivElement): void {
+  const currentOffset = popupDragOffsets.get(popup);
+  if (!currentOffset) {
+    return;
+  }
+  const rect = popup.getBoundingClientRect();
+  const viewport = popup.ownerDocument.documentElement;
+  const correctionX = clampDragDelta(
+    0,
+    rect.left,
+    rect.right,
+    viewport.clientWidth,
+  );
+  const correctionY = clampDragDelta(
+    0,
+    rect.top,
+    rect.bottom,
+    viewport.clientHeight,
+  );
+  if (correctionX === 0 && correctionY === 0) {
+    return;
+  }
+  const nextOffset = {
+    x: currentOffset.x + correctionX,
+    y: currentOffset.y + correctionY,
+  };
+  popup.style.translate = `${nextOffset.x}px ${nextOffset.y}px`;
+  popupDragOffsets.set(popup, nextOffset);
 }
 
 function onTextAreaResize(ev: MouseEvent) {
