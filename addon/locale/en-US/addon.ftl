@@ -84,6 +84,12 @@ service-dialog-custom-request-validation-example-string=- Text: "text"
 service-dialog-custom-request-validation-example-object=- Object: { $example }
 service-dialog-api-format-openai=OpenAI (chat/completions)
 service-dialog-api-format-anthropic=Anthropic (messages)
+service-gpt-dialog-thinkingLevel-hint=The thinking parameter format is auto-detected from the endpoint (OpenAI/Azure, OpenRouter, GLM, DeepSeek, Kimi, Doubao, Qwen). Nothing is sent for unrecognized endpoints (e.g. relays) — use Custom Request to set the parameter manually.
+service-dialog-thinking-default=Default
+service-dialog-thinking-off=Off
+service-dialog-thinking-low=Low
+service-dialog-thinking-medium=Medium
+service-dialog-thinking-high=High
 
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Username
@@ -111,6 +117,7 @@ service-gpt-dialog-prompt-hint=Available variables: { $variables }. { $required 
 service-gpt-dialog-prompt-required=Please add { $placeholder } so the selected text can be sent for translation.
 service-gpt-dialog-apiFormat-hint=The EndPoint accepts the base URL from the provider docs: https://api.deepseek.com becomes https://api.deepseek.com/v1/chat/completions (Anthropic format: https://api.anthropic.com/v1/messages). Any already complete URL, e.g. https://api.openai.com/v1/chat/completions or https://api.openai.com/v1/responses, is used as typed. For the Anthropic format the key is sent as x-api-key.
 service-chatgpt-dialog-stream=Stream
+service-chatgpt-dialog-thinkingLevel=Thinking
 service-chatgpt-dialog-custom-request=Custom Request
 
 service-azuregpt-dialog-endPoint=EndPoint
@@ -119,6 +126,7 @@ service-azuregpt-dialog-temperature=Temp
 service-azuregpt-dialog-apiVersion=Version
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
+service-azuregpt-dialog-thinkingLevel=Thinking
 service-azuregpt-dialog-custom-request=Custom Request
 
 service-xftrans-dialog-engine=API Engine
@@ -126,6 +134,7 @@ service-xftrans-dialog-engine=API Engine
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
+service-gemini-dialog-thinkingLevel=Thinking
 
 service-qwenmt-dialog-endPoint=EndPoint
 service-qwenmt-dialog-model=Model
@@ -136,6 +145,7 @@ service-claude-dialog-model=Model
 service-claude-dialog-temperature=Temp
 service-claude-dialog-prompt=Prompt
 service-claude-dialog-stream=Stream
+service-claude-dialog-thinkingLevel=Thinking
 service-claude-dialog-maxTokens=Max Tokens
 
 service-cnki-settings=Settings

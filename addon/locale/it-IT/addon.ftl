@@ -84,6 +84,12 @@ service-dialog-custom-request-validation-example-string=- Text: "text"
 service-dialog-custom-request-validation-example-object=- Object: { $example }
 service-dialog-api-format-openai=OpenAI (chat/completions)
 service-dialog-api-format-anthropic=Anthropic (messages)
+service-gpt-dialog-thinkingLevel-hint=Il formato del parametro di ragionamento viene rilevato automaticamente dall'endpoint (OpenAI/Azure, OpenRouter, GLM, DeepSeek, Kimi, Doubao, Qwen). Per endpoint non riconosciuti (es. relay) non viene inviato alcun parametro: usa Custom Request per impostarlo manualmente.
+service-dialog-thinking-default=Predefinito
+service-dialog-thinking-off=Disattivato
+service-dialog-thinking-low=Basso
+service-dialog-thinking-medium=Medio
+service-dialog-thinking-high=Alto
 
 service-niutranspro-dialog-endpoint=Endpoint
 service-niutranspro-dialog-username=Nome utente
@@ -111,6 +117,7 @@ service-gpt-dialog-prompt-hint=Variabili disponibili: { $variables }. { $require
 service-gpt-dialog-prompt-required=Aggiungi { $placeholder } per inviare il testo selezionato al servizio di traduzione.
 service-gpt-dialog-apiFormat-hint=L'endpoint accetta l'URL di base della documentazione del provider: https://api.deepseek.com diventa https://api.deepseek.com/v1/chat/completions (formato Anthropic: https://api.anthropic.com/v1/messages). Un URL già completo, ad es. https://api.openai.com/v1/chat/completions o https://api.openai.com/v1/responses, viene usato così com'è. Nel formato Anthropic la chiave viene inviata come x-api-key.
 service-chatgpt-dialog-stream=Stream
+service-chatgpt-dialog-thinkingLevel=Ragionamento
 service-chatgpt-dialog-custom-request=Custom Request
 
 service-azuregpt-dialog-endPoint=EndPoint
@@ -119,6 +126,7 @@ service-azuregpt-dialog-temperature=Temperatura
 service-azuregpt-dialog-apiVersion=Versione
 service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
+service-azuregpt-dialog-thinkingLevel=Ragionamento
 service-azuregpt-dialog-custom-request=Custom Request
 
 service-xftrans-dialog-engine=API Engine
@@ -126,6 +134,7 @@ service-xftrans-dialog-engine=API Engine
 service-gemini-dialog-endPoint=EndPoint
 service-gemini-dialog-prompt=Prompt
 service-gemini-dialog-stream=Stream
+service-gemini-dialog-thinkingLevel=Ragionamento
 
 service-qwenmt-dialog-endPoint=EndPoint
 service-qwenmt-dialog-model=Model
@@ -136,6 +145,7 @@ service-claude-dialog-model=Model
 service-claude-dialog-temperature=Temp
 service-claude-dialog-prompt=Prompt
 service-claude-dialog-stream=Stream
+service-claude-dialog-thinkingLevel=Ragionamento
 service-claude-dialog-maxTokens=Max Tokens
 
 service-cnki-settings=Impostazioni

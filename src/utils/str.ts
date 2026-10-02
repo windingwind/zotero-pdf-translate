@@ -22,6 +22,17 @@ export function fill(
 }
 
 /**
+ * Strip <think>...</think> tags and their content from text.
+ * Also strips an unterminated <think> block (e.g. from a truncated stream).
+ * @param text Text to process
+ * @returns Processed text
+ */
+export function stripThinkingTags(text: string): string {
+  if (!text) return text;
+  return text.replace(/<think>[\s\S]*?(?:<\/think>|$)/gi, "");
+}
+
+/**
  * Strip empty lines and thinking tags from text
  * @param text Text to process
  * @param enabled Whether stripping is enabled
@@ -31,7 +42,7 @@ export function stripEmptyLines(text: string, enabled: boolean): string {
   if (!text || !enabled) return text;
 
   // Strip <think>...</think> tags and their content
-  const processedText = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  const processedText = stripThinkingTags(text);
 
   // Leave blank lines for error messages
   const errorPrefix = getString("service-errorPrefix");

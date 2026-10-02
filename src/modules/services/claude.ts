@@ -1,4 +1,10 @@
-import { buildPromptParts, getPref, getString } from "../../utils";
+import {
+  buildPromptParts,
+  getPref,
+  getString,
+  getThinkingLevelOptions,
+  stripThinkingTags,
+} from "../../utils";
 import { TranslateService } from "./base";
 import type { TranslateTask } from "../../utils/task";
 
@@ -19,6 +25,7 @@ const translate = <TranslateService["translate"]>async function (data) {
   const temperature = parseFloat(getPref("claude.temperature") as string);
   const stream = getPref("claude.stream") as boolean;
   const maxTokens = parseInt(getPref("claude.maxTokens") as string) || 4000;
+  const thinkingLevel = getPref("claude.thinkingLevel") as string;
 
   const refreshHandler = addon.api.getTemporaryRefreshHandler({ task: data });
 
@@ -28,6 +35,23 @@ const translate = <TranslateService["translate"]>async function (data) {
     data.raw,
     data,
   );
+
+  // https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking
+  // The API requires max_tokens to be greater than thinking.budget_tokens
+  const thinkingBudgets = { low: 2048, medium: 8192, high: 16384 };
+  let thinking: Record<string, any> | undefined;
+  let effectiveMaxTokens = maxTokens;
+  if (thinkingLevel === "off") {
+    thinking = { type: "disabled" };
+  } else if (
+    thinkingLevel === "low" ||
+    thinkingLevel === "medium" ||
+    thinkingLevel === "high"
+  ) {
+    const budget = thinkingBudgets[thinkingLevel];
+    thinking = { type: "enabled", budget_tokens: budget };
+    effectiveMaxTokens = Math.max(maxTokens, budget + 1024);
+  }
 
   // Pass maxTokens to the request body
   const requestBody = {
@@ -41,7 +65,8 @@ const translate = <TranslateService["translate"]>async function (data) {
     ],
     temperature: temperature,
     stream: stream,
-    max_tokens: maxTokens,
+    max_tokens: effectiveMaxTokens,
+    ...(thinking ? { thinking } : {}),
   };
 
   const headers = {
@@ -106,7 +131,7 @@ const translate = <TranslateService["translate"]>async function (data) {
             }
 
             // Update the result
-            data.result = result.replace(/^\n\n/, "");
+            data.result = stripThinkingTags(result.replace(/^\n\n/, ""));
 
             // Refresh UI to show progress
             refreshHandler();
@@ -127,8 +152,13 @@ const translate = <TranslateService["translate"]>async function (data) {
         xmlhttp.onload = () => {
           try {
             const responseObj = JSON.parse(xmlhttp.responseText);
-            const resultContent = responseObj.content[0].text;
-            data.result = resultContent.replace(/^\n\n/, "");
+            // With extended thinking the first content block is the thinking
+            // block; take the first text block instead
+            const textBlock = (responseObj.content || []).find(
+              (block: any) => block.type === "text",
+            );
+            const resultContent = textBlock?.text || "";
+            data.result = stripThinkingTags(resultContent.replace(/^\n\n/, ""));
           } catch (error) {
             data.result = getString("status-translating");
             data.status = "fail";
@@ -207,6 +237,11 @@ export const Claude: TranslateService = {
       .addCheckboxSetting({
         prefKey: "claude.stream",
         nameKey: "service-claude-dialog-stream",
+      })
+      .addSelectSetting({
+        prefKey: "claude.thinkingLevel",
+        nameKey: "service-claude-dialog-thinkingLevel",
+        options: getThinkingLevelOptions(),
       });
   },
 };
