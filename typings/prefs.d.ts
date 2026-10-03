@@ -89,6 +89,7 @@ declare namespace _ZoteroTypes {
       "qwenmt.domains": string;
       "aliyun.action": string;
       "aliyun.scene": string;
+      "batchConcurrency": number;
       "enableMathRendering": boolean;
       "stripEmptyLines": boolean;
       "libretranslate.endpoint": string;

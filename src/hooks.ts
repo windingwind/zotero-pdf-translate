@@ -17,8 +17,10 @@ import {
   addTranslateTask,
   addTranslateTitleTask,
   getLastTranslateTask,
+  sanitizeTaskForLog,
   TranslateTask,
 } from "./utils/task";
+import { normalizeBatchConcurrency, runTranslateBatch } from "./utils/batch";
 import { setDefaultPrefSettings } from "./modules/defaultPrefs";
 import Addon from "./addon";
 import { registerMenu } from "./modules/menu";
@@ -150,6 +152,8 @@ function onNotify(
           .map((item) => addTranslateAnnotationTask(item.id))
           .filter((task) => task) as TranslateTask[],
         { noDisplay: true },
+        // Annotations arrive from a sync, in the background: always serial.
+        1,
       );
     }
   } else if (type === "tab" && ["select", "add", "close"].includes(event)) {
@@ -222,11 +226,20 @@ async function onTranslateInBatch(
   options: Parameters<
     Addon["data"]["translate"]["services"]["runTranslationTask"]
   >["1"] = {},
+  concurrency: number = normalizeBatchConcurrency(getPref("batchConcurrency")),
 ) {
-  for (const task of tasks) {
-    await addon.hooks.onTranslate(task, options);
-    await Zotero.Promise.delay(addon.data.translate.batchTaskDelay);
-  }
+  await runTranslateBatch(tasks, {
+    concurrency,
+    run: (task) => addon.hooks.onTranslate(task, options),
+    onTaskError: (task, error) =>
+      addon.data.ztoolkit.log(
+        "batch task failed",
+        sanitizeTaskForLog(task),
+        error,
+      ),
+    waitBetweenTasks: () =>
+      Zotero.Promise.delay(addon.data.translate.batchTaskDelay),
+  });
 }
 
 function onReaderPopupShow(

@@ -118,6 +118,8 @@ pref-advanced-splitChar =
     .value = Carattere di divisione (tra testo e traduzione)
 pref-advanced-resultRegex =
     .value = Regex per rimuovere il testo extra dai risultati della traduzione (lasciare vuoto per disabilitare)
+pref-advanced-batchConcurrency =
+    .value = Concorrenza della traduzione in batch (1 = seriale)
 pref-advanced-reset =
     .value = Reimposta il campo degli elementi selezionati nella libreria:
 pref-advanced-reset-titleTranslation =
