@@ -1,6 +1,7 @@
 /*
  * Regression tests for the custom GPT API format switch.
- * Requires the mock server: `node test/mock-llm-server.mjs & npm test`.
+ * Uses the mock server in `test/mock-llm-server.mjs`, which `npm test`
+ * starts through the `test:init` hook in `zotero-plugin.config.ts`.
  * The mock echoes each request (path, headers, body) back as the
  * "translation", so assertions verify both the request and the parsing.
  */
@@ -35,9 +36,13 @@ function buildTask(raw: string, service: string): Required<TranslateTask> {
     itemId: undefined,
     langfrom: "en-US",
     langto: "zh-CN",
+    langfromInferred: false,
     status: "processing",
     extraTasks: [],
     secret: "test-secret",
+    silent: false,
+    callerID: "test",
+    processed: false,
   };
 }
 

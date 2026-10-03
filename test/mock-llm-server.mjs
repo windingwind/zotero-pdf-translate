@@ -1,11 +1,13 @@
 /*
- * Mock LLM server for `test/gptApiFormat.test.ts`. Run before the tests:
- *   node test/mock-llm-server.mjs & npm test
+ * Mock LLM server for `test/gptApiFormat.test.ts`. `npm test` starts it
+ * through the `test:init` hook in `zotero-plugin.config.ts`; it can also be
+ * run on its own for debugging: `node test/mock-llm-server.mjs`.
  * Emulates both the Anthropic Messages and OpenAI Chat Completions APIs.
  * Instead of translating, every response echoes the request it received
  * (path, headers, body fields) so tests can assert exactly what was sent.
  */
 import http from "node:http";
+import { pathToFileURL } from "node:url";
 
 const PORT = 23190;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -104,6 +106,20 @@ const server = http.createServer(async (req, res) => {
   res.end();
 });
 
-server.listen(PORT, "127.0.0.1", () =>
-  console.log(`[mock] listening on http://127.0.0.1:${PORT}`),
-);
+export function startMockLLMServer() {
+  return new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(PORT, "127.0.0.1", () => {
+      console.log(`[mock] listening on http://127.0.0.1:${PORT}`);
+      resolve(server);
+    });
+  });
+}
+
+// Standalone mode: `node test/mock-llm-server.mjs`
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  startMockLLMServer();
+}

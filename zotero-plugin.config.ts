@@ -18,6 +18,18 @@ export default defineConfig({
     asProxy: false,
   },
 
+  test: {
+    hooks: {
+      // test/gptApiFormat.test.ts sends its requests to this mock server. It
+      // runs in the tester's process, so it stops when the tests exit.
+      "test:init": async () => {
+        const { startMockLLMServer } =
+          await import("./test/mock-llm-server.mjs");
+        await startMockLLMServer();
+      },
+    },
+  },
+
   build: {
     assets: ["addon/**/*.*"],
     define: {
