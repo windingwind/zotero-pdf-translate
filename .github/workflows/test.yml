@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The test bundle is built by esbuild, which does not typecheck
+      - name: Typecheck tests
+        run: npx tsc --noEmit -p test/tsconfig.json
+
+      # In CI, zotero-plugin-scaffold downloads Zotero, runs it headless
+      # under Xvfb, and exits non-zero if any test fails
+      - name: Run tests
+        run: npm test
