@@ -4,7 +4,6 @@ import {
   ExtraFieldTool,
   FieldHookManager,
   KeyboardManager,
-  PromptManager,
   DialogHelper,
   SettingsDialogHelper,
   ProgressWindowHelper,
@@ -33,8 +32,6 @@ function initZToolkit(_ztoolkit: ReturnType<typeof createZToolkit>) {
   _ztoolkit.basicOptions.log.disableConsole = env === "production";
   _ztoolkit.UI.basicOptions.ui.enableElementJSONLog = __env__ === "development";
   _ztoolkit.UI.basicOptions.ui.enableElementDOMLog = __env__ === "development";
-  _ztoolkit.basicOptions.debug.disableDebugBridgePassword =
-    __env__ === "development";
   _ztoolkit.basicOptions.api.pluginID = config.addonID;
   _ztoolkit.ProgressWindow.setIconURI(
     "default",
@@ -47,7 +44,6 @@ export class MyToolkit extends BasicTool {
   ExtraField: ExtraFieldTool;
   FieldHook: FieldHookManager;
   Keyboard: KeyboardManager;
-  Prompt: PromptManager;
   Dialog: typeof DialogHelper;
   SettingsDialog: typeof SettingsDialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
@@ -59,7 +55,6 @@ export class MyToolkit extends BasicTool {
     this.ExtraField = new ExtraFieldTool(this);
     this.FieldHook = new FieldHookManager(this);
     this.Keyboard = new KeyboardManager(this);
-    this.Prompt = new PromptManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.SettingsDialog = makeHelperTool(SettingsDialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);

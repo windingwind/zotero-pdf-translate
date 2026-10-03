@@ -25,7 +25,6 @@ import { registerMenu } from "./modules/menu";
 import { registerExtraColumns } from "./modules/itemTree";
 import { registerShortcuts } from "./modules/shortcuts";
 import { registerItemPaneInfoRows } from "./modules/infoBox";
-import { registerPrompt } from "./modules/prompt";
 import { registerCustomFields } from "./modules/fields";
 
 async function onStartup() {
@@ -95,7 +94,6 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   );
 
   registerMenu();
-  registerPrompt();
 
   win.document.addEventListener("focusout", (ev) => {
     if (ev.target !== win.document) {
