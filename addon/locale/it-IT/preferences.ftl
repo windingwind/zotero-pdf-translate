@@ -124,6 +124,14 @@ pref-advanced-reset-titleTranslation =
     .label = Traduzione del titolo
 pref-advanced-reset-abstractTranslation =
     .label = Traduzione dell'abstract
+pref-advanced-pluginData =
+    .value = Dati del plugin:
+pref-advanced-pluginData-backup =
+    .label = Backup
+pref-advanced-pluginData-restore =
+    .label = Ripristina
+pref-advanced-pluginData-reset =
+    .label = Reimposta predefiniti
 
 pref-about = Informazioni
 
