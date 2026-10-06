@@ -275,6 +275,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
   - Disable Automatic Translation when File Language is(comma-separated): If you want to disable automatic translation in `zh` and `ja` files, set `zh,ja`. Default `zh,zh-CN,中文`.
 - Delimiter (between text and translation): When translating annotations, the result will be wrapped inside this character to allow safe re-translate. If set to empty, re-translating annotations will replace the annotation comment/body with the new translate result.
 - Regex for removing extra text from translation results (leave empty to disable): Automatically remove text from translation results using regex. You need to understand how to use regex in advance.
+- Batch translation concurrency: How many translations of one batch run at the same time, when translating the titles or the abstracts of selected items. Default `1`, which runs them one after another. There is no upper limit; a large number can slow Zotero down. Annotations that arrive from a sync are always translated one after another, whatever this value is.
 - Reset field of selected items in library: Batch reset the _Title Translation_ or _Abstract Translation_ of selected items. Please select the items in Library or Collection panel and then click the button.
 
 ## Development & Contributing

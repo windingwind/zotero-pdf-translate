@@ -118,6 +118,8 @@ pref-advanced-splitChar =
     .value = Delimiter (between text and translation)
 pref-advanced-resultRegex =
     .value = Regex for removing extra text from translation results (leave empty to disable)
+pref-advanced-batchConcurrency =
+    .value = Batch translation concurrency (1 = serial)
 pref-advanced-reset =
     .value = Reset field of selected items in library:
 pref-advanced-reset-titleTranslation =

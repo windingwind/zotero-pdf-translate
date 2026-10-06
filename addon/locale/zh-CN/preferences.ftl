@@ -118,6 +118,8 @@ pref-advanced-splitChar =
     .value = 分隔符（原文与翻译之间）
 pref-advanced-resultRegex =
     .value = 用于移除翻译结果中多余文本的正则表达式（留空以禁用）
+pref-advanced-batchConcurrency =
+    .value = 批量翻译并行数（1 = 串行）
 pref-advanced-reset =
     .value = 重置库中选中条目的字段：
 pref-advanced-reset-titleTranslation =
