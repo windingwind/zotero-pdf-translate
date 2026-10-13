@@ -109,6 +109,7 @@ export type AllowedSettingsMethods = Pick<
   | "addSelectSetting"
   | "addTextAreaSetting"
   | "addCustomParamsSetting"
+  | "addCustomHeadersSetting"
   | "addButton"
   | "addSetting"
   | "addStaticRow"
@@ -215,7 +216,22 @@ export class ServiceSettingsDialog extends SettingsDialogHelper {
     return this.addButton(getString(field.nameKey), field.prefKey, {
       noClose: true,
       callback(ev) {
-        openCustomRequestDialog(field.prefKey);
+        openRequestEditorDialog({
+          ...CUSTOM_PARAMS_EDITOR,
+          prefKey: field.prefKey,
+        });
+      },
+    });
+  }
+
+  addCustomHeadersSetting(field: ParamsField): AllowedSettingsMethods {
+    return this.addButton(getString(field.nameKey), field.prefKey, {
+      noClose: true,
+      callback(ev) {
+        openRequestEditorDialog({
+          ...CUSTOM_HEADERS_EDITOR,
+          prefKey: field.prefKey,
+        });
       },
     });
   }
@@ -263,9 +279,9 @@ export async function createServiceSettingsDialog(
 }
 
 // =======================================================
-//             Custom parameters field
+//          Custom request editor (params & headers)
 //========================================================
-const CUSTOM_PARAMS_INPUT_STYLES = {
+const CUSTOM_REQUEST_INPUT_STYLES = {
   width: "100%",
   height: "32px",
   padding: "6px 8px",
@@ -279,6 +295,7 @@ function createParamInputCell(
   doc: Document,
   type: "key" | "value",
   index: number,
+  placeholder: string,
   value: string = "",
 ): HTMLTableCellElement {
   const cell = doc.createElement("td");
@@ -287,32 +304,29 @@ function createParamInputCell(
   const input = doc.createElement("input");
   input.type = "text";
   input.id = `${type}-${index}`;
-  input.placeholder =
-    type === "key"
-      ? getString("service-dialog-custom-request-parameter-name-placeholder")
-      : getString("service-dialog-custom-request-parameter-value-placeholder");
+  input.placeholder = placeholder;
   input.value = value;
-  Object.assign(input.style, CUSTOM_PARAMS_INPUT_STYLES);
+  Object.assign(input.style, CUSTOM_REQUEST_INPUT_STYLES);
 
   cell.appendChild(input);
   return cell;
 }
 
-type ParsedCustomParamsResult = {
-  params: Record<string, any>;
-  errors: CustomParamValidationError[];
-};
-
-type CustomParamValidationError = {
-  kind: "duplicate" | "empty" | "invalid";
+type CustomRequestValidationError = {
+  kind: "duplicate" | "empty" | "invalid" | "invalid-name";
   key: string;
   detail?: string;
 };
 
-function parseCustomParamsFromDialog(doc: Document): ParsedCustomParamsResult {
-  const params: Record<string, any> = {};
-  const errors: CustomParamValidationError[] = [];
-  const seenKeys = new Set<string>();
+type ParsedCustomRequestResult = {
+  values: Record<string, any>;
+  errors: CustomRequestValidationError[];
+};
+
+function readEditorRows(
+  doc: Document,
+): Array<{ key: string; rawValue: string }> {
+  const rows: Array<{ key: string; rawValue: string }> = [];
   let index = 0;
 
   while (true) {
@@ -323,42 +337,84 @@ function parseCustomParamsFromDialog(doc: Document): ParsedCustomParamsResult {
 
     if (!keyElement || !valueElement) break;
 
-    const key = keyElement.value.trim();
-    const valueRaw = valueElement.value.trim();
+    rows.push({
+      key: keyElement.value.trim(),
+      rawValue: valueElement.value.trim(),
+    });
+    index++;
+  }
 
-    if (!key) {
-      index++;
-      continue;
-    }
+  return rows;
+}
+
+function parseCustomParamsFromDialog(doc: Document): ParsedCustomRequestResult {
+  const values: Record<string, any> = {};
+  const errors: CustomRequestValidationError[] = [];
+  const seenKeys = new Set<string>();
+
+  for (const { key, rawValue } of readEditorRows(doc)) {
+    if (!key) continue;
 
     if (seenKeys.has(key)) {
       errors.push({ kind: "duplicate", key });
-      index++;
       continue;
     }
     seenKeys.add(key);
 
-    if (!valueRaw) {
+    if (!rawValue) {
       errors.push({ kind: "empty", key });
-      index++;
       continue;
     }
 
     try {
-      params[key] = JSON.parse(valueRaw);
+      values[key] = JSON.parse(rawValue);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       errors.push({ kind: "invalid", key, detail: msg });
     }
-
-    index++;
   }
 
-  return { params, errors };
+  return { values, errors };
+}
+
+// RFC 7230 header field name (token)
+const CUSTOM_HEADER_NAME_PATTERN = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
+
+function parseCustomHeadersFromDialog(
+  doc: Document,
+): ParsedCustomRequestResult {
+  const values: Record<string, string> = {};
+  const errors: CustomRequestValidationError[] = [];
+  const seenKeys = new Set<string>();
+
+  for (const { key, rawValue } of readEditorRows(doc)) {
+    if (!key) continue;
+
+    const lowerKey = key.toLowerCase();
+    if (seenKeys.has(lowerKey)) {
+      errors.push({ kind: "duplicate", key });
+      continue;
+    }
+    seenKeys.add(lowerKey);
+
+    if (!CUSTOM_HEADER_NAME_PATTERN.test(key)) {
+      errors.push({ kind: "invalid-name", key });
+      continue;
+    }
+
+    if (!rawValue) {
+      errors.push({ kind: "empty", key });
+      continue;
+    }
+
+    values[key] = rawValue;
+  }
+
+  return { values, errors };
 }
 
 function formatCustomParamsValidationMessage(
-  errors: CustomParamValidationError[],
+  errors: CustomRequestValidationError[],
 ): string {
   const objectExample = '{"enable_thinking": false}';
   const lines = [
@@ -411,36 +467,139 @@ function formatCustomParamsValidationMessage(
   return lines.join("\n");
 }
 
-async function openCustomRequestDialog(prefKey: string) {
-  const dialog = new ztoolkit.Dialog(2, 1);
-  const parameterNameHeader = getString(
-    "service-dialog-custom-request-parameter-name",
-  );
-  const parameterValueHeader = getString(
-    "service-dialog-custom-request-parameter-value",
-  );
-  const parameterNamePlaceholder = getString(
-    "service-dialog-custom-request-parameter-name-placeholder",
-  );
-  const parameterValuePlaceholder = getString(
-    "service-dialog-custom-request-parameter-value-placeholder",
-  );
+function formatCustomHeadersValidationMessage(
+  errors: CustomRequestValidationError[],
+): string {
+  const lines = [
+    getString("service-dialog-custom-headers-validation-summary"),
+    "",
+    getString("service-dialog-custom-headers-validation-errors-head"),
+  ];
 
-  // Get stored custom parameters or default empty object
-  const storedCustomParams = (getPref(prefKey) as string) || "{}";
-  let customParams: Record<string, any> = {};
+  for (const error of errors) {
+    switch (error.kind) {
+      case "duplicate":
+        lines.push(
+          getString(
+            "service-dialog-custom-headers-validation-error-duplicate",
+            {
+              args: { key: error.key },
+            },
+          ),
+        );
+        break;
+      case "invalid-name":
+        lines.push(
+          getString(
+            "service-dialog-custom-headers-validation-error-invalid-name",
+            {
+              args: { key: error.key },
+            },
+          ),
+        );
+        break;
+      case "empty":
+      default:
+        lines.push(
+          getString("service-dialog-custom-headers-validation-error-empty", {
+            args: { key: error.key },
+          }),
+        );
+        break;
+    }
+  }
+
+  return lines.join("\n");
+}
+
+type CustomRequestEditorConfig = {
+  /**
+   * The pref key storing the edited key-value object as a JSON string.
+   */
+  prefKey: string;
+
+  /**
+   * The fluent keys of the editor texts.
+   */
+  titleKey: FluentMessageId;
+  descriptionKey: FluentMessageId;
+  addKey: FluentMessageId;
+  nameHeaderKey: FluentMessageId;
+  valueHeaderKey: FluentMessageId;
+  namePlaceholderKey: FluentMessageId;
+  valuePlaceholderKey: FluentMessageId;
+  validationTitleKey: FluentMessageId;
+
+  /**
+   * Format a stored value for display in the editor.
+   */
+  formatValue: (value: any) => string;
+
+  /**
+   * Parse the editor rows into stored values and validation errors.
+   */
+  parse: (doc: Document) => ParsedCustomRequestResult;
+
+  /**
+   * Format validation errors into the message of the alert dialog.
+   */
+  formatErrors: (errors: CustomRequestValidationError[]) => string;
+};
+
+const CUSTOM_PARAMS_EDITOR: Omit<CustomRequestEditorConfig, "prefKey"> = {
+  titleKey: "service-dialog-custom-request-title",
+  descriptionKey: "service-dialog-custom-request-description",
+  addKey: "service-dialog-custom-request-add-param",
+  nameHeaderKey: "service-dialog-custom-request-parameter-name",
+  valueHeaderKey: "service-dialog-custom-request-parameter-value",
+  namePlaceholderKey:
+    "service-dialog-custom-request-parameter-name-placeholder",
+  valuePlaceholderKey:
+    "service-dialog-custom-request-parameter-value-placeholder",
+  validationTitleKey: "service-dialog-custom-request-validation-title",
+  formatValue: (value) => JSON.stringify(value),
+  parse: parseCustomParamsFromDialog,
+  formatErrors: formatCustomParamsValidationMessage,
+};
+
+const CUSTOM_HEADERS_EDITOR: Omit<CustomRequestEditorConfig, "prefKey"> = {
+  titleKey: "service-dialog-custom-headers-title",
+  descriptionKey: "service-dialog-custom-headers-description",
+  addKey: "service-dialog-custom-headers-add-header",
+  nameHeaderKey: "service-dialog-custom-headers-name",
+  valueHeaderKey: "service-dialog-custom-headers-value",
+  namePlaceholderKey: "service-dialog-custom-headers-name-placeholder",
+  valuePlaceholderKey: "service-dialog-custom-headers-value-placeholder",
+  validationTitleKey: "service-dialog-custom-headers-validation-title",
+  formatValue: (value) => String(value),
+  parse: parseCustomHeadersFromDialog,
+  formatErrors: formatCustomHeadersValidationMessage,
+};
+
+async function openRequestEditorDialog(
+  cfg: CustomRequestEditorConfig,
+): Promise<void> {
+  const dialog = new ztoolkit.Dialog(2, 1);
+  const parameterNameHeader = getString(cfg.nameHeaderKey);
+  const parameterValueHeader = getString(cfg.valueHeaderKey);
+  const parameterNamePlaceholder = getString(cfg.namePlaceholderKey);
+  const parameterValuePlaceholder = getString(cfg.valuePlaceholderKey);
+
+  // Get stored entries or default empty object
+  const storedEntries = (getPref(cfg.prefKey) as string) || "{}";
+  let storedObject: Record<string, any> = {};
   try {
-    customParams = JSON.parse(storedCustomParams);
+    storedObject = JSON.parse(storedEntries);
   } catch (e) {
-    customParams = {};
+    storedObject = {};
   }
 
   // Convert to key-value pairs for display
   const keyValuePairs: Array<{ key: string; value: string }> = Object.entries(
-    customParams,
+    storedObject,
   ).map(([key, value]) => ({
     key,
-    value: JSON.stringify(value),
+    value: cfg.formatValue(value),
   }));
 
   // Add empty pair for new entries
@@ -473,7 +632,7 @@ async function openCustomRequestDialog(prefKey: string) {
               placeholder: parameterNamePlaceholder,
               value: pair.key || "",
             },
-            styles: CUSTOM_PARAMS_INPUT_STYLES,
+            styles: CUSTOM_REQUEST_INPUT_STYLES,
           },
         ],
       },
@@ -491,7 +650,7 @@ async function openCustomRequestDialog(prefKey: string) {
               placeholder: parameterValuePlaceholder,
               value: pair.value || "",
             },
-            styles: CUSTOM_PARAMS_INPUT_STYLES,
+            styles: CUSTOM_REQUEST_INPUT_STYLES,
           },
         ],
       },
@@ -529,7 +688,7 @@ async function openCustomRequestDialog(prefKey: string) {
               marginBottom: "15px",
             },
             properties: {
-              innerHTML: getString(`service-dialog-custom-request-description`),
+              innerHTML: getString(cfg.descriptionKey),
             },
           },
           {
@@ -613,9 +772,7 @@ async function openCustomRequestDialog(prefKey: string) {
                   fontSize: "13px",
                 },
                 properties: {
-                  innerHTML: getString(
-                    `service-dialog-custom-request-add-param`,
-                  ),
+                  innerHTML: getString(cfg.addKey),
                 },
                 listeners: [
                   {
@@ -627,10 +784,20 @@ async function openCustomRequestDialog(prefKey: string) {
                       if (tbody) {
                         const row = doc.createElement("tr");
                         row.appendChild(
-                          createParamInputCell(doc, "key", paramIndex),
+                          createParamInputCell(
+                            doc,
+                            "key",
+                            paramIndex,
+                            parameterNamePlaceholder,
+                          ),
                         );
                         row.appendChild(
-                          createParamInputCell(doc, "value", paramIndex),
+                          createParamInputCell(
+                            doc,
+                            "value",
+                            paramIndex,
+                            parameterValuePlaceholder,
+                          ),
                         );
                         tbody.appendChild(row);
                         paramIndex++;
@@ -647,26 +814,24 @@ async function openCustomRequestDialog(prefKey: string) {
     )
     .addButton(getString(`service-dialog-close`), "close")
     .addButton(getString(`service-dialog-save`), "save")
-    .open(getString(`service-dialog-custom-request-title`));
+    .open(getString(cfg.titleKey));
 
   await dialogData.unloadLock?.promise;
 
   switch (dialogData._lastButtonId) {
     case "save": {
-      const { params, errors } = parseCustomParamsFromDialog(
-        dialog.window.document,
-      );
+      const { values, errors } = cfg.parse(dialog.window.document);
 
       if (errors.length) {
         Zotero.alert(
           dialog.window,
-          getString("service-dialog-custom-request-validation-title"),
-          formatCustomParamsValidationMessage(errors),
+          getString(cfg.validationTitleKey),
+          cfg.formatErrors(errors),
         );
         break;
       }
 
-      setPref(prefKey, JSON.stringify(params));
+      setPref(cfg.prefKey, JSON.stringify(values));
       break;
     }
 

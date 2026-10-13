@@ -40,6 +40,32 @@ function getCustomParams(
   }
 }
 
+// Headers set by the plugin itself; custom headers with these names are ignored.
+const STANDARD_REQUEST_HEADERS = [
+  "content-type",
+  "authorization",
+  "api-key",
+  "x-api-key",
+  "anthropic-version",
+];
+
+function getCustomHeaders(prefix: string): Record<string, string> {
+  const storedCustomHeaders =
+    (getPref(`${prefix}.customHeaders`) as string) || "{}";
+  try {
+    const customHeaders = JSON.parse(storedCustomHeaders);
+    return Object.fromEntries(
+      Object.entries(customHeaders)
+        .filter(
+          ([key]) => !STANDARD_REQUEST_HEADERS.includes(key.toLowerCase()),
+        )
+        .map(([key, value]) => [key, String(value)]),
+    );
+  } catch (e) {
+    return {};
+  }
+}
+
 interface ParsedResponse {
   content: string;
   finished: boolean;
@@ -341,17 +367,20 @@ const gptTranslate = async function (
           ...getCustomParams(prefix, Object.keys(thinkingParams)),
         };
 
-  const requestHeaders = useAnthropicApi
-    ? {
-        "Content-Type": "application/json",
-        "anthropic-version": "2023-06-01",
-        "x-api-key": data.secret,
-      }
-    : {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.secret}`,
-        "api-key": data.secret,
-      };
+  const requestHeaders = {
+    ...(useAnthropicApi
+      ? {
+          "Content-Type": "application/json",
+          "anthropic-version": "2023-06-01",
+          "x-api-key": data.secret,
+        }
+      : {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.secret}`,
+          "api-key": data.secret,
+        }),
+    ...getCustomHeaders(prefix),
+  };
 
   const xhr = await Zotero.HTTP.request("POST", apiURL, {
     headers: requestHeaders,
@@ -613,6 +642,10 @@ function createGPTService(id: ID): TranslateService {
           desc: getString(
             `service-${servicePrefix}-dialog-custom-request-description`,
           ),
+        })
+        .addCustomHeadersSetting({
+          prefKey: `${prefPrefix}.customHeaders`,
+          nameKey: `service-${servicePrefix}-dialog-custom-headers`,
         })
         .onSave((data) => {
           const prompt = String(data[`${prefPrefix}.prompt`] || "");

@@ -82,6 +82,19 @@ service-dialog-custom-request-validation-example-boolean=- Boolean: false
 service-dialog-custom-request-validation-example-number=- Number: 123
 service-dialog-custom-request-validation-example-string=- Text: "text"
 service-dialog-custom-request-validation-example-object=- Object: { $example }
+service-dialog-custom-headers-description=Refer to API documentation of service provider, add custom request headers (names are case-insensitive). These will be merged with the standard headers; headers set by the plugin (Content-Type, Authorization, etc.) cannot be overridden.
+service-dialog-custom-headers-title=Custom Request Headers
+service-dialog-custom-headers-add-header=Add Header
+service-dialog-custom-headers-name=Header Name
+service-dialog-custom-headers-value=Header Value
+service-dialog-custom-headers-name-placeholder=Header name (e.g. x-opencode-session)
+service-dialog-custom-headers-value-placeholder=Header value
+service-dialog-custom-headers-validation-title=Can't Save Custom Headers
+service-dialog-custom-headers-validation-summary=Some custom headers are not valid. Please fix them and try again.
+service-dialog-custom-headers-validation-errors-head=Please check:
+service-dialog-custom-headers-validation-error-empty=- { $key }: value is empty
+service-dialog-custom-headers-validation-error-duplicate=- { $key }: duplicate header name
+service-dialog-custom-headers-validation-error-invalid-name=- { $key }: invalid header name
 service-dialog-api-format-openai=OpenAI (chat/completions)
 service-dialog-api-format-anthropic=Anthropic (messages)
 service-gpt-dialog-thinkingLevel-hint=The thinking parameter format is auto-detected from the endpoint (OpenAI/Azure, OpenRouter, GLM, DeepSeek, Kimi, Doubao, Qwen). Nothing is sent for unrecognized endpoints (e.g. relays) — use Custom Request to set the parameter manually.
@@ -119,6 +132,7 @@ service-gpt-dialog-apiFormat-hint=The EndPoint accepts the base URL from the pro
 service-chatgpt-dialog-stream=Stream
 service-chatgpt-dialog-thinkingLevel=Thinking
 service-chatgpt-dialog-custom-request=Custom Request
+service-chatgpt-dialog-custom-headers=Custom Request Headers
 
 service-azuregpt-dialog-endPoint=EndPoint
 service-azuregpt-dialog-model=Name
@@ -128,6 +142,7 @@ service-azuregpt-dialog-prompt=Prompt
 service-azuregpt-dialog-stream=Stream
 service-azuregpt-dialog-thinkingLevel=Thinking
 service-azuregpt-dialog-custom-request=Custom Request
+service-azuregpt-dialog-custom-headers=Custom Request Headers
 
 service-xftrans-dialog-engine=API Engine
 

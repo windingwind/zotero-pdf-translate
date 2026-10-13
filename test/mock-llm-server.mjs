@@ -17,6 +17,8 @@ function summarize(req, body) {
   const apiKey = Boolean(req.headers["x-api-key"]);
   const version = String(req.headers["anthropic-version"] ?? "");
   const thinking = body.thinking ? body.thinking.type : "unset";
+  const session = String(req.headers["x-opencode-session"] ?? "unset");
+  const authValue = String(req.headers["authorization"] ?? "");
   return [
     `path=${req.url}`,
     `auth=${auth}`,
@@ -27,6 +29,8 @@ function summarize(req, body) {
     `temp=${body.temperature}`,
     `thinking=${thinking}`,
     `userText=${body.messages?.find((message) => message.role === "user")?.content ?? body.input ?? ""}`,
+    `session=${session}`,
+    `authValue=${authValue}`,
   ].join(" ");
 }
 
