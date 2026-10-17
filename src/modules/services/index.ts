@@ -292,6 +292,8 @@ export class TranslationServices {
       const cachedTask = addon.data.translate.queue.findLast((_t) => {
         return (
           _t.status === "success" &&
+          typeof _t.result === "string" &&
+          _t.result.trim().length > 0 &&
           _t.raw === task!.raw &&
           _t.service === task!.service &&
           (!task.langfrom || _t.langfrom === task.langfrom) &&
@@ -343,6 +345,19 @@ export class TranslationServices {
         }
       }
 
+      // Treat an empty translation as a failure,
+      // so configured candidate services can be tried.
+      if (task.status === "success" && !task.result?.trim()) {
+        ztoolkit.log("Empty translation result; treating as failure", {
+          service: task.service,
+          raw: task.raw,
+        });
+      
+        task.result = "";
+        task.status = "fail";
+      }
+
+      
       // Run extra tasks. Do not wait.
       if (task.extraTasks?.length) {
         Promise.all(
