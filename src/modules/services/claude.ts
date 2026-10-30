@@ -17,6 +17,27 @@ function transformContent(
   return buildPromptParts("claude.prompt", langFrom, langTo, sourceText, data);
 }
 
+/**
+ * Temperature (and the other sampling params) are deprecated for Claude 4.7
+ * and later models and Claude Mythos Preview: the API rejects the request
+ * with 400 "`temperature` is deprecated for this model." when one is sent.
+ * Omit it there and let prompting guide the behavior, as Anthropic
+ * recommends; models before the boundary keep honoring it.
+ * https://docs.anthropic.com/en/about-claude/model-deprecations
+ */
+export function modelSupportsTemperature(model: string): boolean {
+  if (/mythos/i.test(model)) {
+    return false;
+  }
+  const version = model.match(/(\d+)(?:[.-](\d+))?/);
+  if (!version) {
+    return true;
+  }
+  const major = parseInt(version[1]);
+  const minor = version[2] ? parseInt(version[2]) : 0;
+  return major < 4 || (major === 4 && minor < 7);
+}
+
 // Removed duplicate implementation in favor of the main claude function
 
 const translate = <TranslateService["translate"]>async function (data) {
@@ -63,7 +84,11 @@ const translate = <TranslateService["translate"]>async function (data) {
         content: user,
       },
     ],
-    temperature: temperature,
+    // Omitted for models that deprecated it (Claude 4.7+ / Mythos) and when
+    // the preference is unset, so the request is never rejected for it.
+    ...(modelSupportsTemperature(model) && !Number.isNaN(temperature)
+      ? { temperature }
+      : {}),
     stream: stream,
     max_tokens: effectiveMaxTokens,
     ...(thinking ? { thinking } : {}),
