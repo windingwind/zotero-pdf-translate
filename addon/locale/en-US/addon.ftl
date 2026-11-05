@@ -206,3 +206,10 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+service-sensenova = SenseNova (Structured)
+service-sensenova-dialog-endpoint = Endpoint
+service-sensenova-dialog-model = Model
+service-sensenova-dialog-temperature = Temperature
+service-sensenova-dialog-useGlossary = Use self-growing glossary
+service-sensenova-dialog-hint = Structured translation: obstacle diagnosis → breakdown → final translation; terms auto-accumulated into the glossary.

@@ -136,6 +136,10 @@ declare namespace _ZoteroTypes {
       "customGPT3.customParams": string;
       "customGPT3.temperature": string;
       "customGPT3.thinkingLevel": string;
+      "sensenova.endpoint": string;
+      "sensenova.model": string;
+      "sensenova.temperature": string;
+      "sensenova.useGlossary": boolean;
     };
   }
 }

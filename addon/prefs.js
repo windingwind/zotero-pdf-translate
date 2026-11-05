@@ -164,3 +164,7 @@ pref("__prefsPrefix__.customGPT3.stream", true);
 pref("__prefsPrefix__.customGPT3.customParams", "");
 pref("__prefsPrefix__.customGPT3.temperature", "1.0");
 pref("__prefsPrefix__.customGPT3.thinkingLevel", "default");
+pref("__prefsPrefix__.sensenova.endpoint", "https://api.sensenova.cn/compatible-mode/v1/chat/completions");
+pref("__prefsPrefix__.sensenova.model", "Sensenova-6.8-Flash-Lite");
+pref("__prefsPrefix__.sensenova.temperature", "0.3");
+pref("__prefsPrefix__.sensenova.useGlossary", true);

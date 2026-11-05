@@ -206,3 +206,10 @@ service-nllb-dialog-apistream=nllb-api 流式输出
 service-nllb-dialog-serveendpoint=nllb-serve 接口
 service-nllb-dialog-apilabel=nllb-api 文档
 service-nllb-dialog-servelabel=nllb-serve 文档
+
+service-sensenova = SenseNova（结构化）
+service-sensenova-dialog-endpoint = 接口地址
+service-sensenova-dialog-model = 模型
+service-sensenova-dialog-temperature = 温度
+service-sensenova-dialog-useGlossary = 使用自成长术语库
+service-sensenova-dialog-hint = 结构化翻译：障碍判断→拆解→最终翻译；术语自动积累到术语库。
