@@ -158,7 +158,8 @@ function onNotify(
 }
 
 function onPrefsLoad(event: Event) {
-  registerPrefsScripts((event.target as any).ownerGlobal);
+  // `ownerGlobal` is undefined on Zotero 11+ (Firefox 153); use defaultView
+  registerPrefsScripts((event.target as Element).ownerDocument!.defaultView!);
 }
 
 function onShortcuts(type: string) {

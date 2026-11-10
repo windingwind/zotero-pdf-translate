@@ -33,7 +33,7 @@ export function registerReaderInitializer() {
       placeholder.dataset.libraryId = reader._item.libraryID.toString();
       placeholder.addEventListener("error", (event) => {
         const placeholder = event.currentTarget as HTMLElement;
-        placeholder.ownerGlobal?.requestIdleCallback(() => {
+        placeholder.ownerDocument.defaultView?.requestIdleCallback(() => {
           const annotationID = placeholder.dataset.annotationId;
           const libraryID = parseInt(placeholder.dataset.libraryId || "");
           const button = doc.createElement("div");
