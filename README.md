@@ -266,6 +266,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
+- `Render LaTeX math in translations`: Render formulas in both the item pane and reader selection popup. During streaming, incomplete formulas remain as text until their closing delimiter arrives. Double-click a rendered popup to copy the original text, including LaTeX; press F2 to edit the source text.
 - `Pop-up: Remember Size`: Remember size of pop-up if `true`, else automatically adjust the size, default `false`
 
 ### Advanced

@@ -1,0 +1,9 @@
+.zoteropdftranslate-popup-math .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
+
+.zoteropdftranslate-popup-math .katex {
+  white-space: normal;
+}
