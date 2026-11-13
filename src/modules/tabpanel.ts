@@ -19,7 +19,7 @@ export function registerReaderTabPanel() {
     sidenav: {
       l10nID: getLocaleID("itemPaneSection-sidenav"),
       icon: `chrome://${config.addonRef}/content/icons/section-20.svg`,
-      // @ts-ignore
+      // @ts-ignore - `orderable` is not in the section typings
       orderable: false,
     },
     bodyXHTML: "<translator-plugin-panel />",
