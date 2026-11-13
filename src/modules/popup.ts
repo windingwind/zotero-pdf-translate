@@ -4,10 +4,50 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
+import { createPopupLayout, updatePopupText } from "./popupLayout";
+
+const popupLayouts = new Map<
+  HTMLDivElement,
+  ReturnType<typeof createPopupLayout>
+>();
+
+export function disposeReaderPopups() {
+  for (const layout of [...popupLayouts.values()]) layout.dispose();
+}
+
+function getPopupLayout(popup: HTMLDivElement, textarea: HTMLTextAreaElement) {
+  let layout = popupLayouts.get(popup);
+  if (!layout) {
+    const keepSize = getPref("keepPopupSize");
+    const width = Number(getPref("popupOuterWidth"));
+    const height = Number(getPref("popupOuterHeight"));
+    layout = createPopupLayout(popup, textarea, {
+      resizeLabel: getString("readerpopup-resize-label"),
+      initialSize:
+        keepSize &&
+        Number.isFinite(width) &&
+        Number.isFinite(height) &&
+        width > 0 &&
+        height > 0
+          ? { width, height }
+          : undefined,
+      autoSize: !keepSize,
+      onResize: (width, height) => {
+        if (!getPref("keepPopupSize")) return;
+        setPref("popupOuterWidth", Math.round(width));
+        setPref("popupOuterHeight", Math.round(height));
+      },
+      onDispose: () => popupLayouts.delete(popup),
+    });
+    popupLayouts.set(popup, layout);
+  }
+  return layout;
+}
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
-  if (!popup) {
+  if (!popup?.isConnected) {
+    if (popup) popupLayouts.get(popup)?.dispose();
     return;
   }
   const enablePopup = getPref("enablePopup");
@@ -30,6 +70,7 @@ export function updateReaderPopup() {
   const addToNoteButton = popup?.querySelector(
     `#${makeId("addtonote")}`,
   ) as HTMLDivElement;
+  if (!audiobox || !translateButton || !textarea || !addToNoteButton) return;
 
   const updateHidden = (elem: HTMLElement, hidden: boolean) => {
     if (hidden) {
@@ -44,12 +85,14 @@ export function updateReaderPopup() {
     updateHidden(translateButton, true);
     updateHidden(textarea, true);
     updateHidden(addToNoteButton, true);
+    popupLayouts.get(popup)?.dispose();
     return;
   }
   const task = getLastTranslateTask({ type: "text" });
   if (!task) {
     return;
   }
+  const changedTask = popup.getAttribute("translate-task-id") !== task.id;
   popup.setAttribute("translate-task-id", task.id);
 
   if (task.audio.length > 0 && getPref("showPlayBtn")) {
@@ -98,8 +141,9 @@ export function updateReaderPopup() {
       textarea.style.direction = "ltr";
   }
 
+  updateHidden(textarea, false);
   textarea.hidden = hidePopupTextarea || !hideTranslateButton;
-  textarea.value = task.result || task.raw;
+  updatePopupText(textarea, task.result || task.raw, changedTask);
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
@@ -113,7 +157,12 @@ export function updateReaderPopup() {
     updateHidden(addToNoteButton, true);
   }
 
-  updatePopupSize(popup, textarea);
+  // Legacy popupWidth/Height describe the textarea. Measure them only after
+  // the waiting/hidden view has expanded, before switching to whole-popup size.
+  const layout = textarea.hidden
+    ? popupLayouts.get(popup)
+    : getPopupLayout(popup, textarea);
+  layout?.update(!getPref("keepPopupSize"));
 }
 
 export function buildReaderPopup(
@@ -122,6 +171,10 @@ export function buildReaderPopup(
   const { reader, doc, append } = event;
   const annotation = event.params.annotation;
   const popup = doc.querySelector(".selection-popup") as HTMLDivElement;
+  if (!popup) return;
+  for (const [element, layout] of popupLayouts) {
+    if (element === popup || !element.isConnected) layout.dispose();
+  }
   addon.data.popup.currentPopup = popup;
   popup.style.maxWidth = "none";
   popup.setAttribute(
@@ -228,24 +281,6 @@ export function buildReaderPopup(
           ignoreIfExists: true,
           listeners: [
             {
-              type: "mousedown",
-              listener: (_ev) => {
-                _ev.target?.addEventListener(
-                  "mousemove",
-                  onTextAreaResize as (ev: Event) => void,
-                );
-              },
-            },
-            {
-              type: "mouseup",
-              listener: (_ev) => {
-                _ev.target?.removeEventListener(
-                  "mousemove",
-                  onTextAreaResize as (ev: Event) => void,
-                );
-              },
-            },
-            {
               type: "keydown",
               listener: onTextAreaCopy as (ev: Event) => void,
             },
@@ -334,14 +369,6 @@ export function buildReaderPopup(
   );
 }
 
-function onTextAreaResize(ev: MouseEvent) {
-  if (getPref("keepPopupSize")) {
-    const textarea = ev.target as HTMLTextAreaElement;
-    setPref("popupWidth", textarea.offsetWidth);
-    setPref("popupHeight", textarea.offsetHeight);
-  }
-}
-
 function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
   return (ev: KeyboardEvent) => {
     const textarea = selectionMenu.querySelector(
@@ -379,36 +406,4 @@ function getOnTextAreaCopy(selectionMenu: HTMLElement, targetId: string) {
       ev.stopPropagation();
     }
   };
-}
-
-function updatePopupSize(
-  selectionMenu: HTMLDivElement,
-  textarea: HTMLTextAreaElement,
-  resetSize: boolean = true,
-): void {
-  const keepSize = getPref("keepPopupSize") as boolean;
-  if (keepSize) {
-    return;
-  }
-  if (resetSize) {
-    textarea.style.width = "-moz-available";
-    textarea.style.height = "30px";
-  }
-  const viewer = selectionMenu.ownerDocument.body;
-  // Get current H & W
-  const textHeight = textarea.scrollHeight;
-  const textWidth = textarea.scrollWidth;
-  const newWidth = textWidth + 20;
-  // Check until H/W<0.75 and don't overflow viewer border
-  if (
-    textHeight / textWidth > 0.75 &&
-    selectionMenu.offsetLeft + newWidth < viewer.offsetWidth
-  ) {
-    // Update width
-    textarea.style.width = `${newWidth}px`;
-    updatePopupSize(selectionMenu, textarea, false);
-    return;
-  }
-  // Update height
-  textarea.style.height = `${textHeight + 3}px`;
 }

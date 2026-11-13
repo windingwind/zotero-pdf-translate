@@ -270,7 +270,7 @@ See [Pot](https://github.com/pot-app/pot-desktop?tab=readme-ov-file#%E5%A4%96%E9
 - `Item Pane Section: Reverse Raw/Result`: Reverse the order of Raw/Result in the item pane if `true`, default `false`
 - `Item Pane Info: Show xxx`: Show or hide Title/Abstract tanslation in the item info rows
 - `Standalone: Keep Windows on Top`: Top the standalone translate panel if `true`, default `false`
-- `Pop-up: Remember Size`: Remember size of pop-up if `true`, else automatically adjust the size, default `false`
+- `Pop-up: Remember Size`: Remember the whole pop-up size if `true`, else automatically size new selections to their text, default `false`. Drag any edge or corner to resize the pop-up; the chosen size stays fixed for the current selection. Long translations scroll inside the text area without scrolling the PDF underneath.
 
 ### Advanced
 

@@ -46,6 +46,8 @@ declare namespace _ZoteroTypes {
       "keepPopupSize": boolean;
       "popupWidth": number;
       "popupHeight": number;
+      "popupOuterWidth": number;
+      "popupOuterHeight": number;
       "niutransEndpoint": string;
       "niutransUsername": string;
       "niutransPassword": string;

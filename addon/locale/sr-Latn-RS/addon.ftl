@@ -143,6 +143,7 @@ service-youdaozhiyunllm-dialog-prompt = Uputstvo
 service-youdaozhiyunllm-dialog-stream = Tok odgovora
 readerpopup-translate-label = Prevedi
 readerpopup-addToNote-label = Dodaj prevod u belešku
+readerpopup-resize-label = Prevucite ivicu ili ugao da promenite veličinu prozora prevoda
 pref-title = Translate
 field-titleTranslation = Prevod naslova
 field-abstractTranslation = Prevod sažetka

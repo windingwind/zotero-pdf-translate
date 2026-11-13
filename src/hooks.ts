@@ -8,7 +8,11 @@ import {
   registerReaderTabPanel,
   updateReaderTabPanels,
 } from "./modules/tabpanel";
-import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
+import {
+  buildReaderPopup,
+  updateReaderPopup,
+  disposeReaderPopups,
+} from "./modules/popup";
 import { registerNotify } from "./modules/notify";
 import { registerReaderInitializer } from "./modules/reader";
 import { getPref } from "./utils/prefs";
@@ -110,6 +114,7 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 }
 
 function onShutdown(): void {
+  disposeReaderPopups();
   ztoolkit.unregisterAll();
   Zotero.getMainWindows().forEach((win) => {
     onMainWindowUnload(win);
