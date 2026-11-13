@@ -82,6 +82,19 @@ service-dialog-custom-request-validation-example-boolean=- 布尔值：false
 service-dialog-custom-request-validation-example-number=- 数字：123
 service-dialog-custom-request-validation-example-string=- 文本："text"
 service-dialog-custom-request-validation-example-object=- 对象：{ $example }
+service-dialog-custom-headers-description=参考服务提供商的API文档，添加自定义请求头（名称不区分大小写）。这些请求头将与标准请求头合并；由插件设置的请求头（Content-Type、Authorization 等）不会被覆盖。
+service-dialog-custom-headers-title=自定义请求头
+service-dialog-custom-headers-add-header=添加请求头
+service-dialog-custom-headers-name=名称
+service-dialog-custom-headers-value=值
+service-dialog-custom-headers-name-placeholder=请求头名称（如 x-opencode-session）
+service-dialog-custom-headers-value-placeholder=请求头的值
+service-dialog-custom-headers-validation-title=无法保存自定义请求头
+service-dialog-custom-headers-validation-summary=有些自定义请求头无效，请修改后重试。
+service-dialog-custom-headers-validation-errors-head=请检查以下项目：
+service-dialog-custom-headers-validation-error-empty=- { $key }：值为空
+service-dialog-custom-headers-validation-error-duplicate=- { $key }：请求头名称重复
+service-dialog-custom-headers-validation-error-invalid-name=- { $key }：请求头名称无效
 service-dialog-api-format-openai=OpenAI（chat/completions）
 service-dialog-api-format-anthropic=Anthropic（messages）
 service-gpt-dialog-thinkingLevel-hint=思考参数格式按接口地址自动识别（OpenAI/Azure、OpenRouter、智谱GLM、DeepSeek、Kimi、豆包、通义）。无法识别的接口（如中转站）不会发送任何思考参数，请通过“自定义请求”手动指定。
@@ -119,6 +132,7 @@ service-gpt-dialog-apiFormat-hint=接口可直接填服务商文档中的基础�
 service-chatgpt-dialog-stream=流式输出
 service-chatgpt-dialog-thinkingLevel=思考等级
 service-chatgpt-dialog-custom-request=自定义请求
+service-chatgpt-dialog-custom-headers=自定义请求头
 
 service-azuregpt-dialog-endPoint=接口
 service-azuregpt-dialog-model=部署名
@@ -128,6 +142,7 @@ service-azuregpt-dialog-thinkingLevel=思考等级
 service-azuregpt-dialog-apiVersion=版本
 service-azuregpt-dialog-prompt=提示词
 service-azuregpt-dialog-custom-request=自定义请求
+service-azuregpt-dialog-custom-headers=自定义请求头
 
 service-xftrans-dialog-engine=翻译引擎
 

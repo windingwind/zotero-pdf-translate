@@ -66,6 +66,7 @@ declare namespace _ZoteroTypes {
       "chatGPT.stream": boolean;
       "chatGPT.thinkingLevel": string;
       "chatGPT.customParams": string;
+      "chatGPT.customHeaders": string;
       "azureGPT.endPoint": string;
       "azureGPT.model": string;
       "azureGPT.apiVersion": string;
@@ -74,6 +75,7 @@ declare namespace _ZoteroTypes {
       "azureGPT.stream": boolean;
       "azureGPT.thinkingLevel": string;
       "azureGPT.customParams": string;
+      "azureGPT.customHeaders": string;
       "gemini.endPoint": string;
       "gemini.prompt": string;
       "gemini.stream": boolean;
@@ -118,6 +120,7 @@ declare namespace _ZoteroTypes {
       "customGPT1.prompt": string;
       "customGPT1.stream": boolean;
       "customGPT1.customParams": string;
+      "customGPT1.customHeaders": string;
       "customGPT1.temperature": string;
       "customGPT1.thinkingLevel": string;
       "customGPT2.apiFormat": string;
@@ -126,6 +129,7 @@ declare namespace _ZoteroTypes {
       "customGPT2.prompt": string;
       "customGPT2.stream": boolean;
       "customGPT2.customParams": string;
+      "customGPT2.customHeaders": string;
       "customGPT2.temperature": string;
       "customGPT2.thinkingLevel": string;
       "customGPT3.apiFormat": string;
@@ -134,6 +138,7 @@ declare namespace _ZoteroTypes {
       "customGPT3.prompt": string;
       "customGPT3.stream": boolean;
       "customGPT3.customParams": string;
+      "customGPT3.customHeaders": string;
       "customGPT3.temperature": string;
       "customGPT3.thinkingLevel": string;
     };

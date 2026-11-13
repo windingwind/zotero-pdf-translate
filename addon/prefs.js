@@ -63,6 +63,7 @@ pref(
 pref("__prefsPrefix__.chatGPT.stream", true);
 pref("__prefsPrefix__.chatGPT.thinkingLevel", "default");
 pref("__prefsPrefix__.chatGPT.customParams", "");
+pref("__prefsPrefix__.chatGPT.customHeaders", "");
 pref("__prefsPrefix__.azureGPT.endPoint", "");
 pref("__prefsPrefix__.azureGPT.model", "");
 pref("__prefsPrefix__.azureGPT.apiVersion", "2023-05-15");
@@ -74,6 +75,7 @@ pref(
 pref("__prefsPrefix__.azureGPT.stream", true);
 pref("__prefsPrefix__.azureGPT.thinkingLevel", "default");
 pref("__prefsPrefix__.azureGPT.customParams", "");
+pref("__prefsPrefix__.azureGPT.customHeaders", "");
 pref(
   "__prefsPrefix__.gemini.endPoint",
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite",
@@ -140,6 +142,7 @@ pref(
 );
 pref("__prefsPrefix__.customGPT1.stream", true);
 pref("__prefsPrefix__.customGPT1.customParams", "");
+pref("__prefsPrefix__.customGPT1.customHeaders", "");
 pref("__prefsPrefix__.customGPT1.temperature", "1.0");
 pref("__prefsPrefix__.customGPT1.thinkingLevel", "default");
 pref("__prefsPrefix__.customGPT2.apiFormat", "openai");
@@ -151,6 +154,7 @@ pref(
 );
 pref("__prefsPrefix__.customGPT2.stream", true);
 pref("__prefsPrefix__.customGPT2.customParams", "");
+pref("__prefsPrefix__.customGPT2.customHeaders", "");
 pref("__prefsPrefix__.customGPT2.temperature", "1.0");
 pref("__prefsPrefix__.customGPT2.thinkingLevel", "default");
 pref("__prefsPrefix__.customGPT3.apiFormat", "openai");
@@ -162,5 +166,6 @@ pref(
 );
 pref("__prefsPrefix__.customGPT3.stream", true);
 pref("__prefsPrefix__.customGPT3.customParams", "");
+pref("__prefsPrefix__.customGPT3.customHeaders", "");
 pref("__prefsPrefix__.customGPT3.temperature", "1.0");
 pref("__prefsPrefix__.customGPT3.thinkingLevel", "default");
