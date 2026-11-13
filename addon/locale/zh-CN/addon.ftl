@@ -221,3 +221,15 @@ service-nllb-dialog-apistream=nllb-api 流式输出
 service-nllb-dialog-serveendpoint=nllb-serve 接口
 service-nllb-dialog-apilabel=nllb-api 文档
 service-nllb-dialog-servelabel=nllb-serve 文档
+
+service-wordstalk=WordsTalk学术翻译
+service-wordstalk-info=通过下方链接获取个人密钥，填入翻译设置的「密钥」栏，即可选中文字翻译。使用 WordsTalk 付费快速额度。原文含汉字（包括日文汉字）时译为英语，否则译为简体中文；插件的目标语言设置不生效。每次最多 5,000 字符。
+service-wordstalk-error-key=请填写从 https://wordstalk.ai/connect-tools 获取的有效个人密钥，确认完整复制且密钥已启用。
+service-wordstalk-error-empty=请先选中需要翻译的文字。
+service-wordstalk-error-length=WordsTalk 每次最多翻译 5,000 字符，请分段选择。
+service-wordstalk-error-quota=WordsTalk 快速翻译额度不足，请到 WordsTalk 查看余额。
+service-wordstalk-error-request=WordsTalk 无法处理本次翻译请求，请检查选中文字或联系 WordsTalk 支持。
+service-wordstalk-error-rate=WordsTalk 请求过于频繁，请稍后再试。
+service-wordstalk-error-network=WordsTalk 请求未完成。重试前请检查网络和账户额度，后台可能已处理本次请求。
+service-wordstalk-error-server=WordsTalk 返回 HTTP { $status }。重试前请核对额度，或联系 WordsTalk 支持。
+service-wordstalk-error-response=WordsTalk 未返回有效译文。重试前请核对额度，或联系 WordsTalk 支持。

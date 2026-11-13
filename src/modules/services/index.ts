@@ -41,6 +41,7 @@ import { Openl } from "./openl";
 import { Pot } from "./pot";
 import { QwenMT } from "./qwenmt";
 import { WeblioDict } from "./webliodict";
+import { WordsTalk } from "./wordstalk";
 import { XFfrans } from "./xftrans";
 import { TencentTransmart } from "./tencenttransmart";
 import { Youdao } from "./youdao";
@@ -92,6 +93,7 @@ const register: TranslateService[] = [
   Tencent,
   TencentTransmart,
   WeblioDict,
+  WordsTalk,
   XFfrans,
   Youdao,
   YoudaoDict,

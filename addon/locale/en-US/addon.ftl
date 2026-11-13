@@ -221,3 +221,15 @@ service-nllb-dialog-apistream=nllb-api Stream
 service-nllb-dialog-serveendpoint=nllb-serve EndPoint
 service-nllb-dialog-apilabel=nllb-api Docs
 service-nllb-dialog-servelabel=nllb-serve Docs
+
+service-wordstalk=WordsTalk Academic Translation
+service-wordstalk-info=Get a personal key from the link below, paste it into the Secret field in Translation settings, then select text to translate. Uses paid WordsTalk fast-translation quota. Text containing Chinese characters (including Japanese kanji) is translated into English; other text into simplified Chinese. The target-language setting does not apply. Up to 5,000 characters per request.
+service-wordstalk-error-key=Enter an enabled WordsTalk personal key from https://wordstalk.ai/connect-tools. Check that the full key was copied correctly.
+service-wordstalk-error-empty=Select some text to translate.
+service-wordstalk-error-length=WordsTalk allows up to 5,000 characters per request. Select a shorter passage.
+service-wordstalk-error-quota=Your WordsTalk fast-translation quota is insufficient. Check your balance on WordsTalk.
+service-wordstalk-error-request=WordsTalk could not accept this translation request. Check the selected text or contact WordsTalk support.
+service-wordstalk-error-rate=WordsTalk is receiving too many requests. Please wait before trying again.
+service-wordstalk-error-network=The WordsTalk request did not complete. Check your connection and account balance before retrying; the server may already have processed it.
+service-wordstalk-error-server=WordsTalk returned HTTP { $status }. Check your balance or contact WordsTalk support before retrying.
+service-wordstalk-error-response=WordsTalk returned no valid translation. Check your balance or contact WordsTalk support before retrying.

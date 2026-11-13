@@ -168,3 +168,4 @@ service-nllb-dialog-serveendpoint = nllb-serve adresa servisa
 service-nllb-dialog-apilabel = nllb-api dokumentacija
 service-nllb-dialog-servelabel = nllb-serve dokumentacija
 
+service-wordstalk = WordsTalk Academic Translation
