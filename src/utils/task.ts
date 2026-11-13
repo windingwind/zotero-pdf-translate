@@ -139,7 +139,7 @@ export class TranslateTaskRunner {
     if (!data.langfrom || !data.langto) {
       ztoolkit.log("try auto detect language");
       const { fromLanguage, toLanguage, isInferred } = autoDetectLanguage(
-        Zotero.Items.get(data.itemId || -1),
+        Zotero.Items.get(data.itemId || -1) || null,
       );
       if (!data.langfrom) {
         data.langfrom = fromLanguage;
@@ -296,7 +296,8 @@ export function addTranslateTitleTask(
   const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
   if (
-    item?.isRegularItem() &&
+    item &&
+    item.isRegularItem() &&
     !(
       skipIfExists &&
       ztoolkit.ExtraField.getExtraField(item, "titleTranslation")
@@ -315,7 +316,8 @@ export function addTranslateAbstractTask(
   const ztoolkit = addon.data.ztoolkit;
   const item = Zotero.Items.get(itemId);
   if (
-    item?.isRegularItem() &&
+    item &&
+    item.isRegularItem() &&
     !(
       skipIfExists &&
       ztoolkit.ExtraField.getExtraField(item, "abstractTranslation")

@@ -50,9 +50,7 @@ export class PluginCEBase extends XULElementBase {
     const selector = `#${this._wrapID(key)}`;
     return (this.querySelector(selector) ||
       this.shadowRoot?.querySelector(selector)) as
-      | XUL.Element
-      | HTMLElement
-      | null;
+      XUL.Element | HTMLElement | null;
   }
 
   _parseContentID(dom: DocumentFragment) {

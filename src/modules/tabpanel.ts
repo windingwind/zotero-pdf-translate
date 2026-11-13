@@ -263,7 +263,7 @@ function updateExtraPanel(container: HTMLElement | Document) {
     "translator-plugin-panel",
   ) as TranslatorPanel;
   if (panel) {
-    panel.item = Zotero.Items.get(lastTask?.itemId || -1);
+    panel.item = Zotero.Items.get(lastTask?.itemId || -1) || null;
     panel.render();
   }
 

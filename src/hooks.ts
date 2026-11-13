@@ -167,8 +167,7 @@ function onShortcuts(type: string) {
     case "library":
       {
         addon.hooks.onTranslateInBatch(
-          Zotero.getActiveZoteroPane()
-            .getSelectedItems(true)
+          (Zotero.getActiveZoteroPane()?.getSelectedItems(true) || [])
             .map((id) => addTranslateTitleTask(id, true))
             .filter((task) => task) as TranslateTask[],
           { noDisplay: true, noCache: true },

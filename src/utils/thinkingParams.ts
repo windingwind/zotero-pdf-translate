@@ -38,11 +38,7 @@ export function isResponsesApiEndpoint(url: string): boolean {
 }
 
 type ThinkingDialect =
-  | "openai"
-  | "openrouter"
-  | "deepseek"
-  | "thinkingType"
-  | "dashscope";
+  "openai" | "openrouter" | "deepseek" | "thinkingType" | "dashscope";
 
 const DIALECT_HOSTS: Array<{ dialect: ThinkingDialect; hosts: string[] }> = [
   { dialect: "openai", hosts: ["api.openai.com", "openai.azure.com"] },

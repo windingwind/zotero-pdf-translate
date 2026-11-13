@@ -406,11 +406,7 @@ function createGPTService(id: ID): TranslateService {
   // For compatibility reasons, in older versions, the preference key was `chatGPT`, rather than matching the ID.
   // customGPT1-3 use the same keys as chatGPT, with empty endpoints by default.
   const prefPrefix = id.replace("gpt", "GPT") as
-    | "chatGPT"
-    | "customGPT1"
-    | "customGPT2"
-    | "customGPT3"
-    | "azureGPT";
+    "chatGPT" | "customGPT1" | "customGPT2" | "customGPT3" | "azureGPT";
 
   return {
     id,

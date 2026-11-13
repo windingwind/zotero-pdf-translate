@@ -256,7 +256,8 @@ export class TranslationServices {
     // Check whether item language is in disabled languages list
     let disabledByItemLanguage = false;
     if (!noCheckZoteroItemLanguage && task.itemId) {
-      const item = Zotero.Items.getTopLevel([Zotero.Items.get(task.itemId)])[0];
+      const taskItem = Zotero.Items.get(task.itemId);
+      const item = taskItem && Zotero.Items.getTopLevel([taskItem])[0];
       if (item && task.type !== "custom") {
         const itemLanguage = getPref("autoDetectLanguage")
           ? task.langfrom
@@ -354,12 +355,11 @@ export class TranslationServices {
           service: task.service,
           raw: task.raw,
         });
-      
+
         task.result = "";
         task.status = "fail";
       }
 
-      
       // Run extra tasks. Do not wait.
       if (task.extraTasks?.length) {
         Promise.all(
@@ -395,8 +395,7 @@ export class TranslationServices {
           {
             if (item) {
               const savePosition = getPref("annotationTranslationPosition") as
-                | "comment"
-                | "body";
+                "comment" | "body";
               const savePositionInBody = getPref(
                 "annotationTranslationPositionInBody",
               ) as "before" | "after";
