@@ -2,15 +2,32 @@ import { franc } from "franc";
 import ISO6393_3_TO_2 from "iso639-js/alpha3to2mapping.json";
 import ISO6393_MACRO_LANGS from "iso639-js/reference/iso639-3-macrolanguages.json";
 
-export function inferLanguage(str: string) {
-  const langCode = mapISO6393to6391(franc(str, { minLength: 3 }));
-  if (!langCode) {
-    return {
-      code: "",
-      name: "Unknown",
-    };
+export function inferLanguage(...candidates: string[]) {
+  // Short strings and document identifiers are weak evidence for overriding a
+  // configured source language. Count letters so this also works without spaces.
+  const minLetters = 40;
+  for (const candidate of candidates) {
+    const text = candidate.normalize("NFKC").trim();
+    const documentName = /\.(?:pdf|epub|djvu)$/i.test(text);
+    const identifier =
+      /^(?:https?:\/\/|doi:|10\.\d{4,9}\/)/i.test(text) ||
+      (!/\s/u.test(text) &&
+        /^[\p{ASCII}]+$/u.test(text) &&
+        /[_/\\]/u.test(text));
+    if (
+      documentName ||
+      identifier ||
+      (text.match(/\p{L}/gu)?.length || 0) < minLetters
+    ) {
+      continue;
+    }
+    const langCode = mapISO6393to6391(franc(text, { minLength: minLetters }));
+    const language = matchLanguage(langCode || "");
+    if (language.code) {
+      return language;
+    }
   }
-  return matchLanguage(langCode);
+  return { code: "", name: "Unknown" };
 }
 
 export function matchLanguage(str: string) {

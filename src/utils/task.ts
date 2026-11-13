@@ -141,11 +141,13 @@ export class TranslateTaskRunner {
       const { fromLanguage, toLanguage, isInferred } = autoDetectLanguage(
         Zotero.Items.get(data.itemId || -1),
       );
-      data.langfrom = data.langfrom || fromLanguage;
-      data.langto = data.langto || toLanguage;
-      if (isInferred) {
-        data.langfromInferred = true;
+      if (!data.langfrom) {
+        data.langfrom = fromLanguage;
+        if (isInferred) {
+          data.langfromInferred = true;
+        }
       }
+      data.langto = data.langto || toLanguage;
     }
 
     // If the task is not new, update language settings
@@ -451,19 +453,14 @@ export function autoDetectLanguage(item: Zotero.Item | null) {
         matchLanguage((topItem.getField("language") as string) || "").code;
       ztoolkit.log("try itemLanguage", itemLanguage);
       if (!itemLanguage) {
-        // Respect AbstractNote or Title inferred language
+        // Try the title as well when the abstract is insufficient evidence.
         const inferredLanguage = inferLanguage(
-          (topItem.getField("abstractNote") as string) ||
-            (topItem.getField("title") as string) ||
-            "",
+          (topItem.getField("abstractNote") as string) || "",
+          (topItem.getField("title") as string) || "",
         ).code;
         ztoolkit.log("try inferredLanguage", inferredLanguage);
         if (inferredLanguage) {
-          // Update language field so that it can be used in the future
           itemLanguage = inferredLanguage;
-          if (topItem.isRegularItem()) {
-            topItem.setField("language", fromLanguage);
-          }
         }
       }
       const itemLanguageMajor = itemLanguage.split("-")[0];

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "english-paragraph",
+    "text": "The researchers measured the temperature of the water every morning and recorded the results in a notebook. After several weeks, they compared the observations with the weather reports to understand how sunlight affected the experiment.",
+    "expected": "en"
+  },
+  {
+    "name": "english-selected-text",
+    "text": "When a document contains only a short title, the available information may be insufficient to determine its language. A longer passage from the document can provide more reliable evidence for a translation request.",
+    "expected": "en"
+  },
+  {
+    "name": "french-paragraph",
+    "text": "Les chercheurs ont mesuré la température de l'eau chaque matin et ont noté les résultats dans un cahier. Après plusieurs semaines, ils ont comparé leurs observations avec les prévisions météorologiques pour comprendre l'effet de la lumière sur cette expérience.",
+    "expected": "fr"
+  },
+  {
+    "name": "german-paragraph",
+    "text": "Die Forschenden haben jeden Morgen die Temperatur des Wassers gemessen und die Ergebnisse in einem Notizbuch festgehalten. Nach mehreren Wochen verglichen sie ihre Beobachtungen mit den Wetterberichten, um den Einfluss des Sonnenlichts auf den Versuch besser zu verstehen.",
+    "expected": "de"
+  },
+  {
+    "name": "spanish-paragraph",
+    "text": "Los investigadores midieron la temperatura del agua cada mañana y anotaron los resultados en un cuaderno. Después de varias semanas, compararon sus observaciones con los informes del tiempo para comprender cómo la luz del sol afectaba al experimento.",
+    "expected": "es"
+  },
+  {
+    "name": "portuguese-paragraph",
+    "text": "Os pesquisadores mediram a temperatura da água todas as manhãs e registraram os resultados em um caderno. Depois de várias semanas, compararam as observações com os relatórios do tempo para compreender como a luz do sol afetava o experimento.",
+    "expected": "pt"
+  },
+  {
+    "name": "russian-paragraph",
+    "text": "Исследователи каждое утро измеряли температуру воды и записывали результаты в тетрадь. Через несколько недель они сравнили свои наблюдения с прогнозами погоды, чтобы понять, как солнечный свет влияет на условия проведения эксперимента.",
+    "expected": "ru"
+  },
+  {
+    "name": "chinese-paragraph",
+    "text": "研究人员每天早晨测量水的温度，并且将实验结果记录在笔记本中。经过几个星期，他们把这些观察记录与当地的天气报告进行比较，希望了解阳光照射如何影响实验条件，以及不同季节之间是否存在稳定的变化规律。",
+    "expected": "zh"
+  },
+  {
+    "name": "chinese-prose-with-slash",
+    "text": "这项研究讨论人工智能/机器学习方法在科学实验中的应用。研究人员收集不同季节的温度和天气记录，通过比较多种模型的预测结果，分析数据质量对实验结论的影响，并进一步检验这些方法能否在其他地区保持稳定的表现。",
+    "expected": "zh"
+  },
+  {
+    "name": "japanese-paragraph",
+    "text": "研究者たちは毎朝水の温度を測定し、その結果をノートに記録しました。数週間後、観測した結果を地域の天気予報と比較して、太陽の光が実験の条件にどのような影響を与えるのかを調べました。さらに、季節によって変化があるかどうかも確認しました。",
+    "expected": "ja"
+  },
+  {
+    "name": "arabic-paragraph",
+    "text": "قام الباحثون بقياس درجة حرارة الماء كل صباح وسجلوا النتائج في دفتر خاص بالتجربة. وبعد عدة أسابيع قارنوا الملاحظات بتقارير الطقس المحلية لفهم تأثير ضوء الشمس على ظروف التجربة ومعرفة ما إذا كانت التغيرات تتكرر بانتظام.",
+    "expected": "ar"
+  },
+  {
+    "name": "hindi-paragraph",
+    "text": "शोधकर्ताओं ने हर सुबह पानी का तापमान मापा और प्रयोग के परिणाम अपनी नोटबुक में लिखे। कई सप्ताह बाद उन्होंने अपने अवलोकनों की तुलना स्थानीय मौसम की रिपोर्ट से की ताकि यह समझ सकें कि सूर्य का प्रकाश प्रयोग की परिस्थितियों को कैसे प्रभावित करता है।",
+    "expected": "hi"
+  },
+  {
+    "name": "afrikaans-paragraph",
+    "text": "Die navorsers het elke oggend die temperatuur van die water gemeet en die resultate in 'n notaboek aangeteken. Ná 'n paar weke het hulle die waarnemings met die plaaslike weerberigte vergelyk om te verstaan hoe sonlig die toestande van die eksperiment beïnvloed.",
+    "expected": "af"
+  },
+  {
+    "name": "short-title-abstains",
+    "text": "Attention Is All You Need",
+    "expected": ""
+  },
+  {
+    "name": "short-filename-abstains",
+    "text": "main.pdf",
+    "expected": ""
+  },
+  {
+    "name": "identifier-abstains",
+    "text": "arXiv:2401.12345v2",
+    "expected": ""
+  },
+  {
+    "name": "long-underscore-filename-abstains",
+    "text": "experimental_observations_of_water_temperature_under_different_sunlight_conditions_supplementary_materials.pdf",
+    "expected": ""
+  },
+  {
+    "name": "long-url-abstains",
+    "text": "https://example.org/research/experimental_observations_of_water_temperature_under_different_sunlight_conditions",
+    "expected": ""
+  },
+  {
+    "name": "long-doi-abstains",
+    "text": "10.12345/experimental_observations_of_water_temperature_under_different_sunlight_conditions",
+    "expected": ""
+  },
+  {
+    "name": "long-identifier-without-extension-abstains",
+    "text": "experimental_observations_of_water_temperature_under_different_sunlight_conditions",
+    "expected": ""
+  }
+]
