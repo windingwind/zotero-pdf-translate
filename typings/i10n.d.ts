@@ -89,6 +89,7 @@ export type FluentMessageId =
   | 'pref-service-wordServicesSecret'
   | 'pref-title'
   | 'readerpopup-addToNote-label'
+  | 'readerpopup-dragHandle-label'
   | 'readerpopup-translate-label'
   | 'remove-source'
   | 'selection'
