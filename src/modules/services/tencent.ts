@@ -77,44 +77,67 @@ const translate: TranslateService["translate"] = async (data) => {
     (repoId, index) => (paramsObj[`SentRepoIDList.${index}`] = repoId),
   );
 
-  // Sort and build query string (required for Tencent Cloud signature)
-  const rawStr = Object.keys(paramsObj)
-    .sort()
-    .map((key) => `${key}=${paramsObj[key]}`)
-    .join("&");
+  async function request() {
+    // Rebuild the signature when retrying with a different source language.
+    const rawStr = Object.keys(paramsObj)
+      .sort()
+      .map((key) => `${key}=${paramsObj[key]}`)
+      .join("&");
 
-  const sha1Str = encodeRFC5987ValueChars(
-    base64(
-      await hmacSha1Digest(
-        `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", data.raw)}`,
-        secretKey,
+    const sha1Str = encodeRFC5987ValueChars(
+      base64(
+        await hmacSha1Digest(
+          `POSTtmt.tencentcloudapi.com/?${rawStr.replace("#$#", data.raw)}`,
+          secretKey,
+        ),
       ),
-    ),
-  );
+    );
 
-  const xhr = await Zotero.HTTP.request(
-    "POST",
-    "https://tmt.tencentcloudapi.com",
-    {
-      headers: {
-        "content-type": "application/json",
+    const xhr = await Zotero.HTTP.request(
+      "POST",
+      "https://tmt.tencentcloudapi.com",
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+        // Encode \s to +
+        body: `${rawStr.replace(
+          "#$#",
+          encodeRFC5987ValueChars(data.raw),
+        )}&Signature=${sha1Str}`,
+        responseType: "json",
       },
-      // Encode \s to +
-      body: `${rawStr.replace(
-        "#$#",
-        encodeRFC5987ValueChars(data.raw),
-      )}&Signature=${sha1Str}`,
-      responseType: "json",
-    },
-  );
-  if (xhr?.status !== 200) {
-    throw `Request error: ${xhr?.status}`;
+    );
+    if (xhr?.status !== 200) {
+      throw `Request error: ${xhr?.status}`;
+    }
+    return xhr.response.Response;
   }
 
-  if (xhr.response.Response.Error) {
-    throw `Service error: ${xhr.response.Response.Error.Code}:${xhr.response.Response.Error.Message}`;
+  let response = await request();
+  const error = response.Error;
+  if (
+    data.langfromInferred &&
+    paramsObj.Source !== "auto" &&
+    (error?.Code === "UnsupportedOperation.UnsupportedSourceLanguage" ||
+      error?.Code === "UnsupportedOperation.UnsupportedLanguage" ||
+      (error?.Code === "InvalidParameterValue" &&
+        error.Message?.startsWith("不支持的语种")))
+  ) {
+    // Item metadata can misidentify English as an unsupported language, e.g. af.
+    // Retry once using the text itself; preserve supported and explicit sources.
+    paramsObj.Source = "auto";
+    response = await request();
+    if (!response.Error) {
+      // Keep cached translations under the source actually used by Tencent.
+      data.langfrom = response.Source || "auto";
+    }
   }
-  data.result = xhr.response.Response.TargetText;
+
+  if (response.Error) {
+    throw `Service error: ${response.Error.Code}:${response.Error.Message}`;
+  }
+  data.result = response.TargetText;
 };
 
 export const Tencent: TranslateService = {
