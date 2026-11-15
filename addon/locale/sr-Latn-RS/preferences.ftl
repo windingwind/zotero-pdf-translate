@@ -56,6 +56,12 @@ pref-service-renameServices =
     .label = Preimenuj prilagođene GPT🗝️ servise
 pref-service-renameServices-hint =
     .value = Prikaži servise za preimenovanje ili pregled preslikavanja:
+pref-secondPass = Sekundarno prevođenje
+
+pref-secondPass-service =
+    .value = Sekundarni servis
+pref-secondPass-hint = Ostavite prazno da biste isključili. Prvo se prikazuje brzi prevod; kada sekundarni servis odgovori, tiho zamenjuje tekst.
+
 pref-interface = Interfejs
 pref-interface-fontSize =
     .value = Veličina slova

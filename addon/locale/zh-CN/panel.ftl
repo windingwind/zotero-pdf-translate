@@ -13,6 +13,8 @@ autoTranslateSelection =
     .label = 选择内容
 autoTranslateAnnotation =
     .label = 注释
+secondPassService =
+    .tooltiptext = 二次翻译（留空则不启用）
 
 selection = 选区: 
 enableConcat =

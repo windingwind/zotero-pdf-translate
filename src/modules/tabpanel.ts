@@ -1,7 +1,7 @@
 import { getLocaleID } from "../utils/locale";
 import { config } from "../../package.json";
 import { getPref, setPref } from "../utils/prefs";
-import { getLastTranslateTask } from "../utils/task";
+import { getActiveTextTask } from "../utils/task";
 import { TranslatorPanel } from "../elements/panel";
 import { isWindowAlive } from "../utils/window";
 import { services } from "./services";
@@ -29,8 +29,10 @@ export function registerReaderTabPanel() {
       const panel = body.querySelector(
         "translator-plugin-panel",
       ) as TranslatorPanel;
-      panel.item = item;
-      panel.render();
+      if (panel) {
+        panel.item = item;
+        panel.render();
+      }
       onUpdateHeight({ body });
     },
     onItemChange,
@@ -258,7 +260,7 @@ function onItemChange({
 }
 
 function updateExtraPanel(container: HTMLElement | Document) {
-  const lastTask = getLastTranslateTask();
+  const lastTask = getActiveTextTask();
   const panel = container.querySelector(
     "translator-plugin-panel",
   ) as TranslatorPanel;
@@ -287,10 +289,14 @@ function onDestroy(options: any) {
 function onUpdateHeight({ body }: { body: HTMLElement }) {
   const details = body.closest("item-details");
   const head = body.closest("item-pane-custom-section")?.querySelector(".head");
+  const itemBox = details?.querySelector(".zotero-view-item");
+  if (!details || !head || !itemBox) {
+    return;
+  }
   const heightKey = "--details-height";
 
   body?.style.setProperty(
     heightKey,
-    `${details!.querySelector(".zotero-view-item")!.clientHeight - head!.clientHeight - 8}px`,
+    `${itemBox.clientHeight - head.clientHeight - 8}px`,
   );
 }

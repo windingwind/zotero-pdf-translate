@@ -61,6 +61,12 @@ pref-service-renameServices =
 pref-service-renameServices-hint =
     .value = 显示服务以重命名或查看映射：
 
+pref-secondPass = 二次翻译
+
+pref-secondPass-service =
+    .value = 二次翻译服务
+pref-secondPass-hint = 留空则不启用。先显示普通翻译结果；二次服务返回后会静默替换，不显示任何提示。
+
 pref-interface = 用户界面
 
 pref-interface-fontSize =

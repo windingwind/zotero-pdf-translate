@@ -23,8 +23,18 @@ translator-plugin-panel .icon-button {
 }
 
 translator-plugin-panel #__addonRef__-translate {
-  flex: 1;
+  flex: 0 0 auto;
   min-width: auto;
+}
+
+translator-plugin-panel #__addonRef__-services {
+  flex: 1;
+  min-width: 0;
+}
+
+translator-plugin-panel #__addonRef__-second-pass-service {
+  flex: 1;
+  min-width: 64px;
 }
 
 translator-plugin-panel .lang-menulist {

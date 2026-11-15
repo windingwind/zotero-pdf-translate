@@ -58,6 +58,7 @@ declare namespace _ZoteroTypes {
       "enableAutoDetectLanguage": boolean;
       "disabledLanguages": string;
       "extraEngines": string;
+      "secondPassService": string;
       "titleColumnMode": string;
       "chatGPT.endPoint": string;
       "chatGPT.model": string;
