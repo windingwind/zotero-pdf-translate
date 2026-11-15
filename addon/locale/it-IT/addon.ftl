@@ -173,6 +173,9 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Traduci
 readerpopup-addToNote-label=Aggiungi traduzione alla nota
+second-pass-failed=Traduzione secondaria non riuscita; il testo precedente è stato mantenuto.
+second-pass-timeout=Traduzione secondaria scaduta; il testo precedente è stato mantenuto.
+second-pass-unavailable=Il servizio di traduzione secondaria selezionato non è configurato o non è disponibile.
 
 pref-title=Translate
 

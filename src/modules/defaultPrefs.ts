@@ -12,6 +12,13 @@ export function setDefaultPrefSettings() {
   if (!servicesIds.includes((getPref("dictSource") as string) || "")) {
     setPref("dictSource", isZhCN ? "bingdict" : "freedictionaryapi");
   }
+  const sentenceServiceIds = services
+    .getAllServicesWithType("sentence")
+    .map((service) => service.id);
+  const secondPassService = getPref("secondPassService") as string;
+  if (secondPassService && !sentenceServiceIds.includes(secondPassService)) {
+    setPref("secondPassService", "");
+  }
 
   if (!getPref("targetLanguage")) {
     setPref("targetLanguage", Zotero.locale);

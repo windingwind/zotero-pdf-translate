@@ -188,6 +188,9 @@ service-youdaozhiyunllm-dialog-stream=Stream
 
 readerpopup-translate-label=Translate
 readerpopup-addToNote-label=Add Translation to Note
+second-pass-failed=Secondary translation failed; the previous text was kept.
+second-pass-timeout=Secondary translation timed out; the previous text was kept.
+second-pass-unavailable=The selected secondary translation service is not configured or unavailable.
 
 pref-title=Translate
 

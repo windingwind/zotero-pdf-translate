@@ -2,12 +2,12 @@ import { SVGIcon } from "../utils/config";
 import { config } from "../../package.json";
 import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
-import { addTranslateTask, getLastTranslateTask } from "../utils/task";
+import { addTranslateTask, getActiveTextTask } from "../utils/task";
 import { slice } from "../utils/str";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
-  if (!popup) {
+  if (!popup || !popup.isConnected) {
     return;
   }
   const enablePopup = getPref("enablePopup");
@@ -46,7 +46,7 @@ export function updateReaderPopup() {
     updateHidden(addToNoteButton, true);
     return;
   }
-  const task = getLastTranslateTask({ type: "text" });
+  const task = getActiveTextTask();
   if (!task) {
     return;
   }
@@ -99,7 +99,18 @@ export function updateReaderPopup() {
   }
 
   textarea.hidden = hidePopupTextarea || !hideTranslateButton;
-  textarea.value = task.result || task.raw;
+  const newValue = task.result || task.raw;
+  if (textarea.value !== newValue) {
+    // Replace the text in place so that the silent AI update keeps the
+    // scroll position and does not make the popup jump.
+    const { scrollTop, selectionStart, selectionEnd } = textarea;
+    textarea.value = newValue;
+    textarea.scrollTop = scrollTop;
+    if (textarea.ownerDocument.activeElement === textarea) {
+      textarea.selectionStart = Math.min(selectionStart, newValue.length);
+      textarea.selectionEnd = Math.min(selectionEnd, newValue.length);
+    }
+  }
   textarea.style.fontSize = `${getPref("fontSize")}px`;
   textarea.style.lineHeight = `${
     Number(getPref("lineHeight")) * Number(getPref("fontSize"))
@@ -174,7 +185,8 @@ export function buildReaderPopup(
             {
               type: "click",
               listener: (ev: Event) => {
-                addon.hooks.onTranslate({
+                const task = getActiveTextTask();
+                addon.hooks.onTranslate(task, {
                   noCheckZoteroItemLanguage: true,
                   noCache: true,
                 });

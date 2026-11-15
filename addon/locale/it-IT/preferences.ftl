@@ -61,6 +61,12 @@ pref-service-renameServices =
 pref-service-renameServices-hint =
     .value = Mostra servizi per rinominare o visualizzare le mappature:
 
+pref-secondPass = Traduzione secondaria
+
+pref-secondPass-service =
+    .value = Servizio secondario
+pref-secondPass-hint = Lasciare vuoto per disattivare. Viene mostrata prima la traduzione rapida; quando il servizio secondario risponde, sostituisce il testo in modo silenzioso.
+
 pref-interface = Interfaccia utente
 
 pref-interface-fontSize =

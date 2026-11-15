@@ -13,6 +13,8 @@ autoTranslateSelection =
     .label = Selection
 autoTranslateAnnotation =
     .label = Annotation
+secondPassService =
+    .tooltiptext = Secondary translation (leave empty to disable)
 
 selection = Selection:
 enableConcat =

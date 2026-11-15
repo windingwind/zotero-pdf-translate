@@ -188,6 +188,9 @@ service-youdaozhiyunllm-dialog-stream=流式输出
 
 readerpopup-translate-label=翻译
 readerpopup-addToNote-label=添加翻译至笔记
+second-pass-failed=二次翻译失败，已保留原译文。
+second-pass-timeout=二次翻译超时，已保留原译文。
+second-pass-unavailable=所选二次翻译服务未配置或不可用。
 
 pref-title=翻译
 

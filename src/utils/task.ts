@@ -90,6 +90,28 @@ export interface TranslateTask {
    * If the task is once processed.
    */
   processed?: boolean;
+  /**
+   * Secondary pass state.
+   *
+   * The main translation is shown first; when the secondary pass succeeds its
+   * result silently replaces the main result.
+   */
+  secondPass?: {
+    service: string;
+    requestID: string;
+    raw: string;
+    status: "processing" | "success" | "fail";
+    result?: string;
+    /**
+     * Cancels the in-flight secondary request when the selection changes.
+     */
+    cancel?: () => void;
+    /**
+     * Whether failures should be reported to the user.
+     * Set for explicit service switches, not for automatic second passes.
+     */
+    notify?: boolean;
+  };
 }
 
 export type TranslateTaskProcessor = (
@@ -117,9 +139,13 @@ function maskAccessToken(token: string): string {
 }
 
 export function sanitizeTaskForLog(task: TranslateTask): TranslateTask {
+  const { cancel: _cancel, ...secondPass } = task.secondPass ?? {};
   return {
     ...task,
     ...(task.secret ? { secret: maskAccessToken(task.secret) } : {}),
+    ...(task.secondPass
+      ? { secondPass: secondPass as TranslateTask["secondPass"] }
+      : {}),
     extraTasks: (task.extraTasks ?? []).map((extraTask) =>
       sanitizeTaskForLog(extraTask),
     ) as TranslateTask["extraTasks"],
@@ -208,6 +234,7 @@ export function addTranslateTask(
     lastTask.raw += " " + raw;
     lastTask.extraTasks.forEach((extraTask) => (extraTask.raw += " " + raw));
     lastTask.status = "waiting";
+    lastTask.secondPass = undefined;
     putTranslateTaskAtHead(lastTask.id);
     return;
   }
@@ -400,6 +427,30 @@ export function getLastTranslateTask<
     i--;
   }
   return undefined;
+}
+
+export function getTranslateTaskById(id: string) {
+  if (!id) {
+    return undefined;
+  }
+  // @ts-ignore - Plugin instance is not typed
+  const queue = (Zotero[config.addonInstance] as Addon).data.translate.queue;
+  return queue.find((task) => task.id === id);
+}
+
+/** Return the task whose result should be shown in the current popup. */
+export function getActiveTextTask() {
+  // @ts-ignore - Plugin instance is not typed
+  const addon = Zotero[config.addonInstance] as Addon;
+  const active = getTranslateTaskById(addon.data.popup.activeTaskId);
+  const latest = getLastTranslateTask({ type: "text" });
+  if (
+    active?.type === "text" &&
+    (addon.data.popup.currentPopup?.isConnected || active.id === latest?.id)
+  ) {
+    return active;
+  }
+  return latest;
 }
 
 /**

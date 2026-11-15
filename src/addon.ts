@@ -25,6 +25,7 @@ class Addon {
     };
     popup: {
       currentPopup: HTMLDivElement | null;
+      activeTaskId: string;
     };
     translate: {
       selectedText: string;
@@ -52,7 +53,7 @@ class Addon {
       locale: {},
       prefs: { window: null },
       panel: { tabOptionId: "", activePanels: {}, windowPanel: null },
-      popup: { currentPopup: null },
+      popup: { currentPopup: null, activeTaskId: "" },
       translate: {
         selectedText: "",
         concatKey: false,

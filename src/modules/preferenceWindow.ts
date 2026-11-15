@@ -7,8 +7,17 @@ import {
   setServiceSecret,
   validateServiceSecret,
 } from "../utils/secret";
-import { createServiceSettingsDialog } from "../utils";
+import { createServiceSettingsDialog, getActiveTextTask } from "../utils";
+import {
+  getMenuValue,
+  SECOND_PASS_OFF,
+  menuValueToServiceId,
+  selectMenuValue,
+  serviceIdToMenuValue,
+} from "../utils/secondPass";
 import { services } from "./services";
+
+let prefsUpdatingMenus = false;
 
 export function registerPrefsWindow() {
   Zotero.PreferencePanes.register({
@@ -32,7 +41,6 @@ function buildPrefsPane() {
   if (!doc) {
     return;
   }
-
   // menus
   ztoolkit.UI.replaceElement(
     {
@@ -98,6 +106,111 @@ function buildPrefsPane() {
     },
     doc.querySelector(`#${makeId("wordServices-placeholder")}`)!,
   );
+
+  const sentenceServices = services.getAllServicesWithType("sentence");
+  const applySecondPassService = (force: boolean) => {
+    if (prefsUpdatingMenus) {
+      return;
+    }
+    const menu = doc.querySelector(
+      `#${makeId("secondPassService")}`,
+    ) as XUL.MenuList;
+    if (!menu) {
+      return;
+    }
+    const menuValue = getMenuValue(menu);
+    const serviceId = menuValueToServiceId(menuValue);
+    prefsUpdatingMenus = true;
+    try {
+      selectMenuValue(menu, serviceIdToMenuValue(serviceId));
+    } finally {
+      prefsUpdatingMenus = false;
+    }
+    const currentTask = getActiveTextTask();
+    const activeSecondPass = currentTask?.secondPass;
+    const alreadyActive =
+      !!serviceId &&
+      activeSecondPass?.service === serviceId &&
+      (activeSecondPass.status === "success" ||
+        activeSecondPass.status === "processing");
+    if (
+      !force &&
+      serviceId === (getPref("secondPassService") as string) &&
+      (alreadyActive || !currentTask)
+    ) {
+      return;
+    }
+    setPref("secondPassService", serviceId);
+    addon.hooks.onReaderTabPanelRefresh();
+    if (serviceId) {
+      services.rerunSecondPass(currentTask);
+    } else {
+      currentTask?.secondPass?.cancel?.();
+      if (currentTask?.secondPass?.status === "processing") {
+        currentTask.secondPass = undefined;
+      }
+    }
+  };
+  ztoolkit.UI.replaceElement(
+    {
+      tag: "menulist",
+      id: makeId("secondPassService"),
+      attributes: {
+        value: serviceIdToMenuValue(getPref("secondPassService") as string),
+        native: "true",
+      },
+      listeners: [
+        {
+          type: "command",
+          listener: () => applySecondPassService(true),
+        },
+      ],
+      styles: {
+        maxWidth: "250px",
+      },
+      children: [
+        {
+          tag: "menupopup",
+          children: [
+            {
+              tag: "menuitem",
+              attributes: {
+                label: "",
+                value: SECOND_PASS_OFF,
+              },
+            },
+            ...sentenceServices.map((service) => ({
+              tag: "menuitem",
+              attributes: {
+                label: services.getServiceNameByID(service.id),
+                value: service.id,
+              },
+            })),
+          ],
+        },
+      ],
+    },
+    doc.querySelector(`#${makeId("secondPassService-placeholder")}`)!,
+  );
+  // The value attribute is set before the items exist; restore it explicitly
+  // so the blank "disabled" option is selected reliably.
+  const secondPassMenu = doc.querySelector(
+    `#${makeId("secondPassService")}`,
+  ) as XUL.MenuList;
+  if (secondPassMenu) {
+    prefsUpdatingMenus = true;
+    try {
+      selectMenuValue(
+        secondPassMenu,
+        serviceIdToMenuValue(getPref("secondPassService") as string),
+      );
+    } finally {
+      prefsUpdatingMenus = false;
+    }
+    secondPassMenu
+      .querySelector("menupopup")
+      ?.addEventListener("popuphidden", () => applySecondPassService(false));
+  }
 
   ztoolkit.UI.replaceElement(
     {
@@ -168,6 +281,29 @@ function buildPrefsPane() {
     },
     doc.querySelector(`#${makeId("langto-placeholder")}`)!,
   );
+  // The value attributes are applied before the menu items exist; select the
+  // matching items explicitly so the closed menulists show the real value.
+  prefsUpdatingMenus = true;
+  try {
+    selectMenuValue(
+      doc.querySelector(`#${makeId("sentenceServices")}`) as XUL.MenuList,
+      getPref("translateSource") as string,
+    );
+    selectMenuValue(
+      doc.querySelector(`#${makeId("wordServices")}`) as XUL.MenuList,
+      getPref("dictSource") as string,
+    );
+    selectMenuValue(
+      doc.querySelector(`#${makeId("langfrom")}`) as XUL.MenuList,
+      getPref("sourceLanguage") as string,
+    );
+    selectMenuValue(
+      doc.querySelector(`#${makeId("langto")}`) as XUL.MenuList,
+      getPref("targetLanguage") as string,
+    );
+  } finally {
+    prefsUpdatingMenus = false;
+  }
 
   doc
     .querySelector(`#${makeId("manageKeys")}`)
@@ -294,7 +430,7 @@ function updatePrefsPaneDefault() {
 
 function onPrefsEvents(type: string, fromElement: boolean = true) {
   const doc = addon.data.prefs.window?.document;
-  if (!doc) {
+  if (!doc || prefsUpdatingMenus) {
     return;
   }
 
@@ -388,12 +524,13 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setSentenceService":
       {
-        setPref(
-          "translateSource",
-          (
-            doc.querySelector(`#${makeId("sentenceServices")}`) as XUL.MenuList
-          ).getAttribute("value")!,
+        const serviceId = getMenuValue(
+          doc.querySelector(`#${makeId("sentenceServices")}`) as XUL.MenuList,
         );
+        if (!serviceId) {
+          break;
+        }
+        setPref("translateSource", serviceId);
         onPrefsEvents("setSentenceSecret", fromElement);
         addon.hooks.onReaderTabPanelRefresh();
       }
@@ -451,12 +588,13 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setWordService":
       {
-        setPref(
-          "dictSource",
-          (
-            doc.querySelector(`#${makeId("wordServices")}`) as XUL.MenuList
-          ).getAttribute("value")!,
+        const serviceId = getMenuValue(
+          doc.querySelector(`#${makeId("wordServices")}`) as XUL.MenuList,
         );
+        if (!serviceId) {
+          break;
+        }
+        setPref("dictSource", serviceId);
         onPrefsEvents("setWordSecret", fromElement);
       }
       break;
@@ -497,23 +635,25 @@ function onPrefsEvents(type: string, fromElement: boolean = true) {
       break;
     case "setSourceLanguage":
       {
-        setPref(
-          "sourceLanguage",
-          (
-            doc.querySelector(`#${makeId("langfrom")}`) as XUL.MenuList
-          ).getAttribute("value")!,
+        const language = getMenuValue(
+          doc.querySelector(`#${makeId("langfrom")}`) as XUL.MenuList,
         );
+        if (!language) {
+          break;
+        }
+        setPref("sourceLanguage", language);
         addon.hooks.onReaderTabPanelRefresh();
       }
       break;
     case "setTargetLanguage":
       {
-        setPref(
-          "targetLanguage",
-          (
-            doc.querySelector(`#${makeId("langto")}`) as XUL.MenuList
-          ).getAttribute("value")!,
+        const language = getMenuValue(
+          doc.querySelector(`#${makeId("langto")}`) as XUL.MenuList,
         );
+        if (!language) {
+          break;
+        }
+        setPref("targetLanguage", language);
         addon.hooks.onReaderTabPanelRefresh();
       }
       break;

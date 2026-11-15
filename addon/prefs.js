@@ -49,6 +49,7 @@ pref("__prefsPrefix__.showPlayBtn", true);
 pref("__prefsPrefix__.enableAutoDetectLanguage", true);
 pref("__prefsPrefix__.disabledLanguages", "");
 pref("__prefsPrefix__.extraEngines", "");
+pref("__prefsPrefix__.secondPassService", "");
 pref("__prefsPrefix__.titleColumnMode", "raw");
 pref(
   "__prefsPrefix__.chatGPT.endPoint",

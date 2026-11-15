@@ -231,17 +231,21 @@ function onReaderPopupShow(
   event: _ZoteroTypes.Reader.EventParams<"renderTextSelectionPopup">,
 ) {
   const selection = addon.data.translate.selectedText;
-  const task = getLastTranslateTask();
+  const task = getLastTranslateTask({ type: "text" });
   if (task?.raw === selection) {
+    addon.data.popup.activeTaskId = task.id;
     buildReaderPopup(event);
     addon.hooks.onReaderPopupRefresh();
     return;
   }
-  addTranslateTask(selection, event.reader.itemID);
+  const newTask = addTranslateTask(selection, event.reader.itemID);
+  if (newTask) {
+    addon.data.popup.activeTaskId = newTask.id;
+  }
   buildReaderPopup(event);
   addon.hooks.onReaderPopupRefresh();
   if (getPref("enableAuto")) {
-    addon.hooks.onTranslate();
+    addon.hooks.onTranslate(newTask);
   }
 }
 
