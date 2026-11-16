@@ -4,6 +4,7 @@ import { getString } from "../utils/locale";
 import { getPref, setPref } from "../utils/prefs";
 import { addTranslateTask, getLastTranslateTask } from "../utils/task";
 import { slice } from "../utils/str";
+import { updatePopupMath } from "./popupMath";
 
 export function updateReaderPopup() {
   const popup = addon.data.popup.currentPopup;
@@ -113,7 +114,21 @@ export function updateReaderPopup() {
     updateHidden(addToNoteButton, true);
   }
 
+  textarea.style.removeProperty("display");
   updatePopupSize(popup, textarea);
+  updatePopupMath(
+    popup,
+    textarea,
+    Boolean(getPref("enableMathRendering")),
+    (text) => {
+      new ztoolkit.Clipboard().addText(text, "text/plain").copy();
+    },
+    {
+      rememberSize: Boolean(getPref("keepPopupSize")),
+      onResize: onTextAreaResize,
+      label: getString("readerpopup-translate-label"),
+    },
+  );
 }
 
 export function buildReaderPopup(
